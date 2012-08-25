@@ -15,7 +15,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-if(NOT (TBB_USE_EXTERNAL OR USE_STD_MALLOC))
+if(NOT (TBB_USE_EXTERNAL OR USE_STD_MALLOC OR USE_FASTMM_MALLOC))
   add_subdirectory(tbb)
 endif()
 
