@@ -3349,6 +3349,17 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
 
                     return;
                 }
+                case 18947:                                 // Inferno Dummy Effect (Baron Geddon)
+                {
+                    Unit::AuraList const& auraList = m_caster->GetAurasByType(SPELL_AURA_PERIODIC_TRIGGER_SPELL);
+                    for (Unit::AuraList::const_iterator itr = auraList.begin(); itr != auraList.end(); ++itr)
+                    {
+                        if ((*itr)->GetSpellProto()->SpellIconID == 937 && (*itr)->GetId() == 19695)
+                            damage=500*(*itr)->GetAuraTicks();
+                    }
+                        m_caster->CastCustomSpell(m_caster, 19698, &damage, NULL, NULL, true);
+                        return;
+                }
                 case 22539:                                 // Shadow Flame (All script effects, not just end ones to
                 case 22972:                                 // prevent player from dodging the last triggered spell)
                 case 22975:
