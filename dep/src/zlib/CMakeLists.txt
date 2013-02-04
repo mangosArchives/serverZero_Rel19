@@ -1,5 +1,6 @@
 #
-# This file is part of the Continued-MaNGOS Project
+# This file is Copyright (C) the MaNGOS Project <http://getmangos.com/>
+# The original source of this file is located at <http://github.com/mangoszero/server>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
