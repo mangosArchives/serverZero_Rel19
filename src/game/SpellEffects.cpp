@@ -3613,6 +3613,22 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
                         m_caster->CastCustomSpell(unitTarget, 28375, &damage, NULL, NULL, true);
                     return;
                 }
+                case 28526:                                 // Icebolt (Naxxramas: Sapphiron)
+                {
+                    if (!unitTarget)
+                        return;
+
+                    if (unitTarget->GetTypeId() == TYPEID_UNIT)
+                    {
+                        Creature* pCreature = (Creature*)unitTarget;
+                        if (pCreature && pCreature->AI())
+                        {
+                            if (Unit* pTarget = pCreature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0, uint32(0), SELECT_FLAG_PLAYER))
+                                pCreature->CastSpell(pTarget, 28522, true);
+                        }
+                    }
+                    return;
+                }
                 case 28560:                                 // Summon Blizzard
                 {
                     if (!unitTarget)
