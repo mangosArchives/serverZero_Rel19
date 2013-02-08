@@ -1798,7 +1798,7 @@ void Player::RewardRage(uint32 damage, uint32 weaponSpeedHitFactor, bool attacke
 
     if (attacker)
     {
-        addRage = ((damage / rageconversion * 7.5f + weaponSpeedHitFactor) / 2.0f);
+        addRage = 2 * damage / getLevel();
     }
     else
     {
