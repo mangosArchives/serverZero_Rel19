@@ -1102,9 +1102,9 @@ bool Pet::InitStatsForLevel(uint32 petlevel, Unit* owner)
 
     SetModifierValue(UNIT_MOD_ARMOR, BASE_VALUE, float(petlevel * 50));
 
-    SetAttackTime(BASE_ATTACK, BASE_ATTACK_TIME);
-    SetAttackTime(OFF_ATTACK, BASE_ATTACK_TIME);
-    SetAttackTime(RANGED_ATTACK, BASE_ATTACK_TIME);
+    SetAttackTime(BASE_ATTACK, cinfo->baseattacktime);
+    SetAttackTime(OFF_ATTACK, cinfo->baseattacktime);
+    SetAttackTime(RANGED_ATTACK, cinfo->rangeattacktime);
 
     SetFloatValue(UNIT_MOD_CAST_SPEED, 1.0);
 
@@ -1210,9 +1210,8 @@ bool Pet::InitStatsForLevel(uint32 petlevel, Unit* owner)
             SetUInt32Value(UNIT_FIELD_PETNEXTLEVELEXP, sObjectMgr.GetXPForPetLevel(petlevel));
             // these formula may not be correct; however, it is designed to be close to what it should be
             // this makes dps 0.5 of pets level
-            SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, float(petlevel - (petlevel / 4)));
-            // damage range is then petlevel / 2
-            SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, float(petlevel + (petlevel / 4)));
+            SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, float( 0.5*GetAttackTime(BASE_ATTACK)*(petlevel - (petlevel / 4))/1000 ) );
+            SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, float( 0.5*GetAttackTime(BASE_ATTACK)*(petlevel + (petlevel / 4))/1000 ) );
             // damage is increased afterwards as strength and pet scaling modify attack power
 
             // stored standard pet stats are entry 1 in pet_levelinfo
