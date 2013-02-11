@@ -3350,6 +3350,17 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
 
                     return;
                 }
+                case 18947:                                 // Inferno Dummy Effect (Baron Geddon)
+                {
+                    Unit::AuraList const& auraList = m_caster->GetAurasByType(SPELL_AURA_PERIODIC_TRIGGER_SPELL);
+                    for (Unit::AuraList::const_iterator itr = auraList.begin(); itr != auraList.end(); ++itr)
+                    {
+                        if ((*itr)->GetSpellProto()->SpellIconID == 937 && (*itr)->GetId() == 19695)
+                            damage=500*(*itr)->GetAuraTicks();
+                    }
+                        m_caster->CastCustomSpell(m_caster, 19698, &damage, NULL, NULL, true);
+                        return;
+                }
                 case 22539:                                 // Shadow Flame (All script effects, not just end ones to
                 case 22972:                                 // prevent player from dodging the last triggered spell)
                 case 22975:
@@ -3601,6 +3612,22 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
                     int32 damage = unitTarget->GetHealth() - unitTarget->GetMaxHealth() * 0.05f;
                     if (damage > 0)
                         m_caster->CastCustomSpell(unitTarget, 28375, &damage, NULL, NULL, true);
+                    return;
+                }
+                case 28526:                                 // Icebolt (Naxxramas: Sapphiron)
+                {
+                    if (!unitTarget)
+                        return;
+
+                    if (unitTarget->GetTypeId() == TYPEID_UNIT)
+                    {
+                        Creature* pCreature = (Creature*)unitTarget;
+                        if (pCreature && pCreature->AI())
+                        {
+                            if (Unit* pTarget = pCreature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0, uint32(0), SELECT_FLAG_PLAYER))
+                                pCreature->CastSpell(pTarget, 28522, true);
+                        }
+                    }
                     return;
                 }
                 case 28560:                                 // Summon Blizzard

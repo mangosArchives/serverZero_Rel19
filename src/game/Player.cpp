@@ -15014,11 +15014,11 @@ void Player::SaveToDB()
 
     UpdateHonor();
 
-    static SqlStatementID delChar ;
+    //static SqlStatementID delChar ;
     static SqlStatementID insChar ;
 
-    SqlStatement stmt = CharacterDatabase.CreateStatement(delChar, "DELETE FROM characters WHERE guid = ?");
-    stmt.PExecute(GetGUIDLow());
+    //SqlStatement stmt = CharacterDatabase.CreateStatement(delChar, "DELETE FROM characters WHERE guid = ?");
+    //stmt.PExecute(GetGUIDLow());
 
     SqlStatement uberInsert = CharacterDatabase.CreateStatement(insChar, "INSERT INTO characters (guid,account,name,race,class,gender,level,xp,money,playerBytes,playerBytes2,playerFlags,"
                               "map, position_x, position_y, position_z, orientation, "
@@ -15037,114 +15037,127 @@ void Player::SaveToDB()
                               "?, ?, "
                               "?, ?, ?, ?, ?, "
                               "?, ?, ?, ?, ?, ?, "
-                              "?, ?, ?, ?, ?, ?) ");
+                              "?, ?, ?, ?, ?, ?) "
+                              "ON DUPLICATE KEY UPDATE account=?,name=?,race=?,class=?,gender=?,level=?,xp=?,money=?,playerBytes=?,playerBytes2=?,playerFlags=?,"
+                              "map=?,position_x=?,position_y=?,position_z=?,orientation=?,"
+                              "taximask=?,online=?,cinematic=?,"
+                              "totaltime=?,leveltime=?,rest_bonus=?,logout_time=?,is_logout_resting=?,resettalents_cost=?,resettalents_time=?,"
+                              "trans_x=?,trans_y=?,trans_z=?,trans_o=?,transguid=?,extra_flags=?,stable_slots=?,at_login=?,zone=?,"
+                              "death_expire_time=?,taxi_path=?,"
+                              "honor_highest_rank=?,honor_standing=?,stored_honor_rating=?,stored_dishonorable_kills=?,stored_honorable_kills=?,"
+                              "watchedFaction=?,drunk=?,health=?,power1=?,power2=?,power3=?,"
+                              "power4=?,power5=?,exploredZones=?,equipmentCache=?,ammoId=?,actionBars=?");
 
+    std::ostringstream ss;
     uberInsert.addUInt32(GetGUIDLow());
-    uberInsert.addUInt32(GetSession()->GetAccountId());
-    uberInsert.addString(m_name);
-    uberInsert.addUInt8(getRace());
-    uberInsert.addUInt8(getClass());
-    uberInsert.addUInt8(getGender());
-    uberInsert.addUInt32(getLevel());
-    uberInsert.addUInt32(GetUInt32Value(PLAYER_XP));
-    uberInsert.addUInt32(GetMoney());
-    uberInsert.addUInt32(GetUInt32Value(PLAYER_BYTES));
-    uberInsert.addUInt32(GetUInt32Value(PLAYER_BYTES_2));
-    uberInsert.addUInt32(GetUInt32Value(PLAYER_FLAGS));
 
-    if (!IsBeingTeleported())
+    for(short sLoop = 0; sLoop < 2; sLoop++) //Once for the insert, once for the update
     {
+      uberInsert.addUInt32(GetSession()->GetAccountId());
+      uberInsert.addString(m_name);
+      uberInsert.addUInt8(getRace());
+      uberInsert.addUInt8(getClass());
+      uberInsert.addUInt8(getGender());
+      uberInsert.addUInt32(getLevel());
+      uberInsert.addUInt32(GetUInt32Value(PLAYER_XP));
+      uberInsert.addUInt32(GetMoney());
+      uberInsert.addUInt32(GetUInt32Value(PLAYER_BYTES));
+      uberInsert.addUInt32(GetUInt32Value(PLAYER_BYTES_2));
+      uberInsert.addUInt32(GetUInt32Value(PLAYER_FLAGS));
+
+      if (!IsBeingTeleported())
+      {
         uberInsert.addUInt32(GetMapId());
         uberInsert.addFloat(finiteAlways(GetPositionX()));
         uberInsert.addFloat(finiteAlways(GetPositionY()));
         uberInsert.addFloat(finiteAlways(GetPositionZ()));
         uberInsert.addFloat(finiteAlways(GetOrientation()));
-    }
-    else
-    {
+      }
+      else
+      {
         uberInsert.addUInt32(GetTeleportDest().mapid);
         uberInsert.addFloat(finiteAlways(GetTeleportDest().coord_x));
         uberInsert.addFloat(finiteAlways(GetTeleportDest().coord_y));
         uberInsert.addFloat(finiteAlways(GetTeleportDest().coord_z));
         uberInsert.addFloat(finiteAlways(GetTeleportDest().orientation));
-    }
+      }
 
-    std::ostringstream ss;
-    ss << m_taxi;                                   // string with TaxiMaskSize numbers
-    uberInsert.addString(ss);
+      ss << m_taxi; // string with TaxiMaskSize numbers
+      uberInsert.addString(ss);
 
-    uberInsert.addUInt32(IsInWorld() ? 1 : 0);
+      uberInsert.addUInt32(IsInWorld() ? 1 : 0);
 
-    uberInsert.addUInt32(m_cinematic);
+      uberInsert.addUInt32(m_cinematic);
 
-    uberInsert.addUInt32(m_Played_time[PLAYED_TIME_TOTAL]);
-    uberInsert.addUInt32(m_Played_time[PLAYED_TIME_LEVEL]);
+      uberInsert.addUInt32(m_Played_time[PLAYED_TIME_TOTAL]);
+      uberInsert.addUInt32(m_Played_time[PLAYED_TIME_LEVEL]);
 
-    uberInsert.addFloat(finiteAlways(m_rest_bonus));
-    uberInsert.addUInt64(uint64(time(NULL)));
-    uberInsert.addUInt32(HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_RESTING) ? 1 : 0);
-    // save, far from tavern/city
-    // save, but in tavern/city
-    uberInsert.addUInt32(m_resetTalentsCost);
-    uberInsert.addUInt64(uint64(m_resetTalentsTime));
+      uberInsert.addFloat(finiteAlways(m_rest_bonus));
+      uberInsert.addUInt64(uint64(time(NULL)));
+      uberInsert.addUInt32(HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_RESTING) ? 1 : 0);
+      // save, far from tavern/city
+      // save, but in tavern/city
+      uberInsert.addUInt32(m_resetTalentsCost);
+      uberInsert.addUInt64(uint64(m_resetTalentsTime));
 
-    uberInsert.addFloat(finiteAlways(m_movementInfo.GetTransportPos()->x));
-    uberInsert.addFloat(finiteAlways(m_movementInfo.GetTransportPos()->y));
-    uberInsert.addFloat(finiteAlways(m_movementInfo.GetTransportPos()->z));
-    uberInsert.addFloat(finiteAlways(m_movementInfo.GetTransportPos()->o));
-    if (m_transport)
+      uberInsert.addFloat(finiteAlways(m_movementInfo.GetTransportPos()->x));
+      uberInsert.addFloat(finiteAlways(m_movementInfo.GetTransportPos()->y));
+      uberInsert.addFloat(finiteAlways(m_movementInfo.GetTransportPos()->z));
+      uberInsert.addFloat(finiteAlways(m_movementInfo.GetTransportPos()->o));
+      if (m_transport)
         uberInsert.addUInt32(m_transport->GetGUIDLow());
-    else
+      else
         uberInsert.addUInt32(0);
 
-    uberInsert.addUInt32(m_ExtraFlags);
+      uberInsert.addUInt32(m_ExtraFlags);
 
-    uberInsert.addUInt32(uint32(m_stableSlots));            // to prevent save uint8 as char
+      uberInsert.addUInt32(uint32(m_stableSlots));            // to prevent save uint8 as char
 
-    uberInsert.addUInt32(uint32(m_atLoginFlags));
+      uberInsert.addUInt32(uint32(m_atLoginFlags));
 
-    uberInsert.addUInt32(IsInWorld() ? GetZoneId() : GetCachedZoneId());
+      uberInsert.addUInt32(IsInWorld() ? GetZoneId() : GetCachedZoneId());
 
-    uberInsert.addUInt64(uint64(m_deathExpireTime));
+      uberInsert.addUInt64(uint64(m_deathExpireTime));
 
-    ss << m_taxi.SaveTaxiDestinationsToString();       // string
-    uberInsert.addString(ss);
+      ss << m_taxi.SaveTaxiDestinationsToString();       // string
+      uberInsert.addString(ss);
 
-    uberInsert.addUInt32(uint32(m_highest_rank.rank));
-    uberInsert.addInt32(m_standing_pos);
-    uberInsert.addFloat(finiteAlways(m_stored_honor));
-    uberInsert.addUInt32(m_stored_dishonorableKills);
-    uberInsert.addUInt32(m_stored_honorableKills);
+      uberInsert.addUInt32(uint32(m_highest_rank.rank));
+      uberInsert.addInt32(m_standing_pos);
+      uberInsert.addFloat(finiteAlways(m_stored_honor));
+      uberInsert.addUInt32(m_stored_dishonorableKills);
+      uberInsert.addUInt32(m_stored_honorableKills);
 
-    // FIXME: at this moment send to DB as unsigned, including unit32(-1)
-    uberInsert.addUInt32(GetUInt32Value(PLAYER_FIELD_WATCHED_FACTION_INDEX));
+      // FIXME: at this moment send to DB as unsigned, including unit32(-1)
+      uberInsert.addUInt32(GetUInt32Value(PLAYER_FIELD_WATCHED_FACTION_INDEX));
 
-    uberInsert.addUInt16(uint16(GetUInt32Value(PLAYER_BYTES_3) & 0xFFFE));
+      uberInsert.addUInt16(uint16(GetUInt32Value(PLAYER_BYTES_3) & 0xFFFE));
 
-    uberInsert.addUInt32(GetHealth());
+      uberInsert.addUInt32(GetHealth());
 
-    for (uint32 i = 0; i < MAX_POWERS; ++i)
+      for (uint32 i = 0; i < MAX_POWERS; ++i)
         uberInsert.addUInt32(GetPower(Powers(i)));
 
-    for (uint32 i = 0; i < PLAYER_EXPLORED_ZONES_SIZE; ++i) // string
-    {
+      for (uint32 i = 0; i < PLAYER_EXPLORED_ZONES_SIZE; ++i) // string
+      {
         ss << GetUInt32Value(PLAYER_EXPLORED_ZONES_1 + i) << " ";
-    }
-    uberInsert.addString(ss);
+      }
+      uberInsert.addString(ss);
 
-    for (uint32 i = 0; i < EQUIPMENT_SLOT_END; ++i)         // string: item id, ench (perm/temp)
-    {
+      for (uint32 i = 0; i < EQUIPMENT_SLOT_END; ++i)         // string: item id, ench (perm/temp)
+      {
         ss << GetUInt32Value(PLAYER_VISIBLE_ITEM_1_0 + i * MAX_VISIBLE_ITEM_OFFSET) << " ";
 
         uint32 ench1 = GetUInt32Value(PLAYER_VISIBLE_ITEM_1_0 + i * MAX_VISIBLE_ITEM_OFFSET + 1 + PERM_ENCHANTMENT_SLOT);
         uint32 ench2 = GetUInt32Value(PLAYER_VISIBLE_ITEM_1_0 + i * MAX_VISIBLE_ITEM_OFFSET + 1 + TEMP_ENCHANTMENT_SLOT);
         ss << uint32(MAKE_PAIR32(ench1, ench2)) << " ";
+      }
+      uberInsert.addString(ss);
+
+      uberInsert.addUInt32(GetUInt32Value(PLAYER_AMMO_ID));
+
+      uberInsert.addUInt32(uint32(GetByteValue(PLAYER_FIELD_BYTES, 2)));
     }
-    uberInsert.addString(ss);
-
-    uberInsert.addUInt32(GetUInt32Value(PLAYER_AMMO_ID));
-
-    uberInsert.addUInt32(uint32(GetByteValue(PLAYER_FIELD_BYTES, 2)));
 
     uberInsert.Execute();
 
