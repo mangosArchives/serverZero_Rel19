@@ -126,8 +126,6 @@ bool ExtractWmo()
 {
     bool success = true;
 
-    //const char* ParsArchiveNames[] = {"patch-2.MPQ", "patch.MPQ", "common.MPQ", "expansion.MPQ"};
-
     for (ArchiveSet::const_iterator ar_itr = gOpenArchives.begin(); ar_itr != gOpenArchives.end() && success; ++ar_itr)
     {
         vector<string> filelist;
@@ -317,7 +315,19 @@ bool fillArchiveNameVector(std::vector<std::string>& pArchiveNames)
     char path[512];
 
     // open expansion and common files
-    pArchiveNames.push_back(input_path + string("common.MPQ"));
+    printf("Opening data files from data directory.\n");
+    sprintf(path, "%sterrain.MPQ", input_path);
+    pArchiveNames.push_back(path);
+    sprintf(path, "%smodel.MPQ", input_path);
+    pArchiveNames.push_back(path);
+    pArchiveNames.push_back(path);
+    sprintf(path, "%stexture.MPQ", input_path);
+    pArchiveNames.push_back(path);
+    sprintf(path, "%swmo.MPQ", input_path);
+    pArchiveNames.push_back(path);
+    sprintf(path, "%sbase.MPQ", input_path);
+    pArchiveNames.push_back(path);
+    sprintf(path, "%smisc.MPQ", input_path);
 
     // now, scan for the patch levels in the core dir
     printf("Scanning patch levels from data directory.\n");
@@ -325,20 +335,6 @@ bool fillArchiveNameVector(std::vector<std::string>& pArchiveNames)
     if (!scan_patches(path, pArchiveNames))
         return(false);
 
-    // open expansion and common files
-    printf("Opening data files from data directory.\n");
-    sprintf(path, "%sterrain.mpq", input_path);
-    pArchiveNames.push_back(path);
-    sprintf(path, "%smodel.mpq", input_path);
-    pArchiveNames.push_back(path);
-    pArchiveNames.push_back(path);
-	sprintf(path, "%stexture.mpq", input_path);
-    pArchiveNames.push_back(path);
-	sprintf(path, "%swmo.mpq", input_path);
-    pArchiveNames.push_back(path);
-	sprintf(path, "%sbase.mpq", input_path);
-    pArchiveNames.push_back(path);
-	sprintf(path, "%smisc.mpq", input_path);
     printf("\n");
 
     return true;
