@@ -964,7 +964,6 @@ void MapPersistentStateManager::LoadCreatureRespawnTimes()
         state->SetCreatureRespawnTime(loguid, time_t(respawn_time));
 
         ++count;
-
     }
     while (result->NextRow());
 
@@ -1034,7 +1033,6 @@ void MapPersistentStateManager::LoadGameobjectRespawnTimes()
         state->SetGORespawnTime(loguid, time_t(respawn_time));
 
         ++count;
-
     }
     while (result->NextRow());
 
