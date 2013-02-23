@@ -674,8 +674,6 @@ bool IsPositiveEffect(SpellEntry const* spellproto, SpellEffectIndex effIndex)
             {
                 case 28441:                                 // AB Effect 000
                     return false;
-                case 18153:                                 // Kodo Kombobulator
-                    return true;
                 default:
                     break;
             }
@@ -699,6 +697,7 @@ bool IsPositiveEffect(SpellEntry const* spellproto, SpellEffectIndex effIndex)
                     {
                         case 13139:                         // net-o-matic special effect
                         case 23445:                         // evil twin
+                        case 18172:                         // Quest Kodo Roundup player debuff
                             return false;
                             // some spells have unclear target modes for selection, so just make effect positive
                         case 27184:
