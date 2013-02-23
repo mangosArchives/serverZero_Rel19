@@ -37,10 +37,6 @@ BattleGroundWS::BattleGroundWS()
     m_StartMessageIds[BG_STARTING_EVENT_FOURTH] = LANG_BG_WS_HAS_BEGUN;
 }
 
-BattleGroundWS::~BattleGroundWS()
-{
-}
-
 void BattleGroundWS::Update(uint32 diff)
 {
     BattleGround::Update(diff);
@@ -88,10 +84,6 @@ void BattleGroundWS::Update(uint32 diff)
             }
         }
     }
-}
-
-void BattleGroundWS::StartingEventCloseDoors()
-{
 }
 
 void BattleGroundWS::StartingEventOpenDoors()
@@ -507,11 +499,6 @@ void BattleGroundWS::HandleAreaTrigger(Player* source, uint32 trigger)
             source->GetSession()->SendAreaTriggerMessage("Warning: Unhandled AreaTrigger in Battleground: %u", trigger);
             break;
     }
-}
-
-bool BattleGroundWS::SetupBattleGround()
-{
-    return true;
 }
 
 void BattleGroundWS::Reset()
