@@ -20,7 +20,7 @@
 #include "Config.h"
 #include "ace/Configuration_Import_Export.h"
 
-#include "Policies/SingletonImp.h"
+#include "Policies/Singleton.h"
 
 INSTANTIATE_SINGLETON_1(Config);
 

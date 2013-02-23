@@ -52,7 +52,7 @@
 #include "CreatureLinkingMgr.h"
 
 // apply implementation of the singletons
-#include "Policies/SingletonImp.h"
+#include "Policies/Singleton.h"
 
 
 TrainerSpell const* TrainerSpellData::Find(uint32 spell_id) const

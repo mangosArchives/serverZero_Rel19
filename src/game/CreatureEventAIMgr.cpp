@@ -24,7 +24,7 @@
 #include "CreatureEventAIMgr.h"
 #include "ObjectMgr.h"
 #include "ProgressBar.h"
-#include "Policies/SingletonImp.h"
+#include "Policies/Singleton.h"
 #include "ObjectGuid.h"
 #include "GridDefines.h"
 #include "SpellMgr.h"
