@@ -698,6 +698,7 @@ bool IsPositiveEffect(SpellEntry const* spellproto, SpellEffectIndex effIndex)
                     switch (spellproto->Id)
                     {
                         case 13139:                         // net-o-matic special effect
+                        case 18172:                         // Quest Kodo Roundup player debuff
                         case 23445:                         // evil twin
                             return false;
                             // some spells have unclear target modes for selection, so just make effect positive
