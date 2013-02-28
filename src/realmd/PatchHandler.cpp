@@ -213,3 +213,4 @@ void PatchCache::LoadPatchesInfo()
 
     ACE_OS::closedir(dirp);
 }
+
