@@ -118,3 +118,6 @@ if(PCH)
     endif()
   endif()
 endif()
+
+add_subdirectory(AuctionHouseBot)
+add_subdirectory(extras)
