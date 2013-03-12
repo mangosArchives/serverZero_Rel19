@@ -1,0 +1,46 @@
+language: cpp
+
+# reduce clone time by only getting the latest commit and not the whole history (default for travis is 100)
+git:
+  depth: 1
+
+# only run travis on the master branch
+branches:
+  only:
+    - master
+
+compiler:
+  - clang
+  - gcc
+
+script:
+  - cd dep/libmpq/
+  - test -f ChangeLog || touch ChangeLog
+  - ./autogen.sh
+  - ./configure && make
+  - cd ../../contrib/extractor/
+  - test -d _build || mkdir _build
+  - cd _build
+  - cmake -DCMAKE_INSTALL_PREFIX=../_install ..
+  - make
+  - cd ../../vmap_assembler/
+  - test -d _build || mkdir _build
+  - cd _build
+  - cmake -DCMAKE_INSTALL_PREFIX=../_install ..
+  - make
+  - cd ../../vmap_extractor/
+  - test -d _build || mkdir _build
+  - cd _build
+  - cmake -DCMAKE_INSTALL_PREFIX=../_install ..
+  - make
+  - cd ../../mmap/
+  - test -d _build || mkdir _build
+  - cd _build
+  - cmake -DCMAKE_INSTALL_PREFIX=../_install ..
+  - make
+  - cd ../../../
+  - test -d _build || mkdir _build
+  - test -d _install || mkdir _install
+  - cd _build
+  - cmake -DCMAKE_INSTALL_PREFIX=../_install ..
+  - make -j4
