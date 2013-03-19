@@ -25,9 +25,10 @@ if(WIN32)
   )
 endif()
 
-add_subdirectory(bindings)
 add_subdirectory(framework)
 add_subdirectory(shared)
 add_subdirectory(realmd)
 add_subdirectory(game)
 add_subdirectory(mangosd)
+add_subdirectory(bindings)
+
