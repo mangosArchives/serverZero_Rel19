@@ -1,6 +1,6 @@
-/*
+/**
  * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https:// github.com/mangos/zero>
+ * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -291,12 +291,12 @@ void WorldSession::HandleItemQuerySingleOpcode(WorldPacket& recv_data)
     if (pProto)
     {
         int loc_idx = GetSessionDbLocaleIndex();
-        
+
         std::string name = pProto->Name1;
         std::string description = pProto->Description;
         sObjectMgr.GetItemLocaleStrings(pProto->ItemId, loc_idx, &name, &description);
 
-        
+
         // guess size
         WorldPacket data(SMSG_ITEM_QUERY_SINGLE_RESPONSE, 600);
         data << pProto->ItemId;
@@ -1032,10 +1032,10 @@ void WorldSession::HandleItemNameQueryOpcode(WorldPacket& recv_data)
     if (ItemPrototype const *pProto = ObjectMgr::GetItemPrototype(itemid))
     {
         int loc_idx = GetSessionDbLocaleIndex();
-        
+
         std::string name = pProto->Name1;
         sObjectMgr.GetItemLocaleStrings(pProto->ItemId, loc_idx, &name);
-        
+
         // guess size
         WorldPacket data(SMSG_ITEM_NAME_QUERY_RESPONSE, (4 + 10));
         data << uint32(pProto->ItemId);
