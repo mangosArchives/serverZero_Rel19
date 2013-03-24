@@ -242,14 +242,14 @@ namespace MaNGOS
 
         inline uint32 GetGrayLevel(uint32 pl_level)
         {
-            if (pl_level <= 5)
+            if (pl_level <= 6)
                 return 0;
-            else if (pl_level <= 39)
-                return pl_level - 5 - pl_level / 10;
+            else if (pl_level <= 24)
+                return pl_level - 5;
             else if (pl_level <= 59)
-                return pl_level - 1 - pl_level / 5;
-            else
-                return pl_level - 9;
+                return pl_level - 1 - (pl_level + 1) / 5;
+			else
+                return pl_level - 13;
         }
 
         inline XPColorChar GetColorCode(uint32 pl_level, uint32 mob_level)
