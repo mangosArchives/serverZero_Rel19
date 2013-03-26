@@ -144,6 +144,8 @@ set(LIBRARY_SRCS
     Level1.cpp
     Level2.cpp
     Level3.cpp
+    LFGHandler.cpp
+    LFGHandler.h
     LootHandler.cpp
     LootMgr.cpp
     LootMgr.h

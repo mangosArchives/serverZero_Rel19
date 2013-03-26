@@ -17,7 +17,26 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef __REVISION_NR_H__
-#define __REVISION_NR_H__
- #define REVISION_NR "2310"
-#endif // __REVISION_NR_H__
+#ifndef LFGHANDLER_H
+#define LFGHANDLER_H
+
+enum MeetingstoneQueueStatus
+{
+    MEETINGSTONE_STATUS_NONE                                = 0,
+    MEETINGSTONE_STATUS_JOINED_QUEUE                        = 1,
+    MEETINGSTONE_STATUS_PARTY_MEMBER_LEFT_LFG               = 2,        
+    MEETINGSTONE_STATUS_PARTY_MEMBER_REMOVED_PARTY_REMOVED  = 3,
+    MEETINGSTONE_STATUS_LOOKING_FOR_NEW_PARTY_IN_QUEUE      = 4,
+    MEETINGSTONE_STATUS_NONE_UNK                            = 5
+};
+
+enum MeetingstoneFailedStatus
+{
+    MEETINGSTONE_FAIL_NONE                                  = 0,
+    MEETINGSTONE_FAIL_PARTYLEADER                           = 1,
+    MEETINGSTONE_FAIL_FULL_GROUP                            = 2,
+    MEETINGSTONE_FAIL_RAID_GROUP                            = 3,
+    MEETINGSTONE_FAIL_NONE_UNK                              = 4
+};
+
+#endif
