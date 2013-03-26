@@ -78,6 +78,7 @@ ScriptMgr::ScriptMgr() :
     m_pOnEffectDummyCreature(NULL),
     m_pOnEffectDummyGO(NULL),
     m_pOnEffectDummyItem(NULL),
+    m_pOnEffectScriptEffectCreature(NULL),
     m_pOnAuraDummy(NULL)
 {
 }
@@ -2041,6 +2042,7 @@ ScriptLoadResult ScriptMgr::LoadScriptLibrary(const char* libName)
     GET_SCRIPT_HOOK_PTR(m_pOnEffectDummyCreature,      "EffectDummyCreature");
     GET_SCRIPT_HOOK_PTR(m_pOnEffectDummyGO,            "EffectDummyGameObject");
     GET_SCRIPT_HOOK_PTR(m_pOnEffectDummyItem,          "EffectDummyItem");
+    GET_SCRIPT_HOOK_PTR(m_pOnEffectScriptEffectCreature, "EffectScriptEffectCreature");
     GET_SCRIPT_HOOK_PTR(m_pOnAuraDummy,                "AuraDummy");
 
 #   undef GET_SCRIPT_HOOK_PTR
@@ -2094,6 +2096,7 @@ void ScriptMgr::UnloadScriptLibrary()
     m_pOnEffectDummyCreature    = NULL;
     m_pOnEffectDummyGO          = NULL;
     m_pOnEffectDummyItem        = NULL;
+    m_pOnEffectScriptEffectCreature = NULL;
     m_pOnAuraDummy              = NULL;
 }
 
