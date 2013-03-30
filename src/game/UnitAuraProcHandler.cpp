@@ -1318,6 +1318,11 @@ SpellAuraProcResult Unit::HandleOverrideClassScriptAuraProc(Unit* pVictim, uint3
             triggered_spell_id = 12486;
             break;
         }
+        case 3656:                                          // Corrupted Healing / Nefarian Priest Classcall
+        {
+            triggered_spell_id = 23402;
+            break;
+        }
         case 4086:                                          // Improved Mend Pet (Rank 1)
         case 4087:                                          // Improved Mend Pet (Rank 2)
         {
