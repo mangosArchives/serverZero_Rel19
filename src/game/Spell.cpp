@@ -3913,6 +3913,19 @@ SpellCastResult Spell::CheckCast(bool strict)
                 return SPELL_FAILED_TARGET_AURASTATE;
         }
 
+        // give error message when applying lower hot rank to higher hot rank on target        
+        if (!IsSpellHaveEffect(m_spellInfo, SPELL_EFFECT_HEAL) && IsSpellHaveAura(m_spellInfo, SPELL_AURA_PERIODIC_HEAL)) 
+        {
+            Unit::AuraList const& mPeriodicHeal = target->GetAurasByType(SPELL_AURA_PERIODIC_HEAL);
+            for (Unit::AuraList::const_iterator i = mPeriodicHeal.begin(); i != mPeriodicHeal.end(); ++i)
+            {
+                if ((*i)->GetSpellProto()->SpellFamilyName == m_spellInfo->SpellFamilyName)
+                    if (m_spellInfo->IsFitToFamilyMask((*i)->GetSpellProto()->SpellFamilyFlags))
+                        if (CompareAuraRanks(m_spellInfo->Id, (*i)->GetSpellProto()->Id) < 0)
+                            return SPELL_FAILED_MORE_POWERFUL_SPELL_ACTIVE;
+            }
+        }
+
         if (!m_IsTriggeredSpell && IsDeathOnlySpell(m_spellInfo) && target->isAlive())
             return SPELL_FAILED_TARGET_NOT_DEAD;
 
