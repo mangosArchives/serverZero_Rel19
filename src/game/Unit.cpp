@@ -2352,11 +2352,8 @@ float Unit::CalculateLevelPenalty(SpellEntry const* spellProto) const
 
     if (spellLevel < 20)
         LvlPenalty = 20.0f - spellLevel * 3.75f;
-    float LvlFactor = (float(spellLevel) + 6.0f) / float(getLevel());
-    if (LvlFactor > 1.0f)
-        LvlFactor = 1.0f;
 
-    return (100.0f - LvlPenalty) * LvlFactor / 100.0f;
+    return (100.0f - LvlPenalty) / 100.0f;
 }
 
 void Unit::SendMeleeAttackStart(Unit* pVictim)
