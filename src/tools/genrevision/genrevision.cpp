@@ -23,7 +23,9 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef WIN32
 #pragma warning(disable:4996)
+#endif
 
 struct RawData
 {
