@@ -488,6 +488,10 @@ copy ..\..\src\game\extras\mods.conf.dist.in ..\..\bin\$(Platform)_$(Configurati
     <ClCompile Include="..\..\src\game\Transports.cpp" />
     <ClCompile Include="..\..\src\game\Unit.cpp" />
     <ClCompile Include="..\..\src\game\UpdateData.cpp" />
+    <ClCompile Include="..\..\src\game\Warden\WardenBase.cpp" />
+    <ClCompile Include="..\..\src\game\Warden\WardenDataStorage.cpp" />
+    <ClCompile Include="..\..\src\game\Warden\WardenMac.cpp" />
+    <ClCompile Include="..\..\src\game\Warden\WardenWin.cpp" />
     <ClCompile Include="..\..\src\game\WaypointManager.cpp" />
     <ClCompile Include="..\..\src\game\WaypointMovementGenerator.cpp" />
     <ClCompile Include="..\..\src\game\Weather.cpp" />
@@ -634,6 +638,12 @@ copy ..\..\src\game\extras\mods.conf.dist.in ..\..\bin\$(Platform)_$(Configurati
     <ClInclude Include="..\..\src\game\UpdateData.h" />
     <ClInclude Include="..\..\src\game\UpdateFields.h" />
     <ClInclude Include="..\..\src\game\UpdateMask.h" />
+    <ClInclude Include="..\..\src\game\Warden\WardenBase.h" />
+    <ClInclude Include="..\..\src\game\Warden\WardenDataStorage.h" />
+    <ClInclude Include="..\..\src\game\Warden\WardenMac.h" />
+    <ClInclude Include="..\..\src\game\Warden\WardenModuleMac.h" />
+    <ClInclude Include="..\..\src\game\Warden\WardenModuleWin.h" />
+    <ClInclude Include="..\..\src\game\Warden\WardenWin.h" />
     <ClInclude Include="..\..\src\game\WaypointManager.h" />
     <ClInclude Include="..\..\src\game\WaypointMovementGenerator.h" />
     <ClInclude Include="..\..\src\game\Weather.h" />

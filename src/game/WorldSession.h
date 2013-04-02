@@ -29,6 +29,7 @@
 #include "ObjectGuid.h"
 #include "AuctionHouseMgr.h"
 #include "Item.h"
+#include "Warden/WardenBase.h"
 
 struct ItemPrototype;
 struct AuctionEntry;

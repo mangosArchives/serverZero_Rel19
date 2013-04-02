@@ -38,6 +38,8 @@
 #include "BattleGround/BattleGroundMgr.h"
 #include "MapManager.h"
 #include "SocialMgr.h"
+#include "Warden/WardenWin.h"
+#include "Warden/WardenMac.h"
 
 // select opcodes appropriate for processing in Map::Update context for current session state
 static bool MapSessionFilterHelper(WorldSession* session, OpcodeHandler const& opHandle)
