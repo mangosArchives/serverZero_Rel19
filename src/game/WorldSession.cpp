@@ -87,7 +87,7 @@ WorldSession::WorldSession(uint32 id, WorldSocket* sock, AccountTypes sec, time_
     _player(NULL), m_Socket(sock), _security(sec), _accountId(id), _logoutTime(0),
     m_inQueue(false), m_playerLoading(false), m_playerLogout(false), m_playerRecentlyLogout(false), m_playerSave(false),
     m_sessionDbcLocale(sWorld.GetAvailableDbcLocale(locale)), m_sessionDbLocaleIndex(sObjectMgr.GetIndexForLocale(locale)),
-    m_latency(0), m_tutorialState(TUTORIALDATA_UNCHANGED)
+    m_latency(0), m_tutorialState(TUTORIALDATA_UNCHANGED), m_Warden(NULL)
 {
     if (sock)
     {
@@ -109,6 +109,12 @@ WorldSession::~WorldSession()
         m_Socket->CloseSocket();
         m_Socket->RemoveReference();
         m_Socket = NULL;
+    }
+
+    if (m_Warden)
+    {
+        delete m_Warden;
+        m_Warden = NULL;
     }
 
     ///- empty incoming packet queue
@@ -306,6 +312,9 @@ bool WorldSession::Update(PacketFilter& updater)
         m_Socket->RemoveReference();
         m_Socket = NULL;
     }
+
+    if (m_Socket && !m_Socket->IsClosed() && m_Warden)
+        m_Warden->Update();
 
     // check if we are safe to proceed with logout
     // logout procedure should happen only in World::UpdateSessions() method!!!
@@ -693,6 +702,19 @@ void WorldSession::SendTransferAborted(uint32 mapid, uint8 reason, uint8 arg)
     data << uint8(reason);                                  // transfer abort reason
     data << uint8(0);                                       // arg. not used
     SendPacket(&data);
+}
+
+void WorldSession::InitWarden(BigNumber *K, std::string os)
+{
+    if (!sWorld.getConfig(CONFIG_BOOL_WARDEN_ENABLED))
+        return;
+
+    if (os == "Win")                                        // Windows
+        m_Warden = (WardenBase*)new WardenWin();
+    else                                                    // MacOS
+        m_Warden = (WardenBase*)new WardenMac();
+
+    m_Warden->Init(this, K);
 }
 
 void WorldSession::ExecuteOpcode(OpcodeHandler const& opHandle, WorldPacket* packet)

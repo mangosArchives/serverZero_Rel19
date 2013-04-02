@@ -150,6 +150,8 @@ class MANGOS_DLL_SPEC WorldSession
         std::string const& GetRemoteAddress() { return m_Address; }
         void SetPlayer(Player* plr) { _player = plr; }
 
+        void InitWarden(BigNumber *K, std::string os);
+
         /// Session in auth.queue currently
         void SetInQueue(bool state) { m_inQueue = state; }
 
@@ -676,6 +678,9 @@ class MANGOS_DLL_SPEC WorldSession
 
         AccountTypes _security;
         uint32 _accountId;
+
+        // Warden
+        WardenBase *m_Warden;
 
         time_t _logoutTime;
         bool m_inQueue;                                     // session wait in auth.queue

@@ -836,6 +836,14 @@ void World::LoadConfigSettings(bool reload)
     std::string ignoreMapIds = sConfig.GetStringDefault("mmap.ignoreMapIds", "");
     MMAP::MMapFactory::preventPathfindingOnMaps(ignoreMapIds.c_str());
     sLog.outString("WORLD: mmap pathfinding %sabled", getConfig(CONFIG_BOOL_MMAP_ENABLED) ? "en" : "dis");
+
+    // Warden
+    setConfig(CONFIG_BOOL_WARDEN_ENABLED, "Warden.Enabled", false);
+    setConfig(CONFIG_FLOAT_WARDEN_KICK_BAN, "Warden.Kick.Ban", 0);
+    setConfig(CONFIG_UINT32_WARDEN_NUM_CHECKS, "Warden.NumChecks", 3);
+    setConfig(CONFIG_UINT32_WARDEN_CLIENT_CHECK_HOLDOFF, "Warden.ClientCheckHoldOff", 30);
+    setConfig(CONFIG_UINT32_WARDEN_CLIENT_RESPONSE_DELAY, "Warden.ClientResponseDelay", 15);
+    setConfig(CONFIG_UINT32_WARDEN_BAN_TIME, "Warden.BanLength", 900000);
 }
 
 /// Initialize the World
@@ -1269,6 +1277,10 @@ void World::SetInitialWorldSettings()
     ///- Initialize MapManager
     sLog.outString("Starting Map System");
     sMapMgr.Initialize();
+
+    ///- Load Warden Data
+    sLog.outString("Loading Warden Data...");
+    WardenDataStorage.Init();
 
     ///- Initialize Battlegrounds
     sLog.outString("Starting BattleGround System");
