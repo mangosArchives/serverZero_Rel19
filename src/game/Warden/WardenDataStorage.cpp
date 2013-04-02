@@ -59,7 +59,7 @@ void CWardenDataStorage::LoadWardenDataResult()
         return;
     }
 
-    QueryResult *result = LoginDatabase.Query("SELECT `check`, `data`, `result`, `address`, `length`, `str` FROM warden_data_result");
+    QueryResult *result = LoginDatabase.Query("SELECT `check`, `data`, `result`, `address`, `length`, `str`, `id` FROM warden_data_result");
 
     uint32 count = 0;
 
@@ -87,6 +87,7 @@ void CWardenDataStorage::LoadWardenDataResult()
         uint32 id = GenerateInternalDataID();
         WardenData *wd = new WardenData();
         wd->Type = type;
+        wd->id = fields[6].GetUInt16();
 
         if (type == PAGE_CHECK_A || type == PAGE_CHECK_B || type == DRIVER_CHECK)
         {

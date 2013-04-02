@@ -202,6 +202,32 @@ LOCK TABLES `uptime` WRITE;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+--
+-- Table structure for table `warden_data_result`
+--
+
+DROP TABLE IF EXISTS `warden_data_result`;
+CREATE TABLE `warden_data_result` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `check` int(3) DEFAULT NULL,
+  `data` tinytext,
+  `str` tinytext,
+  `address` int(8) DEFAULT NULL,
+  `length` int(2) DEFAULT NULL,
+  `result` tinytext,
+  `comment` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `warden_data_result`
+--
+
+LOCK TABLES `warden_data_result` WRITE;
+/*!40000 ALTER TABLE `warden_data_result` DISABLE KEYS */;
+/*!40000 ALTER TABLE `warden_data_result` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
