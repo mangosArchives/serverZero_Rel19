@@ -215,8 +215,9 @@ CREATE TABLE `warden_data_result` (
   `address` int(8) DEFAULT NULL,
   `length` int(2) DEFAULT NULL,
   `result` tinytext,
-  `comment` text
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `comment` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `warden_data_result`
