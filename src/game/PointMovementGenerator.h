@@ -55,7 +55,7 @@ class MANGOS_DLL_SPEC AssistanceMovementGenerator
             PointMovementGenerator<Creature>(0, _x, _y, _z, true) {}
 
         MovementGeneratorType GetMovementGeneratorType() const override { return ASSISTANCE_MOTION_TYPE; }
-	void Initialize(Unit&) override;
+        void Initialize(Unit&) override;
         void Finalize(Unit&) override;
 };
 
