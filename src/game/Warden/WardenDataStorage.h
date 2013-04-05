@@ -25,7 +25,8 @@
 
 struct WardenData
 {
-    uint8 Type;
+    uint16 id;
+	uint8 Type;
     BigNumber i;
     uint32 Address;                                         // PROC_CHECK, MEM_CHECK, PAGE_CHECK
     uint8 Length;                                           // PROC_CHECK, MEM_CHECK, PAGE_CHECK
