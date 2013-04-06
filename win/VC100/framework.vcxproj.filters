@@ -96,6 +96,7 @@
     <ClInclude Include="..\..\src\framework\Dynamic\ObjectRegistry.h">
       <Filter>Dynamic</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\dep\fastmm\FastMM.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\framework\Policies\MemoryManagement.cpp">
@@ -107,5 +108,9 @@
     <ClCompile Include="..\..\src\framework\Utilities\EventProcessor.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\dep\fastmm\FastMMx64.lib" />
+    <Library Include="..\..\dep\fastmm\FastMM.lib" />
   </ItemGroup>
 </Project>
