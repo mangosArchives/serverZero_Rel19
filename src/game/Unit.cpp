@@ -5565,6 +5565,10 @@ int32 Unit::SpellBaseDamageBonusTaken(SpellSchoolMask schoolMask)
 
 bool Unit::IsSpellCrit(Unit* pVictim, SpellEntry const* spellProto, SpellSchoolMask schoolMask, WeaponAttackType attackType)
 {
+    // Creatures shouldn't crit with spells
+    if( GetTypeId() == TYPEID_UNIT && !((Creature*)this)->IsPet() && !((Creature*)this)->IsTotem() )
+        return false;
+
     // not critting spell
     if (spellProto->HasAttribute(SPELL_ATTR_EX2_CANT_CRIT))
         return false;
