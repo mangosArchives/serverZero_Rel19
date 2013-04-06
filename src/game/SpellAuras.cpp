@@ -3991,7 +3991,7 @@ void Aura::HandleShapeshiftBoosts(bool apply)
         Unit::SpellAuraHolderMap& tAuras = target->GetSpellAuraHolderMap();
         for (Unit::SpellAuraHolderMap::iterator itr = tAuras.begin(); itr != tAuras.end();)
         {
-            if (itr->second->IsRemovedOnShapeLost())
+            if (itr->second->IsRemovedOnShapeLost() || itr->second->GetSpellProto()->Id == 24864)   // Feline Swiftness Passive 2a
             {
                 target->RemoveAurasDueToSpell(itr->second->GetId());
                 itr = tAuras.begin();
