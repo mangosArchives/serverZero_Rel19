@@ -1421,9 +1421,16 @@ void Unit::CalculateMeleeDamage(Unit* pVictim, uint32 damage, CalcDamageInfo* da
     damage = damageInfo->target->MeleeDamageBonusTaken(this, damage, damageInfo->attackType);
 
     // Calculate armor reduction
-    damageInfo->damage = CalcArmorReducedDamage(damageInfo->target, damage);
-    damageInfo->cleanDamage += damage - damageInfo->damage;
-
+    if (damageInfo->damageSchoolMask < 2)
+    {
+        damageInfo->damage = CalcArmorReducedDamage(damageInfo->target, damage);
+        damageInfo->cleanDamage += damage - damageInfo->damage;
+    }
+    else
+    {
+        damageInfo->damage=damage;
+        damageInfo->cleanDamage += damage - damageInfo->damage;
+    }
     damageInfo->hitOutCome = RollMeleeOutcomeAgainst(damageInfo->target, damageInfo->attackType);
 
     // Disable parry or dodge for ranged attack
