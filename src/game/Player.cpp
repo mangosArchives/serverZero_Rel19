@@ -11936,6 +11936,9 @@ bool Player::CanSeeStartQuest(Quest const* pQuest) const
             SatisfyQuestPrevChain(pQuest, false) &&
             pQuest->IsActive())
     {
+        if (sWorld.getConfig(CONFIG_INT32_QUEST_HIGH_LEVEL_HIDE_DIFF) == -1)
+            return true;
+
         return int32(getLevel()) + sWorld.getConfig(CONFIG_INT32_QUEST_HIGH_LEVEL_HIDE_DIFF) >= int32(pQuest->GetMinLevel());
     }
 
