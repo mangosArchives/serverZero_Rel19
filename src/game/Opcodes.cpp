@@ -701,7 +701,7 @@ void Opcodes::BuildOpcodeList()
     /*0x289*/  StoreOpcode(CMSG_ADD_PVP_MEDAL_CHEAT,          "CMSG_ADD_PVP_MEDAL_CHEAT",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
     /*0x28A*/  StoreOpcode(CMSG_DEL_PVP_MEDAL_CHEAT,          "CMSG_DEL_PVP_MEDAL_CHEAT",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
     /*0x28B*/  StoreOpcode(CMSG_SET_PVP_TITLE,                "CMSG_SET_PVP_TITLE",               STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
-    /*[-ZERO] Need check /*0x28C*/  StoreOpcode(SMSG_PVP_CREDIT,                   "SMSG_PVP_CREDIT",                  STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*0x28C*/  StoreOpcode(SMSG_PVP_CREDIT,                   "SMSG_PVP_CREDIT",                  STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
     /*[-ZERO] Need check /*0x28D*/  StoreOpcode(SMSG_AUCTION_REMOVED_NOTIFICATION, "SMSG_AUCTION_REMOVED_NOTIFICATION", STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
     /*0x28E*/  StoreOpcode(CMSG_GROUP_RAID_CONVERT,           "CMSG_GROUP_RAID_CONVERT",          STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleGroupRaidConvertOpcode);
     /*[-ZERO] Need check /*0x28F*/  StoreOpcode(CMSG_GROUP_ASSISTANT_LEADER,       "CMSG_GROUP_ASSISTANT_LEADER",      STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleGroupAssistantLeaderOpcode);
