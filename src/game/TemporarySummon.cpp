@@ -146,7 +146,6 @@ void TemporarySummon::Update(uint32 update_diff,  uint32 diff)
                 m_timer = m_lifetime;
             break;
         }
-        /*
         case TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN:
         {
             // if m_deathState is DEAD, CORPSE was skipped
@@ -179,7 +178,6 @@ void TemporarySummon::Update(uint32 update_diff,  uint32 diff)
             m_timer -= update_diff;
             break;
         }
-        */
         default:
             UnSummon();
             sLog.outError("Temporary summoned creature (entry: %u) have unknown type %u of ", GetEntry(), m_type);

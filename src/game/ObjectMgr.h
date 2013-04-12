@@ -325,6 +325,8 @@ enum ConditionType
     CONDITION_LAST_WAYPOINT         = 33,                   // waypointId   0 = exact, 1: wp <= waypointId, 2: wp > waypointId  Use to check what waypoint was last reached
     CONDITION_RESERVED_4            = 34,                   // reserved for 3.x and later
     CONDITION_GENDER                = 35,                   // 0=male, 1=female, 2=none (see enum Gender)
+    CONDITION_DEAD_OR_AWAY          = 36,                   // value1: 0=player dead, 1=player is dead (with group dead), 2=player in instance are dead, 3=creature is dead
+                                                            // value2: if != 0 only consider players in range of this value
 };
 
 enum ConditionSource                                        // From where was the condition called?
@@ -336,6 +338,9 @@ enum ConditionSource                                        // From where was th
     CONDITION_FROM_EVENTAI          = 4,                    // Used to check EventAI Event "On Receive Emote"
     CONDITION_FROM_HARDCODED        = 5,                    // Used to check a hardcoded event - not actually a condition
     CONDITION_FROM_VENDOR           = 6,                    // Used to check a condition from a vendor
+    CONDITION_FROM_SPELL_AREA       = 7,                    // Used to check a condition from spell_area table
+    CONDITION_FROM_RESERVED_1       = 8,                    // reserved for 3.x and later
+    CONDITION_FROM_DBSCRIPTS        = 9,                    // Used to check a condition from DB Scripts Engine
 };
 
 class PlayerCondition

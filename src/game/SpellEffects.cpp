@@ -698,6 +698,22 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
                     m_caster->CastCustomSpell(m_caster, 23234, &damage, NULL, NULL, true, NULL);
                     return;
                 }
+                case 19869:                                 // Dragon Orb
+                {
+                    if (!unitTarget || unitTarget->GetTypeId() != TYPEID_PLAYER || unitTarget->HasAura(23958))
+                        return;
+
+                    unitTarget->CastSpell(unitTarget, 19832, true);
+                    return;
+                }
+                case 20037:                                 // Explode Orb Effect
+                {
+                    if (!unitTarget)
+                        return;
+
+                    unitTarget->CastSpell(unitTarget, 20038, true);
+                    return;
+                }
                 case 20577:                                 // Cannibalize
                 {
                     if (unitTarget)
@@ -3451,6 +3467,14 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
                 case 24320:                                 // Poisonous Blood
                 {
                     unitTarget->CastSpell(unitTarget, 24321, true, NULL, NULL, m_caster->GetObjectGuid());
+                    return;
+                }
+                case 24324:                                 // Blood Siphon
+                {
+                    if (!unitTarget || unitTarget->GetTypeId() != TYPEID_PLAYER)
+                        return;
+
+                    unitTarget->CastSpell(m_caster, unitTarget->HasAura(24321) ? 24323 : 24322, true);
                     return;
                 }
                 case 24590:                                 // Brittle Armor - need remove one 24575 Brittle Armor aura
