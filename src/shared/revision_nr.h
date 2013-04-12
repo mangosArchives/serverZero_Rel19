@@ -19,5 +19,5 @@
 
 #ifndef __REVISION_NR_H__
 #define __REVISION_NR_H__
- #define REVISION_NR "2378"
+ #define REVISION_NR "2379"
 #endif // __REVISION_NR_H__
