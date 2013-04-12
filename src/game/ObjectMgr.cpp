@@ -6768,7 +6768,8 @@ char const* conditionSourceToStr[] =
     "gossip menu option",
     "event AI",
     "hardcoded",
-    "vendor's item check"
+    "vendor's item check",
+    "spell_area check"
 };
 
 // Checks if player meets the condition
