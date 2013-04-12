@@ -2354,9 +2354,8 @@ void Aura::HandleAuraModStun(bool apply, bool Real)
         {
             ((Player*)target)->m_movementInfo.SetMovementFlags(MOVEFLAG_NONE);
             target->SetStandState(UNIT_STAND_STATE_STAND);// in 1.5 client
+            target->SetRoot(true);
         }
-
-        target->SetRoot(true);
     }
     else
     {
