@@ -553,7 +553,16 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
     }
 
     uint32 miscRequirement = 0;
-    AreaLockStatus lockStatus = pCurrChar->GetAreaTriggerLockStatus(sObjectMgr.GetMapEntranceTrigger(pCurrChar->GetMapId()), miscRequirement);
+    AreaLockStatus lockStatus = AREA_LOCKSTATUS_OK;
+    if (AreaTrigger const* at = sObjectMgr.GetMapEntranceTrigger(pCurrChar->GetMapId()))
+        lockStatus = pCurrChar->GetAreaTriggerLockStatus(at, miscRequirement);
+    else
+    {
+        // Some basic checks in case of a map without areatrigger
+        MapEntry const* mapEntry = sMapStore.LookupEntry(pCurrChar->GetMapId());
+        if (!mapEntry)
+            lockStatus = AREA_LOCKSTATUS_UNKNOWN_ERROR;
+    }
     if (lockStatus != AREA_LOCKSTATUS_OK || !pCurrChar->GetMap()->Add(pCurrChar))
     {
         // normal delayed teleport protection not applied (and this correct) for this case (Player object just created)

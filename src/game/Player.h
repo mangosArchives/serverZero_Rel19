@@ -1690,6 +1690,7 @@ class MANGOS_DLL_SPEC Player : public Unit
         // Acessors of last week standing
         int32 GetHonorLastWeekStandingPos() const { return m_standing_pos; }
         void SetHonorLastWeekStandingPos(int32 standingPos) { m_standing_pos = standingPos; }
+        void SendPvPCredit(ObjectGuid guid, uint32 rank, uint32 points);
 
         /*********************************************************/
         /***                  PVP SYSTEM                       ***/

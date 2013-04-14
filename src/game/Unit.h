@@ -1008,7 +1008,13 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
                     return true;
             }
         }
-        bool CanReachWithMeleeAttack(Unit* pVictim, float flat_mod = 0.0f) const;
+
+        /// Returns the combined combat reach of two mobs
+        float GetCombatReach(Unit const* pVictim, bool forMeleeRange = true, float flat_mod = 0.0f) const;
+        /// Returns the remaining combat distance between two mobs (CombatReach substracted)
+        float GetCombatDistance(Unit const* target, bool forMeleeRange) const;
+        /// Returns if the Unit can reach a victim with Melee Attack
+        bool CanReachWithMeleeAttack(Unit const* pVictim, float flat_mod = 0.0f) const;
         uint32 m_extraAttacks;
 
         void _addAttacker(Unit* pAttacker)                  // must be called only from Unit::Attack(Unit*)
@@ -1329,7 +1335,6 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool IsCharmerOrOwnerPlayerOrPlayerItself() const;
         Player* GetCharmerOrOwnerPlayerOrPlayerItself();
         Player const* GetCharmerOrOwnerPlayerOrPlayerItself() const;
-        float GetCombatDistance(const Unit* target) const;
 
         void SetPet(Pet* pet);
         void SetCharm(Unit* pet);
@@ -1505,6 +1510,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void TauntApply(Unit* pVictim);
         void TauntFadeOut(Unit* taunter);
         void FixateTarget(Unit* pVictim);
+        ObjectGuid GetFixateTargetGuid() const { return m_fixateTargetGuid; }
         ThreatManager& getThreatManager() { return m_ThreatManager; }
         ThreatManager const& getThreatManager() const { return m_ThreatManager; }
         void addHatedBy(HostileReference* pHostileReference) { m_HostileRefManager.insertFirst(pHostileReference); };

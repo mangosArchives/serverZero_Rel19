@@ -431,16 +431,35 @@ void Unit::resetAttackTimer(WeaponAttackType type)
     m_attackTimer[type] = uint32(GetAttackTime(type) * m_modAttackSpeedPct[type]);
 }
 
-bool Unit::CanReachWithMeleeAttack(Unit* pVictim, float flat_mod /*= 0.0f*/) const
+float Unit::GetCombatReach(Unit const* pVictim, bool forMeleeRange /*=true*/, float flat_mod /*=0.0f*/) const
 {
-    MANGOS_ASSERT(pVictim);
-
     // The measured values show BASE_MELEE_OFFSET in (1.3224, 1.342)
     float reach = GetFloatValue(UNIT_FIELD_COMBATREACH) + pVictim->GetFloatValue(UNIT_FIELD_COMBATREACH) +
                   BASE_MELEERANGE_OFFSET + flat_mod;
 
-    if (reach < ATTACK_DISTANCE)
+    if (forMeleeRange && reach < ATTACK_DISTANCE)
         reach = ATTACK_DISTANCE;
+
+    return reach;
+}
+
+float Unit::GetCombatDistance(Unit const* target, bool forMeleeRange) const
+{
+    float radius = GetCombatReach(target, forMeleeRange);
+
+    float dx = GetPositionX() - target->GetPositionX();
+    float dy = GetPositionY() - target->GetPositionY();
+    float dz = GetPositionZ() - target->GetPositionZ();
+    float dist = sqrt((dx * dx) + (dy * dy) + (dz * dz)) - radius;
+
+    return (dist > 0.0f ? dist : 0.0f);
+}
+
+bool Unit::CanReachWithMeleeAttack(Unit const* pVictim, float flat_mod /*= 0.0f*/) const
+{
+    MANGOS_ASSERT(pVictim);
+
+    float reach = GetCombatReach(pVictim, true, flat_mod);
 
     // This check is not related to bounding radius
     float dx = GetPositionX() - pVictim->GetPositionX();
@@ -5190,16 +5209,6 @@ void Unit::Uncharm()
     }
 }
 
-float Unit::GetCombatDistance(const Unit* target) const
-{
-    float radius = target->GetFloatValue(UNIT_FIELD_COMBATREACH) + GetFloatValue(UNIT_FIELD_COMBATREACH);
-    float dx = GetPositionX() - target->GetPositionX();
-    float dy = GetPositionY() - target->GetPositionY();
-    float dz = GetPositionZ() - target->GetPositionZ();
-    float dist = sqrt((dx * dx) + (dy * dy) + (dz * dz)) - radius;
-    return (dist > 0 ? dist : 0);
-}
-
 void Unit::SetPet(Pet* pet)
 {
     SetPetGuid(pet ? pet->GetObjectGuid() : ObjectGuid());
@@ -5300,6 +5309,10 @@ int32 Unit::DealHeal(Unit* pVictim, uint32 addhealth, SpellEntry const* spellPro
 
     if (unit->GetTypeId() == TYPEID_PLAYER)
         unit->SendHealSpellLog(pVictim, spellProto->Id, addhealth, critical);
+
+    // Script Event HealedBy
+    if (pVictim->GetTypeId() == TYPEID_UNIT && ((Creature*)pVictim)->AI())
+        ((Creature*)pVictim)->AI()->HealedBy(this, addhealth);
 
     return gain;
 }
@@ -6881,31 +6894,27 @@ void Unit::SetSpeedRate(UnitMoveType mtype, float rate, bool forced)
             {MSG_MOVE_SET_TURN_RATE,        SMSG_FORCE_TURN_RATE_CHANGE},
         };
 
-        if (forced)
+        if (forced && GetTypeId() == TYPEID_PLAYER)
         {
-            if (GetTypeId() == TYPEID_PLAYER)
-            {
-                // register forced speed changes for WorldSession::HandleForceSpeedChangeAck
-                // and do it only for real sent packets and use run for run/mounted as client expected
-                ++((Player*)this)->m_forced_speed_changes[mtype];
-            }
+            // register forced speed changes for WorldSession::HandleForceSpeedChangeAck
+            // and do it only for real sent packets and use run for run/mounted as client expected
+            ++((Player*)this)->m_forced_speed_changes[mtype];
 
             WorldPacket data(SetSpeed2Opc_table[mtype][1], 18);
             data << GetPackGUID();
             data << (uint32)0;                              // moveEvent, NUM_PMOVE_EVTS = 0x39
             data << float(GetSpeed(mtype));
-            SendMessageToSet(&data, true);
+            ((Player*)this)->GetSession()->SendPacket(&data);
         }
-        else
-        {
-            m_movementInfo.UpdateTime(WorldTimer::getMSTime());
 
-            WorldPacket data(SetSpeed2Opc_table[mtype][0], 31);
-            data << GetPackGUID();
-            data << m_movementInfo;
-            data << float(GetSpeed(mtype));
-            SendMessageToSet(&data, true);
-        }
+        m_movementInfo.UpdateTime(WorldTimer::getMSTime());
+
+        // TODO: Actually such opcodes should (always?) be packed with SMSG_COMPRESSED_MOVES
+        WorldPacket data(SetSpeed2Opc_table[mtype][0], 31);
+        data << GetPackGUID();
+        data << m_movementInfo;
+        data << float(GetSpeed(mtype));
+        SendMessageToSet(&data, false);
     }
 
     CallForAllControlledUnits(SetSpeedRateHelper(mtype, forced), CONTROLLED_PET | CONTROLLED_GUARDIANS | CONTROLLED_CHARM | CONTROLLED_MINIPET);
