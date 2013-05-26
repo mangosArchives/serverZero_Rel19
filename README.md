@@ -36,7 +36,7 @@ License
 -------
 *mangos zero* is open source, and licensed under the terms of the GNU GPL version 2.
 
-	Copyright (C) 2005-2013  mangos <http://getmangos.com>
+	Copyright (C) 2005-2013  mangos <http://getmangos.co.uk>
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@ License
 
 [50]: http://www.wowpedia.org/Patch_1.12.0 "Vanilla WoW · Patch 1.12.0 release notes"
 
-[100]: http://getmangos.com/ "mangos foundation · project site"
+[100]: http://getmangos.co.uk/ "mangos foundation · project site"
 [101]: http://getmangos.com/bb/ "mangos foundation · discussion forums"
 
 [110]: http://github.com/mangoszero "mangos zero · github organization"
