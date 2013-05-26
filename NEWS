@@ -1,17 +1,15 @@
 = MaNGOS -- History of visible changes =
 
-Copyright (C) 2005-2013 MaNGOS project <http://getmangos.com/>
+Copyright (C) MaNGOS <http://getmangos.co.uk/>
 
 See the COPYING file for copying conditions.
 
-Visit our project website for documentation, and more:
-http://getmangos.com/
+Please visit the following websites for additional information:
 
-Visit our forums for support:
-http://getmangos.com/community/
+http://getmangos.co.uk/ - Project Website for documentation and more
+http://getmangos.co.uk/community/ - Discussion and Support Forums
+https://github.com/mangoswiki/wiki - Our Wiki for Guides and FAQ#s
 
-Please submit bug reports at:
-http://mangos.lighthouseapp.com/
 
 In branch
  * ACE Framework updated to ACE 5.8.3.
