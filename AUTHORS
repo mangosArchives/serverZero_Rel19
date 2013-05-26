@@ -12,6 +12,8 @@ Development of this project dates back to 2004, and was developed under various 
 * MaNGOS project, 2008-2012, located at http://www.getmangos.com
 * MaNGOS project, 2013 onwards, located at http://www.getmangos.co.uk and http://www.getmangos.com
 
+Additional input from other teams is acknowledged in the THANKS file.
+
 Authorship is assigned for each commit within the git history, which is stored in these git repositories:
 * github.com/mangos/mangos-svn (History from MaNGOS project from 2005-2008, originally hosted at http://mangos.svn.sourceforge.net)
 * github.com/mangos/mangoszero (History since then)
@@ -28,7 +30,7 @@ Please inform us, if you find somebody who is missing!
 
 Authors List:
 
-WoW Daemon Team (mentioned here as one, until we have proper details)
+WoW Daemon Team (mentioned here as one, until we have proper details, additional information is also provided in the THANKS file)
 
 123qwe
 a1ien
