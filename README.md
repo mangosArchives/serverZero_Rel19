@@ -1,6 +1,6 @@
-mangos zero [![Build Status](https://travis-ci.org/mangoszero/server.png)](https://travis-ci.org/mangoszero/server)
+MaNGOS Zero [![Build Status](https://travis-ci.org/mangoszero/server.png)](https://travis-ci.org/mangoszero/server)
 ===========
-*mangos zero* is a full featured server for [World of Warcraft][2], in its vanilla
+*MaNGOS Zero* is a full featured server for [World of Warcraft][2], in its vanilla
 version supporting clients from the [patch 1.12][50] branch, specifically patch
 1.12.1, 1.12.2, and 1.12.3.
 
@@ -10,8 +10,8 @@ copyrighted by [Blizzard Entertainment, Inc.][1].
 
 Build status
 ------------
-Each update to the *mangos zero* sources is run through build tests using the
-Travis CI build service. The current build status can be viewed on the *mangos zero*
+Each update to the *MaNGOS Zero* sources is run through build tests using the
+Travis CI build service. The current build status can be viewed on the *MaNGOS Zero*
 [build status page][114], and for your convenience the build status also is shown
 at the top of this README when viewing the repository on [github][111]. If it's
 green, a successful build has been performed under Linux.
@@ -34,9 +34,9 @@ Compilation - Windows
 
 License
 -------
-*mangos zero* is open source, and licensed under the terms of the GNU GPL version 2.
+*MaNGOS Zero* is open source, and licensed under the terms of the GNU GPL version 2.
 
-	Copyright (C) 2005-2013  mangos <http://getmangos.co.uk>
+	Copyright (C) 2005-2013  MaNGOS <http://getmangos.co.uk>
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -60,14 +60,14 @@ License
 
 [50]: http://www.wowpedia.org/Patch_1.12.0 "Vanilla WoW · Patch 1.12.0 release notes"
 
-[100]: http://getmangos.co.uk/ "mangos foundation · project site"
-[101]: http://getmangos.com/bb/ "mangos foundation · discussion forums"
+[100]: http://getmangos.co.uk/ "MaNGOS Community Project Website"
+[101]: http://getmangos.com/bb/ "MaNGOS Community Discussion Forums"
 
-[110]: http://github.com/mangoszero "mangos zero · github organization"
-[111]: http://github.com/mangoszero/server "mangos zero · server repository"
-[112]: http://github.com/mangoszero/scripts "mangos zero · script extensions repository"
-[113]: http://github.com/mangoszero/database "mangos zero · content database repository"
-[114]: https://travis-ci.org/mangoszero/server/ "mangos zero · build status"
+[110]: http://github.com/mangoszero "MaNGOS Zero · github organization"
+[111]: http://github.com/mangoszero/server "MaNGOS Zero · server repository"
+[112]: http://github.com/mangoszero/scripts "MaNGOS Zero · script extensions repository"
+[113]: http://github.com/mangoszero/database "MaNGOS Zero · content database repository"
+[114]: https://travis-ci.org/mangoszero/server/ "MaNGOS Zero · build status"
 
 [201]: http://www.microsoft.com/express/ "Visual Studio Express · free, limited edition"
 [202]: http://gcc.gnu.org/ "GCC"
