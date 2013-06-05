@@ -1,6 +1,5 @@
-/**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+/*
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-/**
+/*
  * @addtogroup mailing
  * @{
  *
@@ -43,7 +42,7 @@
 #include "Item.h"
 #include "AuctionHouseMgr.h"
 
-/**
+/*
  * Creates a new MailSender object.
  *
  * @param sender The object/player sending this mail.
@@ -79,7 +78,7 @@ MailSender::MailSender(Object* sender, MailStationery stationery) : m_stationery
             break;
     }
 }
-/**
+/*
  * Creates a new MailSender object from an AuctionEntry.
  *
  * @param sender the AuctionEntry from which this mail is generated.
@@ -89,7 +88,7 @@ MailSender::MailSender(AuctionEntry* sender)
 {
 }
 
-/**
+/*
  * Creates a new MailReceiver object.
  *
  * @param receiver The player receiving the mail.
@@ -97,7 +96,7 @@ MailSender::MailSender(AuctionEntry* sender)
 MailReceiver::MailReceiver(Player* receiver) : m_receiver(receiver), m_receiver_guid(receiver->GetObjectGuid())
 {
 }
-/**
+/*
  * Creates a new MailReceiver object with a specified GUID.
  *
  * @param receiver The player receiving the mail.
@@ -108,7 +107,7 @@ MailReceiver::MailReceiver(Player* receiver, ObjectGuid receiver_guid) : m_recei
     MANGOS_ASSERT(!receiver || receiver->GetObjectGuid() == receiver_guid);
 }
 
-/**
+/*
  * Creates a new MailDraft object using subject and contect texts.
  *
  * @param subject The subject of the mail.
@@ -130,7 +129,7 @@ MailDraft& MailDraft::SetSubjectAndBody(std::string subject, std::string text)
     return *this;
 }
 
-/**
+/*
  * Adds an item to the MailDraft.
  *
  * @param item The item to be added to the MailDraft.
@@ -141,7 +140,7 @@ MailDraft& MailDraft::AddItem(Item* item)
     m_items[item->GetGUIDLow()] = item;
     return *this;
 }
-/**
+/*
  * Prepares the items in a MailDraft.
  */
 bool MailDraft::prepareItems(Player* receiver)
@@ -171,7 +170,7 @@ bool MailDraft::prepareItems(Player* receiver)
 
     return true;
 }
-/**
+/*
  * Deletes the items included in a MailDraft.
  *
  * @param inDB A boolean specifying whether the change should be saved to the database or not.
@@ -190,7 +189,7 @@ void MailDraft::deleteIncludedItems(bool inDB /**= false*/)
 
     m_items.clear();
 }
-/**
+/*
  * Clone MailDraft from another MailDraft.
  *
  * @param draft Point to source for draft cloning.
@@ -270,7 +269,7 @@ void MailDraft::SendReturnToSender(uint32 sender_acc, ObjectGuid sender_guid, Ob
     // will delete item or place to receiver mail list
     SendMailTo(MailReceiver(receiver, receiver_guid), MailSender(MAIL_NORMAL, sender_guid.GetCounter()), MAIL_CHECK_MASK_RETURNED, deliver_delay);
 }
-/**
+/*
  * Sends a mail.
  *
  * @param receiver             The MailReceiver to which this mail is sent.
@@ -376,7 +375,7 @@ void MailDraft::SendMailTo(MailReceiver const& receiver, MailSender const& sende
         deleteIncludedItems();
 }
 
-/**
+/*
  * Generate items from template at mails loading (this happens when mail with mail template items send in time when receiver has been offline)
  *
  * @param receiver             reciver of mail
