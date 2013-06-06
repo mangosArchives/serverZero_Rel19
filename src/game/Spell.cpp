@@ -2728,7 +2728,6 @@ void Spell::cast(bool skipCheck)
     float speed = m_spellInfo->speed == 0.0f && m_triggeredBySpellInfo ? m_triggeredBySpellInfo->speed : m_spellInfo->speed;
     if (speed > 0.0f)
     {
-
         // Remove used for cast item if need (it can be already NULL after TakeReagents call
         // in case delayed spell remove item at cast delay start
         TakeCastItem();
@@ -4144,7 +4143,6 @@ SpellCastResult Spell::CheckCast(bool strict)
                     m_spellInfo->EffectImplicitTargetB[j] == TARGET_SCRIPT_COORDINATES ||
                     m_spellInfo->EffectImplicitTargetA[j] == TARGET_FOCUS_OR_SCRIPTED_GAMEOBJECT)
             {
-
                 SQLMultiStorage::SQLMSIteratorBounds<SpellTargetEntry> bounds = sSpellScriptTargetStorage.getBounds<SpellTargetEntry>(m_spellInfo->Id);
 
                 if (bounds.first == bounds.second)
@@ -4682,7 +4680,6 @@ SpellCastResult Spell::CheckCast(bool strict)
             {
                 if (m_caster->GetPetGuid())                 // let warlock do a replacement summon
                 {
-
                     Pet* pet = ((Player*)m_caster)->GetPet();
 
                     if (m_caster->GetTypeId() == TYPEID_PLAYER && m_caster->getClass() == CLASS_WARLOCK)
