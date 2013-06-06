@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
 #
