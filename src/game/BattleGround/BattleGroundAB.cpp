@@ -163,7 +163,7 @@ void BattleGroundAB::AddPlayer(Player* plr)
     m_PlayerScores[plr->GetObjectGuid()] = sc;
 }
 
-void BattleGroundAB::RemovePlayer(Player* /*plr*/, ObjectGuid /*guid*/)
+void BattleGroundAB::RemovePlayer(Player * /*plr*/, ObjectGuid /*guid*/)
 {
 }
 

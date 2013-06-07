@@ -672,8 +672,7 @@ bool generate_sql_makefile()
     if (!fout) { pclose(cmd_pipe); return false; }
 
     fprintf(fout,
-            "# This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
-"
+            "# This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.\n"
             "#\n"
             "# This program is free software; you can redistribute it and/or modify\n"
             "# it under the terms of the GNU General Public License as published by\n"
@@ -692,6 +691,7 @@ bool generate_sql_makefile()
             "## Process this file with automake to produce Makefile.in\n"
             "\n"
             "## Sub-directories to parse\n"
+            "SUBDIRS = before_upgrade_to_0.13\n"
             "\n"
             "## Change installation location\n"
             "#  datadir = mangos/%s\n"

@@ -662,7 +662,7 @@ void BattleGroundQueue::Update(BattleGroundTypeId bgTypeId, BattleGroundBracketI
         return;
     }
 
-    // get the min. players per team, properly for larger arenas as well.
+    // get the min. players per team, properly for larger arenas as well. (must have full teams for arena matches!)
     uint32 MinPlayersPerTeam = bg_template->GetMinPlayersPerTeam();
     uint32 MaxPlayersPerTeam = bg_template->GetMaxPlayersPerTeam();
     if (sBattleGroundMgr.isTesting())
@@ -694,7 +694,7 @@ void BattleGroundQueue::Update(BattleGroundTypeId bgTypeId, BattleGroundBracketI
         }
     }
 
-    // now check if there are in queues enough players to start new game of (normal battleground)
+    // now check if there are in queues enough players to start new game of (normal battleground, or non-rated arena)
     {
         // if there are enough players in pools, start new battleground or non rated arena
         if (CheckNormalMatch(bracket_id, MinPlayersPerTeam, MaxPlayersPerTeam))
@@ -963,7 +963,11 @@ void BattleGroundMgr::BuildGroupJoinedBattlegroundPacket(WorldPacket* data, Batt
     0 - Your group has joined a battleground queue, but you are not eligible
     1 - Your group has joined the queue for AV
     2 - Your group has joined the queue for WS
-    3 - Your group has joined the queue for AB*/
+    3 - Your group has joined the queue for AB
+    4 - Your group has joined the queue for NA
+    5 - Your group has joined the queue for BE Arena
+    6 - Your group has joined the queue for All Arenas
+    7 - Your group has joined the queue for EotS*/
     data->Initialize(SMSG_GROUP_JOINED_BATTLEGROUND, 4);
     *data << uint32(bgTypeId);
 }

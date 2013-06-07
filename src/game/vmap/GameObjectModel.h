@@ -33,7 +33,6 @@ namespace VMAP
     class WorldModel;
 }
 
-
 class GameObjectModel
 {
         bool collision_enabled;
