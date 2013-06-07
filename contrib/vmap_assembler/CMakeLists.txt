@@ -1,10 +1,5 @@
 # This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -17,6 +12,8 @@
 cmake_minimum_required (VERSION 2.8)
 
 project (MANGOS_VMAP_ASSEMB_IO)
+
+set(CMAKE_VERBOSE_MAKEFILE true)
 
 # uncomment next line to disable debug mode
 ADD_DEFINITIONS("-DIOMAP_DEBUG")

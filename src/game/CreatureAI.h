@@ -311,7 +311,7 @@ class MANGOS_DLL_SPEC CreatureAI
 
         ///== Event Handling ===============================
 
-        /**
+        /*
          * Send an AI Event to nearby Creatures around
          * @param uiType number to specify the event, default cases listed in enum AIEventType
          * @param pInvoker Unit that triggered this event (like an attacker)
@@ -320,7 +320,7 @@ class MANGOS_DLL_SPEC CreatureAI
          */
         void SendAIEvent(AIEventType eventType, Unit* pInvoker, uint32 uiDelay, float fRadius, uint32 miscValue = 0) const;
 
-        /**
+        /*
          * Send an AI Event to a Creature
          * @param eventType to specify the event, default cases listed in enum AIEventType
          * @param pInvoker Unit that triggered this event (like an attacker)
@@ -328,7 +328,7 @@ class MANGOS_DLL_SPEC CreatureAI
          */
         void SendAIEvent(AIEventType eventType, Unit* pInvoker, Creature* pReceiver, uint32 miscValue = 0) const;
 
-        /**
+        /*
          * Called when an AI Event is received
          * @param eventType to specify the event, default cases listed in enum AIEventType
          * @param pSender Creature that sent this event

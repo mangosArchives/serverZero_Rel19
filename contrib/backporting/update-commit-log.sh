@@ -13,8 +13,8 @@ OUTPUT_FILE="contrib/backporting/todo_tbc_commits.log"
 
 # By user defined (Textile markup based wiki format)
 SMALL_FORMAT="\"tbc(cleaned)\":http://github.com/mangoszero/server/commit/%h: %h * %an (committer %cn)"
-FULL_FORMAT="</code></pre>%n* ${SMALL_FORMAT}<pre><code>%s"
-FOOTER_FORMAT="</code></pre>FILE LAST UPDATED BASED ON... ${SMALL_FORMAT}"
+FULL_FORMAT="</code></pre>%n%n%n* ${SMALL_FORMAT}<pre><code>%s"
+FOOTER_FORMAT="</code></pre>%n%n%nFILE LAST UPDATED BASED ON... ${SMALL_FORMAT}"
 
 # param1 must be the commit hash of last backported commit (of original commit)
 if [ "$#" != "1" ]
