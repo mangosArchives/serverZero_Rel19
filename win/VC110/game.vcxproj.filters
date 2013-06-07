@@ -504,9 +504,6 @@
     <ClInclude Include="..\..\src\game\BattleGround\BattleGroundAV.h">
       <Filter>BattleGround</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\game\BattleGround\BattleGroundAV.h">
-      <Filter>BattleGround</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\game\BattleGround\BattleGroundMgr.h">
       <Filter>BattleGround</Filter>
     </ClInclude>

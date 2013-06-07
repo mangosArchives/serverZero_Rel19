@@ -71,7 +71,6 @@ int RASocket::open(void*)
         return -1;
     }
 
-
     sLog.outRALog("Incoming connection from %s.", remote_addr.get_host_addr());
 
     ///- print Motd

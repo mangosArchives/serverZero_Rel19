@@ -30,7 +30,6 @@
 #include <ace/Semaphore.h>
 #include <ace/Task.h>
 
-
 class MaNGOSsoapRunnable: public ACE_Based::Runnable
 {
     public:
@@ -73,7 +72,6 @@ class SOAPWorkingThread : public ACE_Task<ACE_MT_SYNCH>
     private:
         void process_message(ACE_Message_Block* mb);
 };
-
 
 class SOAPCommand
 {
