@@ -1,6 +1,5 @@
-/**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+/*
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,13 +24,12 @@
 
 //===========================================================
 
-/**
+/*
 This is the minimum interface to the VMapMamager.
 */
 
 namespace VMAP
 {
-
     enum VMAPLoadResult
     {
         VMAP_LOAD_RESULT_ERROR,
@@ -63,22 +61,22 @@ namespace VMAP
 
             virtual bool isInLineOfSight(unsigned int pMapId, float x1, float y1, float z1, float x2, float y2, float z2) = 0;
             virtual float getHeight(unsigned int pMapId, float x, float y, float z, float maxSearchDist) = 0;
-            /**
+            /*
             test if we hit an object. return true if we hit one. rx,ry,rz will hold the hit position or the dest position, if no intersection was found
             return a position, that is pReduceDist closer to the origin
             */
             virtual bool getObjectHitPos(unsigned int pMapId, float x1, float y1, float z1, float x2, float y2, float z2, float& rx, float& ry, float& rz, float pModifyDist) = 0;
-            /**
+            /*
             send debug commands
             */
             virtual bool processCommand(char* pCommand) = 0;
 
-            /**
+            /*
             Enable/disable LOS calculation
             It is enabled by default. If it is enabled in mid game the maps have to loaded manualy
             */
             void setEnableLineOfSightCalc(bool pVal) { iEnableLineOfSightCalc = pVal; }
-            /**
+            /*
             Enable/disable model height calculation
             It is enabled by default. If it is enabled in mid game the maps have to loaded manualy
             */
@@ -89,13 +87,12 @@ namespace VMAP
             bool isMapLoadingEnabled() const { return(iEnableLineOfSightCalc || iEnableHeightCalc); }
 
             virtual std::string getDirFileName(unsigned int pMapId, int x, int y) const = 0;
-            /**
+            /*
             Query world model area info.
             \param z gets adjusted to the ground height for which this are info is valid
             */
             virtual bool getAreaInfo(unsigned int pMapId, float x, float y, float& z, uint32& flags, int32& adtId, int32& rootId, int32& groupId) const = 0;
             virtual bool GetLiquidLevel(uint32 pMapId, float x, float y, float z, uint8 ReqLiquidType, float& level, float& floor, uint32& type) const = 0;
     };
-
 }
 #endif

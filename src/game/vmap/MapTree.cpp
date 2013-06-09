@@ -1,6 +1,5 @@
-/**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+/*
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +30,6 @@ using G3D::Vector3;
 
 namespace VMAP
 {
-
     class MapRayCallback
     {
         public:
@@ -136,7 +134,7 @@ namespace VMAP
     }
 
     //=========================================================
-    /**
+    /*
     If intersection is found within pMaxDist, sets pMaxDist to intersection distance and returns true.
     Else, pMaxDist is not modified and returns false;
     */
@@ -168,7 +166,7 @@ namespace VMAP
         return true;
     }
     //=========================================================
-    /**
+    /*
     When moving from pos1 to pos2 check if we hit an object. Return true and the position if we hit one
     Return the hit pos or the original dest pos
     */
@@ -468,5 +466,4 @@ namespace VMAP
         }
         iLoadedTiles.erase(tile);
     }
-
 }

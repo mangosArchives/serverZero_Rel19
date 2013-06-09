@@ -1,6 +1,5 @@
-/**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+/*
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -316,18 +315,18 @@ bool fillArchiveNameVector(std::vector<std::string>& pArchiveNames)
 
     // open expansion and common files
     printf("Opening data files from data directory.\n");
-    sprintf(path, "%sterrain.MPQ", input_path);
+    sprintf(path, "%sterrain.mpq", input_path);
     pArchiveNames.push_back(path);
-    sprintf(path, "%smodel.MPQ", input_path);
+    sprintf(path, "%smodel.mpq", input_path);
     pArchiveNames.push_back(path);
     pArchiveNames.push_back(path);
-    sprintf(path, "%stexture.MPQ", input_path);
+	sprintf(path, "%stexture.mpq", input_path);
     pArchiveNames.push_back(path);
-    sprintf(path, "%swmo.MPQ", input_path);
+	sprintf(path, "%swmo.mpq", input_path);
     pArchiveNames.push_back(path);
-    sprintf(path, "%sbase.MPQ", input_path);
+	sprintf(path, "%sbase.mpq", input_path);
     pArchiveNames.push_back(path);
-    sprintf(path, "%smisc.MPQ", input_path);
+    sprintf(path, "%smisc.mpq", input_path);
 
     // now, scan for the patch levels in the core dir
     printf("Scanning patch levels from data directory.\n");

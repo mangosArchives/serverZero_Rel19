@@ -1,6 +1,5 @@
-/**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+/*
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,7 +82,6 @@ extern int main(int argc, char** argv)
 {
     ///- Command line parsing
     char const* cfg_file = _MANGOSD_CONFIG;
-
 
     char const* options = ":a:c:s:";
 
@@ -192,7 +190,7 @@ extern int main(int argc, char** argv)
                    "MM   MM     MMM MM   MM MM  MMM MM  MM     MMM\n"
                    "MM   MM MMMMMMM MM   MM MMM MMM MM  MM MMM MMM\n"
                    "MM   MM MM  MMM MM   MM  MMMMMM  MMMM   MMMMM\n"
-                   "        MM  MMM http://getmangos.com\n"
+                   "        MM  MMM http://www.getmangos.co.uk\n"
                    "        MMMMMM\n\n");
     sLog.outString("Using configuration file %s.", cfg_file);
 

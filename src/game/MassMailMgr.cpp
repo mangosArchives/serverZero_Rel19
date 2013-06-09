@@ -1,6 +1,5 @@
-/**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+/*
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-/**
+/*
  * @addtogroup mailing
  * @{
  *
@@ -61,7 +60,6 @@ struct MassMailerQueryHandler
         {
             Field* fields = result->Fetch();
             recievers.insert(fields[0].GetUInt32());
-
         }
         while (result->NextRow());
         delete result;

@@ -1,6 +1,5 @@
-/**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+/*
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,6 +50,10 @@
 
 #define NULL_AURA_SLOT 0xFF
 
+/*
+ * An array with all the different handlers for taking care of
+ * the various aura types that are defined in AuraType.
+ */
 pAuraHandler AuraHandler[TOTAL_AURAS] =
 {
     &Aura::HandleNULL,                                      //  0 SPELL_AURA_NONE
@@ -738,6 +741,35 @@ void Aura::HandleAddModifier(bool apply, bool Real)
                 GetHolder()->SetAuraCharges(1);
                 break;
         }
+        
+        // In pre-TBC wrong spellmods in DBC
+        switch (GetSpellProto()->SpellIconID)
+        {
+            case 143:       // Permafrost Speed Decrease
+                if (GetEffIndex() == EFFECT_INDEX_1)
+                    m_modifier.m_miscvalue = SPELLMOD_EFFECT1;
+                break;
+            case 228:       // Improved Curse of Exhaustion Speed Decrease
+                if (GetEffIndex() == EFFECT_INDEX_0)
+                    m_modifier.m_miscvalue = SPELLMOD_EFFECT1;
+                break;
+            case 250:       // Camouflage Speed Decrease
+                if (GetEffIndex() == EFFECT_INDEX_0)
+                    m_modifier.m_miscvalue = SPELLMOD_EFFECT3;
+                break;
+            case 1181:       // Pathfinding Speed Increase
+                if (GetEffIndex() == EFFECT_INDEX_0)
+                    m_modifier.m_miscvalue = SPELLMOD_EFFECT1;
+                break;
+            case 1494:       // Amplify Curse Speed Decrease
+                if (GetEffIndex() == EFFECT_INDEX_1)
+                    m_modifier.m_miscvalue = SPELLMOD_EFFECT1;
+                break;
+            case 1563:       // Cheetah Sprint
+                if (GetEffIndex() == EFFECT_INDEX_0)
+                    m_modifier.m_miscvalue = SPELLMOD_EFFECT1;
+                break;
+        }
 
         m_spellmod = new SpellModifier(
             SpellModOp(m_modifier.m_miscvalue),
@@ -1079,7 +1111,7 @@ void Aura::TriggerSpell()
     {
         if (Unit* caster = GetCaster())
         {
-            if (triggerTarget->GetTypeId() != TYPEID_UNIT || !sScriptMgr.OnEffectDummy(caster, GetId(), GetEffIndex(), (Creature*)triggerTarget))
+            if (triggerTarget->GetTypeId() != TYPEID_UNIT || !sScriptMgr.OnEffectDummy(caster, GetId(), GetEffIndex(), (Creature*)triggerTarget, ObjectGuid()))
                 sLog.outError("Aura::TriggerSpell: Spell %u have 0 in EffectTriggered[%d], not handled custom case?", GetId(), GetEffIndex());
         }
     }
@@ -2046,7 +2078,6 @@ void Aura::HandleModPossess(bool apply, bool Real)
         {
             ((Player*)target)->SetClientControl(target, 0);
         }
-
     }
     else
     {
@@ -2500,7 +2531,6 @@ void Aura::HandleInvisibility(bool apply, bool Real)
         {
             // apply glow vision
             target->SetByteFlag(PLAYER_FIELD_BYTES2, 1, PLAYER_FIELD_BYTE2_INVISIBILITY_GLOW);
-
         }
 
         // apply only if not in GM invisibility and not stealth
@@ -3437,12 +3467,16 @@ void Aura::HandleAuraModIncreaseHealth(bool apply, bool Real)
 {
     Unit* target = GetTarget();
 
-    // Special case with temporary increase max/current health
     switch (GetId())
     {
-        case 1178:                                          // Bear Form (Passive)
-        case 9635:                                          // Dire Bear Form (Passive)
-        case 12976:                                         // Warrior Last Stand triggered spell
+        // Special case with temporary increase max/current health
+            // Cases where we need to manually calculate the amount for the spell (by percentage)
+            // recalculate to full amount at apply for proper remove
+        // Backport notive TBC: no cases yet
+            // no break here
+
+            // Cases where m_amount already has the correct value (spells cast with CastCustomSpell or absolute values)
+        case 12976:                                         // Warrior Last Stand triggered spell (Cast with percentage-value by CastCustomSpell)
         {
             if (Real)
             {
@@ -3462,10 +3496,22 @@ void Aura::HandleAuraModIncreaseHealth(bool apply, bool Real)
             }
             return;
         }
+        // Case with temp increase health, where total percentage is kept
+        case 1178:                                          // Bear Form (Passive)
+        case 9635:                                          // Dire Bear Form (Passive)
+        {
+            if (Real)
+            {
+                float pct = target->GetHealthPercent();
+                target->HandleStatModifier(UNIT_MOD_HEALTH, TOTAL_VALUE, float(m_modifier.m_amount), apply);
+                target->SetHealthPercent(pct);
+            }
+            return;
+        }
+        // generic case
+        default:
+            target->HandleStatModifier(UNIT_MOD_HEALTH, TOTAL_VALUE, float(m_modifier.m_amount), apply);
     }
-
-    // generic case
-    target->HandleStatModifier(UNIT_MOD_HEALTH, TOTAL_VALUE, float(m_modifier.m_amount), apply);
 }
 
 void Aura::HandleAuraModIncreaseEnergy(bool apply, bool /*Real*/)
@@ -4671,7 +4717,7 @@ void Aura::PeriodicDummyTick()
     if (Unit* caster = GetCaster())
     {
         if (target && target->GetTypeId() == TYPEID_UNIT)
-            sScriptMgr.OnEffectDummy(caster, GetId(), GetEffIndex(), (Creature*)target);
+            sScriptMgr.OnEffectDummy(caster, GetId(), GetEffIndex(), (Creature*)target, ObjectGuid());
     }
 }
 

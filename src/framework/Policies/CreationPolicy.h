@@ -1,6 +1,5 @@
-/**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+/*
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +24,7 @@
 
 namespace MaNGOS
 {
-    /**
+    /*
      * OperatorNew policy creates an object on the heap using new.
      */
     template<class T>
@@ -44,7 +43,7 @@ namespace MaNGOS
             }
     };
 
-    /**
+    /*
      * LocalStaticCreation policy creates an object on the stack
      * the first time call Create.
      */
@@ -79,7 +78,7 @@ namespace MaNGOS
             }
     };
 
-    /**
+    /*
      * CreateUsingMalloc by pass the memory manger.
      */
     template<class T>
@@ -104,7 +103,7 @@ namespace MaNGOS
             }
     };
 
-    /**
+    /*
      * CreateOnCallBack creates the object base on the call back.
      */
     template<class T, class CALL_BACK>

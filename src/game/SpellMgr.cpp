@@ -1,6 +1,5 @@
-/**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+/*
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -105,7 +104,7 @@ uint32 GetSpellCastTime(SpellEntry const* spellInfo, Spell const* spell)
     if (spell)
     {
         // some triggered spells have data only usable for client
-        if (spell->IsTriggeredSpellWithRedundentData())
+        if (spell->IsTriggeredSpellWithRedundentCastTime())
             return 0;
 
         // spell targeted to non-trading trade slot item instant at trade success apply
@@ -1080,7 +1079,6 @@ void SpellMgr::LoadSpellTargetPositions()
 
         mSpellTargetPositions[Spell_ID] = st;
         ++count;
-
     }
     while (result->NextRow());
 
@@ -1311,7 +1309,6 @@ void SpellMgr::LoadSpellProcEvents()
         spe.cooldown        = fields[10].GetUInt32();
 
         rankHelper.RecordRank(spe, entry);
-
     }
     while (result->NextRow());
 
@@ -1342,7 +1339,6 @@ void SpellMgr::LoadSpellProcItemEnchant()
     QueryResult* result = WorldDatabase.Query("SELECT entry, ppmRate FROM spell_proc_item_enchant");
     if (!result)
     {
-
         BarGoLink bar(1);
 
         bar.step();
@@ -1532,7 +1528,6 @@ void SpellMgr::LoadSpellBonuses()
         doForHighRanks(entry, worker);
 
         ++count;
-
     }
     while (result->NextRow());
 
@@ -1612,7 +1607,6 @@ void SpellMgr::LoadSpellElixirs()
     QueryResult* result = WorldDatabase.Query("SELECT entry, mask FROM spell_elixir");
     if (!result)
     {
-
         BarGoLink bar(1);
 
         bar.step();
@@ -1739,7 +1733,6 @@ void SpellMgr::LoadSpellThreats()
         ste.ap_bonus = fields[3].GetFloat();
 
         rankHelper.RecordRank(ste, entry);
-
     }
     while (result->NextRow());
 
@@ -2973,7 +2966,6 @@ void SpellMgr::LoadSpellPetAuras()
     QueryResult* result = WorldDatabase.Query("SELECT spell, pet, aura FROM spell_pet_auras");
     if (!result)
     {
-
         BarGoLink bar(1);
 
         bar.step();
@@ -3193,7 +3185,6 @@ void SpellMgr::LoadSpellAreas()
                 sLog.outErrorDb("Spell %u listed in `spell_area` already listed with similar requirements.", spell);
                 continue;
             }
-
         }
 
         if (spellArea.areaId && !GetAreaEntryByAreaID(spellArea.areaId))
@@ -3544,7 +3535,6 @@ void SpellMgr::CheckUsedSpells(char const* table)
                                       spell, name.c_str(), familyMask, code.c_str());
                         continue;
                     }
-
                 }
                 else
                 {
@@ -3553,7 +3543,6 @@ void SpellMgr::CheckUsedSpells(char const* table)
                         sLog.outError("Spell %u '%s' not fit to (" I64FMT ") but used in %s.", spell, name.c_str(), familyMask, code.c_str());
                         continue;
                     }
-
                 }
             }
 
@@ -3588,7 +3577,6 @@ void SpellMgr::CheckUsedSpells(char const* table)
                     sLog.outError("Spell %u '%s' aura%d <> %u but used in %s.", spell, name.c_str(), effectIdx + 1, auraType, code.c_str());
                     continue;
                 }
-
             }
             else
             {
@@ -3674,7 +3662,6 @@ void SpellMgr::CheckUsedSpells(char const* table)
                 continue;
             }
         }
-
     }
     while (result->NextRow());
 
@@ -3900,7 +3887,6 @@ void SpellMgr::LoadSpellAffects()
     QueryResult* result = WorldDatabase.Query("SELECT entry, effectId, SpellFamilyMask FROM spell_affect");
     if (!result)
     {
-
         BarGoLink bar(1);
 
         bar.step();

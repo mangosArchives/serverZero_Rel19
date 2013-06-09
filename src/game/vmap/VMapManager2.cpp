@@ -1,6 +1,5 @@
-/**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+/*
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +30,6 @@ using G3D::Vector3;
 
 namespace VMAP
 {
-
     //=========================================================
 
     VMapManager2::VMapManager2()
@@ -157,7 +155,7 @@ namespace VMAP
         return result;
     }
     //=========================================================
-    /**
+    /*
     get the hit position and return true if we hit something
     otherwise the result pos will be the dest pos
     */
@@ -186,7 +184,7 @@ namespace VMAP
     }
 
     //=========================================================
-    /**
+    /*
     get height or INVALID_HEIGHT if no height available
     */
 
@@ -288,5 +286,4 @@ namespace VMAP
     {
         return StaticMapTree::CanLoadMap(std::string(pBasePath), pMapId, x, y);
     }
-
 } // namespace VMAP
