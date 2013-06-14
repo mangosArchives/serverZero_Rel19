@@ -113,10 +113,26 @@ template void PointMovementGenerator<Creature>::Reset(Creature&);
 template bool PointMovementGenerator<Player>::Update(Player&, const uint32& diff);
 template bool PointMovementGenerator<Creature>::Update(Creature&, const uint32& diff);
 
+void AssistanceMovementGenerator::Initialize(Unit& unit)
+{
+    if (unit.hasUnitState(UNIT_STAT_CAN_NOT_REACT | UNIT_STAT_NOT_MOVE))
+        return;
+    
+    if (!unit.IsStopped())
+        unit.StopMoving();
+    
+    unit.addUnitState(UNIT_STAT_ROAMING | UNIT_STAT_ROAMING_MOVE);
+    Movement::MoveSplineInit init(unit);
+    init.MoveTo(i_x, i_y, i_z, m_generatePath);
+    //Slow down the mob that is running for assistance
+    init.SetVelocity(0.9f);
+    init.Launch();
+}
+
 void AssistanceMovementGenerator::Finalize(Unit& unit)
 {
     unit.clearUnitState(UNIT_STAT_ROAMING | UNIT_STAT_ROAMING_MOVE);
-
+    
     ((Creature*)&unit)->SetNoCallAssistance(false);
     ((Creature*)&unit)->CallAssistance();
     if (unit.isAlive())

@@ -40,7 +40,7 @@ class MANGOS_DLL_SPEC PointMovementGenerator
         MovementGeneratorType GetMovementGeneratorType() const override { return POINT_MOTION_TYPE; }
 
         bool GetDestination(float& x, float& y, float& z) const { x = i_x; y = i_y; z = i_z; return true; }
-    private:
+    protected:
         uint32 id;
         float i_x, i_y, i_z;
         bool m_generatePath;
@@ -54,6 +54,7 @@ class MANGOS_DLL_SPEC AssistanceMovementGenerator
             PointMovementGenerator<Creature>(0, _x, _y, _z, true) {}
 
         MovementGeneratorType GetMovementGeneratorType() const override { return ASSISTANCE_MOTION_TYPE; }
+        void Initialize(Unit&) override;
         void Finalize(Unit&) override;
 };
 
