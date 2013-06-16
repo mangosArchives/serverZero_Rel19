@@ -18,4 +18,4 @@
 # the next line and uncomment the last line.
 
 # add_subdirectory(universal)
-# add_subdirectory(scripts)
+add_subdirectory(scripts)
