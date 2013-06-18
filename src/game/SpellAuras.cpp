@@ -3619,8 +3619,19 @@ void Aura::HandleModHitChance(bool apply, bool /*Real*/)
 {
     Unit* target = GetTarget();
 
-    target->m_modMeleeHitChance += apply ? m_modifier.m_amount : (-m_modifier.m_amount);
-    target->m_modRangedHitChance += apply ? m_modifier.m_amount : (-m_modifier.m_amount);
+    if (GetSpellProto()->EquippedItemSubClassMask & UI64LIT(0x0004000C))
+    {
+        target->m_modRangedHitChance += apply ? m_modifier.m_amount : (-m_modifier.m_amount);
+    }
+    else if(GetSpellProto()->EquippedItemClass == -1)
+    {
+        target->m_modMeleeHitChance += apply ? m_modifier.m_amount : (-m_modifier.m_amount);
+        target->m_modRangedHitChance += apply ? m_modifier.m_amount : (-m_modifier.m_amount);
+    }
+    else
+    {
+        target->m_modMeleeHitChance += apply ? m_modifier.m_amount : (-m_modifier.m_amount);
+    }
 }
 
 void Aura::HandleModSpellHitChance(bool apply, bool /*Real*/)
