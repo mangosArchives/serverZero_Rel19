@@ -24,8 +24,8 @@
 #ifndef MANGOS_SPELLAURADEFINES_H
 #define MANGOS_SPELLAURADEFINES_H
 
-#define MAX_AURAS 48                                        // 12*4 (byte per aura) slots in UNIT_FIELD_AURA*
-#define MAX_POSITIVE_AURAS 32
+#define MAX_AURAS 48                                        /// 12*4 (byte per aura) slots in UNIT_FIELD_AURA*
+#define MAX_POSITIVE_AURAS 32                               /// Maximum number of positive auras that can be applied, ie buffs
 
 enum AuraFlags
 {
@@ -71,6 +71,9 @@ enum AuraType
      * 50 the attackspeed will increase by 50%
      */
     SPELL_AURA_MOD_ATTACKSPEED = 9,
+    //This doesn't make sense if you look at SpellAuras.cpp:2696
+    //Where a bitwise check is made, but the SpellSchools enum is just
+    //a normal enumeration, not in the style: 1 2 4 8 ...
     /*
      * Modifies the threat that the Aura does in percent,
      * the Modifier::m_miscvalue decides which of the SpellSchools

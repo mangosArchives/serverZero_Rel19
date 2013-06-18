@@ -137,7 +137,17 @@ enum SpellFacingFlags
 #define BASE_MAXDAMAGE 2.0f
 #define BASE_ATTACK_TIME 2000
 
-// byte value (UNIT_FIELD_BYTES_1,0)
+/**
+ * byte value (UNIT_FIELD_BYTES_1,0).
+ * 
+ * This is not to be used as a bitmask but as one value
+ * each, ie: you can't be standing and sitting down at
+ * the same time.
+ * \see Unit::getStandState
+ * \see Unit::SetStandState
+ * \see Unit::IsSitState
+ * \see Unit::IsStandState
+ */
 enum UnitStandStateType
 {
     UNIT_STAND_STATE_STAND             = 0,
@@ -169,12 +179,17 @@ enum UnitBytes1_Flags
     UNIT_BYTE1_FLAG_ALL          = 0xFF
 };
 
-// byte value (UNIT_FIELD_BYTES_2,0)
+/**
+ *  byte value (UNIT_FIELD_BYTES_2,0)
+ */
 enum SheathState
 {
-    SHEATH_STATE_UNARMED  = 0,                              // non prepared weapon
-    SHEATH_STATE_MELEE    = 1,                              // prepared melee weapon
-    SHEATH_STATE_RANGED   = 2                               // prepared ranged weapon
+    /// non prepared weapon
+    SHEATH_STATE_UNARMED  = 0,
+    /// prepared melee weapon
+    SHEATH_STATE_MELEE    = 1,
+    /// prepared ranged weapon
+    SHEATH_STATE_RANGED   = 2
 };
 
 #define MAX_SHEATH_STATE    3
@@ -214,6 +229,11 @@ enum VictimState
     VICTIMSTATE_DEFLECTS       = 8
 };
 
+/**
+ * TODO: Rename the LEFTSWING and NORMALSWING/2 to:
+ * OFFSWING and BASESWING/2 or MAINSWING/2 to be more
+ * in line with what is used in the other parts?
+ */
 enum HitInfo
 {
     HITINFO_NORMALSWING         = 0x00000000,
@@ -666,10 +686,10 @@ namespace Movement
  */
 enum DiminishingLevels
 {
-    DIMINISHING_LEVEL_1             = 0,         //< Won't make a difference to stun duration
-    DIMINISHING_LEVEL_2             = 1,         //< Reduces stun time by 50%
-    DIMINISHING_LEVEL_3             = 2,         //< Reduces stun time by 75%
-    DIMINISHING_LEVEL_IMMUNE        = 3          //< The target is immune to the DiminishingGrouop
+    DIMINISHING_LEVEL_1             = 0,         ///Won't make a difference to stun duration
+    DIMINISHING_LEVEL_2             = 1,         ///Reduces stun time by 50%
+    DIMINISHING_LEVEL_3             = 2,         ///Reduces stun time by 75%
+    DIMINISHING_LEVEL_IMMUNE        = 3          ///The target is immune to the DiminishingGrouop
 };
 
 /*
@@ -734,21 +754,43 @@ struct CleanDamage
     MeleeHitOutcome hitOutCome;
 };
 
-// Struct for use in Unit::CalculateMeleeDamage
-// Need create structure like in SMSG_ATTACKERSTATEUPDATE opcode
+/**
+ * Struct for use in Unit::CalculateMeleeDamage
+ * Need create structure like in SMSG_ATTACKERSTATEUPDATE opcode
+ */
 struct CalcDamageInfo
 {
-    Unit*  attacker;             // Attacker
-    Unit*  target;               // Target for damage
+    /// Attacker
+    Unit*  attacker;
+    /// Target for damage
+    Unit*  target;
     SpellSchoolMask damageSchoolMask;
+    /// How much damage was actually done
     uint32 damage;
+    /// How much damage that was absorbed
     uint32 absorb;
+    /// How much of the damage that was resisted
     uint32 resist;
+    /// How much of the damage that was blocked
     uint32 blocked_amount;
+    /**
+     * Bitmask of the possible HitInfo flags
+     * \see HitInfo
+     */
     uint32 HitInfo;
+    /**
+     * What state the target is in, ie: is he evading or deflecting the hit?
+     * \see VictimState
+     */
     uint32 TargetState;
-    // Helper
-    WeaponAttackType attackType; //
+    /**
+     * Tells how the target was attacked
+     */
+    WeaponAttackType attackType;
+    /**
+     * 
+     * \see ProcFlags
+     */
     uint32 procAttacker;
     uint32 procVictim;
     uint32 procEx;
@@ -1112,43 +1154,62 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
                     return true;
             }
         }
-        /** Returns the combined combat reach of two mobs
-         *
-         * @param pVictim The other unit to combine with
-         * @param forMeleeRange Whether we should return the combined reach for melee or not (if true, range will at least return ATTACK_DISTANCE)
+
+        /** 
+         * Returns the combined combat reach of two mobs. Can be seen as a radius.
+         * @param pVictim The other unit to add the range for
+         * @param forMeleeRange Whether we should return the combined reach for melee or not
          * @param flat_mod Increases the returned reach by this value.
-         * @return the combined values of UNIT_FIELD_COMBATREACH for both this unit and the pVictim.
+         * @return The combined values of UNIT_FIELD_COMBATREACH for both this unit and the pVictim.
          * \see EUnitFields
          * \see GetFloatValue
          */
         float GetCombatReach(Unit const* pVictim, bool forMeleeRange = true, float flat_mod = 0.0f) const;
-        /** Returns the remaining combat distance between two mobs (after CombatReach substracted)
-         *
+        /** 
+         * Returns the remaining combat distance between two mobs (CombatReach substracted).
+         * Does this by getting the radius of combat/aggro between them and then subtracting their
+         * actual distance between them. Ie: dist between - radius for aggro. If this becomes less
+         * than zero zero is returned and the mobs should probably aggro each other/the player
          * @param target The target to check against
-         * @param forMeleeRange If we want to get the distance for melee combat (if true, CombatReach will at least return ATTACK_DISTANCE)
-         * @return the distance that needs to be considered for all combat related actions (spell-range and similar)
+         * @param forMeleeRange If we want to check melee range instead
+         * @return The reach between them left until one of the creatures could/should aggro
          */
         float GetCombatDistance(Unit const* target, bool forMeleeRange) const;
-        /** Returns if the Unit can reach a victim with Melee Attack
-         *
-         * @param pVictim Who we want to reach with a melee attack
+        /** 
+         * Returns if the Unit can reach a victim with Melee Attack. Does so by using
+         * Unit::GetCombatReach for melee and checking if the distance from the target is less than
+         * the reach.
+         * @param pVictim Who we want to reach with a melee attack.
          * @param flat_mod The same as sent to Unit::GetCombatReach
          * @return true if we can reach pVictim with a melee attack
          */
         bool CanReachWithMeleeAttack(Unit const* pVictim, float flat_mod = 0.0f) const;
         uint32 m_extraAttacks;
 
-        void _addAttacker(Unit* pAttacker)                  //< (Internal Use) must be called only from Unit::Attack(Unit*)
+        /** 
+         * Internal function, must only be called from Unit::Attack(Unit*)
+         * @param pAttacker The attacker to add to current attackers.
+         */
+        void _addAttacker(Unit* pAttacker)                  // must be called only from Unit::Attack(Unit*)
         {
             AttackerSet::const_iterator itr = m_attackers.find(pAttacker);
             if (itr == m_attackers.end())
                 m_attackers.insert(pAttacker);
         }
-        void _removeAttacker(Unit* pAttacker)               //< (Internal Use) must be called only from Unit::AttackStop()
+        /** 
+         * Internal function, must only be called from Unit::AttackStop()
+         * @param pAttacker 
+         */
+        void _removeAttacker(Unit* pAttacker)               // must be called only from Unit::AttackStop()
         {
             m_attackers.erase(pAttacker);
         }
-        Unit* getAttackerForHelper()                        //< Return a possible enemy from this unit to help in combat
+        /** 
+         * If another mob/unit want to help this mob this function will return a
+         * possible Unit to attack.
+         * @return A Unit to attack if this one is being attacked by anyone, NULL otherwise
+         */
+        Unit* getAttackerForHelper()                        // If someone wants to help, who to give them
         {
             if (getVictim() != NULL)
                 return getVictim();
@@ -1166,8 +1227,8 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return True if an attack was initiated, false otherwise
          */
         bool Attack(Unit* victim, bool meleeAttack);
-        /*
-         * Called when we are attacked by someone in someway, might be when a fear runs out and
+        /** 
+         * Called when we are attack by someone in someway, might be when a fear runs out and
          * we want to notify AI to attack again or when a spell hits.
          * @param attacker Who's attacking us
          */
@@ -1180,7 +1241,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void CastStop(uint32 except_spellid = 0);
         /*
          * Stops attacking whatever we are attacking at the moment and tells the Unit we are attacking
-         * that we are not doing that anymore.
+         * that we are not doing that anymore, ie: removes it from the attacker list
          * @param targetSwitch if we are switching targets or not, defaults to false
          * @return false if we weren't attacking already, true otherwise
          * \see Unit::m_attacking
@@ -1193,55 +1254,255 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see Unit::AttackStop
          */
         void RemoveAllAttackers();
-
-        /// Returns the Unit::m_attackers, that stores the units that are attacking you
+        /** 
+         * @return The Unit::m_attackers, ie. the units that are attacking you
+         */
         AttackerSet const& getAttackers() const { return m_attackers; }
-
-        bool isAttackingPlayer() const;                     //< Returns if this unit is attacking a player (or this unit's minions/pets are attacking a player)
-
-        Unit* getVictim() const { return m_attacking; }     //< Returns the victim that this unit is currently attacking
-        void CombatStop(bool includingCast = false);        //< Stop this unit from combat, if includingCast==true, also interrupt casting
+        /** 
+         * Checks if we are attacking a player, also, pets/minions etc attacking a player counts
+         * towards you attacking a player.
+         * @return true if you and/or your pets/minions etc are attacking a player.
+         */
+        bool isAttackingPlayer() const;
+        /** 
+         * @return The victim that you are currently attacking
+         */
+        Unit* getVictim() const { return m_attacking; }
+        /** 
+         * Stops a unit from combat, removes all attackers and stops attacking.
+         * @param includingCast if we should stop the currently casting spell aswell
+         */
+        void CombatStop(bool includingCast = false);
+        /** 
+         * Calls Unit::CombatStop to stop combat, also calls Unit::CombatStop for pets etc. by using
+         * Unit::CallForAllControlledUnits
+         * @param includingCast if we should stop the currently casting spell aswell
+         * \see Unit::CallForAllControlledUnits
+         * \see Unit::CheckForAllControlledUnits
+         */
         void CombatStopWithPets(bool includingCast = false);
+        /** 
+         * Stops attacking a certain faction. If we are attacking something and are a player we
+         * are forcefully stopped from attacking the target aswell.
+         * @param faction_id The faction to stop attacking
+         * \see Unit::CallForAllControlledUnits
+         * \see Unit::CheckForAllControlledUnits
+         * \see Unit::getAttackers
+         */
         void StopAttackFaction(uint32 faction_id);
+        /** 
+         * Selects a random unfriendly target, takes care of LOS and such aswell
+         * @param except select any target but this one, usually your current target
+         * @param radius how big the radius for our search should be
+         * @return The random unfriendly target found, NULL if no targets were found
+         * \see MaNGOS::AnyUnfriendlyUnitInObjectRangeCheck
+         * \see Mangos::UnitListSearcher
+         * \see Cell::VisitAllObjects
+         */
         Unit* SelectRandomUnfriendlyTarget(Unit* except = NULL, float radius = ATTACK_DISTANCE) const;
+        /** 
+         * Same as Unit::SelectRandomUnfriendlyTarget except it selects a friendly target
+         * @param except select any target but this one, usually your current target
+         * @param radius how big the radius for our search should be
+         * @return The random friendly target found, NULL if no targets were found
+         * \see MaNGOS::AnyFriendlyUnitInObjectRangeCheck
+         * \see Mangos::UnitListSearcher
+         * \see Cell::VisitAllObjects
+         */
         Unit* SelectRandomFriendlyTarget(Unit* except = NULL, float radius = ATTACK_DISTANCE) const;
+        /** 
+         * Checks if we have a negative aura with the given interrupt flag/s
+         * @param flag The interrupt flag/s to check for, see SpellAuraInterruptFlags
+         * @return true if we have a negative aura with the given flag, false otherwise
+         * \see SpellAuraInterruptFlags
+         */
         bool hasNegativeAuraWithInterruptFlag(uint32 flag);
+        /** 
+         * Sends a packet to the client informing it that melee attacks are stopping
+         * @param victim The unit we stopped attacking
+         * \see OpcodesList
+         */
         void SendMeleeAttackStop(Unit* victim);
+        /** 
+         * Sends a packet to the client informing it that melee attacks are starting
+         * @param pVictim the target that we attack with melee
+         */
         void SendMeleeAttackStart(Unit* pVictim);
 
+        /** 
+         * Adds a state to this unit
+         * @param f the state to add, see UnitState for possible values
+         * \see UnitState
+         */
         void addUnitState(uint32 f) { m_state |= f; }
+        /** 
+         * Checks if a certain unit state is set
+         * @param f the state to check for
+         * @return true if the state is set, false otherwise
+         * \see UnitState
+         */
         bool hasUnitState(uint32 f) const { return (m_state & f); }
+        /** 
+         * Unsets a certain unit state
+         * @param f the state to remove
+         * \see UnitState
+         */
         void clearUnitState(uint32 f) { m_state &= ~f; }
+        /** 
+         * Checks if the client/mob is in control or no
+         * @return true if the client can move by client control, false otherwise
+         * \see UnitState
+         */
         bool CanFreeMove() const
         {
             return !hasUnitState(UNIT_STAT_NO_FREE_MOVE) && !GetOwnerGuid();
         }
 
+        /** 
+         * Gets the level for this unit
+         * @return The current level for this unit
+         * \see GetUInt32Value
+         * \see EUnitFields
+         */
         uint32 getLevel() const { return GetUInt32Value(UNIT_FIELD_LEVEL); }
+        /** 
+         * TODO: What does it actually do? Is overwritten by others that derive from Unit?
+         * @return The level it would seem
+         */
         virtual uint32 GetLevelForTarget(Unit const* /*target*/) const { return getLevel(); }
+        /** 
+         * Updates the level for the current Unit. Also updates the group to know about this.
+         * @param lvl The level to change to
+         * \see EUnitFields
+         * \see SetUInt32Value
+         */
         void SetLevel(uint32 lvl);
+        /** 
+         * Gets the race of this Unit, not to be confused with the Creature type or such
+         * @return returns the race of this Unit
+         * \see CreatureTypeFlags
+         * \see Races
+         */
         uint8 getRace() const { return GetByteValue(UNIT_FIELD_BYTES_0, 0); }
+        /** 
+         * Returns a bitmask representation of the current race given by Races, not to be
+         * confused with the Creature type or such
+         * @return the racemask for the current race
+         * \see CreatureTypeFlags
+         * \see Races
+         */
         uint32 getRaceMask() const { return 1 << (getRace() - 1); }
+        /** 
+         * Returns the class of this Unit
+         * @return the class of the Unit
+         * \see Classes
+         */
         uint8 getClass() const { return GetByteValue(UNIT_FIELD_BYTES_0, 1); }
+        /** 
+         * Returns a bitmask representation of the current class given by Classes
+         * @return the classmask for the class
+         * \see Classes
+         */
         uint32 getClassMask() const { return 1 << (getClass() - 1); }
+        /** 
+         * Gives you the current gender of this Unit
+         * @return The current gender
+         * \see Gender
+         */
         uint8 getGender() const { return GetByteValue(UNIT_FIELD_BYTES_0, 2); }
 
+        /** 
+         * Gets a stat for the current Unit
+         * @param stat The stat you want to get, ie: Stats::STAT_STRENGTH
+         * @return the value the given stat has
+         * \see Stats
+         */
         float GetStat(Stats stat) const { return float(GetUInt32Value(UNIT_FIELD_STAT0 + stat)); }
+        /** 
+         * Sets a stat for this Unit
+         * @param stat the stat to change
+         * @param val the value to change it to
+         * \see Stats
+         */
         void SetStat(Stats stat, int32 val) { SetStatInt32Value(UNIT_FIELD_STAT0 + stat, val); }
+        /** 
+         * Gets the armor for this Unit
+         * @return the current armor
+         * \see SpellSchools
+         */
         uint32 GetArmor() const { return GetResistance(SPELL_SCHOOL_NORMAL) ; }
+        /** 
+         * Sets the armor for this Unit
+         * @param val the value to set the armor to
+         * \see SpellSchools
+         */
         void SetArmor(int32 val) { SetResistance(SPELL_SCHOOL_NORMAL, val); }
 
+        /** 
+         * Gets the resistance against a certain spell school, ie: fire, frost, nature etc
+         * @param school the type of resistance you want to get
+         * @return the current resistance against the given school
+         */
         uint32 GetResistance(SpellSchools school) const { return GetUInt32Value(UNIT_FIELD_RESISTANCES + school); }
+        /** 
+         * Sets a resistance for this Unit
+         * @param school the type of resistance you want to set
+         * @param val the value to set it to
+         */
         void SetResistance(SpellSchools school, int32 val) { SetStatInt32Value(UNIT_FIELD_RESISTANCES + school, val); }
 
+        /** 
+         * Gets the health of this Unit
+         * @return the current health for this unit
+         * \see EUnitFields
+         * \see GetUInt32Value
+         */
         uint32 GetHealth()    const { return GetUInt32Value(UNIT_FIELD_HEALTH); }
+        /** 
+         * Gets the maximum health of this Unit
+         * @return the max health this Unit can have
+         * \see EUnitFields
+         * \see GetUInt32Value
+         */
         uint32 GetMaxHealth() const { return GetUInt32Value(UNIT_FIELD_MAXHEALTH); }
+        /** 
+         * Gets the percent of the health. The formula: (GetHealth() * 100) / GetMaxHealth()
+         * @return the current percent of the health
+         * \see GetHealth
+         * \see GetMaxHealth
+         */
         float GetHealthPercent() const { return (GetHealth() * 100.0f) / GetMaxHealth(); }
+        /** 
+         * Sets the health to the given value, it cant be higher than Unit::GetMaxHealth though
+         * @param val the value to set the health to
+         */
         void SetHealth(uint32 val);
+        /** 
+         * Sets the max health for this Unit, also makes sure to update the party with the new
+         * value
+         * @param val the new max value for the health
+         * \see SetHealth
+         * \see GetMaxHealth
+         */
         void SetMaxHealth(uint32 val);
+        /** 
+         * Sets the health to a certain percentage
+         * @param percent the new percent to change it to, ie: 50.0f, not 0.5f for 50%
+         */
         void SetHealthPercent(float percent);
+        /** 
+         * Modifies the health by the difference given. If the character had 100 health and we sent in
+         * -150 as the amount to decrease it would return -100 as that is how much it decreased since
+         * we cant be under 0 health. 
+         * @param val the difference to apply to the health, ie: -100 would decrease the life by 100
+         * @return how much the Unit gained/lost in health.
+         */
         int32 ModifyHealth(int32 val);
 
+        /** 
+         * Gets the power type for this Unit
+         * @return The type of power this Unit uses
+         */
         Powers getPowerType() const { return Powers(GetByteValue(UNIT_FIELD_BYTES_0, 3)); }
         void setPowerType(Powers power);
         uint32 GetPower(Powers power) const { return GetUInt32Value(UNIT_FIELD_POWER1   + power); }
@@ -1249,25 +1510,121 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void SetPower(Powers power, uint32 val);
         void SetMaxPower(Powers power, uint32 val);
         int32 ModifyPower(Powers power, int32 val);
+        /** 
+         * Mods a power by increasing or decreasing it's value
+         * @param power which power to mod
+         * @param val how much to increase/decrease the given power
+         * @param apply whether to apply or remove the mod
+         * \see ApplyModUInt32Value
+         */
         void ApplyPowerMod(Powers power, uint32 val, bool apply);
+        /** 
+         * Changes the possible max value of the given Powers power.
+         * @param power increase max for this power
+         * @param val what to add/remove to/from the current max
+         * @param apply whether to apply it or remove it
+         * \see ApplyModUInt32Value
+         */
         void ApplyMaxPowerMod(Powers power, uint32 val, bool apply);
 
+        /** 
+         * TODO: Is the time returned in seconds
+         * @param att what attack type we want to get attacktime for
+         * @return the current attack time, which takes mods of attack speed into account
+         * \see Unit::m_modAttackSpeedPct
+         * \see EUnitFields
+         */
         uint32 GetAttackTime(WeaponAttackType att) const { return (uint32)(GetFloatValue(UNIT_FIELD_BASEATTACKTIME + att) / m_modAttackSpeedPct[att]); }
+        /** 
+         * Changes the attack time for a certain weapon type.
+         * @param att what attack type we want to change the time for
+         * @param val what to set it to
+         * \see Unit::m_modAttackSpeedPct
+         * \see EUnitFields
+         */
         void SetAttackTime(WeaponAttackType att, uint32 val) { SetFloatValue(UNIT_FIELD_BASEATTACKTIME + att, val * m_modAttackSpeedPct[att]); }
+        /** 
+         * Applies a percentage change to a given attack type
+         * @param att attack type to mod
+         * @param val how many percent to add/remove, ie: 90.0f = 90%
+         * @param apply whether to add or remove the effect/mod
+         * \see ApplyPercentModFloatVar
+         * \see ApplyPercentModFloatValue
+         */
         void ApplyAttackTimePercentMod(WeaponAttackType att, float val, bool apply);
+        /** 
+         * Same as ApplyAttackTimePercentMod but for the casting time of spells
+         * instead.
+         * @param val how many percent to add/remove, ie: 90.0f = 90%
+         * @param apply whether to add or remove the effect/mod
+         * \see Unit::ApplyAttackTimePercentMod
+         */
         void ApplyCastTimePercentMod(float val, bool apply);
 
+        /**
+         * Gets the current sheath state, it is whether your main-weapon, ranged-weapon or no
+         * weapon is being shown in your hands
+         * @return The current sheath state
+         */
         SheathState GetSheath() const { return SheathState(GetByteValue(UNIT_FIELD_BYTES_2, 0)); }
+        /** 
+         * Changes the current sheath state.
+         * @param sheathed The new weapon or none of them to show
+         * \see Unit::GetSheath
+         */
         virtual void SetSheath(SheathState sheathed) { SetByteValue(UNIT_FIELD_BYTES_2, 0, sheathed); }
-
-        // faction template id
+        
+        /** 
+         * Gets the faction that this unit currently belongs to, also
+         * called faction template id it seems. More data probably to
+         * be found in the DBC files.
+         * @return The faction this unit belongs to
+         * \see EUnitFields
+         * TODO: Does this link correctly?
+         * \see EUnitFields::UNIT_FIELD_FACTIONTEMPLATE
+         * \see FactionTemplateEntry
+         * \see FactionEntry
+         */
         uint32 getFaction() const { return GetUInt32Value(UNIT_FIELD_FACTIONTEMPLATE); }
+        /** 
+         * Changes the faction a unit belongs to.
+         * @param faction Faction to change to
+         * \see EUnitFields
+         * TODO: Does this link correctly?
+         * \see EUnitFields::UNIT_FIELD_FACTIONTEMPLATE
+         * \see FactionTemplateEntry
+         * \see FactionEntry
+         */
         void setFaction(uint32 faction) { SetUInt32Value(UNIT_FIELD_FACTIONTEMPLATE, faction); }
         FactionTemplateEntry const* getFactionTemplateEntry() const;
+        /** 
+         * Are we hostile towards the given Unit?
+         * @param unit the unit we want to check against
+         * @return true if the Unit is considered hostile, false otherwise
+         */
         bool IsHostileTo(Unit const* unit) const override;
+        /** 
+         * Is this Unit hostile towards players?
+         * @return true if the Unit is hostile towards players, false otherwise
+         */
         bool IsHostileToPlayers() const;
+        /**
+         * Is this Unit friendly towards the given Unit?
+         * @param unit the Unit to check against
+         * @return true if the Unit is considered friendly to us, false otherwise
+         */
         bool IsFriendlyTo(Unit const* unit) const override;
+        /** 
+         * Is this Unit neutral to everyone?
+         * @return True if considered neutral to everyone, false otherwise.
+         */
         bool IsNeutralToAll() const;
+        /** 
+         * Check if this Unit is a guardian of a contested territory, this is
+         * useful when we want to know if we should attack all players or only
+         * players not belonging to our "side" ally/horde.
+         * @return true if this Unit is a guard in a contested area, false otherwise
+         */
         bool IsContestedGuard() const
         {
             if (FactionTemplateEntry const* entry = getFactionTemplateEntry())
@@ -1275,42 +1632,234 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
 
             return false;
         }
+        /** 
+         * Is PVP enabled?
+         * @return true if this Unit is eligible for PVP fighting
+         */
         bool IsPvP() const { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PVP); }
+        /** 
+         * Put the Unit into our out of PVP
+         * @param state true if we want to set PVP on, false otherwise
+         */
         void SetPvP(bool state);
+        /** 
+         * Returns the CreatureType for this Unit. For players this most often is
+         * CREATURE_TYPE_HUMANOID unless he/she has shapeshifted or something like that.
+         * Ie: Bear form probably wouldn't yield the same return value.
+         * For creatures though Creature::GetCreatureInfo() is called and the CreatureInfo::type
+         * field is used.
+         * @return the CreatureType for this Unit
+         * \see CreatureType
+         */
         uint32 GetCreatureType() const;
+        /** 
+         * Returns a bitmask representation of CreatureType for this Unit.
+         * @return A bitmask representation of GetCreatureType()
+         */
         uint32 GetCreatureTypeMask() const
         {
             uint32 creatureType = GetCreatureType();
             return (creatureType >= 1) ? (1 << (creatureType - 1)) : 0;
         }
-
+        
+        /** 
+         * Gets the current stand state for this Unit as described by UnitStandStateType.
+         * @return The current stand state
+         * \see UnitStandStateType
+         * \see MAX_UNIT_STAND_STATE
+         */
         uint8 getStandState() const { return GetByteValue(UNIT_FIELD_BYTES_1, 0); }
+        /** 
+         * Is this Unit sitting down in some way?
+         * @return true if the Unit is sitting down, false otherwise
+         */
         bool IsSitState() const;
+        /** 
+         * Is this Unit just standing normally? This method will return false
+         * even if you would consider the state as standing, ie: when the Unit
+         * has the state UNIT_STAND_STATE_SLEEP it is considered not standing.
+         * @return true if the Unit is standing normally, false otherwise
+         */
         bool IsStandState() const;
+        /** 
+         * Change the stand state for this Unit. For possible values check
+         * UnitStandStateType.
+         * @param state
+         * \see UnitStandStateType
+         */
         void SetStandState(uint8 state);
 
+        /** 
+         * Is this Unit mounted? 
+         * @return true if it's mounted, false otherwise
+         * \see EUnitFields
+         */
         bool IsMounted() const { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_MOUNT); }
+        /** 
+         * Gets the currently used mount id.
+         * @return id of the currently used mount
+         */
         uint32 GetMountID() const { return GetUInt32Value(UNIT_FIELD_MOUNTDISPLAYID); }
+        /** 
+         * Mounts this Unit by setting the UNIT_FIELD_MOUNTDISPLAYID to the given mount
+         * id and setting the bitflag UNIT_FLAG_MOUNT in UNIT_FIELD_FLAGS. If this Unit
+         * is a player pets and such are despawned or not depending on the config option
+         * CONFIG_BOOL_PET_UNSUMMON_AT_MOUNT.
+         * @param mount the id of the mount to mount
+         * @param spellId id of the spell used to summon the mount, if 0 is passed in this is treated
+         * as a GM command or the Taxi service mounting the Player.
+         */
         void Mount(uint32 mount, uint32 spellId = 0);
+        /** 
+         * Unmounts this Unit by sending the SMSG_DISMOUNT to the client if it was a dismount
+         * not issued by a GM / the Taxi service. Also changes the UNIT_FIELD_MOUNTDISPLAYID
+         * back to 0 and removes the flag UNIT_FLAG_MOUNT from UNIT_FIELD_FLAGS.
+         * @param from_aura if this was true the Unit was probably interrupted by a spell
+         * or something hitting it forcing a dismount.
+         */
         void Unmount(bool from_aura = false);
 
+        /** 
+         * Returns the maximum skill value the given Unit can have. Ie: the sword skill can
+         * be maxed to 300 at level 60. And when you start a level 1 character you maximum
+         * skill with swords (given that you know them) is 5. The formula used is:
+         * Current Level * 5
+         * @param target target to get maximum skill value for, if this is NULL the
+         * returned value is for ourselves.
+         * @return the maximum skill level you can have at the your current level.
+         * TODO: Check out the GetLevelForTarget as it seems it's not doing anything constructive
+         * with it's arguments.
+         */
         uint16 GetMaxSkillValueForLevel(Unit const* target = NULL) const { return (target ? GetLevelForTarget(target) : getLevel()) * 5; }
+        /** 
+         * Deals damage mods to the given victim. If the victim is dead, flying or in evade
+         * mode (for creatures) then the damage is absorbed into absorb and no damage
+         * is done. 
+         * @param pVictim 
+         * @param damage how much damage we want to try to make, will be updated to how
+         * much was actually made
+         * @param absorb if this is != NULL it will be updated with how much more from
+         * before of the damage that was absorbed. ie: absorb += damage not done
+         * TODO: Does DamageDeal in the AI's do anything?
+         * TODO: Fix this comment, doesn't really seem correct.
+         */
         void DealDamageMods(Unit* pVictim, uint32& damage, uint32* absorb);
+        /** 
+         * Generally deals damage to a Unit. 
+         * @param pVictim victim that will take damage
+         * @param damage the damage to make
+         * @param cleanDamage melee damage to make
+         * @param damagetype the type of damage we'll be doing, ie: DOT, DIRECT_DAMAGE etc.
+         * @param damageSchoolMask what school the damage has
+         * @param spellProto prototype for the spell that was cast
+         * @param durabilityLoss whether this damage should give a durability loss (10%) on death
+         * or not
+         * @return probably how much damage was actually dealt?
+         * TODO: Cleanup this function and split into smaller functions for readability
+         */
         uint32 DealDamage(Unit* pVictim, uint32 damage, CleanDamage const* cleanDamage, DamageEffectType damagetype, SpellSchoolMask damageSchoolMask, SpellEntry const* spellProto, bool durabilityLoss);
+        /** 
+         * Generally heals a target for addhealth health
+         * @param pVictim the victim to heal
+         * @param addhealth how much health to add, modified by Unit::ModifyHealth
+         * @param spellProto spell prototype for the spell that made this heal
+         * @param critical whether or not this was a critical heal (true => crit)
+         * @return how much the target actually gained in health
+         */
         int32 DealHeal(Unit* pVictim, uint32 addhealth, SpellEntry const* spellProto, bool critical = false);
 
+        /** 
+         * Calls CallForAllControlledUnits with CONTROLLED_MINIPET and CONTROLLED_GUARDIAN
+         * to make them do something if they should when their owner kills someone/thing
+         * @param pVictim the target that was killed
+         * \see CallForAllControlledUnits
+         * \see ControlledUnitMask
+         */
         void PetOwnerKilledUnit(Unit* pVictim);
 
+        /** 
+         * Hard to figure out what this does, TODO: Document this.
+         * @param pVictim possible victim of the proc
+         * @param procAttacker 
+         * @param procVictim 
+         * @param procEx 
+         * @param amount 
+         * @param attType 
+         * @param procSpell
+         * \see ProcFlagsEx
+         */
         void ProcDamageAndSpell(Unit* pVictim, uint32 procAttacker, uint32 procVictim, uint32 procEx, uint32 amount, WeaponAttackType attType = BASE_ATTACK, SpellEntry const* procSpell = NULL);
+        /** 
+         * Same as for Unit::ProcDamageAndSpell
+         * @param isVictim whether the target is considered the victim or not
+         * @param pTarget 
+         * @param procFlag 
+         * @param procExtra 
+         * @param attType 
+         * @param procSpell 
+         * @param damage
+         * \see ProcFlagsEx
+         */
         void ProcDamageAndSpellFor(bool isVictim, Unit* pTarget, uint32 procFlag, uint32 procExtra, WeaponAttackType attType, SpellEntry const* procSpell, uint32 damage);
 
+        /** 
+         * Handles an emote, for example /charge would write something
+         * along the lines: "NAME begins to charge" in orange text. This
+         * method checks if it's a command or state, a command usually doesn't
+         * show anything while a state would show something, ie stand
+         * the character up.
+         * @param emote_id id of the emote to handle
+         * \see EmotesEntry
+         * TODO: Is this accurate?
+         */
         void HandleEmote(uint32 emote_id);                  // auto-select command/state
+        /** 
+         * Sends a packet to the client SMSG_CLIENT with the emote_id given
+         * which in turn probably makes the client show some sort of animation
+         * for the given emote_id
+         * @param emote_id id of the emote to show
+         */
         void HandleEmoteCommand(uint32 emote_id);
+        /** 
+         * Just updates the UNIT_NPC_EMOTESTATE field to the given emote_id.
+         * @param emote_id the emote to show
+         */
         void HandleEmoteState(uint32 emote_id);
+        /** 
+         * Seems to do some damage to pVictim and also does extra attacks if the Unit
+         * has any by recursively calling itself up to Unit::m_extraAttacks times with
+         * the extra parameter set to true instead of the default false.
+         *
+         * Also calculates melee damage using Unit::CalculateMeleeDamage, deals damage and
+         * such using Unit::DealDamageMods and also procs any spell that might be interesting
+         * (TODO: Is that actually what ProcDamageAndSpell does?) using Unit::ProcDamageAndSpell
+         * 
+         * @param pVictim the victim to hit
+         * @param attType what hand (main/off) we were using
+         * @param extra whether this was called recursively as an extra attack (true) or not (false)
+         */
         void AttackerStateUpdate(Unit* pVictim, WeaponAttackType attType = BASE_ATTACK, bool extra = false);
 
+        /** 
+         * Calculates the chance that a melee attack will miss the given victim.
+         * The cap for miss chance is 0-60%, ie: you can't have a higher miss chance
+         * than 60% and not lower than 0%.
+         * @param pVictim the victim that will be attacked
+         * @param attType type of attack
+         * @return percentage between 0-60, ie: 57.0f = 57%
+         */
         float MeleeMissChanceCalc(const Unit* pVictim, WeaponAttackType attType) const;
 
+        /** 
+         * Fills the CalcDamageInfo structure with data about how much damage was done, in what way,
+         * how much was absorbed etc. Also checks for different procs and inserts these flags into
+         * the structure. Also calculates bonus damage with Unit::MeleeDamageBonusDone and the damage
+         * with Unit::CalculateDamage
+         * @param pVictim the victim that was hit with damage
+         * @param damage how much damage to try to do
+         * @param damageInfo this is filled with data about what kind of damage that was done
+         * @param attackType type of attack, base/off/ranged
+         */
         void CalculateMeleeDamage(Unit* pVictim, uint32 damage, CalcDamageInfo* damageInfo, WeaponAttackType attackType = BASE_ATTACK);
         void DealMeleeDamage(CalcDamageInfo* damageInfo, bool durabilityLoss);
 

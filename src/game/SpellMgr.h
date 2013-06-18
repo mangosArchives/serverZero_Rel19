@@ -578,8 +578,10 @@ enum ProcFlags
 
 enum ProcFlagsEx
 {
-    PROC_EX_NONE                = 0x0000000,                // If none can tigger on Hit/Crit only (passive spells MUST defined by SpellFamily flag)
-    PROC_EX_NORMAL_HIT          = 0x0000001,                // If set only from normal hit (only damage spells)
+    /// If none can tigger on Hit/Crit only (passive spells MUST defined by SpellFamily flag)
+    PROC_EX_NONE                = 0x0000000,
+    /// If set only from normal hit (only damage spells)
+    PROC_EX_NORMAL_HIT          = 0x0000001,
     PROC_EX_CRITICAL_HIT        = 0x0000002,
     PROC_EX_MISS                = 0x0000004,
     PROC_EX_RESIST              = 0x0000008,
@@ -591,13 +593,17 @@ enum ProcFlagsEx
     PROC_EX_DEFLECT             = 0x0000200,
     PROC_EX_ABSORB              = 0x0000400,
     PROC_EX_REFLECT             = 0x0000800,
-    PROC_EX_INTERRUPT           = 0x0001000,                // Melee hit result can be Interrupt (not used)
+    /// Melee hit result can be Interrupt (not used)
+    PROC_EX_INTERRUPT           = 0x0001000,
     PROC_EX_RESERVED1           = 0x0002000,
     PROC_EX_RESERVED2           = 0x0004000,
     PROC_EX_RESERVED3           = 0x0008000,
-    PROC_EX_EX_TRIGGER_ALWAYS   = 0x0010000,                // If set trigger always ( no matter another flags) used for drop charges
-    PROC_EX_EX_ONE_TIME_TRIGGER = 0x0020000,                // If set trigger always but only one time (not used)
-    PROC_EX_PERIODIC_POSITIVE   = 0x0040000                 // For periodic heal
+    /// If set trigger always ( no matter another flags) used for drop charges
+    PROC_EX_EX_TRIGGER_ALWAYS   = 0x0010000,
+    /// If set trigger always but only one time (not used)
+    PROC_EX_EX_ONE_TIME_TRIGGER = 0x0020000,
+    /// For periodic heal
+    PROC_EX_PERIODIC_POSITIVE   = 0x0040000 
 };
 
 struct SpellProcEventEntry

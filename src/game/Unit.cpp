@@ -7371,6 +7371,7 @@ void Unit::ApplyDiminishingToDuration(DiminishingGroup group, int32& duration, U
     if (duration == -1 || group == DIMINISHING_NONE || (!isReflected && caster->IsFriendlyTo(this)))
         return;
 
+    //Change the duration to 10s if pvp-target (as from patch 2.2.0) instead of the default 15s
     sMod.applyDiminishingToDuration(this, caster, duration, group);
 
     float mod = 1.0f;
