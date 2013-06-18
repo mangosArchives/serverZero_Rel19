@@ -1,4 +1,4 @@
-/*
+/**
  @file g3dmath.cpp
  
  @author Morgan McGuire, graphics3d.com
@@ -41,7 +41,7 @@ double inf() {
 }
 
 bool isNaN(float x) {
-    static const float n = fnan();
+    static const float n = nan();
     return memcmp(&x, &n, sizeof(float)) == 0;
 }
 
@@ -66,7 +66,7 @@ double nan() {
 }
 
 float fnan() {
-    // float is a standard type and should have quiet NaN
+    // double is a standard type and should have quiet NaN
     return std::numeric_limits<float>::quiet_NaN();
 }
 

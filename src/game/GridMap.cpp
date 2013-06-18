@@ -1,4 +1,4 @@
-/*
+/**
  * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -1007,7 +1007,7 @@ bool TerrainInfo::IsUnderWater(float x, float y, float z) const
     return false;
 }
 
-/*
+/**
  * Function find higher form water or ground height for current floor
  *
  * @param x, y, z    Coordinates original point at floor level

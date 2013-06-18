@@ -1,4 +1,4 @@
-/*
+/**
  * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-/*
+/**
  * @addtogroup mailing
  * @{
  *
@@ -49,7 +49,7 @@ bool WorldSession::CheckMailBox(ObjectGuid guid)
     return true;
 }
 
-/*
+/**
  * Handles the Packet sent by the client when sending a mail.
  *
  * This methods takes the packet sent by the client and performs the following actions:
@@ -259,7 +259,7 @@ void WorldSession::HandleSendMail(WorldPacket& recv_data)
     CharacterDatabase.CommitTransaction();
 }
 
-/*
+/**
  * Handles the Packet sent by the client when reading a mail.
  *
  * This method is called when a client reads a mail that was previously unread.
@@ -292,7 +292,7 @@ void WorldSession::HandleMailMarkAsRead(WorldPacket& recv_data)
     }
 }
 
-/*
+/**
  * Handles the Packet sent by the client when deleting a mail.
  *
  * This method is called when a client deletes a mail in his mailbox.
@@ -326,7 +326,7 @@ void WorldSession::HandleMailDelete(WorldPacket& recv_data)
     }
     pl->SendMailResult(mailId, MAIL_DELETED, MAIL_OK);
 }
-/*
+/**
  * Handles the Packet sent by the client when returning a mail to sender.
  * This method is called when a player chooses to return a mail to its sender.
  * It will create a new MailDraft and add the items, money, etc. associated with the mail
@@ -389,7 +389,7 @@ void WorldSession::HandleMailReturnToSender(WorldPacket& recv_data)
     pl->SendMailResult(mailId, MAIL_RETURNED_TO_SENDER, MAIL_OK);
 }
 
-/*
+/**
  * Handles the packet sent by the client when taking an item from the mail.
  */
 void WorldSession::HandleMailTakeItem(WorldPacket& recv_data)
@@ -487,7 +487,7 @@ void WorldSession::HandleMailTakeItem(WorldPacket& recv_data)
     else
         pl->SendMailResult(mailId, MAIL_ITEM_TAKEN, MAIL_ERR_EQUIP_ERROR, msg);
 }
-/*
+/**
  * Handles the packet sent by the client when taking money from the mail.
  */
 void WorldSession::HandleMailTakeMoney(WorldPacket& recv_data)
@@ -523,7 +523,7 @@ void WorldSession::HandleMailTakeMoney(WorldPacket& recv_data)
     CharacterDatabase.CommitTransaction();
 }
 
-/*
+/**
  * Handles the packet sent by the client when requesting the current mail list.
  * It will send a list of all available mails in the players mailbox to the client.
  */
@@ -614,7 +614,7 @@ void WorldSession::HandleGetMailList(WorldPacket& recv_data)
     _player->UpdateNextMailTimeAndUnreads();
 }
 
-/*
+/**
  * Handles the packet sent by the client when requesting information about the body of a mail.
  *
  * This function is called when client needs mail message body,
@@ -638,7 +638,7 @@ void WorldSession::HandleItemTextQuery(WorldPacket& recv_data)
     SendPacket(&data);
 }
 
-/*
+/**
  * Handles the packet sent by the client when he copies the body a mail to his inventory.
  *
  * When a player copies the body of a mail to his inventory this method is called. It will create
@@ -698,7 +698,7 @@ void WorldSession::HandleMailCreateTextItem(WorldPacket& recv_data)
     }
 }
 
-/*
+/**
  * No idea when this is called.
  */
 void WorldSession::HandleQueryNextMailTime(WorldPacket& /**recv_data*/)

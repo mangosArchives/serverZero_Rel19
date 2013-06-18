@@ -1,4 +1,4 @@
-/*
+/**
  * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -5047,7 +5047,7 @@ AreaTrigger const* ObjectMgr::GetGoBackTrigger(uint32 map_id) const
     return compareTrigger;
 }
 
-/*
+/**
  * Searches for the areatrigger which teleports players to the given map
  */
 AreaTrigger const* ObjectMgr::GetMapEntranceTrigger(uint32 Map) const

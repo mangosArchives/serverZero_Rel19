@@ -3,7 +3,7 @@
 # Simple helper script to create backport lists
 
 # By user defined (remote/branch to the to-be-backported history)
-COMPARE_PATH="mangoszero/cleaned_tbc_history"
+COMPARE_PATH="mangosone/cleaned_tbc_history"
 OUTPUT_FILE="contrib/backporting/todo_tbc_commits.log"
 
 # By user defined (text format)
@@ -12,7 +12,7 @@ OUTPUT_FILE="contrib/backporting/todo_tbc_commits.log"
 #FOOTER_FORMAT="FILE LAST UPDATED BASED ON... ${SMALL_FORMAT}"
 
 # By user defined (Textile markup based wiki format)
-SMALL_FORMAT="\"tbc(cleaned)\":http://github.com/mangoszero/server/commit/%h: %h * %an (committer %cn)"
+SMALL_FORMAT="\"tbc(cleaned)\":http://github.com/mangosone/server/commit/%h: %h * %an (committer %cn)"
 FULL_FORMAT="</code></pre>%n%n%n* ${SMALL_FORMAT}<pre><code>%s"
 FOOTER_FORMAT="</code></pre>%n%n%nFILE LAST UPDATED BASED ON... ${SMALL_FORMAT}"
 
