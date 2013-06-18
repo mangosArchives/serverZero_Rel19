@@ -1902,11 +1902,76 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see SpellDmgClass
          */
         void CalculateSpellDamage(SpellNonMeleeDamage* damageInfo, int32 damage, SpellEntry const* spellInfo, WeaponAttackType attackType = BASE_ATTACK);
+        /** 
+         * Deals actual damage based on info given. Does some checking if the spell actually exists
+         * and updates the Judgement aura duration if it's there. Then it calls the DealDamage with
+         * a SPELL_DIRECT_DAMAGE instead of DIRECT_DAMAGE to indicate that it was caused by a spell
+         * (might be more than just that though)
+         * @param damageInfo contains info about what kind of damage we will do etc
+         * @param durabilityLoss whether or not durability loss should happen
+         */
         void DealSpellDamage(SpellNonMeleeDamage* damageInfo, bool durabilityLoss);
 
+        /** 
+         * Calculates the miss chance for a melee spell (a melee spell could be Sinister Strike).
+         * Does this by first calculating the hit chance and then "inversing" that value, ie:
+         * 100 - hitchance = misschance. The hit chance can be changed by the aura modifiers
+         * SPELL_AURA_MOD_ATTACKER_RANGED_HIT_CHANCE for ranged and by
+         * SPELL_AURA_MOD_ATTACKER_MELEE_HIT_CHANCE for melee attacks.
+         * You can also resist miss chance with the spell mod SPELLMOD_RESIST_MISS_CHANCE
+         * @param pVictim the victim of the attack
+         * @param attType main/off hand attack
+         * @param skillDiff the skill difference between attackers weapon skill and the victims defense skill, ie: attacker weapon skill - victim defense skill, the lesser this diff is the higher the chance to hit and the lower the chance to miss
+         * @param spell what spell was cast
+         * 
+         * @return a value between 0.0f and 60.0f indicating a 0% - 60% miss chance
+         * \see Player::ApplySpellMod
+         * \see Unit::GetTotalAuraModifier
+         * \see Unit::GetSpellModOwner
+         */
         float  MeleeSpellMissChance(Unit* pVictim, WeaponAttackType attType, int32 skillDiff, SpellEntry const* spell);
+        /** 
+         * Tells what happened with the spell that was cast, some spells can't miss and they
+         * have the attribute SPELL_ATTR_EX3_CANT_MISS. Also, in PvP you can't dodge or parry
+         * when the attacker is behind you, but this is possible in PvE.
+         *
+         * Creatures with the flag CREATURE_FLAG_EXTRA_NO_PARRY can't parry an attack
+         * @param pVictim the victim that was hit
+         * @param spell the spell that was cast
+         * @return Whether or not the spell hit/was resisted/blocked etc. A successfull cast would result in SPELL_MISS_NONE being returned
+         * \see SpellEntry::HasAttribute for checking the SPELL_ATTR_EX3_CANT_MISS
+         * \see Creature::GetCreatureInfo for the flags_extra
+         */
         SpellMissInfo MeleeSpellHitResult(Unit* pVictim, SpellEntry const* spell);
+        /** 
+         * TODO: Need use unit spell resistance in calculations (Old comment)
+         * This works pretty much like MeleeSpellHitResult but for magic spells instead.
+         * For AOE spells there's a AuraModifier called SPELL_AURA_MOD_AOE_AVOIDANCE that
+         * reduces the spells hit chance.
+         * @param pVictim the victim that was hit
+         * @param spell the spell that was cast
+         * @return Whether or not the spell was resisted/blocked etc. Seems the only 2 possible values is SPELL_MISS_RESIST or SPELL_MISS_NONE
+         */
         SpellMissInfo MagicSpellHitResult(Unit* pVictim, SpellEntry const* spell);
+        /**
+         * This combined Unit::MagicSpellHitResult and Unit::MeleeSpellHitResult and also makes
+         * checks for if the victim is immune or if it is in evade mode etc. If it's a positive
+         * spell it can't miss either. Also takes care of reflects via PROC_EX_REFLECT and removes
+         * possible charges that could have been present for reflecting spells. Lastly calls one
+         * of the earlier mentioned functions depending on the SpellEntry::DmgClass.
+         * Calculate spell hit result can be:
+         * Every spell can: Evade/Immune/Reflect/Sucesful hit
+         * For melee based spells:
+         *   Miss
+         *   Dodge
+         *   Parry
+         * For spells
+         *   Resist
+         * @param pVictim the victim that was hit
+         * @param spell the spell that was cast
+         * @param canReflect whether or not this spell can be reflected
+         * @return Whether or not the spell was resisted/blocked etc.
+         */
         SpellMissInfo SpellHitResult(Unit* pVictim, SpellEntry const* spell, bool canReflect = false);
 
         float GetUnitDodgeChance()    const;
