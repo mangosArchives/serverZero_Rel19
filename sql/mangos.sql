@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `db_version`;
 CREATE TABLE `db_version` (
   `version` varchar(120) default NULL,
   `creature_ai_version` varchar(120) default NULL,
-  `required_z2408_s2034_12522_01_mangos_db_script_string` bit(1) default NULL
+  `required_z2420_01_mangos_spell_linked` bit(1) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='Used DB version notes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -12771,6 +12771,21 @@ INSERT INTO `spell_learn_spell` VALUES
 (24866,24864,0);
 /*!40000 ALTER TABLE `spell_learn_spell` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `spell_linked`
+--
+
+DROP TABLE IF EXISTS `spell_linked`;
+CREATE TABLE IF NOT EXISTS `spell_linked` (
+  `entry` int(10) unsigned NOT NULL COMMENT 'Spell entry',
+  `linked_entry` int(10) unsigned NOT NULL COMMENT 'Linked spell entry',
+  `type` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Type of link',
+  `effect_mask`int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'mask of effect (NY)',
+  `comment` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`entry`,`linked_entry`,`type`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 PACK_KEYS=0 COMMENT='Linked spells storage';
+
 
 --
 -- Table structure for table `spell_pet_auras`
