@@ -1974,9 +1974,31 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         SpellMissInfo SpellHitResult(Unit* pVictim, SpellEntry const* spell, bool canReflect = false);
 
+        /** 
+         * Returns the units dodge chance
+         * @return Units dodge chance in percent as value between 0.0f - 100.0f representing 0% - 100%
+         */
         float GetUnitDodgeChance()    const;
+        /**
+         * Returns the units parry chance
+         * @return Units parry chance in percent as value between 0.0f - 100.0f representing 0% - 100%
+         */
         float GetUnitParryChance()    const;
+        /**
+         * Returns the units block chance
+         * @return Units block chance in percent as value between 0.0f - 100.0f representing 0% - 100%
+         */
         float GetUnitBlockChance()    const;
+        /**
+         * Returns the units critical hit chance against the given target as a value between
+         * 0.0f - 100.0f representing 0% - 100%. Aura modifiers named
+         * SPELL_AURA_MOD_ATTACKER_RANGED_CRIT_CHANCE and SPELL_AURA_MOD_ATTACKER_MELEE_CRIT_CHANCE
+         * can increase the critical hit chance. Also the skill level in defense for the target
+         * may increase it by formula: (Our max skill - target defense skill) * 0.04
+         * @param attackType weapon we will attack with
+         * @param pVictim the victim we want to calculate against
+         * @return Units critical hit chance in percent as value between 0.0f - 100.0f representing 0% - 100%
+         */
         float GetUnitCriticalChance(WeaponAttackType attackType, const Unit* pVictim) const;
 
         virtual uint32 GetShieldBlockValue() const = 0;
