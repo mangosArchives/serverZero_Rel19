@@ -3964,6 +3964,23 @@ SpellCastResult Spell::CheckCast(bool strict)
 
     if (Unit* target = m_targets.getUnitTarget())
     {
+        //Soothe animal
+        bool foundSootheAnimal = true; //will be set to false in the default case
+        switch (m_spellInfo->Id)
+        {
+        case 9901:
+        case 8955:
+        case 2908:
+            break;
+        default:
+            foundSootheAnimal = false;
+            break;
+        }
+        //Perhaps this should be done for all spells?
+        if (foundSootheAnimal)
+            if (target->getLevel() > m_spellInfo->MaxTargetLevel)
+                return SPELL_FAILED_HIGHLEVEL;
+        
         // Swiftmend
         if (m_spellInfo->Id == 18562)                       // future versions have special aura state for this
         {
