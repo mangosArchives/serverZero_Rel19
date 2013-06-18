@@ -113,6 +113,25 @@ template void PointMovementGenerator<Creature>::Reset(Creature&);
 template bool PointMovementGenerator<Player>::Update(Player&, const uint32& diff);
 template bool PointMovementGenerator<Creature>::Update(Creature&, const uint32& diff);
 
+
+void AssistanceMovementGenerator::Initialize(Unit& unit)
+{
+    if (unit.hasUnitState(UNIT_STAT_CAN_NOT_REACT | UNIT_STAT_NOT_MOVE))
+        return;
+    
+    if (!unit.IsStopped())
+        unit.StopMoving();
+    
+    unit.addUnitState(UNIT_STAT_ROAMING | UNIT_STAT_ROAMING_MOVE);
+    Movement::MoveSplineInit init(unit);
+    init.MoveTo(i_x, i_y, i_z, m_generatePath);
+    //Slow down the mob that is running for assistance
+    //TODO: There are different speeds for the different mobs, isn't there?
+    //That should probably be taken into account here
+    init.SetWalk(true);
+    init.Launch();
+} 
+
 void AssistanceMovementGenerator::Finalize(Unit& unit)
 {
     unit.clearUnitState(UNIT_STAT_ROAMING | UNIT_STAT_ROAMING_MOVE);
