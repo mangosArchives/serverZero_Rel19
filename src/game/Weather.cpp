@@ -288,7 +288,7 @@ void Weather::SetWeather(WeatherType type, float grade)
     UpdateWeather();
 }
 
-// Get the sound number associated with the current weather
+/// Get the sound number associated with the current weather
 uint32 Weather::GetSound()
 {
     uint32 sound;

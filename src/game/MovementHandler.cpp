@@ -133,7 +133,7 @@ void WorldSession::HandleMoveWorldportAckOpcode()
     // only add to bg group and object, if the player was invited (else he entered through command)
     if (_player->InBattleGround())
     {
-        // cleanup seting if outdated
+        // cleanup setting if outdated
         if (!mEntry->IsBattleGround())
         {
             // We're not in BG

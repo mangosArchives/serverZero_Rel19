@@ -43,7 +43,7 @@ class Item;
 class Object;
 class Player;
 
-#define MAIL_BODY_ITEM_TEMPLATE 8383                        // - plain letter, A Dusty Unsent Letter: 889
+#define MAIL_BODY_ITEM_TEMPLATE 8383                        ///< - plain letter, A Dusty Unsent Letter: 889
 /// The maximal amount of items a mail can contain.
 #define MAX_MAIL_ITEMS 1
 /**
