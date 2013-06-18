@@ -953,8 +953,14 @@ enum Targets
     TARGET_DUELVSPLAYER_COORDINATES    = 63,
 };
 
+/**
+ * Tells how a spell that was cast missed or hit, ie it might have been
+ * resisted or dodged etc. This enum tells which of those it was. The only
+ * one which indicates a hit is SPELL_MISS_NONE
+ */
 enum SpellMissInfo
 {
+    /// Indicates an actual hit
     SPELL_MISS_NONE                    = 0,
     SPELL_MISS_MISS                    = 1,
     SPELL_MISS_RESIST                  = 2,
