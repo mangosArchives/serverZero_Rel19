@@ -173,10 +173,6 @@
       <AdditionalDependencies>.\g3dlite__$(Platform)_$(Configuration)\g3dlite.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
-    <PostBuildEvent>
-      <Command>copy ..\..\src\game\AuctionHouseBot\ahbot.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)
-copy ..\..\src\game\extras\mods.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">
     <Midl>
@@ -210,10 +206,6 @@ copy ..\..\src\game\extras\mods.conf.dist.in ..\..\bin\$(Platform)_$(Configurati
       <AdditionalDependencies>.\g3dlite__$(Platform)_$(Configuration)\g3dlite.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
-    <PostBuildEvent>
-      <Command>copy ..\..\src\game\AuctionHouseBot\ahbot.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)
-copy ..\..\src\game\extras\mods.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -244,10 +236,6 @@ copy ..\..\src\game\extras\mods.conf.dist.in ..\..\bin\$(Platform)_$(Configurati
       <AdditionalDependencies>.\g3dlite__$(Platform)_$(Configuration)\g3dlite.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
-    <PostBuildEvent>
-      <Command>copy ..\..\src\game\AuctionHouseBot\ahbot.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)
-copy ..\..\src\game\extras\mods.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'">
     <Midl>
@@ -281,10 +269,6 @@ copy ..\..\src\game\extras\mods.conf.dist.in ..\..\bin\$(Platform)_$(Configurati
       <AdditionalDependencies>.\g3dlite__$(Platform)_$(Configuration)\g3dlite.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
-    <PostBuildEvent>
-      <Command>copy ..\..\src\game\AuctionHouseBot\ahbot.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)
-copy ..\..\src\game\extras\mods.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">
     <ClCompile>
@@ -315,10 +299,6 @@ copy ..\..\src\game\extras\mods.conf.dist.in ..\..\bin\$(Platform)_$(Configurati
       <AdditionalDependencies>.\g3dlite__$(Platform)_$(Configuration)\g3dlite.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
-    <PostBuildEvent>
-      <Command>copy ..\..\src\game\AuctionHouseBot\ahbot.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)
-copy ..\..\src\game\extras\mods.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">
     <Midl>
@@ -352,10 +332,6 @@ copy ..\..\src\game\extras\mods.conf.dist.in ..\..\bin\$(Platform)_$(Configurati
       <AdditionalDependencies>.\g3dlite__$(Platform)_$(Configuration)\g3dlite.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
-    <PostBuildEvent>
-      <Command>copy ..\..\src\game\AuctionHouseBot\ahbot.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)
-copy ..\..\src\game\extras\mods.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\game\AccountMgr.cpp" />
