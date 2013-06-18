@@ -979,11 +979,19 @@ enum SpellHitType
     SPELL_HIT_TYPE_UNK6 = 0x00020
 };
 
+/**
+ * TODO: Find out where these are used except for Unit::CalculateSpellDamage
+ * and dox it properly
+ */
 enum SpellDmgClass
 {
+    /// Counted as a spell damage
     SPELL_DAMAGE_CLASS_NONE     = 0,
+    /// Counted as a spell damage
     SPELL_DAMAGE_CLASS_MAGIC    = 1,
+    /// Melee damage
     SPELL_DAMAGE_CLASS_MELEE    = 2,
+    /// Ranged damage
     SPELL_DAMAGE_CLASS_RANGED   = 3
 };
 

@@ -1637,6 +1637,7 @@ void Unit::DealMeleeDamage(CalcDamageInfo* damageInfo, bool durabilityLoss)
     if (damageInfo->blocked_amount && damageInfo->TargetState != VICTIMSTATE_BLOCKS)
         pVictim->HandleEmoteCommand(EMOTE_ONESHOT_PARRYSHIELD);
 
+    // This seems to reduce the victims time until next attack if your attack was parried
     if (damageInfo->TargetState == VICTIMSTATE_PARRY)
     {
         // Get attack timers

@@ -788,17 +788,31 @@ struct CalcDamageInfo
      */
     WeaponAttackType attackType;
     /**
-     * 
+     * Proc flags of the attacker that should have a chance to trigger, ie: successful
+     * melee hit
      * \see ProcFlags
      */
     uint32 procAttacker;
+    /**
+     * Proc flags of the victim that should have a change to trigger, ie: successful
+     * block
+     * \see ProcFlags
+     */
     uint32 procVictim;
+    /**
+     * Extra proc flags?
+     * TODO: Used for what?
+     */
     uint32 procEx;
-    uint32 cleanDamage;          // Used only for rage calculation
-    MeleeHitOutcome hitOutCome;  // TODO: remove this field (need use TargetState)
+    /// Used only for rage calculation
+    uint32 cleanDamage;
+    /// (Old comment) TODO: remove this field (need use TargetState)
+    MeleeHitOutcome hitOutCome;  
 };
 
-// Spell damage info structure based on structure sending in SMSG_SPELLNONMELEEDAMAGELOG opcode
+/**
+ * Spell damage info structure based on structure sending in SMSG_SPELLNONMELEEDAMAGELOG opcode
+ */
 struct SpellNonMeleeDamage
 {
     SpellNonMeleeDamage(Unit* _attacker, Unit* _target, uint32 _SpellID, SpellSchools _school)
@@ -1861,8 +1875,32 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param attackType type of attack, base/off/ranged
          */
         void CalculateMeleeDamage(Unit* pVictim, uint32 damage, CalcDamageInfo* damageInfo, WeaponAttackType attackType = BASE_ATTACK);
+        /** 
+         * Deals melee damage, if the attack was parried we reduce the victims time until next hit 
+         * instead of the weapons normal time by 20 or 60%.
+         * Also, if this is a NPC behind a (usually fleeing) player we have a chance to daze the
+         * target. Will update the Judgement aura duration too, and check if the victim given from
+         * CalcDamageInfo has any shields up and do damage to them in that case.
+         * @param damageInfo used to deal the damage 
+         * @param durabilityLoss whether or not durability loss should happen
+         */
         void DealMeleeDamage(CalcDamageInfo* damageInfo, bool durabilityLoss);
 
+        /** 
+         * Calculates how much damage a spell should do, it will do some bonus damage according
+         * to which SpellNonMeleeDamage::DmgClass it belongs to, ie: SPELL_DAMAGE_CLASS_RANGED
+         * or SPELL_DAMAGE_CLASS_MELEE does bonus melee damage while the others make bonus spell
+         * damage. Also reduces the damage done based on armor.
+         * After returning this function will have filled the SpellNoneMeleeDamage::damage with
+         * how much damage was actually done.
+         * @param damageInfo info about attacker, target etc
+         * @param damage how much damage to try to do
+         * @param spellInfo info about the spell, needed by the helper functions
+         * @param attackType what we were attacking with 
+         * \see Unit::IsSpellCrit
+         * \see Unit::CalcArmorReducedDamage
+         * \see SpellDmgClass
+         */
         void CalculateSpellDamage(SpellNonMeleeDamage* damageInfo, int32 damage, SpellEntry const* spellInfo, WeaponAttackType attackType = BASE_ATTACK);
         void DealSpellDamage(SpellNonMeleeDamage* damageInfo, bool durabilityLoss);
 
