@@ -1149,15 +1149,27 @@ void Spell::DoSpellHitOnUnit(Unit* unit, uint32 effectMask, bool isReflected)
                 if (!unit->IsStandState() && !unit->hasUnitState(UNIT_STAT_STUNNED))
                     unit->SetStandState(UNIT_STAND_STATE_STAND);
 
-                if (!unit->isInCombat() && unit->GetTypeId() != TYPEID_PLAYER && ((Creature*)unit)->AI())
-                    unit->AttackedBy(realCaster);
+                switch (m_spellInfo->Id)
+                {
+                    //Soothe animal
+                case 9901:
+                case 8955:
+                case 2908:
+                    break;
+                default:
+                {
+                    if (!unit->isInCombat() && unit->GetTypeId() != TYPEID_PLAYER && ((Creature*)unit)->AI())
+                        unit->AttackedBy(realCaster);
 
-                unit->AddThreat(realCaster);
-                unit->SetInCombatWith(realCaster);
-                realCaster->SetInCombatWith(unit);
+                    unit->AddThreat(realCaster);
+                    unit->SetInCombatWith(realCaster);
+                    realCaster->SetInCombatWith(unit);
 
-                if (Player* attackedPlayer = unit->GetCharmerOrOwnerPlayerOrPlayerItself())
-                    realCaster->SetContestedPvP(attackedPlayer);
+                    if (Player* attackedPlayer = unit->GetCharmerOrOwnerPlayerOrPlayerItself())
+                        realCaster->SetContestedPvP(attackedPlayer);
+                    break;
+                }
+                }
             }
         }
         else

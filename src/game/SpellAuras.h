@@ -259,6 +259,7 @@ class MANGOS_DLL_SPEC Aura
         {
             // aura not have immediate effect at add/remove and handled by ID in other code place
         }
+        void HandleModDetectRange(bool Apply, bool Real);
         void HandleBindSight(bool Apply, bool Real);
         void HandleModPossess(bool Apply, bool Real);
         void HandlePeriodicDamage(bool Apply, bool Real);

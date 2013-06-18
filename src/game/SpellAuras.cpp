@@ -147,7 +147,7 @@ pAuraHandler AuraHandler[TOTAL_AURAS] =
     &Aura::HandleNoImmediateEffect,                         // 88 SPELL_AURA_MOD_HEALTH_REGEN_PERCENT implemented in Player::RegenerateHealth
     &Aura::HandlePeriodicDamagePCT,                         // 89 SPELL_AURA_PERIODIC_DAMAGE_PERCENT
     &Aura::HandleUnused,                                    // 90 SPELL_AURA_MOD_RESIST_CHANCE  Useless
-    &Aura::HandleNoImmediateEffect,                         // 91 SPELL_AURA_MOD_DETECT_RANGE implemented in Creature::GetAttackDistance
+    &Aura::HandleModDetectRange,                            // 91 SPELL_AURA_MOD_DETECT_RANGE implemented in Creature::GetAttackDistance
     &Aura::HandlePreventFleeing,                            // 92 SPELL_AURA_PREVENTS_FLEEING
     &Aura::HandleModUnattackable,                           // 93 SPELL_AURA_MOD_UNATTACKABLE
     &Aura::HandleNoImmediateEffect,                         // 94 SPELL_AURA_INTERRUPT_REGEN implemented in Player::RegenerateAll
@@ -2021,6 +2021,33 @@ void Aura::HandleAuraModScale(bool apply, bool /*Real*/)
 {
     GetTarget()->ApplyPercentModFloatValue(OBJECT_FIELD_SCALE_X, float(m_modifier.m_amount), apply);
     GetTarget()->UpdateModelData();
+}
+
+void Aura::HandleModDetectRange(bool apply, bool Real)
+{
+    switch (GetId())
+    {
+        //Soothe animal
+    case 9901:
+    case 8955:
+    case 2908:
+    {
+        if (apply)
+        {
+            Aura* A = CreateAura(GetSpellProto(),EFFECT_INDEX_1,0,m_spellAuraHolder,GetTarget(),GetCaster());
+            m_spellAuraHolder->AddAura(A,EFFECT_INDEX_1);
+            A->m_modifier.m_miscvalue = SPELL_SCHOOL_MASK_NATURE;
+            A->m_modifier.periodictime = 0;
+            A->m_modifier.m_auraname = SPELL_AURA_MOD_DETECT_RANGE;
+            //Reduce aggro range by 10 yards
+            A->m_modifier.m_amount = -10;
+            //Should this aura be removed when apply is false?
+        }
+    }
+        break;
+    default:
+        break;
+    }
 }
 
 void Aura::HandleModPossess(bool apply, bool Real)
