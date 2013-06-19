@@ -686,10 +686,10 @@ namespace Movement
  */
 enum DiminishingLevels
 {
-    DIMINISHING_LEVEL_1             = 0,         ///Won't make a difference to stun duration
-    DIMINISHING_LEVEL_2             = 1,         ///Reduces stun time by 50%
-    DIMINISHING_LEVEL_3             = 2,         ///Reduces stun time by 75%
-    DIMINISHING_LEVEL_IMMUNE        = 3          ///The target is immune to the DiminishingGrouop
+    DIMINISHING_LEVEL_1             = 0,         ///<Won't make a difference to stun duration
+    DIMINISHING_LEVEL_2             = 1,         ///<Reduces stun time by 50%
+    DIMINISHING_LEVEL_3             = 2,         ///<Reduces stun time by 75%
+    DIMINISHING_LEVEL_IMMUNE        = 3          ///<The target is immune to the DiminishingGrouop
 };
 
 /**
@@ -1074,7 +1074,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         /** 
          * Gets the current DiminishingLevels for the given group
          * @param group The group that you would like to know the current diminishing return level for
-         * @return The current diminishing level, up to DIMINISHING_LEVEL_IMMUNE
+         * @return The current diminishing level, up to DiminishingLevels::DIMINISHING_LEVEL_IMMUNE
          */
         DiminishingLevels GetDiminishing(DiminishingGroup  group);
         /** 
