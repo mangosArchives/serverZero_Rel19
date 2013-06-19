@@ -230,9 +230,10 @@ enum VictimState
 };
 
 /**
- * TODO: Rename the LEFTSWING and NORMALSWING/2 to:
  * OFFSWING and BASESWING/2 or MAINSWING/2 to be more
  * in line with what is used in the other parts?
+ * 
+ * \todo Rename the LEFTSWING and NORMALSWING/2 to:
  */
 enum HitInfo
 {
@@ -801,12 +802,12 @@ struct CalcDamageInfo
     uint32 procVictim;
     /**
      * Extra proc flags?
-     * TODO: Used for what?
+     * \todo Used for what?
      */
     uint32 procEx;
     /// Used only for rage calculation
     uint32 cleanDamage;
-    /// (Old comment) TODO: remove this field (need use TargetState)
+    /// (Old comment) \todo remove this field (need use TargetState)
     MeleeHitOutcome hitOutCome;  
 };
 
@@ -1380,8 +1381,8 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         uint32 getLevel() const { return GetUInt32Value(UNIT_FIELD_LEVEL); }
         /** 
-         * TODO: What does it actually do? Is overwritten by others that derive from Unit?
          * @return The level it would seem
+         * \todo What does it actually do? Is overwritten by others that derive from Unit?
          */
         virtual uint32 GetLevelForTarget(Unit const* /*target*/) const { return getLevel(); }
         /** 
@@ -1542,11 +1543,12 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void ApplyMaxPowerMod(Powers power, uint32 val, bool apply);
 
         /** 
-         * TODO: Is the time returned in seconds
+         * Gets the attack time until next attack for the given weapon type
          * @param att what attack type we want to get attacktime for
          * @return the current attack time, which takes mods of attack speed into account
          * \see Unit::m_modAttackSpeedPct
          * \see EUnitFields
+         * \todo Is the time returned in seconds
          */
         uint32 GetAttackTime(WeaponAttackType att) const { return (uint32)(GetFloatValue(UNIT_FIELD_BASEATTACKTIME + att) / m_modAttackSpeedPct[att]); }
         /** 
@@ -1594,7 +1596,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * be found in the DBC files.
          * @return The faction this unit belongs to
          * \see EUnitFields
-         * TODO: Does this link correctly?
+         * \todo Does this link correctly to the EUnitFields?
          * \see EUnitFields::UNIT_FIELD_FACTIONTEMPLATE
          * \see FactionTemplateEntry
          * \see FactionEntry
@@ -1604,7 +1606,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * Changes the faction a unit belongs to.
          * @param faction Faction to change to
          * \see EUnitFields
-         * TODO: Does this link correctly?
+         * \todo Does this link correctly to the EUnitFields?
          * \see EUnitFields::UNIT_FIELD_FACTIONTEMPLATE
          * \see FactionTemplateEntry
          * \see FactionEntry
@@ -1741,8 +1743,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param target target to get maximum skill value for, if this is NULL the
          * returned value is for ourselves.
          * @return the maximum skill level you can have at the your current level.
-         * TODO: Check out the GetLevelForTarget as it seems it's not doing anything constructive
-         * with it's arguments.
+         * \todo Check out the GetLevelForTarget as it seems it's not doing anything constructive with it's arguments.
          */
         uint16 GetMaxSkillValueForLevel(Unit const* target = NULL) const { return (target ? GetLevelForTarget(target) : getLevel()) * 5; }
         /** 
@@ -1754,8 +1755,8 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * much was actually made
          * @param absorb if this is != NULL it will be updated with how much more from
          * before of the damage that was absorbed. ie: absorb += damage not done
-         * TODO: Does DamageDeal in the AI's do anything?
-         * TODO: Fix this comment, doesn't really seem correct.
+         * \todo Does DamageDeal in the AI's do anything?
+         * \todo Fix this comment, doesn't really seem correct.
          */
         void DealDamageMods(Unit* pVictim, uint32& damage, uint32* absorb);
         /** 
@@ -1769,7 +1770,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param durabilityLoss whether this damage should give a durability loss (10%) on death
          * or not
          * @return probably how much damage was actually dealt?
-         * TODO: Cleanup this function and split into smaller functions for readability
+         * \todo Cleanup this function and split into smaller functions for readability
          */
         uint32 DealDamage(Unit* pVictim, uint32 damage, CleanDamage const* cleanDamage, DamageEffectType damagetype, SpellSchoolMask damageSchoolMask, SpellEntry const* spellProto, bool durabilityLoss);
         /** 
@@ -1792,7 +1793,8 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void PetOwnerKilledUnit(Unit* pVictim);
 
         /** 
-         * Hard to figure out what this does, TODO: Document this.
+         * Hard to figure out what this does.
+         * \todo Document this.
          * @param pVictim possible victim of the proc
          * @param procAttacker 
          * @param procVictim 
@@ -1824,7 +1826,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * the character up.
          * @param emote_id id of the emote to handle
          * \see EmotesEntry
-         * TODO: Is this accurate?
+         * \todo Is this accurate?
          */
         void HandleEmote(uint32 emote_id);                  // auto-select command/state
         /** 
@@ -1944,13 +1946,13 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         SpellMissInfo MeleeSpellHitResult(Unit* pVictim, SpellEntry const* spell);
         /** 
-         * TODO: Need use unit spell resistance in calculations (Old comment)
          * This works pretty much like MeleeSpellHitResult but for magic spells instead.
          * For AOE spells there's a AuraModifier called SPELL_AURA_MOD_AOE_AVOIDANCE that
          * reduces the spells hit chance.
          * @param pVictim the victim that was hit
          * @param spell the spell that was cast
          * @return Whether or not the spell was resisted/blocked etc. Seems the only 2 possible values is SPELL_MISS_RESIST or SPELL_MISS_NONE
+         * \todo Need use unit spell resistance in calculations (Old comment)
          */
         SpellMissInfo MagicSpellHitResult(Unit* pVictim, SpellEntry const* spell);
         /**
