@@ -27,6 +27,7 @@ set(CMAKE_MODULE_PATH
   ${CMAKE_SOURCE_DIR}/cmake
 )
 
+
 # define all options here
 option(DEBUG                 "Debug mode"                                   OFF)
 option(TBB_USE_EXTERNAL      "Use external TBB"                             OFF)
@@ -395,3 +396,6 @@ add_subdirectory(src)
 # if(SQL)
 #   add_subdirectory(sql)
 # endif()
+
+#For doxygen
+add_subdirectory(doc)
