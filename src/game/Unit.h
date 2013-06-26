@@ -528,26 +528,28 @@ enum UnitFlags
     UNIT_FLAG_UNK_29                = 0x20000000,           // used in Feing Death spell
 };
 
-/// Non Player Character flags
+/**
+ * Non Player Character flags
+ */
 enum NPCFlags
 {
     UNIT_NPC_FLAG_NONE                  = 0x00000000,
-    UNIT_NPC_FLAG_GOSSIP                = 0x00000001,       // 100%
-    UNIT_NPC_FLAG_QUESTGIVER            = 0x00000002,       // guessed, probably ok
-    UNIT_NPC_FLAG_VENDOR                = 0x00000004,       // 100%
-    UNIT_NPC_FLAG_FLIGHTMASTER          = 0x00000008,       // 100%
-    UNIT_NPC_FLAG_TRAINER               = 0x00000010,       // 100%
-    UNIT_NPC_FLAG_SPIRITHEALER          = 0x00000020,       // guessed
-    UNIT_NPC_FLAG_SPIRITGUIDE           = 0x00000040,       // guessed
-    UNIT_NPC_FLAG_INNKEEPER             = 0x00000080,       // 100%
-    UNIT_NPC_FLAG_BANKER                = 0x00000100,       // 100%
-    UNIT_NPC_FLAG_PETITIONER            = 0x00000200,       // 100% 0xC0000 = guild petitions
-    UNIT_NPC_FLAG_TABARDDESIGNER        = 0x00000400,       // 100%
-    UNIT_NPC_FLAG_BATTLEMASTER          = 0x00000800,       // 100%
-    UNIT_NPC_FLAG_AUCTIONEER            = 0x00001000,       // 100%
-    UNIT_NPC_FLAG_STABLEMASTER          = 0x00002000,       // 100%
-    UNIT_NPC_FLAG_REPAIR                = 0x00004000,       // 100%
-    UNIT_NPC_FLAG_OUTDOORPVP            = 0x20000000,       // custom flag for outdoor pvp creatures || Custom flag
+    UNIT_NPC_FLAG_GOSSIP                = 0x00000001,       ///< 100%
+    UNIT_NPC_FLAG_QUESTGIVER            = 0x00000002,       ///< guessed, probably ok
+    UNIT_NPC_FLAG_VENDOR                = 0x00000004,       ///< 100%
+    UNIT_NPC_FLAG_FLIGHTMASTER          = 0x00000008,       ///< 100%
+    UNIT_NPC_FLAG_TRAINER               = 0x00000010,       ///< 100%
+    UNIT_NPC_FLAG_SPIRITHEALER          = 0x00000020,       ///< guessed
+    UNIT_NPC_FLAG_SPIRITGUIDE           = 0x00000040,       ///< guessed
+    UNIT_NPC_FLAG_INNKEEPER             = 0x00000080,       ///< 100%
+    UNIT_NPC_FLAG_BANKER                = 0x00000100,       ///< 100%
+    UNIT_NPC_FLAG_PETITIONER            = 0x00000200,       ///< 100% 0xC0000 = guild petitions
+    UNIT_NPC_FLAG_TABARDDESIGNER        = 0x00000400,       ///< 100%
+    UNIT_NPC_FLAG_BATTLEMASTER          = 0x00000800,       ///< 100%
+    UNIT_NPC_FLAG_AUCTIONEER            = 0x00001000,       ///< 100%
+    UNIT_NPC_FLAG_STABLEMASTER          = 0x00002000,       ///< 100%
+    UNIT_NPC_FLAG_REPAIR                = 0x00004000,       ///< 100%
+    UNIT_NPC_FLAG_OUTDOORPVP            = 0x20000000,       ///< custom flag for outdoor pvp creatures || Custom flag
 };
 
 // [-ZERO] Need check and update
@@ -730,14 +732,16 @@ struct DiminishingReturn
     uint32                  hitCount;
 };
 
-// At least some values expected fixed and used in auras field, other custom
+/**
+ * At least some values expected fixed and used in auras field, other custom
+ */
 enum MeleeHitOutcome
 {
     MELEE_HIT_EVADE     = 0,
     MELEE_HIT_MISS      = 1,
-    MELEE_HIT_DODGE     = 2,                                // used as misc in SPELL_AURA_IGNORE_COMBAT_RESULT
-    MELEE_HIT_BLOCK     = 3,                                // used as misc in SPELL_AURA_IGNORE_COMBAT_RESULT
-    MELEE_HIT_PARRY     = 4,                                // used as misc in SPELL_AURA_IGNORE_COMBAT_RESULT
+    MELEE_HIT_DODGE     = 2,     ///< used as misc in SPELL_AURA_IGNORE_COMBAT_RESULT
+    MELEE_HIT_BLOCK     = 3,     ///< used as misc in SPELL_AURA_IGNORE_COMBAT_RESULT
+    MELEE_HIT_PARRY     = 4,     ///< used as misc in SPELL_AURA_IGNORE_COMBAT_RESULT
     MELEE_HIT_GLANCING  = 5,
     MELEE_HIT_CRIT      = 6,
     MELEE_HIT_CRUSHING  = 7,
@@ -2003,30 +2007,229 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         float GetUnitCriticalChance(WeaponAttackType attackType, const Unit* pVictim) const;
 
+        /** 
+         * Gets how much the shield would block via \ref Unit::m_auraBaseMod and \ref Unit::GetStat
+         * for \ref STAT_STRENGTH. Seems to be implemented only in Player.cpp
+         * @return Currently equipped shield block value
+         */
         virtual uint32 GetShieldBlockValue() const = 0;
+        /** 
+         * The melee skill for the given Unit. For units this is always their maximum possible
+         * for their level, ie: current level * 5, for level 60 this would give a skill of 300
+         * @param target the target to find the max skill for, if it's NULL we find the level for us
+         * @return The max skill level for the given Unit
+         */
         uint32 GetUnitMeleeSkill(Unit const* target = NULL) const { return (target ? GetLevelForTarget(target) : getLevel()) * 5; }
+        /** 
+         * Gets the defense skill for the given target, if the target is a Player and this Unit
+         * is a Player the maximum skill for that level is used for balancing. If this Unit isn't
+         * a Player we fall back to \ref Unit::GetUnitMeleeSkill for the given target.
+         * @param target the target we would like to find our skill value against if any
+         * @return The skill value for our defense if a target is sent and both are Players, otherwise
+         * skill value for the given target.
+         * \todo Is the logic for the return correct in here?
+         */
         uint32 GetDefenseSkillValue(Unit const* target = NULL) const;
+        /** 
+         * Get's the skill value for the given weapon type. The same idea as for
+         * \ref Unit::GetDefenseSkillValue applies, if both target and this are Players
+         * we use the max skill instead of actual skill.
+         * @param attType the weapon type we want to find the skill for
+         * @param target our target if any, if both are Players this will change outcome of skill
+         * @return The skill value that the Unit holds in the given hand via attackType
+         * \see Item::GetSkill
+         * \see SkillType
+         */
         uint32 GetWeaponSkillValue(WeaponAttackType attType, Unit const* target = NULL) const;
+        /** 
+         * Returns the proc chance for one weapon, if the \ref BASE_ATTACK is ready then the
+         * proc chance for that is returned, otherwise if the \ref OFF_ATTACK is ready and
+         * there's a weapon equipped there that chance will be returned, otherwise 0.
+         *
+         * The formula used for calculation is rather interesting:
+         * Mainhand: GetAttackTime(BASE_ATTACK) * 1.8f / 1000.0f
+         * Offhand: GetAttackTime(OFF_ATTACK) * 1.6f / 1000.0f
+         * @return first the main weapons proc chance, then the off weapons proc chance.
+         * \see GetAttackTime
+         * \see isAttackReady
+         * \todo Add code tags to the formulas
+         */
         float GetWeaponProcChance() const;
+        /** 
+         * This returns the proc per minute chance as a percentage.
+         * Comment from cpp file:
+         * result is chance in percents (probability = Speed_in_sec * (PPM / 60))
+         * @param WeaponSpeed the weapon speed, usually gotten with \ref GetAttackTime
+         * @param PPM the proc per minute rate
+         * @return the chance for a proc in percent (taken from cpp file)
+         * \todo What does this actually do? How/Where is it used?
+         */
         float GetPPMProcChance(uint32 WeaponSpeed, float PPM) const;
 
+        /** 
+         * This acts as a wrapper for \ref Unit::RollMeleeOutcomeAgainst with more parameters,
+         * these are initialised from the pVictim using
+         *  - \ref Unit::MeleeMissChanceCalc
+         *  - \ref Unit::GetUnitCriticalChance
+         *  - \ref Unit::GetUnitDodgeChance
+         *  - \ref Unit::GetUnitBlockChance
+         *  - \ref Unit::GetUnitParryChance
+         * @param pVictim the victim to target
+         * @param attType with what "hand" you want to attack
+         * @return what the hit resulted in, miss/hit etc.
+         */
         MeleeHitOutcome RollMeleeOutcomeAgainst(const Unit* pVictim, WeaponAttackType attType) const;
+        /** 
+         * Calculates what off a few possible things that can happen when a victim is attacked
+         * with melee weapons. For a list of the things that could happen see \ref MeleeHitOutcome.
+         * There's a few formulas involved here, for more info on them check the cpp file. But as
+         * usual, if you're behind your victim they can't parry/block and players can't dodge while
+         * mobs can.
+         * @param pVictim the victim of the attack
+         * @param attType the had to attack with
+         * @param crit_chance crit chance against victim
+         * @param miss_chance miss chance against victim
+         * @param dodge_chance victims dodge chance
+         * @param parry_chance victims parry chance
+         * @param block_chance victims block chance
+         * @param SpellCasted whether or not this was because of a spell of autoattack (false => autoattack)
+         * @return what the hit resulted in, miss/hit etc
+         */
         MeleeHitOutcome RollMeleeOutcomeAgainst(const Unit* pVictim, WeaponAttackType attType, int32 crit_chance, int32 miss_chance, int32 dodge_chance, int32 parry_chance, int32 block_chance, bool SpellCasted) const;
 
+        /** 
+         * @return true if this unit is a vendor, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsVendor to follow standard?
+         */
         bool isVendor()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_VENDOR); }
+        /** 
+         * @return true if this unit is a trainer, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsTrainer to follow standard?
+         */
         bool isTrainer()      const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_TRAINER); }
+        /** 
+         * @return true if this unit is a QuestGiver, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsQuestGiver to follow standard?
+         */
         bool isQuestGiver()   const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER); }
+        /** 
+         * @return true if this unit is a gossip, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsGossip to follow standard?
+         */
         bool isGossip()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP); }
+        /** 
+         * @return true if this unit is a taxi, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsTaxi to follow standard?
+         */
         bool isTaxi()         const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_FLIGHTMASTER); }
+        /** 
+         * @return true if this unit is a GuildMaster, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsGuildMaster to follow standard?
+         */
         bool isGuildMaster()  const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_PETITIONER); }
+        /** 
+         * @return true if this unit is a BattleMaster, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsBattleMaster to follow standard?
+         */
         bool isBattleMaster() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_BATTLEMASTER); }
+        /** 
+         * @return true if this unit is a banker, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsBanker to follow standard?
+         */
         bool isBanker()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_BANKER); }
+        /** 
+         * @return true if this unit is a innkeeper, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsInnkeeper to follow standard?
+         */
         bool isInnkeeper()    const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_INNKEEPER); }
+        /** 
+         * @return true if this unit is a SpiritHealer, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsSpiritHealer to follow standard?
+         */
         bool isSpiritHealer() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITHEALER); }
+        /** 
+         * @return true if this unit is a SpiritGuide, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsSpiritGuide to follow standard?
+         */
         bool isSpiritGuide()  const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITGUIDE); }
+        /** 
+         * @return true if this unit is a TabardDesigner, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsTabardDesigner to follow standard?
+         */
         bool isTabardDesigner()const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_TABARDDESIGNER); }
+        /** 
+         * @return true if this unit is a Auctioneer, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsAuctioneer to follow standard?
+         */
         bool isAuctioner()    const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_AUCTIONEER); }
+        /** 
+         * @return true if this unit is a armorer, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsArmorer to follow standard?
+         */
         bool isArmorer()      const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_REPAIR); }
+        /**
+         * Returns if this is a service provider or not, a service provider has one of the
+         * following flags:
+         * - \ref UNIT_NPC_FLAG_VENDOR
+         * - \ref UNIT_NPC_FLAG_TRAINER
+         * - \ref UNIT_NPC_FLAG_FLIGHTMASTER
+         * - \ref UNIT_NPC_FLAG_PETITIONER
+         * - \ref UNIT_NPC_FLAG_BATTLEMASTER
+         * - \ref UNIT_NPC_FLAG_BANKER
+         * - \ref UNIT_NPC_FLAG_INNKEEPER
+         * - \ref UNIT_NPC_FLAG_SPIRITHEALER
+         * - \ref UNIT_NPC_FLAG_SPIRITGUIDE
+         * - \ref UNIT_NPC_FLAG_TABARDDESIGNER
+         * - \ref UNIT_NPC_FLAG_AUCTIONEER
+         * 
+         * @return true if this unit is a ServiceProvider, false otherwise
+         * \see HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
+         * \todo Rename to IsServiceProvider to follow standard?
+         */
         bool isServiceProvider() const
         {
             return HasFlag(UNIT_NPC_FLAGS,
@@ -2035,11 +2238,34 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
                            UNIT_NPC_FLAG_INNKEEPER | UNIT_NPC_FLAG_SPIRITHEALER |
                            UNIT_NPC_FLAG_SPIRITGUIDE | UNIT_NPC_FLAG_TABARDDESIGNER | UNIT_NPC_FLAG_AUCTIONEER);
         }
+        /** 
+         * Returns if this is a spirit service or not, a spirit service has one of the
+         * following flags:
+         * - \ref UNIT_NPC_FLAG_SPIRITHEALER
+         * - \ref UNIT_NPC_FLAG_SPIRITGUIDE
+         * @return true if this unit is a spirit service, false otherwise
+         */
         bool isSpiritService() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITHEALER | UNIT_NPC_FLAG_SPIRITGUIDE); }
 
+        /** 
+         * Is this unit flying in taxi?
+         * @return true if the Unit has the state \ref UNIT_STAT_TAXI_FLIGHT (is flying in taxi), false otherwise
+         * \see hasUnitState
+         */
         bool IsTaxiFlying()  const { return hasUnitState(UNIT_STAT_TAXI_FLIGHT); }
 
+        /** 
+         * Is this unit in combat?
+         * @return true if the Unit has the flag \ref UNIT_FLAG_IN_COMBAT (is in combat), false otherwise
+         * \see EUnitFields
+         * \see UnitFlags
+         */
         bool isInCombat()  const { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IN_COMBAT); }
+        /** 
+         * 
+         * @param PvP 
+         * @param enemy 
+         */
         void SetInCombatState(bool PvP, Unit* enemy = NULL);
         void SetInCombatWith(Unit* enemy);
         void ClearInCombat();
