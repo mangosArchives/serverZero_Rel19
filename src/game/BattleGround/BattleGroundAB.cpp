@@ -29,6 +29,9 @@
 #include "MapManager.h"
 #include "DBCStores.h"                                   // TODO REMOVE this when graveyard handling for pvp is updated
 
+/// <summary>
+/// Initializes a new instance of the <see cref="BattleGroundAB"/> class.
+/// </summary>
 BattleGroundAB::BattleGroundAB()
 {
     m_StartMessageIds[BG_STARTING_EVENT_FIRST]  = 0;
@@ -37,10 +40,17 @@ BattleGroundAB::BattleGroundAB()
     m_StartMessageIds[BG_STARTING_EVENT_FOURTH] = LANG_BG_AB_HAS_BEGUN;
 }
 
+/// <summary>
+/// Finalizes an instance of the <see cref="BattleGroundAB"/> class.
+/// </summary>
 BattleGroundAB::~BattleGroundAB()
 {
 }
 
+/// <summary>
+/// Updates the specified diff.
+/// </summary>
+/// <param name="diff">The diff.</param>
 void BattleGroundAB::Update(uint32 diff)
 {
     BattleGround::Update(diff);
@@ -149,11 +159,18 @@ void BattleGroundAB::Update(uint32 diff)
     }
 }
 
+/// <summary>
+/// Startings the event open doors.
+/// </summary>
 void BattleGroundAB::StartingEventOpenDoors()
 {
     OpenDoorEvent(BG_EVENT_DOOR);
 }
 
+/// <summary>
+/// Adds the player.
+/// </summary>
+/// <param name="plr">The PLR.</param>
 void BattleGroundAB::AddPlayer(Player* plr)
 {
     BattleGround::AddPlayer(plr);
@@ -163,10 +180,20 @@ void BattleGroundAB::AddPlayer(Player* plr)
     m_PlayerScores[plr->GetObjectGuid()] = sc;
 }
 
+/// <summary>
+/// Removes the player.
+/// </summary>
+/// <param name="">The .</param>
+/// <param name="">The .</param>
 void BattleGroundAB::RemovePlayer(Player * /*plr*/, ObjectGuid /*guid*/)
 {
 }
 
+/// <summary>
+/// Handles the area trigger.
+/// </summary>
+/// <param name="source">The source.</param>
+/// <param name="trigger">The trigger.</param>
 void BattleGroundAB::HandleAreaTrigger(Player* source, uint32 trigger)
 {
     switch (trigger)
@@ -198,8 +225,13 @@ void BattleGroundAB::HandleAreaTrigger(Player* source, uint32 trigger)
     }
 }
 
-/*  type: 0-neutral, 1-contested, 3-occupied
-    teamIndex: 0-ally, 1-horde                        */
+/// <summary>
+/// Creates the banner.
+/// </summary>
+/// <param name="node">The node.</param>
+/// <param name="type">The type. 0-neutral, 1-contested, 3-occupied</param>
+/// <param name="teamIndex">Index of the team. 0-ally, 1-horde</param>
+/// <param name="delay">The delay.</param>
 void BattleGroundAB::_CreateBanner(uint8 node, uint8 type, uint8 teamIndex, bool delay)
 {
     // Just put it into the queue
@@ -219,6 +251,11 @@ void BattleGroundAB::_CreateBanner(uint8 node, uint8 type, uint8 teamIndex, bool
     SpawnEvent(node, type, true);                           // will automaticly despawn other events
 }
 
+/// <summary>
+/// _s the get node name id.
+/// </summary>
+/// <param name="node">The node.</param>
+/// <returns></returns>
 int32 BattleGroundAB::_GetNodeNameId(uint8 node)
 {
     switch (node)
@@ -234,6 +271,11 @@ int32 BattleGroundAB::_GetNodeNameId(uint8 node)
     return 0;
 }
 
+/// <summary>
+/// Fills the initial world states.
+/// </summary>
+/// <param name="data">The data.</param>
+/// <param name="count">The count.</param>
 void BattleGroundAB::FillInitialWorldStates(WorldPacket& data, uint32& count)
 {
     const uint8 plusArray[] = {0, 2, 3, 0, 1};
@@ -268,6 +310,10 @@ void BattleGroundAB::FillInitialWorldStates(WorldPacket& data, uint32& count)
     FillInitialWorldState(data, count, 0x745, 0x2);         // 37 1861 unk
 }
 
+/// <summary>
+/// _s the send node update.
+/// </summary>
+/// <param name="node">The node.</param>
 void BattleGroundAB::_SendNodeUpdate(uint8 node)
 {
     // Send node owner state update to refresh map icons on client
@@ -292,6 +338,11 @@ void BattleGroundAB::_SendNodeUpdate(uint8 node)
     UpdateWorldState(BG_AB_OP_OCCUPIED_BASES_HORDE, horde);
 }
 
+/// <summary>
+/// _s the node occupied.
+/// </summary>
+/// <param name="node">The node.</param>
+/// <param name="team">The team.</param>
 void BattleGroundAB::_NodeOccupied(uint8 node, Team team)
 {
     uint8 capturedNodes = 0;
@@ -307,6 +358,11 @@ void BattleGroundAB::_NodeOccupied(uint8 node, Team team)
 }
 
 /* Invoked if a player used a banner as a gameobject */
+/// <summary>
+/// Events the player clicked on flag.
+/// </summary>
+/// <param name="source">The source.</param>
+/// <param name="target_obj">The target_obj.</param>
 void BattleGroundAB::EventPlayerClickedOnFlag(Player* source, GameObject* target_obj)
 {
     if (GetStatus() != STATUS_IN_PROGRESS)
@@ -414,6 +470,9 @@ void BattleGroundAB::EventPlayerClickedOnFlag(Player* source, GameObject* target
     PlaySoundToAll(sound);
 }
 
+/// <summary>
+/// Resets this instance.
+/// </summary>
 void BattleGroundAB::Reset()
 {
     // call parent's class reset
@@ -444,6 +503,10 @@ void BattleGroundAB::Reset()
     }
 }
 
+/// <summary>
+/// Ends the battle ground.
+/// </summary>
+/// <param name="winner">The winner.</param>
 void BattleGroundAB::EndBattleGround(Team winner)
 {
     // win reward
@@ -455,6 +518,11 @@ void BattleGroundAB::EndBattleGround(Team winner)
     BattleGround::EndBattleGround(winner);
 }
 
+/// <summary>
+/// Gets the closest grave yard.
+/// </summary>
+/// <param name="player">The player.</param>
+/// <returns></returns>
 WorldSafeLocsEntry const* BattleGroundAB::GetClosestGraveYard(Player* player)
 {
     BattleGroundTeamIndex teamIndex = GetTeamIndexByTeamId(player->GetTeam());
@@ -494,6 +562,12 @@ WorldSafeLocsEntry const* BattleGroundAB::GetClosestGraveYard(Player* player)
     return good_entry;
 }
 
+/// <summary>
+/// Updates the player score.
+/// </summary>
+/// <param name="source">The source.</param>
+/// <param name="type">The type.</param>
+/// <param name="value">The value.</param>
 void BattleGroundAB::UpdatePlayerScore(Player* source, uint32 type, uint32 value)
 {
     BattleGroundScoreMap::iterator itr = m_PlayerScores.find(source->GetObjectGuid());

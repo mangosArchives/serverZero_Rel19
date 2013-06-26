@@ -39,7 +39,14 @@ namespace MaNGOS
     class BattleGroundChatBuilder
     {
         public:
-            BattleGroundChatBuilder(ChatMsg msgtype, int32 textId, Player const* source, va_list* args = NULL)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="BattleGroundChatBuilder"/> class.
+			/// </summary>
+			/// <param name="msgtype">The msgtype.</param>
+			/// <param name="textId">The text id.</param>
+			/// <param name="source">The source.</param>
+			/// <param name="args">The args.</param>
+			BattleGroundChatBuilder(ChatMsg msgtype, int32 textId, Player const* source, va_list* args = NULL)
                 : i_msgtype(msgtype), i_textId(textId), i_source(source), i_args(args) {}
             void operator()(WorldPacket& data, int32 loc_idx)
             {
@@ -82,7 +89,14 @@ namespace MaNGOS
     class BattleGroundYellBuilder
     {
         public:
-            BattleGroundYellBuilder(uint32 language, int32 textId, Creature const* source, va_list* args = NULL)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="BattleGroundYellBuilder"/> class.
+			/// </summary>
+			/// <param name="language">The language.</param>
+			/// <param name="textId">The text id.</param>
+			/// <param name="source">The source.</param>
+			/// <param name="args">The args.</param>
+			BattleGroundYellBuilder(uint32 language, int32 textId, Creature const* source, va_list* args = NULL)
                 : i_language(language), i_textId(textId), i_source(source), i_args(args) {}
             void operator()(WorldPacket& data, int32 loc_idx)
             {
@@ -128,7 +142,15 @@ namespace MaNGOS
     class BattleGround2ChatBuilder
     {
         public:
-            BattleGround2ChatBuilder(ChatMsg msgtype, int32 textId, Player const* source, int32 arg1, int32 arg2)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="BattleGround2ChatBuilder"/> class.
+			/// </summary>
+			/// <param name="msgtype">The msgtype.</param>
+			/// <param name="textId">The text id.</param>
+			/// <param name="source">The source.</param>
+			/// <param name="arg1">The arg1.</param>
+			/// <param name="arg2">The arg2.</param>
+			BattleGround2ChatBuilder(ChatMsg msgtype, int32 textId, Player const* source, int32 arg1, int32 arg2)
                 : i_msgtype(msgtype), i_textId(textId), i_source(source), i_arg1(arg1), i_arg2(arg2) {}
             void operator()(WorldPacket& data, int32 loc_idx)
             {
@@ -160,7 +182,15 @@ namespace MaNGOS
     class BattleGround2YellBuilder
     {
         public:
-            BattleGround2YellBuilder(uint32 language, int32 textId, Creature const* source, int32 arg1, int32 arg2)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="BattleGround2YellBuilder"/> class.
+			/// </summary>
+			/// <param name="language">The language.</param>
+			/// <param name="textId">The text id.</param>
+			/// <param name="source">The source.</param>
+			/// <param name="arg1">The arg1.</param>
+			/// <param name="arg2">The arg2.</param>
+			BattleGround2YellBuilder(uint32 language, int32 textId, Creature const* source, int32 arg1, int32 arg2)
                 : i_language(language), i_textId(textId), i_source(source), i_arg1(arg1), i_arg2(arg2) {}
             void operator()(WorldPacket& data, int32 loc_idx)
             {
@@ -259,6 +289,9 @@ BattleGround::BattleGround()
     m_StartMessageIds[BG_STARTING_EVENT_FOURTH] = LANG_BG_WS_HAS_BEGUN;
 }
 
+/// <summary>
+/// Finalizes an instance of the <see cref="BattleGround"/> class.
+/// </summary>
 BattleGround::~BattleGround()
 {
     // remove objects and creatures
@@ -282,6 +315,10 @@ BattleGround::~BattleGround()
         delete itr->second;
 }
 
+/// <summary>
+/// Updates the specified diff.
+/// </summary>
+/// <param name="diff">The diff.</param>
 void BattleGround::Update(uint32 diff)
 {
     if (!GetPlayersSize())
@@ -442,6 +479,14 @@ void BattleGround::Update(uint32 diff)
     m_StartTime += diff;
 }
 
+/// <summary>
+/// Sets the team start loc.
+/// </summary>
+/// <param name="team">The team.</param>
+/// <param name="X">The X.</param>
+/// <param name="Y">The Y.</param>
+/// <param name="Z">The Z.</param>
+/// <param name="O">The O.</param>
 void BattleGround::SetTeamStartLoc(Team team, float X, float Y, float Z, float O)
 {
     BattleGroundTeamIndex teamIdx = GetTeamIndexByTeamId(team);
@@ -451,6 +496,10 @@ void BattleGround::SetTeamStartLoc(Team team, float X, float Y, float Z, float O
     m_TeamStartLocO[teamIdx] = O;
 }
 
+/// <summary>
+/// Sends the packet to all.
+/// </summary>
+/// <param name="packet">The packet.</param>
 void BattleGround::SendPacketToAll(WorldPacket* packet)
 {
     for (BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
@@ -465,6 +514,13 @@ void BattleGround::SendPacketToAll(WorldPacket* packet)
     }
 }
 
+/// <summary>
+/// Sends the packet to team.
+/// </summary>
+/// <param name="teamId">The team id.</param>
+/// <param name="packet">The packet.</param>
+/// <param name="sender">The sender.</param>
+/// <param name="self">The self.</param>
 void BattleGround::SendPacketToTeam(Team teamId, WorldPacket* packet, Player* sender, bool self)
 {
     for (BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
@@ -490,6 +546,10 @@ void BattleGround::SendPacketToTeam(Team teamId, WorldPacket* packet, Player* se
     }
 }
 
+/// <summary>
+/// Plays the sound to all.
+/// </summary>
+/// <param name="SoundID">The sound ID.</param>
 void BattleGround::PlaySoundToAll(uint32 SoundID)
 {
     WorldPacket data;
@@ -497,6 +557,11 @@ void BattleGround::PlaySoundToAll(uint32 SoundID)
     SendPacketToAll(&data);
 }
 
+/// <summary>
+/// Plays the sound to team.
+/// </summary>
+/// <param name="SoundID">The sound ID.</param>
+/// <param name="teamId">The team id.</param>
 void BattleGround::PlaySoundToTeam(uint32 SoundID, Team teamId)
 {
     WorldPacket data;
@@ -524,6 +589,11 @@ void BattleGround::PlaySoundToTeam(uint32 SoundID, Team teamId)
     }
 }
 
+/// <summary>
+/// Casts the spell on team.
+/// </summary>
+/// <param name="SpellID">The spell ID.</param>
+/// <param name="teamId">The team id.</param>
 void BattleGround::CastSpellOnTeam(uint32 SpellID, Team teamId)
 {
     for (BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
@@ -547,6 +617,11 @@ void BattleGround::CastSpellOnTeam(uint32 SpellID, Team teamId)
     }
 }
 
+/// <summary>
+/// Rewards the honor to team.
+/// </summary>
+/// <param name="Honor">The honor.</param>
+/// <param name="teamId">The team id.</param>
 void BattleGround::RewardHonorToTeam(uint32 Honor, Team teamId)
 {
     for (BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
@@ -570,6 +645,12 @@ void BattleGround::RewardHonorToTeam(uint32 Honor, Team teamId)
     }
 }
 
+/// <summary>
+/// Rewards the reputation to team.
+/// </summary>
+/// <param name="faction_id">The faction_id.</param>
+/// <param name="Reputation">The reputation.</param>
+/// <param name="teamId">The team id.</param>
 void BattleGround::RewardReputationToTeam(uint32 faction_id, uint32 Reputation, Team teamId)
 {
     FactionEntry const* factionEntry = sFactionStore.LookupEntry(faction_id);
@@ -598,6 +679,11 @@ void BattleGround::RewardReputationToTeam(uint32 faction_id, uint32 Reputation, 
     }
 }
 
+/// <summary>
+/// Updates the state of the world.
+/// </summary>
+/// <param name="Field">The field.</param>
+/// <param name="Value">The value.</param>
 void BattleGround::UpdateWorldState(uint32 Field, uint32 Value)
 {
     WorldPacket data;
@@ -605,6 +691,12 @@ void BattleGround::UpdateWorldState(uint32 Field, uint32 Value)
     SendPacketToAll(&data);
 }
 
+/// <summary>
+/// Updates the world state for player.
+/// </summary>
+/// <param name="Field">The field.</param>
+/// <param name="Value">The value.</param>
+/// <param name="Source">The source.</param>
 void BattleGround::UpdateWorldStateForPlayer(uint32 Field, uint32 Value, Player* Source)
 {
     WorldPacket data;
@@ -612,6 +704,10 @@ void BattleGround::UpdateWorldStateForPlayer(uint32 Field, uint32 Value, Player*
     Source->GetSession()->SendPacket(&data);
 }
 
+/// <summary>
+/// Ends the battle ground.
+/// </summary>
+/// <param name="winner">The winner.</param>
 void BattleGround::EndBattleGround(Team winner)
 {
     this->RemoveFromBGFreeSlotQueue();
@@ -697,12 +793,21 @@ void BattleGround::EndBattleGround(Team winner)
         SendMessageToAll(winmsg_id, CHAT_MSG_BG_SYSTEM_NEUTRAL);
 }
 
+/// <summary>
+/// Gets the bonus honor from kill.
+/// </summary>
+/// <param name="kills">The kills.</param>
+/// <returns></returns>
 uint32 BattleGround::GetBonusHonorFromKill(uint32 kills) const
 {
     // variable kills means how many honorable kills you scored (so we need kills * honor_for_one_kill)
     return (uint32)MaNGOS::Honor::hk_honor_at_level(GetMaxLevel(), kills);
 }
 
+/// <summary>
+/// Gets the battlemaster entry.
+/// </summary>
+/// <returns></returns>
 uint32 BattleGround::GetBattlemasterEntry() const
 {
     switch (GetTypeID())
@@ -714,6 +819,11 @@ uint32 BattleGround::GetBattlemasterEntry() const
     }
 }
 
+/// <summary>
+/// Rewards the mark.
+/// </summary>
+/// <param name="plr">The PLR.</param>
+/// <param name="count">The count.</param>
 void BattleGround::RewardMark(Player* plr, uint32 count)
 {
     switch (GetTypeID())
@@ -741,6 +851,11 @@ void BattleGround::RewardMark(Player* plr, uint32 count)
     }
 }
 
+/// <summary>
+/// Rewards the spell cast.
+/// </summary>
+/// <param name="plr">The PLR.</param>
+/// <param name="spell_id">The spell_id.</param>
 void BattleGround::RewardSpellCast(Player* plr, uint32 spell_id)
 {
     SpellEntry const* spellInfo = sSpellStore.LookupEntry(spell_id);
@@ -753,6 +868,12 @@ void BattleGround::RewardSpellCast(Player* plr, uint32 spell_id)
     plr->CastSpell(plr, spellInfo, true);
 }
 
+/// <summary>
+/// Rewards the item.
+/// </summary>
+/// <param name="plr">The PLR.</param>
+/// <param name="item_id">The item_id.</param>
+/// <param name="count">The count.</param>
 void BattleGround::RewardItem(Player* plr, uint32 item_id, uint32 count)
 {
     ItemPosCountVec dest;
@@ -776,6 +897,12 @@ void BattleGround::RewardItem(Player* plr, uint32 item_id, uint32 count)
         SendRewardMarkByMail(plr, item_id, no_space_count);
 }
 
+/// <summary>
+/// Sends the reward mark by mail.
+/// </summary>
+/// <param name="plr">The PLR.</param>
+/// <param name="mark">The mark.</param>
+/// <param name="count">The count.</param>
 void BattleGround::SendRewardMarkByMail(Player* plr, uint32 mark, uint32 count)
 {
     uint32 bmEntry = GetBattlemasterEntry();
@@ -808,6 +935,10 @@ void BattleGround::SendRewardMarkByMail(Player* plr, uint32 mark, uint32 count)
     }
 }
 
+/// <summary>
+/// Rewards the quest complete.
+/// </summary>
+/// <param name="plr">The PLR.</param>
 void BattleGround::RewardQuestComplete(Player* plr)
 {
     uint32 quest;
@@ -829,11 +960,21 @@ void BattleGround::RewardQuestComplete(Player* plr)
     RewardSpellCast(plr, quest);
 }
 
+/// <summary>
+/// Blocks the movement.
+/// </summary>
+/// <param name="plr">The PLR.</param>
 void BattleGround::BlockMovement(Player* plr)
 {
     plr->SetClientControl(plr, 0);                          // movement disabled NOTE: the effect will be automatically removed by client when the player is teleported from the battleground, so no need to send with uint8(1) in RemovePlayerAtLeave()
 }
 
+/// <summary>
+/// Removes the player at leave.
+/// </summary>
+/// <param name="guid">The GUID.</param>
+/// <param name="Transport">The transport.</param>
+/// <param name="SendPacket">The send packet.</param>
 void BattleGround::RemovePlayerAtLeave(ObjectGuid guid, bool Transport, bool SendPacket)
 {
     Team team = GetPlayerTeam(guid);
@@ -931,7 +1072,9 @@ void BattleGround::RemovePlayerAtLeave(ObjectGuid guid, bool Transport, bool Sen
     // battleground object will be deleted next BattleGround::Update() call
 }
 
-// this method is called when no players remains in battleground
+/// <summary>
+/// this method is called when no players remains in battleground
+/// </summary>
 void BattleGround::Reset()
 {
     SetWinner(TEAM_NONE);
@@ -958,6 +1101,9 @@ void BattleGround::Reset()
     m_PlayerScores.clear();
 }
 
+/// <summary>
+/// Starts the battle ground.
+/// </summary>
 void BattleGround::StartBattleGround()
 {
     SetStartTime(0);
@@ -971,6 +1117,10 @@ void BattleGround::StartBattleGround()
     sBattleGroundMgr.AddBattleGround(GetInstanceID(), GetTypeID(), this);
 }
 
+/// <summary>
+/// Adds the player.
+/// </summary>
+/// <param name="plr">The PLR.</param>
 void BattleGround::AddPlayer(Player* plr)
 {
     // remove afk from player
@@ -1003,7 +1153,12 @@ void BattleGround::AddPlayer(Player* plr)
     DETAIL_LOG("BATTLEGROUND: Player %s joined the battle.", plr->GetName());
 }
 
-/* this method adds player to his team's bg group, or sets his correct group if player is already in bg group */
+/// <summary>
+/// this method adds player to his team's bg group, or sets his correct group if player is already in bg group.
+/// </summary>
+/// <param name="plr">The PLR.</param>
+/// <param name="plr_guid">The plr_guid.</param>
+/// <param name="team">The team.</param>
 void BattleGround::AddOrSetPlayerToCorrectBgGroup(Player* plr, ObjectGuid plr_guid, Team team)
 {
     if (Group* group = GetBgRaid(team))                     // raid already exist
@@ -1029,7 +1184,11 @@ void BattleGround::AddOrSetPlayerToCorrectBgGroup(Player* plr, ObjectGuid plr_gu
     }
 }
 
-// This method should be called when player logs into running battleground
+/// <summary>
+/// This method should be called when player logs into running battleground
+/// </summary>
+/// <param name="player">The player.</param>
+/// <param name="plr_guid">The plr_guid.</param>
 void BattleGround::EventPlayerLoggedIn(Player* player, ObjectGuid plr_guid)
 {
     // player is correct pointer
@@ -1047,7 +1206,10 @@ void BattleGround::EventPlayerLoggedIn(Player* player, ObjectGuid plr_guid)
     // we don't have to do that, because preparation aura isn't removed when player logs out
 }
 
-// This method should be called when player logs out from running battleground
+/// <summary>
+/// This method should be called when player logs out from running battleground
+/// </summary>
+/// <param name="player">The player.</param>
 void BattleGround::EventPlayerLoggedOut(Player* player)
 {
     // player is correct pointer, it is checked in WorldSession::LogoutPlayer()
@@ -1060,7 +1222,9 @@ void BattleGround::EventPlayerLoggedOut(Player* player)
     }
 }
 
-/* This method should be called only once ... it adds pointer to queue */
+/// <summary>
+/// This method should be called only once ... it adds pointer to queue.
+/// </summary>
 void BattleGround::AddToBGFreeSlotQueue()
 {
     // make sure to add only once
@@ -1071,7 +1235,9 @@ void BattleGround::AddToBGFreeSlotQueue()
     }
 }
 
-/* This method removes this battleground from free queue - it must be called when deleting battleground - not used now*/
+/// <summary>
+/// This method removes this battleground from free queue - it must be called when deleting battleground - not used now.
+/// </summary>
 void BattleGround::RemoveFromBGFreeSlotQueue()
 {
     // set to be able to re-add if needed
@@ -1086,8 +1252,11 @@ void BattleGround::RemoveFromBGFreeSlotQueue()
     }
 }
 
-// get the number of free slots for team
-// returns the number how many players can join battleground to MaxPlayersPerTeam
+/// <summary>
+/// get the number of free slots for team.
+/// </summary>
+/// <param name="team">The team.</param>
+/// <returns>returns the number how many players can join battleground to MaxPlayersPerTeam</returns>
 uint32 BattleGround::GetFreeSlotsForTeam(Team team) const
 {
     // return free slot count to MaxPlayerPerTeam
@@ -1097,11 +1266,21 @@ uint32 BattleGround::GetFreeSlotsForTeam(Team team) const
     return 0;
 }
 
+/// <summary>
+/// Determines whether [has free slots].
+/// </summary>
+/// <returns></returns>
 bool BattleGround::HasFreeSlots() const
 {
     return GetPlayersSize() < GetMaxPlayers();
 }
 
+/// <summary>
+/// Updates the player score.
+/// </summary>
+/// <param name="Source">The source.</param>
+/// <param name="type">The type.</param>
+/// <param name="value">The value.</param>
 void BattleGround::UpdatePlayerScore(Player* Source, uint32 type, uint32 value)
 {
     // this procedure is called from virtual function implemented in bg subclass
@@ -1132,8 +1311,11 @@ void BattleGround::UpdatePlayerScore(Player* Source, uint32 type, uint32 value)
     }
 }
 
-// some doors aren't despawned so we cannot handle their closing in gameobject::update()
-// it would be nice to correctly implement GO_ACTIVATED state and open/close doors in gameobject code
+/// <summary>
+/// some doors aren't despawned so we cannot handle their closing in gameobject::update()
+/// it would be nice to correctly implement GO_ACTIVATED state and open/close doors in gameobject code
+/// </summary>
+/// <param name="guid">The GUID.</param>
 void BattleGround::DoorClose(ObjectGuid guid)
 {
     GameObject* obj = GetBgMap()->GetGameObject(guid);
@@ -1151,6 +1333,10 @@ void BattleGround::DoorClose(ObjectGuid guid)
         sLog.outError("BattleGround: Door %s not found (cannot close doors)", guid.GetString().c_str());
 }
 
+/// <summary>
+/// Doors the open.
+/// </summary>
+/// <param name="guid">The GUID.</param>
 void BattleGround::DoorOpen(ObjectGuid guid)
 {
     GameObject* obj = GetBgMap()->GetGameObject(guid);
@@ -1164,6 +1350,10 @@ void BattleGround::DoorOpen(ObjectGuid guid)
         sLog.outError("BattleGround: Door %s not found! - doors will be closed.", guid.GetString().c_str());
 }
 
+/// <summary>
+/// Called when [object DB load].
+/// </summary>
+/// <param name="creature">The creature.</param>
 void BattleGround::OnObjectDBLoad(Creature* creature)
 {
     const BattleGroundEventIdx eventId = sBattleGroundMgr.GetCreatureEventIndex(creature->GetGUIDLow());
@@ -1174,6 +1364,12 @@ void BattleGround::OnObjectDBLoad(Creature* creature)
         SpawnBGCreature(creature->GetObjectGuid(), RESPAWN_ONE_DAY);
 }
 
+/// <summary>
+/// Gets the single creature GUID.
+/// </summary>
+/// <param name="event1">The event1.</param>
+/// <param name="event2">The event2.</param>
+/// <returns></returns>
 ObjectGuid BattleGround::GetSingleCreatureGuid(uint8 event1, uint8 event2)
 {
     GuidVector::const_iterator itr = m_EventObjects[MAKE_PAIR32(event1, event2)].creatures.begin();
@@ -1182,6 +1378,10 @@ ObjectGuid BattleGround::GetSingleCreatureGuid(uint8 event1, uint8 event2)
     return ObjectGuid();
 }
 
+/// <summary>
+/// Called when [object DB load].
+/// </summary>
+/// <param name="obj">The obj.</param>
 void BattleGround::OnObjectDBLoad(GameObject* obj)
 {
     const BattleGroundEventIdx eventId = sBattleGroundMgr.GetGameObjectEventIndex(obj->GetGUIDLow());
@@ -1200,6 +1400,12 @@ void BattleGround::OnObjectDBLoad(GameObject* obj)
     }
 }
 
+/// <summary>
+/// Determines whether the specified event1 is door.
+/// </summary>
+/// <param name="event1">The event1.</param>
+/// <param name="event2">The event2.</param>
+/// <returns></returns>
 bool BattleGround::IsDoor(uint8 event1, uint8 event2)
 {
     if (event1 == BG_EVENT_DOOR)
@@ -1214,6 +1420,11 @@ bool BattleGround::IsDoor(uint8 event1, uint8 event2)
     return false;
 }
 
+/// <summary>
+/// Opens the door event.
+/// </summary>
+/// <param name="event1">The event1.</param>
+/// <param name="event2">The event2.</param>
 void BattleGround::OpenDoorEvent(uint8 event1, uint8 event2 /*=0*/)
 {
     if (!IsDoor(event1, event2))
@@ -1231,6 +1442,12 @@ void BattleGround::OpenDoorEvent(uint8 event1, uint8 event2 /*=0*/)
         DoorOpen(*itr);
 }
 
+/// <summary>
+/// Spawns the event.
+/// </summary>
+/// <param name="event1">The event1.</param>
+/// <param name="event2">The event2.</param>
+/// <param name="spawn">The spawn.</param>
 void BattleGround::SpawnEvent(uint8 event1, uint8 event2, bool spawn)
 {
     // stop if we want to spawn something which was already spawned
@@ -1256,6 +1473,11 @@ void BattleGround::SpawnEvent(uint8 event1, uint8 event2, bool spawn)
         SpawnBGObject(*itr2, (spawn) ? RESPAWN_IMMEDIATELY : RESPAWN_ONE_DAY);
 }
 
+/// <summary>
+/// Spawns the BG object.
+/// </summary>
+/// <param name="guid">The GUID.</param>
+/// <param name="respawntime">The respawntime.</param>
 void BattleGround::SpawnBGObject(ObjectGuid guid, uint32 respawntime)
 {
     Map* map = GetBgMap();
@@ -1279,6 +1501,11 @@ void BattleGround::SpawnBGObject(ObjectGuid guid, uint32 respawntime)
     }
 }
 
+/// <summary>
+/// Spawns the BG creature.
+/// </summary>
+/// <param name="guid">The GUID.</param>
+/// <param name="respawntime">The respawntime.</param>
 void BattleGround::SpawnBGCreature(ObjectGuid guid, uint32 respawntime)
 {
     Map* map = GetBgMap();
@@ -1300,6 +1527,12 @@ void BattleGround::SpawnBGCreature(ObjectGuid guid, uint32 respawntime)
     }
 }
 
+/// <summary>
+/// Sends the message to all.
+/// </summary>
+/// <param name="entry">The entry.</param>
+/// <param name="type">The type.</param>
+/// <param name="source">The source.</param>
 void BattleGround::SendMessageToAll(int32 entry, ChatMsg type, Player const* source)
 {
     MaNGOS::BattleGroundChatBuilder bg_builder(type, entry, source);
@@ -1307,6 +1540,12 @@ void BattleGround::SendMessageToAll(int32 entry, ChatMsg type, Player const* sou
     BroadcastWorker(bg_do);
 }
 
+/// <summary>
+/// Sends the yell to all.
+/// </summary>
+/// <param name="entry">The entry.</param>
+/// <param name="language">The language.</param>
+/// <param name="guid">The GUID.</param>
 void BattleGround::SendYellToAll(int32 entry, uint32 language, ObjectGuid guid)
 {
     Creature* source = GetBgMap()->GetCreature(guid);
@@ -1317,6 +1556,13 @@ void BattleGround::SendYellToAll(int32 entry, uint32 language, ObjectGuid guid)
     BroadcastWorker(bg_do);
 }
 
+/// <summary>
+/// Ps the send message to all.
+/// </summary>
+/// <param name="entry">The entry.</param>
+/// <param name="type">The type.</param>
+/// <param name="source">The source.</param>
+/// <param name="">The .</param>
 void BattleGround::PSendMessageToAll(int32 entry, ChatMsg type, Player const* source, ...)
 {
     va_list ap;
@@ -1329,6 +1575,14 @@ void BattleGround::PSendMessageToAll(int32 entry, ChatMsg type, Player const* so
     va_end(ap);
 }
 
+/// <summary>
+/// Sends the message2 to all.
+/// </summary>
+/// <param name="entry">The entry.</param>
+/// <param name="type">The type.</param>
+/// <param name="source">The source.</param>
+/// <param name="arg1">The arg1.</param>
+/// <param name="arg2">The arg2.</param>
 void BattleGround::SendMessage2ToAll(int32 entry, ChatMsg type, Player const* source, int32 arg1, int32 arg2)
 {
     MaNGOS::BattleGround2ChatBuilder bg_builder(type, entry, source, arg1, arg2);
@@ -1336,6 +1590,14 @@ void BattleGround::SendMessage2ToAll(int32 entry, ChatMsg type, Player const* so
     BroadcastWorker(bg_do);
 }
 
+/// <summary>
+/// Sends the yell2 to all.
+/// </summary>
+/// <param name="entry">The entry.</param>
+/// <param name="language">The language.</param>
+/// <param name="guid">The GUID.</param>
+/// <param name="arg1">The arg1.</param>
+/// <param name="arg2">The arg2.</param>
 void BattleGround::SendYell2ToAll(int32 entry, uint32 language, ObjectGuid guid, int32 arg1, int32 arg2)
 {
     Creature* source = GetBgMap()->GetCreature(guid);
@@ -1346,6 +1608,9 @@ void BattleGround::SendYell2ToAll(int32 entry, uint32 language, ObjectGuid guid,
     BroadcastWorker(bg_do);
 }
 
+/// <summary>
+/// Ends the now.
+/// </summary>
 void BattleGround::EndNow()
 {
     RemoveFromBGFreeSlotQueue();
@@ -1354,10 +1619,13 @@ void BattleGround::EndNow()
 }
 
 /*
-important notice:
-buffs aren't spawned/despawned when players captures anything
-buffs are in their positions when battleground starts
 */
+/// <summary>
+/// important notice:
+/// buffs aren't spawned/despawned when players captures anything
+/// buffs are in their positions when battleground starts
+/// </summary>
+/// <param name="go_guid">The go_guid.</param>
 void BattleGround::HandleTriggerBuff(ObjectGuid go_guid)
 {
     GameObject* obj = GetBgMap()->GetGameObject(go_guid);
@@ -1368,6 +1636,11 @@ void BattleGround::HandleTriggerBuff(ObjectGuid go_guid)
     return;
 }
 
+/// <summary>
+/// Handles the kill player.
+/// </summary>
+/// <param name="player">The player.</param>
+/// <param name="killer">The killer.</param>
 void BattleGround::HandleKillPlayer(Player* player, Player* killer)
 {
     // add +1 deaths
@@ -1394,8 +1667,12 @@ void BattleGround::HandleKillPlayer(Player* player, Player* killer)
     player->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_SKINNABLE);
 }
 
-// return the player's team based on battlegroundplayer info
-// used in same faction arena matches mainly
+/// <summary>
+/// return the player's team based on battlegroundplayer info
+/// used in same faction arena matches mainly
+/// </summary>
+/// <param name="guid">The GUID.</param>
+/// <returns></returns>
 Team BattleGround::GetPlayerTeam(ObjectGuid guid)
 {
     BattleGroundPlayerMap::const_iterator itr = m_Players.find(guid);
@@ -1404,6 +1681,11 @@ Team BattleGround::GetPlayerTeam(ObjectGuid guid)
     return TEAM_NONE;
 }
 
+/// <summary>
+/// Determines whether [is player in battle ground] [the specified GUID].
+/// </summary>
+/// <param name="guid">The GUID.</param>
+/// <returns></returns>
 bool BattleGround::IsPlayerInBattleGround(ObjectGuid guid)
 {
     BattleGroundPlayerMap::const_iterator itr = m_Players.find(guid);
@@ -1412,6 +1694,10 @@ bool BattleGround::IsPlayerInBattleGround(ObjectGuid guid)
     return false;
 }
 
+/// <summary>
+/// Players the added to BG check if BG is running.
+/// </summary>
+/// <param name="plr">The PLR.</param>
 void BattleGround::PlayerAddedToBGCheckIfBGIsRunning(Player* plr)
 {
     if (GetStatus() != STATUS_WAIT_LEAVE)
@@ -1429,6 +1715,11 @@ void BattleGround::PlayerAddedToBGCheckIfBGIsRunning(Player* plr)
     plr->GetSession()->SendPacket(&data);
 }
 
+/// <summary>
+/// Gets the alive players count by team.
+/// </summary>
+/// <param name="team">The team.</param>
+/// <returns></returns>
 uint32 BattleGround::GetAlivePlayersCountByTeam(Team team) const
 {
     int count = 0;
@@ -1444,6 +1735,11 @@ uint32 BattleGround::GetAlivePlayersCountByTeam(Team team) const
     return count;
 }
 
+/// <summary>
+/// Sets the bg raid.
+/// </summary>
+/// <param name="team">The team.</param>
+/// <param name="bg_raid">The bg_raid.</param>
 void BattleGround::SetBgRaid(Team team, Group* bg_raid)
 {
     Group*& old_raid = m_BgRaids[GetTeamIndexByTeamId(team)];
@@ -1457,6 +1753,11 @@ void BattleGround::SetBgRaid(Team team, Group* bg_raid)
     old_raid = bg_raid;
 }
 
+/// <summary>
+/// Gets the closest grave yard.
+/// </summary>
+/// <param name="player">The player.</param>
+/// <returns></returns>
 WorldSafeLocsEntry const* BattleGround::GetClosestGraveYard(Player* player)
 {
     return sObjectMgr.GetClosestGraveYard(player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), player->GetMapId(), player->GetTeam());
