@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,7 +53,7 @@ struct WaypointNode
         : x(_x), y(_y), z(_z), orientation(_o), delay(_delay), script_id(_script_id), behavior(_behavior) {}
 };
 
-typedef std::vector<WaypointNode> WaypointPath;
+typedef std::map<uint32 /*pointId*/, WaypointNode> WaypointPath;
 
 class WaypointManager
 {
@@ -64,8 +63,6 @@ class WaypointManager
 
         void Load();
         void Unload();
-
-        void Cleanup();
 
         WaypointPath* GetPath(uint32 id)
         {
@@ -92,7 +89,7 @@ class WaypointManager
         void _addNode(uint32 id, uint32 point, float x, float y, float z, float o, uint32 delay, uint32 wpGuid);
         void _clearPath(WaypointPath& path);
 
-        typedef UNORDERED_MAP<uint32, WaypointPath> WaypointPathMap;
+        typedef UNORDERED_MAP<uint32 /*guidOrEntry*/, WaypointPath> WaypointPathMap;
         WaypointPathMap m_pathMap;
         WaypointPathMap m_pathTemplateMap;
 };

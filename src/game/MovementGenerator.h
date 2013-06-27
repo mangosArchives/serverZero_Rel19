@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,7 +53,7 @@ class MANGOS_DLL_SPEC MovementGenerator
         virtual void unitSpeedChanged() { }
 
         // used by Evade code for select point to evade with expected restart default movement
-        virtual bool GetResetPosition(Unit&, float& /*x*/, float& /*y*/, float& /*z*/) { return false; }
+        virtual bool GetResetPosition(Unit&, float& /*x*/, float& /*y*/, float& /*z*/) const { return false; }
 
         // given destination unreachable? due to pathfinsing or other
         virtual bool IsReachable() const { return true; }
@@ -93,10 +92,10 @@ class MANGOS_DLL_SPEC MovementGeneratorMedium : public MovementGenerator
             // u->AssertIsType<T>();
             return (static_cast<D*>(this))->Update(*((T*)&u), time_diff);
         }
-        bool GetResetPosition(Unit& u, float& x, float& y, float& z) override
+        bool GetResetPosition(Unit& u, float& x, float& y, float& z) const override
         {
             // u->AssertIsType<T>();
-            return (static_cast<D*>(this))->GetResetPosition(*((T*)&u), x, y, z);
+            return (static_cast<D const*>(this))->GetResetPosition(*((T*)&u), x, y, z);
         }
     public:
         // Will not link if not overridden in the generators
@@ -107,7 +106,7 @@ class MANGOS_DLL_SPEC MovementGeneratorMedium : public MovementGenerator
         bool Update(T& u, const uint32& time_diff);
 
         // not need always overwrites
-        bool GetResetPosition(T& /*u*/, float& /*x*/, float& /*y*/, float& /*z*/) { return false; }
+        bool GetResetPosition(T& /*u*/, float& /*x*/, float& /*y*/, float& /*z*/) const { return false; }
 };
 
 struct SelectableMovement : public FactoryHolder<MovementGenerator, MovementGeneratorType>

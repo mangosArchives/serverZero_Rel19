@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -135,18 +134,44 @@ class AuctionBotConfig
 
         uint32      getConfig(AuctionBotConfigUInt32Values index) const { return m_configUint32Values[index]; }
         bool        getConfig(AuctionBotConfigBoolValues index) const { return m_configBoolValues[index]; }
-        void        setConfig(AuctionBotConfigBoolValues index, bool value) { m_configBoolValues[index]=value; }
-        void        setConfig(AuctionBotConfigUInt32Values index, uint32 value) { m_configUint32Values[index]=value; }
+        void        setConfig(AuctionBotConfigBoolValues index, bool value) { m_configBoolValues[index] = value; }
+        void        setConfig(AuctionBotConfigUInt32Values index, uint32 value) { m_configUint32Values[index] = value; }
 
+        /** 
+         * Gets the config item amount ratio.
+         * 
+         * @param houseType Type of the house.
+         * @return 
+         */
         uint32 getConfigItemAmountRatio(AuctionHouseType houseType) const;
+        /** 
+         * Gets the config buyer enabled.
+         * 
+         * @param houseType Type of the house.
+         * <returns></returns
+         */
         bool getConfigBuyerEnabled(AuctionHouseType houseType) const;
+        /** 
+         * Gets the config item quality amount.
+         * 
+         * @param quality The quality.
+         * <returns></returns
+         */
         uint32 getConfigItemQualityAmount(AuctionQuality quality) const;
-
 
         uint32      GetItemPerCycleBoost() const { return m_ItemsPerCycleBoost; }
         uint32      GetItemPerCycleNormal() const { return m_ItemsPerCycleNormal; }
+        /** 
+         * Reloads the AhBot config.
+         * @return true if the config was successfully reloaded, false otherwise
+         */
         bool        Reload();
-
+        
+        /** 
+         * Gets the name of the item class.
+         * 
+         * @param itemclass The itemclass.
+         */
         static char const* GetItemClassName(ItemClass itemclass);
         static char const* GetHouseTypeName(AuctionHouseType houseType);
 
@@ -164,10 +189,44 @@ class AuctionBotConfig
         void SetAHBotIncludes(const std::string& AHBotIncludes) { m_AHBotIncludes = AHBotIncludes; }
         void SetAHBotExcludes(const std::string& AHBotExcludes) { m_AHBotExcludes = AHBotExcludes; }
 
+        /** 
+         * Sets the config.
+         * 
+         * @param index The index.
+         * @param fieldname The fieldname.
+         * @param defvalue The defvalue.
+         */
         void setConfig(AuctionBotConfigUInt32Values index, char const* fieldname, uint32 defvalue);
+        /** 
+         * Sets the config max.
+         * 
+         * @param index The index.
+         * @param fieldname The fieldname.
+         * @param defvalue The defvalue.
+         * @param maxvalue The maxvalue.
+         */
         void setConfigMax(AuctionBotConfigUInt32Values index, char const* fieldname, uint32 defvalue, uint32 maxvalue);
+        /** 
+         * Sets the config min max.
+         * 
+         * @param index The index.
+         * @param fieldname The fieldname.
+         * @param defvalue The defvalue.
+         * @param minvalue The minvalue.
+         * @param maxvalue The maxvalue.
+         */
         void setConfigMinMax(AuctionBotConfigUInt32Values index, char const* fieldname, uint32 defvalue, uint32 minvalue, uint32 maxvalue);
+        /** 
+         * Sets the config.
+         * 
+         * @param index The index.
+         * @param fieldname The fieldname.
+         * @param defvalue The defvalue.
+         */
         void setConfig(AuctionBotConfigBoolValues index, char const* fieldname, bool defvalue);
+        /** 
+         * Get AuctionHousebot configuration file
+         */
         void GetConfigFromFile();
 };
 
@@ -179,8 +238,8 @@ class AuctionBotAgent
         AuctionBotAgent() {}
         virtual ~AuctionBotAgent() {}
     public:
-        virtual bool Initialize() =0;
-        virtual bool Update(AuctionHouseType houseType) =0;
+        virtual bool Initialize() = 0;
+        virtual bool Update(AuctionHouseType houseType) = 0;
 };
 
 struct AuctionHouseBotStatusInfoPerType
@@ -196,22 +255,75 @@ typedef AuctionHouseBotStatusInfoPerType AuctionHouseBotStatusInfo[MAX_AUCTION_H
 class AuctionHouseBot
 {
     public:
+        /** 
+         * Initializes a new instance of the \ref AuctionHouseBot class.
+         */
         AuctionHouseBot();
+        /** 
+         * Finalizes an instance of the \ref AuctionHouseBot class.
+         */
         ~AuctionHouseBot();
 
+        /** 
+         * Updates this instance.
+         */
         void Update();
+        /** 
+         * Initializes this instance.
+         */
         void Initialize();
 
         // Followed method is mainly used by level3.cpp for ingame/console command
+        /** 
+         * Sets the items ratio.
+         * 
+         * @param al The alliane house ratio
+         * @param ho The horde house ratio
+         * @param ne The neutral house ratio
+         */
         void SetItemsRatio(uint32 al, uint32 ho, uint32 ne);
+        /** 
+         * Sets the items ratio for a specific house, like \ref SetItemsRatio but
+         * only for one house.
+         * 
+         * @param house The house
+         * @param val The new ratio
+         */
         void SetItemsRatioForHouse(AuctionHouseType house, uint32 val);
-        void SetItemsAmount(uint32 (&vals) [MAX_AUCTION_QUALITY]);
+        /** 
+         * Sets the items amount.
+         * 
+         * @param vals The vals.
+         */
+        void SetItemsAmount(uint32(&vals) [MAX_AUCTION_QUALITY]);
+        /** 
+         * Sets the items amount for quality.
+         * 
+         * @param quality The quality.
+         * @param val The val.
+         */
         void SetItemsAmountForQuality(AuctionQuality quality, uint32 val);
+        /** 
+         * Reloads all config.
+         */
         bool ReloadAllConfig();
+        /** 
+         * Rebuilds the specified all.
+         * 
+         * @param all All.
+         */
         void Rebuild(bool all);
 
+        /** 
+         * Prepares the status infos.
+         * 
+         * @param statusInfo The status info.
+         */
         void PrepareStatusInfos(AuctionHouseBotStatusInfo& statusInfo);
     private:
+        /** 
+         * Initilizes the agents.
+         */
         void InitilizeAgents();
 
         AuctionBotAgent* m_Buyer;

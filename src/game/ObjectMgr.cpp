@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -124,7 +123,8 @@ ObjectMgr::ObjectMgr() :
     m_PetNumbers("Pet numbers"),
     m_GroupIds("Group ids"),
     m_FirstTemporaryCreatureGuid(1),
-    m_FirstTemporaryGameObjectGuid(1)
+    m_FirstTemporaryGameObjectGuid(1),
+    DBCLocaleIndex(LOCALE_enUS)
 {
 }
 
@@ -864,7 +864,6 @@ void ObjectMgr::LoadCreatureModelInfo()
         }
         else
             sLog.outErrorDb("Table `creature_model_info` expect have data for character race %u male model id %u", race, raceEntry->model_m);
-
     }
 
     sLog.outString(">> Loaded %u creature model based info", sCreatureModelStorage.GetRecordCount());
@@ -1012,7 +1011,6 @@ void ObjectMgr::LoadCreatures()
             AddCreatureToGrid(guid, &data);
 
         ++count;
-
     }
     while (result->NextRow());
 
@@ -1160,8 +1158,11 @@ void ObjectMgr::LoadGameObjects()
         if (gameEvent == 0 && GuidPoolId == 0 && EntryPoolId == 0) // if not this is to be managed by GameEvent System or Pool system
             AddGameobjectToGrid(guid, &data);
 
-        ++count;
+        //uint32 zoneId, areaId;
+        //sTerrainMgr.LoadTerrain(data.mapid)->GetZoneAndAreaId(zoneId, areaId, data.posX, data.posY, data.posZ);
+        //sLog.outErrorDb("UPDATE gameobject SET zone_id=%u, area_id=%u WHERE guid=%u;", zoneId, areaId, guid);
 
+        ++count;
     }
     while (result->NextRow());
 
@@ -2497,7 +2498,6 @@ void ObjectMgr::LoadStandingList(uint32 dateBegin)
                 HordeHonorStandingList.push_back(Standing);
 
             bar.step();
-
         }
         while (result->NextRow());
 
@@ -2579,7 +2579,6 @@ void ObjectMgr::FlushRankPoints(uint32 dateTop)
                 CharacterDatabase.PExecute("UPDATE characters SET stored_honorable_kills = stored_honorable_kills + %u WHERE guid = %u", kills, guid);
             else if (type == DISHONORABLE)
                 CharacterDatabase.PExecute("UPDATE characters SET stored_dishonorable_kills = stored_dishonorable_kills + %u WHERE guid = %u", kills, guid);
-
         }
         while (result->NextRow());
     }
@@ -3931,7 +3930,6 @@ void ObjectMgr::LoadItemTexts()
         mItemTexts[ fields[0].GetUInt32()] = fields[1].GetCppString();
 
         ++count;
-
     }
     while (result->NextRow());
 
@@ -4032,7 +4030,6 @@ void ObjectMgr::LoadPageTextLocales()
                 data.Text[idx] = str;
             }
         }
-
     }
     while (result->NextRow());
 
@@ -4513,7 +4510,6 @@ void ObjectMgr::LoadQuestAreaTriggers()
         }
 
         mQuestAreaTriggerMap[trigger_ID] = quest_ID;
-
     }
     while (result->NextRow());
 
@@ -4914,7 +4910,6 @@ void ObjectMgr::LoadAreaTriggerTeleports()
     QueryResult* result = WorldDatabase.Query("SELECT id, required_level, required_item, required_item2, required_quest_done, target_map, target_position_x, target_position_y, target_position_z, target_orientation FROM areatrigger_teleport");
     if (!result)
     {
-
         BarGoLink bar(1);
 
         bar.step();
@@ -4999,7 +4994,6 @@ void ObjectMgr::LoadAreaTriggerTeleports()
         }
 
         mAreaTriggers[Trigger_ID] = at;
-
     }
     while (result->NextRow());
 
@@ -5297,7 +5291,6 @@ void ObjectMgr::LoadGameObjectLocales()
                 }
             }
         }
-
     }
     while (result->NextRow());
 
@@ -6564,7 +6557,27 @@ void ObjectMgr::LoadGameObjectForQuests()
     sLog.outString(">> Loaded %u GameObjects for quests", count);
 }
 
-bool ObjectMgr::LoadMangosStrings(DatabaseType& db, char const* table, int32 min_value, int32 max_value)
+inline void _DoStringError(int32 entry, char const* text, ...)
+{
+    MANGOS_ASSERT(text);
+
+    char buf[256];
+    va_list ap;
+    va_start(ap, text);
+    vsnprintf(buf, 256, text, ap);
+    va_end(ap);
+
+    if (entry <= MAX_CREATURE_AI_TEXT_STRING_ID)            // script library error
+        sLog.outErrorScriptLib("%s", buf);
+    else if (entry <= MIN_CREATURE_AI_TEXT_STRING_ID)       // eventAI error
+        sLog.outErrorEventAI("%s", buf);
+    else if (entry < MIN_DB_SCRIPT_STRING_ID)               // mangos string error
+        sLog.outError("%s", buf);
+    else // if (entry > MIN_DB_SCRIPT_STRING_ID)            // DB script text error
+        sLog.outErrorDb("DB-SCRIPTS: %s", buf);
+}
+
+bool ObjectMgr::LoadMangosStrings(DatabaseType& db, char const* table, int32 min_value, int32 max_value, bool extra_content)
 {
     int32 start_value = min_value;
     int32 end_value   = max_value;
@@ -6600,7 +6613,10 @@ bool ObjectMgr::LoadMangosStrings(DatabaseType& db, char const* table, int32 min
             ++itr;
     }
 
-    QueryResult* result = db.PQuery("SELECT entry,content_default,content_loc1,content_loc2,content_loc3,content_loc4,content_loc5,content_loc6,content_loc7,content_loc8 FROM %s", table);
+    sLog.outString("Loading texts from %s%s", table, extra_content ? ", with additional data" : "");
+
+    QueryResult* result = db.PQuery("SELECT entry,content_default,content_loc1,content_loc2,content_loc3,content_loc4,content_loc5,content_loc6,content_loc7,content_loc8 %s FROM %s",
+                                    extra_content ? ",sound,type,language,emote" : "", table);
 
     if (!result)
     {
@@ -6629,12 +6645,12 @@ bool ObjectMgr::LoadMangosStrings(DatabaseType& db, char const* table, int32 min
 
         if (entry == 0)
         {
-            sLog.outErrorDb("Table `%s` contain reserved entry 0, ignored.", table);
+            _DoStringError(start_value, "Table `%s` contain reserved entry 0, ignored.", table);
             continue;
         }
         else if (entry < start_value || entry >= end_value)
         {
-            sLog.outErrorDb("Table `%s` contain entry %i out of allowed range (%d - %d), ignored.", table, entry, min_value, max_value);
+            _DoStringError(start_value, "Table `%s` contain entry %i out of allowed range (%d - %d), ignored.", table, entry, min_value, max_value);
             continue;
         }
 
@@ -6642,7 +6658,7 @@ bool ObjectMgr::LoadMangosStrings(DatabaseType& db, char const* table, int32 min
 
         if (!data.Content.empty())
         {
-            sLog.outErrorDb("Table `%s` contain data for already loaded entry  %i (from another table?), ignored.", table, entry);
+            _DoStringError(entry, "Table `%s` contain data for already loaded entry  %i (from another table?), ignored.", table, entry);
             continue;
         }
 
@@ -6668,16 +6684,51 @@ bool ObjectMgr::LoadMangosStrings(DatabaseType& db, char const* table, int32 min
                 }
             }
         }
+
+        // Load additional string content if necessary
+        if (extra_content)
+        {
+            data.SoundId     = fields[10].GetUInt32();
+            data.Type        = fields[11].GetUInt32();
+            data.Language    = fields[12].GetUInt32();
+            data.Emote       = fields[13].GetUInt32();
+
+            if (data.SoundId && !sSoundEntriesStore.LookupEntry(data.SoundId))
+            {
+                _DoStringError(entry, "Entry %i in table `%s` has soundId %u but sound does not exist.", entry, table, data.SoundId);
+                data.SoundId = 0;
+            }
+
+            if (!GetLanguageDescByID(data.Language))
+            {
+                _DoStringError(entry, "Entry %i in table `%s` using Language %u but Language does not exist.", entry, table, data.Language);
+                data.Language = LANG_UNIVERSAL;
+            }
+
+            if (data.Type > CHAT_TYPE_ZONE_YELL)
+            {
+                _DoStringError(entry, "Entry %i in table `%s` has Type %u but this Chat Type does not exist.", entry, table, data.Type);
+                data.Type = CHAT_TYPE_SAY;
+            }
+
+            if (data.Emote && !sEmotesStore.LookupEntry(data.Emote))
+            {
+                _DoStringError(entry, "Entry %i in table `%s` has Emote %u but emote does not exist.", entry, table, data.Emote);
+                data.Emote = EMOTE_ONESHOT_NONE;
+            }
+        }
     }
     while (result->NextRow());
 
     delete result;
 
-    sLog.outString();
     if (min_value == MIN_MANGOS_STRING_ID)
         sLog.outString(">> Loaded %u MaNGOS strings from table %s", count, table);
     else
-        sLog.outString(">> Loaded %u string templates from %s", count, table);
+        sLog.outString(">> Loaded %u %s templates from %s", count, extra_content ? "text" : "string", table);
+    sLog.outString();
+
+    m_loadedStringCount[min_value] = count;
 
     return true;
 }
@@ -6694,14 +6745,8 @@ const char* ObjectMgr::GetMangosString(int32 entry, int locale_idx) const
             return msl->Content[0].c_str();
     }
 
-    if (entry > MIN_DB_SCRIPT_STRING_ID)
-        sLog.outErrorDb("Entry %i not found in `db_script_string` table.", entry);
-    else if (entry > 0)
-        sLog.outErrorDb("Entry %i not found in `mangos_string` table.", entry);
-    else if (entry > MAX_CREATURE_AI_TEXT_STRING_ID)
-        sLog.outErrorEventAI("Entry %i not found in `creature_ai_texts` table.", entry);
-    else
-        sLog.outErrorScriptLib("String entry %i not found in Database.", entry);
+    _DoStringError(entry, "Entry %i not found but requested", entry);
+
     return "<error>";
 }
 
@@ -7750,7 +7795,7 @@ void ObjectMgr::LoadTrainers(char const* tableName, bool isTemplates)
         trainerSpell.reqLevel      = fields[5].GetUInt32();
 
         trainerSpell.isProvidedReqLevel = trainerSpell.reqLevel > 0;
-
+		
         if (trainerSpell.reqLevel)
         {
             if (trainerSpell.reqLevel == spellinfo->spellLevel)
@@ -7763,7 +7808,6 @@ void ObjectMgr::LoadTrainers(char const* tableName, bool isTemplates)
             data.trainerType = 2;
 
         ++count;
-
     }
     while (result->NextRow());
     delete result;
@@ -7844,7 +7888,6 @@ void ObjectMgr::LoadVendors(char const* tableName, bool isTemplates)
 
         vList.AddItem(item_id, maxcount, incrtime, conditionId);
         ++count;
-
     }
     while (result->NextRow());
     delete result;
@@ -7925,7 +7968,6 @@ void ObjectMgr::LoadNpcGossips()
 
         m_mCacheNpcTextIdMap[guid] = textid ;
         ++count;
-
     }
     while (result->NextRow());
     delete result;
@@ -8032,7 +8074,7 @@ void ObjectMgr::LoadGossipMenuItems(std::set<uint32>& gossipScriptSet)
                               "SELECT menu_id, id, option_icon, option_text, option_id, npc_option_npcflag, "
                               "action_menu_id, action_poi_id, action_script_id, box_coded, box_money, box_text, "
                               "condition_id "
-                              "FROM gossip_menu_option");
+                              "FROM gossip_menu_option ORDER BY menu_id, id");
 
     if (!result)
     {
@@ -8181,7 +8223,6 @@ void ObjectMgr::LoadGossipMenuItems(std::set<uint32>& gossipScriptSet)
         m_mGossipMenuItemsMap.insert(GossipMenuItemsMap::value_type(gMenuItem.menu_id, gMenuItem));
 
         ++count;
-
     }
     while (result->NextRow());
 
@@ -8443,7 +8484,7 @@ void ObjectMgr::GetNpcTextLocaleStrings0(uint32 entry, int32 loc_idx, std::strin
 }
 
 // Functions for scripting access
-bool LoadMangosStrings(DatabaseType& db, char const* table, int32 start_value, int32 end_value)
+bool LoadMangosStrings(DatabaseType& db, char const* table, int32 start_value, int32 end_value, bool extra_content)
 {
     // MAX_DB_SCRIPT_STRING_ID is max allowed negative value for scripts (scrpts can use only more deep negative values
     // start/end reversed for negative values
@@ -8453,7 +8494,7 @@ bool LoadMangosStrings(DatabaseType& db, char const* table, int32 start_value, i
         return false;
     }
 
-    return sObjectMgr.LoadMangosStrings(db, table, start_value, end_value);
+    return sObjectMgr.LoadMangosStrings(db, table, start_value, end_value, extra_content);
 }
 
 void ObjectMgr::LoadCreatureTemplateSpells()
@@ -8489,6 +8530,11 @@ CreatureInfo const* GetCreatureTemplateStore(uint32 entry)
 Quest const* GetQuestTemplateStore(uint32 entry)
 {
     return sObjectMgr.GetQuestTemplate(entry);
+}
+
+MangosStringLocale const* GetMangosStringData(int32 entry)
+{
+    return sObjectMgr.GetMangosStringLocale(entry);
 }
 
 bool FindCreatureData::operator()(CreatureDataPair const& dataPair)
@@ -8589,4 +8635,85 @@ GameObjectDataPair const* FindGOData::GetResult() const
         return i_spawnedData;
 
     return i_anyData;
+}
+
+bool DoDisplayText(WorldObject* source, int32 entry, Unit const* target /*=NULL*/)
+{
+    MangosStringLocale const* data = sObjectMgr.GetMangosStringLocale(entry);
+
+    if (!data)
+    {
+        _DoStringError(entry, "DoScriptText with source %s could not find text entry %i.", source->GetGuidStr().c_str(), entry);
+        return false;
+    }
+
+    if (data->SoundId)
+    {
+        if (data->Type == CHAT_TYPE_ZONE_YELL)
+            source->GetMap()->PlayDirectSoundToMap(data->SoundId, source->GetZoneId());
+        else if (data->Type == CHAT_TYPE_WHISPER || data->Type == CHAT_TYPE_BOSS_WHISPER)
+        {
+            // An error will be displayed for the text
+            if (target && target->GetTypeId() == TYPEID_PLAYER)
+                source->PlayDirectSound(data->SoundId, (Player const*)target);
+        }
+        else
+            source->PlayDirectSound(data->SoundId);
+    }
+
+    if (data->Emote)
+    {
+        if (source->GetTypeId() == TYPEID_UNIT || source->GetTypeId() == TYPEID_PLAYER)
+        {
+            ((Unit*)source)->HandleEmote(data->Emote);
+        }
+        else
+        {
+            _DoStringError(entry, "DoDisplayText entry %i tried to process emote for invalid source %s", entry, source->GetGuidStr().c_str());
+            return false;
+        }
+    }
+
+    switch (data->Type)
+    {
+        case CHAT_TYPE_SAY:
+            source->MonsterSay(entry, data->Language, target);
+            break;
+        case CHAT_TYPE_YELL:
+            source->MonsterYell(entry, data->Language, target);
+            break;
+        case CHAT_TYPE_TEXT_EMOTE:
+            source->MonsterTextEmote(entry, target);
+            break;
+        case CHAT_TYPE_BOSS_EMOTE:
+            source->MonsterTextEmote(entry, target, true);
+            break;
+        case CHAT_TYPE_WHISPER:
+        {
+            if (target && target->GetTypeId() == TYPEID_PLAYER)
+                source->MonsterWhisper(entry, target);
+            else
+            {
+                _DoStringError(entry, "DoDisplayText entry %i cannot whisper without target unit (TYPEID_PLAYER).", entry);
+                return false;
+            }
+            break;
+        }
+        case CHAT_TYPE_BOSS_WHISPER:
+        {
+            if (target && target->GetTypeId() == TYPEID_PLAYER)
+                source->MonsterWhisper(entry, target, true);
+            else
+            {
+                _DoStringError(entry, "DoDisplayText entry %i cannot whisper without target unit (TYPEID_PLAYER).", entry);
+                return false;
+            }
+            break;
+        }
+        case CHAT_TYPE_ZONE_YELL:
+            source->MonsterYellToZone(entry, data->Language, target);
+            break;
+    }
+
+    return true;
 }

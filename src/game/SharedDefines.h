@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -142,8 +141,17 @@ enum Powers
 
 #define MAX_POWERS                        5
 
+/**
+ * The different spell schools that are available, used in both damage calculation
+ * and spell casting to decide what should be affected, the SPELL_SCHOOL_NORMAL
+ * is the armor, others should be self explanatory.
+ *
+ * Note that these are the values to use for changing ie, the armor via a
+ * Modifier, and it is the Modifier::m_miscValue that should be set.
+ */
 enum SpellSchools
 {
+    /// Physical, Armor
     SPELL_SCHOOL_NORMAL                 = 0,
     SPELL_SCHOOL_HOLY                   = 1,
     SPELL_SCHOOL_FIRE                   = 2,
@@ -155,10 +163,15 @@ enum SpellSchools
 
 #define MAX_SPELL_SCHOOL                  7
 
+/**
+ * A bitmask of the available SpellSchools. Used for convenience
+ */
 enum SpellSchoolMask
 {
-    SPELL_SCHOOL_MASK_NONE    = 0x00,                       // not exist
-    SPELL_SCHOOL_MASK_NORMAL  = (1 << SPELL_SCHOOL_NORMAL), // PHYSICAL (Armor)
+    /// not exist
+    SPELL_SCHOOL_MASK_NONE    = 0x00,
+    /// PHYSICAL (Armor)
+    SPELL_SCHOOL_MASK_NORMAL  = (1 << SPELL_SCHOOL_NORMAL), 
     SPELL_SCHOOL_MASK_HOLY    = (1 << SPELL_SCHOOL_HOLY),
     SPELL_SCHOOL_MASK_FIRE    = (1 << SPELL_SCHOOL_FIRE),
     SPELL_SCHOOL_MASK_NATURE  = (1 << SPELL_SCHOOL_NATURE),
@@ -168,14 +181,14 @@ enum SpellSchoolMask
 
     // unions
 
-    // 124, not include normal and holy damage
+    /// 124, not include normal and holy damage
     SPELL_SCHOOL_MASK_SPELL   = (SPELL_SCHOOL_MASK_FIRE   |
                                  SPELL_SCHOOL_MASK_NATURE | SPELL_SCHOOL_MASK_FROST  |
                                  SPELL_SCHOOL_MASK_SHADOW | SPELL_SCHOOL_MASK_ARCANE),
-    // 126
+    /// 126
     SPELL_SCHOOL_MASK_MAGIC   = (SPELL_SCHOOL_MASK_HOLY | SPELL_SCHOOL_MASK_SPELL),
 
-    // 127
+    /// 127
     SPELL_SCHOOL_MASK_ALL     = (SPELL_SCHOOL_MASK_NORMAL | SPELL_SCHOOL_MASK_MAGIC)
 };
 
@@ -864,11 +877,18 @@ enum SpellImmunity
 
 #define MAX_SPELL_IMMUNITY           6
 
+/**
+ * The different types of attacks you can do with 
+ * weapons
+ */
 enum WeaponAttackType
 {
+    ///Main-hand weapon
     BASE_ATTACK   = 0,
+    ///Off-hand weapon
     OFF_ATTACK    = 1,
-    RANGED_ATTACK = 2
+    ///Ranged weapon, bow/wand etc.
+    RANGED_ATTACK = 2  
 };
 
 #define MAX_ATTACK  3
@@ -933,8 +953,14 @@ enum Targets
     TARGET_DUELVSPLAYER_COORDINATES    = 63,
 };
 
+/**
+ * Tells how a spell that was cast missed or hit, ie it might have been
+ * resisted or dodged etc. This enum tells which of those it was. The only
+ * one which indicates a hit is SPELL_MISS_NONE
+ */
 enum SpellMissInfo
 {
+    /// Indicates an actual hit
     SPELL_MISS_NONE                    = 0,
     SPELL_MISS_MISS                    = 1,
     SPELL_MISS_RESIST                  = 2,
@@ -959,11 +985,19 @@ enum SpellHitType
     SPELL_HIT_TYPE_UNK6 = 0x00020
 };
 
+/**
+ * TODO: Find out where these are used except for Unit::CalculateSpellDamage
+ * and dox it properly
+ */
 enum SpellDmgClass
 {
+    /// Counted as a spell damage
     SPELL_DAMAGE_CLASS_NONE     = 0,
+    /// Counted as a spell damage
     SPELL_DAMAGE_CLASS_MAGIC    = 1,
+    /// Melee damage
     SPELL_DAMAGE_CLASS_MELEE    = 2,
+    /// Ranged damage
     SPELL_DAMAGE_CLASS_RANGED   = 3
 };
 
@@ -974,21 +1008,27 @@ enum SpellPreventionType
     SPELL_PREVENTION_TYPE_PACIFY    = 2
 };
 
-// indexes from SpellRange.dbc, listed only special and used in code
+/// indexes from SpellRange.dbc, listed only special and used in code
 enum SpellRangeIndex
 {
-    SPELL_RANGE_IDX_SELF_ONLY = 1,                          // 0.0
-    SPELL_RANGE_IDX_COMBAT    = 2,                          // 5.5 (but dynamic)
-    SPELL_RANGE_IDX_ANYWHERE  = 13,                         // 500000 (anywhere)
+    /// 0.0
+    SPELL_RANGE_IDX_SELF_ONLY = 1,
+    /// 5.5 (but dynamic), seems to indicate melee range
+    SPELL_RANGE_IDX_COMBAT    = 2,
+    /// 500000 (anywhere)
+    SPELL_RANGE_IDX_ANYWHERE  = 13,                         
 };
 
 enum DamageEffectType
 {
-    DIRECT_DAMAGE           = 0,                            // used for normal weapon damage (not for class abilities or spells)
-    SPELL_DIRECT_DAMAGE     = 1,                            // spell/class abilities damage
+    /// Used for normal weapon damage (not for class abilities or spells)
+    DIRECT_DAMAGE           = 0,
+    /// spell/class abilities damage
+    SPELL_DIRECT_DAMAGE     = 1,                            
     DOT                     = 2,
     HEAL                    = 3,
-    NODAMAGE                = 4,                            // used also in case when damage applied to health but not applied to spell channelInterruptFlags/etc
+    /// used also in case when damage applied to health but not applied to spell channelInterruptFlags/etc
+    NODAMAGE                = 4,                            
     SELF_DAMAGE             = 5
 };
 

@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
 #include "Config/Config.h"
@@ -45,7 +44,6 @@ void daemonSignal(int s)
 
     exit(EXIT_FAILURE);
 }
-
 
 void startDaemon(uint32_t timeout)
 {
@@ -121,7 +119,6 @@ void detachDaemon()
     }
 }
 
-
 void exitDaemon()
 {
     if (parent_pid && parent_pid != getpid())
@@ -129,7 +126,6 @@ void exitDaemon()
         kill(parent_pid, SIGTERM);
     }
 }
-
 
 struct WatchDog
 {

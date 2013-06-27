@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,6 +50,10 @@
 
 #define NULL_AURA_SLOT 0xFF
 
+/**
+ * An array with all the different handlers for taking care of
+ * the various aura types that are defined in AuraType.
+ */
 pAuraHandler AuraHandler[TOTAL_AURAS] =
 {
     &Aura::HandleNULL,                                      //  0 SPELL_AURA_NONE
@@ -144,7 +147,7 @@ pAuraHandler AuraHandler[TOTAL_AURAS] =
     &Aura::HandleNoImmediateEffect,                         // 88 SPELL_AURA_MOD_HEALTH_REGEN_PERCENT implemented in Player::RegenerateHealth
     &Aura::HandlePeriodicDamagePCT,                         // 89 SPELL_AURA_PERIODIC_DAMAGE_PERCENT
     &Aura::HandleUnused,                                    // 90 SPELL_AURA_MOD_RESIST_CHANCE  Useless
-    &Aura::HandleNoImmediateEffect,                         // 91 SPELL_AURA_MOD_DETECT_RANGE implemented in Creature::GetAttackDistance
+    &Aura::HandleModDetectRange,                            // 91 SPELL_AURA_MOD_DETECT_RANGE implemented in Creature::GetAttackDistance
     &Aura::HandlePreventFleeing,                            // 92 SPELL_AURA_PREVENTS_FLEEING
     &Aura::HandleModUnattackable,                           // 93 SPELL_AURA_MOD_UNATTACKABLE
     &Aura::HandleNoImmediateEffect,                         // 94 SPELL_AURA_INTERRUPT_REGEN implemented in Player::RegenerateAll
@@ -738,6 +741,35 @@ void Aura::HandleAddModifier(bool apply, bool Real)
                 GetHolder()->SetAuraCharges(1);
                 break;
         }
+        
+        // In pre-TBC wrong spellmods in DBC
+        switch (GetSpellProto()->SpellIconID)
+        {
+            case 143:       // Permafrost Speed Decrease
+                if (GetEffIndex() == EFFECT_INDEX_1)
+                    m_modifier.m_miscvalue = SPELLMOD_EFFECT1;
+                break;
+            case 228:       // Improved Curse of Exhaustion Speed Decrease
+                if (GetEffIndex() == EFFECT_INDEX_0)
+                    m_modifier.m_miscvalue = SPELLMOD_EFFECT1;
+                break;
+            case 250:       // Camouflage Speed Decrease
+                if (GetEffIndex() == EFFECT_INDEX_0)
+                    m_modifier.m_miscvalue = SPELLMOD_EFFECT3;
+                break;
+            case 1181:       // Pathfinding Speed Increase
+                if (GetEffIndex() == EFFECT_INDEX_0)
+                    m_modifier.m_miscvalue = SPELLMOD_EFFECT1;
+                break;
+            case 1494:       // Amplify Curse Speed Decrease
+                if (GetEffIndex() == EFFECT_INDEX_1)
+                    m_modifier.m_miscvalue = SPELLMOD_EFFECT1;
+                break;
+            case 1563:       // Cheetah Sprint
+                if (GetEffIndex() == EFFECT_INDEX_0)
+                    m_modifier.m_miscvalue = SPELLMOD_EFFECT1;
+                break;
+        }
 
         m_spellmod = new SpellModifier(
             SpellModOp(m_modifier.m_miscvalue),
@@ -1079,7 +1111,7 @@ void Aura::TriggerSpell()
     {
         if (Unit* caster = GetCaster())
         {
-            if (triggerTarget->GetTypeId() != TYPEID_UNIT || !sScriptMgr.OnEffectDummy(caster, GetId(), GetEffIndex(), (Creature*)triggerTarget))
+            if (triggerTarget->GetTypeId() != TYPEID_UNIT || !sScriptMgr.OnEffectDummy(caster, GetId(), GetEffIndex(), (Creature*)triggerTarget, ObjectGuid()))
                 sLog.outError("Aura::TriggerSpell: Spell %u have 0 in EffectTriggered[%d], not handled custom case?", GetId(), GetEffIndex());
         }
     }
@@ -1991,6 +2023,33 @@ void Aura::HandleAuraModScale(bool apply, bool /*Real*/)
     GetTarget()->UpdateModelData();
 }
 
+void Aura::HandleModDetectRange(bool apply, bool Real)
+{
+    switch (GetId())
+    {
+        //Soothe animal
+    case 9901:
+    case 8955:
+    case 2908:
+    {
+        if (apply)
+        {
+            Aura* A = CreateAura(GetSpellProto(),EFFECT_INDEX_1,0,m_spellAuraHolder,GetTarget(),GetCaster());
+            m_spellAuraHolder->AddAura(A,EFFECT_INDEX_1);
+            A->m_modifier.m_miscvalue = SPELL_SCHOOL_MASK_NATURE;
+            A->m_modifier.periodictime = 0;
+            A->m_modifier.m_auraname = SPELL_AURA_MOD_DETECT_RANGE;
+            //Reduce aggro range by 10 yards
+            A->m_modifier.m_amount = -10;
+            //Should this aura be removed when apply is false?
+        }
+    }
+        break;
+    default:
+        break;
+    }
+}
+
 void Aura::HandleModPossess(bool apply, bool Real)
 {
     if (!Real)
@@ -2046,7 +2105,6 @@ void Aura::HandleModPossess(bool apply, bool Real)
         {
             ((Player*)target)->SetClientControl(target, 0);
         }
-
     }
     else
     {
@@ -2500,7 +2558,6 @@ void Aura::HandleInvisibility(bool apply, bool Real)
         {
             // apply glow vision
             target->SetByteFlag(PLAYER_FIELD_BYTES2, 1, PLAYER_FIELD_BYTE2_INVISIBILITY_GLOW);
-
         }
 
         // apply only if not in GM invisibility and not stealth
@@ -3437,12 +3494,16 @@ void Aura::HandleAuraModIncreaseHealth(bool apply, bool Real)
 {
     Unit* target = GetTarget();
 
-    // Special case with temporary increase max/current health
     switch (GetId())
     {
-        case 1178:                                          // Bear Form (Passive)
-        case 9635:                                          // Dire Bear Form (Passive)
-        case 12976:                                         // Warrior Last Stand triggered spell
+        // Special case with temporary increase max/current health
+            // Cases where we need to manually calculate the amount for the spell (by percentage)
+            // recalculate to full amount at apply for proper remove
+        // Backport notive TBC: no cases yet
+            // no break here
+
+            // Cases where m_amount already has the correct value (spells cast with CastCustomSpell or absolute values)
+        case 12976:                                         // Warrior Last Stand triggered spell (Cast with percentage-value by CastCustomSpell)
         {
             if (Real)
             {
@@ -3462,10 +3523,22 @@ void Aura::HandleAuraModIncreaseHealth(bool apply, bool Real)
             }
             return;
         }
+        // Case with temp increase health, where total percentage is kept
+        case 1178:                                          // Bear Form (Passive)
+        case 9635:                                          // Dire Bear Form (Passive)
+        {
+            if (Real)
+            {
+                float pct = target->GetHealthPercent();
+                target->HandleStatModifier(UNIT_MOD_HEALTH, TOTAL_VALUE, float(m_modifier.m_amount), apply);
+                target->SetHealthPercent(pct);
+            }
+            return;
+        }
+        // generic case
+        default:
+            target->HandleStatModifier(UNIT_MOD_HEALTH, TOTAL_VALUE, float(m_modifier.m_amount), apply);
     }
-
-    // generic case
-    target->HandleStatModifier(UNIT_MOD_HEALTH, TOTAL_VALUE, float(m_modifier.m_amount), apply);
 }
 
 void Aura::HandleAuraModIncreaseEnergy(bool apply, bool /*Real*/)
@@ -3573,8 +3646,19 @@ void Aura::HandleModHitChance(bool apply, bool /*Real*/)
 {
     Unit* target = GetTarget();
 
-    target->m_modMeleeHitChance += apply ? m_modifier.m_amount : (-m_modifier.m_amount);
-    target->m_modRangedHitChance += apply ? m_modifier.m_amount : (-m_modifier.m_amount);
+    if (GetSpellProto()->EquippedItemSubClassMask & UI64LIT(0x0004000C))
+    {
+        target->m_modRangedHitChance += apply ? m_modifier.m_amount : (-m_modifier.m_amount);
+    }
+    else if(GetSpellProto()->EquippedItemClass == -1)
+    {
+        target->m_modMeleeHitChance += apply ? m_modifier.m_amount : (-m_modifier.m_amount);
+        target->m_modRangedHitChance += apply ? m_modifier.m_amount : (-m_modifier.m_amount);
+    }
+    else
+    {
+        target->m_modMeleeHitChance += apply ? m_modifier.m_amount : (-m_modifier.m_amount);
+    }
 }
 
 void Aura::HandleModSpellHitChance(bool apply, bool /*Real*/)
@@ -4671,7 +4755,7 @@ void Aura::PeriodicDummyTick()
     if (Unit* caster = GetCaster())
     {
         if (target && target->GetTypeId() == TYPEID_UNIT)
-            sScriptMgr.OnEffectDummy(caster, GetId(), GetEffIndex(), (Creature*)target);
+            sScriptMgr.OnEffectDummy(caster, GetId(), GetEffIndex(), (Creature*)target, ObjectGuid());
     }
 }
 
@@ -5139,6 +5223,37 @@ void SpellAuraHolder::HandleSpellSpecificBoosts(bool apply)
     uint32 spellId2 = 0;
     uint32 spellId3 = 0;
     uint32 spellId4 = 0;
+
+    // Linked spells (boost chain)
+    SpellLinkedSet linkedSet = sSpellMgr.GetSpellLinked(GetId(), SPELL_LINKED_TYPE_BOOST);
+    if (linkedSet.size() > 0)
+    {
+        for (SpellLinkedSet::const_iterator itr = linkedSet.begin(); itr != linkedSet.end(); ++itr)
+        {
+            apply ?
+                m_target->CastSpell(m_target, *itr, true, NULL, NULL, GetCasterGuid()) :
+                m_target->RemoveAurasByCasterSpell(*itr, GetCasterGuid());
+        }
+    }
+
+    if (!apply)
+    {
+        // Linked spells (CastOnRemove chain)
+        linkedSet = sSpellMgr.GetSpellLinked(GetId(), SPELL_LINKED_TYPE_CASTONREMOVE);
+        if (linkedSet.size() > 0)
+        {
+            for (SpellLinkedSet::const_iterator itr = linkedSet.begin(); itr != linkedSet.end(); ++itr)
+                m_target->CastSpell(m_target, *itr, true, NULL, NULL, GetCasterGuid());
+        }
+
+        // Linked spells (RemoveOnRemove chain)
+        linkedSet = sSpellMgr.GetSpellLinked(GetId(), SPELL_LINKED_TYPE_REMOVEONREMOVE);
+        if (linkedSet.size() > 0)
+        {
+            for (SpellLinkedSet::const_iterator itr = linkedSet.begin(); itr != linkedSet.end(); ++itr)
+                m_target->RemoveAurasByCasterSpell(*itr, GetCasterGuid());
+        }
+    }
 
     switch (GetSpellProto()->SpellFamilyName)
     {
