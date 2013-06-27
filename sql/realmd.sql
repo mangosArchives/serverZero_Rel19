@@ -58,6 +58,7 @@ CREATE TABLE `account` (
   `expansion` tinyint(3) unsigned NOT NULL default '0',
   `mutetime` bigint(40) unsigned NOT NULL default '0',
   `locale` tinyint(3) unsigned NOT NULL default '0',
+  `os` varchar(4) NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `idx_username` (`username`),
   KEY `idx_gmlevel` (`gmlevel`)
@@ -70,10 +71,10 @@ CREATE TABLE `account` (
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
 INSERT INTO `account` VALUES
-(1,'ADMINISTRATOR','a34b29541b87b7e4823683ce6c7bf6ae68beaaac',3,'','0','0','','2006-04-25 10:18:56','127.0.0.1',0,0,'0000-00-00 00:00:00',0,0,0,0),
-(2,'GAMEMASTER','7841e21831d7c6bc0b57fbe7151eb82bd65ea1f9',2,'','0','0','','2006-04-25 10:18:56','127.0.0.1',0,0,'0000-00-00 00:00:00',0,0,0,0),
-(3,'MODERATOR','a7f5fbff0b4eec2d6b6e78e38e8312e64d700008',1,'','0','0','','2006-04-25 10:19:35','127.0.0.1',0,0,'0000-00-00 00:00:00',0,0,0,0),
-(4,'PLAYER','3ce8a96d17c5ae88a30681024e86279f1a38c041',0,'','0','0','','2006-04-25 10:19:35','127.0.0.1',0,0,'0000-00-00 00:00:00',0,0,0,0);
+(1,'ADMINISTRATOR','a34b29541b87b7e4823683ce6c7bf6ae68beaaac',3,'','0','0','','2006-04-25 10:18:56','127.0.0.1',0,0,'0000-00-00 00:00:00',0,0,0,0,''),
+(2,'GAMEMASTER','7841e21831d7c6bc0b57fbe7151eb82bd65ea1f9',2,'','0','0','','2006-04-25 10:18:56','127.0.0.1',0,0,'0000-00-00 00:00:00',0,0,0,0,''),
+(3,'MODERATOR','a7f5fbff0b4eec2d6b6e78e38e8312e64d700008',1,'','0','0','','2006-04-25 10:19:35','127.0.0.1',0,0,'0000-00-00 00:00:00',0,0,0,0,''),
+(4,'PLAYER','3ce8a96d17c5ae88a30681024e86279f1a38c041',0,'','0','0','','2006-04-25 10:19:35','127.0.0.1',0,0,'0000-00-00 00:00:00',0,0,0,0,'');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,6 +199,42 @@ CREATE TABLE `uptime` (
 LOCK TABLES `uptime` WRITE;
 /*!40000 ALTER TABLE `uptime` DISABLE KEYS */;
 /*!40000 ALTER TABLE `uptime` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+--
+-- Table structure for table `warden_data_result`
+--
+
+DROP TABLE IF EXISTS `warden_data_result`;
+CREATE TABLE `warden_data_result` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `check` int(3) DEFAULT NULL,
+  `data` tinytext,
+  `str` tinytext,
+  `address` int(8) DEFAULT NULL,
+  `length` int(2) DEFAULT NULL,
+  `result` tinytext,
+  `comment` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+INSERT INTO `warden_data_result` (`id`, `check`, `data`, `str`, `address`, `length`, `result`, `comment`) VALUES 
+('1', '217', '', 'SPEEDHACK-X86_64.DLL', '', '', '', 'SPEED HACK - Injected DLL'),
+('2', '217', '', 'WPESPY.DLL', '', '', '', 'WPE PRO - Injected DLL'),
+('3', '217', '', 'IHOOK.DLL', '', '', '', 'ASM - Injected DLL'),
+('4', '217', '', 'WHITEMAGIC.DLL', '', '', '', 'Application Inject Library - Injected DLL'),
+('5', '217', '', 'GREYMAGIC.DLL', '', '', '', 'Automation Botting Library - Injected DLL'),
+('6', '217', '', 'BLACKMAGIC.DLL', '', '', '', 'Memory Inject Library - Injected DLL'),
+('7', '217', '', 'RPE.DLL', '', '', '', 'rEdoX Packet Editor - Injected DLL');
+
+--
+-- Dumping data for table `warden_data_result`
+--
+
+LOCK TABLES `warden_data_result` WRITE;
+/*!40000 ALTER TABLE `warden_data_result` DISABLE KEYS */;
+/*!40000 ALTER TABLE `warden_data_result` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

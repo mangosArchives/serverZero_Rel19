@@ -302,6 +302,16 @@ set(LIBRARY_SRCS
     vmap/VMapTools.h
     vmap/WorldModel.cpp
     vmap/WorldModel.h
+    Warden/WardenBase.cpp
+    Warden/WardenBase.h
+    Warden/WardenDataStorage.cpp
+    Warden/WardenDataStorage.h
+    Warden/WardenMac.cpp
+    Warden/WardenMac.h
+    Warden/WardenModuleMac.h
+    Warden/WardenModuleWin.h
+    Warden/WardenWin.cpp
+    Warden/WardenWin.h
     WaypointManager.cpp
     WaypointManager.h
     WaypointMovementGenerator.cpp
@@ -324,6 +334,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/AuctionHouseBot
   ${CMAKE_CURRENT_SOURCE_DIR}/BattleGround
   ${CMAKE_CURRENT_SOURCE_DIR}/OutdoorPvP
+  ${CMAKE_CURRENT_SOURCE_DIR}/Warden
   ${CMAKE_SOURCE_DIR}/dep/include/g3dlite
   ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour
   ${CMAKE_SOURCE_DIR}/dep/recastnavigation/

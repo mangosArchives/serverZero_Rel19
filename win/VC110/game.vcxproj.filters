@@ -40,6 +40,9 @@
     <Filter Include="BattleGround">
       <UniqueIdentifier>{0af4d063-6d01-4546-a429-59bd828ab270}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Warden">
+      <UniqueIdentifier>{7ba69cf2-2911-4a30-baf0-62972ced480f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\game\AccountMgr.cpp">
@@ -490,6 +493,18 @@
     <ClCompile Include="..\..\src\game\LFGHandler.cpp">
       <Filter>World/Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\game\Warden\WardenBase.cpp">
+      <Filter>Warden</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\game\Warden\WardenDataStorage.cpp">
+      <Filter>Warden</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\game\Warden\WardenMac.cpp">
+      <Filter>Warden</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\game\Warden\WardenWin.cpp">
+      <Filter>Warden</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\game\AccountMgr.h">
@@ -933,6 +948,24 @@
     </ClInclude>
     <ClInclude Include="..\..\src\game\LFGHandler.h">
       <Filter>World/Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\game\Warden\WardenBase.h">
+      <Filter>Warden</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\game\Warden\WardenDataStorage.h">
+      <Filter>Warden</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\game\Warden\WardenMac.h">
+      <Filter>Warden</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\game\Warden\WardenModuleMac.h">
+      <Filter>Warden</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\game\Warden\WardenModuleWin.h">
+      <Filter>Warden</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\game\Warden\WardenWin.h">
+      <Filter>Warden</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

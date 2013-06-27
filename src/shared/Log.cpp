@@ -67,7 +67,7 @@ const int LogType_count = int(LogError) + 1;
 
 Log::Log() :
     raLogfile(NULL), logfile(NULL), gmLogfile(NULL), charLogfile(NULL),
-    dberLogfile(NULL), eventAiErLogfile(NULL), scriptErrLogFile(NULL), worldLogfile(NULL), m_colored(false), m_includeTime(false), m_gmlog_per_account(false), m_scriptLibName(NULL)
+    dberLogfile(NULL), eventAiErLogfile(NULL), scriptErrLogFile(NULL), worldLogfile(NULL), m_colored(false), m_includeTime(false), m_gmlog_per_account(false), m_scriptLibName(NULL), wardenLogFile(NULL)
 {
     Initialize();
 }
@@ -266,6 +266,7 @@ void Log::Initialize()
     eventAiErLogfile = openLogFile("EventAIErrorLogFile", NULL, "a");
     raLogfile = openLogFile("RaLogFile", NULL, "a");
     worldLogfile = openLogFile("WorldLogFile", "WorldLogTimestamp", "a");
+    wardenLogFile = openLogFile("WardenLogFile", NULL, "a");
 
     // Main log file settings
     m_includeTime  = sConfig.GetBoolDefault("LogTime", false);
@@ -1051,4 +1052,38 @@ void script_error_log(const char* str, ...)
     va_end(ap);
 
     sLog.outErrorScriptLib("%s", buf);
+}
+
+void Log::outWarden(const char * str, ...)
+{
+    if (!str)
+        return;
+
+    if (m_colored)
+        SetColor(true, m_colors[LogError]);
+
+    if (m_includeTime)
+        outTime();
+
+    va_list ap;
+    va_start(ap, str);
+    vutf8printf(stdout, str, &ap);
+    va_end(ap);
+
+    printf("\n");
+
+    if (wardenLogFile)
+    {
+        outTimestamp(wardenLogFile);
+        fprintf(wardenLogFile, "WARDEN: ");
+
+        va_list ap;
+        va_start(ap, str);
+        vfprintf(wardenLogFile, str, ap);
+        fprintf(wardenLogFile, "\n");
+        va_end(ap);
+
+        fflush(wardenLogFile);
+    }
+    fflush(stdout);
 }

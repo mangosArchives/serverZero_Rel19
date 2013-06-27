@@ -1,5 +1,6 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
+ * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,33 +17,21 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _AUTH_HMAC_H
-#define _AUTH_HMAC_H
+#ifndef _AUTH_SARC4_H
+#define _AUTH_SARC4_H
 
 #include "Common.h"
-#include <openssl/hmac.h>
-#include <openssl/sha.h>
+#include <openssl/evp.h>
 
-class BigNumber;
-
-#define SEED_KEY_SIZE 16
-
-class HmacHash
+class SARC4
 {
     public:
-        HmacHash();
-        HmacHash(uint32 len, uint8* seed);
-        ~HmacHash();
-        void UpdateBigNumber(BigNumber* bn);
-        void UpdateData(const uint8* data, int length);
-        void UpdateData(const std::string &str);
-        void Initialize();
-        void Finalize();
-        uint8* GetDigest() { return m_digest; };
-        int GetLength() { return SHA_DIGEST_LENGTH; };
+        SARC4(uint8 len);
+        SARC4(uint8* seed, uint8 len);
+        ~SARC4();
+        void Init(uint8* seed);
+        void UpdateData(int len, uint8* data);
     private:
-        HMAC_CTX m_ctx;
-        uint8 m_key[SEED_KEY_SIZE];
-        uint8 m_digest[SHA_DIGEST_LENGTH];
+        EVP_CIPHER_CTX m_ctx;
 };
 #endif

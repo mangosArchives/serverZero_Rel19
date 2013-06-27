@@ -72,6 +72,9 @@
     <ClCompile Include="..\..\src\shared\Auth\md5.c">
       <Filter>Auth</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\shared\Auth\SARC4.cpp">
+      <Filter>Auth</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\shared\Auth\Sha1.cpp">
       <Filter>Auth</Filter>
     </ClCompile>
@@ -161,7 +164,13 @@
     <ClInclude Include="..\..\src\shared\Auth\md5.h">
       <Filter>Auth</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\shared\Auth\SARC4.h">
+      <Filter>Auth</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\shared\Auth\Sha1.h">
+      <Filter>Auth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\shared\Auth\WardenKeyGeneration.h">
       <Filter>Auth</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\shared\Common.h" />
