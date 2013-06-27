@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -94,34 +93,6 @@ VendorItem const* VendorItemData::FindItem(uint32 item_id) const
             return *i;
     }
     return NULL;
-}
-
-bool AssistDelayEvent::Execute(uint64 /*e_time*/, uint32 /*p_time*/)
-{
-    if (Unit* victim = m_owner.GetMap()->GetUnit(m_victimGuid))
-    {
-        while (!m_assistantGuids.empty())
-        {
-            Creature* assistant = m_owner.GetMap()->GetAnyTypeCreature(*m_assistantGuids.rbegin());
-            m_assistantGuids.pop_back();
-
-            if (assistant && assistant->CanAssistTo(&m_owner, victim))
-            {
-                assistant->SetNoCallAssistance(true);
-                if (assistant->AI())
-                    assistant->AI()->AttackStart(victim);
-            }
-        }
-    }
-    return true;
-}
-
-AssistDelayEvent::AssistDelayEvent(ObjectGuid victim, Unit& owner, std::list<Creature*> const& assistants) : BasicEvent(), m_victimGuid(victim), m_owner(owner)
-{
-    // Pushing guids because in delay can happen some creature gets despawned => invalid pointer
-    m_assistantGuids.reserve(assistants.size());
-    for (std::list<Creature*>::const_iterator itr = assistants.begin(); itr != assistants.end(); ++itr)
-        m_assistantGuids.push_back((*itr)->GetObjectGuid());
 }
 
 bool ForcedDespawnDelayEvent::Execute(uint64 /*e_time*/, uint32 /*p_time*/)
@@ -1745,24 +1716,7 @@ void Creature::CallAssistance()
     if (!m_AlreadyCallAssistance && getVictim() && !isCharmed())
     {
         SetNoCallAssistance(true);
-
-        float radius = sWorld.getConfig(CONFIG_FLOAT_CREATURE_FAMILY_ASSISTANCE_RADIUS);
-        if (radius > 0)
-        {
-            std::list<Creature*> assistList;
-
-            {
-                MaNGOS::AnyAssistCreatureInRangeCheck u_check(this, getVictim(), radius);
-                MaNGOS::CreatureListSearcher<MaNGOS::AnyAssistCreatureInRangeCheck> searcher(assistList, u_check);
-                Cell::VisitGridObjects(this, searcher, radius);
-            }
-
-            if (!assistList.empty())
-            {
-                AssistDelayEvent* e = new AssistDelayEvent(getVictim()->GetObjectGuid(), *this, assistList);
-                m_Events.AddEvent(e, m_Events.CalculateTime(sWorld.getConfig(CONFIG_UINT32_CREATURE_FAMILY_ASSISTANCE_DELAY)));
-            }
-        }
+        AI()->SendAIEvent(AI_EVENT_CALL_ASSISTANCE, getVictim(), sWorld.getConfig(CONFIG_UINT32_CREATURE_FAMILY_ASSISTANCE_DELAY), sWorld.getConfig(CONFIG_FLOAT_CREATURE_FAMILY_ASSISTANCE_RADIUS));
     }
 }
 
@@ -1776,6 +1730,7 @@ void Creature::CallForHelp(float fRadius)
     Cell::VisitGridObjects(this, worker, fRadius);
 }
 
+/// if enemy provided, check for initial combat help against enemy
 bool Creature::CanAssistTo(const Unit* u, const Unit* enemy, bool checkfaction /*= true*/) const
 {
     // we don't need help from zombies :)
@@ -1790,7 +1745,7 @@ bool Creature::CanAssistTo(const Unit* u, const Unit* enemy, bool checkfaction /
         return false;
 
     // skip fighting creature
-    if (isInCombat())
+    if (enemy && isInCombat())
         return false;
 
     // only free creature
@@ -1810,7 +1765,7 @@ bool Creature::CanAssistTo(const Unit* u, const Unit* enemy, bool checkfaction /
     }
 
     // skip non hostile to caster enemy creatures
-    if (!IsHostileTo(enemy))
+    if (enemy && !IsHostileTo(enemy))
         return false;
 
     return true;

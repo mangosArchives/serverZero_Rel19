@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -148,7 +147,7 @@ bool MySQLConnection::Initialize(const char* infoString)
 
     DETAIL_LOG("Connected to MySQL database %s@%s:%s/%s", user.c_str(), host.c_str(), port_or_socket.c_str(), database.c_str());
     sLog.outString("MySQL client library: %s", mysql_get_client_info());
-    sLog.outString("MySQL server ver: %s ", mysql_get_server_info( mMysql));
+    sLog.outString("MySQL server ver: %s ", mysql_get_server_info(mMysql));
 
     /*----------SET AUTOCOMMIT ON---------*/
     // It seems mysql 5.0.x have enabled this feature
@@ -313,7 +312,6 @@ SqlPreparedStatement* MySQLConnection::CreateStatement(const std::string& fmt)
 {
     return new MySqlPreparedStatement(fmt, *this, mMysql);
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 MySqlPreparedStatement::MySqlPreparedStatement(const std::string& fmt, SqlConnection& conn, MYSQL* mysql) : SqlPreparedStatement(fmt, conn),

@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1150,15 +1149,27 @@ void Spell::DoSpellHitOnUnit(Unit* unit, uint32 effectMask, bool isReflected)
                 if (!unit->IsStandState() && !unit->hasUnitState(UNIT_STAT_STUNNED))
                     unit->SetStandState(UNIT_STAND_STATE_STAND);
 
-                if (!unit->isInCombat() && unit->GetTypeId() != TYPEID_PLAYER && ((Creature*)unit)->AI())
-                    unit->AttackedBy(realCaster);
+                switch (m_spellInfo->Id)
+                {
+                    //Soothe animal
+                case 9901:
+                case 8955:
+                case 2908:
+                    break;
+                default:
+                {
+                    if (!unit->isInCombat() && unit->GetTypeId() != TYPEID_PLAYER && ((Creature*)unit)->AI())
+                        unit->AttackedBy(realCaster);
 
-                unit->AddThreat(realCaster);
-                unit->SetInCombatWith(realCaster);
-                realCaster->SetInCombatWith(unit);
+                    unit->AddThreat(realCaster);
+                    unit->SetInCombatWith(realCaster);
+                    realCaster->SetInCombatWith(unit);
 
-                if (Player* attackedPlayer = unit->GetCharmerOrOwnerPlayerOrPlayerItself())
-                    realCaster->SetContestedPvP(attackedPlayer);
+                    if (Player* attackedPlayer = unit->GetCharmerOrOwnerPlayerOrPlayerItself())
+                        realCaster->SetContestedPvP(attackedPlayer);
+                    break;
+                }
+                }
             }
         }
         else
@@ -2701,6 +2712,23 @@ void Spell::cast(bool skipCheck)
             break;
     }
 
+    // Linked spells (precast chain)
+    SpellLinkedSet linkedSet = sSpellMgr.GetSpellLinked(m_spellInfo->Id, SPELL_LINKED_TYPE_PRECAST);
+    if (linkedSet.size() > 0)
+    {
+        for (SpellLinkedSet::const_iterator itr = linkedSet.begin(); itr != linkedSet.end(); ++itr)
+            AddPrecastSpell(*itr);
+    }
+
+    // Linked spells (triggered chain)
+    linkedSet.clear();
+    linkedSet = sSpellMgr.GetSpellLinked(m_spellInfo->Id, SPELL_LINKED_TYPE_TRIGGERED);
+    if (linkedSet.size() > 0)
+    {
+        for (SpellLinkedSet::const_iterator itr = linkedSet.begin(); itr != linkedSet.end(); ++itr)
+            AddTriggeredSpell(*itr);
+    }
+
     // traded items have trade slot instead of guid in m_itemTargetGUID
     // set to real guid to be sent later to the client
     m_targets.updateTradeSlotItem();
@@ -2719,6 +2747,7 @@ void Spell::cast(bool skipCheck)
 
     TakePower();
     TakeReagents();                                         // we must remove reagents before HandleEffects to allow place crafted item in same slot
+    TakeAmmo();
 
     SendCastResult(castResult);
     SendSpellGo();                                          // we must send smsg_spell_go packet before m_castItem delete in TakeCastItem()...
@@ -2729,7 +2758,6 @@ void Spell::cast(bool skipCheck)
     float speed = m_spellInfo->speed == 0.0f && m_triggeredBySpellInfo ? m_triggeredBySpellInfo->speed : m_spellInfo->speed;
     if (speed > 0.0f)
     {
-
         // Remove used for cast item if need (it can be already NULL after TakeReagents call
         // in case delayed spell remove item at cast delay start
         TakeCastItem();
@@ -3642,6 +3670,36 @@ void Spell::TakePower()
         m_caster->SetLastManaUse();
 }
 
+void Spell::TakeAmmo()
+{
+    if (m_attackType == RANGED_ATTACK && m_caster->GetTypeId() == TYPEID_PLAYER)
+    {
+        Item* pItem = ((Player*)m_caster)->GetWeaponForAttack(RANGED_ATTACK, true, false);
+
+        // wands don't have ammo
+        if (!pItem || pItem->GetProto()->SubClass == ITEM_SUBCLASS_WEAPON_WAND)
+            return;
+
+        if (pItem->GetProto()->InventoryType == INVTYPE_THROWN)
+        {
+            if (pItem->GetMaxStackCount() == 1)
+            {
+                // decrease durability for non-stackable throw weapon
+                ((Player*)m_caster)->DurabilityPointLossForEquipSlot(EQUIPMENT_SLOT_RANGED);
+            }
+            else
+            {
+                // decrease items amount for stackable throw weapon
+                uint32 count = 1;
+                ((Player*)m_caster)->DestroyItemCount(pItem, count, true);
+            }
+        }
+        else if (uint32 ammo = ((Player*)m_caster)->GetUInt32Value(PLAYER_AMMO_ID))
+            ((Player*)m_caster)->DestroyItemCount(ammo, 1, true);
+    }
+}
+
+
 void Spell::TakeReagents()
 {
     if (m_caster->GetTypeId() != TYPEID_PLAYER)
@@ -3906,6 +3964,23 @@ SpellCastResult Spell::CheckCast(bool strict)
 
     if (Unit* target = m_targets.getUnitTarget())
     {
+        //Soothe animal
+        bool foundSootheAnimal = true; //will be set to false in the default case
+        switch (m_spellInfo->Id)
+        {
+        case 9901:
+        case 8955:
+        case 2908:
+            break;
+        default:
+            foundSootheAnimal = false;
+            break;
+        }
+        //Perhaps this should be done for all spells?
+        if (foundSootheAnimal)
+            if (target->getLevel() > m_spellInfo->MaxTargetLevel)
+                return SPELL_FAILED_HIGHLEVEL;
+        
         // Swiftmend
         if (m_spellInfo->Id == 18562)                       // future versions have special aura state for this
         {
@@ -4145,7 +4220,6 @@ SpellCastResult Spell::CheckCast(bool strict)
                     m_spellInfo->EffectImplicitTargetB[j] == TARGET_SCRIPT_COORDINATES ||
                     m_spellInfo->EffectImplicitTargetA[j] == TARGET_FOCUS_OR_SCRIPTED_GAMEOBJECT)
             {
-
                 SQLMultiStorage::SQLMSIteratorBounds<SpellTargetEntry> bounds = sSpellScriptTargetStorage.getBounds<SpellTargetEntry>(m_spellInfo->Id);
 
                 if (bounds.first == bounds.second)
@@ -4683,7 +4757,6 @@ SpellCastResult Spell::CheckCast(bool strict)
             {
                 if (m_caster->GetPetGuid())                 // let warlock do a replacement summon
                 {
-
                     Pet* pet = ((Player*)m_caster)->GetPet();
 
                     if (m_caster->GetTypeId() == TYPEID_PLAYER && m_caster->getClass() == CLASS_WARLOCK)
@@ -5891,11 +5964,9 @@ bool Spell::IsNeedSendToClient() const
            m_spellInfo->speed > 0.0f || (!m_triggeredByAuraSpell && !m_IsTriggeredSpell);
 }
 
-bool Spell::IsTriggeredSpellWithRedundentData() const
+bool Spell::IsTriggeredSpellWithRedundentCastTime() const
 {
-    return m_triggeredByAuraSpell || m_triggeredBySpellInfo ||
-           // possible not need after above check?
-           m_IsTriggeredSpell && (m_spellInfo->manaCost || m_spellInfo->ManaCostPercentage);
+    return m_IsTriggeredSpell && (m_spellInfo->manaCost || m_spellInfo->ManaCostPercentage);
 }
 
 bool Spell::HaveTargetsForEffect(SpellEffectIndex effect) const

@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,9 +71,9 @@ void fixname2(char* name, size_t len)
     }
 }
 
-char* GetExtension(char* FileName)
+char const* GetExtension(char const* FileName)
 {
-    char* szTemp;
+    char const* szTemp;
     if ((szTemp = strrchr(FileName, '.')) != NULL)
         return szTemp;
     return NULL;
@@ -146,11 +145,11 @@ bool ADTFile::init(uint32 map_num, uint32 tileX, uint32 tileY, StringSet& failed
                     fixnamen(p, strlen(p));
                     char* s = GetPlainName(p);
                     fixname2(s, strlen(s));
+                    string path(p);                         // Store copy after name fixed
 
-                    ModelInstansName[t++] = s;
-
-                    string path(p);
-                    ExtractSingleModel(path, failedPaths);
+                    std::string fixedName;
+                    ExtractSingleModel(path, fixedName, failedPaths);
+                    ModelInstansName[t++] = fixedName;
 
                     p = p + strlen(p) + 1;
                 }

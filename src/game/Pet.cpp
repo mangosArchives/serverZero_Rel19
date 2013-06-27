@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -629,7 +628,6 @@ void Pet::RegenerateAll(uint32 update_diff)
     }
     else
         m_loyaltyTimer -= update_diff;
-
 }
 
 void Pet::RegenerateFocus()
@@ -881,7 +879,6 @@ void Pet::Unsummon(PetSaveMode mode, Unit* owner /*= NULL*/)
 
         if (p_owner)
         {
-
             // not save secondary permanent pet as current
             if (mode == PET_SAVE_AS_CURRENT && p_owner->GetTemporaryUnsummonedPetNumber() &&
                     p_owner->GetTemporaryUnsummonedPetNumber() != GetCharmInfo()->GetPetNumber())
@@ -1146,7 +1143,6 @@ bool Pet::InitStatsForLevel(uint32 petlevel, Unit* owner)
                 {
                     case CLASS_WARLOCK:
                     {
-
                         // the damage bonus used for pets is either fire or shadow damage, whatever is higher
                         uint32 fire  = owner->GetUInt32Value(PLAYER_FIELD_MOD_DAMAGE_DONE_POS + SPELL_SCHOOL_FIRE);
                         uint32 shadow = owner->GetUInt32Value(PLAYER_FIELD_MOD_DAMAGE_DONE_POS + SPELL_SCHOOL_SHADOW);

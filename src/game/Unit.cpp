@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1140,6 +1139,14 @@ void Unit::CastSpell(Unit* Victim, SpellEntry const* spellInfo, bool triggered, 
 
     spell->m_CastItem = castItem;
     spell->prepare(&targets, triggeredByAura);
+
+    // Linked spells (RemoveOnCast chain)
+    SpellLinkedSet linkedSet = sSpellMgr.GetSpellLinked(spellInfo->Id, SPELL_LINKED_TYPE_REMOVEONCAST);
+    if (linkedSet.size() > 0)
+    {
+        for (SpellLinkedSet::const_iterator itr = linkedSet.begin(); itr != linkedSet.end(); ++itr)
+            Victim->RemoveAurasDueToSpell(*itr);
+    }
 }
 
 void Unit::CastCustomSpell(Unit* Victim, uint32 spellId, int32 const* bp0, int32 const* bp1, int32 const* bp2, bool triggered, Item* castItem, Aura* triggeredByAura, ObjectGuid originalCaster, SpellEntry const* triggeredBy)
@@ -1616,7 +1623,6 @@ void Unit::CalculateMeleeDamage(Unit* pVictim, uint32 damage, CalcDamageInfo* da
         }
         if (damageInfo->resist)
             damageInfo->HitInfo |= HITINFO_RESIST;
-
     }
     else // Umpossible get negative result but....
         damageInfo->damage = 0;
@@ -1639,6 +1645,7 @@ void Unit::DealMeleeDamage(CalcDamageInfo* damageInfo, bool durabilityLoss)
     if (damageInfo->blocked_amount && damageInfo->TargetState != VICTIMSTATE_BLOCKS)
         pVictim->HandleEmoteCommand(EMOTE_ONESHOT_PARRYSHIELD);
 
+    // This seems to reduce the victims time until next attack if your attack was parried
     if (damageInfo->TargetState == VICTIMSTATE_PARRY)
     {
         // Get attack timers
@@ -2224,7 +2231,7 @@ MeleeHitOutcome Unit::RollMeleeOutcomeAgainst(const Unit* pVictim, WeaponAttackT
         int32 maxskill = attackerMaxSkillValueForLevel;
         skill = (skill > maxskill) ? maxskill : skill;
 
-        tmp = (10 + 2*(victimDefenseSkill - skill)) * 100;
+        tmp = (10 + 2 * (victimDefenseSkill - skill)) * 100;
         tmp = tmp > 4000 ? 4000 : tmp;
         if (roll < (sum += tmp))
         {
@@ -2458,6 +2465,7 @@ SpellMissInfo Unit::MeleeSpellHitResult(Unit* pVictim, SpellEntry const* spell)
     int32 skillDiff = attackerWeaponSkill - int32(pVictim->GetMaxSkillValueForLevel(this));
     int32 fullSkillDiff = attackerWeaponSkill - int32(pVictim->GetDefenseSkillValue(this));
 
+    //is this to get a better spread and not have to resort to floats?
     uint32 roll = urand(0, 10000);
 
     uint32 missChance = uint32(MeleeSpellMissChance(pVictim, attType, fullSkillDiff, spell) * 100.0f);
@@ -2598,6 +2606,7 @@ SpellMissInfo Unit::MagicSpellHitResult(Unit* pVictim, SpellEntry const* spell)
 
     int32 tmp = spell->HasAttribute(SPELL_ATTR_EX3_CANT_MISS) ? 0 : (10000 - HitChance);
 
+    // Why isn't this urand aswell just as in MeleeSpellHitResult?
     int32 rand = irand(0, 10000);
 
     if (rand < tmp)
@@ -2868,6 +2877,7 @@ uint32 Unit::GetWeaponSkillValue(WeaponAttackType attType, Unit const* target) c
             return GetMaxSkillValueForLevel();              // always maximized SKILL_FERAL_COMBAT in fact
 
         // weapon skill or (unarmed for base attack)
+        // weapon skill type is what this returns, ie: SKILL_BOW etc, see SkillType enum
         uint32 skill = item ? item->GetSkill() : uint32(SKILL_UNARMED);
 
         // in PvP use full skill instead current skill value
@@ -5434,6 +5444,7 @@ uint32 Unit::SpellDamageBonusDone(Unit* pVictim, SpellEntry const* spellProto, u
             return owner->SpellDamageBonusDone(pVictim, spellProto, pdamage, damagetype);
     }
 
+    uint32 creatureTypeMask = pVictim->GetCreatureTypeMask();
     float DoneTotalMod = 1.0f;
     int32 DoneTotal = 0;
 
@@ -5454,36 +5465,37 @@ uint32 Unit::SpellDamageBonusDone(Unit* pVictim, SpellEntry const* spellProto, u
         }
     }
 
-    uint32 creatureTypeMask = pVictim->GetCreatureTypeMask();
     // Add flat bonus from spell damage versus
     DoneTotal += GetTotalAuraModifierByMiscMask(SPELL_AURA_MOD_FLAT_SPELL_DAMAGE_VERSUS, creatureTypeMask);
-    AuraList const& mDamageDoneVersus = GetAurasByType(SPELL_AURA_MOD_DAMAGE_DONE_VERSUS);
-    for (AuraList::const_iterator i = mDamageDoneVersus.begin(); i != mDamageDoneVersus.end(); ++i)
-        if (creatureTypeMask & uint32((*i)->GetModifier()->m_miscvalue))
-            DoneTotalMod *= ((*i)->GetModifier()->m_amount + 100.0f) / 100.0f;
 
-    AuraList const& mDamageDoneCreature = GetAurasByType(SPELL_AURA_MOD_DAMAGE_DONE_CREATURE);
-    for (AuraList::const_iterator i = mDamageDoneCreature.begin(); i != mDamageDoneCreature.end(); ++i)
-    {
-        if (creatureTypeMask & uint32((*i)->GetModifier()->m_miscvalue))
-            DoneTotalMod += ((*i)->GetModifier()->m_amount + 100.0f) / 100.0f;
-    }
+    // Add pct bonus from spell damage versus
+    DoneTotalMod *= GetTotalAuraMultiplierByMiscMask(SPELL_AURA_MOD_DAMAGE_DONE_VERSUS, creatureTypeMask);
+
+    // Add flat bonus from spell damage creature
+    DoneTotal += GetTotalAuraModifierByMiscMask(SPELL_AURA_MOD_DAMAGE_DONE_CREATURE, creatureTypeMask);
 
     // done scripted mod (take it from owner)
     Unit* owner = GetOwner();
-    if (!owner) owner = this;
+    if (!owner)
+        owner = this;
+
     AuraList const& mOverrideClassScript = owner->GetAurasByType(SPELL_AURA_OVERRIDE_CLASS_SCRIPTS);
     for (AuraList::const_iterator i = mOverrideClassScript.begin(); i != mOverrideClassScript.end(); ++i)
     {
         if (!(*i)->isAffectedOnSpell(spellProto))
             continue;
+            
         switch ((*i)->GetModifier()->m_miscvalue)
         {
             case 4418: // Increased Shock Damage
             case 4554: // Increased Lightning Damage
-            case 4555: // Improved Moonfire
             {
                 DoneTotal += (*i)->GetModifier()->m_amount;
+                break;
+            }
+            case 4555: // Improved Moonfire
+            {
+                DoneTotalMod *= ((*i)->GetModifier()->m_amount + 100.0f) / 100.0f;
                 break;
             }
         }
@@ -6423,7 +6435,7 @@ int32 Unit::ModifyHealth(int32 dVal)
         SetHealth(val);
         gain = val - curHealth;
     }
-    else if (curHealth != maxHealth)
+    else
     {
         SetHealth(maxHealth);
         gain = maxHealth - curHealth;
@@ -6455,7 +6467,7 @@ int32 Unit::ModifyPower(Powers power, int32 dVal)
         SetPower(power, val);
         gain = val - curPower;
     }
-    else if (curPower != maxPower)
+    else
     {
         SetPower(power, maxPower);
         gain = maxPower - curPower;
@@ -6938,9 +6950,9 @@ void Unit::SetDeathState(DeathState s)
         RemoveGuardians();
         UnsummonAllTotems();
 
+        StopMoving();
         i_motionMaster.Clear(false, true);
         i_motionMaster.MoveIdle();
-        StopMoving();
 
         ModifyAuraState(AURA_STATE_HEALTHLESS_20_PERCENT, false);
         // remove aurastates allowing special moves
@@ -7043,7 +7055,8 @@ void Unit::TauntApply(Unit* taunter)
     // Only attack taunter if this is a valid target
     if (!hasUnitState(UNIT_STAT_STUNNED | UNIT_STAT_DIED) && !IsSecondChoiceTarget(taunter, true))
     {
-        SetInFront(taunter);
+        if (GetTargetGuid() || !target)
+            SetInFront(taunter);
 
         if (((Creature*)this)->AI())
             ((Creature*)this)->AI()->AttackStart(taunter);
@@ -7090,7 +7103,8 @@ void Unit::TauntFadeOut(Unit* taunter)
 
     if (target && target != taunter)
     {
-        SetInFront(target);
+        if (GetTargetGuid())
+            SetInFront(target);
 
         if (((Creature*)this)->AI())
             ((Creature*)this)->AI()->AttackStart(target);
@@ -7205,8 +7219,8 @@ bool Unit::SelectHostileTarget()
                     // next iteration we will select next possible target
                     m_HostileRefManager.deleteReference(target);
                     m_ThreatManager.modifyThreatPercent(target, -101);
-
-                    _removeAttacker(target);
+                    // remove target from current attacker, do not exit combat settings
+                    AttackStop(true);
                 }
 
                 return false;
@@ -7369,6 +7383,7 @@ void Unit::ApplyDiminishingToDuration(DiminishingGroup group, int32& duration, U
     if (duration == -1 || group == DIMINISHING_NONE || (!isReflected && caster->IsFriendlyTo(this)))
         return;
 
+    //Change the duration to 10s if pvp-target (as from patch 2.2.0) instead of the default 15s
     sMod.applyDiminishingToDuration(this, caster, duration, group);
 
     float mod = 1.0f;
@@ -8388,8 +8403,11 @@ void Unit::SendPetAIReaction()
 
 ///----------End of Pet responses methods----------
 
-void Unit::StopMoving()
+void Unit::StopMoving(bool forceSendStop /*=false*/)
 {
+    if (IsStopped() && !forceSendStop)
+        return;
+
     clearUnitState(UNIT_STAT_MOVING);
 
     // not need send any packets if not in world
@@ -8399,6 +8417,21 @@ void Unit::StopMoving()
     Movement::MoveSplineInit init(*this);
     init.SetFacing(GetOrientation());
     init.Launch();
+}
+
+void Unit::InterruptMoving(bool forceSendStop /*=false*/)
+{
+    bool isMoving = false;
+
+    if (!movespline->Finalized())
+    {
+        Movement::Location loc = movespline->ComputePosition();
+        movespline->_Interrupt();
+        Relocate(loc.x, loc.y, loc.z, loc.orientation);
+        isMoving = true;
+    }
+
+    StopMoving(forceSendStop || isMoving);
 }
 
 void Unit::SetFeared(bool apply, ObjectGuid casterGuid, uint32 spellID, uint32 time)
@@ -8530,7 +8563,6 @@ void Unit::SetFeignDeath(bool apply, ObjectGuid casterGuid, uint32 /*spellID*/)
             else
                 GetMotionMaster()->Initialize();
         }
-
     }
 }
 

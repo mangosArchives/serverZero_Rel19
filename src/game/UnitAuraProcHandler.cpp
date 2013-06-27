@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -813,6 +812,23 @@ SpellAuraProcResult Unit::HandleDummyAuraProc(Unit* pVictim, uint32 damage, Aura
             break;
     }
 
+    if (!triggered_spell_id)
+    {
+        // Linked spells (Proc chain)
+        SpellLinkedSet linkedSet = sSpellMgr.GetSpellLinked(dummySpell->Id, SPELL_LINKED_TYPE_PROC);
+        if (linkedSet.size() > 0)
+        {
+            for (SpellLinkedSet::const_iterator itr = linkedSet.begin(); itr != linkedSet.end(); ++itr)
+            {
+                if (target == NULL)
+                    target = !(procFlag & PROC_FLAG_SUCCESSFUL_POSITIVE_SPELL) && IsPositiveSpell(*itr) ? this : pVictim;
+                CastSpell(this, *itr, true, castItem, triggeredByAura);
+                if (cooldown && GetTypeId()==TYPEID_PLAYER)
+                    ((Player*)this)->AddSpellCooldown(*itr,0,time(NULL) + cooldown);
+            }
+        }
+    }
+
     // processed charge only counting case
     if (!triggered_spell_id)
         return SPELL_AURA_PROC_OK;
@@ -1183,6 +1199,23 @@ SpellAuraProcResult Unit::HandleProcTriggerSpellAuraProc(Unit* pVictim, uint32 d
         {
             basepoints[0] = int32(GetTotalAttackPowerValue(BASE_ATTACK) * triggerAmount / 100);
             break;
+        }
+    }
+
+    if (!trigger_spell_id)
+    {
+        // Linked spells (Proc chain)
+        SpellLinkedSet linkedSet = sSpellMgr.GetSpellLinked(auraSpellInfo->Id, SPELL_LINKED_TYPE_PROC);
+        if (linkedSet.size() > 0)
+        {
+            for (SpellLinkedSet::const_iterator itr = linkedSet.begin(); itr != linkedSet.end(); ++itr)
+            {
+                if (target == NULL)
+                    target = !(procFlags & PROC_FLAG_SUCCESSFUL_POSITIVE_SPELL) && IsPositiveSpell(*itr) ? this : pVictim;
+                CastSpell(target, *itr, true, castItem, triggeredByAura);
+                if (cooldown && GetTypeId()==TYPEID_PLAYER)
+                    ((Player*)this)->AddSpellCooldown(*itr,0,time(NULL) + cooldown);
+            }
         }
     }
 

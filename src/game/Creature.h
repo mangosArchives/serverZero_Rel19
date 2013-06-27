@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -485,7 +484,7 @@ class MANGOS_DLL_SPEC Creature : public Unit
         bool IsGuard() const { return GetCreatureInfo()->flags_extra & CREATURE_FLAG_EXTRA_GUARD; }
 
         bool CanWalk() const { return GetCreatureInfo()->InhabitType & INHABIT_GROUND; }
-        bool CanSwim() const { return GetCreatureInfo()->InhabitType & INHABIT_WATER; }
+        virtual bool CanSwim() const { return GetCreatureInfo()->InhabitType & INHABIT_WATER; }
         bool CanFly()  const { return GetCreatureInfo()->InhabitType & INHABIT_AIR; }
 
         bool IsTrainerOf(Player* player, bool msg) const;
@@ -680,6 +679,7 @@ class MANGOS_DLL_SPEC Creature : public Unit
         void GetCombatStartPosition(float& x, float& y, float& z) { x = m_combatStartX; y = m_combatStartY; z = m_combatStartZ; }
 
         void SetRespawnCoord(CreatureCreatePos const& pos) { m_respawnPos = pos.m_pos; }
+        void SetRespawnCoord(float x, float y, float z, float ori) { m_respawnPos.x = x; m_respawnPos.y = y; m_respawnPos.z = z; m_respawnPos.o = ori; }
         void GetRespawnCoord(float& x, float& y, float& z, float* ori = NULL, float* dist = NULL) const;
         void ResetRespawnCoord();
 
@@ -750,20 +750,6 @@ class MANGOS_DLL_SPEC Creature : public Unit
     private:
         GridReference<Creature> m_gridRef;
         CreatureInfo const* m_creatureInfo;
-};
-
-class AssistDelayEvent : public BasicEvent
-{
-    public:
-        AssistDelayEvent(ObjectGuid victim, Unit& owner, std::list<Creature*> const& assistants);
-
-        bool Execute(uint64 e_time, uint32 p_time) override;
-    private:
-        AssistDelayEvent();
-
-        ObjectGuid m_victimGuid;
-        GuidVector m_assistantGuids;
-        Unit&      m_owner;
 };
 
 class ForcedDespawnDelayEvent : public BasicEvent

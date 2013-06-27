@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -107,8 +106,8 @@ struct MANGOS_DLL_DECL Cell
             uint32 All;
         } data;
 
-        template<class T, class CONTAINER> void Visit(const CellPair& cellPair, TypeContainerVisitor<T, CONTAINER>& visitor, Map& m, float x, float y, float radius) const;
-        template<class T, class CONTAINER> void Visit(const CellPair& cellPair, TypeContainerVisitor<T, CONTAINER>& visitor, Map& m, const WorldObject& obj, float radius) const;
+        template<class T, class CONTAINER> void Visit(const CellPair& cellPair, TypeContainerVisitor<T, CONTAINER> &visitor, Map& m, float x, float y, float radius) const;
+        template<class T, class CONTAINER> void Visit(const CellPair& cellPair, TypeContainerVisitor<T, CONTAINER> &visitor, Map& m, const WorldObject& obj, float radius) const;
 
         static CellArea CalculateCellArea(float x, float y, float radius);
 
@@ -121,7 +120,7 @@ struct MANGOS_DLL_DECL Cell
         template<class T> static void VisitAllObjects(float x, float y, Map* map, T& visitor, float radius, bool dont_load = true);
 
     private:
-        template<class T, class CONTAINER> void VisitCircle(TypeContainerVisitor<T, CONTAINER>&, Map&, const CellPair& , const CellPair&) const;
+        template<class T, class CONTAINER> void VisitCircle(TypeContainerVisitor<T, CONTAINER> &, Map&, const CellPair& , const CellPair&) const;
 };
 
 #endif

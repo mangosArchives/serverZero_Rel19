@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -306,14 +305,22 @@ struct FactionEntry
 
 struct FactionTemplateEntry
 {
-    uint32      ID;                                         // 0
-    uint32      faction;                                    // 1
-    uint32      factionFlags;                               // 2 specific flags for that faction
-    uint32      ourMask;                                    // 3 if mask set (see FactionMasks) then faction included in masked team
-    uint32      friendlyMask;                               // 4 if mask set (see FactionMasks) then faction friendly to masked team
-    uint32      hostileMask;                                // 5 if mask set (see FactionMasks) then faction hostile to masked team
-    uint32      enemyFaction[4];                            // 6-9
-    uint32      friendFaction[4];                           // 10-13
+    /// 0
+    uint32      ID;
+    /// 1
+    uint32      faction;
+    /// 2 specific flags for that faction
+    uint32      factionFlags;
+    /// 3 if mask set (see FactionMasks) then faction included in masked team
+    uint32      ourMask;
+    /// 4 if mask set (see FactionMasks) then faction friendly to masked team
+    uint32      friendlyMask;
+    /// 5 if mask set (see FactionMasks) then faction hostile to masked team
+    uint32      hostileMask;
+    /// 6-9
+    uint32      enemyFaction[4];
+    /// 10-13
+    uint32      friendFaction[4];                           
     //-------------------------------------------------------  end structure
 
     // helpers

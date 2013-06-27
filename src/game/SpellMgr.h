@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -579,8 +578,10 @@ enum ProcFlags
 
 enum ProcFlagsEx
 {
-    PROC_EX_NONE                = 0x0000000,                // If none can tigger on Hit/Crit only (passive spells MUST defined by SpellFamily flag)
-    PROC_EX_NORMAL_HIT          = 0x0000001,                // If set only from normal hit (only damage spells)
+    /// If none can tigger on Hit/Crit only (passive spells MUST defined by SpellFamily flag)
+    PROC_EX_NONE                = 0x0000000,
+    /// If set only from normal hit (only damage spells)
+    PROC_EX_NORMAL_HIT          = 0x0000001,
     PROC_EX_CRITICAL_HIT        = 0x0000002,
     PROC_EX_MISS                = 0x0000004,
     PROC_EX_RESIST              = 0x0000008,
@@ -592,13 +593,17 @@ enum ProcFlagsEx
     PROC_EX_DEFLECT             = 0x0000200,
     PROC_EX_ABSORB              = 0x0000400,
     PROC_EX_REFLECT             = 0x0000800,
-    PROC_EX_INTERRUPT           = 0x0001000,                // Melee hit result can be Interrupt (not used)
+    /// Melee hit result can be Interrupt (not used)
+    PROC_EX_INTERRUPT           = 0x0001000,
     PROC_EX_RESERVED1           = 0x0002000,
     PROC_EX_RESERVED2           = 0x0004000,
     PROC_EX_RESERVED3           = 0x0008000,
-    PROC_EX_EX_TRIGGER_ALWAYS   = 0x0010000,                // If set trigger always ( no matter another flags) used for drop charges
-    PROC_EX_EX_ONE_TIME_TRIGGER = 0x0020000,                // If set trigger always but only one time (not used)
-    PROC_EX_PERIODIC_POSITIVE   = 0x0040000                 // For periodic heal
+    /// If set trigger always ( no matter another flags) used for drop charges
+    PROC_EX_EX_TRIGGER_ALWAYS   = 0x0010000,
+    /// If set trigger always but only one time (not used)
+    PROC_EX_EX_ONE_TIME_TRIGGER = 0x0020000,
+    /// For periodic heal
+    PROC_EX_PERIODIC_POSITIVE   = 0x0040000 
 };
 
 struct SpellProcEventEntry
@@ -670,6 +675,32 @@ struct SpellTargetPosition
 };
 
 typedef UNORDERED_MAP<uint32, SpellTargetPosition> SpellTargetPositionMap;
+
+// Spell linked types
+enum SpellLinkedType
+{
+    SPELL_LINKED_TYPE_NONE              = 0,
+    SPELL_LINKED_TYPE_BOOST             = 1,
+    SPELL_LINKED_TYPE_PRECAST           = 2,
+    SPELL_LINKED_TYPE_TRIGGERED         = 3,
+    SPELL_LINKED_TYPE_PROC              = 4,
+    SPELL_LINKED_TYPE_REMOVEONCAST      = 5,
+    SPELL_LINKED_TYPE_REMOVEONREMOVE    = 6,
+    SPELL_LINKED_TYPE_CASTONREMOVE      = 7,
+    SPELL_LINKED_TYPE_MAX,
+};
+
+struct SpellLinkedEntry
+{
+    uint32 spellId;
+    uint32 linkedId;
+    uint32 type;
+    uint32 effectMask;
+};
+
+typedef std::multimap<uint32, SpellLinkedEntry>  SpellLinkedMap;
+typedef std::pair<SpellLinkedMap::const_iterator,SpellLinkedMap::const_iterator> SpellLinkedMapBounds;
+typedef std::set<uint32>  SpellLinkedSet;
 
 // Spell pet auras
 class PetAura
@@ -1072,6 +1103,13 @@ class SpellMgr
             return mSpellAreaForAreaMap.equal_range(area_id);
         }
 
+        SpellLinkedMapBounds GetSpellLinkedMapBounds(uint32 spell_id) const
+        {
+            return mSpellLinkedMap.equal_range(spell_id);
+        }
+
+        SpellLinkedSet GetSpellLinked(uint32 spell_id, SpellLinkedType type) const;
+
         // Modifiers
     public:
         static SpellMgr& Instance();
@@ -1088,6 +1126,7 @@ class SpellMgr
         void LoadSpellProcEvents();
         void LoadSpellProcItemEnchant();
         void LoadSpellBonuses();
+        void LoadSpellLinked();
         void LoadSpellTargetPositions();
         void LoadSpellThreats();
         void LoadSkillLineAbilityMap();
@@ -1108,6 +1147,7 @@ class SpellMgr
         SpellProcEventMap  mSpellProcEventMap;
         SpellProcItemEnchantMap mSpellProcItemEnchantMap;
         SpellBonusMap      mSpellBonusMap;
+        SpellLinkedMap     mSpellLinkedMap;
         SkillLineAbilityMap mSkillLineAbilityMap;
         SkillRaceClassInfoMap mSkillRaceClassInfoMap;
         SpellPetAuraMap     mSpellPetAuraMap;

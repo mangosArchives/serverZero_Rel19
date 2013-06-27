@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -582,7 +581,6 @@ bool ChatHandler::HandleGonameCommand(char* args)
                         _player->BindToInstance(save, !save->CanReset());
                 }
             }
-
         }
 
         PSendSysMessage(LANG_APPEARING_AT, chrNameLink.c_str());

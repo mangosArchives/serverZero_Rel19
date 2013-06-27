@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2005-2013 MaNGOS <http://getmangos.com/>
- * Copyright (C) 2009-2013 MaNGOSZero <https://github.com/mangoszero>
+ * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -321,11 +320,11 @@ bool fillArchiveNameVector(std::vector<std::string>& pArchiveNames)
     sprintf(path, "%smodel.MPQ", input_path);
     pArchiveNames.push_back(path);
     pArchiveNames.push_back(path);
-    sprintf(path, "%stexture.MPQ", input_path);
+	sprintf(path, "%stexture.MPQ", input_path);
     pArchiveNames.push_back(path);
-    sprintf(path, "%swmo.MPQ", input_path);
+	sprintf(path, "%swmo.MPQ", input_path);
     pArchiveNames.push_back(path);
-    sprintf(path, "%sbase.MPQ", input_path);
+	sprintf(path, "%sbase.MPQ", input_path);
     pArchiveNames.push_back(path);
     sprintf(path, "%smisc.MPQ", input_path);
 
