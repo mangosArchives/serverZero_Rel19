@@ -1,4 +1,4 @@
-/**
+/*
  * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -29,6 +29,10 @@
 #include "Mail.h"
 #include "Util.h"
 #include "Chat.h"
+
+/** \addtogroup auctionhouse
+ * @{
+ */
 
 // please DO NOT use iterator++, because it is slower than ++iterator!!!
 // post-incrementation is always slower than pre-incrementation !
@@ -617,3 +621,5 @@ void WorldSession::HandleAuctionListItems(WorldPacket& recv_data)
     data << uint32(totalcount);
     SendPacket(&data);
 }
+
+/** @} */
