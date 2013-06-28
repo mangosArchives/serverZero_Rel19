@@ -663,10 +663,17 @@ WARN_LOGFILE           =
 INPUT                  = @TOP_SRCDIR@/src/shared/ \
                          @TOP_SRCDIR@/src/shared/Auth/ \
                          @TOP_SRCDIR@/src/shared/Database/ \
+			 @TOP_SRCDIR@/src/shared/Config/ \
                          @TOP_SRCDIR@/src/game/ \
+			 @TOP_SRCDIR@/src/game/AuctionHouseBot/ \
+			 @TOP_SRCDIR@/src/game/BattleGround/ \
+			 @TOP_SRCDIR@/src/game/extras/ \
+			 @TOP_SRCDIR@/src/game/movement/ \
+			 @TOP_SRCDIR@/src/game/OutdoorPvP/ \
+			 @TOP_SRCDIR@/src/game/vmap/ \
                          @TOP_SRCDIR@/src/realmd/ \
                          @TOP_SRCDIR@/src/mangosd/ \
-                         DocStructure.dox
+                         @TOP_SRCDIR@/doc/DocStructure.dox
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is

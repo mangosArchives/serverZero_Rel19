@@ -9,6 +9,46 @@
  * If you are interested in understanding the source code of this project you can begin
  * - <A HREF="http://getmangos.co.uk/wiki/">On the wiki</A> to get an overview of the different modules of the server
  * - <A HREF="./modules.html">In this source doumentation</A>, starting at the module hierarchy
+ *
+ * \section Naming convetions
+ * When using a singleton to access something a define along the following lines is often used:
+ * \code{.cpp}
+ * #define sAuctionBot MaNGOS::Singleton<AuctionHouseBot>::Instance()
+ * \endcode
+ * Notice the small s prepending the variable name, this is important and is used often throughout
+ * the source.
+ *
+ * Member variables in a class are prepended with m_VarName, functions are name with CamelCase but with
+ * a capital first letter. Indentation is done as follows:
+ * \code{.cpp}
+ * class MyNiceClass
+ * {
+ *     public:
+ *         MyNiceClass();
+ *         virtual ~MyNiceClass();
+ *
+ *         void Function();
+ *     private:
+ *         uint32 m_CoolStuff;
+ * };
+ *
+ * MyNiceClass::MyNiceClass()
+ * {}
+ * 
+ * void MyNiceClass::Function()
+ * {
+ *     if(m_CoolStuff == 10)
+ *         exit(EXIT_SUCCESS);
+ *     else
+ *     {
+ *         std::cout << "Cool stuff" << std::endl;
+ *     }
+ * }
+ * 
+ * \endcode
+ *
+ * \todo Move the naming conventions to their own file when it's finished
+ * \todo Add more examples of how the code should look, there was an example in the Wiki before
  */
 
 /*! \defgroup realmd Realm Daemon
@@ -27,4 +67,12 @@
 
 /*! \defgroup world The World
     \ingroup mangos
+ */
+
+/*! \defgroup auctionhouse The Auction House
+    \ingroup mangos
+ */
+
+/*! \defgroup auctionbot The Auction House Bot
+    \ingroup auctionhouse
  */
