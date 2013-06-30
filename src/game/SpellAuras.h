@@ -1,4 +1,4 @@
-/**
+/*
  * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,8 +24,8 @@
 #include "ObjectGuid.h"
 
 /**
- * Used to modify what an Aura does to a player/npc.
- * Accessible through Aura::m_modifier.
+ * Used to modify what an \ref Aura does to a player/npc.
+ * Accessible through \ref Aura::m_modifier.
  * \see CreateAura
  * \see Aura
  * \see AreaAura
@@ -35,13 +35,13 @@ struct Modifier
 {
     /**
      * Decides what the aura does, ie, it may have the
-     * value AuraType::SPELL_AURA_MOD_BASE_RESISTANCE_PCT which
+     * value \ref AuraType::SPELL_AURA_MOD_BASE_RESISTANCE_PCT which
      * would change the base armor of a player.
      */
     AuraType m_auraname;
     /**
      * By how much the aura should change the affected
-     * value. Ie, -27 would make the value decided by Modifier::m_miscvalue
+     * value. Ie, -27 would make the value decided by \ref Modifier::m_miscvalue
      * be reduced by 27% if the earlier mentioned AuraType
      * would have been used. And 27 would increase the value by 27%
      */
@@ -49,17 +49,17 @@ struct Modifier
     /**
      * A miscvalue that is dependent on what the aura will do, this
      * is usually decided by the AuraType, ie:
-     * with AuraType::SPELL_AURA_MOD_BASE_RESISTANCE_PCT this value
-     * could be SpellSchoolMask::SPELL_SCHOOL_MASK_NORMAL which would
+     * with \ref AuraType::SPELL_AURA_MOD_BASE_RESISTANCE_PCT this value
+     * could be \ref SpellSchoolMask::SPELL_SCHOOL_MASK_NORMAL which would
      * tell the aura that it should change armor.
-     * If Modifier::m_auraname would have been AuraType::SPELL_AURA_MOUNTED
+     * If \ref Modifier::m_auraname would have been \ref AuraType::SPELL_AURA_MOUNTED
      * then m_miscvalue would have decided which model the mount should have
      */
     int32 m_miscvalue;
     /**
      * Decides how often the aura should be applied, if it is
      * set to 0 it's only applied once and then removed when
-     * the Aura is removed
+     * the \ref Aura is removed
      */
     uint32 periodictime;
 };
