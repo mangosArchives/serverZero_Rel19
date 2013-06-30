@@ -1,4 +1,4 @@
-/**
+/*
  * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -484,48 +484,51 @@ enum UnitVisibility
     VISIBILITY_REMOVE_CORPSE      = 5                       // special totally not detectable visibility for force delete object while removing a corpse
 };
 
-// [-ZERO] Need recheck values
-// Value masks for UNIT_FIELD_FLAGS
+/**
+ * [-ZERO] Need recheck values
+ * Value masks for UNIT_FIELD_FLAGS (Taken from source)
+ * \todo Document all the flags, not just the ones already commented
+ */
 enum UnitFlags
 {
     UNIT_FLAG_NONE                  = 0x00000000,
     UNIT_FLAG_UNK_0                 = 0x00000001,
-    UNIT_FLAG_NON_ATTACKABLE        = 0x00000002,           // not attackable
+    UNIT_FLAG_NON_ATTACKABLE        = 0x00000002,           ///< not attackable
     UNIT_FLAG_DISABLE_MOVE          = 0x00000004,
-    UNIT_FLAG_PVP_ATTACKABLE        = 0x00000008,           // allow apply pvp rules to attackable state in addition to faction dependent state, UNIT_FLAG_UNKNOWN1 in pre-bc mangos
-    UNIT_FLAG_RENAME                = 0x00000010,           // rename creature
+    UNIT_FLAG_PVP_ATTACKABLE        = 0x00000008,           ///< allow apply pvp rules to attackable state in addition to faction dependent state, UNIT_FLAG_UNKNOWN1 in pre-bc mangos
+    UNIT_FLAG_RENAME                = 0x00000010,           ///< rename creature
     UNIT_FLAG_RESTING               = 0x00000020,
     UNIT_FLAG_UNK_6                 = 0x00000040,
-    UNIT_FLAG_OOC_NOT_ATTACKABLE    = 0x00000100,           // (OOC Out Of Combat) Can not be attacked when not in combat. Removed if unit for some reason enter combat (flag probably removed for the attacked and it's party/group only)
-    UNIT_FLAG_PASSIVE               = 0x00000200,           // makes you unable to attack everything. Almost identical to our "civilian"-term. Will ignore it's surroundings and not engage in combat unless "called upon" or engaged by another unit.
+    UNIT_FLAG_OOC_NOT_ATTACKABLE    = 0x00000100,           ///< (OOC Out Of Combat) Can not be attacked when not in combat. Removed if unit for some reason enter combat (flag probably removed for the attacked and it's party/group only) \todo Needs more documentation
+    UNIT_FLAG_PASSIVE               = 0x00000200,           ///< makes you unable to attack everything. Almost identical to our "civilian"-term. Will ignore it's surroundings and not engage in combat unless "called upon" or engaged by another unit.
     UNIT_FLAG_PVP                   = 0x00001000,
-    UNIT_FLAG_SILENCED              = 0x00002000,           // silenced, 2.1.1
-    UNIT_FLAG_MOUNT                 = 0x00002000,           // to check, need find proper flag
+    UNIT_FLAG_SILENCED              = 0x00002000,           ///< silenced, 2.1.1
+    UNIT_FLAG_MOUNT                 = 0x00002000,           ///< to check, need find proper flag
     UNIT_FLAG_UNK_14                = 0x00004000,
     UNIT_FLAG_UNK_15                = 0x00008000,
-    UNIT_FLAG_UNK_16                = 0x00010000,           // removes attackable icon
+    UNIT_FLAG_UNK_16                = 0x00010000,           ///< removes attackable icon
     UNIT_FLAG_PACIFIED              = 0x00020000,
     UNIT_FLAG_DISABLE_ROTATE        = 0x00040000,
     UNIT_FLAG_IN_COMBAT             = 0x00080000,
     UNIT_FLAG_NOT_SELECTABLE        = 0x02000000,
     UNIT_FLAG_SKINNABLE             = 0x04000000,
-    UNIT_FLAG_AURAS_VISIBLE         = 0x08000000,           // magic detect
+    UNIT_FLAG_AURAS_VISIBLE         = 0x08000000,           ///< magic detect
     UNIT_FLAG_SHEATHE               = 0x40000000,
     // UNIT_FLAG_UNK_31              = 0x80000000           // no affect in 1.12.1
 
     // [-ZERO] TBC enumerations [?]
-    UNIT_FLAG_NOT_ATTACKABLE_1      = 0x00000080,           // ?? (UNIT_FLAG_PVP_ATTACKABLE | UNIT_FLAG_NOT_ATTACKABLE_1) is NON_PVP_ATTACKABLE
-    UNIT_FLAG_LOOTING               = 0x00000400,           // loot animation
-    UNIT_FLAG_PET_IN_COMBAT         = 0x00000800,           // in combat?, 2.0.8
-    UNIT_FLAG_STUNNED               = 0x00040000,           // stunned, 2.1.1
-    UNIT_FLAG_TAXI_FLIGHT           = 0x00100000,           // disable casting at client side spell not allowed by taxi flight (mounted?), probably used with 0x4 flag
-    UNIT_FLAG_DISARMED              = 0x00200000,           // disable melee spells casting..., "Required melee weapon" added to melee spells tooltip.
+    UNIT_FLAG_NOT_ATTACKABLE_1      = 0x00000080,           ///< ?? (UNIT_FLAG_PVP_ATTACKABLE | UNIT_FLAG_NOT_ATTACKABLE_1) is NON_PVP_ATTACKABLE
+    UNIT_FLAG_LOOTING               = 0x00000400,           ///< loot animation
+    UNIT_FLAG_PET_IN_COMBAT         = 0x00000800,           ///< in combat?, 2.0.8
+    UNIT_FLAG_STUNNED               = 0x00040000,           ///< stunned, 2.1.1
+    UNIT_FLAG_TAXI_FLIGHT           = 0x00100000,           ///< disable casting at client side spell not allowed by taxi flight (mounted?), probably used with 0x4 flag
+    UNIT_FLAG_DISARMED              = 0x00200000,           ///< disable melee spells casting..., "Required melee weapon" added to melee spells tooltip.
     UNIT_FLAG_CONFUSED              = 0x00400000,
     UNIT_FLAG_FLEEING               = 0x00800000,
-    UNIT_FLAG_PLAYER_CONTROLLED     = 0x01000000,           // used in spell Eyes of the Beast for pet... let attack by controlled creature
+    UNIT_FLAG_PLAYER_CONTROLLED     = 0x01000000,           ///< used in spell Eyes of the Beast for pet... let attack by controlled creature
 //[-ZERO]    UNIT_FLAG_MOUNT                 = 0x08000000,
     UNIT_FLAG_UNK_28                = 0x10000000,
-    UNIT_FLAG_UNK_29                = 0x20000000,           // used in Feing Death spell
+    UNIT_FLAG_UNK_29                = 0x20000000,           ///< used in Feing Death spell
 };
 
 /**
@@ -1055,21 +1058,53 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
 {
     public:
         typedef std::set<Unit*> AttackerSet;
+        /** 
+         * A multimap from spell ids to \ref SpellAuraHolder, multiple \ref SpellAuraHolder can have
+         * the same id (ie: the same key
+         */
         typedef std::multimap<uint32 /*spellId*/, SpellAuraHolder*> SpellAuraHolderMap;
+        /** 
+         * A pair of two iterators to a \ref SpellAuraHolderMap which is used in conjunction
+         * with the std::multimap::equal_range which gives all \ref SpellAuraHolder that have the same
+         * spellid in this case, the first member is the iterator to the beginning, and the
+         * second member is the iterator to the end.
+         */
         typedef std::pair<SpellAuraHolderMap::iterator, SpellAuraHolderMap::iterator> SpellAuraHolderBounds;
+        /// Same thing as \ref SpellAuraHolderBounds but with const_iterator instead of iterator
         typedef std::pair<SpellAuraHolderMap::const_iterator, SpellAuraHolderMap::const_iterator> SpellAuraHolderConstBounds;
         typedef std::list<SpellAuraHolder*> SpellAuraHolderList;
+        /**
+         * List of \ref Aura used in \ref Unit::GetAurasByType and more and also in the members
+         * \ref Unit::m_modAuras and \ref Unit::m_deletedAuras
+         * \see Aura
+         */
         typedef std::list<Aura*> AuraList;
+        /**
+         * List of \ref DiminishingReturn used for calculation of the same thing.
+         * \see DiminishingReturn
+         * \see DiminishingLevels
+         * \see Unit::GetDiminishing
+         * \see Unit::IncrDiminishing
+         * \see Unit::ApplyDiminishingToDuration
+         */
         typedef std::list<DiminishingReturn> Diminishing;
         typedef std::set<uint32 /*playerGuidLow*/> ComboPointHolderSet;
         typedef std::map<SpellEntry const*, ObjectGuid /*targetGuid*/> TrackedAuraTargetMap;
 
         virtual ~Unit();
 
+        //These are probably interesting for learning how/when objects/units get added to the
+        //world, take a look at them and write something tutorialishy about it to introduce
+        //more of how the core works?
         void AddToWorld() override;
         void RemoveFromWorld() override;
 
-        void CleanupsBeforeDelete() override;               // used in ~Creature/~Player (or before mass creature delete to remove cross-references to already deleted units)
+        /** 
+         * Used in ~Creature/~Player (or before mass creature delete to remove
+         * cross-references to already deleted units). (Taken from comment in source)
+         * \todo Add more information here
+         */
+        void CleanupsBeforeDelete() override;
 
         float GetObjectBoundingRadius() const override      // overwrite WorldObject version
         {
@@ -2244,6 +2279,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * - \ref UNIT_NPC_FLAG_SPIRITHEALER
          * - \ref UNIT_NPC_FLAG_SPIRITGUIDE
          * @return true if this unit is a spirit service, false otherwise
+         * \todo Rename to IsSpiritService to follow standard?
          */
         bool isSpiritService() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITHEALER | UNIT_NPC_FLAG_SPIRITGUIDE); }
 
@@ -2259,50 +2295,207 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return true if the Unit has the flag \ref UNIT_FLAG_IN_COMBAT (is in combat), false otherwise
          * \see EUnitFields
          * \see UnitFlags
+         * \todo Rename to IsInCombat to follow standard?
          */
         bool isInCombat()  const { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IN_COMBAT); }
         /** 
-         * 
-         * @param PvP 
-         * @param enemy 
+         * Sets this \ref Unit into combat, if it already was this has no bigger meaning if the
+         * PvP flag hasn't changed since last time it was applied.
+         * @param PvP whether this was a PvP combat or not, this is important for how quick the combat flag will wear away and possibly more
+         * @param enemy Our target that we are attacking, only does something if the attacked one is a creature it seems
+         * \see ClearInCombat
+         * \see SetInCombatWith
          */
         void SetInCombatState(bool PvP, Unit* enemy = NULL);
+        /** 
+         * Sets us in combat with the given enemy, this in turn just does a few small checks for if
+         * it's a duel or PvP and then calls \ref Unit::SetInCombatState with the correct value for
+         * PvP and enemy
+         * @param enemy the enemy that we are attacking/engaging
+         * \see ClearInCombat
+         * \see SetInCombatState
+         */
         void SetInCombatWith(Unit* enemy);
+        /** 
+         * Clears the combat flag for this unit using \ref Object::RemoveFlag and clears
+         * the Unit state \ref UnitState::UNIT_STAT_ATTACK_PLAYER. This is not where a
+         * \ref Player s PvP flags are cleared, that is handled in \ref Player::UpdateContestedPvP
+         * \see EUnitFields
+         */
         void ClearInCombat();
+        /** 
+         * Probably returns how long it is until this Unit should get out of PvP combat again,
+         * although not used in that sense.
+         * @return the time we have left from our start of PvP combat
+         * \todo Find out what this actually does/means
+         */
         uint32 GetCombatTimer() const { return m_CombatTimer; }
 
+        /** 
+         * Gets all \ref SpellAuraHolder s that have the same given spell_id
+         * @param spell_id the spell_id to search for
+         * @return 2 iterators to the range of \ref SpellAuraHolder s that were found
+         */
         SpellAuraHolderBounds GetSpellAuraHolderBounds(uint32 spell_id)
         {
             return m_spellAuraHolders.equal_range(spell_id);
         }
+        /** 
+         * Same as \ref Unit::GetSpellAuraHolderBounds
+         */
         SpellAuraHolderConstBounds GetSpellAuraHolderBounds(uint32 spell_id) const
         {
             return m_spellAuraHolders.equal_range(spell_id);
         }
 
+        /** 
+         * Checks if this \ref Unit has the given AuraType
+         * @param auraType the type of aura to look for
+         * @return true if this \ref Unit is affected by the given \ref AuraType, false otherwise
+         */
         bool HasAuraType(AuraType auraType) const;
+        /** 
+         * Checks if the given \ref SpellEntry affects the \ref AuraType in some way, this is done
+         * by calling \ref Aura::isAffectedOnSpell which in turn seems to check if the spellProto
+         * and the \ref Aura s own \ref SpellEntry have the same \ref SpellEntry::SpellFamilyName.
+         * (The \ref Aura get's it's \ref SpellEntry by calling \ref Aura::GetSpellProto)
+         * @param auraType the type of aura we want to check
+         * @param spellProto the spell we want to check for affecting the aura type
+         * @return true if the spell affects the given aura type, false otherwise
+         * \todo Is this actually correct, also, make it more clear what it actually checks
+         */
         bool HasAffectedAura(AuraType auraType, SpellEntry const* spellProto) const;
+        /** 
+         * Checks if we have at least one \ref Aura that is associated with the given spell id
+         * and \ref SpellEffectIndex.
+         * @param spellId the spell id to look for
+         * @param effIndex the effect index the \ref Aura should have
+         * @return true if there was at least one \ref Aura associated with the id that belonged to
+         * the correct \ref SpellEffectIndex, false otherwise
+         */
         bool HasAura(uint32 spellId, SpellEffectIndex effIndex) const;
+        /** 
+         * Checks if we have at least one \ref Aura that is associated with the given spell id via
+         * the \ref Unit::m_spellAuraHolders multimap. Generalized version of the other
+         * \ref Unit::HasAura
+         * @param spellId the spell id to look for
+         * @return true if there was at least one \ref Aura associated with the id, false otherwise
+         */
         bool HasAura(uint32 spellId) const
         {
             return m_spellAuraHolders.find(spellId) != m_spellAuraHolders.end();
         }
 
+        /** 
+         * This is overridden in \ref Player::HasSpell, \ref Creature::HasSpell and \ref Pet::HasSpell
+         * @return false in this implementation
+         */
         virtual bool HasSpell(uint32 /*spellID*/) const { return false; }
 
+        /** 
+         * Check is this \ref Unit has a stealth modified applied
+         * @return true if this \ref Unit has the \ref AuraType \ref AuraType::SPELL_AURA_MOD_STEALTH
+         * applied, false otherwise
+         * \see Modifier
+         * \see Unit::HasAuraType
+         * \see AuraType
+         */
         bool HasStealthAura()      const { return HasAuraType(SPELL_AURA_MOD_STEALTH); }
+        /** 
+         * Check if this \ref Unit has a invisibility \ref Aura modifier applied.
+         * @return true if this \ref Unit has the \ref AuraType
+         * \ref AuraType::SPELL_AURA_MOD_INVISIBILITY applied, false otherwise
+         * \see Modifier
+         * \see Unit::HasAuraType
+         * \see AuraType
+         */
         bool HasInvisibilityAura() const { return HasAuraType(SPELL_AURA_MOD_INVISIBILITY); }
+        /** 
+         * Check if this \ref Unit has a fear \ref Aura modifier applied. Ie, is it feared?
+         * @return true if this \ref Unit has the \ref AuraType \ref AuraType::SPELL_AURA_MOD_FEAR
+         * applied, false otherwise
+         * \see Modifier
+         * \see Unit::HasAuraType
+         * \see AuraType
+         * \todo Rename to IsFeared to follow standard?
+         */
         bool isFeared()  const { return HasAuraType(SPELL_AURA_MOD_FEAR); }
+        /** 
+         * Check if this \ref Unit has a rooting \ref Aura modifier applied. Ie, is it stuck in
+         * some way?
+         * @return true if this \ref Unit has the \ref AuraType \ref AuraType::SPELL_AURA_MOD_ROOT
+         * applied, false otherwise
+         * \see Modifier
+         * \see Unit::HasAuraType
+         * \see AuraType
+         * \todo Rename to IsInRoots to follow standard?
+         */
         bool isInRoots() const { return HasAuraType(SPELL_AURA_MOD_ROOT); }
+        /** 
+         * Is this \ref Unit polymorphed?
+         * @return true if this \ref Unit is polymorphed, false otherwise
+         * \see GetSpellSpecific
+         * \see Unit::getTransForm
+         * \todo Move the implementation to .h file exactly as the earlier ones?
+         */
         bool IsPolymorphed() const;
 
+        /** 
+         * Check if this \ref Unit has  freezing \ref Aura modifier applied. Ie, is it
+         * frozen in ground?
+         * @return true if this \ref Unit has the \ref AuraType \ref AuraType::AURA_STATE_FROZEN,
+         * false otherwise
+         * \see Modifier
+         * \see Unit::HasAuraType
+         * \see AuraType
+         * \todo Rename to IsFrozen to follow standard?
+         * \todo Move the implementation to .h file exactly as the earlier ones?
+         */
         bool isFrozen() const;
 
+        /** 
+         * Called by \ref Unit::DealDamage for \ref Aura s that have a chance to be dispelled
+         * on damage taken. The chance to dispel an \ref Aura depends on the damage taken
+         * with respect to the casters level. (Taken from source comment).
+         *
+         * Formula used:
+         * - Level for \ref Unit is above 8:
+         *   - max_damage = 25 * level - 150
+         * - Level for \ref Unit under or equal to 8:
+         *   - max_damage = 50
+         * @param auraType the aura type that should be removed
+         * @param damage how much damage was dealt, increases the chance to dispell
+         * \see roll_chance_f
+         */
         void RemoveSpellbyDamageTaken(AuraType auraType, uint32 damage);
 
-        bool isTargetableForAttack(bool inversAlive = false) const;
+        /** 
+         * Checks if this \ref Unit could be targeted with an attack, things that make that
+         * impossible are:
+         * - The \ref Unit / \ref Player is a GM
+         * - The \ref Unit has the flags (\ref Unit::HasFlag) \ref UnitFlags::UNIT_FLAG_NON_ATTACKABLE
+         * and \ref UnitFlags::UNTI_FLAG_NOT_SELECTABLE
+         * - The \ref Unit has the flag (\ref Unit::HasFlag)
+         * \ref UnitFlags::UNIT_FLAG_OOC_NOT_ATTACKABLE, this seems to vary some though, since this
+         * flag will be removed when the creature for some reason enters combat
+         * - \ref Unit::isAlive is equal to inverseAlive
+         * - \ref Unit::IsInWorld is false
+         * - the \ref Unit has the state (\ref Unit::hasUnitState) \ref  UnitState::UNIT_STAT_DIED
+         * - the \ref Unit is flying in a taxi (\ref Unit::IsTaxiFlying)
+         * @param inverseAlive This is needed for some spells which need
+         * to be casted at dead targets (aoe) (Taken from source comment)
+         * @return true if the target can be attacked, false otherwise
+         * \see UnitState
+         * \todo Rename to IsTargetableForAttack to follow standard?
+         */
+        bool isTargetableForAttack(bool inverseAlive = false) const;
+        /** 
+         * Simply checks if this \ref Unit has the flag (\ref Unit::HasFlag)
+         * \ref UnitFlags::UNIT_FLAG_PASSIVE in \ref EUnitFields::UNIT_FIELD_FLAGS
+         * @return true if the target is passive to hostile actions, false otherwise
+         */
         bool isPassiveToHostile() { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE); }
-
+        
         virtual bool IsInWater() const;
         virtual bool IsUnderWater() const;
         bool isInAccessablePlaceFor(Creature const* c) const;
@@ -2581,6 +2774,13 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
 
         SpellAuraHolderMap&       GetSpellAuraHolderMap()       { return m_spellAuraHolders; }
         SpellAuraHolderMap const& GetSpellAuraHolderMap() const { return m_spellAuraHolders; }
+        /** 
+         * Get's a list of all the \ref Aura s of the given \ref AuraType that are currently
+         * affecting this \ref Unit.
+         * @param type the aura type we want to find
+         * @return A list of the auras currently applied to the \ref Unit with the given \ref AuraType
+         * \see Unit::m_modAuras
+         */
         AuraList const& GetAurasByType(AuraType type) const { return m_modAuras[type]; }
         void ApplyAuraProcTriggerDamage(Aura* aura, bool apply);
 
