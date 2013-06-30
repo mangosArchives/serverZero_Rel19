@@ -1,4 +1,4 @@
-/**
+/*
  * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -69,7 +69,13 @@ MANGOS_DLL_SPEC double rand_chance(void);
 
 MANGOS_DLL_SPEC float rand_chance_f(void);
 
-/* Return true if a random roll fits in the specified chance (range 0-100). */
+/**
+ * Return true if a random roll gets above the given chance, ie: if the given
+ * value is 0 the chance to succeed is also 0 which gives false as the return value at all
+ * cases. On the other hand, giving 100 as the chance will make sure that we always succeed
+ * @param chance how big the chance to succeed is. Value between 0.0f-100.0f
+ * @return Return true if a random roll fits in the specified chance (range 0-100).
+ */
 inline bool roll_chance_f(float chance)
 {
     return chance > rand_chance();

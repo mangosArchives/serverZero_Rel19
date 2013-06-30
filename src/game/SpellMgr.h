@@ -44,7 +44,10 @@ enum SpellCategories
     SPELLCATEGORY_DEVOUR_MAGIC        = 12
 };
 
-// Spell clasification
+/**
+ * Spell clasification (Taken from comments)
+ * \todo Properly document this
+ */
 enum SpellSpecific
 {
     SPELL_NORMAL            = 0,

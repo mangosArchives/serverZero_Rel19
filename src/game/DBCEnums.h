@@ -1,4 +1,4 @@
-/**
+/*
  * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -121,6 +121,10 @@ enum SpellCastTargetFlags
     TARGET_FLAG_UNK2            = 0x00010000,               // pguid, not used in any spells (can be set dynamically)
 };
 
+/**
+ * Used in \ref Unit::HasAura for example
+ * \todo Properly document the use of these indexes
+ */
 enum SpellEffectIndex
 {
     EFFECT_INDEX_0     = 0,
