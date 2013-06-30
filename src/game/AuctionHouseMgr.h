@@ -39,6 +39,7 @@
 
 /** \addtogroup auctionhouse
  * @{
+ * \file
  */
 
 class Item;

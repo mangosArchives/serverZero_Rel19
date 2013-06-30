@@ -32,6 +32,7 @@
 
 /** \addtogroup auctionhouse
  * @{
+ * \file
  */
 
 // please DO NOT use iterator++, because it is slower than ++iterator!!!

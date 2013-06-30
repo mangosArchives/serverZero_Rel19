@@ -26,6 +26,7 @@
 
 /** \addtogroup auctionbot
  * @{
+ * \file
  */
 
 

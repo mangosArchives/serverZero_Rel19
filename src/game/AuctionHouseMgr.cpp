@@ -38,6 +38,7 @@
 
 /** \addtogroup auctionhouse
  * @{
+ * \file
  */
 
 INSTANTIATE_SINGLETON_1(AuctionHouseMgr);

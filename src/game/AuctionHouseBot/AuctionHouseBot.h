@@ -40,6 +40,7 @@
 
 /** \addtogroup auctionbot
  * @{
+ * \file
  */
 
 /**
