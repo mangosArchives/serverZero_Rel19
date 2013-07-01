@@ -1,4 +1,4 @@
-/**
+/*
  * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -105,18 +105,18 @@ typedef ACE_SHLIB_HANDLE MANGOS_LIBRARY_HANDLE;
 #  define ATTR_PRINTF(F,V)
 #endif // COMPILER == COMPILER_GNU
 
-typedef ACE_INT64 int64;
-typedef ACE_INT32 int32;
-typedef ACE_INT16 int16;
-typedef ACE_INT8 int8;
-typedef ACE_UINT64 uint64;
-typedef ACE_UINT32 uint32;
-typedef ACE_UINT16 uint16;
-typedef ACE_UINT8 uint8;
+typedef ACE_INT64 int64;    ///< A signed integer of 64 bits
+typedef ACE_INT32 int32;    ///< A signed integer of 32 bits
+typedef ACE_INT16 int16;    ///< A signed integer of 16 bits
+typedef ACE_INT8 int8;      ///< A signed integer of 8 bits
+typedef ACE_UINT64 uint64;  ///< An unsigned integer of 64 bits
+typedef ACE_UINT32 uint32;  ///< An unsigned integer of 32 bits
+typedef ACE_UINT16 uint16;  ///< An unsigned integer of 16 bits
+typedef ACE_UINT8 uint8;    ///< An unsigned integer of 8 bits
 
 #if COMPILER != COMPILER_MICROSOFT
-typedef uint16      WORD;
-typedef uint32      DWORD;
+typedef uint16      WORD;  ///< An unsigned integer of 16 bits, only for Win
+typedef uint32      DWORD; ///< An unsigned integer of 32 bits, only for Win
 #endif // COMPILER
 
 #define CONCAT(x, y) CONCAT1(x, y)

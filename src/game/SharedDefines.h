@@ -129,25 +129,29 @@ enum Stats
 
 #define MAX_STATS                        5
 
+/**
+ * These are the different possible powers that are available to us, they should
+ * be fairly familiar if you've played WoW.
+ */
 enum Powers
 {
-    POWER_MANA                          = 0,
-    POWER_RAGE                          = 1,
-    POWER_FOCUS                         = 2,
-    POWER_ENERGY                        = 3,
-    POWER_HAPPINESS                     = 4,
-    POWER_HEALTH                        = 0xFFFFFFFE    // (-2 as signed value)
+    POWER_MANA                          = 0,         ///< The most common one, mobs usually have this or rage
+    POWER_RAGE                          = 1,         ///< This is what warriors use to cast their spells
+    POWER_FOCUS                         = 2,         ///< Used by hunters after Cataclysm (4.x)
+    POWER_ENERGY                        = 3,         ///< Used by rouges to do their spells
+    POWER_HAPPINESS                     = 4,         ///< Hunters pet's happiness affect their damage
+    POWER_HEALTH                        = 0xFFFFFFFE ///< Health, everyone has this (-2 as signed value)
 };
 
 #define MAX_POWERS                        5
 
 /**
  * The different spell schools that are available, used in both damage calculation
- * and spell casting to decide what should be affected, the SPELL_SCHOOL_NORMAL
+ * and spell casting to decide what should be affected, the \ref SpellSchools::SPELL_SCHOOL_NORMAL
  * is the armor, others should be self explanatory.
  *
  * Note that these are the values to use for changing ie, the armor via a
- * Modifier, and it is the Modifier::m_miscValue that should be set.
+ * \ref Modifier, and it is the \ref Modifier::m_miscValue that should be set.
  */
 enum SpellSchools
 {
@@ -197,7 +201,13 @@ enum SpellSchoolMask
       SPELL_SCHOOL_MASK_FROST | SPELL_SCHOOL_MASK_SHADOW | \
       SPELL_SCHOOL_MASK_ARCANE )
 
-// it convert school value into schoolmask missing in 1.12 dbc
+/**
+ * Converts a \ref SpellSchools value into a bitmask representation since this is missing
+ * in the 1.12 dbc files.
+ * @param school The school that should be converted to a bitmask, see \ref SpellSchools
+ * @return A bitmask representation of the given \ref SpellSchools
+ * \see SpellSchools
+ */
 inline SpellSchoolMask GetSchoolMask(uint32 school)
 {
     return SpellSchoolMask(1 << school);
