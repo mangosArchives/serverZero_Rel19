@@ -381,7 +381,9 @@ enum DeathState
     JUST_ALIVED    = 4,                                     // temporary state at resurrection, for creature auto converted to ALIVE, for player at next update call
 };
 
-// internal state flags for some auras and movement generators, other.
+/**
+ * internal state flags for some auras and movement generators, other. (Taken from comment)
+ */
 enum UnitState
 {
     // persistent state (applied by aura/etc until expire)
@@ -533,6 +535,7 @@ enum UnitFlags
 
 /**
  * Non Player Character flags
+ * \todo Properly document this
  */
 enum NPCFlags
 {
@@ -1060,7 +1063,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         typedef std::set<Unit*> AttackerSet;
         /** 
          * A multimap from spell ids to \ref SpellAuraHolder, multiple \ref SpellAuraHolder can have
-         * the same id (ie: the same key
+         * the same id (ie: the same key)
          */
         typedef std::multimap<uint32 /*spellId*/, SpellAuraHolder*> SpellAuraHolderMap;
         /** 
@@ -1986,17 +1989,19 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         SpellMissInfo MeleeSpellHitResult(Unit* pVictim, SpellEntry const* spell);
         /** 
          * This works pretty much like MeleeSpellHitResult but for magic spells instead.
-         * For AOE spells there's a AuraModifier called SPELL_AURA_MOD_AOE_AVOIDANCE that
-         * reduces the spells hit chance.
+         * For AOE spells there's a \ref Modifier called \ref AuraType::SPELL_AURA_MOD_AOE_AVOIDANCE 
+         * that reduces the spells hit chance.
          * @param pVictim the victim that was hit
          * @param spell the spell that was cast
-         * @return Whether or not the spell was resisted/blocked etc. Seems the only 2 possible values is SPELL_MISS_RESIST or SPELL_MISS_NONE
+         * @return Whether or not the spell was resisted/blocked etc. Seems the only 2
+         * possible values are \ref SpellMissInfo::SPELL_MISS_RESIST or
+         * \ref SpellMissInfo::SPELL_MISS_NONE
          * \todo Need use unit spell resistance in calculations (Old comment)
          */
         SpellMissInfo MagicSpellHitResult(Unit* pVictim, SpellEntry const* spell);
         /**
-         * This combined Unit::MagicSpellHitResult and Unit::MeleeSpellHitResult and also makes
-         * checks for if the victim is immune or if it is in evade mode etc. If it's a positive
+         * This combined \ref Unit::MagicSpellHitResult and \ref Unit::MeleeSpellHitResult and also
+         * does checks for if the victim is immune or if it is in evade mode etc. If it's a positive
          * spell it can't miss either. Also takes care of reflects via PROC_EX_REFLECT and removes
          * possible charges that could have been present for reflecting spells. Lastly calls one
          * of the earlier mentioned functions depending on the SpellEntry::DmgClass.
@@ -2134,7 +2139,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
 
         /** 
          * @return true if this unit is a vendor, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsVendor to follow standard?
@@ -2142,7 +2147,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool isVendor()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_VENDOR); }
         /** 
          * @return true if this unit is a trainer, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsTrainer to follow standard?
@@ -2150,7 +2155,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool isTrainer()      const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_TRAINER); }
         /** 
          * @return true if this unit is a QuestGiver, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsQuestGiver to follow standard?
@@ -2158,7 +2163,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool isQuestGiver()   const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER); }
         /** 
          * @return true if this unit is a gossip, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsGossip to follow standard?
@@ -2166,7 +2171,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool isGossip()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP); }
         /** 
          * @return true if this unit is a taxi, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsTaxi to follow standard?
@@ -2174,7 +2179,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool isTaxi()         const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_FLIGHTMASTER); }
         /** 
          * @return true if this unit is a GuildMaster, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsGuildMaster to follow standard?
@@ -2182,7 +2187,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool isGuildMaster()  const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_PETITIONER); }
         /** 
          * @return true if this unit is a BattleMaster, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsBattleMaster to follow standard?
@@ -2190,7 +2195,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool isBattleMaster() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_BATTLEMASTER); }
         /** 
          * @return true if this unit is a banker, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsBanker to follow standard?
@@ -2198,7 +2203,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool isBanker()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_BANKER); }
         /** 
          * @return true if this unit is a innkeeper, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsInnkeeper to follow standard?
@@ -2206,7 +2211,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool isInnkeeper()    const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_INNKEEPER); }
         /** 
          * @return true if this unit is a SpiritHealer, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsSpiritHealer to follow standard?
@@ -2214,7 +2219,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool isSpiritHealer() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITHEALER); }
         /** 
          * @return true if this unit is a SpiritGuide, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsSpiritGuide to follow standard?
@@ -2222,7 +2227,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool isSpiritGuide()  const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITGUIDE); }
         /** 
          * @return true if this unit is a TabardDesigner, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsTabardDesigner to follow standard?
@@ -2230,7 +2235,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool isTabardDesigner()const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_TABARDDESIGNER); }
         /** 
          * @return true if this unit is a Auctioneer, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsAuctioneer to follow standard?
@@ -2238,7 +2243,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool isAuctioner()    const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_AUCTIONEER); }
         /** 
          * @return true if this unit is a armorer, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsArmorer to follow standard?
@@ -2260,7 +2265,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * - \ref UNIT_NPC_FLAG_AUCTIONEER
          * 
          * @return true if this unit is a ServiceProvider, false otherwise
-         * \see HasFlag
+         * \see Object::HasFlag
          * \see EUnitFields
          * \see NPCFlags
          * \todo Rename to IsServiceProvider to follow standard?
@@ -2279,6 +2284,9 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * - \ref UNIT_NPC_FLAG_SPIRITHEALER
          * - \ref UNIT_NPC_FLAG_SPIRITGUIDE
          * @return true if this unit is a spirit service, false otherwise
+         * \see Object::HasFlag
+         * \see EUnitFields
+         * \see NPCFlags
          * \todo Rename to IsSpiritService to follow standard?
          */
         bool isSpiritService() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITHEALER | UNIT_NPC_FLAG_SPIRITGUIDE); }
@@ -2473,9 +2481,10 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * Checks if this \ref Unit could be targeted with an attack, things that make that
          * impossible are:
          * - The \ref Unit / \ref Player is a GM
-         * - The \ref Unit has the flags (\ref Unit::HasFlag) \ref UnitFlags::UNIT_FLAG_NON_ATTACKABLE
-         * and \ref UnitFlags::UNTI_FLAG_NOT_SELECTABLE
-         * - The \ref Unit has the flag (\ref Unit::HasFlag)
+         * - The \ref Unit has the flags (\ref Object::HasFlag)
+         * \ref UnitFlags::UNIT_FLAG_NON_ATTACKABLE
+         * and \ref UnitFlags::UNIT_FLAG_NOT_SELECTABLE
+         * - The \ref Unit has the flag (\ref Object::HasFlag)
          * \ref UnitFlags::UNIT_FLAG_OOC_NOT_ATTACKABLE, this seems to vary some though, since this
          * flag will be removed when the creature for some reason enters combat
          * - \ref Unit::isAlive is equal to inverseAlive
@@ -2495,9 +2504,29 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return true if the target is passive to hostile actions, false otherwise
          */
         bool isPassiveToHostile() { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE); }
-        
+
+        /** 
+         * Is this \ref Unit in water? 
+         * @return true if the \ref Unit is in water, false otherwise
+         * \see Object::GetTerrain
+         * \see TerrainInfo::IsInWater
+         */
         virtual bool IsInWater() const;
+        /** 
+         * Is this \ref Unit under water?
+         * @return true if the \ref Unit is under water, false otherwise
+         * \see Object::GetTerrain
+         * \see TerrainInfo::IsUnderWater
+         */
         virtual bool IsUnderWater() const;
+        /** 
+         * Can the given \ref Creature access this \ref Unit in some way? If this \ref Unit is in
+         * water we check if the \ref Creature can swim, if so it's accessible, otherwise it's not.
+         * If we're not in water the \ref Creature should be able to walk or fly and then we're
+         * accessible.
+         * @param c The \ref Creature to check accessibility for
+         * @return true if this \ref Unit is accessible to the \ref Creature given, false otherwise
+         */
         bool isInAccessablePlaceFor(Creature const* c) const;
 
         void SendHealSpellLog(Unit* pVictim, uint32 SpellID, uint32 Damage, bool critical = false);
