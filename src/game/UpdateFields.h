@@ -63,6 +63,11 @@ enum EContainerFields
     CONTAINER_END                              = ITEM_END + 0x3A,
 };
 
+/**
+ * Fields that are available for a \ref Unit ?
+ * \see Object::HasFlag
+ * \todo Document this properly!
+ */
 enum EUnitFields
 {
     UNIT_FIELD_CHARM                           = 0x00 + OBJECT_END, // Size:2

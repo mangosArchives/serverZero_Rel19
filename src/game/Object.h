@@ -243,6 +243,14 @@ class MANGOS_DLL_SPEC Object
                 SetFlag(index, flag);
         }
 
+        /** 
+         * Checks if a certain flag is set.
+         * @param index The index to check, values may originate from at least \ref EUnitFields
+         * @param flag Which flag to check, value may originate from a lot of places, see code
+         * for examples of what
+         * @return true if the flag is set, false otherwise
+         * \todo More info on these flags and where they come from, also, which indexes can be used?
+         */
         bool HasFlag(uint16 index, uint32 flag) const
         {
             MANGOS_ASSERT(index < m_valuesCount || PrintIndexError(index , false));

@@ -55,16 +55,20 @@ MANGOS_DLL_SPEC float frand(float min, float max);
 /* Return a random number in the range 0 .. RAND32_MAX. */
 MANGOS_DLL_SPEC int32 rand32();
 
-/* Return a random double from 0.0 to 1.0 (exclusive). Floats support only 7 valid decimal digits.
+/**
+ * Return a random double from 0.0 to 1.0 (exclusive). Floats support only 7 valid decimal digits.
  * A double supports up to 15 valid decimal digits and is used internally (RAND32_MAX has 10 digits).
- * With an FPU, there is usually no difference in performance between float and double. */
+ * With an FPU, there is usually no difference in performance between float and double.
+ */
 MANGOS_DLL_SPEC double rand_norm(void);
 
 MANGOS_DLL_SPEC float rand_norm_f(void);
 
-/* Return a random double from 0.0 to 99.9999999999999. Floats support only 7 valid decimal digits.
+/**
+ * Return a random double from 0.0 to 99.9999999999999. Floats support only 7 valid decimal digits.
  * A double supports up to 15 valid decimal digits and is used internaly (RAND32_MAX has 10 digits).
- * With an FPU, there is usually no difference in performance between float and double. */
+ * With an FPU, there is usually no difference in performance between float and double.
+ */
 MANGOS_DLL_SPEC double rand_chance(void);
 
 MANGOS_DLL_SPEC float rand_chance_f(void);
@@ -81,7 +85,9 @@ inline bool roll_chance_f(float chance)
     return chance > rand_chance();
 }
 
-/* Return true if a random roll fits in the specified chance (range 0-100). */
+/**
+ * Return true if a random roll fits in the specified chance (range 0-100).
+ */
 inline bool roll_chance_i(int chance)
 {
     return chance > irand(0, 99);

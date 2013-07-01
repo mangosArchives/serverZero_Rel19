@@ -260,7 +260,7 @@ class AuctionBotConfig
  * This is the base interface for the \ref AuctionBotSeller and \ref AuctionBotBuyer classes
  * which in itself only provides the possibility to use dynamic_cast in some of the
  * \ref AuctionHouseBot methods, ie: \ref AuctionHouseBot::SetItemsRatio uses it to cast it's
- * member \ref AuctionHouseBot::m_Seller to a \ref AuctionBotSeller.
+ * member AuctionHouseBot::m_Seller to a \ref AuctionBotSeller.
  */
 class AuctionBotAgent
 {
@@ -385,8 +385,8 @@ class AuctionHouseBot
          */
         void InitilizeAgents();
 
-        AuctionBotAgent* m_Buyer;
-        AuctionBotAgent* m_Seller;
+        AuctionBotAgent* m_Buyer; ///< The buyer (\ref AuctionBotBuyer) for this \ref AuctionHouseBot
+        AuctionBotAgent* m_Seller; ///< The seller (\ref AuctionBotSeller) for this \ref AuctionHouseBot
 
         uint32 m_OperationSelector;                         // 0..2*MAX_AUCTION_HOUSE_TYPE-1
 };

@@ -960,10 +960,9 @@ enum Targets
  */
 enum SpellMissInfo
 {
-    /// Indicates an actual hit
-    SPELL_MISS_NONE                    = 0,
+    SPELL_MISS_NONE                    = 0, ///< Indicates an actual hit
     SPELL_MISS_MISS                    = 1,
-    SPELL_MISS_RESIST                  = 2,
+    SPELL_MISS_RESIST                  = 2, ///< The spell was resisted
     SPELL_MISS_DODGE                   = 3,
     SPELL_MISS_PARRY                   = 4,
     SPELL_MISS_BLOCK                   = 5,
