@@ -216,6 +216,10 @@ enum Swing
     TWOHANDEDSWING             = 2
 };
 
+/**
+ * This seems to be the state a target of an attack can be in.
+ * \todo Document more
+ */
 enum VictimState
 {
     VICTIMSTATE_UNAFFECTED     = 0,                         // seen in relation with HITINFO_MISS
@@ -2699,9 +2703,38 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         void CastSpell(float x, float y, float z, SpellEntry const* spellInfo, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
 
+        /** 
+         * Changes the display id for this \ref Unit to the native one that it usually has.
+         * This is done by calling \ref Unit::SetDisplayId and \ref Unit::GetNativeDisplayId
+         * like so:
+         * \code{.cpp}
+         * SetDisplayId(GetNativeDisplayId());
+         * \endcode
+         */
         void DeMorph();
 
+        /** 
+         * This sends an AttackStateUpdate, some info about damage that you've done etc.
+         * @param damageInfo the damage info used for knowing what to send
+         * \see OpcodesList::SMSG_ATTACKERSTATEUPDATE
+         * \todo Find out when and why this is sent
+         */
         void SendAttackStateUpdate(CalcDamageInfo* damageInfo);
+        /** 
+         * The same thing as \ref Unit::SendAttackStateUpdate but you send along all the parameters
+         * that are needed instead of giving them through \ref CalcDamageInfo
+         * @param HitInfo hit information as in the \ref CalcDamageInfo::HitInfo
+         * @param target the target of the attack
+         * @param SwingType the swingtype, need to know what this is
+         * @param damageSchoolMask the damageschoolmask as the one from:
+         * \ref CalcDamageInfo::damageSchoolMask
+         * @param Damage the damage that was done
+         * @param AbsorbDamage how much of the damage that was absorbed
+         * @param Resist how much of the damage that was resisted
+         * @param TargetState the \ref VictimState of the target
+         * @param BlockedAmount how much of the damage that was blocked
+         * \todo What's the swingtype for?
+         */
         void SendAttackStateUpdate(uint32 HitInfo, Unit* target, uint8 SwingType, SpellSchoolMask damageSchoolMask, uint32 Damage, uint32 AbsorbDamage, uint32 Resist, VictimState TargetState, uint32 BlockedAmount);
         void SendSpellNonMeleeDamageLog(SpellNonMeleeDamage* log);
         void SendSpellNonMeleeDamageLog(Unit* target, uint32 SpellID, uint32 Damage, SpellSchoolMask damageSchoolMask, uint32 AbsorbedDamage, uint32 Resist, bool PhysicalDamage, uint32 Blocked, bool CriticalHit = false);

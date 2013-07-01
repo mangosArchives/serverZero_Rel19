@@ -31,7 +31,17 @@
 //       table opcodeTable in source when Opcode.h included but WorldSession.h not included
 #include "WorldSession.h"
 
-/// List of Opcodes
+/**
+ * This is a list of Opcodes that are known for the client/server communication, it is used
+ * to tell the server to do something or the client to do something. Every opcode is handled
+ * in some way, and you can find what functions handle what opcode in the implementation of
+ * \ref Opcodes::BuildOpcodeList
+ *
+ * To send messages the following functions can be used: \ref WorldObject::SendMessageToSet,
+ * \ref WorldObject::SendMessageToSetExcept, \ref WorldObject::SendMessageToSetInRange
+ *
+ * \see WorldPacket
+ */
 enum OpcodesList
 {
     MSG_NULL_ACTION                                 = 0x000,
@@ -364,13 +374,74 @@ enum OpcodesList
     SMSG_ATTACKSWING_NOTSTANDING                    = 0x147,
     SMSG_ATTACKSWING_DEADTARGET                     = 0x148,
     SMSG_ATTACKSWING_CANT_ATTACK                    = 0x149,
+    /**
+     * This opcode is used to send information about a recent hit, who it hit, how
+     * much damage it did and so forth. See the \ref CalcDamageInfo structure for more
+     * info on what will be sent. The data that needs to be sent is the following in
+     * the same order:
+     * - The \ref CalcDamageInfo::HitInfo as a \ref uint32
+     * - The \ref Unit s Pack GUID (see \ref Object::GetPackGUID)
+     * - The targets Pack GUID (see \ref Object::GetPackGUID)
+     * - The full damage that was done as a \ref uint32
+     * - A 1 as a \ref uint8, this acts as the subdamage count (could it be higher?)
+     * - A \ref uint32 of \code{.cpp} GetFirstSchoolInMask(damageInfo->damageSchoolMask) \endcode
+     * Need to find out what this does
+     * - A float representation of the damage (seen as sub damage from comments)
+     * - A \ref uint32 representation of the same damage
+     * - A \ref uint32 representation of how much was absorbed (see \ref CalcDamageInfo::absorb)
+     * - A \ref uint32 representation of how much was resisted (see \ref CalcDamageInfo::resist)
+     * - The targets state as a \ref uint32 (see \ref CalcDamageInfo::TargetState)
+     * - If the absorbed part is zero add a 0 as an \ref uint32 otherwise add a -1 as an \ref uint32
+     * - The spell id as a \ref uint32 if a spell was used, although in
+     * \ref Unit::SendAttackStateUpdate it is always 0.
+     * - The blocked amount as a \ref uint32 (see \ref CalcDamageInfo::blocked_amount) this is
+     * normally \ref HitInfo::HITINFO_NOACTION according to comments in \ref Unit::SendAttackStateUpdate
+     * 
+     * It appears this should also be sent with \ref Object::SendMessageToSet to that all nearby (in
+     * the same \ref Cell) \ref Player s can get take part of the info
+     * \see VictimState
+     * \todo Is this correct? Is it really about a recent hit?
+     */
     SMSG_ATTACKERSTATEUPDATE                        = 0x14A,
     SMSG_VICTIMSTATEUPDATE_OBSOLETE                 = 0x14B,
     SMSG_DAMAGE_DONE_OBSOLETE                       = 0x14C,
     SMSG_DAMAGE_TAKEN_OBSOLETE                      = 0x14D,
     SMSG_CANCEL_COMBAT                              = 0x14E,
     SMSG_PLAYER_COMBAT_XP_GAIN_OBSOLETE             = 0x14F,
+    /**
+     * This opcode is used to send data for the combat log when healing is done. The data
+     * that needs to be sent is the following in the same order:
+     * - The victims Pack GUID (see \ref Object::GetPackGUID)
+     * - The \ref Player s Pack GUID (see \ref Object::GetPackGUID)
+     * - The spellid as a \ref uint32
+     * - The damage/healing done as a \ref uint32
+     * - If it was critical or not as a \ref uint8 (1 meaning critical, 0 meaning normal)
+     * - And a \ref uint8 with the value 0 which doesn't seem to be used in the client
+     *
+     * To not create this packet and send it all the time you need it you can use
+     * \ref Unit::SendHealSpellLog
+     * Also, this should be sent with \ref Object::SendMessageToSet so that all nearby (in
+     * the same \ref Cell) \ref Player s get the information.
+     * \todo Is it actually for the combat log?
+     * \todo Is it in the same \ref Cell?
+     */
     SMSG_SPELLHEALLOG                               = 0x150,
+    /**
+     * This opcode is used to send data for the combat log when you gain energy in some way.
+     * The data that needs to be sent is the following in the same order:
+     * - The victims Pack GUID (see \ref Object::GetPackGUID)
+     * - The \ref Player s Pack GUID (see \ref Object::GetPackGUID)
+     * - the spellid as a \ref uint32
+     * - the powertype as a \ref uint32, see \ref Powers for the available power types
+     * - the damage or in this case gain as a \ref uint32
+     *
+     * To not create this packet and send it all the time you need it you can use
+     * \ref Unit::SendEnergizeSpellLog
+     * Also, this should be sent with \ref Object::SendMessageToSet so that all nearby (in
+     * the same \ref Cell) \ref Player s get the information.
+     * \todo Is it actually for the combat log?
+     * \todo Is it in the same \ref Cell?
+     */
     SMSG_SPELLENERGIZELOG                           = 0x151,
     CMSG_SHEATHE_OBSOLETE                           = 0x152,
     CMSG_SAVE_PLAYER                                = 0x153,

@@ -47,6 +47,10 @@ Opcodes::~Opcodes()
 }
 
 
+/** 
+ * Registers all handlers for the different packets that may come in. See the source for more info.
+ * \see Opcodes::StoreOpcode
+ */
 void Opcodes::BuildOpcodeList()
 {
     /// Correspondence between opcodes and their names
