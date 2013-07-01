@@ -2529,15 +2529,174 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         bool isInAccessablePlaceFor(Creature const* c) const;
 
+        /** 
+         * Sends a packet to the client with \ref OpcodesList::SMSG_SPELLHEALLOG which presumably
+         * updates the combat log of this \ref Unit and shows some healing done and to who in it.
+         * 
+         * For a description of the packets look see \ref OpcodesList::SMSG_SPELLHEALLOG
+         * @param pVictim the victim of the healing spell
+         * @param SpellID what spell id that was used
+         * @param Damage how much "damage" we did (healing in this case)
+         * @param critical whether it was a critical hit or not.
+         * \see WorldPacket
+         */
         void SendHealSpellLog(Unit* pVictim, uint32 SpellID, uint32 Damage, bool critical = false);
+        /** 
+         * Sends a packet to the client with \ref OpcodesList::SMSG_SPELLENERGIZELOG which presumably
+         * updates the combat log of this \ref Unit and shows some enery regen and to who it was.
+         *
+         * For a description of the packets look see \ref OpcodesList::SMSG_SPELLENERGIZELOG
+         * @param pVictim the victim of the regen
+         * @param SpellID the spell id that caused it
+         * @param Damage how much was regenerated
+         * @param powertype the power that was regenerated
+         */
         void SendEnergizeSpellLog(Unit* pVictim, uint32 SpellID, uint32 Damage, Powers powertype);
+        /** 
+         * Regenerates/degenerates the given amount of "damage" for the given power and sends a
+         * update to the combat log. 
+         * @param pVictim the victim to add/remove power from
+         * @param SpellID the spell id that caused it
+         * @param Damage how much was increased/decreased, negative values decrease, positive increase
+         * @param powertype the power that was increased/decreased
+         * \see Unit::ModifyPower
+         */
         void EnergizeBySpell(Unit* pVictim, uint32 SpellID, uint32 Damage, Powers powertype);
+        /** 
+         * Will do damage to the victim calculating how much should be done with the help of
+         * \ref SpellNonMeleeDamage, \ref Unit::CalculateSpellDamage, \ref Unit::DealDamageMods and
+         * \ref Unit::SendSpellNonMeleeDamageLog to update the combat log
+         * @param pVictim the victim that should take damage
+         * @param spellID id of the spell that will cause the damage
+         * @param damage the initial damage to do
+         * @return how much damage was actually done
+         */
         uint32 SpellNonMeleeDamageLog(Unit* pVictim, uint32 spellID, uint32 damage);
+        /** 
+         * This function only checks if the spell id is accurate, if it is then the other
+         * \ref Unit::CastSpell is called which does the actual cast.
+         * @param Victim victim that should be hit by the spell
+         * @param spellId id of the spell to cast
+         * @param triggered whether this was triggered by some outside circumstance or used as a button
+         * press on you action bar, true means triggered by outside circumstance
+         * @param castItem the item that cast the spell if any, usually NULL
+         * @param triggeredByAura the \ref Aura that triggered the spell if any
+         * @param originalCaster usually just \ref ObjectGuid constructor
+         * @param triggeredBy the \ref SpellEntry that triggered this spell if any
+         * \see Spell
+         * \see SpellCastTargets
+         * \todo What's the original caster?
+         */
         void CastSpell(Unit* Victim, uint32 spellId, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
+        /** 
+         * Casts a spell simple and square, outputs some debugging info for some reasons, ie: if the
+         * spellInfo is NULL it is logged and the function won't do anything. If the spell is triggered
+         * by an \ref Aura and there's no originalCaster it is updated to be the cast of the \ref Aura
+         * and the triggeredBy is set to be the \ref Aura s \ref SpellEntry. Some work is done to
+         * work out if we should set a destination and/or source for the spell and it is then cast.
+         *
+         * Also, linked spells seem to be taken care of in here, but only the ones that should be
+         * removed on cast, ie: \ref SpellLinkedType::SPELL_LINKED_TYPE_REMOVEONCAST. See
+         * \ref SpellLinkedEntry for more info and \ref SpellLinkedType
+         *
+         * Finally calls \ref Spell::prepare on the \ref Spell and that's where it continues the
+         * execution.
+         * 
+         * @param Victim victim that should be hit by the spell
+         * @param spellInfo info about the spell to cast
+         * @param triggered whether this was triggered by some outside circumstance or used as a button
+         * press on your action bar, true means triggered by outside circumstance
+         * @param castItem the \ref Item that cast the spell if any, usually NULL
+         * @param triggeredByAura the \ref Aura that triggered the spell if any
+         * @param originalCaster usually just \ref ObjectGuid constructor
+         * @param triggeredBy the \ref SpellEntry that triggered this spell if any
+         * \see Spell
+         * \see SpellCastTargets
+         * \todo What's the original caster?
+         * \todo Document the spell linked
+         */
         void CastSpell(Unit* Victim, SpellEntry const* spellInfo, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
+        /** 
+         * Does pretty much the same thing as \ref Unit::CastSpell but uses the three bp0-bp2 variables
+         * to change the \ref Spell s \ref Spell::m_currentBasePoints for the different
+         * \ref SpellEffectIndexes. This also works as the first version of \ref Unit::CastSpell which
+         * just does some checks and then calls the other one.
+         * 
+         * @param Victim victim that should be hit by the spell
+         * @param spellId id of the spell to be cast
+         * @param bp0 this will change the \ref Spell s member \ref Spell::m_currentBasePoints for
+         * \ref SpellEffectIndex::EFFECT_INDEX_0 to this value if it's not NULL.
+         * @param bp1 this will change the \ref Spell s member \ref Spell::m_currentBasePoints for
+         * \ref SpellEffectIndex::EFFECT_INDEX_1 to this value if it's not NULL.
+         * @param bp2 this will change the \ref Spell s member \ref Spell::m_currentBasePoints for
+         * \ref SpellEffectIndex::EFFECT_INDEX_2 to this value if it's not NULL.
+         * @param triggered whether this was triggered by some outside circumstance or used as a button
+         * press on your action bar, true means triggered by outside circumstance
+         * @param castItem the \ref Item that cast this if any
+         * @param triggeredByAura the \ref Aura that triggered this 
+         * @param originalCaster the original caster if any
+         * @param triggeredBy the \ref SpellEntry that triggered this cast, if any
+         * \todo What's the original caster?
+         */
         void CastCustomSpell(Unit* Victim, uint32 spellId, int32 const* bp0, int32 const* bp1, int32 const* bp2, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
+        /** 
+         * Same idea for this one as for \ref Unit::CastCustomSpell with a change to the spellid being
+         * exchanged for a \ref SpellEntry instead
+         * 
+         * @param Victim victim that should be hit by the spell
+         * @param spellInfo info about the spell to cast
+         * @param bp0 this will change the \ref Spell s member \ref Spell::m_currentBasePoints for
+         * \ref SpellEffectIndex::EFFECT_INDEX_0 to this value if it's not NULL.
+         * @param bp1 this will change the \ref Spell s member \ref Spell::m_currentBasePoints for
+         * \ref SpellEffectIndex::EFFECT_INDEX_1 to this value if it's not NULL.
+         * @param bp2 this will change the \ref Spell s member \ref Spell::m_currentBasePoints for
+         * \ref SpellEffectIndex::EFFECT_INDEX_2 to this value if it's not NULL.
+         * @param triggered whether this was triggered by some outside circumstance or used as a button
+         * press on your action bar, true means triggered by outside circumstance
+         * @param castItem the \ref Item that cast this if any
+         * @param triggeredByAura the \ref Aura that triggered this 
+         * @param originalCaster the original caster if any
+         * @param triggeredBy the \ref SpellEntry that triggered this cast, if any
+         * \todo What's the original caster?
+         */
         void CastCustomSpell(Unit* Victim, SpellEntry const* spellInfo, int32 const* bp0, int32 const* bp1, int32 const* bp2, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
+        /** 
+         * Same idea as for \ref Unit::CastSpell, but with the parameters x, y, z telling the
+         * destination and source of the \ref SpellCastTargets depending on if the
+         * \ref SpellEntry::Targets bitflags have the
+         * \ref SpellCastTargetFlags::TARGET_FLAG_DEST_LOCATION  set for destination and
+         * \ref SpellCastTargetFlags::TARGET_FLAG_SOURCE_LOCATION set for location
+         * 
+         * @param x coord for source/dest
+         * @param y coord for source/dest
+         * @param z coord for source/dest
+         * @param spellId id of the spell that was cast
+         * @param triggered whether this was triggered by some outside circumstance or used as a button
+         * press on your action bar, true means triggered by outside circumstance
+         * @param castItem the \ref Item that cast this if any
+         * @param triggeredByAura the \ref Aura that triggered this 
+         * @param originalCaster the original caster if any
+         * @param triggeredBy the \ref SpellEntry that triggered this cast, if any
+         */
         void CastSpell(float x, float y, float z, uint32 spellId, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
+        /** 
+         * Same idea as for \ref Unit::CastSpell, but with the parameters x, y, z telling the
+         * destination and source of the \ref SpellCastTargets depending on if the
+         * \ref SpellEntry::Targets bitflags have the
+         * \ref SpellCastTargetFlags::TARGET_FLAG_DEST_LOCATION  set for destination and
+         * \ref SpellCastTargetFlags::TARGET_FLAG_SOURCE_LOCATION set for location
+         * 
+         * @param x coord for source/dest
+         * @param y coord for source/dest
+         * @param z coord for source/dest
+         * @param spellInfo info about the spell to cast
+         * @param triggered whether this was triggered by some outside circumstance or used as a button
+         * press on your action bar, true means triggered by outside circumstance
+         * @param castItem the \ref Item that cast this if any
+         * @param triggeredByAura the \ref Aura that triggered this 
+         * @param originalCaster the original caster if any
+         * @param triggeredBy the \ref SpellEntry that triggered this cast, if any
+         */
         void CastSpell(float x, float y, float z, SpellEntry const* spellInfo, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
 
         void DeMorph();
