@@ -10,14 +10,17 @@
  * - <A HREF="http://getmangos.co.uk/wiki/">On the wiki</A> to get an overview of the different modules of the server
  * - <A HREF="./modules.html">In this source doumentation</A>, starting at the module hierarchy
  *
- * \section Naming convetions
+ * \section conventions Naming/Coding conventions
  * When using a singleton to access something a define along the following lines is often used:
  * \code{.cpp}
  * #define sAuctionBot MaNGOS::Singleton<AuctionHouseBot>::Instance()
  * \endcode
  * Notice the small s prepending the variable name, this is important and is used often throughout
- * the source.
- *
+ * the source. When using a pointer is it often prepended with a small p, ie:
+ * \code{.cpp}
+ * OneClass* pOneClass = NULL;
+ * \endcode
+ * 
  * Member variables in a class are prepended with m_VarName, functions are name with CamelCase but with
  * a capital first letter. Indentation is done as follows:
  * \code{.cpp}
@@ -30,6 +33,7 @@
  *         void Function();
  *     private:
  *         uint32 m_CoolStuff;
+ *         AnotherClass* m_pOtherClass;
  * };
  *
  * MyNiceClass::MyNiceClass()
@@ -44,9 +48,15 @@
  *         std::cout << "Cool stuff" << std::endl;
  *     }
  * }
- * 
  * \endcode
  *
+ * When working with iterators and loops in general always use the prefix ++ or -- operator as it's
+ * faster, ie:
+ * \code{.cpp}
+ * for (std::list<std::string>::const_iterator it = list.begin(); it != list.end(); ++it);
+ * \endcode
+ *
+ * 
  * \todo Move the naming conventions to their own file when it's finished
  * \todo Add more examples of how the code should look, there was an example in the Wiki before
  */
