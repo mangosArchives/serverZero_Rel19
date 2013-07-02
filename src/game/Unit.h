@@ -848,16 +848,20 @@ struct SpellNonMeleeDamage
     uint32 HitInfo;
 };
 
+/**
+ * Used as a convenience struct for the \ref Unit::SendPeriodicAuraLog
+ * \todo Is it used in more places? Check SpellAuras.cpp for some examples and document it
+ */
 struct SpellPeriodicAuraLogInfo
 {
     SpellPeriodicAuraLogInfo(Aura* _aura, uint32 _damage, uint32 _absorb, uint32 _resist, float _multiplier)
         : aura(_aura), damage(_damage), absorb(_absorb), resist(_resist), multiplier(_multiplier) {}
 
-    Aura*   aura;
-    uint32 damage;
-    uint32 absorb;
-    uint32 resist;
-    float  multiplier;
+    Aura*   aura;       ///< The \ref Aura in question
+    uint32 damage;      ///< How much damage this does or how much it adds if it's a positive \ref Aura
+    uint32 absorb;      ///< The amount that was absorbed
+    uint32 resist;      ///< The amount that was resisted
+    float  multiplier;  ///< The multiplier for gain, ie if it's higher you gain more probably
 };
 
 uint32 createProcExtendMask(SpellNonMeleeDamage* damageInfo, SpellMissInfo missCondition);
@@ -2736,8 +2740,50 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo What's the swingtype for?
          */
         void SendAttackStateUpdate(uint32 HitInfo, Unit* target, uint8 SwingType, SpellSchoolMask damageSchoolMask, uint32 Damage, uint32 AbsorbDamage, uint32 Resist, VictimState TargetState, uint32 BlockedAmount);
+        /** 
+         * Used to send a update to the combat log for all \ref Player/\ref Unit s in the vicinity.  
+         * @param log Info about who/what did damage to who and how etc, data needed for the packet
+         * \see OpcodesList::SMSG_SPELLNONMELEEDAMAGELOG
+         * \todo Is this actually for the combat log?
+         */
         void SendSpellNonMeleeDamageLog(SpellNonMeleeDamage* log);
+        /** 
+         * Same idea as for \ref Unit::SendSpellNonMeleeDamageLog but without the helping
+         * \ref SpellNonMeleeDamage. This will set the \ref SpellNonMeleeDamage::HitInfo member to
+         * the following before sending the packet:
+         * \code {.cpp}
+         * \ref HitInfo::SPELL_HIT_TYPE_UNK1 | \ref HitInfo::SPELL_HIT_TYPE_UNK3 | \ref HitInfo::SPELL_HIT_TYPE_UNK6
+         * \endcode
+         * 
+         * And if the \a CriticalHit parameter is true then it will add the flag
+         * \ref HitInfo::SPELL_HIT_TYPE_CRIT
+         * 
+         * @param target the target of the spell
+         * @param SpellID id of the spell that was used
+         * @param Damage the damage done including the damage that was resisted/absorbed/blocked etc.
+         * Ie: damage + absorbed + resisted. This will be subtracted to the bare damage when inserted
+         * into the \ref SpellNonMeleeDamage struct
+         * @param damageSchoolMask mask for which kind of damage this is, see \ref SpellSchools for
+         * possible values, the first set bit out of this mask will be used a the \ref SpellSchools
+         * @param AbsorbedDamage how much of the damage that was absorbed
+         * @param Resist how much of the damage that was resisted
+         * @param PhysicalDamage whether or not this was physical damage
+         * @param Blocked how much of the damage that was blocked
+         * @param CriticalHit whether it was a critical hit or not
+         * \see HitInfo
+         * \see OpcodesList::SMSG_SPELLNONMELEEDAMAGELOG
+         * \todo Is this actually for the combat log?
+         */
         void SendSpellNonMeleeDamageLog(Unit* target, uint32 SpellID, uint32 Damage, SpellSchoolMask damageSchoolMask, uint32 AbsorbedDamage, uint32 Resist, bool PhysicalDamage, uint32 Blocked, bool CriticalHit = false);
+        /** 
+         * Sends some data to the combat log about the periodic effects of an \ref Aura, it might be
+         * periodic healing/damage etc. Perhaps it increases the amount of power you have as a rogue
+         * and such. For more info on what exactly is sent etc see
+         * \ref OpcodesList::SMSG_PERIODICAURALOG.
+         * @param pInfo Info about the periodic effect of the \ref Aura
+         * \see OpcodesList::SMSG_PERIODICAURALOG
+         * \todo Is this actually for the combat log?
+         */
         void SendPeriodicAuraLog(SpellPeriodicAuraLogInfo* pInfo);
         void SendSpellMiss(Unit* target, uint32 spellID, SpellMissInfo missInfo);
 

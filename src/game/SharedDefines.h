@@ -213,6 +213,13 @@ inline SpellSchoolMask GetSchoolMask(uint32 school)
     return SpellSchoolMask(1 << school);
 }
 
+/** 
+ * Turns a \ref SpellSchoolMask into a \ref SpellSchools from the first bit
+ * that is set in the mask.
+ * @param mask the mask you want to get the first school for
+ * @return a \ref SpellSchools of the first bit that was set, if none were found
+ * \ref SpellSchools::SPELL_SCHOOL_NORMAL is returned
+ */
 inline SpellSchools GetFirstSchoolInMask(SpellSchoolMask mask)
 {
     for (int i = 0; i < MAX_SPELL_SCHOOL; ++i)

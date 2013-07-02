@@ -41,6 +41,7 @@
  * \ref WorldObject::SendMessageToSetExcept, \ref WorldObject::SendMessageToSetInRange
  *
  * \see WorldPacket
+ * \todo Replace the Pack GUID part with a packed GUID, ie: it's shorter than usual?
  */
 enum OpcodesList
 {
@@ -695,8 +696,86 @@ enum OpcodesList
     SMSG_SPELLLOGMISS                               = 0x24B,
     SMSG_SPELLLOGEXECUTE                            = 0x24C,
     SMSG_DEBUGAURAPROC                              = 0x24D,
+    /**
+     * This opcode is used to send data for the combat log when you receive either periodic damage or
+     * buffs from a \ref Aura in some way, ie  you gain 10 life every second, you increase your regen
+     * of power or something along those lines. The data that needs to be sent is a little different
+     * depending on the \ref Modifier for the \ref Aura, what should always be included though is:
+     * - The victims Pack GUID (see \ref Object::GetPackGUID)
+     * - The casting \ref Player s Pack GUID (see \ref Object::GetPackGUID)
+     * - The spellid for the \ref Aura (see \ref Aura::GetId) as a \ref uint32
+     * - A 1 as a \ref uint32 this is the count of something (what)
+     * - The id of the aura see \ref Modifier::m_auraname as a \ref uint32
+     *
+     * Now comes different parts depending on what value the \ref Modifier::m_auraname has, if it
+     * is \ref AuraType::SPELL_AURA_PERIODIC_DAMAGE or
+     * \ref AuraType::SPELL_AURA_PERIODIC_DAMAGE_PERCENT then this is sent:
+     * - Damage done as a \ref uint32 from \ref SpellPeriodicAuraLogInfo::damage
+     * - The \ref SpellSchools of the \ref SpellEntry for the \ref Aura as a \ref uint32 (see
+     * \ref SpellEntry::School)
+     * - How much that was absorbed as a \ref uint32
+     * - How mcuh that was resisted as a \ref uint32
+     *
+     * If the \ref Modifier::m_auraname has one of the values of:
+     * \ref AuraType::SPELL_AURA_PERIODIC_HEAL or \ref AuraType::SPELL_AURA_OBS_MOD_HEALTH then
+     * this should be sent:
+     * - Damage/healing (in this case) done as a \ref uint32
+     *
+     * If the \ref Modifier::m_auraname has one of the values of:
+     * \ref AuraType::SPELL_AURA_OBS_MOD_MANA or \ref AuraType::SPELL_AURA_PERIODIC_ENERGIZE then
+     * this should be sent:
+     * - The \ref Modifier::m_miscvalue as a \ref uint32, in this case it's a power type from the
+     * \ref Powers
+     * - The damage/mana earned (in this case) as a \ref uint32
+     *
+     * If the \ref Modifier::m_auraname has one of the values of:
+     * \ref AuraType::SPELL_AURA_PERIODIC_MANA_LEECH then this should be sent:
+     * - The \ref Modifier::m_miscvalue as a \ref uint32, in this case it's a power type from the
+     * \ref Powers
+     * - The damage/amount of mana drained (in this case) as a \ref uint32
+     * - The gain multiplier as a \ref float from the which probably increases how much power was
+     * drained
+     *
+     * To not create this packet and send it all the time you need it you can use
+     * \ref Unit::SendPeriodicAuraLog
+     * 
+     * Also, this should be sent with \ref Object::SendMessageToSet so that all nearby (in
+     * the same \ref Cell) \ref Player s get the information. To do this with an \ref Aura
+     * one could use \ref Aura::GetTarget and then use the \ref Unit::SendMessageToSet
+     * \todo Is it actually for the combat log?
+     * \todo Is it in the same \ref Cell?
+     * \todo What is the count that is sent as a uint32?
+     * \todo Document the multiplier in some way?
+     */
     SMSG_PERIODICAURALOG                            = 0x24E,
     SMSG_SPELLDAMAGESHIELD                          = 0x24F,
+    /**
+     * This opcode is used to send data for the combat log when you damage someone with a non melee
+     * spell, ie frostbolt.
+     * The data that needs to be sent is the following in the same order:
+     * - The victims Pack GUID (see \ref Object::GetPackGUID)
+     * - The \ref Player s Pack GUID (see \ref Object::GetPackGUID)
+     * - Id of the spell that was used as a \ref uint32
+     * - The amount of damage that was done (not including resisted damage etc) as a \ref uint32
+     * - The \ref SpellSchoolMask of the \ref Spell as a \ref uint8, should be from the representation
+     * in \ref SpellSchools though, to do this one can use \ref GetFirstSchoolInMask
+     * - The amount of absorbed damage as a \ref uint32
+     * - The amount of resisted damage as a \ref uint32
+     * - A \ref uint8 which if it is 1 shows the spell name for the client, ie: "%s's ranged shot
+     * hit %s for %d damage" (taken from source) and if it's 0 no message is shown
+     * - A \ref uint8 value that seems to be unused
+     * - The amount of blocked damage as a \ref uint32
+     * - The \ref HitInfo as a \ref uint32 which tells what happened it would seem
+     * - A \ref uint8 that's usually 0 and is used as a flag to use extended data (taken from source)
+     * 
+     * To not create this packet and send it all the time you need it you can use
+     * \ref Unit::SendSpellNonMeleeDamageLog
+     * 
+     * Also, this should be sent with \ref Object::SendMessageToSet so that all nearby (in
+     * the same \ref Cell) \ref Player s get the information.
+     * \todo Is it actually for the combat log?
+     * \todo Is it in the same \ref Cell?
+     */
     SMSG_SPELLNONMELEEDAMAGELOG                     = 0x250,
     CMSG_LEARN_TALENT                               = 0x251,
     SMSG_RESURRECT_FAILED                           = 0x252,
