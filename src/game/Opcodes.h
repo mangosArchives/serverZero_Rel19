@@ -1099,28 +1099,45 @@ enum OpcodesList
 /// Player state
 enum SessionStatus
 {
-    STATUS_AUTHED = 0,                                      ///< Player authenticated (_player==NULL, m_playerRecentlyLogout = false or will be reset before handler call)
-    STATUS_LOGGEDIN,                                        ///< Player in game (_player!=NULL, inWorld())
-    STATUS_TRANSFER,                                        ///< Player transferring to another map (_player!=NULL, !inWorld())
-    STATUS_LOGGEDIN_OR_RECENTLY_LOGGEDOUT,                  ///< _player!= NULL or _player==NULL && m_playerRecentlyLogout)
-    STATUS_NEVER,                                           ///< Opcode not accepted from client (deprecated or server side only)
-    STATUS_UNHANDLED                                        ///< We don' handle this opcode yet
+    STATUS_AUTHED = 0,                     ///< Player authenticated (_player==NULL, m_playerRecentlyLogout = false or will be reset before handler call)
+    STATUS_LOGGEDIN,                       ///< Player in game (_player!=NULL, inWorld())
+    STATUS_TRANSFER,                       ///< Player transferring to another map (_player!=NULL, !inWorld())
+    STATUS_LOGGEDIN_OR_RECENTLY_LOGGEDOUT, ///< _player!= NULL or _player==NULL && m_playerRecentlyLogout)
+    STATUS_NEVER,                          ///< Opcode not accepted from client (deprecated or server side only)
+    STATUS_UNHANDLED                       ///< We don' handle this opcode yet
 };
 
+/**
+ * This determines how a \ref WorldPacket is handled by MaNGOS. This can be either in the
+ * same function as we received it in, this is unusual, or it can be in:
+ * - \ref World::UpdateSessions if it's not thread safe
+ * - \ref Map::Update if it is thread safe
+ */
 enum PacketProcessing
 {
-    PROCESS_INPLACE = 0,                                    // process packet whenever we receive it - mostly for non-handled or non-implemented packets
-    PROCESS_THREADUNSAFE,                                   // packet is not thread-safe - process it in World::UpdateSessions()
-    PROCESS_THREADSAFE                                      // packet is thread-safe - process it in Map::Update()
+    PROCESS_INPLACE = 0,   ///< process packet whenever we receive it - mostly for non-handled or non-implemented packets
+    PROCESS_THREADUNSAFE,  ///< packet is not thread-safe - process it in \ref World::UpdateSessions
+    PROCESS_THREADSAFE     ///< packet is thread-safe - process it in \ref Map::Update
 };
 
 class WorldPacket;
 
+/**
+ * A structure containing some of the necessary info to handle a \ref WorldPacket when it comes in.
+ * The most interesting thing in here is the \ref OpcodeHandler::handler that actually does
+ * something with one of the opcodes (see \ref Opcodes) that came in.
+ */
 struct OpcodeHandler
 {
+    ///A string representation of the name of this opcode (see \ref Opcodes)
     char const* name;
+    ///The status for this handler, it tells whether or not we will handle the packet at all and
+    ///when we will handle it.
     SessionStatus status;
+    ///This tells where the packet should be processed, ie: is it thread un/safe, which in turn
+    ///determines where it will be processed
     PacketProcessing packetProcessing;
+    ///The callback called for this opcode which will work some magic    
     void (WorldSession::*handler)(WorldPacket& recvPacket);
 };
 

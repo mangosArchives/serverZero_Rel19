@@ -476,7 +476,7 @@ struct ItemPrototype
     uint32 AmmoType;
     float  RangedModRange;
     _Spell Spells[MAX_ITEM_PROTO_SPELLS];
-    uint32 Bonding;
+    uint32 Bonding;                              ///< See \ref ItemBondingType
     char*  Description;
     uint32 PageText;
     uint32 LanguageID;
