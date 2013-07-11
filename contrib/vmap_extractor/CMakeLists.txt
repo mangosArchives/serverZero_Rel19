@@ -16,9 +16,6 @@ project (MANGOS_VMAP_EXTRACT_IO)
 ADD_DEFINITIONS("-DIOMAP_DEBUG")
 # build setup currently only supports libmpq 0.4.x
 ADD_DEFINITIONS("-DUSE_LIBMPQ04")
-ADD_DEFINITIONS("-Wall")
-ADD_DEFINITIONS("-ggdb")
-ADD_DEFINITIONS("-O3")
 
 include_directories(${CMAKE_SOURCE_DIR}/../../dep/libmpq)
 

@@ -16,10 +16,6 @@ project (MANGOS_VMAP_ASSEMB_IO)
 ADD_DEFINITIONS("-DIOMAP_DEBUG")
 ADD_DEFINITIONS("-DNO_CORE_FUNCS")
 
-ADD_DEFINITIONS("-Wall")
-ADD_DEFINITIONS("-ggdb")
-ADD_DEFINITIONS("-O3")
-
 include_directories(../../src/shared)
 include_directories(../../src/game/vmap/)
 include_directories(../../dep/include/g3dlite/)
