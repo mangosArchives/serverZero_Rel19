@@ -562,8 +562,12 @@ enum NPCFlags
     UNIT_NPC_FLAG_OUTDOORPVP            = 0x20000000,       ///< custom flag for outdoor pvp creatures || Custom flag
 };
 
-// [-ZERO] Need check and update
-// used in most movement packets (send and received)
+/**
+ * These flags denote the different kinds of movement you can do. You can have many at the
+ * same time as this is used as a bitmask.
+ * \todo [-ZERO] Need check and update used in most movement packets (send and received)
+ * \see MovementInfo
+ */
 enum MovementFlags
 {
     MOVEFLAG_NONE               = 0x00000000,
@@ -575,22 +579,22 @@ enum MovementFlags
     MOVEFLAG_TURN_RIGHT         = 0x00000020,
     MOVEFLAG_PITCH_UP           = 0x00000040,
     MOVEFLAG_PITCH_DOWN         = 0x00000080,
-    MOVEFLAG_WALK_MODE          = 0x00000100,               // Walking
+    MOVEFLAG_WALK_MODE          = 0x00000100,               ///< Walking
 
     MOVEFLAG_LEVITATING         = 0x00000400,
-    MOVEFLAG_ROOT               = 0x00000800,               // [-ZERO] is it really need and correct value
+    MOVEFLAG_ROOT               = 0x00000800,               ///< [-ZERO] is it really need and correct value
     MOVEFLAG_FALLING            = 0x00002000,
     MOVEFLAG_FALLINGFAR         = 0x00004000,
-    MOVEFLAG_SWIMMING           = 0x00200000,               // appears with fly flag also
-    MOVEFLAG_ASCENDING          = 0x00400000,               // [-ZERO] is it really need and correct value
-    MOVEFLAG_CAN_FLY            = 0x00800000,               // [-ZERO] is it really need and correct value
-    MOVEFLAG_FLYING             = 0x01000000,               // [-ZERO] is it really need and correct value
+    MOVEFLAG_SWIMMING           = 0x00200000,               ///< appears with fly flag also
+    MOVEFLAG_ASCENDING          = 0x00400000,               ///< [-ZERO] is it really need and correct value
+    MOVEFLAG_CAN_FLY            = 0x00800000,               ///< [-ZERO] is it really need and correct value
+    MOVEFLAG_FLYING             = 0x01000000,               ///< [-ZERO] is it really need and correct value
 
-    MOVEFLAG_ONTRANSPORT        = 0x02000000,               // Used for flying on some creatures
-    MOVEFLAG_SPLINE_ELEVATION   = 0x04000000,               // used for flight paths
-    MOVEFLAG_SPLINE_ENABLED     = 0x08000000,               // used for flight paths
-    MOVEFLAG_WATERWALKING       = 0x10000000,               // prevent unit from falling through water
-    MOVEFLAG_SAFE_FALL          = 0x20000000,               // active rogue safe fall spell (passive)
+    MOVEFLAG_ONTRANSPORT        = 0x02000000,               ///< Used for flying on some creatures
+    MOVEFLAG_SPLINE_ELEVATION   = 0x04000000,               ///< used for flight paths
+    MOVEFLAG_SPLINE_ENABLED     = 0x08000000,               ///< used for flight paths
+    MOVEFLAG_WATERWALKING       = 0x10000000,               ///< prevent unit from falling through water
+    MOVEFLAG_SAFE_FALL          = 0x20000000,               ///< active rogue safe fall spell (passive)
     MOVEFLAG_HOVER              = 0x40000000
 };
 
@@ -2785,18 +2789,96 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Is this actually for the combat log?
          */
         void SendPeriodicAuraLog(SpellPeriodicAuraLogInfo* pInfo);
+        /** 
+         * Sends some data to the combat log about a spell that missed someone else. For more info
+         * on what's sent see \ref OpcodesList::SMSG_SPELLLOGMISS
+         * @param target the target of the \ref Spell that missed
+         * @param spellID id of the spell that missed
+         * @param missInfo info about how the spell actually missed ie: resisted/blocked/reflected etc.
+         */
         void SendSpellMiss(Unit* target, uint32 spellID, SpellMissInfo missInfo);
 
+        /**
+         * Teleports a \ref Creature or \ref Player to some coordinates within the same \ref Map,
+         * hence the name. If it's a \ref Creature that's being teleported it needs to have it's
+         * \ref MovementGenerator interrupted before the teleport and then reset afterwards. See
+         * \ref MovementGenerator::Reset and \ref MovementGenerator::Interrupt. Also, after moving
+         * a \ref Creature a hearbeat needs to be sent to inform the clients about the new location,
+         * this is done using \ref Unit::SendHeartBeat and the actual move of the \ref Creature is
+         * done with \ref Map::CreatureRelocation
+         * @param x the new x coord
+         * @param y the new y coord
+         * @param z the new z coord
+         * @param orientation the orientation after teleport, 0 is north and it's measured in radians
+         * @param casting used to decide whether a spell cast should be interrupted if a \ref Player
+         * is going to be teleported, see \ref TeleportToOptions::TELE_TO_SPELL, the idea is that
+         * you don't interrupt spellcasting at teleport if the spell is meant to teleport you as
+         * that would defeat the purpose of trying to teleport one self :)
+         */
         void NearTeleportTo(float x, float y, float z, float orientation, bool casting = false);
+        /** 
+         * Moves this \ref Unit to the given position in x,y,z coordinates. we can choose whether or
+         * not we want to generate a path to the target or just move straight there and if we would
+         * like to force the destination when creating the \ref PathFinder, only interesting
+         * if we have set generatePath to true.
+         *
+         * Taken from comments: recommend use \ref Unit::MonsterMove / \ref Unit::MonsterMoveWithSpeed
+         * for most case that correctly work with movegens, mmaps
+         * @param x the x coord to move to
+         * @param y the y coord to move to
+         * @param z the z coord to move to
+         * @param speed at which speed the \ref Unit should move
+         * @param generatePath whether a real path should be generated using a \ref PathFinder which
+         * will try to create a smooth path. if false we just go from current pos to given pos 
+         * @param forceDestination if this is true it seems that we will try to get to our target
+         * even if there's something in the way. Otherwise we stop before we get there if there
+         * are obstacles
+         * \todo In what is the speed expressed? What is normal walking/running speed?
+         * \todo Is the dox about forceDestination correct?
+         */
         void MonsterMoveWithSpeed(float x, float y, float z, float speed, bool generatePath = false, bool forceDestination = false);
-        // recommend use MonsterMove/MonsterMoveWithSpeed for most case that correctly work with movegens
+
         // if used additional args in ... part then floats must explicitly casted to double
+        /** 
+         * Tells nearby \ref Unit s and such that this \ref Unit has moved to a new position using
+         * \ref OpcodesList::MSG_MOVE_HEARTBEAT which will send the new position to all clients etc
+         * in the same \ref Cell
+         */
         void SendHeartBeat();
 
+        /** 
+         * Checks if this \ref Unit has the movement flag \ref MovementFlags::MOVEFLAG_LEVITATING
+         * @return true if the \ref Unit is levitating, ie: it has the flag MOVEFLAG_LEVITATING, false
+         * otherwise
+         * \see MovementInfo::HasMovementFlag
+         */
         bool IsLevitating() const { return m_movementInfo.HasMovementFlag(MOVEFLAG_LEVITATING); }
+        /** 
+         * Checks if this \ref Unit has the movement flag \ref MovementFlags::MOVEFLAG_WALK_MODE
+         * @return true if the \ref Unit is walking, ie: it has the flag MOVEFLAG_WALK_MODE, false
+         * otherwise
+         * \see MovementInfo::HasMovementFlag
+         */
         bool IsWalking() const { return m_movementInfo.HasMovementFlag(MOVEFLAG_WALK_MODE); }
+        /** 
+         * Check if this \ref Unit has the movement flag \ref MovementFlags::MOVEFLAG_ROOT
+         * @return true if the \ref Unit is rooted to the ground (can't move), ie: has the flag
+         * MOVEFLAG_ROOT, false otherwise
+         * \see MovementInfo::HasMovementFlag
+         */
         bool IsRooted() const { return m_movementInfo.HasMovementFlag(MOVEFLAG_ROOT); }
+        /** 
+         * Roots or unroots this \ref Unit depending on the enabled parameter.
+         * @param enabled whether we should root (true) or unroot (false) this \ref Unit
+         * \see Player::SetRoot
+         */
         virtual void SetRoot(bool /*enabled*/) {}
+        /** 
+         * Changes this \ref Unit s ability to walk on water.
+         * @param enabled whether this \ref Unit should be able to walk on water (true) or not
+         * be able to (false)
+         * \see Player::SetWaterWalk
+         */
         virtual void SetWaterWalk(bool /*enabled*/) {}
 
         void SetInFront(Unit const* target);
