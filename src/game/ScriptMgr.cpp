@@ -666,7 +666,9 @@ void ScriptMgr::LoadScripts(ScriptMapMapName& scripts, const char* tablename)
                 }
                 break;
             }
-            default:
+            case SCRIPT_COMMAND_TURN_TO:                    // 35
+                break;
+			default:
             {
                 sLog.outErrorDb("Table `%s` unknown command %u, skipping.", tablename, tmp.command);
                 continue;
@@ -1715,7 +1717,7 @@ bool ScriptAction::HandleScriptStep()
             sLog.outError(" DB-SCRIPTS: Process table `%s` id %u, command %u not supported.", m_table, m_script->id, m_script->command);
             break;
         }
-        case SCRIPT_COMMAND_TERMINATE_COND:
+        case SCRIPT_COMMAND_TERMINATE_COND:                 // 34
         {
             Player* player = NULL;
             WorldObject* second = pSource;
@@ -1754,7 +1756,15 @@ bool ScriptAction::HandleScriptStep()
             }
             return terminateResult;
         }
-        default:
+        case SCRIPT_COMMAND_TURN_TO:                 // 35
+        {
+            if (LogIfNotUnit(pSource))
+                break;
+
+			((Unit*)pSource)->SetFacingTo(pSource->GetAngle(pTarget));
+			break;
+        }
+		default:
             sLog.outErrorDb(" DB-SCRIPTS: Process table `%s` id %u, command %u unknown command used.", m_table, m_script->id, m_script->command);
             break;
     }

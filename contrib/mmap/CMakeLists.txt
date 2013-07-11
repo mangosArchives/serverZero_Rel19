@@ -12,13 +12,16 @@ cmake_minimum_required (VERSION 2.8)
 
 project( MoveMapGen )
 
-ADD_DEFINITIONS(-DMMAP_GENERATOR -DNO_CORE_FUNCS -DDEBUG)
+ADD_DEFINITIONS(-DMMAP_GENERATOR -DNO_CORE_FUNCS)
+
+IF(DEBUG)
+    ADD_DEFINITIONS( -DDEBUG )
+ENDIF()
 
 # zlib
-ADD_DEFINITIONS( -DNO_vsnprintf )
-
-ADD_DEFINITIONS("-ggdb")
-ADD_DEFINITIONS("-O3")
+if(WIN32 AND MSVC)
+    ADD_DEFINITIONS( -DNO_vsnprintf )
+ENDIF()
 
 include_directories(
     ../../src
