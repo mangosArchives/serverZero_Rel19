@@ -42,6 +42,7 @@
 #include "Path.h"
 #include "WorldPacket.h"
 #include "Timer.h"
+#include "Log.h"
 #include <list>
 
 enum SpellInterruptFlags
@@ -378,11 +379,11 @@ enum BaseModType
 
 enum DeathState
 {
-    ALIVE          = 0,                                     // show as alive
-    JUST_DIED      = 1,                                     // temporary state at die, for creature auto converted to CORPSE, for player at next update call
-    CORPSE         = 2,                                     // corpse state, for player this also meaning that player not leave corpse
-    DEAD           = 3,                                     // for creature despawned state (corpse despawned), for player CORPSE/DEAD not clear way switches (FIXME), and use m_deathtimer > 0 check for real corpse state
-    JUST_ALIVED    = 4,                                     // temporary state at resurrection, for creature auto converted to ALIVE, for player at next update call
+    ALIVE          = 0,     ///< show as alive
+    JUST_DIED      = 1,     ///< temporary state at die, for creature auto converted to CORPSE, for player at next update call
+    CORPSE         = 2,     ///< corpse state, for player this also meaning that player not leave corpse
+    DEAD           = 3,     ///< for creature despawned state (corpse despawned), for player CORPSE/DEAD not clear way switches (FIXME), and use m_deathtimer > 0 check for real corpse state
+    JUST_ALIVED    = 4,     ///< temporary state at resurrection, for creature auto converted to ALIVE, for player at next update call
 };
 
 /**
@@ -2881,13 +2882,55 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         virtual void SetWaterWalk(bool /*enabled*/) {}
 
+        /** 
+         * Turns this \ref Unit towards the given one.
+         * @param target the \ref Unit we want to be turned towards
+         * \see WorldObject::SetOrientation
+         * \see WorldObejct::GetAngle
+         */
         void SetInFront(Unit const* target);
+        /** 
+         * Sets this \ref Unit to face a certain angle.
+         * @param ori where we should start facing, measured in radians, 0 = north pi/2 = east etc.
+         * \todo is pi/2 = east or west? Logic says east?
+         */
         void SetFacingTo(float ori);
+        /** 
+         * Does pretty much the same thing as \ref Unit::SetInFront but calls \ref Unit::SetFacingTo
+         * instead, which uses a \ref MoveSplineInit instead of just changing the angle.
+         * @param pObject the \ref WorldObject we should be facing
+         * \todo What difference does it make to use \ref MoveSplineInit instead of just directly
+         * changing the angle? Is it smoother?
+         */
         void SetFacingToObject(WorldObject* pObject);
 
+        /** 
+         * Checks whether or not this \ref Unit is alive by checking the \ref Unit::m_deathState member
+         * for the value \ref DeathState::ALIVE
+         * @return true if this \ref Unit is alive, false otherwise
+         * \todo Rename to IsAlive to follow naming conventions?
+         */
         bool isAlive() const { return (m_deathState == ALIVE); };
+        /** 
+         * Checks whether or not this \ref Unit is dead by checking the \ref Unit::m_deathState member
+         * for the value \ref DeathState::DEAD or \ref DeathState::CORPSE
+         * @return true if this \ref Unit is dead or a corpse (also dead), false otherwise
+         * \todo Rename to IsDead to follow naming conventions?
+         */
         bool isDead() const { return (m_deathState == DEAD || m_deathState == CORPSE); };
+        /** 
+         * Returns the current \ref DeathState for this \ref Unit. 
+         * @return the value of the member \ref Unit::m_deathState
+         */
         DeathState getDeathState() const { return m_deathState; };
+        /** 
+         * Changes the \ref DeathState for this \ref Unit and making sure that some things that should
+         * happen when that changes happen, ie: you just died, then you're auras should be removed,
+         * any combopoints that you had should be removed etc.
+         *
+         * This is overwritten to do different things in at least \ref Player, \ref Creature, \ref Pet
+         * @param s the new \ref DeathState this \ref Unit should get
+         */
         virtual void SetDeathState(DeathState s);           // overwritten in Creature/Player/Pet
 
         ObjectGuid const& GetOwnerGuid() const { return  GetGuidValue(UNIT_FIELD_SUMMONEDBY); }
@@ -2905,6 +2948,10 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         ObjectGuid const& GetChannelObjectGuid() const { return GetGuidValue(UNIT_FIELD_CHANNEL_OBJECT); }
         void SetChannelObjectGuid(ObjectGuid targetGuid) { SetGuidValue(UNIT_FIELD_CHANNEL_OBJECT, targetGuid); }
 
+        /** 
+         * Returns the currently spawned minipet, this has an implementation in \ref Player
+         * @return the current \ref Pet for this \ref Player
+         */
         virtual Pet* GetMiniPet() const { return NULL; }    // overwrited in Player
 
         ObjectGuid const& GetCharmerOrOwnerGuid() const { return GetCharmerGuid() ? GetCharmerGuid() : GetOwnerGuid(); }
@@ -3320,7 +3367,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         AttackerSet m_attackers;
         Unit* m_attacking;
 
-        DeathState m_deathState;
+        DeathState m_deathState; ///< The current state of life/death for this \ref Unit
 
         SpellAuraHolderMap m_spellAuraHolders;
         SpellAuraHolderMap::iterator m_spellAuraHoldersUpdateIterator; // != end() in Unit::m_spellAuraHolders update and point to next element
