@@ -38,7 +38,7 @@ then
 else
   ## do some questioning!
   echo
-  echo "Welcome to helper script to extract required dataz for MaNGOS!"
+  echo "Welcome to helper script to extract required data for MaNGOS!"
   echo "Should all data (dbc, maps, vmaps and mmaps be extracted? (y/n)- Selecting n will give you the option to pick each step"
   read line
   if [ "$line" = "y" ]
