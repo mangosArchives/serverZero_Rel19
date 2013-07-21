@@ -123,7 +123,7 @@ then
   read line
 fi
 
-echo "`date`: Start extracting dataz for MaNGOS" | tee $LOG_FILE
+echo "`date`: Start extracting data for MaNGOS" | tee $LOG_FILE
 
 ## Handle log messages
 if [ "$USE_AD" = "1" ];
