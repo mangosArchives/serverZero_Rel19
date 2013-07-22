@@ -1021,7 +1021,10 @@ enum MangosStrings
     LANG_NPC_EVENTAI_MOVE               = 1507,
     LANG_NPC_EVENTAI_COMBAT             = 1508,
     LANG_POOL_ENTRY_LOWER_MAX_POOL      = 1509,
-    // Room for more Level 2              1510-1599 not used
+    LANG_COMMAND_TICKETCLOSED_NAME      = 1510,
+    LANG_COMMAND_TICKETS_SYSTEM_ON      = 1511,
+    LANG_COMMAND_TICKETS_SYSTEM_OFF     = 1512,
+    // Room for more Level 2              1513-1599 not used
 
     // Outdoor PvP
     LANG_OPVP_EP_CAPTURE_NPT_H          = 1600,

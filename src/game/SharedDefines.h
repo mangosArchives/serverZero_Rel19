@@ -2553,4 +2553,21 @@ enum TrackedAuraType
 // Max creature level (included some bosses and elite)
 #define DEFAULT_MAX_CREATURE_LEVEL 65
 
+/**
+ * Some statuses that can be sent with the \ref OpcodesList::SMSG_GM_TICKET_STATUS_UPDATE opcode
+ * to change what the client is currently showing about your open ticket.
+ * \see WorldSession::SendGMTicketStatusUpdate
+ */
+enum GMTicketStatus
+{
+    /** Should close the window in the top right corner telling you that you have a
+     * ticket open */
+    GM_TICKET_STATUS_CLOSE = 2,
+    /** Should close the window telling you you have an open ticket and query you for
+     * answers on a survey, how good did the GM perform?
+     * \see GMTicket::SaveSurveyData
+     */
+    GM_TICKET_STATUS_SURVEY = 3
+};
+
 #endif

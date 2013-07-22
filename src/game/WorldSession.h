@@ -346,14 +346,15 @@ class MANGOS_DLL_SPEC WorldSession
         void HandleLogoutRequestOpcode(WorldPacket& recvPacket);
         void HandlePlayerLogoutOpcode(WorldPacket& recvPacket);
         void HandleLogoutCancelOpcode(WorldPacket& recvPacket);
+        
         void HandleGMTicketGetTicketOpcode(WorldPacket& recvPacket);
         void HandleGMTicketCreateOpcode(WorldPacket& recvPacket);
         void HandleGMTicketSystemStatusOpcode(WorldPacket& recvPacket);
-
+        void SendGMTicketStatusUpdate(GMTicketStatus statusCode);
         void HandleGMTicketDeleteTicketOpcode(WorldPacket& recvPacket);
         void HandleGMTicketUpdateTextOpcode(WorldPacket& recvPacket);
 
-        void HandleGMSurveySubmitOpcode(WorldPacket& recvPacket);
+        void HandleGMTicketSurveySubmitOpcode(WorldPacket& recvPacket);
 
         void HandleTogglePvP(WorldPacket& recvPacket);
 
