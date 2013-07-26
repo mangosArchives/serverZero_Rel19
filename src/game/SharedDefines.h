@@ -175,7 +175,7 @@ enum SpellSchoolMask
     /// not exist
     SPELL_SCHOOL_MASK_NONE    = 0x00,
     /// PHYSICAL (Armor)
-    SPELL_SCHOOL_MASK_NORMAL  = (1 << SPELL_SCHOOL_NORMAL), 
+    SPELL_SCHOOL_MASK_NORMAL  = (1 << SPELL_SCHOOL_NORMAL),
     SPELL_SCHOOL_MASK_HOLY    = (1 << SPELL_SCHOOL_HOLY),
     SPELL_SCHOOL_MASK_FIRE    = (1 << SPELL_SCHOOL_FIRE),
     SPELL_SCHOOL_MASK_NATURE  = (1 << SPELL_SCHOOL_NATURE),
@@ -213,7 +213,7 @@ inline SpellSchoolMask GetSchoolMask(uint32 school)
     return SpellSchoolMask(1 << school);
 }
 
-/** 
+/**
  * Turns a \ref SpellSchoolMask into a \ref SpellSchools from the first bit
  * that is set in the mask.
  * @param mask the mask you want to get the first school for
@@ -895,7 +895,7 @@ enum SpellImmunity
 #define MAX_SPELL_IMMUNITY           6
 
 /**
- * The different types of attacks you can do with 
+ * The different types of attacks you can do with
  * weapons
  */
 enum WeaponAttackType
@@ -905,7 +905,7 @@ enum WeaponAttackType
     ///Off-hand weapon
     OFF_ATTACK    = 1,
     ///Ranged weapon, bow/wand etc.
-    RANGED_ATTACK = 2  
+    RANGED_ATTACK = 2
 };
 
 #define MAX_ATTACK  3
@@ -1032,7 +1032,7 @@ enum SpellRangeIndex
     /// 5.5 (but dynamic), seems to indicate melee range
     SPELL_RANGE_IDX_COMBAT    = 2,
     /// 500000 (anywhere)
-    SPELL_RANGE_IDX_ANYWHERE  = 13,                         
+    SPELL_RANGE_IDX_ANYWHERE  = 13,
 };
 
 enum DamageEffectType
@@ -1040,11 +1040,11 @@ enum DamageEffectType
     /// Used for normal weapon damage (not for class abilities or spells)
     DIRECT_DAMAGE           = 0,
     /// spell/class abilities damage
-    SPELL_DIRECT_DAMAGE     = 1,                            
+    SPELL_DIRECT_DAMAGE     = 1,
     DOT                     = 2,
     HEAL                    = 3,
     /// used also in case when damage applied to health but not applied to spell channelInterruptFlags/etc
-    NODAMAGE                = 4,                            
+    NODAMAGE                = 4,
     SELF_DAMAGE             = 5
 };
 
@@ -1767,7 +1767,6 @@ enum HolidayIds
     HOLIDAY_BREWFEST                 = 372,
     HOLIDAY_DARKMOON_FAIRE_ELWYNN    = 374,
     HOLIDAY_DARKMOON_FAIRE_THUNDER   = 375,
-    HOLIDAY_DARKMOON_FAIRE_SHATTRATH = 376,
 };
 
 // values based at QuestSort.dbc
