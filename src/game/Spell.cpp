@@ -5464,6 +5464,10 @@ SpellCastResult Spell::CheckPower()
     if (m_caster->GetTypeId() != TYPEID_PLAYER && m_caster->HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER) != m_caster->IsInCombat())
         { return SPELL_CAST_OK; }
 
+	// Questgivers ignore power requirements for scripts
+	if (m_caster->GetTypeId() != TYPEID_PLAYER && m_caster->HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER) != m_caster->isInCombat())
+		return SPELL_CAST_OK;
+
     // health as power used - need check health amount
     if (m_spellInfo->powerType == POWER_HEALTH)
     {
