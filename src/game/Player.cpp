@@ -15784,6 +15784,24 @@ Pet* Player::GetMiniPet() const
     return GetMap()->GetPet(m_miniPetGuid);
 }
 
+void Player::BuildPlayerChat(WorldPacket* data, uint8 msgtype, const std::string& text, uint32 language) const
+{
+    *data << uint8(msgtype);
+    *data << uint32(language);
+    *data << ObjectGuid(GetObjectGuid());
+    if (msgtype == CHAT_MSG_SAY || msgtype == CHAT_MSG_YELL || msgtype == CHAT_MSG_PARTY)
+        *data << ObjectGuid(GetObjectGuid());
+
+    std::string newText = text;
+    //Maximum length of a message when whispering, according to client at least
+    if (newText.length() > 255)
+        newText = newText.substr(0, 255);
+    
+    *data << uint32(newText.length() + 1);
+    *data << newText;
+    *data << uint8(GetChatTag());
+}
+
 void Player::Say(const std::string& text, const uint32 language)
 {
     WorldPacket data;
@@ -15805,6 +15823,32 @@ void Player::TextEmote(const std::string& text)
     SendMessageToSetInRange(&data, sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_TEXTEMOTE), true, !sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_INTERACTION_CHAT));
 }
 
+void Player::LogWhisper(const std::string& text, ObjectGuid receiver) 
+{
+    WhisperLoggingLevels loggingLevel = WhisperLoggingLevels(sWorld.getConfig(CONFIG_UINT32_LOG_WHISPERS));
+
+    if (loggingLevel == WHISPER_LOGGING_NONE)
+        return;
+    
+    //Try to find ticket by either this player or the receiver
+    GMTicket* ticket = sTicketMgr.GetGMTicket(GetObjectGuid());
+    if (!ticket)
+        ticket = sTicketMgr.GetGMTicket(receiver);
+    
+    uint32 ticketId = 0;
+    if (ticket)
+        ticketId = ticket->GetId();
+
+    if ((loggingLevel == WHISPER_LOGGING_TICKETS && ticket)
+        || loggingLevel == WHISPER_LOGGING_EVERYTHING)
+        CharacterDatabase.PExecute("INSERT INTO character_whispers "
+                                   "(to_guid, from_guid, message, regarding_ticket_id) "
+                                   "VALUES "
+                                   "(%u,      %u,        '%s',    %d)",
+                                   receiver.GetCounter(), GetObjectGuid().GetCounter(),
+                                   text.c_str(), ticketId);
+}
+
 void Player::Whisper(const std::string& text, uint32 language, ObjectGuid receiver)
 {
     if (language != LANG_ADDON)                             // if not addon data
@@ -15821,6 +15865,7 @@ void Player::Whisper(const std::string& text, uint32 language, ObjectGuid receiv
     {
         data.clear();
         ChatHandler::BuildChatPacket(data, CHAT_MSG_WHISPER_INFORM, text.c_str(), Language(language), CHAT_TAG_NONE, rPlayer->GetObjectGuid());
+        LogWhisper(text, receiver);
         GetSession()->SendPacket(&data);
     }
 

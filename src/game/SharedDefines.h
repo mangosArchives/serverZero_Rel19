@@ -2570,4 +2570,30 @@ enum GMTicketStatus
     GM_TICKET_STATUS_SURVEY = 3
 };
 
+/**
+ * This denotes the different levels of whisper logging that can be active via configuration, the
+ * string for this in the config file is LogWhispers, the config enum is
+ * \ref eConfigUInt32Values::CONFIG_UINT32_LOG_WHISPERS and the default value is 1, ie: we only
+ * log whispers related to tickets.
+ * 
+ * The database table that everything is logged to is character.character_whispers
+ * \see Player::LogWhisper
+ */
+enum WhisperLoggingLevels
+{
+    /**
+     * When this is the level used no logging of whispers at all is done
+     */
+    WHISPER_LOGGING_NONE = 0,
+    /**
+     * When this level is used we log everything related to GM-tickets, ie: when a GM first whispers
+     * the holder of a ticket until that ticket is closed
+     */
+    WHISPER_LOGGING_TICKETS = 1,
+    /**
+     * This will log all whispers made between players, GM-tickets included
+     */
+    WHISPER_LOGGING_EVERYTHING = 2
+};
+
 #endif

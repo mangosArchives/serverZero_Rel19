@@ -65,11 +65,12 @@ void GMTicket::SaveSurveyData(WorldPacket& recvData) const
     // TODO: chart this data in some way in DB
 }
 
-void GMTicket::Init(ObjectGuid guid, const std::string& text, const std::string& responsetext, time_t update)
+void GMTicket::Init(ObjectGuid guid, const std::string& text, const std::string& responseText, time_t update, uint32 ticketId)
 {
     m_guid = guid;
+    m_ticketId = ticketId;
     m_text = text;
-    m_responseText = responsetext;
+    m_responseText = responseText;
     m_lastUpdate = update;
 }
 
@@ -97,30 +98,6 @@ void GMTicket::SetResponseText(const char* text)
                                escapedString.c_str(), m_guid.GetCounter());
 }
 
-void GMTicket::DeleteFromDB() const
-{
-    CharacterDatabase.PExecute("DELETE FROM character_ticket "
-                               "WHERE guid = '%u' LIMIT 1",
-                               m_guid.GetCounter());
-}
-
-void GMTicket::SaveToDB() const
-{
-    CharacterDatabase.BeginTransaction();
-    DeleteFromDB();
-
-    std::string questionEscaped = m_text;
-    CharacterDatabase.escape_string(questionEscaped);
-
-    std::string responseEscaped = m_responseText;
-    CharacterDatabase.escape_string(responseEscaped);
-
-    CharacterDatabase.PExecute("INSERT INTO character_ticket (guid, ticket_text, response_text) "
-                               "VALUES ('%u', '%s', '%s')",
-                               m_guid.GetCounter(), questionEscaped.c_str(), responseEscaped.c_str());
-    CharacterDatabase.CommitTransaction();
-}
-
 void GMTicket::CloseWithSurvey() const
 {
     _Close(GM_TICKET_STATUS_SURVEY);
@@ -136,11 +113,12 @@ void GMTicket::_Close(GMTicketStatus statusCode) const
     Player* pPlayer = sObjectMgr.GetPlayer(m_guid);
     if (!pPlayer)
         return;
-
-    //Perhaps this should be marked as an outdated ticket instead?
-    //Mark ticket as closed instead! Also, log conversation between
-    //GM and player up until this point
-    DeleteFromDB();
+    
+    CharacterDatabase.PExecute("UPDATE character_ticket "
+                               "SET resolved = 1 "
+                               "WHERE guid = %u AND resolved = 0",
+                               m_guid.GetCounter());
+    
     pPlayer->GetSession()->SendGMTicketStatusUpdate(statusCode);
 }
 
@@ -149,52 +127,80 @@ void GMTicketMgr::LoadGMTickets()
     m_GMTicketMap.clear();                                  // For reload case
 
     QueryResult* result = CharacterDatabase.Query(
-                              //      0     1            2              3                                  4
-                              "SELECT guid, ticket_text, response_text, UNIX_TIMESTAMP(ticket_lastchange), ticket_id FROM character_ticket ORDER BY ticket_id ASC");
-
+    //      0     1            2              3                                  4
+    "SELECT guid, ticket_text, response_text, UNIX_TIMESTAMP(ticket_lastchange), ticket_id "
+    "FROM character_ticket "
+    "WHERE resolved = 0 "
+    "ORDER BY ticket_id ASC");
+    
     if (!result)
     {
         BarGoLink bar(1);
-
+        
         bar.step();
-
+        
         sLog.outString();
         sLog.outString(">> Loaded `character_ticket`, table is empty.");
         return;
     }
-
+    
     BarGoLink bar(result->GetRowCount());
-
+    
     do
     {
         bar.step();
-
+        
         Field* fields = result->Fetch();
-
+        
         uint32 guidlow = fields[0].GetUInt32();
         if (!guidlow)
             { continue; }
 
         ObjectGuid guid = ObjectGuid(HIGHGUID_PLAYER, guidlow);
-
         GMTicket& ticket = m_GMTicketMap[guid];
-
-        if (ticket.GetPlayerGuid())                         // already exist
-        {
-            CharacterDatabase.PExecute("DELETE FROM character_ticket "
-                                       "WHERE ticket_id = '%u'",
-                                       fields[4].GetUInt32());
-            continue;
-        }
-
-        ticket.Init(guid, fields[1].GetCppString(), fields[2].GetCppString(), time_t(fields[3].GetUInt64()));
+        
+        ticket.Init(guid, fields[1].GetCppString(), fields[2].GetCppString(), time_t(fields[3].GetUInt64()), fields[4].GetUInt32());
         m_GMTicketListByCreatingOrder.push_back(&ticket);
     }
     while (result->NextRow());
     delete result;
-
+    
     sLog.outString();
-    sLog.outString(">> Loaded " SIZEFMTD " GM tickets", GetTicketCount());
+    sLog.outString(">> Loaded " SIZEFMTD " unresolved GM tickets", GetTicketCount());
+}
+
+void GMTicketMgr::Create(ObjectGuid guid, const char* text)
+{
+    CharacterDatabase.BeginTransaction();
+    //This needs to be Direct (not placed in queue) as we need the id of it soon afterwards
+    CharacterDatabase.DirectPExecute("INSERT INTO character_ticket "
+                                     "(guid, ticket_text) "
+                                     "VALUES "
+                                     "(%u,   '%s')",
+                                     guid.GetCounter(), text);
+    
+    //Get the id of the ticket, needed for logging whispers
+    QueryResult* result = CharacterDatabase.PQuery("SELECT ticket_id, guid, resolved "
+                                                   "FROM character_ticket "
+                                                   "WHERE guid = %u AND resolved = 0;",
+                                                   guid.GetCounter());
+    
+    CharacterDatabase.CommitTransaction();
+    
+    if (!result)
+        return;
+    
+    Field* fields = result->Fetch();
+    uint32 ticketId = fields[0].GetUInt32();
+    
+    //This implicitly creates a new instance since we're using operator[]
+    GMTicket& ticket = m_GMTicketMap[guid];
+    if (ticket.GetPlayerGuid())
+        m_GMTicketListByCreatingOrder.remove(&ticket);
+            
+    //Lets reinitialize with new data
+    ticket.Init(guid, text, "", time(NULL), ticketId);
+    m_GMTicketListByCreatingOrder.push_back(&ticket);
 }
 
 void GMTicketMgr::DeleteAll()

@@ -4,6 +4,7 @@
 
 [MangosdConf]
 ConfVersion=2014060701
+the db but are rather marked as resolved, the log can be used to figure out if any GM is misbehaving or players being not so nice to each other. Also, small update to mangos.sql that should've come along in the last update. The revision nr should be correct now i hope.
 
 ################################################################################
 # CONNECTIONS AND DIRECTORIES
@@ -293,6 +294,12 @@ CleanCharacterDB                  = 1
 #        Default: 0 - include in log if log level permit
 #                 1 - not include with any log level
 #
+#    LogWhispers
+#        Log whispers between players to database, character.character_whispers
+#                 0 - Don't log anything
+#        Default: 1 - Only log GM tickets responses and the following conversation until closing the ticket
+#                 2 - Log all whispers
+#
 #    WorldLogFile
 #        Packet logging file for the worldserver
 #        Default: ""          - no log file created
@@ -381,6 +388,7 @@ LogFilter_PlayerStats       = 0
 LogFilter_Damage            = 0
 LogFilter_Combat            = 0
 LogFilter_SpellCast         = 0
+LogWhispers                 = 1
 WorldLogFile                = "world-packets.log"
 WorldLogTimestamp           = 0
 DBErrorLogFile              = "world-database.log"

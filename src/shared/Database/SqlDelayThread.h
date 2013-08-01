@@ -71,12 +71,7 @@ class SqlDelayThread : public ACE_Based::Runnable
          */
         ~SqlDelayThread();
 
-        /**
-         * @brief Put sql statement to delay queue
-         *
-         * @param sql
-         * @return bool
-         */
+        /// Put sql statement to delay queue
         bool Delay(SqlOperation* sql) { m_sqlQueue.add(sql); return true; }
 
         /**
