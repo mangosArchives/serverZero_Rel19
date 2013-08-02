@@ -754,7 +754,7 @@ void BattleGround::EndBattleGround(Team winner)
         if (plr->HasAuraType(SPELL_AURA_SPIRIT_OF_REDEMPTION))
             plr->RemoveSpellsCausingAura(SPELL_AURA_MOD_SHAPESHIFT);
 
-        if (!plr->isAlive())
+        if (!plr->IsAlive())
         {
             plr->ResurrectPlayer(1.0f);
             plr->SpawnCorpseBones();
@@ -763,7 +763,7 @@ void BattleGround::EndBattleGround(Team winner)
         {
             // needed cause else in av some creatures will kill the players at the end
             plr->CombatStop();
-            plr->getHostileRefManager().deleteReferences();
+            plr->GetHostileRefManager().deleteReferences();
         }
 
         // this line is obsolete - team is set ALWAYS
@@ -1004,7 +1004,7 @@ void BattleGround::RemovePlayerAtLeave(ObjectGuid guid, bool Transport, bool Sen
         if (plr->HasAuraType(SPELL_AURA_SPIRIT_OF_REDEMPTION))
             plr->RemoveSpellsCausingAura(SPELL_AURA_MOD_SHAPESHIFT);
 
-        if (!plr->isAlive())                                // resurrect on exit
+        if (!plr->IsAlive())                                // resurrect on exit
         {
             plr->ResurrectPlayer(1.0f);
             plr->SpawnCorpseBones();
@@ -1728,7 +1728,7 @@ uint32 BattleGround::GetAlivePlayersCountByTeam(Team team) const
         if (itr->second.PlayerTeam == team)
         {
             Player* pl = sObjectMgr.GetPlayer(itr->first);
-            if (pl && pl->isAlive())
+            if (pl && pl->IsAlive())
                 ++count;
         }
     }

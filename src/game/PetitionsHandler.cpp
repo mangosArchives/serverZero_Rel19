@@ -73,7 +73,7 @@ void WorldSession::HandlePetitionBuyOpcode(WorldPacket& recv_data)
         return;
     }
 
-    if (!pCreature->isTabardDesigner())
+    if (!pCreature->IsTabardDesigner())
         return;
 
     // remove fake death

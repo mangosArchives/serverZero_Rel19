@@ -2157,7 +2157,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsVendor to follow standard?
          */
-        bool isVendor()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_VENDOR); }
+        bool IsVendor()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_VENDOR); }
         /** 
          * @return true if this unit is a trainer, false otherwise
          * \see Object::HasFlag
@@ -2165,7 +2165,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsTrainer to follow standard?
          */
-        bool isTrainer()      const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_TRAINER); }
+        bool IsTrainer()      const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_TRAINER); }
         /** 
          * @return true if this unit is a QuestGiver, false otherwise
          * \see Object::HasFlag
@@ -2173,7 +2173,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsQuestGiver to follow standard?
          */
-        bool isQuestGiver()   const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER); }
+        bool IsQuestGiver()   const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER); }
         /** 
          * @return true if this unit is a gossip, false otherwise
          * \see Object::HasFlag
@@ -2181,7 +2181,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsGossip to follow standard?
          */
-        bool isGossip()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP); }
+        bool IsGossip()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP); }
         /** 
          * @return true if this unit is a taxi, false otherwise
          * \see Object::HasFlag
@@ -2189,7 +2189,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsTaxi to follow standard?
          */
-        bool isTaxi()         const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_FLIGHTMASTER); }
+        bool IsTaxi()         const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_FLIGHTMASTER); }
         /** 
          * @return true if this unit is a GuildMaster, false otherwise
          * \see Object::HasFlag
@@ -2197,7 +2197,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsGuildMaster to follow standard?
          */
-        bool isGuildMaster()  const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_PETITIONER); }
+        bool IsGuildMaster()  const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_PETITIONER); }
         /** 
          * @return true if this unit is a BattleMaster, false otherwise
          * \see Object::HasFlag
@@ -2205,7 +2205,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsBattleMaster to follow standard?
          */
-        bool isBattleMaster() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_BATTLEMASTER); }
+        bool IsBattleMaster() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_BATTLEMASTER); }
         /** 
          * @return true if this unit is a banker, false otherwise
          * \see Object::HasFlag
@@ -2213,7 +2213,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsBanker to follow standard?
          */
-        bool isBanker()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_BANKER); }
+        bool IsBanker()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_BANKER); }
         /** 
          * @return true if this unit is a innkeeper, false otherwise
          * \see Object::HasFlag
@@ -2221,7 +2221,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsInnkeeper to follow standard?
          */
-        bool isInnkeeper()    const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_INNKEEPER); }
+        bool IsInnkeeper()    const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_INNKEEPER); }
         /** 
          * @return true if this unit is a SpiritHealer, false otherwise
          * \see Object::HasFlag
@@ -2229,7 +2229,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsSpiritHealer to follow standard?
          */
-        bool isSpiritHealer() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITHEALER); }
+        bool IsSpiritHealer() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITHEALER); }
         /** 
          * @return true if this unit is a SpiritGuide, false otherwise
          * \see Object::HasFlag
@@ -2237,7 +2237,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsSpiritGuide to follow standard?
          */
-        bool isSpiritGuide()  const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITGUIDE); }
+        bool IsSpiritGuide()  const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITGUIDE); }
         /** 
          * @return true if this unit is a TabardDesigner, false otherwise
          * \see Object::HasFlag
@@ -2245,7 +2245,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsTabardDesigner to follow standard?
          */
-        bool isTabardDesigner()const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_TABARDDESIGNER); }
+        bool IsTabardDesigner()const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_TABARDDESIGNER); }
         /** 
          * @return true if this unit is a Auctioneer, false otherwise
          * \see Object::HasFlag
@@ -2261,7 +2261,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsArmorer to follow standard?
          */
-        bool isArmorer()      const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_REPAIR); }
+        bool IsArmorer()      const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_REPAIR); }
         /**
          * Returns if this is a service provider or not, a service provider has one of the
          * following flags:
@@ -2283,7 +2283,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsServiceProvider to follow standard?
          */
-        bool isServiceProvider() const
+        bool IsServiceProvider() const
         {
             return HasFlag(UNIT_NPC_FLAGS,
                            UNIT_NPC_FLAG_VENDOR | UNIT_NPC_FLAG_TRAINER | UNIT_NPC_FLAG_FLIGHTMASTER |
@@ -2302,7 +2302,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see NPCFlags
          * \todo Rename to IsSpiritService to follow standard?
          */
-        bool isSpiritService() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITHEALER | UNIT_NPC_FLAG_SPIRITGUIDE); }
+        bool IsSpiritService() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITHEALER | UNIT_NPC_FLAG_SPIRITGUIDE); }
 
         /** 
          * Is this unit flying in taxi?
@@ -2318,7 +2318,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see UnitFlags
          * \todo Rename to IsInCombat to follow standard?
          */
-        bool isInCombat()  const { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IN_COMBAT); }
+        bool IsInCombat()  const { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IN_COMBAT); }
         /** 
          * Sets this \ref Unit into combat, if it already was this has no bigger meaning if the
          * PvP flag hasn't changed since last time it was applied.
@@ -2440,7 +2440,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see AuraType
          * \todo Rename to IsFeared to follow standard?
          */
-        bool isFeared()  const { return HasAuraType(SPELL_AURA_MOD_FEAR); }
+        bool IsFeared()  const { return HasAuraType(SPELL_AURA_MOD_FEAR); }
         /** 
          * Check if this \ref Unit has a rooting \ref Aura modifier applied. Ie, is it stuck in
          * some way?
@@ -2451,12 +2451,12 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see AuraType
          * \todo Rename to IsInRoots to follow standard?
          */
-        bool isInRoots() const { return HasAuraType(SPELL_AURA_MOD_ROOT); }
+        bool IsInRoots() const { return HasAuraType(SPELL_AURA_MOD_ROOT); }
         /** 
          * Is this \ref Unit polymorphed?
          * @return true if this \ref Unit is polymorphed, false otherwise
          * \see GetSpellSpecific
-         * \see Unit::getTransForm
+         * \see Unit::GetTransform
          * \todo Move the implementation to .h file exactly as the earlier ones?
          */
         bool IsPolymorphed() const;
@@ -2472,7 +2472,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsFrozen to follow standard?
          * \todo Move the implementation to .h file exactly as the earlier ones?
          */
-        bool isFrozen() const;
+        bool IsFrozen() const;
 
         /** 
          * Called by \ref Unit::DealDamage for \ref Aura s that have a chance to be dispelled
@@ -2500,7 +2500,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * - The \ref Unit has the flag (\ref Object::HasFlag)
          * \ref UnitFlags::UNIT_FLAG_OOC_NOT_ATTACKABLE, this seems to vary some though, since this
          * flag will be removed when the creature for some reason enters combat
-         * - \ref Unit::isAlive is equal to inverseAlive
+         * - \ref Unit::IsAlive is equal to inverseAlive
          * - \ref Unit::IsInWorld is false
          * - the \ref Unit has the state (\ref Unit::hasUnitState) \ref  UnitState::UNIT_STAT_DIED
          * - the \ref Unit is flying in a taxi (\ref Unit::IsTaxiFlying)
@@ -2510,7 +2510,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see UnitState
          * \todo Rename to IsTargetableForAttack to follow standard?
          */
-        bool isTargetableForAttack(bool inverseAlive = false) const;
+        bool IsTargetableForAttack(bool inverseAlive = false) const;
         /** 
          * Simply checks if this \ref Unit has the flag (\ref Unit::HasFlag)
          * \ref UnitFlags::UNIT_FLAG_PASSIVE in \ref EUnitFields::UNIT_FIELD_FLAGS
@@ -2910,19 +2910,19 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return true if this \ref Unit is alive, false otherwise
          * \todo Rename to IsAlive to follow naming conventions?
          */
-        bool isAlive() const { return (m_deathState == ALIVE); };
+        bool IsAlive() const { return (m_deathState == ALIVE); };
         /** 
          * Checks whether or not this \ref Unit is dead by checking the \ref Unit::m_deathState member
          * for the value \ref DeathState::DEAD or \ref DeathState::CORPSE
          * @return true if this \ref Unit is dead or a corpse (also dead), false otherwise
          * \todo Rename to IsDead to follow naming conventions?
          */
-        bool isDead() const { return (m_deathState == DEAD || m_deathState == CORPSE); };
+        bool IsDead() const { return (m_deathState == DEAD || m_deathState == CORPSE); };
         /** 
          * Returns the current \ref DeathState for this \ref Unit. 
          * @return the value of the member \ref Unit::m_deathState
          */
-        DeathState getDeathState() const { return m_deathState; };
+        DeathState GetDeathState() const { return m_deathState; };
         /** 
          * Changes the \ref DeathState for this \ref Unit and making sure that some things that should
          * happen when that changes happen, ie: you just died, then you're auras should be removed,
@@ -2961,7 +2961,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
                 return guid;
             return GetObjectGuid();
         }
-        bool isCharmedOwnedByPlayerOrPlayer() const { return GetCharmerOrOwnerOrOwnGuid().IsPlayer(); }
+        bool IsCharmedOwnedByPlayerOrPlayer() const { return GetCharmerOrOwnerOrOwnGuid().IsPlayer(); }
 
         Player* GetSpellModOwner() const;
 
@@ -2990,7 +2990,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void RemoveGuardians();
         Pet* FindGuardianWithEntry(uint32 entry);
 
-        bool isCharmed() const { return !GetCharmerGuid().IsEmpty(); }
+        bool IsCharmed() const { return !GetCharmerGuid().IsEmpty(); }
 
         CharmInfo* GetCharmInfo() { return m_charmInfo; }
         CharmInfo* InitCharmInfo(Unit* charm);
@@ -3133,14 +3133,14 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void UpdateVisibilityAndView() override;            // overwrite WorldObject::UpdateVisibilityAndView()
 
         // common function for visibility checks for player/creatures with detection code
-        bool isVisibleForOrDetect(Unit const* u, WorldObject const* viewPoint, bool detect, bool inVisibleList = false, bool is3dDistance = true) const;
-        bool canDetectInvisibilityOf(Unit const* u) const;
+        bool IsVisibleForOrDetect(Unit const* u, WorldObject const* viewPoint, bool detect, bool inVisibleList = false, bool is3dDistance = true) const;
+        bool CanDetectInvisibilityOf(Unit const* u) const;
 
         // virtual functions for all world objects types
-        bool isVisibleForInState(Player const* u, WorldObject const* viewPoint, bool inVisibleList) const override;
+        bool IsVisibleForInState(Player const* u, WorldObject const* viewPoint, bool inVisibleList) const override;
         // function for low level grid visibility checks in player/creature cases
         virtual bool IsVisibleInGridForPlayer(Player* pl) const = 0;
-        bool isInvisibleForAlive() const;
+        bool IsInvisibleForAlive() const;
 
         TrackedAuraTargetMap&       GetTrackedAuraTargets(TrackedAuraType type)       { return m_trackedAuraTargets[type]; }
         TrackedAuraTargetMap const& GetTrackedAuraTargets(TrackedAuraType type) const { return m_trackedAuraTargets[type]; }
@@ -3157,11 +3157,11 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void TauntFadeOut(Unit* taunter);
         void FixateTarget(Unit* pVictim);
         ObjectGuid GetFixateTargetGuid() const { return m_fixateTargetGuid; }
-        ThreatManager& getThreatManager() { return m_ThreatManager; }
-        ThreatManager const& getThreatManager() const { return m_ThreatManager; }
-        void addHatedBy(HostileReference* pHostileReference) { m_HostileRefManager.insertFirst(pHostileReference); };
-        void removeHatedBy(HostileReference* /*pHostileReference*/) { /* nothing to do yet */ }
-        HostileRefManager& getHostileRefManager() { return m_HostileRefManager; }
+        ThreatManager& GetThreatManager() { return m_ThreatManager; }
+        ThreatManager const& GetThreatManager() const { return m_ThreatManager; }
+        void AddHatedBy(HostileReference* pHostileReference) { m_HostileRefManager.insertFirst(pHostileReference); };
+        void RemoveHatedBy(HostileReference* /*pHostileReference*/) { /* nothing to do yet */ }
+        HostileRefManager& GetHostileRefManager() { return m_HostileRefManager; }
 
         Aura* GetAura(uint32 spellId, SpellEffectIndex effindex);
         Aura* GetAura(AuraType type, SpellFamily family, uint64 familyFlag, ObjectGuid casterGuid = ObjectGuid());
@@ -3203,8 +3203,8 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void SetDisplayId(uint32 modelId);
         uint32 GetNativeDisplayId() const { return GetUInt32Value(UNIT_FIELD_NATIVEDISPLAYID); }
         void SetNativeDisplayId(uint32 modelId) { SetUInt32Value(UNIT_FIELD_NATIVEDISPLAYID, modelId); }
-        void setTransForm(uint32 spellid) { m_transform = spellid;}
-        uint32 getTransForm() const { return m_transform;}
+        void SetTransform(uint32 spellid) { m_transform = spellid;}
+        uint32 GetTransform() const { return m_transform;}
 
         // at any changes to scale and/or displayId
         void UpdateModelData();
@@ -3293,7 +3293,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         float GetSpeedRate(UnitMoveType mtype) const { return m_speed_rate[mtype]; }
         void SetSpeedRate(UnitMoveType mtype, float rate, bool forced = false);
 
-        bool isHover() const { return HasAuraType(SPELL_AURA_HOVER); }
+        bool IsHover() const { return HasAuraType(SPELL_AURA_HOVER); }
 
         void _RemoveAllAuraMods();
         void _ApplyAllAuraMods();
@@ -3302,8 +3302,8 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
 
         float CalculateLevelPenalty(SpellEntry const* spellProto) const;
 
-        void addFollower(FollowerReference* pRef) { m_FollowingRefManager.insertFirst(pRef); }
-        void removeFollower(FollowerReference* /*pRef*/) { /* nothing to do yet */ }
+        void AddFollower(FollowerReference* pRef) { m_FollowingRefManager.insertFirst(pRef); }
+        void RemoveFollower(FollowerReference* /*pRef*/) { /* nothing to do yet */ }
 
         MotionMaster* GetMotionMaster() { return &i_motionMaster; }
 
@@ -3326,7 +3326,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void SendPetAIReaction();
         ///----------End of Pet responses methods----------
 
-        void propagateSpeedChange() { GetMotionMaster()->propagateSpeedChange(); }
+        void PropagateSpeedChange() { GetMotionMaster()->PropagateSpeedChange(); }
 
         // reactive attacks
         void ClearAllReactives();

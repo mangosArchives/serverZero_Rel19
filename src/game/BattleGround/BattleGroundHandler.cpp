@@ -44,7 +44,7 @@ void WorldSession::HandleBattlemasterHelloOpcode(WorldPacket& recv_data)
     if (!pCreature)
         return;
 
-    if (!pCreature->isBattleMaster())                       // it's not battlemaster
+    if (!pCreature->IsBattleMaster())                       // it's not battlemaster
         return;
 
     // Stop the npc if moving
@@ -107,7 +107,7 @@ void WorldSession::HandleBattlemasterJoinOpcode(WorldPacket& recv_data)
     if (!unit)
         return;
 
-    if (!unit->isBattleMaster())                            // it's not battlemaster
+    if (!unit->IsBattleMaster())                            // it's not battlemaster
         return;
 
     // get bg instance or bg template if instance not found
@@ -379,7 +379,7 @@ void WorldSession::HandleBattleFieldPortOpcode(WorldPacket& recv_data)
                 return;                                 // cheating?
 
             // resurrect the player
-            if (!_player->isAlive())
+            if (!_player->IsAlive())
             {
                 _player->ResurrectPlayer(1.0f);
                 _player->SpawnCorpseBones();
@@ -437,7 +437,7 @@ void WorldSession::HandleLeaveBattlefieldOpcode(WorldPacket& recv_data)
     //    return;
 
     // not allow leave battleground in combat
-    if (_player->isInCombat())
+    if (_player->IsInCombat())
         if (BattleGround* bg = _player->GetBattleGround())
             if (bg->GetStatus() != STATUS_WAIT_LEAVE)
                 return;
@@ -519,7 +519,7 @@ void WorldSession::HandleAreaSpiritHealerQueryOpcode(WorldPacket& recv_data)
     if (!unit)
         return;
 
-    if (!unit->isSpiritService())                           // it's not spirit service
+    if (!unit->IsSpiritService())                           // it's not spirit service
         return;
 
     unit->SendAreaSpiritHealerQueryOpcode(GetPlayer());
@@ -540,7 +540,7 @@ void WorldSession::HandleAreaSpiritHealerQueueOpcode(WorldPacket& recv_data)
     if (!unit)
         return;
 
-    if (!unit->isSpiritService())                           // it's not spirit service
+    if (!unit->IsSpiritService())                           // it's not spirit service
         return;
 
     sScriptMgr.OnGossipHello(GetPlayer(), unit);

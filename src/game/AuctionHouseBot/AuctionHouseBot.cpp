@@ -1189,12 +1189,12 @@ bool AuctionBotSeller::Initialize()
         // vendor filter
         if (!sAuctionBotConfig.getConfig(CONFIG_BOOL_AHBOT_ITEMS_VENDOR))
         {
-            bool isVendorItem = false;
-            for (size_t i = 0; (i < npcItems.size()) && (!isVendorItem); ++i)
+            bool IsVendorItem = false;
+            for (size_t i = 0; (i < npcItems.size()) && (!IsVendorItem); ++i)
                 if (itemID == npcItems[i])
-                    isVendorItem = true;
+                    IsVendorItem = true;
 
-            if (isVendorItem)
+            if (IsVendorItem)
                 continue;
         }
 
@@ -1212,18 +1212,18 @@ bool AuctionBotSeller::Initialize()
         // not vendor/loot filter
         if (!sAuctionBotConfig.getConfig(CONFIG_BOOL_AHBOT_ITEMS_MISC))
         {
-            bool isVendorItem = false;
+            bool IsVendorItem = false;
             bool isLootItem = false;
 
-            for (size_t i = 0; (i < npcItems.size()) && (!isVendorItem); ++i)
+            for (size_t i = 0; (i < npcItems.size()) && (!IsVendorItem); ++i)
                 if (itemID == npcItems[i])
-                    isVendorItem = true;
+                    IsVendorItem = true;
 
             for (size_t i = 0; (i < lootItems.size()) && (!isLootItem); ++i)
                 if (itemID == lootItems[i])
                     isLootItem = true;
 
-            if ((!isLootItem) && (!isVendorItem))
+            if ((!isLootItem) && (!IsVendorItem))
                 continue;
         }
 

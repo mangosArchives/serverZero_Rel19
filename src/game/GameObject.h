@@ -675,7 +675,7 @@ class MANGOS_DLL_SPEC GameObject : public WorldObject
         void SummonLinkedTrapIfAny();
         void TriggerLinkedGameObject(Unit* target);
 
-        bool isVisibleForInState(Player const* u, WorldObject const* viewPoint, bool inVisibleList) const override;
+        bool IsVisibleForInState(Player const* u, WorldObject const* viewPoint, bool inVisibleList) const override;
 
         bool IsCollisionEnabled() const;                    // Check if a go should collide. Like if a door is closed
 

@@ -173,7 +173,7 @@ void WaypointMovementGenerator<Creature>::StartMove(Creature& creature)
     if (Stopped(creature))
         return;
 
-    if (!creature.isAlive() || creature.hasUnitState(UNIT_STAT_NOT_MOVE))
+    if (!creature.IsAlive() || creature.hasUnitState(UNIT_STAT_NOT_MOVE))
         return;
 
     WaypointPath::const_iterator currPoint = i_path->find(i_currentNode);
@@ -323,7 +323,7 @@ void FlightPathMovementGenerator::Finalize(Player& player)
 
     if (player.m_taxi.empty())
     {
-        player.getHostileRefManager().setOnlineOfflineState(true);
+        player.GetHostileRefManager().setOnlineOfflineState(true);
         if (player.pvpInfo.inHostileArea)
             player.CastSpell(&player, 2479, true);
 
@@ -343,7 +343,7 @@ void FlightPathMovementGenerator::Interrupt(Player& player)
 
 void FlightPathMovementGenerator::Reset(Player& player)
 {
-    player.getHostileRefManager().setOnlineOfflineState(false);
+    player.GetHostileRefManager().setOnlineOfflineState(false);
     player.addUnitState(UNIT_STAT_TAXI_FLIGHT);
     player.SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE | UNIT_FLAG_TAXI_FLIGHT);
 

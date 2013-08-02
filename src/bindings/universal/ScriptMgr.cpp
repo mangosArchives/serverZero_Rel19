@@ -376,7 +376,7 @@ bool EffectAuraDummy(const Aura* pAura, bool apply)
 void ScriptedAI::UpdateAI(const uint32)
 {
     // Check if we have a current target
-    if (m_creature->isAlive() && m_creature->SelectHostileTarget() && m_creature->getVictim())
+    if (m_creature->IsAlive() && m_creature->SelectHostileTarget() && m_creature->getVictim())
     {
         // If we are within range melee the target
         if (m_creature->IsWithinDistInMap(m_creature->getVictim(), ATTACK_DISTANCE))
@@ -393,7 +393,7 @@ void ScriptedAI::UpdateAI(const uint32)
 void ScriptedAI::EnterEvadeMode()
 {
     m_creature->CombatStop(true);
-    if (m_creature->isAlive())
+    if (m_creature->IsAlive())
         DoGoHome();
 }
 
@@ -411,6 +411,6 @@ void ScriptedAI::DoStopAttack()
 
 void ScriptedAI::DoGoHome()
 {
-    if (!m_creature->getVictim() && m_creature->isAlive())
+    if (!m_creature->getVictim() && m_creature->IsAlive())
         m_creature->GetMotionMaster()->MoveTargetedHome();
 }
