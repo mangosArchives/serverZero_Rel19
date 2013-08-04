@@ -344,10 +344,15 @@ struct HonorCP
     bool isKill;
 };
 
+/**
+ * This structure contains info about a players pvp rank, ie: what's shown when we hit the H button
+ * in the client to show our honor.
+ * \todo What's the maxRP,minRP and positive fields?
+ */
 struct HonorRankInfo
 {
-    uint8 rank;       // internal range [0..18]
-    int8 visualRank;  // number visualized in rank bar [-4..14]
+    uint8 rank;      ///< Internal range [0..18]
+    int8 visualRank; ///< Number visualized in rank bar [-4..14] 14 being High Warlord, -4 being Pariah)
     float maxRP;
     float minRP;
     bool positive;

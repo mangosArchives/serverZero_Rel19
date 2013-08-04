@@ -533,13 +533,16 @@ void Channel::Say(ObjectGuid p, const char* what, uint32 lang)
 
     uint32 sec = 0;
     Player* plr = sObjectMgr.GetPlayer(p);
+    bool speakInLocalDef = false;
+    // bool speakInWorldDef = false;
     if (plr)
+    {
         sec = plr->GetSession()->GetSecurity();
-	
+        
         if (plr->isGameMaster())
         {
             speakInLocalDef = true;
-            speakInWorldDef = true;
+            // speakInWorldDef = true;
         }
         
         HonorRankInfo honorInfo = plr->GetHonorRankInfo();
@@ -550,14 +553,15 @@ void Channel::Say(ObjectGuid p, const char* what, uint32 lang)
         // if (honorInfo.rank >= SPEAK_IN_WORLDDEFENSE_RANK)
         //     speakInWorldDef = true;
     }
-        
+    
     if (!IsOn(p))
     {
         WorldPacket data;
         MakeNotMember(&data);
         SendToOne(&data, p);
     }
-    else if (m_players[p].IsMuted())
+    else if (m_players[p].IsMuted() ||
+             (GetChannelId() == CHANNEL_ID_LOCAL_DEFENSE && !speakInLocalDef))
     {
         WorldPacket data;
         MakeMuted(&data);

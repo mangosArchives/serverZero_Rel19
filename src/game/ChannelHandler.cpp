@@ -23,17 +23,41 @@ void WorldSession::HandleJoinChannelOpcode(WorldPacket& recvPacket)
 {
     DEBUG_LOG("WORLD: Received opcode %s (%u, 0x%X)", recvPacket.GetOpcodeName(), recvPacket.GetOpcode(), recvPacket.GetOpcode());
 
-    uint32 channel_id = 0;
-    std::string channelname, pass;
-
-    recvPacket >> channelname;
-
-    if (channelname.empty())
+    std::string channelName, pass;
+    
+    recvPacket >> channelName;
+    
+    if (channelName.empty())
         return;
-
+    
     recvPacket >> pass;
+    
+    uint32 channelId = 0;
+    char tmpStr[255];
+    
+    //TODO: This doesn't seem like the right way to do it, but the client doesn't send any ID of the channel, and it's needed
+    for (uint32 i = 0; i < sChatChannelsStore.GetNumRows(); ++i)
+    {
+        ChatChannelsEntry const* channel = sChatChannelsStore.LookupEntry(i);
+        AreaTableEntry const* area = sAreaStore.LookupEntry(_player->GetZoneId());
+        
+        if (area && channel)
+        {
+            sprintf(tmpStr, channel->pattern[0], area->area_name[0]);
+            //With a format string
+            if (strcmp(tmpStr, channelName.c_str()) == 0
+                //Without one, used for ie: World Defense
+                || strcmp(channel->pattern[0], channelName.c_str()) == 0)
+            {
+                channelId = channel->ChannelID;
+                break;
+            }
+        }
+    }
+    
     if (ChannelMgr* cMgr = channelMgr(_player->GetTeam()))
-        if (Channel* chn = cMgr->GetJoinChannel(channelname, channel_id)) // channel id seems to be useless but must be checked for LFG
+        //the channel id needs to be checkd for lfg (explanation?)
+        if (Channel* chn = cMgr->GetJoinChannel(channelName, channelId))
             chn->Join(_player->GetObjectGuid(), pass.c_str());
 }
 

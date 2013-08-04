@@ -67,6 +67,21 @@ enum ChatNotify
     CHAT_THROTTLED_NOTICE             = 0x1F,               //+ "[%s] The number of messages that can be sent to this channel is limited, please wait to send another message.";
 };
 
+/**
+ * These are the channel id's for the special channels that's always there, this is currently only
+ * used to find the Local Defense channel as it's muted by default except for if you've got PvP rank 9
+ * \see Channel::m_channelId
+ */
+enum ChannelIds
+{
+    CHANNEL_ID_GENERAL           = 1,
+    CHANNEL_ID_TRADE             = 2,
+    CHANNEL_ID_LOCAL_DEFENSE     = 22,
+    CHANNEL_ID_WORLD_DEFENSE     = 23,
+    CHANNEL_ID_LOOKING_FOR_GROUP = 24,
+    CHANNEL_ID_GUILD_RECRUITMENT = 25,
+};
+
 class Channel
 {
         enum ChannelFlags
@@ -86,7 +101,7 @@ class Channel
                                       // GuildRecruitment         0x38 = 0x20 | 0x10 | 0x08
                                       // LookingForGroup          0x50 = 0x40 | 0x10
         };
-
+    
         enum ChannelDBCFlags
         {
             CHANNEL_DBC_FLAG_NONE       = 0x00000,
@@ -180,6 +195,15 @@ class Channel
         void JoinNotify(ObjectGuid guid);                   // invisible notify
         void LeaveNotify(ObjectGuid guid);                  // invisible notify
 
+        /**
+         * This denotes the PvP rank needed to speak in local defense, the + 4 is needed because there
+         * are 4 lower levels of honor if you've been bad and killed civilians etc. So when we add 4
+         * it makes it the "real" rank 9 in the client, if we hadn't added that it would've been rank
+         * 5 in the client.
+         * \see HonorRankInfo
+         */ 
+        static const uint8 SPEAK_IN_LOCALDEFENSE_RANK = 9 + 4;
+
     private:
         // initial packet data (notify type and channel name)
         void MakeNotifyPacket(WorldPacket* data, uint8 notify_type);
@@ -266,7 +290,7 @@ class Channel
         uint8       m_flags;
         uint32      m_channelId;
         ObjectGuid  m_ownerGuid;
-
+        
         typedef     std::map<ObjectGuid, PlayerInfo> PlayerList;
         PlayerList  m_players;
         GuidSet m_banned;
