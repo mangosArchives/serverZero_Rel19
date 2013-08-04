@@ -534,7 +534,7 @@ void Channel::Say(ObjectGuid p, const char* what, uint32 lang)
     uint32 sec = 0;
     Player* plr = sObjectMgr.GetPlayer(p);
     bool speakInLocalDef = false;
-    // bool speakInWorldDef = false;
+    bool speakInWorldDef = false;
     if (plr)
     {
         sec = plr->GetSession()->GetSecurity();
@@ -561,7 +561,8 @@ void Channel::Say(ObjectGuid p, const char* what, uint32 lang)
         SendToOne(&data, p);
     }
     else if (m_players[p].IsMuted() ||
-             (GetChannelId() == CHANNEL_ID_LOCAL_DEFENSE && !speakInLocalDef))
+             (GetChannelId() == CHANNEL_ID_LOCAL_DEFENSE && !speakInLocalDef) ||
+             (GetChannelId() == CHANNEL_ID_WORLD_DEFENSE && !speakInWorldDef))
     {
         WorldPacket data;
         MakeMuted(&data);

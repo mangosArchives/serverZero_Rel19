@@ -202,8 +202,13 @@ class Channel
          * 5 in the client.
          * \see HonorRankInfo
          */ 
-        static const uint8 SPEAK_IN_LOCALDEFENSE_RANK = 9 + 4;
-
+        static const uint8 SPEAK_IN_LOCALDEFENSE_RANK = 4 + 9;
+        /**
+         * This denotes the PvP rank needed to speak in world defense, see
+         * \ref Channel::SPEAK_IN_LOCALDEFENSE_RANK for more info on the 4 added.
+         */
+        static const uint8 SPEAK_IN_WORLDDEFENSE_RANK = 4 + 10; 
+        
     private:
         // initial packet data (notify type and channel name)
         void MakeNotifyPacket(WorldPacket* data, uint8 notify_type);
