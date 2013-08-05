@@ -535,7 +535,22 @@ void Channel::Say(ObjectGuid p, const char* what, uint32 lang)
     Player* plr = sObjectMgr.GetPlayer(p);
     if (plr)
         sec = plr->GetSession()->GetSecurity();
-
+	
+        if (plr->isGameMaster())
+        {
+            speakInLocalDef = true;
+            speakInWorldDef = true;
+        }
+        
+        HonorRankInfo honorInfo = plr->GetHonorRankInfo();
+        //We can speak in local defense if we're above this rank (see .h file)
+        if (honorInfo.rank >= SPEAK_IN_LOCALDEFENSE_RANK)
+            speakInLocalDef = true;
+        // Are we not allowed to speak in WorldDefense at all?
+        // if (honorInfo.rank >= SPEAK_IN_WORLDDEFENSE_RANK)
+        //     speakInWorldDef = true;
+    }
+        
     if (!IsOn(p))
     {
         WorldPacket data;
