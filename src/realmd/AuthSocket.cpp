@@ -218,9 +218,8 @@ void AuthSocket::OnRead()
     {
         if (!recv_soft((char*)&_cmd, 1))
             { return; }
-
         size_t i;
-
+        
         ///- Circle through known commands and call the correct command handler
         for (i = 0; i < AUTH_TOTAL_COMMANDS; ++i)
         {
@@ -780,17 +779,17 @@ bool AuthSocket::_HandleReconnectChallenge()
     recv((char*)&buf[4], remaining);
     DEBUG_LOG("[ReconnectChallenge] got full packet, %#04x bytes", ch->size);
     DEBUG_LOG("[ReconnectChallenge] name(%d): '%s'", ch->I_len, ch->I);
-
+    
     _login = (const char*)ch->I;
-
+    
     _safelogin = _login;
     LoginDatabase.escape_string(_safelogin);
-
+    
     EndianConvert(ch->build);
     _build = ch->build;
-
+    
     QueryResult* result = LoginDatabase.PQuery("SELECT sessionkey FROM account WHERE username = '%s'", _safelogin.c_str());
-
+    
     // Stop if the account is not found
     if (!result)
     {
@@ -798,11 +797,11 @@ bool AuthSocket::_HandleReconnectChallenge()
         close_connection();
         return false;
     }
-
+    
     Field* fields = result->Fetch();
     K.SetHexStr(fields[0].GetString());
     delete result;
-
+    
     ///- Sending response
     ByteBuffer pkt;
     pkt << (uint8)  CMD_AUTH_RECONNECT_CHALLENGE;
@@ -828,24 +827,27 @@ bool AuthSocket::_HandleReconnectProof()
 
     BigNumber t1;
     t1.SetBinary(lp.R1, 16);
-
+    
     Sha1Hash sha;
     sha.Initialize();
     sha.UpdateData(_login);
     sha.UpdateBigNumbers(&t1, &_reconnectProof, &K, NULL);
     sha.Finalize();
-
+    
     if (!memcmp(sha.GetDigest(), lp.R2, SHA_DIGEST_LENGTH))
     {
         ///- Sending response
         ByteBuffer pkt;
         pkt << (uint8)  CMD_AUTH_RECONNECT_PROOF;
         pkt << (uint8)  0x00;
+        //If we keep from sending this we don't receive Session Expired on the client when
+        //changing realms after being logged on to the world
+        // pkt << (uint16) 0x00;                               // 2 bytes zeros
         send((char const*)pkt.contents(), pkt.size());
-
+        
         ///- Set _authed to true!
         _authed = true;
-
+        
         return true;
     }
     else
@@ -862,12 +864,11 @@ bool AuthSocket::_HandleRealmList()
     DEBUG_LOG("Entering _HandleRealmList");
     if (recv_len() < 5)
         { return false; }
-
     recv_skip(5);
-
+    
     ///- Get the user id (else close the connection)
     // No SQL injection (escaped user name)
-
+    
     QueryResult* result = LoginDatabase.PQuery("SELECT id,sha_pass_hash FROM account WHERE username = '%s'", _safelogin.c_str());
     if (!result)
     {
@@ -875,25 +876,24 @@ bool AuthSocket::_HandleRealmList()
         close_connection();
         return false;
     }
-
+    
     uint32 id = (*result)[0].GetUInt32();
     std::string rI = (*result)[1].GetCppString();
     delete result;
-
+    
     ///- Update realm list if need
     sRealmList.UpdateIfNeed();
-
+    
     ///- Circle through realms in the RealmList and construct the return packet (including # of user characters in each realm)
     ByteBuffer pkt;
     LoadRealmlist(pkt, id);
-
+    
     ByteBuffer hdr;
     hdr << (uint8) CMD_REALM_LIST;
     hdr << (uint16)pkt.size();
     hdr.append(pkt);
-
+    
     send((char const*)hdr.contents(), hdr.size());
-
     return true;
 }
 
