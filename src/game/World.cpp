@@ -384,12 +384,12 @@ void World::RemoveWeather(uint32 id)
 Weather* World::AddWeather(uint32 zone_id)
 {
     WeatherZoneChances const* weatherChances = sObjectMgr.GetWeatherChances(zone_id);
-	Weather* w = new Weather(zone_id, weatherChances);
-    // if zone not have no weatherchanges, no reason to run weather regenerate and update. 
-    if (!weatherChances)
-		m_weathers[w->GetZone()] = w;
-        return w;
 
+    // if zone not have no weatherchanges return.
+    if (!weatherChances)
+		return NULL;
+
+	Weather* w = new Weather(zone_id, weatherChances);
     m_weathers[w->GetZone()] = w;
     w->ReGenerate();
     w->UpdateWeather();
