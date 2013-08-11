@@ -62,48 +62,47 @@ void Channel::Join(ObjectGuid p, const char* pass)
         }
         return;
     }
-
+    
     if (IsBanned(p))
     {
         MakeBanned(&data);
         SendToOne(&data, p);
         return;
     }
-
+    
     if (m_password.length() > 0 && strcmp(pass, m_password.c_str()))
     {
         MakeWrongPassword(&data);
         SendToOne(&data, p);
         return;
     }
-
+    
     Player* plr = sObjectMgr.GetPlayer(p);
-
+    
     if (plr)
     {
         if (plr->GetGuildId() && (GetFlags() == 0x38))
             return;
-
+        
         plr->JoinedChannel(this);
     }
-
+    
     if (m_announce && (!plr || plr->GetSession()->GetSecurity() < SEC_GAMEMASTER || !sWorld.getConfig(CONFIG_BOOL_SILENTLY_GM_JOIN_TO_CHANNEL)))
     {
         MakeJoined(&data, p);
         SendToAll(&data);
     }
-
+    
     data.clear();
-
+    
     PlayerInfo& pinfo = m_players[p];
     pinfo.player = p;
     pinfo.flags = 0;
-
+    
     MakeYouJoined(&data);
     SendToOne(&data, p);
-
     JoinNotify(p);
-
+    
     // if no owner first logged will become
     if (!IsConstant() && !m_ownerGuid)
     {

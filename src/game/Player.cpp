@@ -6183,7 +6183,10 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea)
         DestroyZoneLimitedItem(true, newZone);
 
     // recent client version not send leave/join channel packets for built-in local channels
-    UpdateLocalChannels(newZone);
+    // When flying in a taxi we don't change channels in zero, for a proof video see:
+    // youtu.be/iUFpZeNGPSs?t=32m where it doesn't change the channel until he lands
+    if (!IsTaxiFlying())
+        UpdateLocalChannels(newZone);
 
     // group update
     if (GetGroup())

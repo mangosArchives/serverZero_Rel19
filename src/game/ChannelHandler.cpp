@@ -43,7 +43,7 @@ void WorldSession::HandleJoinChannelOpcode(WorldPacket& recvPacket)
         
         if (area && channel)
         {
-            sprintf(tmpStr, channel->pattern[0], area->area_name[0]);
+            snprintf(tmpStr, 255, channel->pattern[GetSessionDbcLocale()], area->area_name[GetSessionDbcLocale()]);
             //With a format string
             if (strcmp(tmpStr, channelName.c_str()) == 0
                 //Without one, used for ie: World Defense
