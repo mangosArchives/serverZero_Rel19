@@ -261,12 +261,15 @@ void System::init() {
 
             int len = 100;
             char* r = (char*)::malloc(len * sizeof(char));
-            fgets(r, len, f);
-            // Remove trailing newline
-            if (r[strlen(r) - 1] == '\n') {
-                r[strlen(r) - 1] = '\0';
+            if(f != NULL)
+            {
+                fgets(r, len, f);
+                // Remove trailing newline
+                if (r[strlen(r) - 1] == '\n') {
+                    r[strlen(r) - 1] = '\0';
+                }
+                fclose(f);
             }
-            fclose(f);
 
             m_operatingSystem = r;
             ::free(r);
