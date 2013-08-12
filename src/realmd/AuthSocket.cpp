@@ -842,7 +842,8 @@ bool AuthSocket::_HandleReconnectProof()
         pkt << (uint8)  0x00;
         //If we keep from sending this we don't receive Session Expired on the client when
         //changing realms after being logged on to the world
-        // pkt << (uint16) 0x00;                               // 2 bytes zeros
+        if (_build > 6141) // Last vanilla, 1.12.3
+            pkt << (uint16) 0x00;                               // 2 bytes zeros
         send((char const*)pkt.contents(), pkt.size());
         
         ///- Set _authed to true!
