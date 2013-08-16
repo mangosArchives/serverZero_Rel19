@@ -266,7 +266,7 @@ enum SpellAttributes
     SPELL_ATTR_UNK4                             = 0x00000010,            // 4 isAbility
     SPELL_ATTR_TRADESPELL                       = 0x00000020,            // 5 trade spells, will be added by client to a sublist of profession spell
     SPELL_ATTR_PASSIVE                          = 0x00000040,            // 6 Passive spell
-    SPELL_ATTR_UNK7                             = 0x00000080,            // 7 can't be linked in chat?
+    SPELL_ATTR_HIDE_SPELL                       = 0x00000080,            // 7 Shows no spell icon
     SPELL_ATTR_UNK8                             = 0x00000100,            // 8 hide created item in tooltip (for effect=24)
     SPELL_ATTR_UNK9                             = 0x00000200,            // 9
     SPELL_ATTR_ON_NEXT_SWING_2                  = 0x00000400,            // 10 on next swing 2
