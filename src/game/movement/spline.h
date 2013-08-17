@@ -188,7 +188,6 @@ namespace Movement
                     new_length = cacher(*this, i);
                     lengths[++i] = new_length;
 
-                    MANGOS_ASSERT(prev_length <= new_length);
                     prev_length = new_length;
                 }
             }
