@@ -140,7 +140,7 @@ enum SpellEffectIndex
 enum SpellFamily
 {
     SPELLFAMILY_GENERIC     = 0,
-    SPELLFAMILY_UNK1        = 1,                            // events, holidays
+    SPELLFAMILY_UNK1        = 1,                            // events, holidays, mostly aura related spells
     // 2 - unused
     SPELLFAMILY_MAGE        = 3,
     SPELLFAMILY_WARRIOR     = 4,
@@ -151,12 +151,8 @@ enum SpellFamily
     SPELLFAMILY_HUNTER      = 9,
     SPELLFAMILY_PALADIN     = 10,
     SPELLFAMILY_SHAMAN      = 11,
-    SPELLFAMILY_UNK2        = 12,
+    // 12 - unused
     SPELLFAMILY_POTION      = 13,
-    // 14 - unused
-    SPELLFAMILY_DEATHKNIGHT = 15,
-    // 16 - unused
-    SPELLFAMILY_UNK3        = 17
 };
 
 #endif

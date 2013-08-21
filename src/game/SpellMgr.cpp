@@ -3542,7 +3542,7 @@ void SpellMgr::CheckUsedSpells(char const* table)
 
         // checks of correctness requirements itself
 
-        if (family < -1 || family > SPELLFAMILY_UNK3)
+        if (family < -1 || family > SPELLFAMILY_POTION)
         {
             sLog.outError("Table '%s' for spell %u have wrong SpellFamily value(%u), skipped.", table, spell, family);
             continue;
