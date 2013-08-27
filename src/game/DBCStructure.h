@@ -648,7 +648,7 @@ struct SpellEntry
         int32     EquippedItemClass;                        // 58 (value)
         int32     EquippedItemSubClassMask;                 // 59 (mask)
         int32     EquippedItemInventoryTypeMask;            // 60 (mask)
-        uint32    Effect[MAX_EFFECT_INDEX];                 // 61-63
+        uint32    Effect[MAX_EFFECT_INDEX];                 ///< 61-63 TODO DOCUMENT
         int32     EffectDieSides[MAX_EFFECT_INDEX];         // 64-66
         uint32    EffectBaseDice[MAX_EFFECT_INDEX];         // 67-69
         float     EffectDicePerLevel[MAX_EFFECT_INDEX];     // 70-72

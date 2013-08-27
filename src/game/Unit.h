@@ -3229,28 +3229,123 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         void RemoveSingleAuraFromSpellAuraHolder(uint32 id, SpellEffectIndex index, ObjectGuid casterGuid, AuraRemoveMode mode = AURA_REMOVE_BY_DEFAULT);
 
-        // removing specific aura stacks by diff reasons and selections
+        /** 
+         * Removes all \ref Aura s that a certain spell would cause via it's effects (up to 3 of them
+         * per \ref Aura).
+         * 
+         * From old doc: removing specific aura stacka by diff reasons and selections
+         * @param spellId id of the spell causing the \ref Aura s you would like to remove
+         * @param except a spell that shouldn't be included in the removal
+         * @param mode reason for removal
+         * \see SpellEntry::Effect
+         */
         void RemoveAurasDueToSpell(uint32 spellId, SpellAuraHolder* except = NULL, AuraRemoveMode mode = AURA_REMOVE_BY_DEFAULT);
+        /** 
+         * Removes all \ref Aura s that a certain spell cast by a certain \ref Item would cause via
+         * it's effects (up to 3 of them per \ref Aura).
+         * @param castItem the \ref Item that cast the spell
+         * @param spellId id of the spell causing the \ref Aura s you would like to remove
+         */
         void RemoveAurasDueToItemSpell(Item* castItem, uint32 spellId);
+        /** 
+         * Removes all \ref Aura s that a certain spell cast by a certain \ref Player / \ref Unit
+         * would cause via it's effects (up to 3 of them per \ref Aura)
+         * @param spellId id of the \ref Spell causing the \ref Aura s you would like to remove
+         * @param casterGuid \ref ObjectGuid of the caster
+         * @param mode reason for removal
+         */
         void RemoveAurasByCasterSpell(uint32 spellId, ObjectGuid casterGuid, AuraRemoveMode mode = AURA_REMOVE_BY_DEFAULT);
-        void RemoveAurasDueToSpellBySteal(uint32 spellId, ObjectGuid casterGuid, Unit* stealer);
+        /** 
+         * Removes all \ref Aura s caused by a certain spell because it was canceled.
+         * @param spellId id of the \ref Spell causing the \ref Aura s you would like to remove
+         */
         void RemoveAurasDueToSpellByCancel(uint32 spellId);
 
         // removing unknown aura stacks by diff reasons and selections
+        /**
+         * From old doc: removing unknown aura stacks by diff reasons and selections
+         * \todo Document and find out what it does
+         */
         void RemoveNotOwnTrackedTargetAuras();
+        /** 
+         * Removes all \ref SpellAuraHolder s that have the given \ref Mechanics mask which is created
+         * by doing something like the following if we want a mask for \ref Mechanics::MECHANIC_SAPPED:
+         * \code{.cpp}
+         * uint32 mask = 1 << (MECHANIC_SAPPED - 1);
+         * \endcode
+         * @param mechMask a mask of \ref Mechanics, see \ref MECHANIC_NOT_REMOVED_BY_SHAPESHIFT,
+         * \ref IMMUNE_TO_ROOT_AND_SNARE_MASK for examples
+         * @param exceptSpellId id of a \ref Spell that shouldn't be removed
+         * @param non_positive if we should remove non positive \ref Aura s or not, defaults to false
+         */
         void RemoveAurasAtMechanicImmunity(uint32 mechMask, uint32 exceptSpellId, bool non_positive = false);
+        /** 
+         * Removes all \ref Spell s that cause the given \ref AuraType
+         * @param auraType the type of auras we would like to remove spells for
+         */
         void RemoveSpellsCausingAura(AuraType auraType);
+        /** 
+         * Same as \ref Unit::RemoveSpellsCausingAura but with an exception
+         * for a \ref SpellAuraHolder that shouldn't be removed
+         * @param auraType the type of auras we would like to remove spells for
+         * @param except this will be excepted from removal
+         */
         void RemoveSpellsCausingAura(AuraType auraType, SpellAuraHolder* except);
+        /** 
+         * Same as \ref Unit::RemoveSpellsCausingAura but for a matching caster aswell.
+         * @param auraType the type of auras we would like to remove spells for
+         * @param casterGuid remove the aura only if the caster is equal to this guid
+         */
         void RemoveSpellsCausingAura(AuraType auraType, ObjectGuid casterGuid);
+        /** 
+         * Removes all ranks of the given \ref Spell, ie: if the spellid of rank 1 inner fire is
+         * given all the ranks of it will be removed.
+         * @param spellId id of the spell we want to remove all ranks for
+         */
         void RemoveRankAurasDueToSpell(uint32 spellId);
+        /** 
+         * 
+         * @param holder 
+         * @return true if we could remove something (and did), false otherwise
+         * \todo Document what this does and break into smaller functions!
+         */
         bool RemoveNoStackAurasDueToAuraHolder(SpellAuraHolder* holder);
+        /** 
+         * Removes all \ref Aura s that have the given interrupt flags
+         * @param flags see \ref AuraInterruptFlags for possible flags
+         */
         void RemoveAurasWithInterruptFlags(uint32 flags);
+        /** 
+         * Removes all \ref Aura s that have the given attributes
+         * @param flags see \ref SpellAttributes for possible values
+         */
         void RemoveAurasWithAttribute(uint32 flags);
+        /** 
+         * Removes all \ref Aura s which can be dispelled by the given \ref DispelType
+         * @param type the given type that you want to remove all \ref Aura s for
+         * @param casterGuid if this isn't 0 it will be checked that the caster of the \ref Spell is
+         * the same as the given guid before removal.
+         */
         void RemoveAurasWithDispelType(DispelType type, ObjectGuid casterGuid = ObjectGuid());
+        /** 
+         * Removes all \ref Aura s.
+         * @param mode the reason for removal
+         */
         void RemoveAllAuras(AuraRemoveMode mode = AURA_REMOVE_BY_DEFAULT);
+        /** 
+         * Removes all \ref Aura s on this \ref Unit s death. Removes all visible \ref Aura s and
+         * disabled the mods for the passive ones (taken from old docs). The reason used is
+         * \ref AuraRemoveMode::AURA_REMOVE_BY_DEATH
+         * \todo Where does it remove the passive ones?
+         */
         void RemoveAllAurasOnDeath();
+        /** 
+         * used when evading to remove all auras except some special auras. Linked and flying
+         * \ref Aura s shouldn't be removed on evade.
+         * \todo Are linked and flying auras really not removed on evade?
+         */
         void RemoveAllAurasOnEvade();
-
+        
         // removing specific aura FROM stack by diff reasons and selections
         void RemoveAuraHolderFromStack(uint32 spellId, uint32 stackAmount = 1, ObjectGuid casterGuid = ObjectGuid(), AuraRemoveMode mode = AURA_REMOVE_BY_DEFAULT);
         void RemoveAuraHolderDueToSpellByDispel(uint32 spellId, uint32 stackAmount, ObjectGuid casterGuid, Unit* dispeller);

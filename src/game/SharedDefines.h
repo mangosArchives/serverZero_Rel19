@@ -518,6 +518,10 @@ enum Team
     ALLIANCE            = 469,
 };
 
+/**
+ * This are the different things that a spell can have as it's spell effect, see
+ * \ref SpellEntry::Effect for where in the DBC this is stored. Also see \ref HowSpellsWork
+ */
 enum SpellEffects
 {
     SPELL_EFFECT_NONE                      = 0,
@@ -858,20 +862,22 @@ enum Mechanics
 #define FIRST_MECHANIC          1
 #define MAX_MECHANIC            31
 
+///Mask defining \ref Mechanics mask which is immune to root and snare
 #define IMMUNE_TO_ROOT_AND_SNARE_MASK ( \
                                         (1<<(MECHANIC_ROOT-1))|(1<<(MECHANIC_SNARE-1)))
 
 #define IMMUNE_TO_ROOT_AND_STUN_MASK ( \
                                        (1<<(MECHANIC_ROOT-1))|(1<<(MECHANIC_STUN-1)))
 
-// Daze and all croud control spells except polymorph are not removed
+/// Daze and all crowd control spells except polymorph are not removed
 #define MECHANIC_NOT_REMOVED_BY_SHAPESHIFT ( \
         (1<<(MECHANIC_CHARM -1))|(1<<(MECHANIC_DISORIENTED-1))|(1<<(MECHANIC_FEAR  -1))| \
         (1<<(MECHANIC_PACIFY-1))|(1<<(MECHANIC_STUN       -1))|(1<<(MECHANIC_FREEZE-1))| \
         (1<<(MECHANIC_BANISH-1))|(1<<(MECHANIC_SHACKLE    -1))|(1<<(MECHANIC_HORROR-1))| \
         (1<<(MECHANIC_TURN  -1))|(1<<(MECHANIC_DAZE       -1))|(1<<(MECHANIC_SAPPED-1)))
 
-// Spell dispell type
+/// Different types of \ref Spell s that can be dispelled and what the reason for the dispel is.
+/// Also coupled with \ref Aura s as \ref Spell s have \ref Aura s.
 enum DispelType
 {
     DISPEL_NONE         = 0,
@@ -2456,7 +2462,12 @@ enum PetTameFailureReason
     PETTAME_UNKNOWNERROR            = 12
 };
 
-// Stored in SummonProperties.dbc with slot+1 values
+/**
+ * These are the different totem types that are available.
+ * Stored in SummonProperties.dbc with slot+1 values
+ * \see Totem
+ * \see Unit::GetTotemGuid
+ */
 enum TotemSlot
 {
     TOTEM_SLOT_FIRE   = 0,
