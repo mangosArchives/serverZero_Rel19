@@ -1345,8 +1345,14 @@ void WorldObject::MonsterWhisper(int32 textId, Unit const* target, bool IsBossWh
 
 void WorldObject::BuildMonsterChat(WorldPacket* data, ObjectGuid senderGuid, uint8 msgtype, char const* text, uint32 language, char const* name, ObjectGuid targetGuid, char const* targetName)
 {
-    *data << uint8(msgtype);
+	bool isEmote = false;
+	
+	if(msgtype == CHAT_MSG_MONSTER_EMOTE || msgtype == CHAT_MSG_RAID_BOSS_EMOTE)
+		isEmote = true; 
+	
+	*data << uint8(msgtype);
     *data << uint32(language);
+	if (!isEmote)
     *data << ObjectGuid(senderGuid);
     *data << uint32(strlen(name) + 1);
     *data << name;
@@ -1356,8 +1362,10 @@ void WorldObject::BuildMonsterChat(WorldPacket* data, ObjectGuid senderGuid, uin
         *data << uint32(strlen(targetName) + 1);            // target name length
         *data << targetName;                                // target name
     }
-    *data << uint32(strlen(text) + 1);
-    *data << text;
+    *data << (uint32)(strlen(text)+1+(isEmote ? 3 : 0)); 
+	if (isEmote)
+		data->append("%s ", 3);
+	*data << text;
     *data << uint8(0);                                      // ChatTag
 }
 
