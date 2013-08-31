@@ -21,6 +21,7 @@
 
 #include "typedefs.h"
 #include <G3D/Vector3.h>
+#include <limits>
 
 namespace Movement
 {
@@ -186,8 +187,12 @@ namespace Movement
                 while (i < index_hi)
                 {
                     new_length = cacher(*this, i);
+                    //length overflowed, assign to max positive value
+                    if( new_length < 0)
+                        new_length = std::numeric_limits<length_type>::max();
                     lengths[++i] = new_length;
 
+                    MANGOS_ASSERT(prev_length <= new_length);
                     prev_length = new_length;
                 }
             }
