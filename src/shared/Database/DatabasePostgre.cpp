@@ -53,7 +53,7 @@ DatabasePostgre::~DatabasePostgre()
 
 SqlConnection* DatabasePostgre::CreateConnection()
 {
-    return new PostgreSQLConnection();
+    return new PostgreSQLConnection(*this);
 }
 
 PostgreSQLConnection::~PostgreSQLConnection()
