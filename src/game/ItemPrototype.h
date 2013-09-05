@@ -180,13 +180,10 @@ enum ItemSubclassContainer
     ITEM_SUBCLASS_SOUL_CONTAINER                = 1,
     ITEM_SUBCLASS_HERB_CONTAINER                = 2,
     ITEM_SUBCLASS_ENCHANTING_CONTAINER          = 3,
-    ITEM_SUBCLASS_ENGINEERING_CONTAINER         = 4,
-    ITEM_SUBCLASS_GEM_CONTAINER                 = 5,
-    ITEM_SUBCLASS_MINING_CONTAINER              = 6,
-    ITEM_SUBCLASS_LEATHERWORKING_CONTAINER      = 7
+    ITEM_SUBCLASS_ENGINEERING_CONTAINER         = 4
 };
 
-#define MAX_ITEM_SUBCLASS_CONTAINER               8
+#define MAX_ITEM_SUBCLASS_CONTAINER               5
 
 enum ItemSubclassWeapon
 {
@@ -214,22 +211,6 @@ enum ItemSubclassWeapon
 };
 
 #define MAX_ITEM_SUBCLASS_WEAPON                  21
-
-/* enum ItemSubclassGem [-ZERO] not used in pre-bc
-{
-  ITEM_SUBCLASS_GEM_RED                       = 0,
-    ITEM_SUBCLASS_GEM_BLUE                      = 1,
-    ITEM_SUBCLASS_GEM_YELLOW                    = 2,
-    ITEM_SUBCLASS_GEM_PURPLE                    = 3,
-    ITEM_SUBCLASS_GEM_GREEN                     = 4,
-    ITEM_SUBCLASS_GEM_ORANGE                    = 5,
-    ITEM_SUBCLASS_GEM_META                      = 6,
-    ITEM_SUBCLASS_GEM_SIMPLE                    = 7,
-    ITEM_SUBCLASS_GEM_PRISMATIC                 = 8
-};
-*/
-
-#define MAX_ITEM_SUBCLASS_GEM                     1
 
 enum ItemSubclassArmor
 {
@@ -363,7 +344,6 @@ const uint32 MaxItemSubclassValues[MAX_ITEM_CLASS] =
     MAX_ITEM_SUBCLASS_CONSUMABLE,
     MAX_ITEM_SUBCLASS_CONTAINER,
     MAX_ITEM_SUBCLASS_WEAPON,
-    MAX_ITEM_SUBCLASS_GEM,
     MAX_ITEM_SUBCLASS_ARMOR,
     MAX_ITEM_SUBCLASS_REAGENT,
     MAX_ITEM_SUBCLASS_PROJECTILE,
