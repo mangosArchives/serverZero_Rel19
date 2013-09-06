@@ -819,6 +819,9 @@ bool Item::IsFitToSpellRequirements(SpellEntry const* spellInfo) const
 
     if (spellInfo->EquippedItemClass != -1)                 // -1 == any item class
     {
+        if (spellInfo->Id == 13419 && 4 == int32(proto->Class))      // Special case for Enchant cloak minor Agility dbc file is wrong
+            return true;
+
         if (spellInfo->EquippedItemClass != int32(proto->Class))
             return false;                                   //  wrong item class
 
