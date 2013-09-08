@@ -142,18 +142,18 @@ enum ItemClass
     ITEM_CLASS_CONSUMABLE                       = 0,
     ITEM_CLASS_CONTAINER                        = 1,
     ITEM_CLASS_WEAPON                           = 2,
-    ITEM_CLASS_GEM                              = 3,
+    ITEM_CLASS_RESERVED_1                       = 3,
     ITEM_CLASS_ARMOR                            = 4,
     ITEM_CLASS_REAGENT                          = 5,
     ITEM_CLASS_PROJECTILE                       = 6,
     ITEM_CLASS_TRADE_GOODS                      = 7,
-    ITEM_CLASS_GENERIC                          = 8,
+    ITEM_CLASS_RESERVED_2                       = 8,
     ITEM_CLASS_RECIPE                           = 9,
-    ITEM_CLASS_MONEY                            = 10,
+    ITEM_CLASS_RESERVED_3                       = 10,
     ITEM_CLASS_QUIVER                           = 11,
     ITEM_CLASS_QUEST                            = 12,
     ITEM_CLASS_KEY                              = 13,
-    ITEM_CLASS_PERMANENT                        = 14,
+    ITEM_CLASS_RESERVED_4                       = 14,
     ITEM_CLASS_MISC                             = 15
 };
 
@@ -196,10 +196,10 @@ enum ItemSubclassWeapon
     ITEM_SUBCLASS_WEAPON_POLEARM                = 6,
     ITEM_SUBCLASS_WEAPON_SWORD                  = 7,
     ITEM_SUBCLASS_WEAPON_SWORD2                 = 8,
-    ITEM_SUBCLASS_WEAPON_obsolete               = 9,
+    ITEM_SUBCLASS_WEAPON_RESERVED_1             = 9,
     ITEM_SUBCLASS_WEAPON_STAFF                  = 10,
-    ITEM_SUBCLASS_WEAPON_EXOTIC                 = 11,
-    ITEM_SUBCLASS_WEAPON_EXOTIC2                = 12,
+    ITEM_SUBCLASS_WEAPON_RESERVED_2             = 11,
+    ITEM_SUBCLASS_WEAPON_RESERVED_3             = 12,
     ITEM_SUBCLASS_WEAPON_FIST                   = 13,
     ITEM_SUBCLASS_WEAPON_MISC                   = 14,
     ITEM_SUBCLASS_WEAPON_DAGGER                 = 15,
@@ -211,6 +211,8 @@ enum ItemSubclassWeapon
 };
 
 #define MAX_ITEM_SUBCLASS_WEAPON                  21
+
+#define MAX_ITEM_SUBCLASS_RESERVED_1              1
 
 enum ItemSubclassArmor
 {
@@ -237,11 +239,11 @@ enum ItemSubclassReagent
 
 enum ItemSubclassProjectile
 {
-    ITEM_SUBCLASS_WAND                          = 0,        // ABS
-    ITEM_SUBCLASS_BOLT                          = 1,        // ABS
+    ITEM_SUBCLASS_PROJ_RESERVED_1               = 0,
+    ITEM_SUBCLASS_PROJ_RESERVED_2               = 1,
     ITEM_SUBCLASS_ARROW                         = 2,
     ITEM_SUBCLASS_BULLET                        = 3,
-    ITEM_SUBCLASS_THROWN                        = 4         // ABS
+    ITEM_SUBCLASS_PROJ_RESERVED_3               = 4
 };
 
 #define MAX_ITEM_SUBCLASS_PROJECTILE              5
@@ -251,26 +253,12 @@ enum ItemSubclassTradeGoods
     ITEM_SUBCLASS_TRADE_GOODS                   = 0,
     ITEM_SUBCLASS_PARTS                         = 1,
     ITEM_SUBCLASS_EXPLOSIVES                    = 2,
-    ITEM_SUBCLASS_DEVICES                       = 3,
-    // ITEM_SUBCLASS_JEWELCRAFTING                 = 4,
-    ITEM_SUBCLASS_CLOTH                         = 5,
-    ITEM_SUBCLASS_LEATHER                       = 6,
-    ITEM_SUBCLASS_METAL_STONE                   = 7,
-    ITEM_SUBCLASS_MEAT                          = 8,
-    ITEM_SUBCLASS_HERB                          = 9,
-    ITEM_SUBCLASS_ELEMENTAL                     = 10,
-    ITEM_SUBCLASS_TRADE_GOODS_OTHER             = 11,
-    ITEM_SUBCLASS_ENCHANTING                    = 12
+    ITEM_SUBCLASS_DEVICES                       = 3
 };
 
-#define MAX_ITEM_SUBCLASS_TRADE_GOODS             14
+#define MAX_ITEM_SUBCLASS_TRADE_GOODS             4
 
-enum ItemSubclassGeneric
-{
-    ITEM_SUBCLASS_GENERIC                       = 0
-};
-
-#define MAX_ITEM_SUBCLASS_GENERIC                 1
+#define MAX_ITEM_CLASS_RESERVED_2                  1
 
 enum ItemSubclassRecipe
 {
@@ -283,22 +271,17 @@ enum ItemSubclassRecipe
     ITEM_SUBCLASS_ALCHEMY_RECIPE                = 6,
     ITEM_SUBCLASS_FIRST_AID_MANUAL              = 7,
     ITEM_SUBCLASS_ENCHANTING_FORMULA            = 8,
-    ITEM_SUBCLASS_FISHING_MANUAL                = 9,
+    ITEM_SUBCLASS_FISHING_MANUAL                = 9
 };
 
 #define MAX_ITEM_SUBCLASS_RECIPE                  11
 
-enum ItemSubclassMoney
-{
-    ITEM_SUBCLASS_MONEY                         = 0
-};
-
-#define MAX_ITEM_SUBCLASS_MONEY                   1
+#define MAX_ITEM_CLASS_RESERVED_3                 1
 
 enum ItemSubclassQuiver
 {
-    ITEM_SUBCLASS_QUIVER0                       = 0,        // ABS
-    ITEM_SUBCLASS_QUIVER1                       = 1,        // ABS
+    ITEM_SUBCLASS_QUIV_RESERVED_1               = 0,
+    ITEM_SUBCLASS_QUIV_RESERVED_2               = 1,
     ITEM_SUBCLASS_QUIVER                        = 2,
     ITEM_SUBCLASS_AMMO_POUCH                    = 3
 };
@@ -329,28 +312,25 @@ enum ItemSubclassPermanent
 
 enum ItemSubclassJunk
 {
-    ITEM_SUBCLASS_JUNK                          = 0,
-    ITEM_SUBCLASS_JUNK_REAGENT                  = 1,
-    ITEM_SUBCLASS_JUNK_PET                      = 2,
-    ITEM_SUBCLASS_JUNK_HOLIDAY                  = 3,
-    ITEM_SUBCLASS_JUNK_OTHER                    = 4,
-    ITEM_SUBCLASS_JUNK_MOUNT                    = 5
+    ITEM_SUBCLASS_JUNK                          = 0
+
 };
 
-#define MAX_ITEM_SUBCLASS_JUNK                    6
+#define MAX_ITEM_SUBCLASS_JUNK                    1
 
 const uint32 MaxItemSubclassValues[MAX_ITEM_CLASS] =
 {
     MAX_ITEM_SUBCLASS_CONSUMABLE,
     MAX_ITEM_SUBCLASS_CONTAINER,
     MAX_ITEM_SUBCLASS_WEAPON,
+    MAX_ITEM_SUBCLASS_RESERVED_1,
     MAX_ITEM_SUBCLASS_ARMOR,
     MAX_ITEM_SUBCLASS_REAGENT,
     MAX_ITEM_SUBCLASS_PROJECTILE,
     MAX_ITEM_SUBCLASS_TRADE_GOODS,
-    MAX_ITEM_SUBCLASS_GENERIC,
+    MAX_ITEM_CLASS_RESERVED_2,
     MAX_ITEM_SUBCLASS_RECIPE,
-    MAX_ITEM_SUBCLASS_MONEY,
+    MAX_ITEM_CLASS_RESERVED_3,
     MAX_ITEM_SUBCLASS_QUIVER,
     MAX_ITEM_SUBCLASS_QUEST,
     MAX_ITEM_SUBCLASS_KEY,
