@@ -24,7 +24,8 @@ DROP TABLE IF EXISTS `db_version`;
 CREATE TABLE `db_version` (
   `version` varchar(120) default NULL,
   `creature_ai_version` varchar(120) default NULL,
-  `required_r2439_01_mangos_command` bit(1) default NULL
+  `required_r2441_01_mangos_db_version` bit(1) default NULL,
+  PRIMARY KEY (`version`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='Used DB version notes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
