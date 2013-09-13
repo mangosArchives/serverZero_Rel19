@@ -85,9 +85,6 @@ set(LIBRARY_SRCS
     DuelHandler.cpp
     DynamicObject.cpp
     DynamicObject.h
-    extras/Mod.cpp
-    extras/Mod.h
-    extras/SpellMod.cpp
     FleeingMovementGenerator.cpp
     FleeingMovementGenerator.h
     FollowerReference.cpp
@@ -419,4 +416,3 @@ if(PCH)
 endif()
 
 add_subdirectory(AuctionHouseBot)
-add_subdirectory(extras)

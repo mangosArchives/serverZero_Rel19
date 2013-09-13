@@ -29,7 +29,3 @@ echo **********************
 echo ** ahbot.conf       **
 echo **********************
 copy ..\..\src\game\AuctionHouseBot\ahbot.conf.dist.in %2
-echo **********************
-echo ** mods.conf        **
-echo **********************
-copy ..\..\src\game\extras\mods.conf.dist.in %2

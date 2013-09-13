@@ -42,7 +42,6 @@
 #include "LootMgr.h"
 #include "VMapFactory.h"
 #include "BattleGround/BattleGround.h"
-#include "extras/Mod.h"
 #include "Util.h"
 #include "Chat.h"
 #include "SQLStorages.h"
@@ -2538,8 +2537,6 @@ void Spell::prepare(SpellCastTargets const* targets, Aura* triggeredByAura)
         m_caster->RemoveSpellsCausingAura(SPELL_AURA_FEIGN_DEATH);
     }
 
-    sMod.spellPrepare(this, m_caster);  // extra for prepare
-
     // add non-triggered (with cast time and without)
     if (!m_IsTriggeredSpell)
     {
@@ -3831,7 +3828,6 @@ void Spell::HandleEffects(Unit* pUnitTarget, Item* pItemTarget, GameObject* pGOT
     if (eff < TOTAL_SPELL_EFFECTS)
     {
         (*this.*SpellEffects[eff])(i);
-        sMod.spellEffect(this, eff , i);  // extra for prepare
     }
     else
     {
@@ -3980,7 +3976,7 @@ SpellCastResult Spell::CheckCast(bool strict)
         if (foundSootheAnimal)
             if (target->getLevel() > m_spellInfo->MaxTargetLevel)
                 return SPELL_FAILED_HIGHLEVEL;
-        
+
         // Swiftmend
         if (m_spellInfo->Id == 18562)                       // future versions have special aura state for this
         {
@@ -3988,8 +3984,8 @@ SpellCastResult Spell::CheckCast(bool strict)
                 return SPELL_FAILED_TARGET_AURASTATE;
         }
 
-        // give error message when applying lower hot rank to higher hot rank on target        
-        if (!IsSpellHaveEffect(m_spellInfo, SPELL_EFFECT_HEAL) && IsSpellHaveAura(m_spellInfo, SPELL_AURA_PERIODIC_HEAL)) 
+        // give error message when applying lower hot rank to higher hot rank on target
+        if (!IsSpellHaveEffect(m_spellInfo, SPELL_EFFECT_HEAL) && IsSpellHaveAura(m_spellInfo, SPELL_AURA_PERIODIC_HEAL))
         {
             Unit::AuraList const& mPeriodicHeal = target->GetAurasByType(SPELL_AURA_PERIODIC_HEAL);
             for (Unit::AuraList::const_iterator i = mPeriodicHeal.begin(); i != mPeriodicHeal.end(); ++i)
