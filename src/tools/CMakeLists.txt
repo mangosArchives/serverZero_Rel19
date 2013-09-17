@@ -15,4 +15,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 add_subdirectory(map-extractor)
+
+add_subdirectory(vmap-extractor)
 add_subdirectory(vmap-assembler)
