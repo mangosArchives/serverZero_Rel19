@@ -59,9 +59,9 @@ namespace Movement
             void Increase()
             {
                 if (m_counter == limit)
-                    init();
+                    { init(); }
                 else
-                    ++m_counter;
+                    { ++m_counter; }
             }
 
             T NewId() { Increase(); return m_counter;}

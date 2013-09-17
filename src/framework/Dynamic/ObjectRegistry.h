@@ -55,7 +55,7 @@ class MANGOS_DLL_DECL ObjectRegistry
             if (iter != i_registeredObjects.end())
             {
                 if (!replace)
-                    return false;
+                    { return false; }
                 delete iter->second;
                 i_registeredObjects.erase(iter);
             }
@@ -71,7 +71,7 @@ class MANGOS_DLL_DECL ObjectRegistry
             if (iter != i_registeredObjects.end())
             {
                 if (delete_object)
-                    delete iter->second;
+                    { delete iter->second; }
                 i_registeredObjects.erase(iter);
             }
         }
@@ -88,7 +88,7 @@ class MANGOS_DLL_DECL ObjectRegistry
             unsigned int sz = l.size();
             l.resize(sz + i_registeredObjects.size());
             for (typename RegistryMapType::const_iterator iter = i_registeredObjects.begin(); iter != i_registeredObjects.end(); ++iter)
-                l[sz++] = iter->first;
+                { l[sz++] = iter->first; }
             return i_registeredObjects.size();
         }
 
@@ -107,7 +107,7 @@ class MANGOS_DLL_DECL ObjectRegistry
         ~ObjectRegistry()
         {
             for (typename RegistryMapType::iterator iter = i_registeredObjects.begin(); iter != i_registeredObjects.end(); ++iter)
-                delete iter->second;
+                { delete iter->second; }
             i_registeredObjects.clear();
         }
 };

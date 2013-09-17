@@ -144,7 +144,7 @@ enum SpellFacingFlags
 
 /**
  * byte value (UNIT_FIELD_BYTES_1,0).
- * 
+ *
  * This is not to be used as a bitmask but as one value
  * each, ie: you can't be standing and sitting down at
  * the same time.
@@ -241,7 +241,7 @@ enum VictimState
 /**
  * OFFSWING and BASESWING/2 or MAINSWING/2 to be more
  * in line with what is used in the other parts?
- * 
+ *
  * \todo Rename the LEFTSWING and NORMALSWING/2 to:
  */
 enum HitInfo
@@ -437,16 +437,16 @@ enum UnitState
 
     // stay by different reasons
     UNIT_STAT_NOT_MOVE        = UNIT_STAT_ROOT | UNIT_STAT_STUNNED | UNIT_STAT_DIED |
-                                UNIT_STAT_DISTRACTED,
+    UNIT_STAT_DISTRACTED,
 
     // stay or scripted movement for effect( = in player case you can't move by client command)
     UNIT_STAT_NO_FREE_MOVE    = UNIT_STAT_ROOT | UNIT_STAT_STUNNED | UNIT_STAT_DIED |
-                                UNIT_STAT_TAXI_FLIGHT |
-                                UNIT_STAT_CONFUSED | UNIT_STAT_FLEEING,
+    UNIT_STAT_TAXI_FLIGHT |
+    UNIT_STAT_CONFUSED | UNIT_STAT_FLEEING,
 
     // not react at move in sight or other
     UNIT_STAT_CAN_NOT_REACT   = UNIT_STAT_STUNNED | UNIT_STAT_DIED |
-                                UNIT_STAT_CONFUSED | UNIT_STAT_FLEEING,
+    UNIT_STAT_CONFUSED | UNIT_STAT_FLEEING,
 
     // AI disabled by some reason
     UNIT_STAT_LOST_CONTROL    = UNIT_STAT_FLEEING | UNIT_STAT_CONTROLLED,
@@ -831,7 +831,7 @@ struct CalcDamageInfo
     /// Used only for rage calculation
     uint32 cleanDamage;
     /// (Old comment) \todo remove this field (need use TargetState)
-    MeleeHitOutcome hitOutCome;  
+    MeleeHitOutcome hitOutCome;
 };
 
 /**
@@ -1078,12 +1078,12 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
 {
     public:
         typedef std::set<Unit*> AttackerSet;
-        /** 
+        /**
          * A multimap from spell ids to \ref SpellAuraHolder, multiple \ref SpellAuraHolder can have
          * the same id (ie: the same key)
          */
-        typedef std::multimap<uint32 /*spellId*/, SpellAuraHolder*> SpellAuraHolderMap;
-        /** 
+        typedef std::multimap < uint32 /*spellId*/, SpellAuraHolder* > SpellAuraHolderMap;
+        /**
          * A pair of two iterators to a \ref SpellAuraHolderMap which is used in conjunction
          * with the std::multimap::equal_range which gives all \ref SpellAuraHolder that have the same
          * spellid in this case, the first member is the iterator to the beginning, and the
@@ -1108,8 +1108,8 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see Unit::ApplyDiminishingToDuration
          */
         typedef std::list<DiminishingReturn> Diminishing;
-        typedef std::set<uint32 /*playerGuidLow*/> ComboPointHolderSet;
-        typedef std::map<SpellEntry const*, ObjectGuid /*targetGuid*/> TrackedAuraTargetMap;
+        typedef std::set < uint32 /*playerGuidLow*/ > ComboPointHolderSet;
+        typedef std::map < SpellEntry const*, ObjectGuid /*targetGuid*/ > TrackedAuraTargetMap;
 
         virtual ~Unit();
 
@@ -1119,7 +1119,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void AddToWorld() override;
         void RemoveFromWorld() override;
 
-        /** 
+        /**
          * Used in ~Creature/~Player (or before mass creature delete to remove
          * cross-references to already deleted units). (Taken from comment in source)
          * \todo Add more information here
@@ -1131,20 +1131,20 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
             return m_floatValues[UNIT_FIELD_BOUNDINGRADIUS];
         }
 
-        /** 
+        /**
          * Gets the current DiminishingLevels for the given group
          * @param group The group that you would like to know the current diminishing return level for
          * @return The current diminishing level, up to DiminishingLevels::DIMINISHING_LEVEL_IMMUNE
          */
         DiminishingLevels GetDiminishing(DiminishingGroup  group);
-        /** 
+        /**
          * Increases the level of the DiminishingGroup by one level up until
          * DIMINISHING_LEVEL_IMMUNE where the target becomes immune to spells of
          * that DiminishingGroup
          * @param group The group to increase the level for by one
          */
         void IncrDiminishing(DiminishingGroup group);
-        /** 
+        /**
          * Calculates how long the duration of a spell should be considering
          * diminishing returns, ie, if the Level passed in is DIMINISHING_LEVEL_IMMUNE
          * then the duration will be zeroed out. If it is DIMINISHING_LEVEL_1 then a full
@@ -1156,51 +1156,51 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param isReflected Whether the spell was reflected or not, used to determine if we should do any calculations at all.
          */
         void ApplyDiminishingToDuration(DiminishingGroup  group, int32& duration, Unit* caster, DiminishingLevels Level, bool isReflected);
-        /** 
+        /**
          * Applies a diminishing return to the given group if apply is true,
          * otherwise lowers the level by one (?)
          * @param group The group to affect
          * @param apply whether this aura is being added/removed
          */
         void ApplyDiminishingAura(DiminishingGroup  group, bool apply);
-        /** 
+        /**
          * Clears all the current diminishing returns for this Unit.
          */
         void ClearDiminishings() { m_Diminishing.clear(); }
 
         void Update(uint32 update_diff, uint32 time) override;
 
-        /** 
+        /**
          * Updates the attack time for the given WeaponAttackType
          * @param type The type of weapon that we want to update the time for
          * @param time the remaining time until we can attack with the WeaponAttackType again
          */
         void setAttackTimer(WeaponAttackType type, uint32 time) { m_attackTimer[type] = time; }
-        /** 
+        /**
          * Resets the attack timer to the base value decided by Unit::m_modAttackSpeedPct and
          * Unit::GetAttackTime
          * @param type The weapon attack type to reset the attack timer for.
          */
         void resetAttackTimer(WeaponAttackType type = BASE_ATTACK);
-        /** 
+        /**
          * Get's the remaining time until we can do an attack
          * @param type The weapon type to check the remaining time for
          * @return The remaining time until we can attack with this weapon type.
          */
         uint32 getAttackTimer(WeaponAttackType type) const { return m_attackTimer[type]; }
-        /** 
+        /**
          * Checks whether the unit can do an attack. Does this by checking the attacktimer for the
          * WeaponAttackType, can probably be thought of as a cooldown for each swing/shot
          * @param type What weapon should we check for
          * @return true if the Unit::m_attackTimer is zero for the given WeaponAttackType
          */
         bool isAttackReady(WeaponAttackType type = BASE_ATTACK) const { return m_attackTimer[type] == 0; }
-        /** 
+        /**
          * Checks if the current Unit has an offhand weapon
          * @return True if there is a offhand weapon.
          */
         bool haveOffhandWeapon() const;
-        /** 
+        /**
          * Does an attack if any of the timers allow it and resets them, if the user
          * isn't in range or behind the target an error is sent to the client.
          * Also makes sure to not make and offhand and mainhand attack at the same
@@ -1208,7 +1208,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return True if an attack was made and no error happened, false otherwise
          */
         bool UpdateMeleeAttackingState();
-        /** 
+        /**
          * Check is a given equipped weapon can be used, ie the mainhand, offhand etc.
          * @param attackType The attack type to check, ie: main/offhand/ranged
          * @return True if the weapon can be used, true except for shapeshifts and if disarmed.
@@ -1216,7 +1216,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool CanUseEquippedWeapon(WeaponAttackType attackType) const
         {
             if (IsInFeralForm())
-                return false;
+                { return false; }
 
             switch (attackType)
             {
@@ -1229,7 +1229,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
             }
         }
 
-        /** 
+        /**
          * Returns the combined combat reach of two mobs. Can be seen as a radius.
          * @param pVictim The other unit to add the range for
          * @param forMeleeRange Whether we should return the combined reach for melee or not
@@ -1239,7 +1239,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see GetFloatValue
          */
         float GetCombatReach(Unit const* pVictim, bool forMeleeRange = true, float flat_mod = 0.0f) const;
-        /** 
+        /**
          * Returns the remaining combat distance between two mobs (CombatReach substracted).
          * Does this by getting the radius of combat/aggro between them and then subtracting their
          * actual distance between them. Ie: dist between - radius for aggro. If this becomes less
@@ -1249,7 +1249,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return The reach between them left until one of the creatures could/should aggro
          */
         float GetCombatDistance(Unit const* target, bool forMeleeRange) const;
-        /** 
+        /**
          * Returns if the Unit can reach a victim with Melee Attack. Does so by using
          * Unit::GetCombatReach for melee and checking if the distance from the target is less than
          * the reach.
@@ -1260,7 +1260,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool CanReachWithMeleeAttack(Unit const* pVictim, float flat_mod = 0.0f) const;
         uint32 m_extraAttacks;
 
-        /** 
+        /**
          * Internal function, must only be called from Unit::Attack(Unit*)
          * @param pAttacker The attacker to add to current attackers.
          */
@@ -1268,17 +1268,17 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         {
             AttackerSet::const_iterator itr = m_attackers.find(pAttacker);
             if (itr == m_attackers.end())
-                m_attackers.insert(pAttacker);
+                { m_attackers.insert(pAttacker); }
         }
-        /** 
+        /**
          * Internal function, must only be called from Unit::AttackStop()
-         * @param pAttacker 
+         * @param pAttacker
          */
         void _removeAttacker(Unit* pAttacker)               // must be called only from Unit::AttackStop()
         {
             m_attackers.erase(pAttacker);
         }
-        /** 
+        /**
          * If another mob/unit want to help this mob this function will return a
          * possible Unit to attack.
          * @return A Unit to attack if this one is being attacked by anyone, NULL otherwise
@@ -1286,14 +1286,14 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         Unit* getAttackerForHelper()                        // If someone wants to help, who to give them
         {
             if (getVictim() != NULL)
-                return getVictim();
+                { return getVictim(); }
 
             if (!m_attackers.empty())
-                return *(m_attackers.begin());
+                { return *(m_attackers.begin()); }
 
             return NULL;
         }
-        /** 
+        /**
          * Tries to attack a Unit/Player, also makes sure to stop attacking the current target
          * if we're already attacking someone.
          * @param victim The Unit to attack
@@ -1301,19 +1301,19 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return True if an attack was initiated, false otherwise
          */
         bool Attack(Unit* victim, bool meleeAttack);
-        /** 
+        /**
          * Called when we are attack by someone in someway, might be when a fear runs out and
          * we want to notify AI to attack again or when a spell hits.
          * @param attacker Who's attacking us
          */
         void AttackedBy(Unit* attacker);
-        /** 
+        /**
          * Stop all spells from casting except the one give by except_spellid
          * @param except_spellid This spell id will not be stopped from casting, defaults to 0
          * \see Unit::InterruptSpell
          */
         void CastStop(uint32 except_spellid = 0);
-        /** 
+        /**
          * Stops attacking whatever we are attacking at the moment and tells the Unit we are attacking
          * that we are not doing that anymore, ie: removes it from the attacker list
          * @param targetSwitch if we are switching targets or not, defaults to false
@@ -1321,33 +1321,33 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see Unit::m_attacking
          */
         bool AttackStop(bool targetSwitch = false);
-        /** 
+        /**
          * Removes all attackers from the Unit::m_attackers set and logs it if someone that
          * wasn't attacking it was in the list. Does this check by checking if Unit::AttackStop()
          * returned false.
          * \see Unit::AttackStop
          */
         void RemoveAllAttackers();
-        /** 
+        /**
          * @return The Unit::m_attackers, ie. the units that are attacking you
          */
         AttackerSet const& getAttackers() const { return m_attackers; }
-        /** 
+        /**
          * Checks if we are attacking a player, also, pets/minions etc attacking a player counts
          * towards you attacking a player.
          * @return true if you and/or your pets/minions etc are attacking a player.
          */
         bool isAttackingPlayer() const;
-        /** 
+        /**
          * @return The victim that you are currently attacking
          */
         Unit* getVictim() const { return m_attacking; }
-        /** 
+        /**
          * Stops a unit from combat, removes all attackers and stops attacking.
          * @param includingCast if we should stop the currently casting spell aswell
          */
         void CombatStop(bool includingCast = false);
-        /** 
+        /**
          * Calls Unit::CombatStop to stop combat, also calls Unit::CombatStop for pets etc. by using
          * Unit::CallForAllControlledUnits
          * @param includingCast if we should stop the currently casting spell aswell
@@ -1355,7 +1355,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see Unit::CheckForAllControlledUnits
          */
         void CombatStopWithPets(bool includingCast = false);
-        /** 
+        /**
          * Stops attacking a certain faction. If we are attacking something and are a player we
          * are forcefully stopped from attacking the target aswell.
          * @param faction_id The faction to stop attacking
@@ -1364,7 +1364,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see Unit::getAttackers
          */
         void StopAttackFaction(uint32 faction_id);
-        /** 
+        /**
          * Selects a random unfriendly target, takes care of LOS and such aswell
          * @param except select any target but this one, usually your current target
          * @param radius how big the radius for our search should be
@@ -1374,7 +1374,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see Cell::VisitAllObjects
          */
         Unit* SelectRandomUnfriendlyTarget(Unit* except = NULL, float radius = ATTACK_DISTANCE) const;
-        /** 
+        /**
          * Same as Unit::SelectRandomUnfriendlyTarget except it selects a friendly target
          * @param except select any target but this one, usually your current target
          * @param radius how big the radius for our search should be
@@ -1384,45 +1384,45 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see Cell::VisitAllObjects
          */
         Unit* SelectRandomFriendlyTarget(Unit* except = NULL, float radius = ATTACK_DISTANCE) const;
-        /** 
+        /**
          * Checks if we have a negative aura with the given interrupt flag/s
          * @param flag The interrupt flag/s to check for, see SpellAuraInterruptFlags
          * @return true if we have a negative aura with the given flag, false otherwise
          * \see SpellAuraInterruptFlags
          */
         bool hasNegativeAuraWithInterruptFlag(uint32 flag);
-        /** 
+        /**
          * Sends a packet to the client informing it that melee attacks are stopping
          * @param victim The unit we stopped attacking
          * \see OpcodesList
          */
         void SendMeleeAttackStop(Unit* victim);
-        /** 
+        /**
          * Sends a packet to the client informing it that melee attacks are starting
          * @param pVictim the target that we attack with melee
          */
         void SendMeleeAttackStart(Unit* pVictim);
 
-        /** 
+        /**
          * Adds a state to this unit
          * @param f the state to add, see UnitState for possible values
          * \see UnitState
          */
         void addUnitState(uint32 f) { m_state |= f; }
-        /** 
+        /**
          * Checks if a certain unit state is set
          * @param f the state to check for
          * @return true if the state is set, false otherwise
          * \see UnitState
          */
         bool hasUnitState(uint32 f) const { return (m_state & f); }
-        /** 
+        /**
          * Unsets a certain unit state
          * @param f the state to remove
          * \see UnitState
          */
         void clearUnitState(uint32 f) { m_state &= ~f; }
-        /** 
+        /**
          * Checks if the client/mob is in control or no
          * @return true if the client can move by client control, false otherwise
          * \see UnitState
@@ -1432,33 +1432,33 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
             return !hasUnitState(UNIT_STAT_NO_FREE_MOVE) && !GetOwnerGuid();
         }
 
-        /** 
+        /**
          * Gets the level for this unit
          * @return The current level for this unit
          * \see GetUInt32Value
          * \see EUnitFields
          */
         uint32 getLevel() const { return GetUInt32Value(UNIT_FIELD_LEVEL); }
-        /** 
+        /**
          * @return The level it would seem
          * \todo What does it actually do? Is overwritten by others that derive from Unit?
          */
         virtual uint32 GetLevelForTarget(Unit const* /*target*/) const { return getLevel(); }
-        /** 
+        /**
          * Updates the level for the current Unit. Also updates the group to know about this.
          * @param lvl The level to change to
          * \see EUnitFields
          * \see SetUInt32Value
          */
         void SetLevel(uint32 lvl);
-        /** 
+        /**
          * Gets the race of this Unit, not to be confused with the Creature type or such
          * @return returns the race of this Unit
          * \see CreatureTypeFlags
          * \see Races
          */
         uint8 getRace() const { return GetByteValue(UNIT_FIELD_BYTES_0, 0); }
-        /** 
+        /**
          * Returns a bitmask representation of the current race given by Races, not to be
          * confused with the Creature type or such
          * @return the racemask for the current race
@@ -1466,92 +1466,92 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see Races
          */
         uint32 getRaceMask() const { return 1 << (getRace() - 1); }
-        /** 
+        /**
          * Returns the class of this Unit
          * @return the class of the Unit
          * \see Classes
          */
         uint8 getClass() const { return GetByteValue(UNIT_FIELD_BYTES_0, 1); }
-        /** 
+        /**
          * Returns a bitmask representation of the current class given by Classes
          * @return the classmask for the class
          * \see Classes
          */
         uint32 getClassMask() const { return 1 << (getClass() - 1); }
-        /** 
+        /**
          * Gives you the current gender of this Unit
          * @return The current gender
          * \see Gender
          */
         uint8 getGender() const { return GetByteValue(UNIT_FIELD_BYTES_0, 2); }
 
-        /** 
+        /**
          * Gets a stat for the current Unit
          * @param stat The stat you want to get, ie: Stats::STAT_STRENGTH
          * @return the value the given stat has
          * \see Stats
          */
         float GetStat(Stats stat) const { return float(GetUInt32Value(UNIT_FIELD_STAT0 + stat)); }
-        /** 
+        /**
          * Sets a stat for this Unit
          * @param stat the stat to change
          * @param val the value to change it to
          * \see Stats
          */
         void SetStat(Stats stat, int32 val) { SetStatInt32Value(UNIT_FIELD_STAT0 + stat, val); }
-        /** 
+        /**
          * Gets the armor for this Unit
          * @return the current armor
          * \see SpellSchools
          */
         uint32 GetArmor() const { return GetResistance(SPELL_SCHOOL_NORMAL) ; }
-        /** 
+        /**
          * Sets the armor for this Unit
          * @param val the value to set the armor to
          * \see SpellSchools
          */
         void SetArmor(int32 val) { SetResistance(SPELL_SCHOOL_NORMAL, val); }
 
-        /** 
+        /**
          * Gets the resistance against a certain spell school, ie: fire, frost, nature etc
          * @param school the type of resistance you want to get
          * @return the current resistance against the given school
          */
         uint32 GetResistance(SpellSchools school) const { return GetUInt32Value(UNIT_FIELD_RESISTANCES + school); }
-        /** 
+        /**
          * Sets a resistance for this Unit
          * @param school the type of resistance you want to set
          * @param val the value to set it to
          */
         void SetResistance(SpellSchools school, int32 val) { SetStatInt32Value(UNIT_FIELD_RESISTANCES + school, val); }
 
-        /** 
+        /**
          * Gets the health of this Unit
          * @return the current health for this unit
          * \see EUnitFields
          * \see GetUInt32Value
          */
         uint32 GetHealth()    const { return GetUInt32Value(UNIT_FIELD_HEALTH); }
-        /** 
+        /**
          * Gets the maximum health of this Unit
          * @return the max health this Unit can have
          * \see EUnitFields
          * \see GetUInt32Value
          */
         uint32 GetMaxHealth() const { return GetUInt32Value(UNIT_FIELD_MAXHEALTH); }
-        /** 
+        /**
          * Gets the percent of the health. The formula: (GetHealth() * 100) / GetMaxHealth()
          * @return the current percent of the health
          * \see GetHealth
          * \see GetMaxHealth
          */
         float GetHealthPercent() const { return (GetHealth() * 100.0f) / GetMaxHealth(); }
-        /** 
+        /**
          * Sets the health to the given value, it cant be higher than Unit::GetMaxHealth though
          * @param val the value to set the health to
          */
         void SetHealth(uint32 val);
-        /** 
+        /**
          * Sets the max health for this Unit, also makes sure to update the party with the new
          * value
          * @param val the new max value for the health
@@ -1559,21 +1559,21 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see GetMaxHealth
          */
         void SetMaxHealth(uint32 val);
-        /** 
+        /**
          * Sets the health to a certain percentage
          * @param percent the new percent to change it to, ie: 50.0f, not 0.5f for 50%
          */
         void SetHealthPercent(float percent);
-        /** 
+        /**
          * Modifies the health by the difference given. If the character had 100 health and we sent in
          * -150 as the amount to decrease it would return -100 as that is how much it decreased since
-         * we cant be under 0 health. 
+         * we cant be under 0 health.
          * @param val the difference to apply to the health, ie: -100 would decrease the life by 100
          * @return how much the Unit gained/lost in health.
          */
         int32 ModifyHealth(int32 val);
 
-        /** 
+        /**
          * Gets the power type for this Unit
          * @return The type of power this Unit uses
          */
@@ -1584,7 +1584,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void SetPower(Powers power, uint32 val);
         void SetMaxPower(Powers power, uint32 val);
         int32 ModifyPower(Powers power, int32 val);
-        /** 
+        /**
          * Mods a power by increasing or decreasing it's value
          * @param power which power to mod
          * @param val how much to increase/decrease the given power
@@ -1592,7 +1592,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see ApplyModUInt32Value
          */
         void ApplyPowerMod(Powers power, uint32 val, bool apply);
-        /** 
+        /**
          * Changes the possible max value of the given Powers power.
          * @param power increase max for this power
          * @param val what to add/remove to/from the current max
@@ -1601,7 +1601,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         void ApplyMaxPowerMod(Powers power, uint32 val, bool apply);
 
-        /** 
+        /**
          * Gets the attack time until next attack for the given weapon type
          * @param att what attack type we want to get attacktime for
          * @return the current attack time, which takes mods of attack speed into account
@@ -1610,7 +1610,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Is the time returned in seconds
          */
         uint32 GetAttackTime(WeaponAttackType att) const { return (uint32)(GetFloatValue(UNIT_FIELD_BASEATTACKTIME + att) / m_modAttackSpeedPct[att]); }
-        /** 
+        /**
          * Changes the attack time for a certain weapon type.
          * @param att what attack type we want to change the time for
          * @param val what to set it to
@@ -1618,7 +1618,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see EUnitFields
          */
         void SetAttackTime(WeaponAttackType att, uint32 val) { SetFloatValue(UNIT_FIELD_BASEATTACKTIME + att, val * m_modAttackSpeedPct[att]); }
-        /** 
+        /**
          * Applies a percentage change to a given attack type
          * @param att attack type to mod
          * @param val how many percent to add/remove, ie: 90.0f = 90%
@@ -1627,7 +1627,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see ApplyPercentModFloatValue
          */
         void ApplyAttackTimePercentMod(WeaponAttackType att, float val, bool apply);
-        /** 
+        /**
          * Same as ApplyAttackTimePercentMod but for the casting time of spells
          * instead.
          * @param val how many percent to add/remove, ie: 90.0f = 90%
@@ -1642,14 +1642,14 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return The current sheath state
          */
         SheathState GetSheath() const { return SheathState(GetByteValue(UNIT_FIELD_BYTES_2, 0)); }
-        /** 
+        /**
          * Changes the current sheath state.
          * @param sheathed The new weapon or none of them to show
          * \see Unit::GetSheath
          */
         virtual void SetSheath(SheathState sheathed) { SetByteValue(UNIT_FIELD_BYTES_2, 0, sheathed); }
-        
-        /** 
+
+        /**
          * Gets the faction that this unit currently belongs to, also
          * called faction template id it seems. More data probably to
          * be found in the DBC files.
@@ -1661,7 +1661,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see FactionEntry
          */
         uint32 getFaction() const { return GetUInt32Value(UNIT_FIELD_FACTIONTEMPLATE); }
-        /** 
+        /**
          * Changes the faction a unit belongs to.
          * @param faction Faction to change to
          * \see EUnitFields
@@ -1672,13 +1672,13 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         void setFaction(uint32 faction) { SetUInt32Value(UNIT_FIELD_FACTIONTEMPLATE, faction); }
         FactionTemplateEntry const* getFactionTemplateEntry() const;
-        /** 
+        /**
          * Are we hostile towards the given Unit?
          * @param unit the unit we want to check against
          * @return true if the Unit is considered hostile, false otherwise
          */
         bool IsHostileTo(Unit const* unit) const override;
-        /** 
+        /**
          * Is this Unit hostile towards players?
          * @return true if the Unit is hostile towards players, false otherwise
          */
@@ -1689,12 +1689,12 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return true if the Unit is considered friendly to us, false otherwise
          */
         bool IsFriendlyTo(Unit const* unit) const override;
-        /** 
+        /**
          * Is this Unit neutral to everyone?
          * @return True if considered neutral to everyone, false otherwise.
          */
         bool IsNeutralToAll() const;
-        /** 
+        /**
          * Check if this Unit is a guardian of a contested territory, this is
          * useful when we want to know if we should attack all players or only
          * players not belonging to our "side" ally/horde.
@@ -1703,21 +1703,21 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool IsContestedGuard() const
         {
             if (FactionTemplateEntry const* entry = getFactionTemplateEntry())
-                return entry->IsContestedGuardFaction();
+                { return entry->IsContestedGuardFaction(); }
 
             return false;
         }
-        /** 
+        /**
          * Is PVP enabled?
          * @return true if this Unit is eligible for PVP fighting
          */
         bool IsPvP() const { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PVP); }
-        /** 
+        /**
          * Put the Unit into our out of PVP
          * @param state true if we want to set PVP on, false otherwise
          */
         void SetPvP(bool state);
-        /** 
+        /**
          * Returns the CreatureType for this Unit. For players this most often is
          * CREATURE_TYPE_HUMANOID unless he/she has shapeshifted or something like that.
          * Ie: Bear form probably wouldn't yield the same return value.
@@ -1727,7 +1727,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see CreatureType
          */
         uint32 GetCreatureType() const;
-        /** 
+        /**
          * Returns a bitmask representation of CreatureType for this Unit.
          * @return A bitmask representation of GetCreatureType()
          */
@@ -1736,27 +1736,27 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
             uint32 creatureType = GetCreatureType();
             return (creatureType >= 1) ? (1 << (creatureType - 1)) : 0;
         }
-        
-        /** 
+
+        /**
          * Gets the current stand state for this Unit as described by UnitStandStateType.
          * @return The current stand state
          * \see UnitStandStateType
          * \see MAX_UNIT_STAND_STATE
          */
         uint8 getStandState() const { return GetByteValue(UNIT_FIELD_BYTES_1, 0); }
-        /** 
+        /**
          * Is this Unit sitting down in some way?
          * @return true if the Unit is sitting down, false otherwise
          */
         bool IsSitState() const;
-        /** 
+        /**
          * Is this Unit just standing normally? This method will return false
          * even if you would consider the state as standing, ie: when the Unit
          * has the state UNIT_STAND_STATE_SLEEP it is considered not standing.
          * @return true if the Unit is standing normally, false otherwise
          */
         bool IsStandState() const;
-        /** 
+        /**
          * Change the stand state for this Unit. For possible values check
          * UnitStandStateType.
          * @param state
@@ -1764,18 +1764,18 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         void SetStandState(uint8 state);
 
-        /** 
-         * Is this Unit mounted? 
+        /**
+         * Is this Unit mounted?
          * @return true if it's mounted, false otherwise
          * \see EUnitFields
          */
         bool IsMounted() const { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_MOUNT); }
-        /** 
+        /**
          * Gets the currently used mount id.
          * @return id of the currently used mount
          */
         uint32 GetMountID() const { return GetUInt32Value(UNIT_FIELD_MOUNTDISPLAYID); }
-        /** 
+        /**
          * Mounts this Unit by setting the UNIT_FIELD_MOUNTDISPLAYID to the given mount
          * id and setting the bitflag UNIT_FLAG_MOUNT in UNIT_FIELD_FLAGS. If this Unit
          * is a player pets and such are despawned or not depending on the config option
@@ -1785,7 +1785,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * as a GM command or the Taxi service mounting the Player.
          */
         void Mount(uint32 mount, uint32 spellId = 0);
-        /** 
+        /**
          * Unmounts this Unit by sending the SMSG_DISMOUNT to the client if it was a dismount
          * not issued by a GM / the Taxi service. Also changes the UNIT_FIELD_MOUNTDISPLAYID
          * back to 0 and removes the flag UNIT_FLAG_MOUNT from UNIT_FIELD_FLAGS.
@@ -1794,7 +1794,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         void Unmount(bool from_aura = false);
 
-        /** 
+        /**
          * Returns the maximum skill value the given Unit can have. Ie: the sword skill can
          * be maxed to 300 at level 60. And when you start a level 1 character you maximum
          * skill with swords (given that you know them) is 5. The formula used is:
@@ -1805,11 +1805,11 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Check out the GetLevelForTarget as it seems it's not doing anything constructive with it's arguments.
          */
         uint16 GetMaxSkillValueForLevel(Unit const* target = NULL) const { return (target ? GetLevelForTarget(target) : getLevel()) * 5; }
-        /** 
+        /**
          * Deals damage mods to the given victim. If the victim is dead, flying or in evade
          * mode (for creatures) then the damage is absorbed into absorb and no damage
-         * is done. 
-         * @param pVictim 
+         * is done.
+         * @param pVictim
          * @param damage how much damage we want to try to make, will be updated to how
          * much was actually made
          * @param absorb if this is != NULL it will be updated with how much more from
@@ -1818,8 +1818,8 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Fix this comment, doesn't really seem correct.
          */
         void DealDamageMods(Unit* pVictim, uint32& damage, uint32* absorb);
-        /** 
-         * Generally deals damage to a Unit. 
+        /**
+         * Generally deals damage to a Unit.
          * @param pVictim victim that will take damage
          * @param damage the damage to make
          * @param cleanDamage melee damage to make
@@ -1832,7 +1832,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Cleanup this function and split into smaller functions for readability
          */
         uint32 DealDamage(Unit* pVictim, uint32 damage, CleanDamage const* cleanDamage, DamageEffectType damagetype, SpellSchoolMask damageSchoolMask, SpellEntry const* spellProto, bool durabilityLoss);
-        /** 
+        /**
          * Generally heals a target for addhealth health
          * @param pVictim the victim to heal
          * @param addhealth how much health to add, modified by Unit::ModifyHealth
@@ -1842,7 +1842,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         int32 DealHeal(Unit* pVictim, uint32 addhealth, SpellEntry const* spellProto, bool critical = false);
 
-        /** 
+        /**
          * Calls CallForAllControlledUnits with CONTROLLED_MINIPET and CONTROLLED_GUARDIAN
          * to make them do something if they should when their owner kills someone/thing
          * @param pVictim the target that was killed
@@ -1851,33 +1851,33 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         void PetOwnerKilledUnit(Unit* pVictim);
 
-        /** 
+        /**
          * Hard to figure out what this does.
          * \todo Document this.
          * @param pVictim possible victim of the proc
-         * @param procAttacker 
-         * @param procVictim 
-         * @param procEx 
-         * @param amount 
-         * @param attType 
+         * @param procAttacker
+         * @param procVictim
+         * @param procEx
+         * @param amount
+         * @param attType
          * @param procSpell
          * \see ProcFlagsEx
          */
         void ProcDamageAndSpell(Unit* pVictim, uint32 procAttacker, uint32 procVictim, uint32 procEx, uint32 amount, WeaponAttackType attType = BASE_ATTACK, SpellEntry const* procSpell = NULL);
-        /** 
+        /**
          * Same as for Unit::ProcDamageAndSpell
          * @param isVictim whether the target is considered the victim or not
-         * @param pTarget 
-         * @param procFlag 
-         * @param procExtra 
-         * @param attType 
-         * @param procSpell 
+         * @param pTarget
+         * @param procFlag
+         * @param procExtra
+         * @param attType
+         * @param procSpell
          * @param damage
          * \see ProcFlagsEx
          */
         void ProcDamageAndSpellFor(bool isVictim, Unit* pTarget, uint32 procFlag, uint32 procExtra, WeaponAttackType attType, SpellEntry const* procSpell, uint32 damage);
 
-        /** 
+        /**
          * Handles an emote, for example /charge would write something
          * along the lines: "NAME begins to charge" in orange text. This
          * method checks if it's a command or state, a command usually doesn't
@@ -1888,19 +1888,19 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Is this accurate?
          */
         void HandleEmote(uint32 emote_id);                  // auto-select command/state
-        /** 
+        /**
          * Sends a packet to the client SMSG_CLIENT with the emote_id given
          * which in turn probably makes the client show some sort of animation
          * for the given emote_id
          * @param emote_id id of the emote to show
          */
         void HandleEmoteCommand(uint32 emote_id);
-        /** 
+        /**
          * Just updates the UNIT_NPC_EMOTESTATE field to the given emote_id.
          * @param emote_id the emote to show
          */
         void HandleEmoteState(uint32 emote_id);
-        /** 
+        /**
          * Seems to do some damage to pVictim and also does extra attacks if the Unit
          * has any by recursively calling itself up to Unit::m_extraAttacks times with
          * the extra parameter set to true instead of the default false.
@@ -1908,14 +1908,14 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * Also calculates melee damage using Unit::CalculateMeleeDamage, deals damage and
          * such using Unit::DealDamageMods and also procs any spell that might be interesting
          * (TODO: Is that actually what ProcDamageAndSpell does?) using Unit::ProcDamageAndSpell
-         * 
+         *
          * @param pVictim the victim to hit
          * @param attType what hand (main/off) we were using
          * @param extra whether this was called recursively as an extra attack (true) or not (false)
          */
         void AttackerStateUpdate(Unit* pVictim, WeaponAttackType attType = BASE_ATTACK, bool extra = false);
 
-        /** 
+        /**
          * Calculates the chance that a melee attack will miss the given victim.
          * The cap for miss chance is 0-60%, ie: you can't have a higher miss chance
          * than 60% and not lower than 0%.
@@ -1925,7 +1925,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         float MeleeMissChanceCalc(const Unit* pVictim, WeaponAttackType attType) const;
 
-        /** 
+        /**
          * Fills the CalcDamageInfo structure with data about how much damage was done, in what way,
          * how much was absorbed etc. Also checks for different procs and inserts these flags into
          * the structure. Also calculates bonus damage with Unit::MeleeDamageBonusDone and the damage
@@ -1936,18 +1936,18 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param attackType type of attack, base/off/ranged
          */
         void CalculateMeleeDamage(Unit* pVictim, uint32 damage, CalcDamageInfo* damageInfo, WeaponAttackType attackType = BASE_ATTACK);
-        /** 
-         * Deals melee damage, if the attack was parried we reduce the victims time until next hit 
+        /**
+         * Deals melee damage, if the attack was parried we reduce the victims time until next hit
          * instead of the weapons normal time by 20 or 60%.
          * Also, if this is a NPC behind a (usually fleeing) player we have a chance to daze the
          * target. Will update the Judgement aura duration too, and check if the victim given from
          * CalcDamageInfo has any shields up and do damage to them in that case.
-         * @param damageInfo used to deal the damage 
+         * @param damageInfo used to deal the damage
          * @param durabilityLoss whether or not durability loss should happen
          */
         void DealMeleeDamage(CalcDamageInfo* damageInfo, bool durabilityLoss);
 
-        /** 
+        /**
          * Calculates how much damage a spell should do, it will do some bonus damage according
          * to which SpellNonMeleeDamage::DmgClass it belongs to, ie: SPELL_DAMAGE_CLASS_RANGED
          * or SPELL_DAMAGE_CLASS_MELEE does bonus melee damage while the others make bonus spell
@@ -1957,13 +1957,13 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param damageInfo info about attacker, target etc
          * @param damage how much damage to try to do
          * @param spellInfo info about the spell, needed by the helper functions
-         * @param attackType what we were attacking with 
+         * @param attackType what we were attacking with
          * \see Unit::IsSpellCrit
          * \see Unit::CalcArmorReducedDamage
          * \see SpellDmgClass
          */
         void CalculateSpellDamage(SpellNonMeleeDamage* damageInfo, int32 damage, SpellEntry const* spellInfo, WeaponAttackType attackType = BASE_ATTACK);
-        /** 
+        /**
          * Deals actual damage based on info given. Does some checking if the spell actually exists
          * and updates the Judgement aura duration if it's there. Then it calls the DealDamage with
          * a SPELL_DIRECT_DAMAGE instead of DIRECT_DAMAGE to indicate that it was caused by a spell
@@ -1973,7 +1973,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         void DealSpellDamage(SpellNonMeleeDamage* damageInfo, bool durabilityLoss);
 
-        /** 
+        /**
          * Calculates the miss chance for a melee spell (a melee spell could be Sinister Strike).
          * Does this by first calculating the hit chance and then "inversing" that value, ie:
          * 100 - hitchance = misschance. The hit chance can be changed by the aura modifiers
@@ -1984,14 +1984,14 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param attType main/off hand attack
          * @param skillDiff the skill difference between attackers weapon skill and the victims defense skill, ie: attacker weapon skill - victim defense skill, the lesser this diff is the higher the chance to hit and the lower the chance to miss
          * @param spell what spell was cast
-         * 
+         *
          * @return a value between 0.0f and 60.0f indicating a 0% - 60% miss chance
          * \see Player::ApplySpellMod
          * \see Unit::GetTotalAuraModifier
          * \see Unit::GetSpellModOwner
          */
         float  MeleeSpellMissChance(Unit* pVictim, WeaponAttackType attType, int32 skillDiff, SpellEntry const* spell);
-        /** 
+        /**
          * Tells what happened with the spell that was cast, some spells can't miss and they
          * have the attribute SPELL_ATTR_EX3_CANT_MISS. Also, in PvP you can't dodge or parry
          * when the attacker is behind you, but this is possible in PvE.
@@ -2004,9 +2004,9 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see Creature::GetCreatureInfo for the flags_extra
          */
         SpellMissInfo MeleeSpellHitResult(Unit* pVictim, SpellEntry const* spell);
-        /** 
+        /**
          * This works pretty much like MeleeSpellHitResult but for magic spells instead.
-         * For AOE spells there's a \ref Modifier called \ref AuraType::SPELL_AURA_MOD_AOE_AVOIDANCE 
+         * For AOE spells there's a \ref Modifier called \ref AuraType::SPELL_AURA_MOD_AOE_AVOIDANCE
          * that reduces the spells hit chance.
          * @param pVictim the victim that was hit
          * @param spell the spell that was cast
@@ -2037,7 +2037,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         SpellMissInfo SpellHitResult(Unit* pVictim, SpellEntry const* spell, bool canReflect = false);
 
-        /** 
+        /**
          * Returns the units dodge chance
          * @return Units dodge chance in percent as value between 0.0f - 100.0f representing 0% - 100%
          */
@@ -2064,20 +2064,20 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         float GetUnitCriticalChance(WeaponAttackType attackType, const Unit* pVictim) const;
 
-        /** 
+        /**
          * Gets how much the shield would block via \ref Unit::m_auraBaseMod and \ref Unit::GetStat
          * for \ref STAT_STRENGTH. Seems to be implemented only in Player.cpp
          * @return Currently equipped shield block value
          */
         virtual uint32 GetShieldBlockValue() const = 0;
-        /** 
+        /**
          * The melee skill for the given Unit. For units this is always their maximum possible
          * for their level, ie: current level * 5, for level 60 this would give a skill of 300
          * @param target the target to find the max skill for, if it's NULL we find the level for us
          * @return The max skill level for the given Unit
          */
         uint32 GetUnitMeleeSkill(Unit const* target = NULL) const { return (target ? GetLevelForTarget(target) : getLevel()) * 5; }
-        /** 
+        /**
          * Gets the defense skill for the given target, if the target is a Player and this Unit
          * is a Player the maximum skill for that level is used for balancing. If this Unit isn't
          * a Player we fall back to \ref Unit::GetUnitMeleeSkill for the given target.
@@ -2087,7 +2087,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Is the logic for the return correct in here?
          */
         uint32 GetDefenseSkillValue(Unit const* target = NULL) const;
-        /** 
+        /**
          * Get's the skill value for the given weapon type. The same idea as for
          * \ref Unit::GetDefenseSkillValue applies, if both target and this are Players
          * we use the max skill instead of actual skill.
@@ -2098,7 +2098,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see SkillType
          */
         uint32 GetWeaponSkillValue(WeaponAttackType attType, Unit const* target = NULL) const;
-        /** 
+        /**
          * Returns the proc chance for one weapon, if the \ref BASE_ATTACK is ready then the
          * proc chance for that is returned, otherwise if the \ref OFF_ATTACK is ready and
          * there's a weapon equipped there that chance will be returned, otherwise 0.
@@ -2112,7 +2112,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Add code tags to the formulas
          */
         float GetWeaponProcChance() const;
-        /** 
+        /**
          * This returns the proc per minute chance as a percentage.
          * Comment from cpp file:
          * result is chance in percents (probability = Speed_in_sec * (PPM / 60))
@@ -2123,7 +2123,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         float GetPPMProcChance(uint32 WeaponSpeed, float PPM) const;
 
-        /** 
+        /**
          * This acts as a wrapper for \ref Unit::RollMeleeOutcomeAgainst with more parameters,
          * these are initialised from the pVictim using
          *  - \ref Unit::MeleeMissChanceCalc
@@ -2136,7 +2136,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return what the hit resulted in, miss/hit etc.
          */
         MeleeHitOutcome RollMeleeOutcomeAgainst(const Unit* pVictim, WeaponAttackType attType) const;
-        /** 
+        /**
          * Calculates what off a few possible things that can happen when a victim is attacked
          * with melee weapons. For a list of the things that could happen see \ref MeleeHitOutcome.
          * There's a few formulas involved here, for more info on them check the cpp file. But as
@@ -2154,7 +2154,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         MeleeHitOutcome RollMeleeOutcomeAgainst(const Unit* pVictim, WeaponAttackType attType, int32 crit_chance, int32 miss_chance, int32 dodge_chance, int32 parry_chance, int32 block_chance, bool SpellCasted) const;
 
-        /** 
+        /**
          * @return true if this unit is a vendor, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2162,7 +2162,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsVendor to follow standard?
          */
         bool IsVendor()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_VENDOR); }
-        /** 
+        /**
          * @return true if this unit is a trainer, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2170,7 +2170,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsTrainer to follow standard?
          */
         bool IsTrainer()      const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_TRAINER); }
-        /** 
+        /**
          * @return true if this unit is a QuestGiver, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2178,7 +2178,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsQuestGiver to follow standard?
          */
         bool IsQuestGiver()   const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER); }
-        /** 
+        /**
          * @return true if this unit is a gossip, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2186,7 +2186,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsGossip to follow standard?
          */
         bool IsGossip()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP); }
-        /** 
+        /**
          * @return true if this unit is a taxi, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2194,7 +2194,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsTaxi to follow standard?
          */
         bool IsTaxi()         const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_FLIGHTMASTER); }
-        /** 
+        /**
          * @return true if this unit is a GuildMaster, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2202,7 +2202,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsGuildMaster to follow standard?
          */
         bool IsGuildMaster()  const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_PETITIONER); }
-        /** 
+        /**
          * @return true if this unit is a BattleMaster, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2210,7 +2210,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsBattleMaster to follow standard?
          */
         bool IsBattleMaster() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_BATTLEMASTER); }
-        /** 
+        /**
          * @return true if this unit is a banker, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2218,7 +2218,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsBanker to follow standard?
          */
         bool IsBanker()       const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_BANKER); }
-        /** 
+        /**
          * @return true if this unit is a innkeeper, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2226,7 +2226,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsInnkeeper to follow standard?
          */
         bool IsInnkeeper()    const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_INNKEEPER); }
-        /** 
+        /**
          * @return true if this unit is a SpiritHealer, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2234,7 +2234,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsSpiritHealer to follow standard?
          */
         bool IsSpiritHealer() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITHEALER); }
-        /** 
+        /**
          * @return true if this unit is a SpiritGuide, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2242,7 +2242,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsSpiritGuide to follow standard?
          */
         bool IsSpiritGuide()  const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITGUIDE); }
-        /** 
+        /**
          * @return true if this unit is a TabardDesigner, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2250,7 +2250,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsTabardDesigner to follow standard?
          */
         bool IsTabardDesigner()const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_TABARDDESIGNER); }
-        /** 
+        /**
          * @return true if this unit is a Auctioneer, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2258,7 +2258,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsAuctioneer to follow standard?
          */
         bool isAuctioner()    const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_AUCTIONEER); }
-        /** 
+        /**
          * @return true if this unit is a armorer, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2280,7 +2280,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * - \ref UNIT_NPC_FLAG_SPIRITGUIDE
          * - \ref UNIT_NPC_FLAG_TABARDDESIGNER
          * - \ref UNIT_NPC_FLAG_AUCTIONEER
-         * 
+         *
          * @return true if this unit is a ServiceProvider, false otherwise
          * \see Object::HasFlag
          * \see EUnitFields
@@ -2295,7 +2295,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
                            UNIT_NPC_FLAG_INNKEEPER | UNIT_NPC_FLAG_SPIRITHEALER |
                            UNIT_NPC_FLAG_SPIRITGUIDE | UNIT_NPC_FLAG_TABARDDESIGNER | UNIT_NPC_FLAG_AUCTIONEER);
         }
-        /** 
+        /**
          * Returns if this is a spirit service or not, a spirit service has one of the
          * following flags:
          * - \ref UNIT_NPC_FLAG_SPIRITHEALER
@@ -2308,14 +2308,14 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         bool IsSpiritService() const { return HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPIRITHEALER | UNIT_NPC_FLAG_SPIRITGUIDE); }
 
-        /** 
+        /**
          * Is this unit flying in taxi?
          * @return true if the Unit has the state \ref UNIT_STAT_TAXI_FLIGHT (is flying in taxi), false otherwise
          * \see hasUnitState
          */
         bool IsTaxiFlying()  const { return hasUnitState(UNIT_STAT_TAXI_FLIGHT); }
 
-        /** 
+        /**
          * Is this unit in combat?
          * @return true if the Unit has the flag \ref UNIT_FLAG_IN_COMBAT (is in combat), false otherwise
          * \see EUnitFields
@@ -2323,7 +2323,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsInCombat to follow standard?
          */
         bool IsInCombat()  const { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IN_COMBAT); }
-        /** 
+        /**
          * Sets this \ref Unit into combat, if it already was this has no bigger meaning if the
          * PvP flag hasn't changed since last time it was applied.
          * @param PvP whether this was a PvP combat or not, this is important for how quick the combat flag will wear away and possibly more
@@ -2332,7 +2332,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see SetInCombatWith
          */
         void SetInCombatState(bool PvP, Unit* enemy = NULL);
-        /** 
+        /**
          * Sets us in combat with the given enemy, this in turn just does a few small checks for if
          * it's a duel or PvP and then calls \ref Unit::SetInCombatState with the correct value for
          * PvP and enemy
@@ -2341,14 +2341,14 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see SetInCombatState
          */
         void SetInCombatWith(Unit* enemy);
-        /** 
+        /**
          * Clears the combat flag for this unit using \ref Object::RemoveFlag and clears
          * the Unit state \ref UnitState::UNIT_STAT_ATTACK_PLAYER. This is not where a
          * \ref Player s PvP flags are cleared, that is handled in \ref Player::UpdateContestedPvP
          * \see EUnitFields
          */
         void ClearInCombat();
-        /** 
+        /**
          * Probably returns how long it is until this Unit should get out of PvP combat again,
          * although not used in that sense.
          * @return the time we have left from our start of PvP combat
@@ -2356,7 +2356,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         uint32 GetCombatTimer() const { return m_CombatTimer; }
 
-        /** 
+        /**
          * Gets all \ref SpellAuraHolder s that have the same given spell_id
          * @param spell_id the spell_id to search for
          * @return 2 iterators to the range of \ref SpellAuraHolder s that were found
@@ -2365,7 +2365,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         {
             return m_spellAuraHolders.equal_range(spell_id);
         }
-        /** 
+        /**
          * Same as \ref Unit::GetSpellAuraHolderBounds
          */
         SpellAuraHolderConstBounds GetSpellAuraHolderBounds(uint32 spell_id) const
@@ -2373,13 +2373,13 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
             return m_spellAuraHolders.equal_range(spell_id);
         }
 
-        /** 
+        /**
          * Checks if this \ref Unit has the given AuraType
          * @param auraType the type of aura to look for
          * @return true if this \ref Unit is affected by the given \ref AuraType, false otherwise
          */
         bool HasAuraType(AuraType auraType) const;
-        /** 
+        /**
          * Checks if the given \ref SpellEntry affects the \ref AuraType in some way, this is done
          * by calling \ref Aura::isAffectedOnSpell which in turn seems to check if the spellProto
          * and the \ref Aura s own \ref SpellEntry have the same \ref SpellEntry::SpellFamilyName.
@@ -2390,7 +2390,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Is this actually correct, also, make it more clear what it actually checks
          */
         bool HasAffectedAura(AuraType auraType, SpellEntry const* spellProto) const;
-        /** 
+        /**
          * Checks if we have at least one \ref Aura that is associated with the given spell id
          * and \ref SpellEffectIndex.
          * @param spellId the spell id to look for
@@ -2399,7 +2399,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * the correct \ref SpellEffectIndex, false otherwise
          */
         bool HasAura(uint32 spellId, SpellEffectIndex effIndex) const;
-        /** 
+        /**
          * Checks if we have at least one \ref Aura that is associated with the given spell id via
          * the \ref Unit::m_spellAuraHolders multimap. Generalized version of the other
          * \ref Unit::HasAura
@@ -2411,13 +2411,13 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
             return m_spellAuraHolders.find(spellId) != m_spellAuraHolders.end();
         }
 
-        /** 
+        /**
          * This is overridden in \ref Player::HasSpell, \ref Creature::HasSpell and \ref Pet::HasSpell
          * @return false in this implementation
          */
         virtual bool HasSpell(uint32 /*spellID*/) const { return false; }
 
-        /** 
+        /**
          * Check is this \ref Unit has a stealth modified applied
          * @return true if this \ref Unit has the \ref AuraType \ref AuraType::SPELL_AURA_MOD_STEALTH
          * applied, false otherwise
@@ -2426,7 +2426,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see AuraType
          */
         bool HasStealthAura()      const { return HasAuraType(SPELL_AURA_MOD_STEALTH); }
-        /** 
+        /**
          * Check if this \ref Unit has a invisibility \ref Aura modifier applied.
          * @return true if this \ref Unit has the \ref AuraType
          * \ref AuraType::SPELL_AURA_MOD_INVISIBILITY applied, false otherwise
@@ -2435,7 +2435,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see AuraType
          */
         bool HasInvisibilityAura() const { return HasAuraType(SPELL_AURA_MOD_INVISIBILITY); }
-        /** 
+        /**
          * Check if this \ref Unit has a fear \ref Aura modifier applied. Ie, is it feared?
          * @return true if this \ref Unit has the \ref AuraType \ref AuraType::SPELL_AURA_MOD_FEAR
          * applied, false otherwise
@@ -2445,7 +2445,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsFeared to follow standard?
          */
         bool IsFeared()  const { return HasAuraType(SPELL_AURA_MOD_FEAR); }
-        /** 
+        /**
          * Check if this \ref Unit has a rooting \ref Aura modifier applied. Ie, is it stuck in
          * some way?
          * @return true if this \ref Unit has the \ref AuraType \ref AuraType::SPELL_AURA_MOD_ROOT
@@ -2456,7 +2456,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsInRoots to follow standard?
          */
         bool IsInRoots() const { return HasAuraType(SPELL_AURA_MOD_ROOT); }
-        /** 
+        /**
          * Is this \ref Unit polymorphed?
          * @return true if this \ref Unit is polymorphed, false otherwise
          * \see GetSpellSpecific
@@ -2465,7 +2465,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         bool IsPolymorphed() const;
 
-        /** 
+        /**
          * Check if this \ref Unit has  freezing \ref Aura modifier applied. Ie, is it
          * frozen in ground?
          * @return true if this \ref Unit has the \ref AuraType \ref AuraType::AURA_STATE_FROZEN,
@@ -2478,7 +2478,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         bool IsFrozen() const;
 
-        /** 
+        /**
          * Called by \ref Unit::DealDamage for \ref Aura s that have a chance to be dispelled
          * on damage taken. The chance to dispel an \ref Aura depends on the damage taken
          * with respect to the casters level. (Taken from source comment).
@@ -2494,7 +2494,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         void RemoveSpellbyDamageTaken(AuraType auraType, uint32 damage);
 
-        /** 
+        /**
          * Checks if this \ref Unit could be targeted with an attack, things that make that
          * impossible are:
          * - The \ref Unit / \ref Player is a GM
@@ -2515,28 +2515,28 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Rename to IsTargetableForAttack to follow standard?
          */
         bool IsTargetableForAttack(bool inverseAlive = false) const;
-        /** 
+        /**
          * Simply checks if this \ref Unit has the flag (\ref Unit::HasFlag)
          * \ref UnitFlags::UNIT_FLAG_PASSIVE in \ref EUnitFields::UNIT_FIELD_FLAGS
          * @return true if the target is passive to hostile actions, false otherwise
          */
         bool isPassiveToHostile() { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PASSIVE); }
 
-        /** 
-         * Is this \ref Unit in water? 
+        /**
+         * Is this \ref Unit in water?
          * @return true if the \ref Unit is in water, false otherwise
          * \see Object::GetTerrain
          * \see TerrainInfo::IsInWater
          */
         virtual bool IsInWater() const;
-        /** 
+        /**
          * Is this \ref Unit under water?
          * @return true if the \ref Unit is under water, false otherwise
          * \see Object::GetTerrain
          * \see TerrainInfo::IsUnderWater
          */
         virtual bool IsUnderWater() const;
-        /** 
+        /**
          * Can the given \ref Creature access this \ref Unit in some way? If this \ref Unit is in
          * water we check if the \ref Creature can swim, if so it's accessible, otherwise it's not.
          * If we're not in water the \ref Creature should be able to walk or fly and then we're
@@ -2546,10 +2546,10 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         bool isInAccessablePlaceFor(Creature const* c) const;
 
-        /** 
+        /**
          * Sends a packet to the client with \ref OpcodesList::SMSG_SPELLHEALLOG which presumably
          * updates the combat log of this \ref Unit and shows some healing done and to who in it.
-         * 
+         *
          * For a description of the packets look see \ref OpcodesList::SMSG_SPELLHEALLOG
          * @param pVictim the victim of the healing spell
          * @param SpellID what spell id that was used
@@ -2558,7 +2558,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see WorldPacket
          */
         void SendHealSpellLog(Unit* pVictim, uint32 SpellID, uint32 Damage, bool critical = false);
-        /** 
+        /**
          * Sends a packet to the client with \ref OpcodesList::SMSG_SPELLENERGIZELOG which presumably
          * updates the combat log of this \ref Unit and shows some enery regen and to who it was.
          *
@@ -2569,9 +2569,9 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param powertype the power that was regenerated
          */
         void SendEnergizeSpellLog(Unit* pVictim, uint32 SpellID, uint32 Damage, Powers powertype);
-        /** 
+        /**
          * Regenerates/degenerates the given amount of "damage" for the given power and sends a
-         * update to the combat log. 
+         * update to the combat log.
          * @param pVictim the victim to add/remove power from
          * @param SpellID the spell id that caused it
          * @param Damage how much was increased/decreased, negative values decrease, positive increase
@@ -2579,7 +2579,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see Unit::ModifyPower
          */
         void EnergizeBySpell(Unit* pVictim, uint32 SpellID, uint32 Damage, Powers powertype);
-        /** 
+        /**
          * Will do damage to the victim calculating how much should be done with the help of
          * \ref SpellNonMeleeDamage, \ref Unit::CalculateSpellDamage, \ref Unit::DealDamageMods and
          * \ref Unit::SendSpellNonMeleeDamageLog to update the combat log
@@ -2589,7 +2589,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return how much damage was actually done
          */
         uint32 SpellNonMeleeDamageLog(Unit* pVictim, uint32 spellID, uint32 damage);
-        /** 
+        /**
          * This function only checks if the spell id is accurate, if it is then the other
          * \ref Unit::CastSpell is called which does the actual cast.
          * @param Victim victim that should be hit by the spell
@@ -2605,7 +2605,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo What's the original caster?
          */
         void CastSpell(Unit* Victim, uint32 spellId, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
-        /** 
+        /**
          * Casts a spell simple and square, outputs some debugging info for some reasons, ie: if the
          * spellInfo is NULL it is logged and the function won't do anything. If the spell is triggered
          * by an \ref Aura and there's no originalCaster it is updated to be the cast of the \ref Aura
@@ -2618,7 +2618,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          *
          * Finally calls \ref Spell::prepare on the \ref Spell and that's where it continues the
          * execution.
-         * 
+         *
          * @param Victim victim that should be hit by the spell
          * @param spellInfo info about the spell to cast
          * @param triggered whether this was triggered by some outside circumstance or used as a button
@@ -2633,12 +2633,12 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Document the spell linked
          */
         void CastSpell(Unit* Victim, SpellEntry const* spellInfo, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
-        /** 
+        /**
          * Does pretty much the same thing as \ref Unit::CastSpell but uses the three bp0-bp2 variables
          * to change the \ref Spell s \ref Spell::m_currentBasePoints for the different
          * \ref SpellEffectIndexes. This also works as the first version of \ref Unit::CastSpell which
          * just does some checks and then calls the other one.
-         * 
+         *
          * @param Victim victim that should be hit by the spell
          * @param spellId id of the spell to be cast
          * @param bp0 this will change the \ref Spell s member \ref Spell::m_currentBasePoints for
@@ -2650,16 +2650,16 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param triggered whether this was triggered by some outside circumstance or used as a button
          * press on your action bar, true means triggered by outside circumstance
          * @param castItem the \ref Item that cast this if any
-         * @param triggeredByAura the \ref Aura that triggered this 
+         * @param triggeredByAura the \ref Aura that triggered this
          * @param originalCaster the original caster if any
          * @param triggeredBy the \ref SpellEntry that triggered this cast, if any
          * \todo What's the original caster?
          */
         void CastCustomSpell(Unit* Victim, uint32 spellId, int32 const* bp0, int32 const* bp1, int32 const* bp2, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
-        /** 
+        /**
          * Same idea for this one as for \ref Unit::CastCustomSpell with a change to the spellid being
          * exchanged for a \ref SpellEntry instead
-         * 
+         *
          * @param Victim victim that should be hit by the spell
          * @param spellInfo info about the spell to cast
          * @param bp0 this will change the \ref Spell s member \ref Spell::m_currentBasePoints for
@@ -2671,19 +2671,19 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param triggered whether this was triggered by some outside circumstance or used as a button
          * press on your action bar, true means triggered by outside circumstance
          * @param castItem the \ref Item that cast this if any
-         * @param triggeredByAura the \ref Aura that triggered this 
+         * @param triggeredByAura the \ref Aura that triggered this
          * @param originalCaster the original caster if any
          * @param triggeredBy the \ref SpellEntry that triggered this cast, if any
          * \todo What's the original caster?
          */
         void CastCustomSpell(Unit* Victim, SpellEntry const* spellInfo, int32 const* bp0, int32 const* bp1, int32 const* bp2, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
-        /** 
+        /**
          * Same idea as for \ref Unit::CastSpell, but with the parameters x, y, z telling the
          * destination and source of the \ref SpellCastTargets depending on if the
          * \ref SpellEntry::Targets bitflags have the
          * \ref SpellCastTargetFlags::TARGET_FLAG_DEST_LOCATION  set for destination and
          * \ref SpellCastTargetFlags::TARGET_FLAG_SOURCE_LOCATION set for location
-         * 
+         *
          * @param x coord for source/dest
          * @param y coord for source/dest
          * @param z coord for source/dest
@@ -2691,18 +2691,18 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param triggered whether this was triggered by some outside circumstance or used as a button
          * press on your action bar, true means triggered by outside circumstance
          * @param castItem the \ref Item that cast this if any
-         * @param triggeredByAura the \ref Aura that triggered this 
+         * @param triggeredByAura the \ref Aura that triggered this
          * @param originalCaster the original caster if any
          * @param triggeredBy the \ref SpellEntry that triggered this cast, if any
          */
         void CastSpell(float x, float y, float z, uint32 spellId, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
-        /** 
+        /**
          * Same idea as for \ref Unit::CastSpell, but with the parameters x, y, z telling the
          * destination and source of the \ref SpellCastTargets depending on if the
          * \ref SpellEntry::Targets bitflags have the
          * \ref SpellCastTargetFlags::TARGET_FLAG_DEST_LOCATION  set for destination and
          * \ref SpellCastTargetFlags::TARGET_FLAG_SOURCE_LOCATION set for location
-         * 
+         *
          * @param x coord for source/dest
          * @param y coord for source/dest
          * @param z coord for source/dest
@@ -2710,13 +2710,13 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param triggered whether this was triggered by some outside circumstance or used as a button
          * press on your action bar, true means triggered by outside circumstance
          * @param castItem the \ref Item that cast this if any
-         * @param triggeredByAura the \ref Aura that triggered this 
+         * @param triggeredByAura the \ref Aura that triggered this
          * @param originalCaster the original caster if any
          * @param triggeredBy the \ref SpellEntry that triggered this cast, if any
          */
         void CastSpell(float x, float y, float z, SpellEntry const* spellInfo, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
 
-        /** 
+        /**
          * Changes the display id for this \ref Unit to the native one that it usually has.
          * This is done by calling \ref Unit::SetDisplayId and \ref Unit::GetNativeDisplayId
          * like so:
@@ -2726,14 +2726,14 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         void DeMorph();
 
-        /** 
+        /**
          * This sends an AttackStateUpdate, some info about damage that you've done etc.
          * @param damageInfo the damage info used for knowing what to send
          * \see OpcodesList::SMSG_ATTACKERSTATEUPDATE
          * \todo Find out when and why this is sent
          */
         void SendAttackStateUpdate(CalcDamageInfo* damageInfo);
-        /** 
+        /**
          * The same thing as \ref Unit::SendAttackStateUpdate but you send along all the parameters
          * that are needed instead of giving them through \ref CalcDamageInfo
          * @param HitInfo hit information as in the \ref CalcDamageInfo::HitInfo
@@ -2749,24 +2749,24 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo What's the swingtype for?
          */
         void SendAttackStateUpdate(uint32 HitInfo, Unit* target, uint8 SwingType, SpellSchoolMask damageSchoolMask, uint32 Damage, uint32 AbsorbDamage, uint32 Resist, VictimState TargetState, uint32 BlockedAmount);
-        /** 
-         * Used to send a update to the combat log for all \ref Player/\ref Unit s in the vicinity.  
+        /**
+         * Used to send a update to the combat log for all \ref Player/\ref Unit s in the vicinity.
          * @param log Info about who/what did damage to who and how etc, data needed for the packet
          * \see OpcodesList::SMSG_SPELLNONMELEEDAMAGELOG
          * \todo Is this actually for the combat log?
          */
         void SendSpellNonMeleeDamageLog(SpellNonMeleeDamage* log);
-        /** 
+        /**
          * Same idea as for \ref Unit::SendSpellNonMeleeDamageLog but without the helping
          * \ref SpellNonMeleeDamage. This will set the \ref SpellNonMeleeDamage::HitInfo member to
          * the following before sending the packet:
          * \code {.cpp}
          * \ref HitInfo::SPELL_HIT_TYPE_UNK1 | \ref HitInfo::SPELL_HIT_TYPE_UNK3 | \ref HitInfo::SPELL_HIT_TYPE_UNK6
          * \endcode
-         * 
+         *
          * And if the \a CriticalHit parameter is true then it will add the flag
          * \ref HitInfo::SPELL_HIT_TYPE_CRIT
-         * 
+         *
          * @param target the target of the spell
          * @param SpellID id of the spell that was used
          * @param Damage the damage done including the damage that was resisted/absorbed/blocked etc.
@@ -2784,7 +2784,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Is this actually for the combat log?
          */
         void SendSpellNonMeleeDamageLog(Unit* target, uint32 SpellID, uint32 Damage, SpellSchoolMask damageSchoolMask, uint32 AbsorbedDamage, uint32 Resist, bool PhysicalDamage, uint32 Blocked, bool CriticalHit = false);
-        /** 
+        /**
          * Sends some data to the combat log about the periodic effects of an \ref Aura, it might be
          * periodic healing/damage etc. Perhaps it increases the amount of power you have as a rogue
          * and such. For more info on what exactly is sent etc see
@@ -2794,7 +2794,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \todo Is this actually for the combat log?
          */
         void SendPeriodicAuraLog(SpellPeriodicAuraLogInfo* pInfo);
-        /** 
+        /**
          * Sends some data to the combat log about a spell that missed someone else. For more info
          * on what's sent see \ref OpcodesList::SMSG_SPELLLOGMISS
          * @param target the target of the \ref Spell that missed
@@ -2821,7 +2821,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * that would defeat the purpose of trying to teleport one self :)
          */
         void NearTeleportTo(float x, float y, float z, float orientation, bool casting = false);
-        /** 
+        /**
          * Moves this \ref Unit to the given position in x,y,z coordinates. we can choose whether or
          * not we want to generate a path to the target or just move straight there and if we would
          * like to force the destination when creating the \ref PathFinder, only interesting
@@ -2834,7 +2834,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param z the z coord to move to
          * @param speed at which speed the \ref Unit should move
          * @param generatePath whether a real path should be generated using a \ref PathFinder which
-         * will try to create a smooth path. if false we just go from current pos to given pos 
+         * will try to create a smooth path. if false we just go from current pos to given pos
          * @param forceDestination if this is true it seems that we will try to get to our target
          * even if there's something in the way. Otherwise we stop before we get there if there
          * are obstacles
@@ -2844,41 +2844,41 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void MonsterMoveWithSpeed(float x, float y, float z, float speed, bool generatePath = false, bool forceDestination = false);
 
         // if used additional args in ... part then floats must explicitly casted to double
-        /** 
+        /**
          * Tells nearby \ref Unit s and such that this \ref Unit has moved to a new position using
          * \ref OpcodesList::MSG_MOVE_HEARTBEAT which will send the new position to all clients etc
          * in the same \ref Cell
          */
         void SendHeartBeat();
 
-        /** 
+        /**
          * Checks if this \ref Unit has the movement flag \ref MovementFlags::MOVEFLAG_LEVITATING
          * @return true if the \ref Unit is levitating, ie: it has the flag MOVEFLAG_LEVITATING, false
          * otherwise
          * \see MovementInfo::HasMovementFlag
          */
         bool IsLevitating() const { return m_movementInfo.HasMovementFlag(MOVEFLAG_LEVITATING); }
-        /** 
+        /**
          * Checks if this \ref Unit has the movement flag \ref MovementFlags::MOVEFLAG_WALK_MODE
          * @return true if the \ref Unit is walking, ie: it has the flag MOVEFLAG_WALK_MODE, false
          * otherwise
          * \see MovementInfo::HasMovementFlag
          */
         bool IsWalking() const { return m_movementInfo.HasMovementFlag(MOVEFLAG_WALK_MODE); }
-        /** 
+        /**
          * Check if this \ref Unit has the movement flag \ref MovementFlags::MOVEFLAG_ROOT
          * @return true if the \ref Unit is rooted to the ground (can't move), ie: has the flag
          * MOVEFLAG_ROOT, false otherwise
          * \see MovementInfo::HasMovementFlag
          */
         bool IsRooted() const { return m_movementInfo.HasMovementFlag(MOVEFLAG_ROOT); }
-        /** 
+        /**
          * Roots or unroots this \ref Unit depending on the enabled parameter.
          * @param enabled whether we should root (true) or unroot (false) this \ref Unit
          * \see Player::SetRoot
          */
         virtual void SetRoot(bool /*enabled*/) {}
-        /** 
+        /**
          * Changes this \ref Unit s ability to walk on water.
          * @param enabled whether this \ref Unit should be able to walk on water (true) or not
          * be able to (false)
@@ -2886,20 +2886,20 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         virtual void SetWaterWalk(bool /*enabled*/) {}
 
-        /** 
+        /**
          * Turns this \ref Unit towards the given one.
          * @param target the \ref Unit we want to be turned towards
          * \see WorldObject::SetOrientation
          * \see WorldObejct::GetAngle
          */
         void SetInFront(Unit const* target);
-        /** 
+        /**
          * Sets this \ref Unit to face a certain angle.
          * @param ori where we should start facing, measured in radians, 0 = north pi/2 = east etc.
          * \todo is pi/2 = east or west? Logic says east?
          */
         void SetFacingTo(float ori);
-        /** 
+        /**
          * Does pretty much the same thing as \ref Unit::SetInFront but calls \ref Unit::SetFacingTo
          * instead, which uses a \ref MoveSplineInit instead of just changing the angle.
          * @param pObject the \ref WorldObject we should be facing
@@ -2908,26 +2908,26 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         void SetFacingToObject(WorldObject* pObject);
 
-        /** 
+        /**
          * Checks whether or not this \ref Unit is alive by checking the \ref Unit::m_deathState member
          * for the value \ref DeathState::ALIVE
          * @return true if this \ref Unit is alive, false otherwise
          * \todo Rename to IsAlive to follow naming conventions?
          */
         bool IsAlive() const { return (m_deathState == ALIVE); };
-        /** 
+        /**
          * Checks whether or not this \ref Unit is dead by checking the \ref Unit::m_deathState member
          * for the value \ref DeathState::DEAD or \ref DeathState::CORPSE
          * @return true if this \ref Unit is dead or a corpse (also dead), false otherwise
          * \todo Rename to IsDead to follow naming conventions?
          */
         bool IsDead() const { return (m_deathState == DEAD || m_deathState == CORPSE); };
-        /** 
-         * Returns the current \ref DeathState for this \ref Unit. 
+        /**
+         * Returns the current \ref DeathState for this \ref Unit.
          * @return the value of the member \ref Unit::m_deathState
          */
         DeathState GetDeathState() const { return m_deathState; };
-        /** 
+        /**
          * Changes the \ref DeathState for this \ref Unit and making sure that some things that should
          * happen when that changes happen, ie: you just died, then you're auras should be removed,
          * any combopoints that you had should be removed etc.
@@ -2952,7 +2952,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         ObjectGuid const& GetChannelObjectGuid() const { return GetGuidValue(UNIT_FIELD_CHANNEL_OBJECT); }
         void SetChannelObjectGuid(ObjectGuid targetGuid) { SetGuidValue(UNIT_FIELD_CHANNEL_OBJECT, targetGuid); }
 
-        /** 
+        /**
          * Returns the currently spawned minipet, this has an implementation in \ref Player
          * @return the current \ref Pet for this \ref Player
          */
@@ -2962,7 +2962,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         ObjectGuid const& GetCharmerOrOwnerOrOwnGuid() const
         {
             if (ObjectGuid const& guid = GetCharmerOrOwnerGuid())
-                return guid;
+                { return guid; }
             return GetObjectGuid();
         }
         bool IsCharmedOwnedByPlayerOrPlayer() const { return GetCharmerOrOwnerOrOwnGuid().IsPlayer(); }
@@ -2978,7 +2978,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         Unit* GetCharmerOrOwnerOrSelf()
         {
             if (Unit* u = GetCharmerOrOwner())
-                return u;
+                { return u; }
 
             return this;
         }
@@ -3075,7 +3075,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         Spell* FindCurrentSpellBySpellId(uint32 spell_id) const;
 
         bool CheckAndIncreaseCastCounter();
-        void DecreaseCastCounter() { if (m_castCounter) --m_castCounter; }
+        void DecreaseCastCounter() { if (m_castCounter) { --m_castCounter; } }
 
         ObjectGuid m_ObjectSlotGuid[4];
         uint32 m_detectInvisibilityMask;
@@ -3174,7 +3174,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
 
         SpellAuraHolderMap&       GetSpellAuraHolderMap()       { return m_spellAuraHolders; }
         SpellAuraHolderMap const& GetSpellAuraHolderMap() const { return m_spellAuraHolders; }
-        /** 
+        /**
          * Get's a list of all the \ref Aura s of the given \ref AuraType that are currently
          * affecting this \ref Unit.
          * @param type the aura type we want to find
@@ -3471,29 +3471,29 @@ void Unit::CallForAllControlledUnits(Func const& func, uint32 controlledMask)
 {
     if (controlledMask & CONTROLLED_PET)
         if (Pet* pet = GetPet())
-            func(pet);
+            { func(pet); }
 
     if (controlledMask & CONTROLLED_MINIPET)
         if (Pet* mini = GetMiniPet())
-            func(mini);
+            { func(mini); }
 
     if (controlledMask & CONTROLLED_GUARDIANS)
     {
         for (GuidSet::const_iterator itr = m_guardianPets.begin(); itr != m_guardianPets.end();)
             if (Pet* guardian = _GetPet(*(itr++)))
-                func(guardian);
+                { func(guardian); }
     }
 
     if (controlledMask & CONTROLLED_TOTEMS)
     {
         for (int i = 0; i < MAX_TOTEM_SLOT; ++i)
             if (Unit* totem = _GetTotem(TotemSlot(i)))
-                func(totem);
+                { func(totem); }
     }
 
     if (controlledMask & CONTROLLED_CHARM)
         if (Unit* charm = GetCharm())
-            func(charm);
+            { func(charm); }
 }
 
 
@@ -3503,19 +3503,19 @@ bool Unit::CheckAllControlledUnits(Func const& func, uint32 controlledMask) cons
     if (controlledMask & CONTROLLED_PET)
         if (Pet const* pet = GetPet())
             if (func(pet))
-                return true;
+                { return true; }
 
     if (controlledMask & CONTROLLED_MINIPET)
         if (Pet* mini = GetMiniPet())
             if (func(mini))
-                return true;
+                { return true; }
 
     if (controlledMask & CONTROLLED_GUARDIANS)
     {
         for (GuidSet::const_iterator itr = m_guardianPets.begin(); itr != m_guardianPets.end();)
             if (Pet const* guardian = _GetPet(*(itr++)))
                 if (func(guardian))
-                    return true;
+                    { return true; }
     }
 
     if (controlledMask & CONTROLLED_TOTEMS)
@@ -3523,13 +3523,13 @@ bool Unit::CheckAllControlledUnits(Func const& func, uint32 controlledMask) cons
         for (int i = 0; i < MAX_TOTEM_SLOT; ++i)
             if (Unit const* totem = _GetTotem(TotemSlot(i)))
                 if (func(totem))
-                    return true;
+                    { return true; }
     }
 
     if (controlledMask & CONTROLLED_CHARM)
         if (Unit const* charm = GetCharm())
             if (func(charm))
-                return true;
+                { return true; }
 
     return false;
 }

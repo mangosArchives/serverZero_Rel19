@@ -74,7 +74,7 @@ bool Weather::Update(time_t diff)
         {
             ///- Weather will be removed if not updated (no players in zone anymore)
             if (!UpdateWeather())
-                return false;
+                { return false; }
         }
     }
     return true;
@@ -98,7 +98,7 @@ bool Weather::ReGenerate()
     uint32 u = urand(0, 99);
 
     if (u < 30)
-        return false;
+        { return false; }
 
     // remember old values
     WeatherType old_type = m_type;
@@ -168,13 +168,13 @@ bool Weather::ReGenerate()
 
     uint32 rnd = urand(0, 99);
     if (rnd <= chance1)
-        m_type = WEATHER_TYPE_RAIN;
+        { m_type = WEATHER_TYPE_RAIN; }
     else if (rnd <= chance2)
-        m_type = WEATHER_TYPE_SNOW;
+        { m_type = WEATHER_TYPE_SNOW; }
     else if (rnd <= chance3)
-        m_type = WEATHER_TYPE_STORM;
+        { m_type = WEATHER_TYPE_STORM; }
     else
-        m_type = WEATHER_TYPE_FINE;
+        { m_type = WEATHER_TYPE_FINE; }
 
     /// New weather statistics (if not fine):
     ///- 85% light
@@ -195,9 +195,9 @@ bool Weather::ReGenerate()
         // Severe change, but how severe?
         rnd = urand(0, 99);
         if (rnd < 50)
-            m_grade = rand_norm_f() * 0.3333f + 0.3334f;
+            { m_grade = rand_norm_f() * 0.3333f + 0.3334f; }
         else
-            m_grade = rand_norm_f() * 0.3333f + 0.6667f;
+            { m_grade = rand_norm_f() * 0.3333f + 0.6667f; }
     }
 
     // return true only in case weather changes
@@ -226,15 +226,15 @@ bool Weather::UpdateWeather()
 {
     Player* player = sWorld.FindPlayerInZone(m_zone);
     if (!player)
-        return false;
+        { return false; }
 
     ///- Send the weather packet to all players in this zone
     uint32 sound = GetSound();
 
     if (m_grade >= 1)
-        m_grade = 0.9999f;
+        { m_grade = 0.9999f; }
     else if (m_grade < 0)
-        m_grade = 0.0001f;
+        { m_grade = 0.0001f; }
 
 
     WorldPacket data(SMSG_WEATHER, (4 + 4 + 4));
@@ -287,7 +287,7 @@ bool Weather::UpdateWeather()
 void Weather::SetWeather(WeatherType type, float grade)
 {
     if (m_type == type && m_grade == grade)
-        return;
+        { return; }
 
     m_type = type;
     m_grade = grade;
@@ -302,27 +302,27 @@ uint32 Weather::GetSound()
     {
         case WEATHER_TYPE_RAIN:                             // rain
             if (m_grade < 0.33333334f)
-                sound = WEATHER_RAINLIGHT;
+                { sound = WEATHER_RAINLIGHT; }
             else if (m_grade < 0.6666667f)
-                sound = WEATHER_RAINMEDIUM;
+                { sound = WEATHER_RAINMEDIUM; }
             else
-                sound = WEATHER_RAINHEAVY;
+                { sound = WEATHER_RAINHEAVY; }
             break;
         case WEATHER_TYPE_SNOW:                             // snow
             if (m_grade < 0.33333334f)
-                sound = WEATHER_SNOWLIGHT;
+                { sound = WEATHER_SNOWLIGHT; }
             else if (m_grade < 0.6666667f)
-                sound = WEATHER_SNOWMEDIUM;
+                { sound = WEATHER_SNOWMEDIUM; }
             else
-                sound = WEATHER_SNOWHEAVY;
+                { sound = WEATHER_SNOWHEAVY; }
             break;
         case WEATHER_TYPE_STORM:                            // storm
             if (m_grade < 0.33333334f)
-                sound = WEATHER_SANDSTORMLIGHT;
+                { sound = WEATHER_SANDSTORMLIGHT; }
             else if (m_grade < 0.6666667f)
-                sound = WEATHER_SANDSTORMMEDIUM;
+                { sound = WEATHER_SANDSTORMMEDIUM; }
             else
-                sound = WEATHER_SANDSTORMHEAVY;
+                { sound = WEATHER_SANDSTORMHEAVY; }
             break;
         case WEATHER_TYPE_FINE:                             // fine
         default:

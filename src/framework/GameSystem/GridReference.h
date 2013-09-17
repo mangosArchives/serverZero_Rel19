@@ -45,7 +45,7 @@ class MANGOS_DLL_SPEC GridReference : public Reference<GridRefManager<OBJECT>, O
         {
             // called from unlink()
             if (this->isValid())
-                this->getTarget()->decSize();
+                { this->getTarget()->decSize(); }
         }
 
         void sourceObjectDestroyLink() override

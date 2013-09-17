@@ -42,7 +42,7 @@ namespace ACE_Based
             void decReference()
             {
                 if (!--m_refs)
-                    delete this;
+                    { delete this; }
             }
         private:
             ACE_Atomic_Op<ACE_Thread_Mutex, long> m_refs;

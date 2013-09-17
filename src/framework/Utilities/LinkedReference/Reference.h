@@ -62,7 +62,7 @@ class Reference : public LinkedListElement
         {
             assert(fromObj);                                // fromObj MUST not be NULL
             if (isValid())
-                unlink();
+                { unlink(); }
 
             if (toObj != NULL)
             {

@@ -127,7 +127,7 @@ namespace MMAP
                 tileID = StaticMapTree::packTileID(tileX, tileY);
 
                 if (tiles->insert(tileID).second)
-                    count++;
+                    { count++; }
             }
         }
         printf("found %u.\n\n", count);
@@ -138,7 +138,7 @@ namespace MMAP
     {
         TileList::iterator itr = m_tiles.find(mapID);
         if (itr != m_tiles.end())
-            return (*itr).second;
+            { return (*itr).second; }
 
         set<uint32>* tiles = new set<uint32>();
         m_tiles.insert(pair<uint32, set<uint32>*>(mapID, tiles));
@@ -152,7 +152,7 @@ namespace MMAP
         {
             uint32 mapID = (*it).first;
             if (!shouldSkipMap(mapID))
-                buildMap(mapID);
+                { buildMap(mapID); }
         }
     }
 
@@ -170,11 +170,11 @@ namespace MMAP
         // make sure we process maps which don't have tiles
         // initialize the static tree, which loads WDT models
         if (!m_terrainBuilder->loadVMap(mapID, 64, 64, meshData))
-            return;
+            { return; }
 
         // get the coord bounds of the model data
         if (meshData.solidVerts.size() + meshData.liquidVerts.size() == 0)
-            return;
+            { return; }
 
         // get the coord bounds of the model data
         if (meshData.solidVerts.size() && meshData.liquidVerts.size())
@@ -185,9 +185,9 @@ namespace MMAP
             rcVmax(bmax, lmax);
         }
         else if (meshData.solidVerts.size())
-            rcCalcBounds(meshData.solidVerts.getCArray(), meshData.solidVerts.size() / 3, bmin, bmax);
+            { rcCalcBounds(meshData.solidVerts.getCArray(), meshData.solidVerts.size() / 3, bmin, bmax); }
         else
-            rcCalcBounds(meshData.liquidVerts.getCArray(), meshData.liquidVerts.size() / 3, lmin, lmax);
+            { rcCalcBounds(meshData.liquidVerts.getCArray(), meshData.liquidVerts.size() / 3, lmin, lmax); }
 
         // convert coord bounds to grid bounds
         maxX = 32 - bmin[0] / GRID_SIZE;
@@ -228,11 +228,11 @@ namespace MMAP
             // add all tiles within bounds to tile list.
             for (uint32 i = minX; i <= maxX; ++i)
                 for (uint32 j = minY; j <= maxY; ++j)
-                    tiles->insert(StaticMapTree::packTileID(i, j));
+                    { tiles->insert(StaticMapTree::packTileID(i, j)); }
         }
 
         if (!tiles->size())
-            return;
+            { return; }
 
         // build navMesh
         dtNavMesh* navMesh = NULL;
@@ -253,7 +253,7 @@ namespace MMAP
             StaticMapTree::unpackTileID((*it), tileX, tileY);
 
             if (shouldSkipTile(mapID, tileX, tileY))
-                continue;
+                { continue; }
 
             buildTile(mapID, tileX, tileY, navMesh);
         }
@@ -278,7 +278,7 @@ namespace MMAP
 
         // if there is no data, give up now
         if (!meshData.solidVerts.size() && !meshData.liquidVerts.size())
-            return;
+            { return; }
 
         // remove unused vertices
         TerrainBuilder::cleanVertices(meshData.solidVerts, meshData.solidTris);
@@ -290,7 +290,7 @@ namespace MMAP
         allVerts.append(meshData.solidVerts);
 
         if (!allVerts.size())
-            return;
+            { return; }
 
         // get bounds of current tile
         float bmin[3], bmax[3];
@@ -327,14 +327,14 @@ namespace MMAP
             StaticMapTree::unpackTileID((*it), tileX, tileY);
 
             if (tileX > tileXMax)
-                tileXMax = tileX;
+                { tileXMax = tileX; }
             else if (tileX < tileXMin)
-                tileXMin = tileX;
+                { tileXMin = tileX; }
 
             if (tileY > tileYMax)
-                tileYMax = tileY;
+                { tileYMax = tileY; }
             else if (tileY < tileYMin)
-                tileYMin = tileY;
+                { tileYMin = tileY; }
         }
 
         // use Max because '32 - tileX' is negative for values over 32
@@ -610,7 +610,7 @@ namespace MMAP
         // TODO: special flags for DYNAMIC polygons, ie surfaces that can be turned on and off
         for (int i = 0; i < iv.polyMesh->npolys; ++i)
             if (iv.polyMesh->areas[i] & RC_WALKABLE_AREA)
-                iv.polyMesh->flags[i] = iv.polyMesh->areas[i];
+                { iv.polyMesh->flags[i] = iv.polyMesh->areas[i]; }
 
         // setup mesh parameters
         dtNavMeshCreateParams params;
@@ -674,7 +674,7 @@ namespace MMAP
                 continue;
             }
             if (!params.polyCount || !params.polys ||
-                    TILES_PER_MAP * TILES_PER_MAP == params.polyCount)
+                TILES_PER_MAP * TILES_PER_MAP == params.polyCount)
             {
                 // we have flat tiles with no actual geometry - don't build those, its useless
                 // keep in mind that we do output those into debug info
@@ -756,7 +756,7 @@ namespace MMAP
     {
         // this is for elevation
         if (verts && vertCount)
-            rcCalcBounds(verts, vertCount, bmin, bmax);
+            { rcCalcBounds(verts, vertCount, bmin, bmax); }
         else
         {
             bmin[1] = FLT_MIN;
@@ -795,7 +795,7 @@ namespace MMAP
                     return true;
                 default:
                     if (isTransportMap(mapID))
-                        return true;
+                        { return true; }
                     break;
             }
 
@@ -832,17 +832,17 @@ namespace MMAP
         sprintf(fileName, "mmaps/%03u%02i%02i.mmtile", mapID, tileY, tileX);
         FILE* file = fopen(fileName, "rb");
         if (!file)
-            return false;
+            { return false; }
 
         MmapTileHeader header;
         fread(&header, sizeof(MmapTileHeader), 1, file);
         fclose(file);
 
         if (header.mmapMagic != MMAP_MAGIC || header.dtVersion != DT_NAVMESH_VERSION)
-            return false;
+            { return false; }
 
         if (header.mmapVersion != MMAP_VERSION)
-            return false;
+            { return false; }
 
         return true;
     }

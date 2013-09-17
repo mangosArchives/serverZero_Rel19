@@ -74,7 +74,7 @@ class FreezeDetectorRunnable : public ACE_Based::Runnable
         void run(void)
         {
             if (!_delaytime)
-                return;
+                { return; }
             sLog.outString("Starting up anti-freeze thread (%u seconds max stuck time)...", _delaytime / 1000);
             m_loops = 0;
             w_loops = 0;
@@ -158,7 +158,7 @@ class RARunnable : public ACE_Based::Runnable
                 ACE_Time_Value interval(0, 10000);
 
                 if (m_Reactor->run_reactor_event_loop(interval) == -1)
-                    break;
+                    { break; }
 
                 if (World::IsStopped())
                 {
@@ -269,9 +269,9 @@ int Master::Run()
                 else
                 {
                     if (SetProcessAffinityMask(hProcess, curAff))
-                        sLog.outString("Using processors (bitmask, hex): %x", curAff);
+                        { sLog.outString("Using processors (bitmask, hex): %x", curAff); }
                     else
-                        sLog.outError("Can't set used processors (hex): %x", curAff);
+                        { sLog.outError("Can't set used processors (hex): %x", curAff); }
                 }
             }
             sLog.outString();
@@ -283,9 +283,9 @@ int Master::Run()
         if (Prio)
         {
             if (SetPriorityClass(hProcess, HIGH_PRIORITY_CLASS))
-                sLog.outString("mangosd process priority class set to HIGH");
+                { sLog.outString("mangosd process priority class set to HIGH"); }
             else
-                sLog.outError("Can't set mangosd process priority class.");
+                { sLog.outError("Can't set mangosd process priority class."); }
             sLog.outString();
         }
     }

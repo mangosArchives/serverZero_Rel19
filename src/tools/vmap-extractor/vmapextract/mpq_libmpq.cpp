@@ -77,7 +77,7 @@ MPQFile::MPQFile(const char* filename):
         mpq_archive* mpq_a = (*i)->mpq_a;
 
         uint32 filenum;
-        if (libmpq__file_number(mpq_a, filename, &filenum)) continue;
+        if (libmpq__file_number(mpq_a, filename, &filenum)) { continue; }
         libmpq__off_t transferred;
         libmpq__file_unpacked_size(mpq_a, filenum, &size);
 
@@ -103,7 +103,7 @@ MPQFile::MPQFile(const char* filename):
 
 size_t MPQFile::read(void* dest, size_t bytes)
 {
-    if (eof) return 0;
+    if (eof) { return 0; }
 
     size_t rpos = pointer + bytes;
     if (rpos > size)
@@ -133,7 +133,7 @@ void MPQFile::seekRelative(int offset)
 
 void MPQFile::close()
 {
-    if (buffer) delete[] buffer;
+    if (buffer) { delete[] buffer; }
     buffer = 0;
     eof = true;
 }

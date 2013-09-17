@@ -41,7 +41,7 @@ OutdoorPvPMgr::OutdoorPvPMgr()
 OutdoorPvPMgr::~OutdoorPvPMgr()
 {
     for (uint8 i = 0; i < MAX_OPVP_ID; ++i)
-        delete m_scripts[i];
+        { delete m_scripts[i]; }
 }
 
 #define LOAD_OPVP_ZONE(a)                                           \
@@ -102,9 +102,9 @@ OutdoorPvP* OutdoorPvPMgr::GetScriptOfAffectedZone(uint32 zoneId)
 void OutdoorPvPMgr::HandlePlayerEnterZone(Player* player, uint32 zoneId)
 {
     if (OutdoorPvP* script = GetScript(zoneId))
-        script->HandlePlayerEnterZone(player, true);
+        { script->HandlePlayerEnterZone(player, true); }
     else if (OutdoorPvP* script = GetScriptOfAffectedZone(zoneId))
-        script->HandlePlayerEnterZone(player, false);
+        { script->HandlePlayerEnterZone(player, false); }
 }
 
 /**
@@ -117,20 +117,20 @@ void OutdoorPvPMgr::HandlePlayerLeaveZone(Player* player, uint32 zoneId)
 {
     // teleport: called once from Player::CleanupsBeforeDelete, once from Player::UpdateZone
     if (OutdoorPvP* script = GetScript(zoneId))
-        script->HandlePlayerLeaveZone(player, true);
+        { script->HandlePlayerLeaveZone(player, true); }
     else if (OutdoorPvP* script = GetScriptOfAffectedZone(zoneId))
-        script->HandlePlayerLeaveZone(player, false);
+        { script->HandlePlayerLeaveZone(player, false); }
 }
 
 void OutdoorPvPMgr::Update(uint32 diff)
 {
     m_updateTimer.Update(diff);
     if (!m_updateTimer.Passed())
-        return;
+        { return; }
 
     for (uint8 i = 0; i < MAX_OPVP_ID; ++i)
         if (m_scripts[i])
-            m_scripts[i]->Update(m_updateTimer.GetCurrent());
+            { m_scripts[i]->Update(m_updateTimer.GetCurrent()); }
 
     m_updateTimer.Reset();
 }
@@ -145,7 +145,7 @@ float OutdoorPvPMgr::GetCapturePointSliderValue(uint32 entry, float defaultValue
 {
     CapturePointSliderMap::const_iterator itr = m_capturePointSlider.find(entry);
     if (itr != m_capturePointSlider.end())
-        return itr->second;
+        { return itr->second; }
 
     // return default value if we can't find any
     return defaultValue;

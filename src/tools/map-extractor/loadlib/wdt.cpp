@@ -29,21 +29,21 @@
 bool wdt_MWMO::prepareLoadedData()
 {
     if (fcc != 'MWMO')
-        return false;
+        { return false; }
     return true;
 }
 
 bool wdt_MPHD::prepareLoadedData()
 {
     if (fcc != 'MPHD')
-        return false;
+        { return false; }
     return true;
 }
 
 bool wdt_MAIN::prepareLoadedData()
 {
     if (fcc != 'MAIN')
-        return false;
+        { return false; }
     return true;
 }
 
@@ -71,16 +71,16 @@ bool WDT_file::prepareLoadedData()
 {
     // Check parent
     if (!FileLoader::prepareLoadedData())
-        return false;
+        { return false; }
 
     mphd = (wdt_MPHD*)((uint8*)version + version->size + 8);
     if (!mphd->prepareLoadedData())
-        return false;
+        { return false; }
     main = (wdt_MAIN*)((uint8*)mphd + mphd->size + 8);
     if (!main->prepareLoadedData())
-        return false;
+        { return false; }
     wmo = (wdt_MWMO*)((uint8*)main + main->size + 8);
     if (!wmo->prepareLoadedData())
-        return false;
+        { return false; }
     return true;
 }

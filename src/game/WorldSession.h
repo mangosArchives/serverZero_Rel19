@@ -228,7 +228,7 @@ class MANGOS_DLL_SPEC WorldSession
             {
                 m_Tutorials[intId] = value;
                 if (m_tutorialState == TUTORIALDATA_UNCHANGED)
-                    m_tutorialState = TUTORIALDATA_CHANGED;
+                    { m_tutorialState = TUTORIALDATA_CHANGED; }
             }
         }
 
@@ -504,7 +504,7 @@ class MANGOS_DLL_SPEC WorldSession
         void HandleAuctionListOwnerItems(WorldPacket& recv_data);
         void HandleAuctionPlaceBid(WorldPacket& recv_data);
 
-        void AuctionBind( uint32 price, AuctionEntry * auction, Player * pl, Player* auction_owner );
+        void AuctionBind(uint32 price, AuctionEntry * auction, Player * pl, Player* auction_owner);
 
         void HandleGetMailList(WorldPacket& recv_data);
         void HandleSendMail(WorldPacket& recv_data);

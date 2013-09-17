@@ -1004,7 +1004,7 @@ struct OpcodeHandler
     ///This tells where the packet should be processed, ie: is it thread un/safe, which in turn
     ///determines where it will be processed
     PacketProcessing packetProcessing;
-    ///The callback called for this opcode which will work some magic    
+    ///The callback called for this opcode which will work some magic
     void (WorldSession::*handler)(WorldPacket& recvPacket);
 };
 
@@ -1031,7 +1031,7 @@ class Opcodes
         {
             OpcodeMap::const_iterator itr = mOpcodeMap.find(id);
             if (itr != mOpcodeMap.end())
-                return &itr->second;
+                { return &itr->second; }
             return NULL;
         }
 
@@ -1041,7 +1041,7 @@ class Opcodes
         {
             OpcodeMap::const_iterator itr = mOpcodeMap.find(id);
             if (itr != mOpcodeMap.end())
-                return itr->second;
+                { return itr->second; }
             return emptyHandler;
         }
 
@@ -1056,7 +1056,7 @@ class Opcodes
 inline char const* LookupOpcodeName(uint16 id)
 {
     if (OpcodeHandler const* op = opcodeTable.LookupOpcode(id))
-        return op->name;
+        { return op->name; }
     return "Received unknown opcode, it's more than max!";
 }
 #endif
@@ -1104,7 +1104,7 @@ inline char const* LookupOpcodeName(uint16 id)
  *
  * To not create this packet and send it all the time you need it you can use
  * \ref Unit::SendPeriodicAuraLog
- * 
+ *
  * Also, this should be sent with \ref Object::SendMessageToSet so that all nearby (in
  * the same \ref Cell) \ref Player s get the information. To do this with an \ref Aura
  * one could use \ref Aura::GetTarget and then use the \ref Unit::SendMessageToSet
@@ -1133,10 +1133,10 @@ inline char const* LookupOpcodeName(uint16 id)
  * - The amount of blocked damage as a \ref uint32
  * - The \ref HitInfo as a \ref uint32 which tells what happened it would seem
  * - A \ref uint8 that's usually 0 and is used as a flag to use extended data (taken from source)
- * 
+ *
  * To not create this packet and send it all the time you need it you can use
  * \ref Unit::SendSpellNonMeleeDamageLog
- * 
+ *
  * Also, this should be sent with \ref Object::SendMessageToSet so that all nearby (in
  * the same \ref Cell) \ref Player s get the information.
  * \todo Is it actually for the combat log?
@@ -1203,7 +1203,7 @@ inline char const* LookupOpcodeName(uint16 id)
  * \ref Unit::SendAttackStateUpdate it is always 0.
  * - The blocked amount as a \ref uint32 (see \ref CalcDamageInfo::blocked_amount) this is
  * normally \ref HitInfo::HITINFO_NOACTION according to comments in \ref Unit::SendAttackStateUpdate
- * 
+ *
  * It appears this should also be sent with \ref Object::SendMessageToSet to that all nearby (in
  * the same \ref Cell) \ref Player s can get take part of the info
  * \see VictimState
