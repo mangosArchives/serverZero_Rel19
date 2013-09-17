@@ -76,13 +76,13 @@ class IntervalTimer
         {
             _current += diff;
             if (_current < 0)
-                _current = 0;
+                { _current = 0; }
         }
         bool Passed() const { return _current >= _interval; }
         void Reset()
         {
             if (_current >= _interval)
-                _current -= _interval;
+                { _current -= _interval; }
         }
 
         void SetCurrent(time_t current) { _current = current; }
@@ -109,7 +109,7 @@ class ShortIntervalTimer
         void Reset()
         {
             if (_current >= _interval)
-                _current -= _interval;
+                { _current -= _interval; }
         }
 
         void SetCurrent(uint32 current) { _current = current; }

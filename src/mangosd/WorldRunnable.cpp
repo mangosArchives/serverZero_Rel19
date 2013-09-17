@@ -76,11 +76,11 @@ void WorldRunnable::run()
             ACE_Based::Thread::Sleep(prevSleepTime);
         }
         else
-            prevSleepTime = 0;
+            { prevSleepTime = 0; }
 
 #ifdef WIN32
-        if (m_ServiceStatus == 0) World::StopNow(SHUTDOWN_EXIT_CODE);
-        while (m_ServiceStatus == 2) Sleep(1000);
+        if (m_ServiceStatus == 0) { World::StopNow(SHUTDOWN_EXIT_CODE); }
+        while (m_ServiceStatus == 2) { Sleep(1000); }
 #endif
     }
 

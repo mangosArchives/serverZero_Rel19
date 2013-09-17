@@ -37,7 +37,7 @@ const char* GetPlainName(const char* FileName)
     const char* szTemp;
 
     if ((szTemp = strrchr(FileName, '\\')) != NULL)
-        FileName = szTemp + 1;
+        { FileName = szTemp + 1; }
     return FileName;
 }
 
@@ -46,7 +46,7 @@ char* GetPlainName(char* FileName)
     char* szTemp;
 
     if ((szTemp = strrchr(FileName, '\\')) != NULL)
-        FileName = szTemp + 1;
+        { FileName = szTemp + 1; }
     return FileName;
 }
 
@@ -65,7 +65,7 @@ void fixnamen(char* name, size_t len)
     }
     //extension in lowercase
     for (size_t i = len - 3; i < len; i++)
-        name[i] |= 0x20;
+        { name[i] |= 0x20; }
 }
 
 void fixname2(char* name, size_t len)
@@ -73,7 +73,7 @@ void fixname2(char* name, size_t len)
     for (size_t i = 0; i < len - 3; i++)
     {
         if (name[i] == ' ')
-            name[i] = '_';
+            { name[i] = '_'; }
     }
 }
 
@@ -81,7 +81,7 @@ char const* GetExtension(char const* FileName)
 {
     char const* szTemp;
     if ((szTemp = strrchr(FileName, '.')) != NULL)
-        return szTemp;
+        { return szTemp; }
     return NULL;
 }
 
@@ -93,7 +93,7 @@ ADTFile::ADTFile(char* filename): ADT(filename)
 bool ADTFile::init(uint32 map_num, uint32 tileX, uint32 tileY, StringSet& failedPaths)
 {
     if (ADT.isEof())
-        return false;
+        { return false; }
 
     uint32 size;
 

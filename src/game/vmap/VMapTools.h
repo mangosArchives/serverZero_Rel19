@@ -135,7 +135,7 @@ namespace VMAP
                     {
                         location[i] = origin[i] + MaxT[WhichPlane] * dir[i];
                         if ((location[i] < MinB[i]) ||
-                                (location[i] > MaxB[i]))
+                            (location[i] > MaxB[i]))
                         {
                             // On this plane we're outside the box extents, so
                             // we miss the box

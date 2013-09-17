@@ -201,7 +201,7 @@ AuthSocket::AuthSocket()
 AuthSocket::~AuthSocket()
 {
     if (patch_ != ACE_INVALID_HANDLE)
-        ACE_OS::close(patch_);
+        { ACE_OS::close(patch_); }
 }
 
 /// Accept the connection and set the s random value for SRP6
@@ -217,7 +217,7 @@ void AuthSocket::OnRead()
     while (1)
     {
         if (!recv_soft((char*)&_cmd, 1))
-            return;
+            { return; }
 
         size_t i;
 
@@ -225,8 +225,8 @@ void AuthSocket::OnRead()
         for (i = 0; i < AUTH_TOTAL_COMMANDS; ++i)
         {
             if ((uint8)table[i].cmd == _cmd &&
-                    (table[i].status == STATUS_CONNECTED ||
-                     (_authed && table[i].status == STATUS_AUTHED)))
+                (table[i].status == STATUS_CONNECTED ||
+                 (_authed && table[i].status == STATUS_AUTHED)))
             {
                 DEBUG_LOG("[Auth] got data for cmd %u recv length %u",
                           (uint32)_cmd, (uint32)recv_len());
@@ -263,7 +263,7 @@ void AuthSocket::_SetVSFields(const std::string& rI)
     uint8 mDigest[SHA_DIGEST_LENGTH];
     memset(mDigest, 0, SHA_DIGEST_LENGTH);
     if (I.GetNumBytes() <= SHA_DIGEST_LENGTH)
-        memcpy(mDigest, I.AsByteArray(), I.GetNumBytes());
+        { memcpy(mDigest, I.AsByteArray(), I.GetNumBytes()); }
 
     std::reverse(mDigest, mDigest + SHA_DIGEST_LENGTH);
 
@@ -327,7 +327,7 @@ bool AuthSocket::_HandleLogonChallenge()
 {
     DEBUG_LOG("Entering _HandleLogonChallenge");
     if (recv_len() < sizeof(sAuthLogonChallenge_C))
-        return false;
+        { return false; }
 
     ///- Read the first 4 bytes (header) to get the length of the remaining of the packet
     std::vector<uint8> buf;
@@ -340,7 +340,7 @@ bool AuthSocket::_HandleLogonChallenge()
     DEBUG_LOG("[AuthChallenge] got header, body is %#04x bytes", remaining);
 
     if ((remaining < sizeof(sAuthLogonChallenge_C) - buf.size()) || (recv_len() < remaining))
-        return false;
+        { return false; }
 
     // No big fear of memory outage (size is int16, i.e. < 65536)
     buf.resize(remaining + buf.size() + 1);
@@ -454,7 +454,7 @@ bool AuthSocket::_HandleLogonChallenge()
 
                     // multiply with 2, bytes are stored as hexstring
                     if (databaseV.size() != s_BYTE_SIZE * 2 || databaseS.size() != s_BYTE_SIZE * 2)
-                        _SetVSFields(rI);
+                        { _SetVSFields(rI); }
                     else
                     {
                         s.SetHexStr(databaseS.c_str());
@@ -509,7 +509,7 @@ bool AuthSocket::_HandleLogonChallenge()
 
                     _localizationName.resize(4);
                     for (int i = 0; i < 4; ++i)
-                        _localizationName[i] = ch->country[4 - i - 1];
+                        { _localizationName[i] = ch->country[4 - i - 1]; }
 
                     BASIC_LOG("[AuthChallenge] account %s is using '%c%c%c%c' locale (%u)", _login.c_str(), ch->country[3], ch->country[2], ch->country[1], ch->country[0], GetLocaleByName(_localizationName));
                 }
@@ -532,7 +532,7 @@ bool AuthSocket::_HandleLogonProof()
     ///- Read the packet
     sAuthLogonProof_C lp;
     if (!recv((char*)&lp, sizeof(sAuthLogonProof_C)))
-        return false;
+        { return false; }
 
     ///- Check if the client has one of the expected version numbers
     bool valid_version = FindBuildInfo(_build) != NULL;
@@ -541,7 +541,7 @@ bool AuthSocket::_HandleLogonProof()
     if (!valid_version)
     {
         if (this->patch_ != ACE_INVALID_HANDLE)
-            return false;
+            { return false; }
 
         ///- Check if we have the apropriate patch on the disk
         // file looks like: 65535enGB.mpq
@@ -604,7 +604,7 @@ bool AuthSocket::_HandleLogonProof()
 
     // SRP safeguard: abort if A==0
     if (A.isZero())
-        return false;
+        { return false; }
 
     Sha1Hash sha;
     sha.UpdateBigNumbers(&A, &B, NULL);
@@ -753,7 +753,7 @@ bool AuthSocket::_HandleReconnectChallenge()
 {
     DEBUG_LOG("Entering _HandleReconnectChallenge");
     if (recv_len() < sizeof(sAuthLogonChallenge_C))
-        return false;
+        { return false; }
 
     ///- Read the first 4 bytes (header) to get the length of the remaining of the packet
     std::vector<uint8> buf;
@@ -766,7 +766,7 @@ bool AuthSocket::_HandleReconnectChallenge()
     DEBUG_LOG("[ReconnectChallenge] got header, body is %#04x bytes", remaining);
 
     if ((remaining < sizeof(sAuthLogonChallenge_C) - buf.size()) || (recv_len() < remaining))
-        return false;
+        { return false; }
 
     // No big fear of memory outage (size is int16, i.e. < 65536)
     buf.resize(remaining + buf.size() + 1);
@@ -818,10 +818,10 @@ bool AuthSocket::_HandleReconnectProof()
     ///- Read the packet
     sAuthReconnectProof_C lp;
     if (!recv((char*)&lp, sizeof(sAuthReconnectProof_C)))
-        return false;
+        { return false; }
 
     if (_login.empty() || !_reconnectProof.GetNumBytes() || !K.GetNumBytes())
-        return false;
+        { return false; }
 
     BigNumber t1;
     t1.SetBinary(lp.R1, 16);
@@ -859,7 +859,7 @@ bool AuthSocket::_HandleRealmList()
 {
     DEBUG_LOG("Entering _HandleRealmList");
     if (recv_len() < 5)
-        return false;
+        { return false; }
 
     recv_skip(5);
 
@@ -919,13 +919,13 @@ void AuthSocket::LoadRealmlist(ByteBuffer& pkt, uint32 acctid)
                     delete result;
                 }
                 else
-                    AmountOfCharacters = 0;
+                    { AmountOfCharacters = 0; }
 
                 bool ok_build = std::find(i->second.realmbuilds.begin(), i->second.realmbuilds.end(), _build) != i->second.realmbuilds.end();
 
                 RealmBuildInfo const* buildInfo = ok_build ? FindBuildInfo(_build) : NULL;
                 if (!buildInfo)
-                    buildInfo = &i->second.realmBuildInfo;
+                    { buildInfo = &i->second.realmBuildInfo; }
 
                 RealmFlags realmflags = i->second.realmflags;
 
@@ -940,7 +940,7 @@ void AuthSocket::LoadRealmlist(ByteBuffer& pkt, uint32 acctid)
 
                 // Show offline state for unsupported client builds and locked realms (1.x clients not support locked state show)
                 if (!ok_build || (i->second.allowedSecurityLevel > _accountSecurityLevel))
-                    realmflags = RealmFlags(realmflags | REALM_FLAG_OFFLINE);
+                    { realmflags = RealmFlags(realmflags | REALM_FLAG_OFFLINE); }
 
                 pkt << uint32(i->second.icon);              // realm type
                 pkt << uint8(realmflags);                   // realmflags
@@ -980,13 +980,13 @@ void AuthSocket::LoadRealmlist(ByteBuffer& pkt, uint32 acctid)
                     delete result;
                 }
                 else
-                    AmountOfCharacters = 0;
+                    { AmountOfCharacters = 0; }
 
                 bool ok_build = std::find(i->second.realmbuilds.begin(), i->second.realmbuilds.end(), _build) != i->second.realmbuilds.end();
 
                 RealmBuildInfo const* buildInfo = ok_build ? FindBuildInfo(_build) : NULL;
                 if (!buildInfo)
-                    buildInfo = &i->second.realmBuildInfo;
+                    { buildInfo = &i->second.realmBuildInfo; }
 
                 uint8 lock = (i->second.allowedSecurityLevel > _accountSecurityLevel) ? 1 : 0;
 
@@ -994,10 +994,10 @@ void AuthSocket::LoadRealmlist(ByteBuffer& pkt, uint32 acctid)
 
                 // Show offline state for unsupported client builds
                 if (!ok_build)
-                    realmFlags = RealmFlags(realmFlags | REALM_FLAG_OFFLINE);
+                    { realmFlags = RealmFlags(realmFlags | REALM_FLAG_OFFLINE); }
 
                 if (!buildInfo)
-                    realmFlags = RealmFlags(realmFlags & ~REALM_FLAG_SPECIFYBUILD);
+                    { realmFlags = RealmFlags(realmFlags & ~REALM_FLAG_SPECIFYBUILD); }
 
                 pkt << uint8(i->second.icon);               // realm type (this is second column in Cfg_Configs.dbc)
                 pkt << uint8(lock);                         // flags, if 0x01, then realm locked
@@ -1030,7 +1030,7 @@ bool AuthSocket::_HandleXferResume()
     DEBUG_LOG("Entering _HandleXferResume");
 
     if (recv_len() < 9)
-        return false;
+        { return false; }
 
     recv_skip(1);
 

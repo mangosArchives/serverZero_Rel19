@@ -90,7 +90,7 @@ class OutdoorPvPMgr
         // contains all outdoor pvp scripts
         OutdoorPvP* m_scripts[MAX_OPVP_ID];
 
-        typedef std::map<uint32 /*capture point entry*/, float /*slider value*/> CapturePointSliderMap;
+        typedef std::map < uint32 /*capture point entry*/, float /*slider value*/ > CapturePointSliderMap;
 
         CapturePointSliderMap m_capturePointSlider;
 

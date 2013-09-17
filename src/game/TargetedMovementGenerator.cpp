@@ -38,10 +38,10 @@ template<class T, typename D>
 void TargetedMovementGeneratorMedium<T, D>::_setTargetLocation(T& owner, bool updateDestination)
 {
     if (!i_target.isValid() || !i_target->IsInWorld())
-        return;
+        { return; }
 
     if (owner.hasUnitState(UNIT_STAT_NOT_MOVE))
-        return;
+        { return; }
 
     float x, y, z;
 
@@ -53,7 +53,7 @@ void TargetedMovementGeneratorMedium<T, D>::_setTargetLocation(T& owner, bool up
         if (i_offset && i_target->IsWithinDistInMap(&owner, 2 * i_offset))
         {
             if (!owner.movespline->Finalized())
-                return;
+                { return; }
 
             owner.GetPosition(x, y, z);
         }
@@ -78,14 +78,14 @@ void TargetedMovementGeneratorMedium<T, D>::_setTargetLocation(T& owner, bool up
     }
 
     if (!i_path)
-        i_path = new PathFinder(&owner);
+        { i_path = new PathFinder(&owner); }
 
     // allow pets following their master to cheat while generating paths
     bool forceDest = (owner.GetTypeId() == TYPEID_UNIT && ((Creature*)&owner)->IsPet()
                       && owner.hasUnitState(UNIT_STAT_FOLLOW));
     i_path->calculate(x, y, z, forceDest);
     if (i_path->getPathType() & PATHFIND_NOPATH)
-        return;
+        { return; }
 
     D::_addUnitStateMove(owner);
     i_targetReached = false;
@@ -101,10 +101,10 @@ template<class T, typename D>
 bool TargetedMovementGeneratorMedium<T, D>::Update(T& owner, const uint32& time_diff)
 {
     if (!i_target.isValid() || !i_target->IsInWorld())
-        return false;
+        { return false; }
 
     if (!owner.IsAlive())
-        return true;
+        { return true; }
 
     if (owner.hasUnitState(UNIT_STAT_NOT_MOVE))
     {
@@ -122,7 +122,7 @@ bool TargetedMovementGeneratorMedium<T, D>::Update(T& owner, const uint32& time_
     if (owner.IsNonMeleeSpellCasted(false, false,  true))
     {
         if (!owner.IsStopped())
-            owner.StopMoving();
+            { owner.StopMoving(); }
         return true;
     }
 
@@ -144,18 +144,18 @@ bool TargetedMovementGeneratorMedium<T, D>::Update(T& owner, const uint32& time_
         G3D::Vector3 dest = owner.movespline->FinalDestination();
 
         if (owner.GetTypeId() == TYPEID_UNIT && ((Creature*)&owner)->CanFly())
-            targetMoved = !i_target->IsWithinDist3d(dest.x, dest.y, dest.z, allowed_dist);
+            { targetMoved = !i_target->IsWithinDist3d(dest.x, dest.y, dest.z, allowed_dist); }
         else
-            targetMoved = !i_target->IsWithinDist2d(dest.x, dest.y, allowed_dist);
+            { targetMoved = !i_target->IsWithinDist2d(dest.x, dest.y, allowed_dist); }
     }
 
     if (m_speedChanged || targetMoved)
-        _setTargetLocation(owner, targetMoved);
+        { _setTargetLocation(owner, targetMoved); }
 
     if (owner.movespline->Finalized())
     {
         if (i_angle == 0.f && !owner.HasInArc(0.01f, i_target.getTarget()))
-            owner.SetInFront(i_target.getTarget());
+            { owner.SetInFront(i_target.getTarget()); }
 
         if (!i_targetReached)
         {
@@ -189,7 +189,7 @@ template<class T>
 void ChaseMovementGenerator<T>::_reachTarget(T& owner)
 {
     if (owner.CanReachWithMeleeAttack(this->i_target.getTarget()))
-        owner.Attack(this->i_target.getTarget(), true);
+        { owner.Attack(this->i_target.getTarget(), true); }
 }
 
 template<>
@@ -255,7 +255,7 @@ void FollowMovementGenerator<Creature>::_updateSpeed(Creature& u)
 {
     // pet only sync speed with owner
     if (!((Creature&)u).IsPet() || !i_target.isValid() || i_target->GetObjectGuid() != u.GetOwnerGuid())
-        return;
+        { return; }
 
     u.UpdateSpeed(MOVE_RUN, true);
     u.UpdateSpeed(MOVE_WALK, true);

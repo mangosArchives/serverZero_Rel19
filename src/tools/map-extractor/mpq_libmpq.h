@@ -55,7 +55,7 @@ class MPQArchive
             for (uint32 i = 0; i < strlen(Input); i++)
             {
                 uint32 val = toupper(Input[i]);
-                seed1 = mpq_a.buf[Offset + val] ^ (seed1 + seed2);
+                seed1 = mpq_a.buf[Offset + val] ^(seed1 + seed2);
                 seed2 = val + seed1 + seed2 + (seed2 << 5) + 3;
             }
 
@@ -71,7 +71,7 @@ class MPQArchive
             for (uint32 i = index; i < mpq_a.header->hashtablesize; ++i)
             {
                 mpq_hash hash = mpq_a.hashtable[i];
-                if (hash.name1 == name1 && hash.name2 == name2) return hash;
+                if (hash.name1 == name1 && hash.name2 == name2) { return hash; }
             }
 
             mpq_hash nullhash;
@@ -85,7 +85,7 @@ class MPQArchive
             uint32 blockindex = hash.blockindex;
 
             if ((blockindex == 0xFFFFFFFF) || (blockindex == 0))
-                return;
+                { return; }
 
             uint32 size = libmpq_file_info(&mpq_a, LIBMPQ_FILE_UNCOMPRESSED_SIZE, blockindex);
             char* buffer = new char[size];

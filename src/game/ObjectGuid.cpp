@@ -56,12 +56,12 @@ std::string ObjectGuid::GetString() const
     {
         std::string name;
         if (sObjectMgr.GetPlayerNameByGUID(*this, name))
-            str << " " << name;
+            { str << " " << name; }
     }
 
     str << " (";
     if (HasEntry())
-        str << (IsPet() ? "Petnumber: " : "Entry: ") << GetEntry() << " ";
+        { str << (IsPet() ? "Petnumber: " : "Entry: ") << GetEntry() << " "; }
     str << "Guid: " << GetCounter() << ")";
     return str.str();
 }

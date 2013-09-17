@@ -196,7 +196,7 @@ struct ActionButton
         {
             packedData = newData;
             if (uState != ACTIONBUTTON_NEW)
-                uState = ACTIONBUTTON_CHANGED;
+                { uState = ACTIONBUTTON_CHANGED; }
         }
     }
 };
@@ -231,7 +231,7 @@ struct PlayerClassInfo
 
 struct PlayerLevelInfo
 {
-    PlayerLevelInfo() { for (int i = 0; i < MAX_STATS; ++i) stats[i] = 0; }
+    PlayerLevelInfo() { for (int i = 0; i < MAX_STATS; ++i) { stats[i] = 0; } }
 
     uint8 stats[MAX_STATS];
 };
@@ -742,7 +742,7 @@ class MANGOS_DLL_SPEC PlayerTaxi
                 return true;
             }
             else
-                return false;
+                { return false; }
         }
         void AppendTaximaskTo(ByteBuffer& data, bool all);
 
@@ -915,18 +915,18 @@ class MANGOS_DLL_SPEC Player : public Unit
         // mount_id can be used in scripting calls
         void ContinueTaxiFlight();
         bool isAcceptTickets() const { return GetSession()->GetSecurity() >= SEC_GAMEMASTER && (m_ExtraFlags & PLAYER_EXTRA_GM_ACCEPT_TICKETS); }
-        void SetAcceptTicket(bool on) { if (on) m_ExtraFlags |= PLAYER_EXTRA_GM_ACCEPT_TICKETS; else m_ExtraFlags &= ~PLAYER_EXTRA_GM_ACCEPT_TICKETS; }
+        void SetAcceptTicket(bool on) { if (on) { m_ExtraFlags |= PLAYER_EXTRA_GM_ACCEPT_TICKETS; } else { m_ExtraFlags &= ~PLAYER_EXTRA_GM_ACCEPT_TICKETS; } }
         bool isAcceptWhispers() const { return m_ExtraFlags & PLAYER_EXTRA_ACCEPT_WHISPERS; }
-        void SetAcceptWhispers(bool on) { if (on) m_ExtraFlags |= PLAYER_EXTRA_ACCEPT_WHISPERS; else m_ExtraFlags &= ~PLAYER_EXTRA_ACCEPT_WHISPERS; }
+        void SetAcceptWhispers(bool on) { if (on) { m_ExtraFlags |= PLAYER_EXTRA_ACCEPT_WHISPERS; } else { m_ExtraFlags &= ~PLAYER_EXTRA_ACCEPT_WHISPERS; } }
         bool isGameMaster() const { return m_ExtraFlags & PLAYER_EXTRA_GM_ON; }
         void SetGameMaster(bool on);
         bool isGMChat() const { return GetSession()->GetSecurity() >= SEC_MODERATOR && (m_ExtraFlags & PLAYER_EXTRA_GM_CHAT); }
-        void SetGMChat(bool on) { if (on) m_ExtraFlags |= PLAYER_EXTRA_GM_CHAT; else m_ExtraFlags &= ~PLAYER_EXTRA_GM_CHAT; }
+        void SetGMChat(bool on) { if (on) { m_ExtraFlags |= PLAYER_EXTRA_GM_CHAT; } else { m_ExtraFlags &= ~PLAYER_EXTRA_GM_CHAT; } }
         bool IsTaxiCheater() const { return m_ExtraFlags & PLAYER_EXTRA_TAXICHEAT; }
-        void SetTaxiCheater(bool on) { if (on) m_ExtraFlags |= PLAYER_EXTRA_TAXICHEAT; else m_ExtraFlags &= ~PLAYER_EXTRA_TAXICHEAT; }
+        void SetTaxiCheater(bool on) { if (on) { m_ExtraFlags |= PLAYER_EXTRA_TAXICHEAT; } else { m_ExtraFlags &= ~PLAYER_EXTRA_TAXICHEAT; } }
         bool isGMVisible() const { return !(m_ExtraFlags & PLAYER_EXTRA_GM_INVISIBLE); }
         void SetGMVisible(bool on);
-        void SetPvPDeath(bool on) { if (on) m_ExtraFlags |= PLAYER_EXTRA_PVP_DEATH; else m_ExtraFlags &= ~PLAYER_EXTRA_PVP_DEATH; }
+        void SetPvPDeath(bool on) { if (on) { m_ExtraFlags |= PLAYER_EXTRA_PVP_DEATH; } else { m_ExtraFlags &= ~PLAYER_EXTRA_PVP_DEATH; } }
 
         // 0 = own auction, -1 = enemy auction, 1 = goblin auction
         int GetAuctionAccessMode() const { return m_ExtraFlags & PLAYER_EXTRA_AUCTION_ENEMY ? -1 : (m_ExtraFlags & PLAYER_EXTRA_AUCTION_NEUTRAL ? 1 : 0); }
@@ -935,9 +935,9 @@ class MANGOS_DLL_SPEC Player : public Unit
             m_ExtraFlags &= ~(PLAYER_EXTRA_AUCTION_ENEMY | PLAYER_EXTRA_AUCTION_NEUTRAL);
 
             if (state < 0)
-                m_ExtraFlags |= PLAYER_EXTRA_AUCTION_ENEMY;
+                { m_ExtraFlags |= PLAYER_EXTRA_AUCTION_ENEMY; }
             else if (state > 0)
-                m_ExtraFlags |= PLAYER_EXTRA_AUCTION_NEUTRAL;
+                { m_ExtraFlags |= PLAYER_EXTRA_AUCTION_NEUTRAL; }
         }
 
 
@@ -1018,7 +1018,7 @@ class MANGOS_DLL_SPEC Player : public Unit
         InventoryResult CanStoreItem(uint8 bag, uint8 slot, ItemPosCountVec& dest, Item* pItem, bool swap = false) const
         {
             if (!pItem)
-                return EQUIP_ERR_ITEM_NOT_FOUND;
+                { return EQUIP_ERR_ITEM_NOT_FOUND; }
             uint32 count = pItem->GetCount();
             return _CanStoreItem(bag, slot, dest, pItem->GetEntry(), count, pItem, swap, NULL);
         }
@@ -1291,9 +1291,9 @@ class MANGOS_DLL_SPEC Player : public Unit
         void ModifyMoney(int32 d)
         {
             if (d < 0)
-                SetMoney(GetMoney() > uint32(-d) ? GetMoney() + d : 0);
+                { SetMoney(GetMoney() > uint32(-d) ? GetMoney() + d : 0); }
             else
-                SetMoney(GetMoney() < uint32(MAX_MONEY_AMOUNT - d) ? GetMoney() + d : MAX_MONEY_AMOUNT);
+                { SetMoney(GetMoney() < uint32(MAX_MONEY_AMOUNT - d) ? GetMoney() + d : MAX_MONEY_AMOUNT); }
         }
         void SetMoney(uint32 value)
         {
@@ -1404,7 +1404,7 @@ class MANGOS_DLL_SPEC Player : public Unit
         template <class T> T ApplySpellMod(uint32 spellId, SpellModOp op, T& basevalue, Spell const* spell = NULL);
         SpellModifier* GetSpellMod(SpellModOp op, uint32 spellId) const;
         void RemoveSpellMods(Spell const* spell);
-        void ResetSpellModsDueToCanceledSpell (Spell const* spell);
+        void ResetSpellModsDueToCanceledSpell(Spell const* spell);
 
         static uint32 const infinityCooldownDelay = MONTH;  // used for set "infinity cooldowns" for spells and check
         static uint32 const infinityCooldownDelayCheck = MONTH / 2;
@@ -1695,7 +1695,7 @@ class MANGOS_DLL_SPEC Player : public Unit
         void SetStoredHonor(float rating) { m_stored_honor = rating; }
         // Acessors of lifetime
         uint32 GetHonorStoredKills(bool honorable) const { return honorable ? m_stored_honorableKills : m_stored_dishonorableKills; }
-        void SetHonorStoredKills(uint32 kills, bool honorable) { if (honorable) m_stored_honorableKills = kills; else m_stored_dishonorableKills = kills; }
+        void SetHonorStoredKills(uint32 kills, bool honorable) { if (honorable) { m_stored_honorableKills = kills; } else { m_stored_dishonorableKills = kills; } }
         // Acessors of last week standing
         int32 GetHonorLastWeekStandingPos() const { return m_standing_pos; }
         void SetHonorLastWeekStandingPos(int32 standingPos) { m_standing_pos = standingPos; }
@@ -1727,8 +1727,8 @@ class MANGOS_DLL_SPEC Player : public Unit
         // in 0.12 and later in Unit
         void InitStatBuffMods()
         {
-            for (int i = STAT_STRENGTH; i < MAX_STATS; ++i) SetFloatValue(PLAYER_FIELD_POSSTAT0 + i, 0);
-            for (int i = STAT_STRENGTH; i < MAX_STATS; ++i) SetFloatValue(PLAYER_FIELD_NEGSTAT0 + i, 0);
+            for (int i = STAT_STRENGTH; i < MAX_STATS; ++i) { SetFloatValue(PLAYER_FIELD_POSSTAT0 + i, 0); }
+            for (int i = STAT_STRENGTH; i < MAX_STATS; ++i) { SetFloatValue(PLAYER_FIELD_NEGSTAT0 + i, 0); }
         }
         void ApplyStatBuffMod(Stats stat, float val, bool apply) { ApplyModSignedFloatValue((val > 0 ? PLAYER_FIELD_POSSTAT0 + stat : PLAYER_FIELD_NEGSTAT0 + stat), val, apply); }
         void ApplyStatPercentBuffMod(Stats stat, float val, bool apply)
@@ -1801,7 +1801,7 @@ class MANGOS_DLL_SPEC Player : public Unit
         {
             for (int i = 0; i < PLAYER_MAX_BATTLEGROUND_QUEUES; ++i)
                 if (m_bgBattleGroundQueueID[i].bgQueueTypeId != BATTLEGROUND_QUEUE_NONE)
-                    return true;
+                    { return true; }
             return false;
         }
 
@@ -1810,14 +1810,14 @@ class MANGOS_DLL_SPEC Player : public Unit
         {
             for (int i = 0; i < PLAYER_MAX_BATTLEGROUND_QUEUES; ++i)
                 if (m_bgBattleGroundQueueID[i].bgQueueTypeId == bgQueueTypeId)
-                    return i;
+                    { return i; }
             return PLAYER_MAX_BATTLEGROUND_QUEUES;
         }
         bool IsInvitedForBattleGroundQueueType(BattleGroundQueueTypeId bgQueueTypeId) const
         {
             for (int i = 0; i < PLAYER_MAX_BATTLEGROUND_QUEUES; ++i)
                 if (m_bgBattleGroundQueueID[i].bgQueueTypeId == bgQueueTypeId)
-                    return m_bgBattleGroundQueueID[i].invitedToInstance != 0;
+                    { return m_bgBattleGroundQueueID[i].invitedToInstance != 0; }
             return false;
         }
         bool InBattleGroundQueueForBattleGroundQueueType(BattleGroundQueueTypeId bgQueueTypeId) const
@@ -1848,7 +1848,7 @@ class MANGOS_DLL_SPEC Player : public Unit
         {
             for (int i = 0; i < PLAYER_MAX_BATTLEGROUND_QUEUES; ++i)
                 if (m_bgBattleGroundQueueID[i].bgQueueTypeId == BATTLEGROUND_QUEUE_NONE)
-                    return true;
+                    { return true; }
             return false;
         }
         void RemoveBattleGroundQueueId(BattleGroundQueueTypeId val)
@@ -1867,13 +1867,13 @@ class MANGOS_DLL_SPEC Player : public Unit
         {
             for (int i = 0; i < PLAYER_MAX_BATTLEGROUND_QUEUES; ++i)
                 if (m_bgBattleGroundQueueID[i].bgQueueTypeId == bgQueueTypeId)
-                    m_bgBattleGroundQueueID[i].invitedToInstance = instanceId;
+                    { m_bgBattleGroundQueueID[i].invitedToInstance = instanceId; }
         }
         bool IsInvitedForBattleGroundInstance(uint32 instanceId) const
         {
             for (int i = 0; i < PLAYER_MAX_BATTLEGROUND_QUEUES; ++i)
                 if (m_bgBattleGroundQueueID[i].invitedToInstance == instanceId)
-                    return true;
+                    { return true; }
             return false;
         }
         WorldLocation const& GetBattleGroundEntryPoint() const { return m_bgData.joinPos; }
@@ -2287,7 +2287,7 @@ class MANGOS_DLL_SPEC Player : public Unit
         void ScheduleDelayedOperation(uint32 operation)
         {
             if (operation < DELAYED_END)
-                m_DelayedOperations |= operation;
+                { m_DelayedOperations |= operation; }
         }
 
         Unit* m_mover;
@@ -2339,7 +2339,7 @@ void RemoveItemsSetItem(Player* player, ItemPrototype const* proto);
 template <class T> T Player::ApplySpellMod(uint32 spellId, SpellModOp op, T& basevalue, Spell const* spell)
 {
     SpellEntry const* spellInfo = sSpellStore.LookupEntry(spellId);
-    if (!spellInfo) return 0;
+    if (!spellInfo) { return 0; }
     int32 totalpct = 0;
     int32 totalflat = 0;
     for (SpellModList::iterator itr = m_spellMods[op].begin(); itr != m_spellMods[op].end(); ++itr)
@@ -2347,18 +2347,18 @@ template <class T> T Player::ApplySpellMod(uint32 spellId, SpellModOp op, T& bas
         SpellModifier* mod = *itr;
 
         if (!IsAffectedBySpellmod(spellInfo, mod, spell))
-            continue;
+            { continue; }
         if (mod->type == SPELLMOD_FLAT)
-            totalflat += mod->value;
+            { totalflat += mod->value; }
         else if (mod->type == SPELLMOD_PCT)
         {
             // skip percent mods for null basevalue (most important for spell mods with charges )
             if (basevalue == T(0))
-                continue;
+                { continue; }
 
             // special case (skip >10sec spell casts for instant cast setting)
             if (mod->op == SPELLMOD_CASTING_TIME  && basevalue >= T(10 * IN_MILLISECONDS) && mod->value <= -100)
-                continue;
+                { continue; }
 
             totalpct += mod->value;
         }
@@ -2366,7 +2366,7 @@ template <class T> T Player::ApplySpellMod(uint32 spellId, SpellModOp op, T& bas
         if (mod->charges > 0)
         {
             if (!spell)
-                spell = FindCurrentSpellBySpellId(spellId);
+                { spell = FindCurrentSpellBySpellId(spellId); }
 
             // avoid double use spellmod charge by same spell
             if (!mod->lastAffected || mod->lastAffected != spell)

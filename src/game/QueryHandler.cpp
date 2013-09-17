@@ -43,7 +43,7 @@
 void WorldSession::SendNameQueryOpcode(Player* p)
 {
     if (!p)
-        return;
+        { return; }
 
     // guess size
     WorldPacket data(SMSG_NAME_QUERY_RESPONSE, (8 + 1 + 4 + 4 + 4 + 10));
@@ -69,7 +69,7 @@ void WorldSession::SendNameQueryOpcodeFromDB(ObjectGuid guid)
 void WorldSession::SendNameQueryOpcodeFromDBCallBack(QueryResult* result, uint32 accountId)
 {
     if (!result)
-        return;
+        { return; }
 
     WorldSession* session = sWorld.FindSession(accountId);
     if (!session)
@@ -83,7 +83,7 @@ void WorldSession::SendNameQueryOpcodeFromDBCallBack(QueryResult* result, uint32
     std::string name = fields[1].GetCppString();
     uint8 pRace = 0, pGender = 0, pClass = 0;
     if (name == "")
-        name         = session->GetMangosString(LANG_NON_EXIST_CHARACTER);
+        { name         = session->GetMangosString(LANG_NON_EXIST_CHARACTER); }
     else
     {
         pRace        = fields[2].GetUInt8();
@@ -113,9 +113,9 @@ void WorldSession::HandleNameQueryOpcode(WorldPacket& recv_data)
     Player* pChar = sObjectMgr.GetPlayer(guid);
 
     if (pChar)
-        SendNameQueryOpcode(pChar);
+        { SendNameQueryOpcode(pChar); }
     else
-        SendNameQueryOpcodeFromDB(guid);
+        { SendNameQueryOpcodeFromDB(guid); }
 }
 
 void WorldSession::HandleQueryTimeOpcode(WorldPacket& /*recv_data*/)
@@ -155,18 +155,18 @@ void WorldSession::HandleCreatureQueryOpcode(WorldPacket& recv_data)
         data << subName;
         data << uint32(ci->type_flags);                     // flags
         if (unit)
-            data << uint32(((unit->IsPet()) ? 0 : ci->type));   // CreatureType.dbc   wdbFeild8
+            { data << uint32(((unit->IsPet()) ? 0 : ci->type)); }   // CreatureType.dbc   wdbFeild8
         else
-            data << uint32(ci->type);
+            { data << uint32(ci->type); }
 
         data << uint32(ci->family);                         // CreatureFamily.dbc
         data << uint32(ci->rank);                           // Creature Rank (elite, boss, etc)
         data << uint32(0);                                  // unknown        wdbFeild11
         data << uint32(ci->PetSpellDataId);                 // Id from CreatureSpellData.dbc    wdbField12
         if (unit)
-            data << unit->GetUInt32Value(UNIT_FIELD_DISPLAYID); // DisplayID      wdbFeild13
+            { data << unit->GetUInt32Value(UNIT_FIELD_DISPLAYID); } // DisplayID      wdbFeild13
         else
-            data << uint32(Creature::ChooseDisplayId(ci));  // workaround, way to manage models must be fixed
+            { data << uint32(Creature::ChooseDisplayId(ci)); }  // workaround, way to manage models must be fixed
 
         data << uint16(ci->civilian);                       // wdbFeild14
         SendPacket(&data);
@@ -203,7 +203,7 @@ void WorldSession::HandleGameObjectQueryOpcode(WorldPacket& recv_data)
             if (gl)
             {
                 if (gl->Name.size() > size_t(loc_idx) && !gl->Name[loc_idx].empty())
-                    Name = gl->Name[loc_idx];
+                    { Name = gl->Name[loc_idx]; }
             }
         }
         DETAIL_LOG("WORLD: CMSG_GAMEOBJECT_QUERY '%s' - Entry: %u. ", info->name, entryID);
@@ -330,14 +330,14 @@ void WorldSession::HandleNpcTextQueryOpcode(WorldPacket& recv_data)
             data << pGossip->Options[i].Probability;
 
             if (Text_0[i].empty())
-                data << Text_1[i];
+                { data << Text_1[i]; }
             else
-                data << Text_0[i];
+                { data << Text_0[i]; }
 
             if (Text_1[i].empty())
-                data << Text_0[i];
+                { data << Text_0[i]; }
             else
-                data << Text_1[i];
+                { data << Text_1[i]; }
 
             data << pGossip->Options[i].Language;
 
@@ -385,7 +385,7 @@ void WorldSession::HandlePageTextQueryOpcode(WorldPacket& recv_data)
                 if (pl)
                 {
                     if (pl->Text.size() > size_t(loc_idx) && !pl->Text[loc_idx].empty())
-                        Text = pl->Text[loc_idx];
+                        { Text = pl->Text[loc_idx]; }
                 }
             }
 

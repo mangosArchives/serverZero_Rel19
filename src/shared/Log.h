@@ -103,35 +103,35 @@ class Log : public MaNGOS::Singleton<Log, MaNGOS::ClassLevelLockable<Log, ACE_Th
         ~Log()
         {
             if (logfile != NULL)
-                fclose(logfile);
+                { fclose(logfile); }
             logfile = NULL;
 
             if (gmLogfile != NULL)
-                fclose(gmLogfile);
+                { fclose(gmLogfile); }
             gmLogfile = NULL;
 
             if (charLogfile != NULL)
-                fclose(charLogfile);
+                { fclose(charLogfile); }
             charLogfile = NULL;
 
             if (dberLogfile != NULL)
-                fclose(dberLogfile);
+                { fclose(dberLogfile); }
             dberLogfile = NULL;
 
             if (eventAiErLogfile != NULL)
-                fclose(eventAiErLogfile);
+                { fclose(eventAiErLogfile); }
             eventAiErLogfile = NULL;
 
             if (scriptErrLogFile != NULL)
-                fclose(scriptErrLogFile);
+                { fclose(scriptErrLogFile); }
             scriptErrLogFile = NULL;
 
             if (raLogfile != NULL)
-                fclose(raLogfile);
+                { fclose(raLogfile); }
             raLogfile = NULL;
 
             if (worldLogfile != NULL)
-                fclose(worldLogfile);
+                { fclose(worldLogfile); }
             worldLogfile = NULL;
         }
     public:
@@ -178,7 +178,7 @@ class Log : public MaNGOS::Singleton<Log, MaNGOS::ClassLevelLockable<Log, ACE_Th
         static void outTimestamp(FILE* file);
         static std::string GetTimestampStr();
         bool HasLogFilter(uint32 filter) const { return m_logFilter & filter; }
-        void SetLogFilter(LogFilters filter, bool on) { if (on) m_logFilter |= filter; else m_logFilter &= ~filter; }
+        void SetLogFilter(LogFilters filter, bool on) { if (on) { m_logFilter |= filter; } else { m_logFilter &= ~filter; } }
         bool HasLogLevelOrHigher(LogLevel loglvl) const { return m_logLevel >= loglvl || (m_logFileLevel >= loglvl && logfile); }
         bool IsOutCharDump() const { return m_charLog_Dump; }
         bool IsIncludeTime() const { return m_includeTime; }

@@ -51,11 +51,11 @@ bool ExtractSingleModel(std::string& origPath, std::string& fixedName, StringSet
     output += fixedName;
 
     if (FileExists(output.c_str()))
-        return true;
+        { return true; }
 
     Model mdl(origPath);                                    // Possible changed fname
     if (!mdl.open(failedPaths))
-        return false;
+        { return false; }
 
     return mdl.ConvertToVMAPModel(output.c_str());
 }
@@ -83,7 +83,7 @@ void ExtractGameobjectModels()
         path = it->getString(1);
 
         if (path.length() < 4)
-            continue;
+            { continue; }
 
         fixnamen((char*)path.c_str(), path.size());
         char* name = GetPlainName((char*)path.c_str());
@@ -91,7 +91,7 @@ void ExtractGameobjectModels()
 
         char const* ch_ext = GetExtension(name);
         if (!ch_ext)
-            continue;
+            { continue; }
 
         //strToLower(ch_ext);
 
@@ -127,7 +127,7 @@ void ExtractGameobjectModels()
     {
         printf("Warning: Some models could not be extracted, see below\n");
         for (StringSet::const_iterator itr = failedPaths.begin(); itr != failedPaths.end(); ++itr)
-            printf("Could not find file of model %s\n", itr->c_str());
+            { printf("Could not find file of model %s\n", itr->c_str()); }
         printf("A few of these warnings are expected to happen, so be not alarmed!\n");
     }
 

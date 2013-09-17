@@ -123,7 +123,7 @@ bool UpdateData::BuildPacket(WorldPacket* packet, bool hasTransport)
         buf << (uint32) m_outOfRangeGUIDs.size();
 
         for (GuidSet::const_iterator i = m_outOfRangeGUIDs.begin(); i != m_outOfRangeGUIDs.end(); ++i)
-            buf << i->WriteAsPacked();
+            { buf << i->WriteAsPacked(); }
     }
 
     buf.append(m_data);
@@ -138,7 +138,7 @@ bool UpdateData::BuildPacket(WorldPacket* packet, bool hasTransport)
         packet->put<uint32>(0, pSize);
         Compress(const_cast<uint8*>(packet->contents()) + sizeof(uint32), &destsize, (void*)buf.contents(), pSize);
         if (destsize == 0)
-            return false;
+            { return false; }
 
         packet->resize(destsize + sizeof(uint32));
         packet->SetOpcode(SMSG_COMPRESSED_UPDATE_OBJECT);

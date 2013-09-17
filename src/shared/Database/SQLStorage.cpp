@@ -75,7 +75,7 @@ void SQLStorageBase::prepareToLoad(uint32 maxEntry, uint32 recordCount, uint32 r
 void SQLStorageBase::Free()
 {
     if (!m_data)
-        return;
+        { return; }
 
     uint32 offset = 0;
     for (uint32 x = 0; x < m_dstFieldCount; ++x)
@@ -88,7 +88,7 @@ void SQLStorageBase::Free()
             case FT_STRING:
             {
                 for (uint32 recordItr = 0; recordItr < m_recordCount; ++recordItr)
-                    delete[] *(char**)((char*)(m_data + (recordItr * m_recordSize)) + offset);
+                    { delete[] *(char**)((char*)(m_data + (recordItr * m_recordSize)) + offset); }
 
                 offset += sizeof(char*);
                 break;
@@ -193,7 +193,7 @@ void SQLHashStorage::EraseEntry(uint32 id)
     // do not erase from m_records
     RecordMap::iterator find = m_indexMap.find(id);
     if (find != m_indexMap.end())
-        find->second = NULL;
+        { find->second = NULL; }
 }
 
 SQLHashStorage::SQLHashStorage(const char* fmt, const char* _entry_field, const char* sqlname)

@@ -95,7 +95,7 @@ MPQFile::MPQFile(const char* filename):
         uint32 blockindex = hash.blockindex;
 
         if (blockindex == 0xFFFFFFFF)
-            continue; //file not found
+            { continue; } //file not found
 
         uint32 fileno = blockindex;
 
@@ -125,7 +125,7 @@ MPQFile::MPQFile(const char* filename):
 
 size_t MPQFile::read(void* dest, size_t bytes)
 {
-    if (eof) return 0;
+    if (eof) { return 0; }
 
     size_t rpos = pointer + bytes;
     if (rpos > size)
@@ -155,7 +155,7 @@ void MPQFile::seekRelative(int offset)
 
 void MPQFile::close()
 {
-    if (buffer) delete[] buffer;
+    if (buffer) { delete[] buffer; }
     buffer = 0;
     eof = true;
 }

@@ -57,7 +57,7 @@ class GridInfo
 
         void setUnloadExplicitLock(bool on) { i_unloadExplicitLock = on; }
         void incUnloadActiveLock() { ++i_unloadActiveLockCount; }
-        void decUnloadActiveLock() { if (i_unloadActiveLockCount) --i_unloadActiveLockCount; }
+        void decUnloadActiveLock() { if (i_unloadActiveLockCount) { --i_unloadActiveLockCount; } }
 
         void setTimer(const TimeTracker& pTimer) { i_timer = pTimer; }
         void ResetTimeTracker(time_t interval) { i_timer.Reset(interval); }
@@ -153,7 +153,7 @@ class MANGOS_DLL_DECL NGrid
         {
             for (uint32 x = 0; x < N; ++x)
                 for (uint32 y = 0; y < N; ++y)
-                    i_cells[x][y].Visit(visitor);
+                    { i_cells[x][y].Visit(visitor); }
         }
 
         template<class T, class TT>
@@ -167,7 +167,7 @@ class MANGOS_DLL_DECL NGrid
             uint32 count = 0;
             for (uint32 x = 0; x < N; ++x)
                 for (uint32 y = 0; y < N; ++y)
-                    count += i_cells[x][y].ActiveObjectsInGrid();
+                    { count += i_cells[x][y].ActiveObjectsInGrid(); }
 
             return count;
         }

@@ -200,9 +200,9 @@ void SQLStorageLoaderBase<DerivedLoader, StorageClass>::Load(StorageClass& store
     if (!result)
     {
         if (error_at_empty)
-            sLog.outError("%s table is empty!\n", store.GetTableName());
+            { sLog.outError("%s table is empty!\n", store.GetTableName()); }
         else
-            sLog.outString("%s table is empty!\n", store.GetTableName());
+            { sLog.outString("%s table is empty!\n", store.GetTableName()); }
 
         recordCount = 0;
         return;
@@ -280,7 +280,7 @@ void SQLStorageLoaderBase<DerivedLoader, StorageClass>::Load(StorageClass& store
 
             // It is required that the input has at least as many columns set as the output requires
             if (y >= store.GetSrcFieldCount())
-                assert(false && "SQL storage has too few columns!");
+                { assert(false && "SQL storage has too few columns!"); }
 
             switch (store.GetSrcFormat(y))
             {

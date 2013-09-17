@@ -122,7 +122,7 @@ void ReadLiquidTypeTableDBC()
     memset(LiqType, 0xff, (LiqType_maxid + 1) * sizeof(uint16));
 
     for (uint32 x = 0; x < LiqType_count; ++x)
-        LiqType[dbc.getRecord(x).getUInt(0)] = dbc.getRecord(x).getUInt(3);
+        { LiqType[dbc.getRecord(x).getUInt(0)] = dbc.getRecord(x).getUInt(3); }
 
     printf("Done! (%u LiqTypes loaded)\n", (unsigned int)LiqType_count);
 }
@@ -139,12 +139,12 @@ bool ExtractWmo()
         for (vector<string>::iterator fname = filelist.begin(); fname != filelist.end() && success; ++fname)
         {
             if (fname->find(".wmo") != string::npos)
-                success = ExtractSingleWmo(*fname);
+                { success = ExtractSingleWmo(*fname); }
         }
     }
 
     if (success)
-        printf("\nExtract wmo complete (No (fatal) errors)\n");
+        { printf("\nExtract wmo complete (No (fatal) errors)\n"); }
 
     return success;
 }
@@ -159,7 +159,7 @@ bool ExtractSingleWmo(std::string& fname)
     fixnamen(szLocalFile, strlen(szLocalFile));
 
     if (FileExists(szLocalFile))
-        return true;
+        { return true; }
 
     int p = 0;
     //Select root wmo files
@@ -172,12 +172,12 @@ bool ExtractSingleWmo(std::string& fname)
         {
             int m = cpy[i];
             if (isdigit(m))
-                p++;
+                { p++; }
         }
     }
 
     if (p == 3)
-        return true;
+        { return true; }
 
     bool file_ok = true;
     std::cout << "Extracting " << fname << std::endl;
@@ -226,7 +226,7 @@ bool ExtractSingleWmo(std::string& fname)
 
     // Delete the extracted file in the case of an error
     if (!file_ok)
-        remove(szLocalFile);
+        { remove(szLocalFile); }
     return true;
 }
 
@@ -266,7 +266,7 @@ void ParsMapFiles()
     {
         printf("Warning: Some models could not be extracted, see below\n");
         for (StringSet::const_iterator itr = failedPaths.begin(); itr != failedPaths.end(); ++itr)
-            printf("Could not find file of model %s\n", itr->c_str());
+            { printf("Could not find file of model %s\n", itr->c_str()); }
         printf("A few not found models can be expected and are not alarming.\n");
     }
 }
@@ -313,7 +313,7 @@ bool scan_patches(char* scanmatch, std::vector<std::string>& pArchiveNames)
 bool fillArchiveNameVector(std::vector<std::string>& pArchiveNames)
 {
     if (!hasInputPathParam)
-        getGamePath();
+        { getGamePath(); }
 
     printf("\nGame path: %s\n", input_path);
 
@@ -326,11 +326,11 @@ bool fillArchiveNameVector(std::vector<std::string>& pArchiveNames)
     sprintf(path, "%smodel.MPQ", input_path);
     pArchiveNames.push_back(path);
     pArchiveNames.push_back(path);
-	sprintf(path, "%stexture.MPQ", input_path);
+    sprintf(path, "%stexture.MPQ", input_path);
     pArchiveNames.push_back(path);
-	sprintf(path, "%swmo.MPQ", input_path);
+    sprintf(path, "%swmo.MPQ", input_path);
     pArchiveNames.push_back(path);
-	sprintf(path, "%sbase.MPQ", input_path);
+    sprintf(path, "%sbase.MPQ", input_path);
     pArchiveNames.push_back(path);
     sprintf(path, "%smisc.MPQ", input_path);
 
@@ -338,7 +338,7 @@ bool fillArchiveNameVector(std::vector<std::string>& pArchiveNames)
     printf("Scanning patch levels from data directory.\n");
     sprintf(path, "%spatch", input_path);
     if (!scan_patches(path, pArchiveNames))
-        return(false);
+        { return(false); }
 
     printf("\n");
 
@@ -364,7 +364,7 @@ bool processArgv(int argc, char** argv)
                 hasInputPathParam = true;
                 strcpy(input_path, argv[i + 1]);
                 if (input_path[strlen(input_path) - 1] != '\\' || input_path[strlen(input_path) - 1] != '/')
-                    strcat(input_path, "/");
+                    { strcat(input_path, "/"); }
                 ++i;
             }
             else
@@ -414,7 +414,7 @@ int main(int argc, char** argv)
 
     // Use command line arguments, when some
     if (!processArgv(argc, argv))
-        return 1;
+        { return 1; }
 
     // some simple check if working dir is dirty
     else
@@ -440,7 +440,7 @@ int main(int argc, char** argv)
               , 0711
 #endif
              ))
-        success = (errno == EEXIST);
+        { success = (errno == EEXIST); }
 
     // prepare archive name list
     std::vector<std::string> archiveNames;
@@ -449,7 +449,7 @@ int main(int argc, char** argv)
     {
         MPQArchive* archive = new MPQArchive(archiveNames[i].c_str());
         if (!gOpenArchives.size() || gOpenArchives.front() != archive)
-            delete archive;
+            { delete archive; }
     }
 
     if (gOpenArchives.empty())
@@ -461,7 +461,7 @@ int main(int argc, char** argv)
 
     // extract data
     if (success)
-        success = ExtractWmo();
+        { success = ExtractWmo(); }
 
     //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     //map.dbc

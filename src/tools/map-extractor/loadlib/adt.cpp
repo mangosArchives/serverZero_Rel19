@@ -34,8 +34,8 @@ bool isHole(int holes, int i, int j)
 {
     int testi = i / 2;
     int testj = j / 4;
-    if (testi > 3) testi = 3;
-    if (testj > 3) testj = 3;
+    if (testi > 3) { testi = 3; }
+    if (testj > 3) { testj = 3; }
     return (holes & holetab_h[testi] & holetab_v[testj]) != 0;
 }
 
@@ -65,12 +65,12 @@ bool ADT_file::prepareLoadedData()
 {
     // Check parent
     if (!FileLoader::prepareLoadedData())
-        return false;
+        { return false; }
 
     // Check and prepare MHDR
     a_grid = (adt_MHDR*)(GetData() + 8 + version->size);
     if (!a_grid->prepareLoadedData())
-        return false;
+        { return false; }
 
     return true;
 }
@@ -78,18 +78,18 @@ bool ADT_file::prepareLoadedData()
 bool adt_MHDR::prepareLoadedData()
 {
     if (fcc != 'MHDR')
-        return false;
+        { return false; }
 
     if (size != sizeof(adt_MHDR) - 8)
-        return false;
+        { return false; }
 
     // Check and prepare MCIN
     if (offsMCIN && !getMCIN()->prepareLoadedData())
-        return false;
+        { return false; }
 
     // Check and prepare MH2O
     if (offsMH2O && !getMH2O()->prepareLoadedData())
-        return false;
+        { return false; }
 
     return true;
 }
@@ -97,13 +97,13 @@ bool adt_MHDR::prepareLoadedData()
 bool adt_MCIN::prepareLoadedData()
 {
     if (fcc != 'MCIN')
-        return false;
+        { return false; }
 
     // Check cells data
     for (int i = 0; i < ADT_CELLS_PER_GRID; i++)
         for (int j = 0; j < ADT_CELLS_PER_GRID; j++)
             if (cells[i][j].offsMCNK && !getMCNK(i, j)->prepareLoadedData())
-                return false;
+                { return false; }
 
     return true;
 }
@@ -111,7 +111,7 @@ bool adt_MCIN::prepareLoadedData()
 bool adt_MH2O::prepareLoadedData()
 {
     if (fcc != 'MH2O')
-        return false;
+        { return false; }
 
     // Check liquid data
 //    for (int i=0; i<ADT_CELLS_PER_GRID;i++)
@@ -123,14 +123,14 @@ bool adt_MH2O::prepareLoadedData()
 bool adt_MCNK::prepareLoadedData()
 {
     if (fcc != 'MCNK')
-        return false;
+        { return false; }
 
     // Check height map
     if (offsMCVT && !getMCVT()->prepareLoadedData())
-        return false;
+        { return false; }
     // Check liquid data
     if (offsMCLQ && !getMCLQ()->prepareLoadedData())
-        return false;
+        { return false; }
 
     return true;
 }
@@ -138,10 +138,10 @@ bool adt_MCNK::prepareLoadedData()
 bool adt_MCVT::prepareLoadedData()
 {
     if (fcc != 'MCVT')
-        return false;
+        { return false; }
 
     if (size != sizeof(adt_MCVT) - 8)
-        return false;
+        { return false; }
 
     return true;
 }
@@ -149,7 +149,7 @@ bool adt_MCVT::prepareLoadedData()
 bool adt_MCLQ::prepareLoadedData()
 {
     if (fcc != 'MCLQ')
-        return false;
+        { return false; }
 
     return true;
 }

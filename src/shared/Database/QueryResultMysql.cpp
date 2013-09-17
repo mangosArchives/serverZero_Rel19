@@ -34,7 +34,7 @@ QueryResultMysql::QueryResultMysql(MYSQL_RES* result, MYSQL_FIELD* fields, uint6
     MANGOS_ASSERT(mCurrentRow);
 
     for (uint32 i = 0; i < mFieldCount; ++i)
-        mCurrentRow[i].SetType(ConvertNativeType(fields[i].type));
+        { mCurrentRow[i].SetType(ConvertNativeType(fields[i].type)); }
 }
 
 QueryResultMysql::~QueryResultMysql()
@@ -47,7 +47,7 @@ bool QueryResultMysql::NextRow()
     MYSQL_ROW row;
 
     if (!mResult)
-        return false;
+        { return false; }
 
     row = mysql_fetch_row(mResult);
     if (!row)
@@ -57,7 +57,7 @@ bool QueryResultMysql::NextRow()
     }
 
     for (uint32 i = 0; i < mFieldCount; ++i)
-        mCurrentRow[i].SetValue(row[i]);
+        { mCurrentRow[i].SetValue(row[i]); }
 
     return true;
 }

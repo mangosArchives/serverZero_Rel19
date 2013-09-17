@@ -38,7 +38,7 @@ void* operator new(size_t sz)
     void* res = scalable_malloc(sz);
 
     if (res == NULL)
-        throw std::bad_alloc();
+        { throw std::bad_alloc(); }
 
     return res;
 }
@@ -48,7 +48,7 @@ void* operator new[](size_t sz)
     void* res = scalable_malloc(sz);
 
     if (res == NULL)
-        throw std::bad_alloc();
+        { throw std::bad_alloc(); }
 
     return res;
 }
@@ -92,7 +92,7 @@ void* operator new(size_t mem_size)
     void* result = FastMM_malloc(mem_size);
 
     if (!result)
-        throw std::exception("FastMM: Error! operator new");
+        { throw std::exception("FastMM: Error! operator new"); }
 
     return result;
 }
@@ -102,7 +102,7 @@ void* operator new[](size_t mem_size)
     void* result = FastMM_malloc(mem_size);
 
     if (!result)
-        throw std::exception("FastMM: Error! operator new with array");
+        { throw std::exception("FastMM: Error! operator new with array"); }
 
     return result;
 }

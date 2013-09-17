@@ -65,7 +65,7 @@ class SOAPWorkingThread : public ACE_Task<ACE_MT_SYNCH>
                 if (this->getq(mb) == -1)
                 {
                     ACE_DEBUG((LM_INFO,
-                               ACE_TEXT("(%t) Shutting down\n")));
+                    ACE_TEXT("(%t) Shutting down\n")));
                     break;
                 }
 
