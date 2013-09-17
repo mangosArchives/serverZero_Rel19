@@ -287,7 +287,7 @@ bool ChatHandler::HandleDebugSendChannelNotifyCommand(char* args)
 // Send notification in chat
 bool ChatHandler::HandleDebugSendChatMsgCommand(char* args)
 {
-    const char* msg = "testtest";
+    const char* msg = args;
 
     uint32 type;
     if (!ExtractUInt32(&args, type) || type > 255)
