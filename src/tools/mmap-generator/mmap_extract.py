@@ -38,11 +38,11 @@ class workerThread(threading.Thread):
             stInfo.dwFlags |= 0x00000001
             stInfo.wShowWindow = 7
             cFlags = subprocess.CREATE_NEW_CONSOLE
-            binName = "MoveMapGen.exe"
+            binName = "mmap-generator.exe"
         else:
             stInfo = None
             cFlags = 0
-            binName = "./MoveMapGen"
+            binName = "./mmap-generator"
         retcode = subprocess.call([binName, "%u" % (self.mapID),"--silent"], startupinfo=stInfo, creationflags=cFlags)
         print "-- %s" % (name)
 
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     cpu = cpu_count() - 0 # You can reduce the load by putting 1 instead of 0 if you need to free 1 core/cpu
     if cpu < 1:
         cpu = 1
-    print "I will always maintain %u MoveMapGen tasks running in //\n" % (cpu)
+    print "I will always maintain %u mmap-generator tasks running in //\n" % (cpu)
     while (len(mapList) > 0):
         if (threading.active_count() <= cpu):
             workerThread(mapList.popleft()).start()

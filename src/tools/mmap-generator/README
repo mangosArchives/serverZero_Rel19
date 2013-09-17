@@ -53,14 +53,14 @@ Generator command line args
 
 examples:
 
-movemapgen
+mmap-generator
 builds maps using the default settings (see above for defaults)
 
-movemapgen --skipContinents true
+mmap-generator --skipContinents true
 builds the default maps, except continents
 
-movemapgen 0
+mmap-generator 0
 builds all tiles of map 0
 
-movemapgen 0 --tile 34,46
+mmap-generator 0 --tile 34,46
 builds only tile 34,46 of map 0 (this is the southern face of blackrock mountain)

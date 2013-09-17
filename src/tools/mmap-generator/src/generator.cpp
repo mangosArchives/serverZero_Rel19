@@ -73,9 +73,9 @@ void printUsage()
     printf("--bigBaseUnit [true|false] : Generate tile/map using bigger basic unit.\n");
     printf("--silent : Make script friendly. No wait for user input, error, completion.\n");
     printf("--offMeshInput [file.*] : Path to file containing off mesh connections data.\n\n");
-    printf("Exemple:\nmovemapgen (generate all mmap with default arg\n"
-        "movemapgen 0 (generate map 0)\n"
-        "movemapgen --tile 34,46 (builds only tile 34,46 of map 0)\n\n");
+    printf("Exemple:\nmmap-generator (generate all mmap with default arg\n"
+        "mmap-generator 0 (generate map 0)\n"
+        "mmap-generator --tile 34,46 (builds only tile 34,46 of map 0)\n\n");
     printf("Please read readme file for more information and exemples.\n");
 }
 
