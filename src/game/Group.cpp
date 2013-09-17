@@ -1646,7 +1646,7 @@ static void RewardGroupAtKill_helper(Player* pGroupGuy, Unit* pVictim, uint32 co
 
             pGroupGuy->GiveXP(itr_xp, pVictim);
             if (Pet* pet = pGroupGuy->GetPet())
-                { pet->GivePetXP(itr_xp / 2); }
+                { pet->GivePetXP(itr_xp); }
         }
 
         // quest objectives updated only for alive group member or dead but with not released body
