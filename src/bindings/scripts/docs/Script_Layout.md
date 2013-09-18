@@ -5,11 +5,7 @@ A quick explanation of the layout I hope everyone will follow for scriptdev2.
 
 battlegrounds - Contains scripts for npcs in Battlegrounds
 
-custom - Intentionally empty folder from SVN. If you make a custom script please put it here.
-
-examples - Contains a couple of example scripts showing the most commonly used functions within SD2
-
-eastern_kingdoms, kalimdor, northrend, outland - Contain scripts for anything related to npcs or instances on the corresponding continent.
+eastern_kingdoms, kalimdor - Contain scripts for anything related to npcs or instances on the corresponding continent.
 Instances are grouped to subfolders, the normal continent-maps are divided into zones
 
 world - Contains scripts for anything that is not related to a specified zone.

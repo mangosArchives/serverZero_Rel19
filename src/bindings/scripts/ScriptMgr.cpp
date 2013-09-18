@@ -102,14 +102,12 @@ MANGOS_DLL_EXPORT
 void InitScriptLibrary()
 {
     // ScriptDev2 startup
-    outstring_log("\n");
     outstring_log("  ___         _      _   ___          ___ ");
     outstring_log(" / __| __ _ _(_)_ __| |_|   \\ _____ _|_  )");
     outstring_log(" \\__ \\/ _| '_| | '_ \\  _| |) / -_) V // / ");
     outstring_log(" |___/\\__|_| |_| .__/\\__|___/\\___|\\_//___|");
     outstring_log("               |_|                        ");
     outstring_log("                     http://scriptdev2.com");
-    outstring_log("\n");
 
     // Get configuration file
     bool configFailure = false;

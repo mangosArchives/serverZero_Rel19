@@ -154,6 +154,6 @@ void SystemMgr::LoadScriptWaypoints()
     {
         BarGoLink bar(1);
         bar.step();
-        outstring_log(">> Loaded 0 Script Waypoints. DB table `script_waypoint` is empty.");
+        outstring_log(">> Loaded 0 Script Waypoints.");
     }
 }
