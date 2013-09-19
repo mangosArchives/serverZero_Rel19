@@ -1252,6 +1252,16 @@ void Aura::HandleAuraDummy(bool apply, bool Real)
                 }
                 return;
             }
+            case 11826:                                     // Electromagnetic Gigaflux Reactivator
+                if (m_removeMode != AURA_REMOVE_BY_EXPIRE)
+                    return;
+                
+                if (Unit* caster = GetCaster())
+                {
+                    if (caster->GetTypeId() == TYPEID_PLAYER)
+                        caster->CastSpell(target, 11828, true, ((Player*) caster)->GetItemByGuid(this->GetCastItemGuid()), this);
+                }
+                return;
             case 12479:                                     // Hex of Jammal'an
                 target->CastSpell(target, 12480, true, NULL, this);
                 return;
