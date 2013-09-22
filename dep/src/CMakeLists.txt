@@ -25,7 +25,9 @@
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
 add_subdirectory(g3dlite)
-add_subdirectory(gsoap)
+if(USE_SOAP)
+  add_subdirectory(gsoap)
+endif()
 
 if(WIN32)
   add_subdirectory(zlib)
