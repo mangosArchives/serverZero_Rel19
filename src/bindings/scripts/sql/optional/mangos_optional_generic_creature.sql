@@ -1,12 +1,8 @@
-/*  */
-
 /* WORLD CREATURE  These are creatures to be found in more than one specific zone */
 /* Spider */
 UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (14881);
 
-/*  */
 /* ZONE */
-/* */
 
 /* ALTERAC MOUNTAINS */
 /* Crushridge Mage, Argus Shadow Mage, Dalaran Summoner, Archmage Ansirem Runeweaver <Kirin Tor> */
@@ -24,13 +20,6 @@ UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` I
 /* Shadethicket Raincaller, Forsaken Seeker, Dark Strand Cultist, Dark Strand Adept */
 UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (3783, 3732, 3725, 3728);
 
-
-/*  */
-/* AUCHINDOUN */
-/*  */
-
-
-
 /* AZSHARA */
 /* Draconic Magelord, Draconic Mageweaver, Archmage Xylem */
 UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (6129, 6131, 8379);
@@ -46,7 +35,6 @@ UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` I
 /* BLACKFATHOM DEPTHS */
 /* Blindlight Oracle, Blindlight Muckdweller, Blindlight Murloc, Twilight Shadowmage */
 UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (4820, 4819, 4818, 4813);
-
 
 /* Hedrum the Creeper, Dark Keeper Zimrel */
 UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (9032, 9441);
@@ -70,7 +58,6 @@ UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry`IN
 /* Trash Mobs */
 UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (12420);
 
-
 /* BLASTED LANDS */
 /* Dreadmaul Ogre Mage, Bloodmage Drazial, Bloodmage Lynnore, Archmage Allistarj */
 UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (5975, 7505, 7506, 7666);
@@ -78,7 +65,6 @@ UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` I
 /* BURNING STEPPES */
 /* Blackrock Sorcerer, Blackrock Warlock, Scalding Broodling, Thaurissan Agent, Firegut Ogre Mage */
 UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (7026, 7028, 7048, 7038, 7034);
-
 
 /* DARKSHORE */
 /* Delmanis the Hated, Greymist Oracle,  */
@@ -136,26 +122,6 @@ UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` I
 /* GNOMEREGAN */
 UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (6206, 6208, 6209, 6215, 6219, 6229, 6228, 6235, 7361, 6407, 6220, 6218, 7603, 6223, 6222, 6234, 6233, 6226, 6227, 6225, 6230, 7079);
 
-/*  */
-/* HELLFIRE CITADEL */
-/*  */
-
-/* Laughing Skull Legionnaire, Laughing Skull Warden, Laughing Skull Rogue, Hellfire Imp, Shadowmoon Channeler, Fel Orc Neophyte, Shadowmoon Technician, Shadowmoon Adept, Hellfire Familiar, Felguard Brute, Shadowmoon Summoner, Shadowmoon Warlock */
-UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (17626, 17624, 17491, 17477, 17653, 17429, 17414, 17397, 19016, 18894, 17395, 17371);
-
-/* HELLFIRE RAMPARTS */
-/* Vazruden, Omor the Unscarred, Watchkeeper Gargolmar */
-UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (17537, 17308, 17306);
-/* Hellfire Watcher <Watchkeeper's Subordinate>, Bonechewer Hungerer, Bonechewer Beastmaster, Bonechewer Ravener, Bonechewer Ripper, Bonechewer Destroyer, Bleeding Hollow Archer, Bleeding Hollow Darkcaster, Hellfire Sentry <Herald's Sentry>, Bleeding Hollow Scryer */
-UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (17309, 17259, 17455, 17264, 17281, 17271, 17270, 17269, 17517, 17478);
-
-/* SHATTERED HALLS */
-/* Warchief Kargath Bladefist */
-UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (16808);
-/* Shattered Hand Centurion, Shadowmoon Darkcaster, Shattered Hand Champion, Sharpshooter Guard, Shattered Hand Assassin, Warbringer O'mrogg, Grand Warlock Nethekurse, Shattered Hand Sharpshooter, Shattered Hand Legionnaire, Shattered Hand Reaver, Shattered Hand Brawler */
-UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (17465, 17694, 17671, 17622, 17695, 16809, 16807, 16704, 16700, 16699, 16593);
-
-
 /* HILLSBRAD FOOTHILLS */
 /* Syndicate Shadow Mage, Elder Moss Creeper, Giant Moss Creeper(also AM), Forest Moss Creeper, Writhing Mage */
 UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (2244, 2348, 2349, 2350, 7075);
@@ -207,7 +173,6 @@ UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` I
 /* SHADOWFANG KEEP */
 /* Archmage Arugal */
 UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (4275);
-
 
 /* SILITHUS */
 /* Orgrimmar Legion Axe Thrower, Stormwind Archmage */
@@ -278,6 +243,3 @@ UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` I
 /* WINTERSPRING */
 /* Cobalt Mageweaver, Chillwind Chimaera */
 UPDATE `creature_template` SET `ScriptName` = 'generic_creature' WHERE `entry` IN (7437, 7448);
-
-
-/* EOF */
