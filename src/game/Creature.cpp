@@ -2499,22 +2499,17 @@ void Creature::SetWalk(bool enable, bool asDefault)
 void Creature::SetLevitate(bool enable)
 {
     if (enable)
-        { m_movementInfo.AddMovementFlag(MOVEFLAG_LEVITATING); }
+        { m_movementInfo.AddMovementFlag(MOVEFLAG_LEVITATE); }
     else
-        { m_movementInfo.RemoveMovementFlag(MOVEFLAG_LEVITATING); }
-
-    // TODO: there should be analogic opcode for 2.43
-    // WorldPacket data(enable ? SMSG_SPLINE_MOVE_GRAVITY_DISABLE : SMSG_SPLINE_MOVE_GRAVITY_ENABLE, 9);
-    // data << GetPackGUID();
-    // SendMessageToSet(&data, true);
+        { m_movementInfo.RemoveMovementFlag(MOVEFLAG_LEVITATE); }
 }
 
 void Creature::SetRoot(bool enable)
 {
     if (enable)
-        { m_movementInfo.AddMovementFlag(MOVEFLAG_ROOT); }
+        { m_movementInfo.AddMovementFlag(MOVEFLAG_IMMOBILIZED); }
     else
-        { m_movementInfo.RemoveMovementFlag(MOVEFLAG_ROOT); }
+        { m_movementInfo.RemoveMovementFlag(MOVEFLAG_IMMOBILIZED); }
 
     WorldPacket data(enable ? SMSG_SPLINE_MOVE_ROOT : SMSG_SPLINE_MOVE_UNROOT, 9);
     data << GetPackGUID();
@@ -2524,9 +2519,9 @@ void Creature::SetRoot(bool enable)
 void Creature::SetWaterWalk(bool enable)
 {
     if (enable)
-        { m_movementInfo.AddMovementFlag(MOVEFLAG_WATERWALKING); }
+        { m_movementInfo.AddMovementFlag(MOVEFLAG_WATER_WALK); }
     else
-        { m_movementInfo.RemoveMovementFlag(MOVEFLAG_WATERWALKING); }
+        { m_movementInfo.RemoveMovementFlag(MOVEFLAG_WATER_WALK); }
 
     WorldPacket data(enable ? SMSG_SPLINE_MOVE_WATER_WALK : SMSG_SPLINE_MOVE_LAND_WALK, 9);
     data << GetPackGUID();

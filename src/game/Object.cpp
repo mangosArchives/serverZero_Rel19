@@ -237,7 +237,7 @@ void Object::DestroyForPlayer(Player* target) const
 
 void Object::BuildMovementUpdate(ByteBuffer* data, uint8 updateFlags) const
 {
-    uint32 moveFlags = MOVEFLAG_NONE;
+    uint32 moveFlags = MOVEFLAG_MOVE_STOP;
 
     *data << uint8(updateFlags);                            // update flags
 
@@ -245,7 +245,7 @@ void Object::BuildMovementUpdate(ByteBuffer* data, uint8 updateFlags) const
     {
         if (m_objectTypeId == TYPEID_PLAYER && ((Player*)this)->GetTransport())
         {
-            moveFlags |= MOVEFLAG_ONTRANSPORT;
+            moveFlags |= MOVEFLAG_TAXI;
         }
 
         *data << uint32(moveFlags);                         // movement flags

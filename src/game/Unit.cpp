@@ -61,6 +61,17 @@
 #include <math.h>
 #include <stdarg.h>
 
+#ifdef WIN32
+inline uint32 getMSTime() { return GetTickCount(); }
+#else
+inline uint32 getMSTime()
+{
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+}
+#endif
+
 float baseMoveSpeed[MAX_MOVE_TYPE] =
 {
     2.5f,                                                   // MOVE_WALK
@@ -76,29 +87,31 @@ float baseMoveSpeed[MAX_MOVE_TYPE] =
 
 void MovementInfo::Read(ByteBuffer& data)
 {
-    data >> moveFlags;
-    data >> time;
-    data >> pos.x;
-    data >> pos.y;
-    data >> pos.z;
-    data >> pos.o;
+    data >> moveFlags >> time;
+    data >> pos.x >> pos.y >> pos.z >> pos.o;
 
-    if (HasMovementFlag(MOVEFLAG_ONTRANSPORT))
+
+    if (HasMovementFlag(MOVEFLAG_TAXI))
     {
         data >> t_guid;
         data >> t_pos.x;
         data >> t_pos.y;
         data >> t_pos.z;
         data >> t_pos.o;
+        data >> t_time;
     }
     if (HasMovementFlag(MOVEFLAG_SWIMMING))
     {
         data >> s_pitch;
     }
 
-    data >> fallTime;
+    /* This is never sent when we're on a taxi */
+    if(!HasMovementFlag(MOVEFLAG_TAXI))
+    {
+        data >> fallTime;
+    }
 
-    if (HasMovementFlag(MOVEFLAG_FALLING))
+    if (HasMovementFlag(MOVEFLAG_FALLING) || HasMovementFlag(MOVEFLAG_REDIRECTED))
     {
         data >> jump.velocity;
         data >> jump.sinAngle;
@@ -106,37 +119,39 @@ void MovementInfo::Read(ByteBuffer& data)
         data >> jump.xyspeed;
     }
 
-    if (HasMovementFlag(MOVEFLAG_SPLINE_ELEVATION))
+    if (HasMovementFlag(MOVEFLAG_SPLINE_MOVER))
     {
         data >> u_unk1;                                     // unknown
     }
+
 }
 
 void MovementInfo::Write(ByteBuffer& data) const
 {
-    data << moveFlags;
-    data << time;
-    data << pos.x;
-    data << pos.y;
-    data << pos.z;
-    data << pos.o;
+    data << moveFlags << time;
+    data << pos.x << pos.y << pos.z << pos.o;
 
-    if (HasMovementFlag(MOVEFLAG_ONTRANSPORT))
+    if (HasMovementFlag(MOVEFLAG_TAXI))
     {
         data << t_guid;
         data << t_pos.x;
         data << t_pos.y;
         data << t_pos.z;
         data << t_pos.o;
+        data << t_time;
     }
     if (HasMovementFlag(MOVEFLAG_SWIMMING))
     {
         data << s_pitch;
     }
 
-    data << fallTime;
+    /* This is never sent when we're on a taxi */
+    if(!HasMovementFlag(MOVEFLAG_TAXI))
+    {
+        data << fallTime;
+    }
 
-    if (HasMovementFlag(MOVEFLAG_FALLING))
+    if (HasMovementFlag(MOVEFLAG_FALLING) || HasMovementFlag(MOVEFLAG_REDIRECTED))
     {
         data << jump.velocity;
         data << jump.sinAngle;
@@ -144,10 +159,11 @@ void MovementInfo::Write(ByteBuffer& data) const
         data << jump.xyspeed;
     }
 
-    if (HasMovementFlag(MOVEFLAG_SPLINE_ELEVATION))
+    if (HasMovementFlag(MOVEFLAG_SPLINE_MOVER))
     {
         data << u_unk1;                                     // unknown
     }
+
 }
 
 ////////////////////////////////////////////////////////////
@@ -8521,7 +8537,7 @@ void Unit::SetFeignDeath(bool apply, ObjectGuid casterGuid, uint32 /*spellID*/)
         if (GetTypeId() != TYPEID_PLAYER)
             { StopMoving(); }
         else
-            { ((Player*)this)->m_movementInfo.SetMovementFlags(MOVEFLAG_NONE); }
+            { ((Player*)this)->m_movementInfo.SetMovementFlags(MOVEFLAG_MOVE_STOP); }
 
 
         SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_UNK_29);
@@ -9156,6 +9172,6 @@ void Unit::UpdateSplineMovement(uint32 t_diff)
 
 void Unit::DisableSpline()
 {
-    m_movementInfo.RemoveMovementFlag(MovementFlags(MOVEFLAG_SPLINE_ENABLED | MOVEFLAG_FORWARD));
+    m_movementInfo.RemoveMovementFlag(MovementFlags(MOVEFLAG_IMMOBILIZED | MOVEFLAG_MOVE_FORWARD));
     movespline->_Interrupt();
 }
