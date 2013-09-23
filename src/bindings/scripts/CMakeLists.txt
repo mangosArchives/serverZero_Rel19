@@ -1,7 +1,7 @@
 # mangos-zero is a full featured server for World of Warcraft in its vanilla
 # version, supporting clients for patch 1.12.x.
 #
-# Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
+# Copyright (C) 2006-2013 ScriptDev2 <http://www.scriptdev2.com/>
 #
 # ***** BEGIN GPL LICENSE BLOCK *****
 #
