@@ -15,7 +15,7 @@
 ## Second param can be an additional filename for storing log
 ## Third param can be an addition filename for storing detailed log
 
-## Additional Parameters to be forwarded to MoveMapGen, see mmaps/readme for instructions
+## Additional Parameters to be forwarded to mmap-generator, see mmaps/readme for instructions
 PARAMS="--silent"
 
 ## Already a few map extracted, and don't care anymore
@@ -26,9 +26,9 @@ EXCLUDE_MAPS=""
 OFFMESH_FILE="offmesh.txt"
 
 ## Normal log file (if not overwritten by second param
-LOG_FILE="MoveMapGen.log"
+LOG_FILE="mmap-generator.log"
 ## Detailed log file
-DETAIL_LOG_FILE="MoveMapGen_detailed.log"
+DETAIL_LOG_FILE="mmap-generator_detailed.log"
 
 ## ! Use below only for finetuning or if you know what you are doing !
 
