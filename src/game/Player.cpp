@@ -2939,9 +2939,9 @@ bool Player::addSpell(uint32 spell_id, bool active, bool learning, bool dependen
 
             if (_spell_idx->second->learnOnGetSkill == ABILITY_LEARNED_ON_GET_RACE_OR_CLASS_SKILL ||
                     // poison special case, not have ABILITY_LEARNED_ON_GET_RACE_OR_CLASS_SKILL
-                    pSkill->id == SKILL_POISONS && _spell_idx->second->max_value == 0 ||
+                    (pSkill->id == SKILL_POISONS && _spell_idx->second->max_value == 0) ||
                     // lockpicking special case, not have ABILITY_LEARNED_ON_GET_RACE_OR_CLASS_SKILL
-                    pSkill->id == SKILL_LOCKPICKING && _spell_idx->second->max_value == 0)
+                    (pSkill->id == SKILL_LOCKPICKING && _spell_idx->second->max_value == 0))
             {
                 switch (GetSkillRangeType(pSkill, _spell_idx->second->racemask != 0))
                 {
@@ -9732,11 +9732,6 @@ InventoryResult Player::CanUseAmmo(uint32 item) const
         InventoryResult msg = CanUseItem(pProto);
         if (msg != EQUIP_ERR_OK)
             return msg;
-
-        /*if( GetReputationMgr().GetReputation() < pProto->RequiredReputation )
-        /*if ( GetReputationMgr().GetReputation() < pProto->RequiredReputation )
-        return EQUIP_ERR_CANT_EQUIP_REPUTATION;
-        */
 
         return EQUIP_ERR_OK;
     }
