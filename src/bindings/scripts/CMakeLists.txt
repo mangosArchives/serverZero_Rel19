@@ -1,5 +1,7 @@
 #
-# Copyright (C) 2005-2013 MaNGOS <http://getmangos.co.uk/>
+# Copyright (C) 2006-2013 ScriptDev2 <http://www.scriptdev2.com/>
+#
+# ***** BEGIN GPL LICENSE BLOCK *****
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
