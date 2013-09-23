@@ -1,0 +1,40 @@
+DELETE FROM script_texts WHERE entry BETWEEN -1533074 AND -1533065;
+INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
+(-1533065,'You seek death?',8835,1,0,0,'rivendare_naxx SAY_MORG_AGGRO1'),
+(-1533066,'None shall pass!',8836,1,0,0,'rivendare_naxx SAY_MORG_AGGRO2'),
+(-1533067,'Be still!',8837,1,0,0,'rivendare_naxx SAY_MORG_AGGRO3'),
+(-1533068,'You will find no peace in death.',8839,1,0,0,'rivendare_naxx SAY_MORG_SLAY1'),
+(-1533069,'The master\'s will is done.',8840,1,0,0,'rivendare_naxx SAY_MORG_SLAY2'),
+(-1533070,'Bow to the might of the Highlord!',8841,1,0,0,'rivendare_naxx SAY_MORG_SPECIAL'),
+(-1533071,'Enough prattling. Let them come! We shall grind their bones to dust.',8842,1,0,0,'rivendare_naxx SAY_MORG_TAUNT1'),
+(-1533072,'Conserve your anger! Harness your rage! You will all have outlets for your frustration soon enough.',8843,1,0,0,'rivendare_naxx SAY_MORG_TAUNT2'),
+(-1533073,'Life is meaningless. It is in death that we are truly tested.',8844,1,0,0,'rivendare_naxx SAY_MORG_TAUNT3'),
+(-1533074,'I...am...released! Perhaps it\'s not too late to — noo! I need...more time...',8838,1,0,0,'rivendare_naxx SAY_MORG_DEATH');
+
+DELETE FROM script_texts WHERE entry BETWEEN -1533108 AND -1533084;
+INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
+(-1533084,'Our preparations continue as planned master.',8878,6,0,0,'kelthuzad SAY_SAPP_DIALOG1'),
+(-1533085,'It is good that you serve me so faithfully. Soon... all will serve the Lich King and in the end, you shall be rewarded. So long as you do not falter.',8881,6,0,0,'lich_king SAY_SAPP_DIALOG2_LICH'),
+(-1533086,'I foresee no complications at this... wait! What is this!?',8879,6,0,0,'kelthuzad SAY_SAPP_DIALOG3'),
+(-1533087,'Your security measures have failed! See to this interruption immediately!',8882,6,0,0,'lich_king SAY_SAPP_DIALOG4_LICH'),
+(-1533088,'Yes, master!',8880,6,0,0,'kelthuzad SAY_SAPP_DIALOG5'),
+(-1533089,'No!!! A curse upon you, interlopers! The armies of the Lich King will hunt you down. You will not escape your fate...',0,6,0,0,'kelthuzad SAY_CAT_DIED'),
+(-1533090,'Who dares violate the sanctity of my domain? Be warned, all who trespass here are doomed.',8820,6,0,0,'kelthuzad SAY_TAUNT1'),
+(-1533091,'Fools, you think yourselves triumphant? You have only taken one step closer to the abyss! ',8821,6,0,0,'kelthuzad SAY_TAUNT2'),
+(-1533092,'I grow tired of these games. Proceed, and I will banish your souls to oblivion!',8822,6,0,0,'kelthuzad SAY_TAUNT3'),
+(-1533093,'You have no idea what horrors lie ahead. You have seen nothing! The frozen heart of Naxxramas awaits you!',8823,6,0,0,'kelthuzad SAY_TAUNT4'),
+(-1533094,'Pray for mercy!',8809,1,0,0,'kelthuzad SAY_AGGRO1'),
+(-1533095,'Scream your dying breath!',8810,1,0,0,'kelthuzad SAY_AGGRO2'),
+(-1533096,'The end is upon you!',8811,1,0,0,'kelthuzad SAY_AGGRO3'),
+(-1533097,'The dark void awaits you!',8817,1,0,0,'kelthuzad SAY_SLAY1'),
+(-1533098,'<Kel\'Thuzad cackles maniacally!>',8818,1,0,0,'kelthuzad SAY_SLAY2'),
+(-1533099,'AAAAGHHH!... Do not rejoice... your victory is a hollow one... for I shall return with powers beyond your imagining!',8814,1,0,0,'kelthuzad SAY_DEATH'),
+(-1533100,'Your soul, is bound to me now!',8812,1,0,0,'kelthuzad SAY_CHAIN1'),
+(-1533101,'There will be no escape!',8813,1,0,0,'kelthuzad SAY_CHAIN2'),
+(-1533102,'I will freeze the blood in your veins!',8815,1,0,0,'kelthuzad SAY_FROST_BLAST'),
+(-1533103,'Master! I require aid! ',8816,1,0,0,'kelthuzad SAY_REQUEST_AID'),
+(-1533104,'Very well... warriors of the frozen wastes, rise up! I command you to fight, kill, and die for your master. Let none survive...',8824,1,0,0,'kelthuzad SAY_ANSWER_REQUEST'),
+(-1533105,'Minions, servants, soldiers of the cold dark, obey the call of Kel\'Thuzad!',8819,1,0,0,'kelthuzad SAY_SUMMON_MINIONS'),
+(-1533106,'Your petty magics are no challenge to the might of the Scourge! ',9088,1,0,0,'kelthuzad SAY_SPECIAL1_MANA_DET'),
+(-1533107,'Enough! I grow tired of these distractions! ',9090,1,0,0,'kelthuzad SAY_SPECIAL3_MANA_DET'),
+(-1533108,'Fools, you have spread your powers too thin. Be free, my minions!',9089,1,0,0,'kelthuzad SAY_SPECIAL2_DISPELL');

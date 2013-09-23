@@ -1,0 +1,8 @@
+= ScriptDev2 TODO Points =
+
+== Classic content ==
+* Various quests which still require script (examples: 660, 667, 1222, 1270, 3367, 5721)
+* Zul'farrak (requires core proper waipoint movement support).
+* Blackwing Lair - Razorgore (requires core proper mind control support).
+* Ruins of AQ - Add missing script parts for Buru and Ossirian
+* Temple of AQ - Add missing script part for Viscidus
