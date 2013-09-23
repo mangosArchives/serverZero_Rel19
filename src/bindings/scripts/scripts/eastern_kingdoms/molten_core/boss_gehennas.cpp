@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Gehennas
-SD%Complete: 90
-SDComment:
-SDCategory: Molten Core
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Gehennas
+ * SD%Complete: 90
+ * SDComment:   None
+ * SDCategory:  Molten Core
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "molten_core.h"

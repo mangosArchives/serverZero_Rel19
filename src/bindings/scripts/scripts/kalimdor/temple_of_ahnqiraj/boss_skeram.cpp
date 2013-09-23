@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Skeram
-SD%Complete: 90
-SDComment: Timers
-SDCategory: Temple of Ahn'Qiraj
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Skeram
+ * SD%Complete: 90
+ * SDComment:   Timers
+ * SDCategory:  Temple of Ahn'Qiraj
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "temple_of_ahnqiraj.h"

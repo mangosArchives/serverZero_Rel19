@@ -23,23 +23,27 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Stormwind_City
-SD%Complete: 100
-SDComment: Quest support: 1640, 1447, 4185, 6402, 6403.
-SDCategory: Stormwind City
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Stormwind_City
+ * SD%Complete: 100
+ * SDComment:   Quest support: 1640, 1447, 4185, 6402, 6403.
+ * SDCategory:  Stormwind City
+ * EndScriptData
+ */
 
-/* ContentData
-npc_bartleby
-npc_dashel_stonefist
-npc_lady_katrana_prestor
-npc_squire_rowe
-npc_reginald_windsor
-EndContentData */
+/**
+ * ContentData
+ * npc_bartleby
+ * npc_dashel_stonefist
+ * npc_lady_katrana_prestor
+ * npc_squire_rowe
+ * npc_reginald_windsor
+ * EndContentData
+ */
 
 #include "precompiled.h"
-#include "../world/world_map_scripts.h"
+#include "scripts/world/world_map_scripts.h"
 #include "escort_ai.h"
 
 /*######

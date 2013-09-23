@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Golemagg
-SD%Complete: 80
-SDComment: Rager need to be tied to boss (Despawn on boss-death)
-SDCategory: Molten Core
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Golemagg
+ * SD%Complete: 80
+ * SDComment:   Rager need to be tied to boss (Despawn on boss-death)
+ * SDCategory:  Molten Core
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "molten_core.h"

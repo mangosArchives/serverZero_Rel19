@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Azuregos
-SD%Complete: 90
-SDComment: Spell reflect not effecting dots (Core problem)
-SDCategory: Azshara
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Azuregos
+ * SD%Complete: 0
+ * SDComment:   Spell reflect requires core support. Core support is missing.
+ * SDCategory:  Azshara
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Mandokir
-SD%Complete: 80
-SDComment: test Threating Gaze. Script depends on ACID script for Vilebranch Speaker
-SDCategory: Zul'Gurub
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Mandokir
+ * SD%Complete: 80
+ * SDComment:   Test Threating Gaze. Script depends on ACID script for Vilebranch Speaker
+ * SDCategory:  Zul'Gurub
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "zulgurub.h"

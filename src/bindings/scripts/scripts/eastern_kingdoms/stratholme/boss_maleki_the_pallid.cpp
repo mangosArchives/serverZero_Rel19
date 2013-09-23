@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Maleki_the_Pallid
-SD%Complete: 100
-SDComment:
-SDCategory: Stratholme
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Maleki_the_Pallid
+ * SD%Complete: 100
+ * SDComment:   None
+ * SDCategory:  Stratholme
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Gluth
-SD%Complete: 95
-SDComment: Gluth should turn around to face the victim when he devours a Zombie
-SDCategory: Naxxramas
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Gluth
+ * SD%Complete: 95
+ * SDComment:   Gluth should turn around to face the victim when he devours a Zombie
+ * SDCategory:  Naxxramas
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "naxxramas.h"

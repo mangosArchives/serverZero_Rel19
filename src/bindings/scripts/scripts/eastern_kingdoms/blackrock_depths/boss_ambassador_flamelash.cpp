@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Ambassador_Flamelash
-SD%Complete: 80
-SDComment: Texts missing, Add handling rather guesswork, Add spell Burning Spirit likely won't work
-SDCategory: Blackrock Depths
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Ambassador_Flamelash
+ * SD%Complete: 80
+ * SDComment:   Texts missing, Add handling rather guesswork, Add spell Burning Spirit likely won't work
+ * SDCategory:  Blackrock Depths
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

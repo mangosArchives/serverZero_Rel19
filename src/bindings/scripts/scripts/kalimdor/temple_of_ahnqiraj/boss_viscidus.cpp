@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Viscidus
-SD%Complete: 40
-SDComment: Only basic spells - freeze and explode events require more research
-SDCategory: Temple of Ahn'Qiraj
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Viscidus
+ * SD%Complete: 40
+ * SDComment:   Only basic spells - freeze and explode events require more research
+ * SDCategory:  Temple of Ahn'Qiraj
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "temple_of_ahnqiraj.h"

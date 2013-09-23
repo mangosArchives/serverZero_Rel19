@@ -23,17 +23,21 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Westfall
-SD%Complete: 90
-SDComment: Quest support: 155, 1651
-SDCategory: Westfall
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Westfall
+ * SD%Complete: 90
+ * SDComment:   Quest support: 155, 1651.
+ * SDCategory:  Westfall
+ * EndScriptData
+ */
 
-/* ContentData
-npc_daphne_stilwell
-npc_defias_traitor
-EndContentData */
+/**
+ * ContentData
+ * npc_daphne_stilwell
+ * npc_defias_traitor
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

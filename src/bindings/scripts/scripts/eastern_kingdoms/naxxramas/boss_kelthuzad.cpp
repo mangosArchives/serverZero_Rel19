@@ -23,16 +23,21 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_KelThuzad
-SD%Complete: 75
-SDComment: Timers will need adjustments, along with tweaking positions and amounts
-SDCategory: Naxxramas
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_KelThuzad
+ * SD%Complete: 75
+ * SDComment:   Timers will need adjustments, along with tweaking positions and amounts
+ * SDCategory:  Naxxramas
+ * EndScriptData
+ */
 
-// some not answered questions:
-// - will intro mobs, not sent to center, despawn when phase 2 start?
-// - what happens if raid fail, can they start the event as soon after as they want?
+/**
+ * Notes
+ *
+ * - will intro mobs, not sent to center, despawn when phase 2 start?
+ * - what happens if raid fail, can they start the event as soon after as they want?
+ */
 
 #include "precompiled.h"
 #include "naxxramas.h"

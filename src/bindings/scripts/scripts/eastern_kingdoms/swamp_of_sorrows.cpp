@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Swamp_of_Sorrows
-SD%Complete: 100
-SDComment: Quest support: 1393
-SDCategory: Swap of Sorrows
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Swamp_of_Sorrows
+ * SD%Complete: 100
+ * SDComment:   Quest support: 1393.
+ * SDCategory:  Swap of Sorrows
+ * EndScriptData
+ */
 
-/* ContentData
-npc_galen_goodward
-EndContentData */
+/**
+ * ContentData
+ * npc_galen_goodward
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

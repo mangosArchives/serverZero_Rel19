@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Noth
-SD%Complete: 80
-SDComment: Summons need verify, need better phase-switch support (unattackable?)
-SDCategory: Naxxramas
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Noth
+ * SD%Complete: 80
+ * SDComment:   Summons need verify, need better phase-switch support (unattackable?)
+ * SDCategory:  Naxxramas
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "naxxramas.h"

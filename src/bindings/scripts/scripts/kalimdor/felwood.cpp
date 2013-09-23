@@ -23,18 +23,22 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Felwood
-SD%Complete: 95
-SDComment: Quest support: 4506, 7603, 7603 (Summon Pollo Grande)
-SDCategory: Felwood
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Felwood
+ * SD%Complete: 95
+ * SDComment:   Quest support: 4506, 7603, 7603 (Summon Pollo Grande).
+ * SDCategory:  Felwood
+ * EndScriptData
+ */
 
-/* ContentData
-npc_kitten
-npc_niby_the_almighty
-npc_kroshius
-EndContentData */
+/**
+ * ContentData
+ * npc_kitten
+ * npc_niby_the_almighty
+ * npc_kroshius
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "follower_ai.h"

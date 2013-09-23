@@ -23,19 +23,25 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Ragnaros
-SD%Complete: 70
-SDComment: Melee/ Range Combat behavior is not correct(any enemy in melee range, not only getVictim), Some abilities are missing
-SDCategory: Molten Core
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Ragnaros
+ * SD%Complete: 70
+ * SDComment:   Melee/Range Combat behavior is not correct(any enemy in melee range, not only getVictim), Some abilities are missing
+ * SDCategory:  Molten Core
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "molten_core.h"
 
-/* There have been quite some bugs about his spells, keep this as reference untill all finished
+/**
+ * Notes:
+ *
+ * There have been quite some bugs about his spells, keep this as reference until all are resolved.
+ *
  * Missing features (based on wowwiki)
- *   Lava Burst - this spell is handled by Go 178088 which is summoned by spells 21886, 21900 - 21907
+ * Lava Burst - this spell is handled by Go 178088 which is summoned by spells 21886, 21900 - 21907
  */
 
 enum

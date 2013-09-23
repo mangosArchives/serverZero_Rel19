@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Moam
-SD%Complete: 100
-SDComment:
-SDCategory: Ruins of Ahn'Qiraj
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Moam
+ * SD%Complete: 100
+ * SDComment:   None
+ * SDCategory:  Ruins of Ahn'Qiraj
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

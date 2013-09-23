@@ -23,18 +23,22 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Zulfarrak
-SD%Complete: 100
-SDComment:
-SDCategory: Zul'Farrak
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Zulfarrak
+ * SD%Complete: 100
+ * SDComment:   None
+ * SDCategory:  Zul'Farrak
+ * EndScriptData
+ */
 
-/* ContentData
-event_go_zulfarrak_gong
-event_spell_unlocking
-at_zulfarrak
-EndContentData */
+/**
+ * ContentData
+ * event_go_zulfarrak_gong
+ * event_spell_unlocking
+ * at_zulfarrak
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "zulfarrak.h"

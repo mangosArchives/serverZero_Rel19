@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Four_Horsemen
-SD%Complete: 80
-SDComment: Lady Blaumeux, Thane Korthazz, Sir Zeliek, Alexandros Mograine; Berserk NYI.
-SDCategory: Naxxramas
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Four_Horsemen
+ * SD%Complete: 80
+ * SDComment:   Lady Blaumeux, Thane Korthazz, Sir Zeliek, Alexandros Mograine; Berserk NYI.
+ * SDCategory:  Naxxramas
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "naxxramas.h"

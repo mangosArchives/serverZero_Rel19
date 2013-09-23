@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Blasted_Lands
-SD%Complete: 90
-SDComment: Quest support: 2784, 2801. Missing some texts for Fallen Hero. Teleporter to Rise of the Defiler missing group support.
-SDCategory: Blasted Lands
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Blasted_Lands
+ * SD%Complete: 90
+ * SDComment:   Quest support: 2784, 2801. Missing some texts for Fallen Hero. Teleporter to Rise of the Defiler missing group support.
+ * SDCategory:  Blasted Lands
+ * EndScriptData
+ */
 
-/* ContentData
-npc_fallen_hero_of_horde
-EndContentData */
+/**
+ * ContentData
+ * npc_fallen_hero_of_horde
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

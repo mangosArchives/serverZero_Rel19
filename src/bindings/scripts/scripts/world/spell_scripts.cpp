@@ -23,27 +23,32 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Spell_Scripts
-SD%Complete: 100
-SDComment: Spell scripts for dummy effects (if script need access/interaction with parts of other AI or instance, add it in related source files)
-SDCategory: Spell
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Spell_Scripts
+ * SD%Complete: 100
+ * SDComment:   Spell scripts for dummy effects (if script need access/interaction with parts of other AI or instance, add it in related source files).
+ * SDCategory:  Spell
+ * EndScriptData
+ */
 
-/* ContentData
-spell 8913
-spell 10848
-spell 17327
-spell 19512
-spell 21050
-EndContentData */
+/**
+ * ContentData
+ * Spell 8913:  Sacred Cleansing
+ * Spell 10848: Shroud of Death
+ * Spell 17327: Spirit Particles
+ * Spell 19512: Apply Salve
+ * Spell 21050: Melodious Rapture
+ * EndContentData
+ */
 
 #include "precompiled.h"
 
-/* When you make a spell effect:
-- always check spell id and effect index
-- always return true when the spell is handled by script
-*/
+/**
+ * When you make a spell effect:
+ * - always check spell id and effect index
+ * - always return true when the spell is handled by script
+ */
 
 enum
 {

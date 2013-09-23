@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Heigan
-SD%Complete: 80
-SDComment: Missing poison inside the tunnel in phase 2
-SDCategory: Naxxramas
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Heigan
+ * SD%Complete: 80
+ * SDComment:   Missing poison inside the tunnel in phase 2
+ * SDCategory:  Naxxramas
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "naxxramas.h"

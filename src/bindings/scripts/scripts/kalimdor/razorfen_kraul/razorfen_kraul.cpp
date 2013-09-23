@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Razorfen_Kraul
-SD%Complete: 100
-SDComment: Quest support: 1144, 1221
-SDCategory: Razorfen Kraul
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Razorfen_Kraul
+ * SD%Complete: 100
+ * SDComment:   Quest support: 1144, 1221.
+ * SDCategory:  Razorfen Kraul
+ * EndScriptData
+ */
 
-/* ContentData
-quest_willix_the_importer
-EndContentData */
+/**
+ * ContentData
+ * quest_willix_the_importer
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

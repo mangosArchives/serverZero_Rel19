@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Majordomo_Executus
-SD%Complete: 95
-SDComment: Minor weaknesses
-SDCategory: Molten Core
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Majordomo_Executus
+ * SD%Complete: 95
+ * SDComment:   Minor weaknesses
+ * SDCategory:  Molten Core
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "molten_core.h"

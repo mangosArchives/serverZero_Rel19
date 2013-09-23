@@ -23,24 +23,28 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Blackrock_Depths
-SD%Complete: 80
-SDComment: Quest support: 4001, 4322, 4342, 7604, 9015.
-SDCategory: Blackrock Depths
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Blackrock_Depths
+ * SD%Complete: 80
+ * SDComment:   Quest support: 4001, 4322, 4342, 7604, 9015.
+ * SDCategory:  Blackrock Depths
+ * EndScriptData
+ */
 
-/* ContentData
-go_shadowforge_brazier
-go_relic_coffer_door
-at_ring_of_law
-npc_grimstone
-npc_kharan_mighthammer
-npc_marshal_windsor
-npc_dughal_stormwing
-npc_tobias_seecher
-boss_doomrel
-EndContentData */
+/**
+ * ContentData
+ * go_shadowforge_brazier
+ * go_relic_coffer_door
+ * at_ring_of_law
+ * npc_grimstone
+ * npc_kharan_mighthammer
+ * npc_marshal_windsor
+ * npc_dughal_stormwing
+ * npc_tobias_seecher
+ * boss_doomrel
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "blackrock_depths.h"

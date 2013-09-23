@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Magmadar
-SD%Complete: 75
-SDComment: Lavabomb needs still core support
-SDCategory: Molten Core
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Magmadar
+ * SD%Complete: 75
+ * SDComment:   Lava bomb needs still core support
+ * SDCategory:  Molten Core
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "molten_core.h"

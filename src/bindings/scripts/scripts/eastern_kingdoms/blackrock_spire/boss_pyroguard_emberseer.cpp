@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Pyroguard_Emberseer
-SD%Complete: 90
-SDComment: Dummy spells used during the transformation may need further research
-SDCategory: Blackrock Spire
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Pyroguard_Emberseer
+ * SD%Complete: 90
+ * SDComment:   Dummy spells used during the transformation may need further research
+ * SDCategory:  Blackrock Spire
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "blackrock_spire.h"

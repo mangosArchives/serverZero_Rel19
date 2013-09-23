@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Emperor_Dagran_Thaurissan
-SD%Complete: 90
-SDComment: With script for Moria
-SDCategory: Blackrock Depths
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Emperor_Dagran_Thaurissan
+ * SD%Complete: 90
+ * SDComment:   With script for Moira
+ * SDCategory:  Blackrock Depths
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "blackrock_depths.h"

@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Shadowfang_Keep
-SD%Complete: 90
-SDComment:
-SDCategory: Shadowfang Keep
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Shadowfang_Keep
+ * SD%Complete: 90
+ * SDComment:   None
+ * SDCategory:  Shadowfang Keep
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "shadowfang_keep.h"

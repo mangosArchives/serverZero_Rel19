@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Ayamiss
-SD%Complete: 80
-SDComment: Timers and summon coords need adjustments
-SDCategory: Ruins of Ahn'Qiraj
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Ayamiss
+ * SD%Complete: 80
+ * SDComment:   Timers and summon coords need adjustments
+ * SDCategory:  Ruins of Ahn'Qiraj
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "ruins_of_ahnqiraj.h"

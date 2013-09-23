@@ -23,18 +23,22 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Desolace
-SD%Complete: 100
-SDComment: Quest support: 1440, 5561, 6132
-SDCategory: Desolace
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Desolace
+ * SD%Complete: 100
+ * SDComment:   Quest support: 1440, 5561, 6132.
+ * SDCategory:  Desolace
+ * EndScriptData
+ */
 
-/* ContentData
-npc_aged_dying_ancient_kodo
-npc_dalinda_malem
-npc_melizza_brimbuzzle
-EndContentData */
+/**
+ * ContentData
+ * npc_aged_dying_ancient_kodo
+ * npc_dalinda_malem
+ * npc_melizza_brimbuzzle
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

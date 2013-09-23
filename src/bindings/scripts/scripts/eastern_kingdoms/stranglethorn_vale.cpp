@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Stranglethorn_Vale
-SD%Complete: 100
-SDComment: Quest support: 592
-SDCategory: Stranglethorn Vale
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Stranglethorn_Vale
+ * SD%Complete: 100
+ * SDComment:   Quest support: 592.
+ * SDCategory:  Stranglethorn Vale
+ * EndScriptData
+ */
 
-/* ContentData
-mob_yenniku
-EndContentData */
+/**
+ * ContentData
+ * mob_yenniku
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

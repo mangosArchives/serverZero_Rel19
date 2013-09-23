@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Arlokk
-SD%Complete: 80
-SDComment: Vanish spell is replaced by workaround; Timers
-SDCategory: Zul'Gurub
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Arlokk
+ * SD%Complete: 80
+ * SDComment:   Vanish spell is replaced by workaround; Timers
+ * SDCategory:  Zul'Gurub
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "zulgurub.h"

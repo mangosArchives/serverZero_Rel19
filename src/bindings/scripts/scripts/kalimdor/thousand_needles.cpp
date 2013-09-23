@@ -23,20 +23,23 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Thousand_Needles
-SD%Complete: 90
-SDComment: Quest support: 1950, 4770, 4904, 4966
-SDCategory: Thousand Needles
-EndScriptData
-*/
+/**
+ * ScriptData
+ * SDName:      Thousand_Needles
+ * SD%Complete: 90
+ * SDComment:   Quest support: 1950, 4770, 4904, 4966
+ * SDCategory:  Thousand Needles
+ * EndScriptData
+ */
 
-/* ContentData
-npc_kanati
-npc_lakota_windsong
-npc_paoka_swiftmountain
-npc_plucky_johnson
-EndContentData */
+/**
+ * ContentData
+ * npc_kanati
+ * npc_lakota_windsong
+ * npc_paoka_swiftmountain
+ * npc_plucky_johnson
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

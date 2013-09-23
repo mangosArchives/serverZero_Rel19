@@ -23,21 +23,25 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Sunken_Temple
-SD%Complete: 100
-SDComment: Quest support: 8733
-SDCategory: Sunken Temple
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Sunken_Temple
+ * SD%Complete: 100
+ * SDComment:   Quest support: 8733.
+ * SDCategory:  Sunken Temple
+ * EndScriptData
+ */
 
-/* ContentData
-at_shade_of_eranikus
-npc_malfurion_stormrage
-event_antalarion_statue_activation
-event_avatar_of_hakkar
-go_eternal_flame
-effectDummy_summon_hakkar
-EndContentData */
+/**
+ * ContentData
+ * at_shade_of_eranikus
+ * npc_malfurion_stormrage
+ * event_antalarion_statue_activation
+ * event_avatar_of_hakkar
+ * go_eternal_flame
+ * effectDummy_summon_hakkar
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "sunken_temple.h"

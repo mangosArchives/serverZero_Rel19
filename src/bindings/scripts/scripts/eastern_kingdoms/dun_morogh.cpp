@@ -23,15 +23,19 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Dun_Morogh
-SD%Complete: 0
-SDComment: Placeholder
-SDCategory: Dun Morogh
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Dun_Morogh
+ * SD%Complete: 0
+ * SDComment:   Placeholder
+ * SDCategory:  Dun Morogh
+ * EndScriptData
+ */
 
-/* ContentData
-EndContentData */
+/**
+ * ContentData
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

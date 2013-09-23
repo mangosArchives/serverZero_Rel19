@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Kurinnaxx
-SD%Complete: 90
-SDComment: Summon Player ability NYI
-SDCategory: Ruins of Ahn'Qiraj
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Kurinnaxx
+ * SD%Complete: 90
+ * SDComment:   Summon Player ability NYI
+ * SDCategory:  Ruins of Ahn'Qiraj
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

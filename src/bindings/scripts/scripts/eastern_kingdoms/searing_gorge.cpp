@@ -23,15 +23,19 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Searing_Gorge
-SD%Complete: 0
-SDComment: Placeholder
-SDCategory: Searing Gorge
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Searing_Gorge
+ * SD%Complete: 0
+ * SDComment:   Placeholder
+ * SDCategory:  Searing Gorge
+ * EndScriptData
+ */
 
-/* ContentData
-EndContentData */
+/**
+ * ContentData
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

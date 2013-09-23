@@ -23,15 +23,19 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Item_Scripts
-SD%Complete: 0
-SDComment: Empty
-SDCategory: Items
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Item_Scripts
+ * SD%Complete: 0
+ * SDComment:   Placeholder
+ * SDCategory:  Items
+ * EndScriptData
+ */
 
-/* ContentData
-EndContentData */
+/**
+ * ContentData
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

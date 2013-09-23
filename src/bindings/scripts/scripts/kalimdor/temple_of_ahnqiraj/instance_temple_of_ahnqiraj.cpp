@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Temple_of_Ahnqiraj
-SD%Complete: 80
-SDComment: C'thun whisperings spells NYI.
-SDCategory: Temple of Ahn'Qiraj
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Temple_of_Ahnqiraj
+ * SD%Complete: 80
+ * SDComment:   C'thun whisperings spells NYI.
+ * SDCategory:  Temple of Ahn'Qiraj
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "temple_of_ahnqiraj.h"

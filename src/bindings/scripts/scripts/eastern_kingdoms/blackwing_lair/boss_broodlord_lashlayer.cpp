@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Broodlord_Lashlayer
-SD%Complete: 100
-SDComment:
-SDCategory: Blackwing Lair
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Broodlord_Lashlayer
+ * SD%Complete: 100
+ * SDComment:   None
+ * SDCategory:  Blackwing Lair
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "blackwing_lair.h"

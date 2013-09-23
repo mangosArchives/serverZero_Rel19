@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_High_Interrogator_Gerstahn
-SD%Complete: 100
-SDComment:
-SDCategory: Blackrock Depths
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_High_Interrogator_Gerstahn
+ * SD%Complete: 100
+ * SDComment:   None
+ * SDCategory:  Blackrock Depths
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

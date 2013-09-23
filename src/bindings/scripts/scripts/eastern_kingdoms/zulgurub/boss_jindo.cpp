@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Jin'do the Hexxer
-SD%Complete: 85
-SDComment: Mind Control not working because of core bug. Shades invisible is removed as of Attacking (core bug) - MANY HACKZ!!
-SDCategory: Zul'Gurub
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Jin'do the Hexxer
+ * SD%Complete: 85
+ * SDComment:   Mind Control not working because of core bug. Shades invisible is removed as of Attacking (core bug) - MANY HACKZ!!
+ * SDCategory:  Zul'Gurub
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "zulgurub.h"

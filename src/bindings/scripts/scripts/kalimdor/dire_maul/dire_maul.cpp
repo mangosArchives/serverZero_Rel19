@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: dire_maul
-SD%Complete: 0
-SDComment: Placeholder
-SDCategory: Dire Maul
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      dire_maul
+ * SD%Complete: 0
+ * SDComment:   Placeholder
+ * SDCategory:  Dire Maul
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

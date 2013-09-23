@@ -23,15 +23,19 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Mulgore
-SD%Complete: 100
-SDComment: Placeholder
-SDCategory: Mulgore
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Mulgore
+ * SD%Complete: 0
+ * SDComment:   Placeholder
+ * SDCategory:  Mulgore
+ * EndScriptData
+ */
 
-/* ContentData
-EndContentData */
+/**
+ * ContentData
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

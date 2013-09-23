@@ -71,7 +71,7 @@ enum EscortFaction
     FACTION_ESCORT_N_FRIEND_ACTIVE      = 495,
 
     FACTION_ESCORT_A_PASSIVE            = 774,
-    FACTION_ESCORT_H_PASSIVE            = 775,
+    FACTION_ESCORT_H_PASSIVE            = 775
 };
 
 // *********************************************************
@@ -131,7 +131,7 @@ void DoOrSimulateScriptTextForMap(int32 iTextEntry, uint32 uiCreatureEntry, Map*
 // *********************************************************
 // **************** Internal hook mechanics ****************
 
-#if COMPILER == COMPILER_GNU
+#if COMPILER == COMPILER_GNU || COMPILER == COMPILER_CLANG
 #define FUNC_PTR(name,callconvention,returntype,parameters)    typedef returntype(*name)parameters __attribute__ ((callconvention));
 #else
 #define FUNC_PTR(name, callconvention, returntype, parameters)    typedef returntype(callconvention *name)parameters;

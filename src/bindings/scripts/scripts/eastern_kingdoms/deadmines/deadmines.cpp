@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Deadmines
-SD%Complete: 100
-SDComment: Contains GO for Iron Clad door event
-SDCategory: Deadmines
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Deadmines
+ * SD%Complete: 100
+ * SDComment:   Contains GO for Iron Clad door event
+ * SDCategory:  Deadmines
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "deadmines.h"

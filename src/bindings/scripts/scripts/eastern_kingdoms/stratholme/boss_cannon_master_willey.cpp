@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: boss_cannon_master_willey
-SD%Complete: 100
-SDComment:
-SDCategory: Stratholme
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      boss_cannon_master_willey
+ * SD%Complete: 100
+ * SDComment:   None
+ * SDCategory:  Stratholme
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

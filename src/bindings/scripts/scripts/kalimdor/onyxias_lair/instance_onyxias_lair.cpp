@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Onyxias_Lair
-SD%Complete: 50%
-SDComment:
-SDCategory: Onyxia's Lair
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Onyxias_Lair
+ * SD%Complete: 50
+ * SDComment:   None
+ * SDCategory:  Onyxia's Lair
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "onyxias_lair.h"

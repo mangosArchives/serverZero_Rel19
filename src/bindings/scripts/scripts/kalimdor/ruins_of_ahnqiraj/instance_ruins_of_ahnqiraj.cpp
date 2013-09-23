@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Ruins_of_Ahnqiraj
-SD%Complete: 80
-SDComment: It's not clear if the Rajaxx event should reset if Andorov dies, or party wipes.
-SDCategory: Ruins of Ahn'Qiraj
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Ruins_of_Ahnqiraj
+ * SD%Complete: 80
+ * SDComment:   It's not clear if the Rajaxx event should reset if Andorov dies, or party wipes.
+ * SDCategory:  Ruins of Ahn'Qiraj
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "ruins_of_ahnqiraj.h"

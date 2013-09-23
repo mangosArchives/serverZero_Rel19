@@ -23,17 +23,21 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Moonglade
-SD%Complete: 100
-SDComment: Quest support: 8736, 10965.
-SDCategory: Moonglade
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Moonglade
+ * SD%Complete: 100
+ * SDComment:   Quest support: 8736.
+ * SDCategory:  Moonglade
+ * EndScriptData
+ */
 
-/* ContentData
-npc_keeper_remulos
-boss_eranikus
-EndContentData */
+/**
+ * ContentData
+ * npc_keeper_remulos
+ * boss_eranikus
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

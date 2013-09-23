@@ -245,13 +245,13 @@ SpellEntry const* ScriptedAI::SelectSpell(Unit* pTarget, int32 uiSchool, int32 i
     // No target so we can't cast
     if (!pTarget)
     {
-        return NULL;
+        return false;
     }
 
     // Silenced so we can't cast
     if (m_creature->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_SILENCED))
     {
-        return NULL;
+        return false;
     }
 
     // Using the extended script system we first create a list of viable spells
@@ -610,7 +610,7 @@ void ScriptedAI::SetEquipmentSlots(bool bLoadDefault, int32 iMainHand, int32 iOf
 // It is assumed the information is found elswehere and can be handled by mangos. So far no luck finding such information/way to extract it.
 enum
 {
-    NPC_BROODLORD               = 12017,
+    NPC_BROODLORD               = 12017
 };
 
 bool ScriptedAI::EnterEvadeIfOutOfCombatArea(const uint32 uiDiff)

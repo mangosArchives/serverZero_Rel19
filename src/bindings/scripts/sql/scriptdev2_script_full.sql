@@ -3,8 +3,7 @@
 --
 
 DELETE FROM sd2_db_version;
-INSERT INTO sd2_db_version (version) VALUES
-('ScriptDev2 - revision 2686');
+INSERT INTO sd2_db_version (version) VALUES ('ScriptDev2 (for MaNGOS classic z2383+) ');
 
 --
 -- Below contains data for table `script_texts` mainly used in C++ parts.
@@ -907,7 +906,24 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1000904,'REUSE_ME',0,0,0,0,'REUSE_ME'),
 
 (-1000905,'Ok, let\'s go!!',0,0,0,1,'therylune SAY_THERYLUNE_START'),
-(-1000906,'I can make it the rest of the way. $N. THANKS!',0,0,0,1,'therylune SAY_THERYLUNE_START');
+(-1000906,'I can make it the rest of the way. $N. THANKS!',0,0,0,1,'therylune SAY_THERYLUNE_START'),
+
+(-1000948,'Well then, let\'s get this started. The longer we\'re here, the more damage the undead could be doing back in Hilsbrad.',0,0,0,0,'kinelory SAY_START'),
+(-1000949,'All right, this is where we really have to be on our paws. Be ready!',0,0,0,0,'kinelory SAY_REACH_BOTTOM'),
+(-1000950,'Attack me if you will, but you won\'t stop me from getting back to Quae.',0,0,0,0,'kinelory SAY_AGGRO_KINELORY'),
+(-1000951,'You have my word that I shall find a use for your body after I\'ve killed you, Kinelory.',0,0,0,0,'jorell SAY_AGGRO_JORELL'),
+(-1000952,'Watch my rear! I\'ll see what I can find in all this junk...',0,0,0,0,'kinelory SAY_WATCH_BACK'),
+(-1000953,'%s begins rummaging through the apothecary\'s belongings.',0,2,0,0,'kinelory EMOTE_BELONGINGS'),
+(-1000954,'I bet Quae\'ll think this is important. She\'s pretty knowledgeable about these things--no expert, but knowledgable.',0,0,0,0,'kinelory SAY_DATA_FOUND'),
+(-1000955,'Okay, let\'s get out of here quick quick! Try and keep up. I\'m going to make a break for it.',0,0,0,0,'kinelory SAY_ESCAPE'),
+(-1000956,'We made it! Quae, we made it!',0,0,0,0,'kinelory SAY_FINISH'),
+(-1000957,'%s hands her pack to Quae.',0,2,0,0,'kinelory EMOTE_HAND_PACK'),
+
+(-1000958,'You must protect me from monsters, who are living in this forest!',0,0,0,0,'stinky ignatz SAY_STINKY_BEGIN'),
+(-1000959,'This part of forest are very danger for us. We must be a careful!',0,0,0,0,'stinky ignatz SAY_STINKY_FIRST_STOP'),
+(-1000960,'Kill two monsters, who stay near Bogbean plant and then I gather a bogbean.',0,0,0,0,'stinky ignatz SAY_STINKY_2_MONSTERS'),
+(-1000961,'I am gathering a bogbean. It takes some time.',0,0,0,69,'stinky ignatz SAY_STINKY_GATHERING'),
+(-1000962,'Thanks you for help.',0,0,0,0,'stinky ignatz SAY_STINKY_END');
 
 -- -1 033 000 SHADOWFANG KEEP
 INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
@@ -1619,38 +1635,6 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1533157,'%s casts Condemation on everyone!',0,3,0,0,'sir_zeliek EMOTE_CONDEMATION'),
 
 (-1533158,'%s injects you with a mutagen!',0,5,0,0,'grobbulus EMOTE_INJECTION');
-
--- -1 999 900 EXAMPLE TEXT
-INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
-(-1999900,'Let the games begin.',8280,1,0,0,'example_creature SAY_AGGRO'),
-(-1999901,'I see endless suffering. I see torment. I see rage. I see everything.',8831,1,0,0,'example_creature SAY_RANDOM_0'),
-(-1999902,'Muahahahaha',8818,1,0,0,'example_creature SAY_RANDOM_1'),
-(-1999903,'These mortal infedels my lord, they have invaded your sanctum and seek to steal your secrets.',8041,1,0,0,'example_creature SAY_RANDOM_2'),
-(-1999904,'You are already dead.',8581,1,0,0,'example_creature SAY_RANDOM_3'),
-(-1999905,'Where to go? What to do? So many choices that all end in pain, end in death.',8791,1,0,0,'example_creature SAY_RANDOM_4'),
-(-1999906,'$N, I sentance you to death!',8588,1,0,0,'example_creature SAY_BESERK'),
-(-1999907,'The suffering has just begun!',0,1,0,0,'example_creature SAY_PHASE'),
-(-1999908,'I always thought I was a good dancer.',0,0,0,0,'example_creature SAY_DANCE'),
-(-1999909,'Move out Soldier!',0,0,0,0,'example_creature SAY_SALUTE'),
-
-(-1999910,'Help $N! I\'m under attack!',0,0,0,0,'example_escort SAY_AGGRO1'),
-(-1999911,'Die scum!',0,0,0,0,'example_escort SAY_AGGRO2'),
-(-1999912,'Hmm a nice day for a walk alright',0,0,0,0,'example_escort SAY_WP_1'),
-(-1999913,'Wild Felboar attack!',0,0,0,0,'example_escort SAY_WP_2'),
-(-1999914,'Time for me to go! See ya around $N!',0,0,0,3,'example_escort SAY_WP_3'),
-(-1999915,'Bye Bye!',0,0,0,3,'example_escort SAY_WP_4'),
-(-1999916,'How dare you leave me like that! I hate you! =*(',0,3,0,0,'example_escort SAY_DEATH_1'),
-(-1999917,'...no...how could you let me die $N',0,0,0,0,'example_escort SAY_DEATH_2'),
-(-1999918,'ugh...',0,0,0,0,'example_escort SAY_DEATH_3'),
-(-1999919,'Taste death!',0,0,0,0,'example_escort SAY_SPELL'),
-(-1999920,'Fireworks!',0,0,0,0,'example_escort SAY_RAND_1'),
-(-1999921,'Hmm, I think I could use a buff.',0,0,0,0,'example_escort SAY_RAND_2'),
-
-(-1999922,'Normal select, guess you\'re not interested.',0,0,0,0,'example_gossip_codebox SAY_NOT_INTERESTED'),
-(-1999923,'Wrong!',0,0,0,0,'example_gossip_codebox SAY_WRONG'),
-(-1999924,'You\'re right, you are allowed to see my inner secrets.',0,0,0,0,'example_gossip_codebox SAY_CORRECT'),
-
-(-1999925,'Hi!',0,0,0,0,'example_areatrigger SAY_HI');
 
 --
 -- GOSSIP TEXTS
@@ -3160,5 +3144,71 @@ INSERT INTO script_waypoint VALUES
 (3584, 18, 4566.09, 303.127, 55.0396, 0, ''),
 (3584, 19, 4561.65, 295.456, 57.0984, 4000, 'SAY_THERYLUNE_FINISH'),
 (3584, 20, 4551.03, 293.333, 57.1534, 2000, '');
+
+DELETE FROM script_waypoint WHERE entry=2713;
+INSERT INTO script_waypoint VALUES
+(2713, 0, -1416.91, -3044.12, 36.21, 0, ''),
+(2713, 1, -1408.43, -3051.35, 37.79, 0, ''),
+(2713, 2, -1399.45, -3069.20, 31.25, 0, ''),
+(2713, 3, -1400.28, -3083.14, 27.06, 0, ''),
+(2713, 4, -1405.30, -3096.72, 26.36, 0, ''),
+(2713, 5, -1406.12, -3105.95, 24.82, 0, ''),
+(2713, 6, -1417.41, -3106.80, 16.61, 0, ''),
+(2713, 7, -1433.06, -3101.55, 12.56, 0, ''),
+(2713, 8, -1439.86, -3086.36, 12.29, 0, ''),
+(2713, 9, -1450.48, -3065.16, 12.58, 5000, 'SAY_REACH_BOTTOM'),
+(2713, 10, -1456.15, -3055.53, 12.54, 0, ''),
+(2713, 11, -1459.41, -3035.16, 12.11, 0, ''),
+(2713, 12, -1472.47, -3034.18, 12.44, 0, ''),
+(2713, 13, -1495.57, -3034.48, 12.55, 0, ''),
+(2713, 14, -1524.91, -3035.47, 13.15, 0, ''),
+(2713, 15, -1549.05, -3037.77, 12.98, 0, ''),
+(2713, 16, -1555.69, -3028.02, 13.64, 3000, 'SAY_WATCH_BACK'),
+(2713, 17, -1555.69, -3028.02, 13.64, 5000, 'SAY_DATA_FOUND'),
+(2713, 18, -1555.69, -3028.02, 13.64, 2000, 'SAY_ESCAPE'),
+(2713, 19, -1551.19, -3037.78, 12.96, 0, ''),
+(2713, 20, -1584.60, -3048.77, 13.67, 0, ''),
+(2713, 21, -1602.14, -3042.82, 15.12, 0, ''),
+(2713, 22, -1610.68, -3027.42, 17.22, 0, ''),
+(2713, 23, -1601.65, -3007.97, 24.65, 0, ''),
+(2713, 24, -1581.05, -2992.32, 30.85, 0, ''),
+(2713, 25, -1559.95, -2979.51, 34.30, 0, ''),
+(2713, 26, -1536.51, -2969.78, 32.64, 0, ''),
+(2713, 27, -1511.81, -2961.09, 29.12, 0, ''),
+(2713, 28, -1484.83, -2960.87, 32.54, 0, ''),
+(2713, 29, -1458.23, -2966.80, 40.52 , 0, ''),
+(2713, 30, -1440.20, -2971.20, 43.15, 0, ''),
+(2713, 31, -1427.85, -2989.15, 38.09, 0, ''),
+(2713, 32, -1420.27, -3008.91, 35.01, 0, ''),
+(2713, 33, -1427.58, -3032.53, 32.31, 5000, 'SAY_FINISH'),
+(2713, 34, -1427.40, -3035.17, 32.26, 0, '');
+
+DELETE FROM script_waypoint WHERE entry=4880;
+INSERT INTO script_waypoint VALUES
+(4880, 0,  -2674.53, -3440.48, 33.686,  0, ''),
+(4880, 1,  -2711.17, -3435.06, 33.1926, 0, ''),
+(4880, 2,  -2734.04, -3456.12, 33.2254, 0, ''),
+(4880, 3,  -2749.64, -3457.26, 32.8249, 0, ''),
+(4880, 4,  -2762.25, -3457.77, 30.6813, 0, ''),
+(4880, 5,  -2777.0,  -3456.12, 30.2484, 0, ''),
+(4880, 6,  -2805.49, -3450.27, 29.0624, 0, ''),
+(4880, 7,  -2809.77, -3447.14, 30.0948, 0, ''),
+(4880, 8,  -2824,    -3440.62, 33.405,  0, ''),
+(4880, 9,  -2840.2,  -3439.02, 34.1008, 0, ''),
+(4880, 10, -2878.49, -3482.81, 34.362,  0, ''),
+(4880, 11, -2878.35, -3511.51, 34.4826, 0, 'SAY_STINKY_FIRST_STOP'),
+(4880, 12, -2873.99, -3514.84, 34.5298, 0, ''),
+(4880, 13, -2866.71, -3519.06, 36.3674, 0, ''),
+(4880, 14, -2850.75, -3539.38, 36.4573, 0, ''),
+(4880, 15, -2844.49, -3557.7,  35.5588, 0, ''),
+(4880, 16, -2841.36, -3574.59, 35.5056, 0, ''),
+(4880, 17, -2841.13, -3596.95, 36.7699, 30000, 'SAY_STINKY_2_MONSTERS'),
+(4880, 18, -2828.83, -3597.3,  31.2891, 0, ''),
+(4880, 19, -2822.13, -3596.33, 31.2684, 5000, 'SAY_STINKY_GATHERING'),
+(4880, 20, -2829.08, -3597.82, 31.307,  0, ''),
+(4880, 21, -2859.28, -3602.33, 42.298,  0, ''),
+(4880, 22, -2881.64, -3601.28, 42.2111, 0, ''),
+(4880, 23, -2904.04, -3601.35, 34.969,  0, ''),
+(4880, 24, -2907.6,  -3612.73, 34.2434, 10000, 'SAY_STINKY_END');
 
 -- EOF
