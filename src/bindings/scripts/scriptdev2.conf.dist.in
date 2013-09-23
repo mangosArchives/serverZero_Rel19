@@ -13,4 +13,4 @@ ConfVersion=2012112301
 ScriptDev2DatabaseInfo     = "127.0.0.1;3306;mangos;mangos;scriptdev2"
 
 # Log File for SD2-Errors
-SD2ErrorLogFile = "SD2Errors.log"
+SD2ErrorLogFile = "scriptdev2-errors.log"

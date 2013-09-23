@@ -252,7 +252,7 @@ CleanCharacterDB = 1
 #
 #    LogFile
 #        Logfile name
-#        Default: "Server.log"
+#        Default: "world-server.log"
 #                 "" - Empty name disable creating log file
 #
 #    LogTimestamp
@@ -358,7 +358,7 @@ LogSQL = 1
 PidFile = ""
 LogLevel = 3
 LogTime = 0
-LogFile = "Server.log"
+LogFile = "world-server.log"
 LogTimestamp = 0
 LogFileLevel = 0
 LogFilter_TransportMoves = 1
@@ -377,18 +377,18 @@ LogFilter_PlayerStats = 0
 LogFilter_Damage = 0
 LogFilter_Combat = 0
 LogFilter_SpellCast = 0
-WorldLogFile = ""
+WorldLogFile = "world-packets.log"
 WorldLogTimestamp = 0
-DBErrorLogFile = "DBErrors.log"
-EventAIErrorLogFile = "EventAIErrors.log"
-CharLogFile = "Char.log"
+DBErrorLogFile = "world-database.log"
+EventAIErrorLogFile = "world-eventai.log"
+CharLogFile = "world-characters.log"
 CharLogTimestamp = 0
 CharLogDump = 0
-GmLogFile = ""
+GmLogFile = "world-gamemaster.log"
 GmLogTimestamp = 0
 GmLogPerAccount = 0
-RaLogFile = ""
-LogColors = ""
+RaLogFile = "world-remote-access.log"
+LogColors = "13 7 11 9"
 
 ###################################################################################################################
 # SERVER SETTINGS
@@ -754,7 +754,7 @@ Event.Announce = 0
 BeepAtStart = 1
 ShowProgressBars = 1
 WaitAtStartupError = 0
-Motd = "Welcome to the Massive Network Game Object Server."
+Motd = "Welcome to the World of Warcraft."
 
 ###################################################################################################################
 # PLAYER INTERACTION
