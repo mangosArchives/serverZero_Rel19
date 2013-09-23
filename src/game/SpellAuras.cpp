@@ -2424,7 +2424,7 @@ void Aura::HandleAuraModStun(bool apply, bool Real)
             { target->StopMoving(); }
         else
         {
-            ((Player*)target)->m_movementInfo.SetMovementFlags(MOVEFLAG_NONE);
+            ((Player*)target)->m_movementInfo.SetMovementFlags(MOVEFLAG_MOVE_STOP);
             target->SetStandState(UNIT_STAND_STATE_STAND);// in 1.5 client
             target->SetRoot(true);
         }
@@ -2659,7 +2659,7 @@ void Aura::HandleAuraModRoot(bool apply, bool Real)
             target->SetRoot(true);
 
             // Clear unit movement flags
-            ((Player*)target)->m_movementInfo.SetMovementFlags(MOVEFLAG_NONE);
+            ((Player*)target)->m_movementInfo.SetMovementFlags(MOVEFLAG_MOVE_STOP);
         }
         else
             { target->StopMoving(); }

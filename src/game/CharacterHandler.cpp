@@ -51,7 +51,7 @@ enum CinematicsSkipMode
 {
     CINEMATICS_SKIP_NONE      = 0,
     CINEMATICS_SKIP_SAME_RACE = 1,
-    CINEMATICS_SKIP_ALL       = 2,
+    CINEMATICS_SKIP_ALL       = 2
 };
 
 class LoginQueryHolder : public SqlQueryHolder
@@ -671,6 +671,7 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
         { pCurrChar->SetStandState(UNIT_STAND_STATE_STAND); }
 
     m_playerLoading = false;
+    m_clientTimeDelay = 0;
     delete holder;
 }
 

@@ -275,7 +275,7 @@ void WorldSession::HandleLogoutRequestOpcode(WorldPacket& /*recv_data*/)
     if (GetPlayer()->IsInCombat() ||                        //...is in combat
         GetPlayer()->duel         ||                    //...is in Duel
         //...is jumping ...is falling
-        GetPlayer()->m_movementInfo.HasMovementFlag(MovementFlags(MOVEFLAG_FALLING | MOVEFLAG_FALLINGFAR)))
+        GetPlayer()->m_movementInfo.HasMovementFlag(MovementFlags(MOVEFLAG_FALLING | MOVEFLAG_FALLING_FAR)))
     {
         WorldPacket data(SMSG_LOGOUT_RESPONSE, (2 + 4)) ;
         data << (uint8)0xC;
@@ -848,8 +848,24 @@ void WorldSession::HandleMoveTimeSkippedOpcode(WorldPacket& recv_data)
     /*  WorldSession::Update( WorldTimer::getMSTime() );*/
     DEBUG_LOG("WORLD: Received opcode CMSG_MOVE_TIME_SKIPPED");
 
-    recv_data >> Unused<uint64>();
-    recv_data >> Unused<uint32>();
+    uint64 guid;
+    uint32 time_dif;
+    uint8 buf[16];
+    WorldPacket data(0x319, 16);
+
+    recv_data >> guid;
+    recv_data >> time_dif;
+
+    // ignore updates not for us
+    if (_player == NULL || guid != _player->GetGUID())
+    {
+       return;
+    }
+
+    // send to other players
+    data << _player->GetPackGUID();
+    data << time_dif;
+    _player->SendMessageToSet(&data, false);
 
     /*
         ObjectGuid guid;
