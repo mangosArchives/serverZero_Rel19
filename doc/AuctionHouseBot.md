@@ -1,16 +1,22 @@
-Auction Houses Bot populates the auction houses with items.
-It makes the game feel a bit more active in auction usage part
-specially for low-populated servers. Items and prices are chosen
-randomly based on the parameters you define. If an auction expires, auctions
-are deleted quietly. AHBot will not buy it's own items, and will not receive
-mail from the AH or get returned mail.
+Auction house bot
+-----------------
+For testing purposes and low population home servers, *mangos-zero* provides an
+auction house bot, which will provide a set of items on the auction houses based
+on various configuration settins.
 
-===============================================================================
-~~HOW TO CONFIGURE~~
-===============================================================================
+Configuration
+-------------
+Edit `ahbot.conf` to match your requirements. You can fine tune the amount of
+items, the pricing, the range of item quality, and many other settings.
 
-You must copy config file template as ahbot.conf from src/game/AuctionHouseBot/ahbot.conf.dist.in
-to directory wher use store mangosd.conf file, and modify values to appropriate for you state.
-Read ahbot.conf option descriptions for details.
+Please note that the default auction house bot settings will disable auction
+generation. This is done by intention to prevent putting up a wrong range of
+auctions for your server.
 
-Note: But default AHBot disabled by provided config options values
+Notes
+-----
+The following rules apply when using the auction house bot:
+
+* If an auction expires, auctions are deleted quietly.
+* the bot will not buy its own items, and will not receive mail from the AH or
+  receive returned mails.

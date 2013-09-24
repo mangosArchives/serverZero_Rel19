@@ -69,11 +69,11 @@ if [ "$OFFMESH_FILE" != "" ]
 then
   if [ ! -f "$OFFMESH_FILE" ]
   then
-    echo "ERROR! Offmesh file $OFFMESH_FILE could not be found."
-    echo "Provide valid file or none. You need to edit the script"
-    exit 1
+	echo "ERROR! Offmesh file $OFFMESH_FILE could not be found."
+	echo "Provide valid file or none. You need to edit the script"
+	exit 1
   else
-    OFFMESH="--offMeshInput $OFFMESH_FILE"
+	OFFMESH="--offMeshInput $OFFMESH_FILE"
   fi
 fi
 
@@ -82,15 +82,15 @@ createMMaps()
 {
   for i in $@
   do
-    for j in $EXCLUDE_MAPS
-    do
-      if [ "$i" = "$j" ]
-      then
-        continue 2
-      fi
-    done
-    ./mmap-generator $PARAMS $OFFMESH $i | tee -a $DETAIL_LOG_FILE
-    echo "`date`: (Re)created map $i" | tee -a $LOG_FILE
+	for j in $EXCLUDE_MAPS
+	do
+	  if [ "$i" = "$j" ]
+	  then
+		continue 2
+	  fi
+	done
+	./mmap-generator $PARAMS $OFFMESH $i | tee -a $DETAIL_LOG_FILE
+	echo "`date`: (Re)created map $i" | tee -a $LOG_FILE
   done
 }
 
@@ -114,40 +114,40 @@ fi
 # Param control
 case "$1" in
   "1" )
-    createHeader $1
-    createMMaps $MAP_LIST_A $MAP_LIST_B $MAP_LIST_C $MAP_LIST_D &
-    ;;
+	createHeader $1
+	createMMaps $MAP_LIST_A $MAP_LIST_B $MAP_LIST_C $MAP_LIST_D &
+	;;
   "2" )
-    createHeader $1
-    createMMaps $MAP_LIST_A $MAP_LIST_D &
-    createMMaps $MAP_LIST_B $MAP_LIST_C &
-    ;;
+	createHeader $1
+	createMMaps $MAP_LIST_A $MAP_LIST_D &
+	createMMaps $MAP_LIST_B $MAP_LIST_C &
+	;;
   "3" )
-    createHeader $1
-    createMMaps $MAP_LIST_A $MAP_LIST_D1&
-    createMMaps $MAP_LIST_B $MAP_LIST_D2&
-    createMMaps $MAP_LIST_C $MAP_LIST_D3&
-    ;;
+	createHeader $1
+	createMMaps $MAP_LIST_A $MAP_LIST_D1&
+	createMMaps $MAP_LIST_B $MAP_LIST_D2&
+	createMMaps $MAP_LIST_C $MAP_LIST_D3&
+	;;
   "4" )
-    createHeader $1
-    createMMaps $MAP_LIST_A &
-    createMMaps $MAP_LIST_B &
-    createMMaps $MAP_LIST_C &
-    createMMaps $MAP_LIST_D &
-    ;;
+	createHeader $1
+	createMMaps $MAP_LIST_A &
+	createMMaps $MAP_LIST_B &
+	createMMaps $MAP_LIST_C &
+	createMMaps $MAP_LIST_D &
+	;;
   "offmesh" )
-    echo "`date`: Recreate offmeshs from file $OFFMESH_FILE" | tee -a $LOG_FILE
-    echo "Recreate offmeshs from file $OFFMESH_FILE" | tee -a $DETAIL_LOG_FILE
-    while read map tile line
-    do
-      ./mmap-generator $PARAMS $OFFMESH $map --tile $tile | tee -a $DETAIL_LOG_FILE
-      echo "`date`: Recreated $map $tile from $OFFMESH_FILE" | tee -a $LOG_FILE
-    done < $OFFMESH_FILE &
-    ;;
+	echo "`date`: Recreate offmeshs from file $OFFMESH_FILE" | tee -a $LOG_FILE
+	echo "Recreate offmeshs from file $OFFMESH_FILE" | tee -a $DETAIL_LOG_FILE
+	while read map tile line
+	do
+	  ./mmap-generator $PARAMS $OFFMESH $map --tile $tile | tee -a $DETAIL_LOG_FILE
+	  echo "`date`: Recreated $map $tile from $OFFMESH_FILE" | tee -a $LOG_FILE
+	done < $OFFMESH_FILE &
+	;;
   * )
-    badParam
-    exit 1
-    ;;
+	badParam
+	exit 1
+	;;
 esac
 
 wait
