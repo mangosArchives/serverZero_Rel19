@@ -1,42 +1,28 @@
-Linux:
+vmap extractor
+--------------
+The *vmap extractor* will extract model information from the game client.
 
-1. Building
+Requirements
+------------
+You will need a working installation of the [World of Warcraft][1] client patched
+to version 1.12.x.
 
-	Because vmap_extractor depends on libmpq for reading mpq files, you will have
-	to build libmpq prior to vmap_extractor. Therefore cd to dep/libmpq and execute:
+Instructions - Linux
+--------------------
+Use the created executable to extract model information. Change the data path if
+needed.
 
-	$ ./autogen.sh
-	$ ./configure
-	$ make
+    $ vmap-extractor -d /mnt/windows/games/wow/Data/
 
-	After that, cd to contrib/vmap_extractor/ and execute:
+Resulting files will be in ./Buildings
 
-	$ cmake .
-	$ make
+Instructions - Windows
+----------------------
+Use the created executable (from command prompt) to extract model information.
+It should find the data path for your client installation through the Windows
+registry, but the data path can be specified with the -d option.
 
-	You should now have an executable file at vmapextract/vmapextractor
+Resulting files will be in .\Buildings
 
-2. Extracting
 
-	Use the created executable to extract model information. Change the data path if
-	needed.
-
-	$ vmapextract/vmapextractor -d /mnt/windows/games/wow/Data/
-
-	Resulting files will be in ./Buildings
-
-###########################
-Windows:
-
-1. Building
-
-	Just build the solution in contrib\vmap_extractor\win
-	Resulting binaries will be in contrib\vmap_extractor\bin\$(PlatformName)_$(ConfigurationName)
-
-2. Extracting
-
-	Use the created executable (from command prompt) to extract model information.
-	It should find the data path for your client installation through the windows registry,
-	but the data path can be specified with the -d option.
-
-	Resulting files will be in .\Buildings
+[1]: http://blizzard.com/games/wow/ "World of Warcraft"

@@ -1,46 +1,44 @@
-Linux:
+vmap assembler
+--------------
+The *vmap assembler* will assemble custom height maps based on the model information
+extracted with the *vmap extractor*.
 
-1. Building
+Requirements
+------------
+You will need a working installation of the [World of Warcraft][1] client patched
+to version 1.12.x.
 
-	cd to contrib/vmap_assembler/ and execute:
+Instructions - Linux
+--------------------
+Use the created executable to create the vmap files for MaNGOS.
 
-	$ cmake .
-	$ make
+The executable takes two arguments:
 
-	You should now have an executable file vmap_assembler
+    vmap-assembler <input_dir> <output_dir>
 
-2. Assembling vmaps
+Example:
 
-	Use the created executable to create the vmap files for MaNGOS.
-	The executable takes two arguments:
+    $ ./vmap-assembler Buildings vmaps
 
-	vmap_assembler <input_dir> <output_dir>
+<output_dir> has to exist already and shall be empty.
 
-	Example:
-	$ ./vmap_assembler Buildings vmaps
+The resulting files in <output_dir> are expected to be found in ${DataDir}/vmaps
+by mangos-worldd (DataDir is set in mangosd.conf).
 
-	<output_dir> has to exist already and shall be empty.
-	The resulting files in <output_dir> are expected to be found in ${DataDir}/vmaps
-	by mangos-worldd (DataDir is set in mangosd.conf).
+Instructions - Windows
+----------------------
+Use the created executable (from command prompt) to create the vmap files for MaNGOS.
+The executable takes two arguments:
 
-###########################
-Windows:
+    vmap-assembler.exe <input_dir> <output_dir>
 
-1. Building
+Example:
 
-	Build the solution in contrib\vmap_assembler\
-	Resulting binaries will be in contrib\vmap_assembler\bin\$(PlatformName)_$(ConfigurationName)\
+    C:\my_data_dir\> vmap-assembler.exe Buildings vmaps
 
-2. Assembling vmaps
+<output_dir> has to exist already and shall be empty.
+The resulting files in <output_dir> are expected to be found in ${DataDir}\vmaps
+by mangos-worldd (DataDir is set in mangosd.conf).
 
-	Use the created executable (from command prompt) to create the vmap files for MaNGOS.
-	The executable takes two arguments:
 
-	vmap_assembler.exe <input_dir> <output_dir>
-
-	Example:
-	C:\my_data_dir\> vmap_assembler.exe Buildings vmaps
-
-	<output_dir> has to exist already and shall be empty.
-	The resulting files in <output_dir> are expected to be found in ${DataDir}\vmaps
-	by mangos-worldd (DataDir is set in mangosd.conf).
+[1]: http://blizzard.com/games/wow/ "World of Warcraft"

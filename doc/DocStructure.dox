@@ -9,7 +9,6 @@
  * If you are interested in understanding the source code of this project you can begin
  * - <A HREF="http://getmangos.co.uk/wiki/">On the wiki</A> to get an overview of the different modules of the server
  * - <A HREF="./modules.html">In this source doumentation</A>, starting at the module hierarchy
- * - \ref CodingStandard The standard for the code
  *
  * \section conventions Naming/Coding conventions
  * When using a singleton to access something a define along the following lines is often used:
