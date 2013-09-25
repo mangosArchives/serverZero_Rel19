@@ -26,4 +26,4 @@
 
 add_library (libmpq common.cpp  explode.cpp  extract.cpp  huffman.cpp  mpq.cpp  parser.cpp  wave.cpp )
 # link libmpq with zlib
-target_link_libraries (libmpq z)
+target_link_libraries (libmpq ${ZLIB_LIBRARIES})

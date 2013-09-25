@@ -173,23 +173,10 @@ if(USE_TBB_MALLOC)
   endif()
 endif()
 
-# Win32 delivered packages
-if(WIN32)
-  set(MYSQL_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/dep/include/mysql)
-  set(MYSQL_LIBRARY ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libmySQL.lib)
-  set(MYSQL_DEBUG_LIBRARY ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libmySQL.lib)
-  set(OPENSSL_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/dep/include/openssl)
-  set(OPENSSL_LIBRARIES ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libeay32.lib)
-  set(OPENSSL_DEBUG_LIBRARIES ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libeay32.lib)
-  # zlib is build
-endif()
-
-# *nix-specific packages
-if(UNIX)
-  find_package(MySQL REQUIRED)
-  find_package(OpenSSL REQUIRED)
-  find_package(ZLIB REQUIRED)
-endif()
+find_package(OpenSSL REQUIRED)
+find_package(BZip2 REQUIRED)
+find_package(ZLIB REQUIRED)
+find_package(MySQL REQUIRED)
 
 # Add uninstall script and target
 configure_file(
@@ -340,38 +327,6 @@ add_custom_target("revision.h" ALL
   DEPENDS genrev
 )
 
-if(WIN32)
-  install(
-    FILES
-      ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libeay32.dll
-      ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libmySQL.dll
-    DESTINATION ${LIBS_DIR}
-    CONFIGURATIONS Release
-  )
-  install(
-    FILES
-      ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libeay32.dll
-      ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libmySQL.dll
-    DESTINATION ${LIBS_DIR}
-    CONFIGURATIONS Debug
-  )
-  if(PLATFORM MATCHES X86)
-    # Copy dll's Windows needs
-    install(
-      FILES
-        ${CMAKE_SOURCE_DIR}/dep/lib/win32_release/dbghelp.dll
-      DESTINATION ${LIBS_DIR}
-      CONFIGURATIONS Release
-    )
-    install(
-      FILES
-        ${CMAKE_SOURCE_DIR}/dep/lib/win32_debug/dbghelp.dll
-      DESTINATION ${LIBS_DIR}
-      CONFIGURATIONS Debug
-    )
-  endif()
-endif()
-
 if(XCODE)
   if(PLATFORM MATCHES X86)
     set(CMAKE_OSX_ARCHITECTURES i386)
@@ -382,7 +337,7 @@ endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
-add_subdirectory(dep) # TODO: add vmap extractor build support
+add_subdirectory(dep)
 
 # Add definitions for all build types
 # Don't place this above 'dep' subdirectory! Because of defines build will crash.

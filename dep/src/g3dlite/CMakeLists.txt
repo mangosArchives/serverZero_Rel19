@@ -128,18 +128,13 @@ set(LIBRARY_SRCS
 )
 
 include_directories(
+  ${ZLIB_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_SOURCE_DIR}/dep/include
   ${CMAKE_SOURCE_DIR}/dep/include/g3dlite
-  ${CMAKE_SOURCE_DIR}/dep/include/zlib
 )
 
 add_library(${LIBRARY_NAME} STATIC
   ${LIBRARY_SRCS}
+  ${ZLIB_LIBRARIES}
 )
-
-if(WIN32)
-  target_link_libraries(${LIBRARY_NAME}
-    zlib
-  )
-endif()

@@ -22,6 +22,7 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
+#include <zlib.h>
 #include "Common.h"
 #include "UpdateData.h"
 #include "ByteBuffer.h"
@@ -30,7 +31,6 @@
 #include "Opcodes.h"
 #include "World.h"
 #include "ObjectGuid.h"
-#include <zlib/zlib.h>
 
 UpdateData::UpdateData() : m_blockCount(0)
 {

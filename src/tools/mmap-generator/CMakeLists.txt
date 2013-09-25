@@ -38,31 +38,15 @@ if(WIN32 AND MSVC)
 ENDIF()
 
 include_directories(
+    ${ZLIB_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/dep/include/g3dlite
     ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Include
     ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Include
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/src/shared
     ${CMAKE_SOURCE_DIR}/src/game
     ${CMAKE_SOURCE_DIR}/src/game/vmap
     ${CMAKE_SOURCE_DIR}/src/framework
-)
-
-add_library(zlib
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib/adler32.c
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib/compress.c
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib/crc32.c
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib/deflate.c
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib/example.c
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib/gzio.c
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib/infback.c
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib/inffast.c
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib/inflate.c
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib/inftrees.c
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib/trees.c
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib/uncompr.c
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib/zutil.c
 )
 
 add_library(Detour
@@ -95,5 +79,5 @@ set(SOURCES
 )
 
 add_executable( ${EXECUTABLE_NAME} ${SOURCES} )
-target_link_libraries( ${EXECUTABLE_NAME} g3dlite vmap Detour Recast zlib )
+target_link_libraries( ${EXECUTABLE_NAME} g3dlite vmap Detour Recast ${ZLIB_LIBRARIES} )
 install(TARGETS ${EXECUTABLE_NAME} DESTINATION ${BIN_DIR})

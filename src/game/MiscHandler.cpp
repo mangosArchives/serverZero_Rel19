@@ -22,6 +22,7 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
+#include <zlib.h>
 #include "Common.h"
 #include "Language.h"
 #include "Database/DatabaseEnv.h"
@@ -40,7 +41,6 @@
 #include "LootMgr.h"
 #include "Chat.h"
 #include "ScriptMgr.h"
-#include <zlib/zlib.h>
 #include "ObjectAccessor.h"
 #include "Object.h"
 #include "BattleGround/BattleGround.h"
