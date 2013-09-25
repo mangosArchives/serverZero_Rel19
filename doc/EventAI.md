@@ -1,19 +1,33 @@
-===========================================================================
-MaNGOS EventAI (Creature_AI) Documentation: (Last Updated: August 04, 2013)
-===========================================================================
+mangos EventAI scripting
+========================
+**Last Updated**: September 25, 2013
 
-EventAI allows users to create new creature scripts entirely within the database.
+*mangos-zero* provides a simple scripting feature through a set of event-based
+commands from with the database.
+
+Introduction
+------------
+Enhancing creatures with dynamic features instead of just a few spells can be
+achieved without knowing any programming language, and only requires basic
+[SQL][1] knowledge, and a database editor of your choice.
+
+*EventAI* scripts are based on in-game events, and attached to specific creature
+templates, which means they are valid for every spawn of a creature.
+
+Database documentation
+----------------------
+All scripts and related information are stored within the database tables
+`creature_ai_scripts`, `creature_ai_summons` and `creature_ai_texts`.
+
+
+[1]: http://en.wikipedia.org/wiki/SQL "SQL"
 
 For the AI to be used, you must first make sure to set AIname for each creature that should use this AI.
 UPDATE creature_template SET AIName = 'EventAI' WHERE entry IN (...);
 
-
 =========================================
-Basic Structure of EventAI
+Basic Structure of creature_ai_scripts
 =========================================
-
-EventAI follows a basic IF (Event) then DO (Action) format.
-Below is the list of current fields of the creature_ai_scripts table.
 
 Field_Name                      Description
 -------------------------------------------
@@ -50,6 +64,67 @@ In case of a percentage value, use value/100 (ie. param = 500 then that means 50
 [*] Phase mask is a bitmask of phases which shouldn't trigger this event. (ie. Phase mask of value 12 (binary 1100) results in triggering this event in phases 0, 1 and all others with exception for phases 2 and 3 (counting from 0).
 [*] Phase 0 is default so this will occur in all phases unless specified. (1101 = Triggers in Phase 1 of 3, 1011 = Triggers in Phase 2 of 3, 0111 = Triggers in Phase 3 of 3, 0011 = Triggers in Both Phase 2 and 3).
 [*] Take Desired Binary Configuration and convert into Decimal and this is your event_inverse_phase_mask to use in your script.
+
+Structure of creature_ai_texts
+------------------------------
+Below is a the list of current fields within the texts tables.
+
+Field name      | Description
+--------------- | --------------------------------------------------------------
+entry           | A unique *negative* identifier to the text entry.
+content_default | The default text to be displayed in English.
+content_loc1    | Korean localization of `content_default`.
+content_loc2    | French localization of `content_default`.
+content_loc3    | German localization of `content_default`.
+content_loc4    | Chinese localization of `content_default`.
+content_loc5    | Taiwanese localization of `content_default`.
+content_loc6    | Spanish Spain localization of `content_default`.
+content_loc7    | Spanish Latin America localization of `content_default`.
+content_loc8    | Russian localization of `content_default`.
+sound           | A sound from SoundEntries.dbc to be played.
+type            | Type of text (Say/Yell/Text emote/Whisper/Boss whisper/zone yell).
+language        | A text language from Languages.dbc
+emote           | An emote from Emotes.dbc. Only source of text will play this emote (not target, if target are defined in DoScriptText)
+comment         | This is a comment using the Creature ID of NPC using it.
+
+*Note*: Fields `content_loc1` to `content_loc8` are `NULL` values by default and
+are handled by separate localization projects.
+
+Text Types (`type`)
+-------------------
+Below is the list of current text types that texts tables can handle.
+
+ID | Internal name          | Description
+-- | ---------------------- | ----------------------------------
+0  | CHAT_TYPE_SAY          | Displayed as a Say (Speech Bubble).
+1  | CHAT_TYPE_YELL         | Displayed as a Yell (Red Speech Bubble) and usually has a matching Sound ID.
+2  | CHAT_TYPE_TEXT_EMOTE   | Displayed as a text emote in orange in the chat log.
+3  | CHAT_TYPE_BOSS_EMOTE   | Displayed as a text emote in orange in the chat log (Used only for specific Bosses).
+4  | CHAT_TYPE_WHISPER      | Displayed as a whisper to the player in the chat log.
+5  | CHAT_TYPE_BOSS_WHISPER | Displayed as a whisper to the player in the chat log (Used only for specific Bosses).
+6  | CHAT_TYPE_ZONE_YELL    | Same as CHAT_TYPE_YELL but will display to all players in current zone.
+
+Language Types (`language`)
+---------------------------
+This is the race language that the text is native to. Below is the list of
+current language types that are allowed.
+
+ID  | Internal Name | Description
+--- | ------------- | --------------------------------------------------------
+0   | UNIVERSAL     | Understood by *all* races.
+1   | ORCISH        | Understood *only* by Horde races.
+2   | DARNASSIAN    | Understood *only* by the Night Elf race.
+3   | TAURAHE       | Understood *only* by the Tauren race.
+6   | DWARVISH      | Understood *only* by the Dwarf race.
+7   | COMMON        | Understood *only* by Alliance races.
+8   | DEMONIC       | Understood *only* by the Demon race (Not Implemented).
+9   | TITAN         | This language was used by Sargeras to speak with other Titians (Not Implemented).
+10  | THALASSIAN    | Understood *only* by the Blood Elf race.
+11  | DRACONIC      | Understood *only* by the Dragon race.
+12  | KALIMAG       | Text will display as Kalimag (not readable by players, language of all elementals)
+13  | GNOMISH       | Understood *only* by the Gnome race.
+14  | TROLL         | Understood *only* by the Troll race.
+33  | GUTTERSPEAK   | Understood *only* by the Undead race.
 
 =========================================
 Event Types
@@ -156,9 +231,8 @@ For all ACTION_T_RANDOM Actions, When a Particular Param is selected for the Eve
 * = Use -1 where the param is expected to do nothing. Random constant is generated for each event, so if you have a random yell and a random sound, they will be linked up with each other (ie. param2 with param2).
 
 
-==============================================
 Event Types: Expanded and Detailed Information
-==============================================
+----------------------------------------------
 Note:
 COMBAT ONLY - Means that this event will only trigger durring combat.
 OUT OF COMBAT ONLY - Means that this event will only trigger while out of combat.
@@ -166,9 +240,8 @@ BOTH - This event can trigger both in and out of combat.
 
 Events that do not have lables on them are events that are directly involved with the in and out of combat state.
 
-------------------
-0 = EVENT_T_TIMER_IN_COMBAT:
-------------------
+0 = EVENT_T_TIMER_IN_COMBAT
+---------------------------
 Parameter 1: InitialMin - Minumum Time used to calculate Random Initial Expire
 Parameter 2: InitialMax - Maximum Time used to calculate Random Initial Expire
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Expire
@@ -177,9 +250,8 @@ Parameter 4: RepeatMax - Maximum Time used to calculate Random Repeat Expire
 COMBAT ONLY - Expires first between (Param1) and (Param2) and then between every (Param3) and (Param4) from then on.
 This is commonly used for spells that repeat cast during combat (Simulates Spell Cooldown).
 
-----------------------
-1 = EVENT_T_TIMER_OOC:
-----------------------
+1 = EVENT_T_TIMER_OOC
+---------------------
 Parameter 1: InitialMin - Minimum Time used to calculate Random Initial Event Expire
 Parameter 2: InitialMax - Maximum Time used to calculate Random Initial Event Expire
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Event Expire
@@ -188,9 +260,8 @@ Parameter 4: RepeatMax - Maximum Time used to calculate Random Repeat Event Expi
 OUT OF COMBAT ONLY (Not while evading) - Expires first between (Param1) and (Param2) and then between every (Param3) and (Param4) from then on.
 This is commonly used for events that occur and repeat outside of combat like random NPC Say or Random Emotes.
 
----------------
-2 = EVENT_T_HP:
----------------
+2 = EVENT_T_HP
+--------------
 Parameter 1: HPMax% - Maximum HP% That will trigger this Event to Expire
 Parameter 2: HPMin% - Minimum HP% That will trigger this Event to Expire
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Event Expire
@@ -200,9 +271,8 @@ BOTH - Expires when HP is between (Param1) and (Param2). Will repeat every (Para
 This is commonly used for events that occur at a specific HP% Range (Such as Heal/Enrage Spells or NPC's that Flee).
 NOTE: For Repeat Events the Repeat Timer ONLY Re-Check's Event Conditions to see If HP% Is Between Max and Min. If it is then Event will Expire again.
 
------------------
-3 = EVENT_T_MANA:
------------------
+3 = EVENT_T_MANA
+----------------
 Parameter 1: ManaMax% - Maximum Mana% That will trigger this Event to Expire
 Parameter 2: ManaMin% - Minimum Mana% That will trigger this Event to Expire
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Event Expire
@@ -211,14 +281,12 @@ Parameter 4: RepeatMax - Maximum Time used to calculate Random Repeat Event Expi
 BOTH - Expires once Mana% is between (Param1) and (Param2). Will repeat every (Param3) and (Param4).
 This is commonly used for events where an NPC low on Mana will do something (Such as stop casting spells and switch to melee).
 
-------------------
-4 = EVENT_T_AGGRO:
-------------------
+4 = EVENT_T_AGGRO
+-----------------
 COMBAT ONLY - This Event Expires upon Initial Aggro (This Event does not occur again until NPC either Evades/Respawns and then Enters Combat Again).
 
------------------
-5 = EVENT_T_KILL:
------------------
+5 = EVENT_T_KILL
+----------------
 Parameter 1: RepeatMin - Minimum Time used to calculate Random Repeat Event Expire
 Parameter 2: RepeatMax - Maximum Time used to calculate Random Repeat Event Expire
 
@@ -226,21 +294,18 @@ COMBAT ONLY - Expires upon killing a player. Will repeat every (Param1) and (Par
 This Event Expires upon killing a player. It is commonly used for NPC's who yell or do something after killing a player. Normally use a short repeating timer is advisable.
 NOTE: For Repeat Events the Repeat Timer ONLY Re-Check's Event Conditions to see If another Player Kill has occured. So After Repeat Min/Max Player Kill Event can occur again.
 
-------------------
-6 = EVENT_T_DEATH:
-------------------
+6 = EVENT_T_DEATH
+-----------------
 BOTH - This Event Expires upon Death of the Scripted NPC. This is normally only used in combat though.
 This is commonly used for NPC's who have a Yell or Spell Cast when they Die.
 
-------------------
-7 = EVENT_T_EVADE:
-------------------
+7 = EVENT_T_EVADE
+-----------------
 COMBAT ONLY - This Event Expires when the Scripted NPC Evades Combat (EnterEvadeMode).
 This is commonly used for NPC's who use phases, allows you to reset their phase to 0 on evade to prevent possible strange behavior on Re-Aggro.
 
----------------------
-8 = EVENT_T_SPELLHIT:
----------------------
+8 = EVENT_T_SPELLHIT
+--------------------
 Parameter 1: SpellID - The Spell ID that will trigger the Event to occur (NOTE: If you use Spell School as the trigger ALWAYS set this value to 0)
 Parameter 2: School - Spell School to trigger the Event (NOTE: If you use a SpellID then ALWAYS set this value to -1) - *See Below for Spell School Bitmask Values*
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Event Expire
@@ -261,9 +326,8 @@ SPELL_SCHOOL_SHADOW = 5 ==> 32
 SPELL_SCHOOL_ARCANE = 6 ==> 64
 Use These Bitmask Values For Schoolmask (Param2) or Any Combinations Of These School Bitmasks for Multiple Schools.
 
-------------------
-9 = EVENT_T_RANGE:
-------------------
+9 = EVENT_T_RANGE
+-----------------
 Parameter 1: MinDist - This Distance is the Minimum Distance between the NPC and it's target to allow this Event to Expire
 Parameter 2: MaxDist - This Distance is the Maximum Distance between the NPC and it's target to allow this Event to Expire
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Expire
@@ -272,9 +336,8 @@ Parameter 4: RepeatMax - Maximum Time used to calculate Random Repeat Expire
 COMBAT ONLY - Expires when the highest threat target distance is greater than (Param1) and less than (Param2). Will repeat every (Param3) and (Param4).
 This Event is commonly used for NPC's who have Ranged Combat and will Throw/Shoot between a certian distance.
 
----------------------
-10 = EVENT_T_OOC_LOS:
----------------------
+10 = EVENT_T_OOC_LOS
+--------------------
 Parameter 1: Hostile-or-Not   - This will expire if Unit are hostile. If Param1=1 it will only expire if Unit are not Hostile(generally determined by faction)
 Parameter 2: MaxAllowedRange  - Expires when a Unit moves within this distance to creature
 Parameter 3: RepeatMin        - Minimum Time used to calculate Random Repeat Expire
@@ -283,9 +346,8 @@ Parameter 4: RepeatMax        - Maximum Time used to calculate Random Repeat Exp
 OUT OF COMBAT ONLY
 This Event is commonly used for NPC's who do something or say something to you when you walk past them Out of Combat.
 
----------------------
-11 = EVENT_T_SPAWNED:
----------------------
+11 = EVENT_T_SPAWNED
+--------------------
 Expires at initial spawn and at creature respawn.
 This Event is commonly used for setting ranged movement type or Summoning a Pet on Spawn
 Parameter 1: 0: works always, 1: works on map in Parameter 2, 2: works on zone/subzone in Parameter 2
@@ -294,9 +356,8 @@ Parameter 2: depends on Parameter 1: for 1 it is map ID, for 2 it is area ID to 
 BOTH - Expires in or out of combat when the NPC Spawns
 This Event is commonly used for NPC's who cast a spell or do something special when they spawn. This event is not repeatable so it is a one time event on Spawn.
 
------------------------
-12 = EVENT_T_TARGET_HP:
------------------------
+12 = EVENT_T_TARGET_HP
+----------------------
 Parameter 1: HPMax% - Maximum HP% That this Event will Expire
 Parameter 2: HPMin% - Minimum HP% That this Event will Expire
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Expire
@@ -305,18 +366,16 @@ Parameter 4: RepeatMax - Maximum Time used to calculate Random Repeat Expire
 COMBAT ONLY - Expires when Current NPC's Target's HP is between (Param1) and (Param2). Will repeat every (Param3) and (Param4).
 This Event is commonly used for NPC's who have a special ability (Like Execute) that only casts when a Player HP is low.
 
-----------------------------
-13 = EVENT_T_TARGET_CASTING:
-----------------------------
+13 = EVENT_T_TARGET_CASTING
+---------------------------
 Parameter 1: RepeatMin - Minimum Time used to calculate Random Repeat Expire
 Parameter 2: RepeatMax - Maximum Time used to calculate Random Repeat Expire
 
 COMBAT ONLY - Expires when the current target is casting a spell. Will repeat every (Param1) and (Param2).
 This event is commonly used for NPC's who will cast a counter spell when their target starts to cast a spell.
 
--------------------------
-14 = EVENT_T_FRIENDLY_HP:
--------------------------
+14 = EVENT_T_FRIENDLY_HP
+------------------------
 Parameter 1: HPDeficit - This is the Amount of HP Missing from Full HP to trigger this event (You would need to calculate the amount of HP the event happens and subtract that from Full HP Value to get this number)
 Parameter 2: Radius - This is the Range in Yards the NPC will scan for nearby Friendlies (Faction is Friendly To) for the missing amount of HP in Param1.
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Expire
@@ -325,9 +384,8 @@ Parameter 4: RepeatMax - Maximum Time used to calculate Random Repeat Expire
 COMBAT ONLY - Expires when a friendly unit in radius(param2) has at least (param1) hp missing. Will repeat every (Param3) and (Param4).
 This is commonly used when an NPC in Combat will heal a nearby Friendly NPC in Combat with a Heal/Renew Spell.
 
-----------------------------
-15 = EVENT_T_FRIENDLY_IS_CC:
-----------------------------
+15 = EVENT_T_FRIENDLY_IS_CC
+---------------------------
 Parameter 1: DispelType - Dispel Type to trigger the event - *See Below for Dispel Bitmask Values*
 Parameter 2: Radius - This is the Range in Yards the NPC will scan for nearby Friendlies being Crowd Controlled
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Expire
@@ -336,9 +394,8 @@ Parameter 4: RepeatMax - Maximum Time used to calculate Random Repeat Expire
 COMBAT ONLY - Expires when a friendly unit is Crowd controlled within the given radius (param2). Will repeat every (Param3) and (Param4).
 This is commonly used for NPC's who can come to the resule of other Friendly NPC's if being Crowd Controlled
 
------------------------------------
-16 = EVENT_T_FRIENDLY_MISSING_BUFF:
------------------------------------
+16 = EVENT_T_FRIENDLY_MISSING_BUFF
+----------------------------------
 Parameter 1: SpellId - This is the SpellID That the Aura Check will look for (If it is missing this Aura)
 Parameter 2: Radius - This is the Range in Yards the NPC will scan for nearby Friendlies (Faction is Friendly To) for the missing Aura.
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Expire
@@ -347,9 +404,8 @@ Parameter 4: RepeatMax - Maximum Time used to calculate Random Repeat Expire
 BOTH - Expires when a friendly unit is missing aura's given by spell (param1) within radius (param2). Will repeat every (Param3) and (Param4).
 This is commonly used for NPC's who watch friendly units for a debuff to end so they can recast it on them again.
 
----------------------------
-17 = EVENT_T_SUMMONED_UNIT:
----------------------------
+17 = EVENT_T_SUMMONED_UNIT
+--------------------------
 Parameter 1: CreatureId - The CreatureID that the NPC is watching to spawn to trigger this event
 Parameter 2: RepeatMin - Minimum Time used to calculate Random Repeat Expire
 Parameter 3: RepeatMax - Maximum Time used to calculate Random Repeat Expire
@@ -357,15 +413,13 @@ Parameter 3: RepeatMax - Maximum Time used to calculate Random Repeat Expire
 BOTH - Expires after creature with entry(Param1) is spawned or for all spawns if param1 = 0. Will repeat every (Param2) and (Param3) .
 This is commonly used for NPC's who will do something special once another NPC is summoned. Usually used is Complex Scripts or Special Events.
 
----------------------------
-21 = EVENT_T_REACHED_HOME:
----------------------------
+21 = EVENT_T_REACHED_HOME
+-------------------------
 Expires only when creature has returned to it's home location after Evade. Out of combat event.
 Most commonly used to cast spells that can not be casted in EVENT_T_EVADE and other effects that does not fit in while still running back to spawn/home location.
 
----------------------------
-22 = EVENT_T_RECEIVE_EMOTE:
----------------------------
+22 = EVENT_T_RECEIVE_EMOTE
+--------------------------
 Parameter 1: EmoteId - Valid text emote ID from Mangos source (SharedDefines.h - enum TextEmotes)
 Parameter 2: Condition - Conditions based on <MaNGOS>/src/game/ObjectMgr.h - enum ConditionType
 Parameter 3: CondValue1 -
@@ -374,17 +428,15 @@ Parameter 4: CondValue2 -
 Expires only when creature receive emote from player. Valid text emote id's are in Mangos source (SharedDefines.h - enum TextEmotes)
 Event does not require any conditions to process, however many are expected to have condition.
 
----------------------------
-23 = EVENT_T_AURA         :
----------------------------
+23 = EVENT_T_AURA
+-----------------
 Parameter 1: SpellId - This is the SpellID That the Aura Check will look for
 Parameter 2: Amount -  This is the amount of SpellID's auras at creature required for event expire.
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Expire
 Parameter 4: RepeatMax - Maximum Time used to calculate Random Repeat Expire
 
----------------------------
-24 = EVENT_T_TARGET_BUFFED:
----------------------------
+24 = EVENT_T_TARGET_BUFFED
+--------------------------
 Parameter 1: SpellId - This is the SpellID That the Aura Check will look for
 Parameter 2: Amount -  This is the amount of SpellID's auras at target unit required for event expire.
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Expire
@@ -404,9 +456,8 @@ CONDITION_QUESTREWARDED (8)   quest_id     0, if quest are rewarded
 CONDITION_QUESTTAKEN (9)      quest_id     0, while quest active(incomplete)
 CONDITION_ACTIVE_EVENT (12)   event_id     0, note this is id from dbc, also defined in Mangos source(enum HolidayIds) NOT id of game_event in database
 
---------------------------------
-25 = EVENT_T_SUMMONED_JUST_DIED:
---------------------------------
+25 = EVENT_T_SUMMONED_JUST_DIED
+-------------------------------
 Parameter 1: CreatureId - The CreatureID that the NPC is watching die to trigger this event
 Parameter 2: RepeatMin - Minimum Time used to calculate Random Repeat Expire
 Parameter 3: RepeatMax - Maximum Time used to calculate Random Repeat Expire
@@ -414,9 +465,8 @@ Parameter 3: RepeatMax - Maximum Time used to calculate Random Repeat Expire
 BOTH - Expires after creature with entry(Param1) is die or for all spawns if param1 = 0. Will repeat every (Param2) and (Param3) .
 This is commonly used for NPC's who will do something special once another NPC is die. Usually used is Complex Scripts or Special Events.
 
------------------------------------
-26 = EVENT_T_SUMMONED_JUST_DESPAWN:
------------------------------------
+26 = EVENT_T_SUMMONED_JUST_DESPAWN
+----------------------------------
 Parameter 1: CreatureId - The CreatureID that the NPC is watching despawn to trigger this event
 Parameter 2: RepeatMin - Minimum Time used to calculate Random Repeat Expire
 Parameter 3: RepeatMax - Maximum Time used to calculate Random Repeat Expire
@@ -425,25 +475,22 @@ BOTH - Expires before creature with entry(Param1) is despawned or for all spawns
 This is commonly used for NPC's who will do something special once another NPC is despawn. Usually used is Complex Scripts or Special Events.
 NOTE: called before despawn happens, so summoned creature still in world at expire moment.
 
---------------------------
-27 = EVENT_T_MISSING_BUFF:
---------------------------
+27 = EVENT_T_MISSING_BUFF
+-------------------------
 Parameter 1: SpellId - This is the SpellID That the Aura Check will look for to be missing
 Parameter 2: Amount -  This is the amount or less of SpellID's auras at creature required for event expire.
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Expire
 Parameter 4: RepeatMax - Maximum Time used to calculate Random Repeat Expire
 
----------------------------------
-28 = EVENT_T_TARGET_MISSING_AURA:
----------------------------------
+28 = EVENT_T_TARGET_MISSING_AURA
+--------------------------------
 Parameter 1: SpellId - This is the SpellID That the Aura Check will look for to be missing
 Parameter 2: Amount -  This is the amount or less of SpellID's auras at creature required for event expire.
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Expire
 Parameter 4: RepeatMax - Maximum Time used to calculate Random Repeat Expire
 
----------------------------
-29 = EVENT_T_TIMER_GENERIC:
----------------------------
+29 = EVENT_T_TIMER_GENERIC
+--------------------------
 Parameter 1: InitialMin - Minumum Time used to calculate Random Initial Expire
 Parameter 2: InitialMax - Maximum Time used to calculate Random Initial Expire
 Parameter 3: RepeatMin - Minimum Time used to calculate Random Repeat Expire
@@ -451,20 +498,17 @@ Parameter 4: RepeatMax - Maximum Time used to calculate Random Repeat Expire
 
 IN COMBAT and OUT OF COMBAT - Expires first between (Param1) and (Param2) and then between every (Param3) and (Param4) from then on.
 
-------------------------------
-30 = EVENT_T_RECEIVE_AI_EVENT:
-------------------------------
+30 = EVENT_T_RECEIVE_AI_EVENT
+-----------------------------
 Parameter 1: AIEventType  - Only expire when an AIEvent of this type is received. Supported types see CreatureAI.h enum AIEventType
 Parameter 2: Sender-Entry - If != 0 then only expire when the AIEvent is received from a creature of this entry
 
 Note: This is the only EVENT where the target-type TARGET_T_EVENT_SENDER (10) is defined
 
-=========================================
-Action Types
-=========================================
+Action types
+------------
 
-------------------
-1 = ACTION_T_TEXT:
+1 = ACTION_T_TEXT
 ------------------
 Parameter 1: The entry of the text that the NPC should use from eventai_texts table. Optionally a entry from other tables can be used (such as custom_texts).
              Entry are required to be negative and exist in a *_texts-table. The type text to be displayed are defined in the texts-table itself (Say, Yell, Whisper, Emote Text, Boss Whisper, Boss Emote)
@@ -476,8 +520,7 @@ Parameter 3: Optional, if Parameter 2 exist. In this case, eventAI will randomiz
 
 Read at bottom for documentation of creature_ai_texts-table.
 
--------------------------
-2 = ACTION_T_SET_FACTION:
+2 = ACTION_T_SET_FACTION
 -------------------------
 Parameter 1: FactionId from Faction.dbc OR 0. Changes faction for creature. If 0, creature will revert to it's default faction if previously changed.
 Parameter 2: When Parameter 1 is not 0, flags can be used to restore default faction at certain events. Current supported, from enum TemporaryFactionFlags:
@@ -486,47 +529,40 @@ Parameter 2: When Parameter 1 is not 0, flags can be used to restore default fac
                 TEMPFACTION_RESTORE_COMBAT_STOP     = 0x02,  // ... at CombatStop() (happens at creature death, at evade or custom scripte among others)
                 TEMPFACTION_RESTORE_REACH_HOME      = 0x04,  // ... at reaching home in home movement (evade), if not already done at CombatStop()
 
--------------------------------------
-3 = ACTION_T_MORPH_TO_ENTRY_OR_MODEL:
+3 = ACTION_T_MORPH_TO_ENTRY_OR_MODEL
 -------------------------------------
 Parameter 1: Creature entry from creature_template. Action will then change to the model this creature are using.
 Parameter 2: If parameter 1 is 0, then this modelId will be used (in case parameter 1 exist, parameter 2 will not be used)
 
 If both parameter 1 and 2 is 0, the creature will DeMorph, and use it's default model.
 
--------------------
-4 = ACTION_T_SOUND:
+4 = ACTION_T_SOUND
 -------------------
 Parameter 1: The Sound ID to be played. (Sound IDs are contained in the DBC files.)
 
 The creature will play the specified sound.
 This is commonly used for Bosses who Yell and then also have a Voice for the same thing.
 
--------------------
-5 = ACTION_T_EMOTE:
+5 = ACTION_T_EMOTE
 -------------------
 Parameter 1: The Emote ID that the creature should perform. (Emote IDs are also contained in the DBC but they can be found in the mangos source as well).
 
 The creature will perform a visual emote. Unlike a text emote, a visual emote is one where the creature will actually move or perform a gesture.
 This is commonly used for NPC's who may perform a special action (Salute, Roar, ect...). Not all player emotes work for creature models.
 
-------------------------
-6 = ACTION_T_RANDOM_SAY:
+6 = ACTION_T_RANDOM_SAY
 ------------------------
 UNUSED       Can be reused to create new action type
 
--------------------------
-7 = ACTION_T_RANDOM_YELL:
+7 = ACTION_T_RANDOM_YELL
 -------------------------
 UNUSED       Can be reused to create new action type
 
-------------------------------
-8 = ACTION_T_RANDOM_TEXTEMOTE:
+8 = ACTION_T_RANDOM_TEXTEMOTE
 ------------------------------
 UNUSED       Can be reused to create new action type
 
---------------------------
-9 = ACTION_T_RANDOM_SOUND:
+9 = ACTION_T_RANDOM_SOUND
 --------------------------
 Parameter 1: The Sound ID to be played as Random Choice #1.
 Parameter 2: The Sound ID to be played as Random Choice #2.
@@ -534,8 +570,7 @@ Parameter 3: The Sound ID to be played as Random Choice #3.
 
 Similar to the ACTION_T_SOUND action, it will choose at random a sound to play.
 
----------------------------
-10 = ACTION_T_RANDOM_EMOTE:
+10 = ACTION_T_RANDOM_EMOTE
 ---------------------------
 Parameter 1: The Emote ID to be played as Random Choice #1.
 Parameter 2: The Emote ID to be played as Random Choice #2.
@@ -543,8 +578,7 @@ Parameter 3: The Emote ID to be played as Random Choice #3.
 
 Similar to the ACTION_T_EMOTE action, it will choose at random an Emote to Visually Perform.
 
--------------------
-11 = ACTION_T_CAST:
+11 = ACTION_T_CAST
 -------------------
 Parameter 1: SpellId - The Spell ID to use for the NPC to cast. The value used in this field needs to be a valid Spell ID.
 Parameter 2: Target - The Target Type defining who the creature should cast the spell at. The value in this field needs to be a valid Target Type as specified in the reference tables below.
@@ -554,8 +588,7 @@ The creature will cast a spell specified by a spell ID on a target specified by 
 If the spell is normal cast, random target types will select only targets within LOS and in spell range
 This is commonly used for NPC's who cast spells.
 
----------------------
-12 = ACTION_T_SUMMON:
+12 = ACTION_T_SUMMON
 ---------------------
 Parameter 1: CreatureID - The Creature Template ID to be Summoned. The value here needs to be a valid Creature Template ID.
 Parameter 2: Target - The Target Type defining who the Summoned creature will attack once spawned. The value in this field needs to be a valid Target Type as specified in the reference tables below.
@@ -569,8 +602,7 @@ This is used as a manual way to force an NPC to Summon.
 
 NOTE: THIS ONLY WORKS IN COMBAT
 
---------------------------------
-13 = ACTION_T_THREAT_SINGLE_PCT:
+13 = ACTION_T_THREAT_SINGLE_PCT
 --------------------------------
 Parameter 1: Threat% - Threat percent that should be modified. The value in this field can range from -100 to +100. If it is negative, threat will be taken away and if positive, threat will be added.
 Parameter 2: Target - The Target Type defining on whom the threat change should occur. The value in this field needs to be a valid target type as specified in the reference tables below.
@@ -578,8 +610,7 @@ Parameter 2: Target - The Target Type defining on whom the threat change should 
 This action will modify the threat of a target in the creature's threat list by the specified percent.
 This is commonly used to allow an NPC to adjust the Threat to a single player.
 
------------------------------
-14 = ACTION_T_THREAT_ALL_PCT:
+14 = ACTION_T_THREAT_ALL_PCT
 -----------------------------
 Parameter 1: Threat% - The percent that should be used in modifying everyone's threat in the creature's threat list. The value here can range from -100 to +100.
 
@@ -587,8 +618,7 @@ This action will modify the threat for everyone in the creature's threat list by
 NOTE: Using -100 will cause the creature to reset everyone's threat to 0 so that everyone has the same amount of threat. It will NOT remove anyone from the threat list.
 This is commonly used to allow an NPC to drop threat for all players to zero.
 
---------------------------
-15 = ACTION_T_QUEST_EVENT:
+15 = ACTION_T_QUEST_EVENT
 --------------------------
 Parameter 1: QuestID - The Quest Template ID. The value here must be a valid quest template ID. Furthermore, the quest should have SpecialFlags | 2 as it would need to be completed by an external event which is the activation of this action.
 Parameter 2: Target - The Target Type defining whom the quest should be completed for. The value in this field needs to be a valid target type as specified in the reference tables below.
@@ -597,8 +627,7 @@ This action will satisfy the external completion requirement for the quest for t
 NOTE: This action can only be used with player targets so it must be ensured that the target type will point to a player.
 This is commonly used for Quests where only ONE player will gain credit for the quest.
 
------------------------------
-16 = ACTION_T_CASTCREATUREGO:
+16 = ACTION_T_CASTCREATUREGO
 -----------------------------
 Parameter 1: CreatureID - The Creature Template ID to be Summoned. The value here needs to be a valid Creature Template ID.
 Parameter 2: SpellID - The Spell ID to use to simulate the cast. The value used in this field needs to be a valid Spell ID.
@@ -607,8 +636,7 @@ Parameter 3: Target - The Target Type defining whom the quest credit should be g
 This action will call CastedCreatureOrGO() function for the player. It can be used to give quest credit for casting a spell on the creature.
 This is commonly used for NPC's who have a special requirement to have a Spell cast on them to complete a quest.
 
------------------------------
-17 = ACTION_T_SET_UNIT_FIELD:
+17 = ACTION_T_SET_UNIT_FIELD
 -----------------------------
 Parameter 1: Field_Number - The index of the Field Number to be changed. Use (http://wiki.udbforums.org/index.php/Character_data) for a list of indeces and what they control. Creatures only contain the OBJECT_FIELD_* and UNIT_FIELD_* fields. They do not contain the PLAYER_FIELD_* fields.
 Parameter 2: Value - The new value to be put in the field.
@@ -616,24 +644,21 @@ Parameter 3: Target - The Target Type defining for whom the unit field should be
 
 When activated, this action can change the target's unit field values. More information on the field value indeces can be found at (http://wiki.udbforums.org/index.php/Character_data)
 
-----------------------------
-18 = ACTION_T_SET_UNIT_FLAG:
+18 = ACTION_T_SET_UNIT_FLAG
 ----------------------------
 Parameter 1: Flags - The flag(s) to be set. Multiple flags can be set by using bitwise-OR on them (adding them together).
 Parameter 2: Target - The Target Type defining for whom the flags should be changed. The value in this field needs to be a valid Target Type as specified in the reference tables below.
 
 When activated, this action changes the target's flags by adding (turning on) more flags. For example, this action can make the creature unattackable/unselectable if the right flags are used.
 
--------------------------------
-19 = ACTION_T_REMOVE_UNIT_FLAG:
+19 = ACTION_T_REMOVE_UNIT_FLAG
 -------------------------------
 Parameter 1: Flags - The flag(s) to be removed. Multiple flags can be set by using bitwise-OR on them (adding them together).
 Parameter 2: Target - The target type defining for whom the flags should be changed. The value in this field needs to be a valid Target Type as specified in the reference tables below.
 
 When activated, this action changes the target's flags by removing (turning off) flags. For example, this action can make the creature normal after it was unattackable/unselectable if the right flags are used.
 
---------------------------
-20 = ACTION_T_AUTO_ATTACK:
+20 = ACTION_T_AUTO_ATTACK
 --------------------------
 Parameter 1: AllowAutoAttack - If zero, then the creature will stop its melee attacks. If non-zero, then the creature will either continue its melee attacks (the action would then have no effect) or it will start its melee attacks on the target with the top threat if its melee attacks were previously stopped.
 
@@ -641,8 +666,7 @@ This action controls whether or not the creature should stop or start the auto m
 NOTE: The ACID Dev Team has conformed to using either 0 or 1 for the Param values (0 = Stop Melee, 1 = Start Melee).
 This is commonly used in combination with EVENT_T_RANGE and ACTION_T_COMBAT_MOVEMENT for Ranged Combat for Mages and Spell Casters.
 
-------------------------------
-21 = ACTION_T_COMBAT_MOVEMENT:
+21 = ACTION_T_COMBAT_MOVEMENT
 ------------------------------
 Parameter 1: If zero, then the creature will stop moving towards its victim (if its victim gets out of melee range) and will be stationary. If non-zero, then the creature will either continue to follow its victim (the action would have no effect) or it will start to follow the target with the top threat if its movement was disabled before.
 Parameter 2: If non-zero, then stop melee combat state (if param1=0) or start melee combat state (if param1!=0) and creature in combat with selected target.
@@ -652,8 +676,7 @@ NOTE: The ACID Dev Team has conformed to using either 0 or 1 for the Param value
 This is commonly used with EVENT_T_RANGE and ACTION_T_AUTO_ATTACK for NPC's who engage in Ranged Comabt (Either Spells or Ranged Attacks)
 Parameter 2 specialy used for ranged combat proper client side visual show ranged weapon in proper state.
 
-------------------------
-22 = ACTION_T_SET_PHASE:
+22 = ACTION_T_SET_PHASE
 ------------------------
 Parameter 1: The new phase to set the creature in. This number must be an integer between 0 and 31. Numbers outside of that range will result in an error.
 
@@ -662,8 +685,7 @@ NOTE: The creature's current Phase is NOT reset at creature evade. You must manu
 NOTE: The value used for the Param is the actual Phase Number (Not The Event_Inverse_Phase_Mask)
 This is commonly used for complex scripts with several phases and you need to switch to a different phase.
 
-------------------------
-23 = ACTION_T_INC_PHASE:
+23 = ACTION_T_INC_PHASE
 ------------------------
 Parameter 1: Value - The number of phases to increase or decrease. Use negative values to decrease the current phase.
 
@@ -671,28 +693,24 @@ When activated, this action will increase (or decrease) the current creature's p
 NOTE: After increasing or decreasing the phase by this action, the current phase must NOT be lower than 0 or exceed 31.
 This can be used instead of ACTION_T_SET_PHASE to change phases in scripts. Just a user friendly option for changing phases.
 
---------------------
-24 = ACTION_T_EVADE:
+24 = ACTION_T_EVADE
 --------------------
 When activated, the creature will immediately exit out of combat, clear its threat list, and move back to its spawn point. Basically, this action will reset the whole encounter.
 NOTE: All Param Values Are 0 for this Action.
 
--------------------
-25 = ACTION_T_FLEE:
+25 = ACTION_T_FLEE
 -------------------
 When activated, the creature will flee from combat for assistance from nearby NPC's if possible.
 NOTE: All Param Values Are 0 for this Action.
 
-------------------------------
-26 = ACTION_T_QUEST_EVENT_ALL:
+26 = ACTION_T_QUEST_EVENT_ALL
 ------------------------------
 Parameter 1: QuestId - The quest ID to finish for everyone.
 
 This action does the same thing as the ACTION_T_QUEST_EVENT does but it does it for all players in the creature's threat list.
 NOTE: If a player is not in the NPC's threat list for whatever reason, he/she won't get the quest completed.
 
----------------------------------
-27 = ACTION_T_CASTCREATUREGO_ALL:
+27 = ACTION_T_CASTCREATUREGO_ALL
 ---------------------------------
 Parameter 1: QuestId - The quest template ID.
 Parameter 2: SpellId - The spell ID used to simulate the cast.
@@ -700,8 +718,7 @@ Parameter 2: SpellId - The spell ID used to simulate the cast.
 This action does the same thing as the ACTION_T_CASTCREATUREGO does but it does it for all players in the creature's threat list.
 NOTE: If a player is not in its threat list for whatever reason, he/she won't receive the cast emulation.
 
------------------------------------
-28 = ACTION_T_REMOVEAURASFROMSPELL:
+28 = ACTION_T_REMOVEAURASFROMSPELL
 -----------------------------------
 Parameter 1: Target - The target type defining for whom the unit field should be changed. The value in this field needs to be a valid target type as specified in the reference tables below.
 Parameter 2: SpellId - The spell ID whose auras will be removed.
@@ -709,8 +726,7 @@ Parameter 2: SpellId - The spell ID whose auras will be removed.
 This action will remove all auras from a specific spell from the target.
 This is commonly used for NPC's who have an OOC Aura that is removed at combat start or a similar idea (Like Stealth or Shape Shift)
 
-------------------------------
-29 = ACTION_T_RANGED_MOVEMENT:
+29 = ACTION_T_RANGED_MOVEMENT
 ------------------------------
 Parameter 1: Distance - The distance the mob should keep between it and its target.
 Parameter 2: Angle - The angle the mob should use.
@@ -719,8 +735,7 @@ This action changes the movement type generator to ranged type using the specifi
 NOTE: Specifying zero angle and distance will make it just melee instead.
 This is commonly used for NPC's who always attack at range and you can specify the distance they will maintain from the target.
 
----------------------------
-30 = ACTION_T_RANDOM_PHASE:
+30 = ACTION_T_RANDOM_PHASE
 ---------------------------
 Parameter 1: PhaseId1 - A possible random phase choice.
 Parameter 2: PhaseId2 - A possible random phase choice.
@@ -731,8 +746,7 @@ NOTE: Use -1 to specify that if this param is picked to do nothing. Random is co
 NOTE 2: PLEASE NOTE THAT EACH OF THE PARAM VALUES ARE ACTUAL PHASE NUMBERS NOT THE INVERSE PHASE MASK VALUE.
 This is commonly used for Spellcasting NPC's who on Aggro may select at random a school of spells to use for the fight. Use this if you have up to 3 phases used, otherwise use Action 31 for more then 3 phases.
 
----------------------------------
-31 = ACTION_T_RANDOM_PHASE_RANGE:
+31 = ACTION_T_RANDOM_PHASE_RANGE
 ---------------------------------
 Parameter 1: PhaseMin - The minimum of the phase range.
 Parameter 2: PhaseMax - The maximum of the phase range. The number here must be greater than PhaseMin.
@@ -742,8 +756,7 @@ NOTE: PhaseMax must be greater than PhaseMin.
 NOTE 2: PLEASE NOTE THAT EACH OF THE PARAM VALUES ARE ACTUAL PHASE NUMBERS NOT THE INVERSE PHASE MASK VALUE.
 This is commonly used for Spellcasting NPC's who on Aggro may select at random a school of spells to use for the fight. Use this if you have MORE then 3 phases used, otherwise use Action 30.
 
----------------------
-32 = ACTION_T_SUMMON:
+32 = ACTION_T_SUMMON
 ---------------------
 Parameter 1: CreatureID - The creature template ID to be summoned. The value here needs to be a valid creature template ID.
 Parameter 2: Target - The target type defining who the summoned creature will attack. The value in this field needs to be a valid target type as specified in the reference tables below. NOTE: Using target type 0 will cause the summoned creature to not attack anyone.
@@ -753,8 +766,7 @@ Summons creature (param1) to attack target (param2) at location specified by cre
 NOTE: Param3 Value is the ID Value used for the entry used in creature_ai_summons for this action. You MUST have an creature_ai_summons entry to use this action.
 This is commonly used for NPC's who need to Summon a creature at a specific location. (Normally used for complex events)
 
------------------------------
-33 = ACTION_T_KILLED_MONSTER:
+33 = ACTION_T_KILLED_MONSTER
 -----------------------------
 Parameter 1: CreatureID - The creature template ID. The value here must be a valid creature template ID.
 Parameter 2: Target - The target type defining whom the quest kill count should be given to. The value in this field needs to be a valid target type as specified in the reference tables below.
@@ -763,8 +775,7 @@ When activated, this action will call KilledMonster() function for the player. I
 NOTE: It can be ANY creature including certain quest specific triggers
 This is commonly used for giving the player Quest Credits for NPC kills (Many NPC's may use the same CreatureID for the Kill Credit)
 
-----------------------------
-34 = ACTION_T_SET_INST_DATA:
+34 = ACTION_T_SET_INST_DATA
 ----------------------------
 Parameter 1: Field - The field to change in the instance script. Again, this field needs to be a valid field that has been already defined in the instance's script.
 Parameter 2: Data - The value to put at that field index.
@@ -782,8 +793,7 @@ FAIL          = 2
 DONE          = 3
 SPECIAL       = 4
 
-------------------------------
-35 = ACTION_T_SET_INST_DATA64:
+35 = ACTION_T_SET_INST_DATA64
 ------------------------------
 Parameter 1: Field - The field to change in the instance script. Again, this field needs to be a valid field that has been already defined in the instance's script.
 Parameter 2: Target - The target type to use to get the GUID that will be stored at the field index. The value in this field needs to be a valid target type as specified in the reference tables below.
@@ -791,8 +801,7 @@ Parameter 2: Target - The target type to use to get the GUID that will be stored
 Sets GUID (64 bits) data for the instance based on the target. Note that this will only work when the creature is inside an instantiable zone that has a valid script (ScriptedInstance) assigned.
 Calls ScriptedInstance::SetData64 with field (param1) and data (param2) target's GUID.
 
-------------------------------
-36 = ACTION_T_UPDATE_TEMPLATE:
+36 = ACTION_T_UPDATE_TEMPLATE
 ------------------------------
 Parameter 1: TemplateId - The creature template ID. The value here must be a valid creature template ID.
 Parameter 2: Team - Use model_id from team : Alliance(0) or Horde (1).
@@ -800,27 +809,23 @@ Parameter 2: Team - Use model_id from team : Alliance(0) or Horde (1).
 This function temporarily changes creature entry to new entry, display is changed, loot is changed, but AI is not changed. At respawn creature will be reverted to original entry.
 Changes the creature to a new creature template of (param1) with team = Alliance if (param2) = false or Horde if (param2) = true
 
-------------------
-37 = ACTION_T_DIE:
+37 = ACTION_T_DIE
 ------------------
 Kills the creature
 This is commonly used if you need to Instakill the creature for one reason or another.
 
---------------------------------
-38 = ACTION_T_ZONE_COMBAT_PULSE:
+38 = ACTION_T_ZONE_COMBAT_PULSE
 --------------------------------
 Places all players within the instance into combat with the creature. Only works in combat and only works inside of instances.
 
-----------------------------
-39 = ACTION_T_CALL_FOR_HELP:
+39 = ACTION_T_CALL_FOR_HELP
 ----------------------------
 Parameter 1: Radius - All friendly (not only same faction) creatures will go to help
 
 Call any friendly creatures (if its not in combat/etc) in radius attack creature target.
 Mostly used when call to help more wide that normal aggro radius or auto-used call for assistance, and need apply at some event.
 
--------------------------
-40   ACTION_T_SET_SHEATH:
+40   ACTION_T_SET_SHEATH
 -------------------------
 Parameter 1: Set Sheath State
 0 = SHEATH_STATE_UNARMED               Set No Weapon Displayed (Not Usually Used By Creatures)
@@ -831,14 +836,12 @@ Set Sheath State For NPC.
 Note: SHEATH_STATE_RANGED case work in combat state only if combat not start as melee commands.
 This possible setup by set at event AI start (single used EVENT_T_TIMER_OOC or set ACTION_T_COMBAT_MOVEMENT 0 for creature that prefered ranged attack)
 
-----------------------------
-41   ACTION_T_FORCE_DESPAWN:
+41   ACTION_T_FORCE_DESPAWN
 ----------------------------
 Despawns The NPC with optional delay time (Works In or Out of Combat)
 Parameter 1: Delay - Sets delay time until Despawn occurs after triggering the action. Time is in (ms).
 
------------------------------------------
-42   ACTION_T_SET_INVINCIBILITY_HP_LEVEL:
+42   ACTION_T_SET_INVINCIBILITY_HP_LEVEL
 -----------------------------------------
 Parameter 1: Minimum Health Level That NPC Can Reach (NPC Will Not Go Below This Value).
 Parameter 2: Sets Format of Paramater 1 Value
@@ -847,16 +850,14 @@ Parameter 2: Sets Format of Paramater 1 Value
 
 NOTE: To Cancel Invincible You Need To Set Script For Either 0% HP or 0 HP So Then NPC Can Be Killed Again
 
------------------------------------------
-43 ACTION_T_MOUNT_TO_ENTRY_OR_MODEL:
+43 ACTION_T_MOUNT_TO_ENTRY_OR_MODEL
 -----------------------------------------
 Parameter 1, Optional: Set mount model from creature_template.entry
 Parameter 2, Optional: Set mount model by explicit modelId
 
 If (Param1) AND (Param2) are both 0, unmount.
 
----------------------------
-44 = ACTION_T_CHANCED_TEXT:
+44 = ACTION_T_CHANCED_TEXT
 ---------------------------
 Parameter 1: Chance with which a text will be displayed (must be between 1 and 99)
 
@@ -871,14 +872,12 @@ Also remark that the chance also depends on the chance of the event. And remark 
 
 Read at bottom for documentation of creature_ai_texts-table.
 
------------------------------
-45 = ACTION_T_THROW_AI_EVENT:
+45 = ACTION_T_THROW_AI_EVENT
 -----------------------------
 Parameter 1: EventType - What AIEvent to throw, supported types see CreatureAI.h enum AIEventType
 Parameter 2: Radius    - Throw the AIEvent to nearby friendly creatures within this range
 
------------------------------
-46 = ACTION_T_SET_THROW_MASK:
+46 = ACTION_T_SET_THROW_MASK
 -----------------------------
 Parameter 1: EventTypeMask - Which AIEvents to throw, supported types see CreatureAI.h enum AIEventType (mask-value is 2^type)
 
@@ -892,9 +891,8 @@ Currently supported are:
 
 So if you want an npc to throw AIEvents automatically on death and on critical health, you would set its EventTypeMask to 0x03
 
-=========================================
-Target Types
-=========================================
+Target types
+------------
 Below is the list of current Target types that EventAI can handle.
 Target types are used by certain actions and may effect actions differently
 
@@ -912,9 +910,8 @@ Target types are used by certain actions and may effect actions differently
 9    TARGET_T_HOSTILE_RANDOM_NOT_TOP_PLAYER  Any Random Player Except Top Threat
 10   TARGET_T_EVENT_SENDER              Creature who sent a received AIEvent - only triggered by EVENT_T_RECEIVE_AI_EVENT
 
-=========================================
-Cast Flags
-=========================================
+Cast flags
+----------
 Below is the list of current Cast Flags that EventAI's spell casting can handle.
 Cast flags are handled bitwise. Bit 0 is Interrupt Previous, bit 1 is triggered, etc.
 So for example the number "3" (11 in Binary, selecting first 2 options) would mean that this cast has both CAST_INTURRUPT_PREVIOUS and CAST_TRIGGERED.
@@ -932,9 +929,8 @@ Another example: the number "5" (101 in Binary, selecting first and third option
 NOTE: You can add the numbers in the decimal column to combine flags.
  For example if you wanted to use CAST_NO_MELEE_IF_OOM(8) and CAST_TRIGGERED(2) you would simply use 10 in the cast flags field (8 + 2 = 10).
 
-=========================================
-Event Flags
-=========================================
+Event flags
+-----------
 Below is the list of current Event Flags that EventAI can handle. Event flags are handled bitwise.
 
 #       Decimal   Internal Name                  Description
@@ -949,73 +945,3 @@ Below is the list of current Event Flags that EventAI can handle. Event flags ar
 7       128       EFLAG_DEBUG_ONLY              Prevents events from occuring on Release builds. Useful for testing new features.
 
 NOTE: You can add the numbers in the decimal column to combine flags.
-
-
-=========================================
-Basic Structure of creature_ai_texts
-=========================================
-Below is a the list of current fields within the texts tables.
-
-Field_Name            Description
------------------------------------------------------------
-entry                 This value is mearly an NEGATIVE identifier of the current text number. Required for sql queries. Valid range are -1 to -999999
-content_default       This is the actual text presented in the default language (English).
-
-content_loc1          This is the actual text presented in the Localization #1 Clients (Korean)
-content_loc2          This is the actual text presented in the Localization #2 Clients (French)
-content_loc3          This is the actual text presented in the Localization #3 Clients (German)
-content_loc4          This is the actual text presented in the Localization #4 Clients (Chinese)
-content_loc5          This is the actual text presented in the Localization #5 Clients (Taiwanese)
-content_loc6          This is the actual text presented in the Localization #6 Clients (Spanish)
-content_loc7          This is the actual text presented in the Localization #7 Clients (Spanish Mexico)
-content_loc8          This is the actual text presented in the Localization #8 Clients (Russian)
-
-sound                 This value is the Sound ID that corresponds to the actual text used.
-type                  Variables used to define type of text (Say/Yell/TextEmote/Whisper).
-language              This value is the Language that the text is native in.
-emote                 Value from enum Emote. Only source of text will play this emote (not target, if target are defined in DoScriptText)
-comment               This is a comment regarding the text entry
-
-Note: Fields `content_loc1` to `content_loc8` are NULL values by default and are normally handled by seperate localization projects.
-
-=========================================
-Text Types (type)
-=========================================
-Below is the list of current Text types that texts tables can handle. These were previously seperate Actions in ACID.
-
-#    Internal Name                 Description
------------------------------------------------------------
-0    CHAT_TYPE_SAY                 This type sets the text to be displayed as a Say (Speech Bubble).
-1    CHAT_TYPE_YELL                This type sets the text to be displayed as a Yell (Red Speech Bubble) and usually has a matching Sound ID.
-2    CHAT_TYPE_TEXT_EMOTE          This type sets the text to be displayed as a text emote in orange in the chat log.
-3    CHAT_TYPE_BOSS_EMOTE          This type sets the text to be displayed as a text emote in orange in the chat log (Used only for specific Bosses).
-4    CHAT_TYPE_WHISPER             This type sets the text to be displayed as a whisper to the player in the chat log.
-5    CHAT_TYPE_BOSS_WHISPER        This type sets the text to be displayed as a whisper to the player in the chat log (Used only for specific Bosses).
-6    CHAT_TYPE_ZONE_YELL           Same as CHAT_TYPE_YELL but will display to all players in current zone.
-
-=========================================
-Language Types (language)
-=========================================
-Below is the list of current Language types that are allowed.
-This is the Race Language that the text is native to (So it will display properly)
-
-#    Internal Name                Description
------------------------------------------------------------
-0    UNIVERSAL                    Text in this language is understood by ALL Races.
-1    ORCISH                       Text in this language is understood ONLY by Horde Races.
-2    DARNASSIAN                   Text in this language is understood ONLY by the Night Elf Race.
-3    TAURAHE                      Text in this language is understood ONLY by the Tauren Race.
-6    DWARVISH                     Text in this language is understood ONLY by the Dwarf Race.
-7    COMMON                       Text in this language is understood ONLY by Alliance Races.
-8    DEMONIC                      Text in this language is understood ONLY by the Demon Race (Not Implimented).
-9    TITAN                        This language was used by Sargeras to speak with other Titians (Not Implemented).
-10   THALASSIAN                   Text in this language is understood ONLY by the Blood Elf Race.
-11   DRACONIC                     Text in this language is understood ONLY by the Dragon Race.
-12   KALIMAG                      Text will display as Kalimag (not readable by players, language of all elementals)
-13   GNOMISH                      Text in this language is understood ONLY by the Gnome Race.
-14   TROLL                        Text in this language is understood ONLY by the Troll Race.
-33   GUTTERSPEAK                  Text in this language is understood ONLY by the Undead Race.
-35   DRAENEI                      Text in this language is understood ONLY by the Draenai Race.
-36   ZOMBIE                       (not currently used?)
-37   GNOMISH BINARY               Binary language used by Alliance when drinking Binary Brew
-38   GOBLIN BINARY                Binary language used by Horce when drinking Binary Brew

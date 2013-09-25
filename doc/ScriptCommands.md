@@ -1,12 +1,8 @@
--- --------------------------
 ## Script processing
--- --------------------------
 
 This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
 
--- --------------------------
 ## id
--- --------------------------
 
 dbscripts_on_creature_death         Creature entry
 dbscripts_on_creature_movement      DB project self defined id
@@ -18,41 +14,29 @@ dbscripts_on_quest_end              DB project self defined id (generally quest 
 dbscripts_on_quest_start            DB project self defined id (generally quest entry)
 dbscripts_on_spell                  Spell id
 
--- --------------------------
 ## delay
--- --------------------------
 
 Delay in seconds
 The order of which each step are executed.
 
--- --------------------------
 ## command
--- --------------------------
 
 The action to execute.
 
--- --------------------------
 ## datalong
--- --------------------------
 
 2 multipurpose fields, store raw data as unsigned values
 
--- --------------------------
 ## buddy_entry
--- --------------------------
 
 1 field to store the entry of a "buddy" (depending on command can be both GameObject and Creature entry)
 
--- --------------------------
 ## search_radius
--- --------------------------
 
 Range in which the buddy defined in buddy_entry will be searched
 In case of SCRIPT_FLAG_BUDDY_BY_GUID this field is the buddy's guid!
 
--- --------------------------
 ## data_flags
--- --------------------------
 
 Field which holds a combination of these flags:
 
@@ -66,23 +50,17 @@ Field which holds a combination of these flags:
 
 Detailed meaning described below!
 
--- --------------------------
 ## dataint
--- --------------------------
 
 4 multipurpose fields, store raw data as signed values
 Note: currently used only for text ids SCRIPT_COMMAND_TALK (0),
       and in relation with SCRIPT_COMMAND_TERMINATE_SCRIPT (31)
 
--- --------------------------
 ## x y z o
--- --------------------------
 
 Map coordinates for commands that need it.
 
--- --------------------------
 ## origin of script and source/target in scripts
--- --------------------------
 
 dbscripts_on_creature_death
                             Creature death
@@ -119,9 +97,7 @@ dbscripts_on_spell
                             Spell (effect 64 - TRIGGER_SPELL, with non-existing triggered spell)
                                 Source: caster: Target: target of spell (Unit)
 
--- --------------------------
 ## Buddy concept
--- --------------------------
 
 Commands except the ones requiring a player (like KILL_CREDIT) have support for the buddy concept.
 This means that if an entry for buddy_entry is provided,
@@ -145,9 +121,7 @@ are:
 7: buddy  ->  buddy
 Where "A  ->  B" means that the command is executed from A with B as target.
 
--- --------------------------
 ## Each command has different parameters, and are as follows:
--- --------------------------
 
  0 SCRIPT_COMMAND_TALK                      resultingSource = WorldObject, resultingTarget = Unit/none
                                             * dataint = text entry from db_script_string -table. dataint2-dataint4 optionally, for random selection of text

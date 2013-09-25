@@ -1,89 +1,81 @@
-=========================================
 Texts Documentation
-=========================================
+===================
+In order for scripts to have a centralized storage for texts, text tables have been
+added to the database. Any script can access and use texts from these tables.
 
-Scriptdev2 Revision 695 introduces a new format for using texts in EventAI and SD2 Scripts.
-This information relates to the *_texts tables located in the ScriptDev Database.
+An additional table is available for custom scripts.
 
-Any script can at any time access and use text from any of the three text tables, as long as the entry does in fact exist.
-Custom scripters are advised to store their text data in custom_texts.
+For each table ranges of valid identifiers have been define
 
-The different tables has ranges of entries allowed for that table.
-Reserved EventAI in Mangos     entry -1       -> -999999
-script_texts:                  entry -1000000 -> -1999999
-custom_texts:                  entry -2000000 -> -2999999
-gossip_texts:                  entry -3000000 -> -3999999
-Any entry out of range for that table will display a start-up error.
+* entry `-1` to `-999999`: reserved EventAI in *mangos*,
+* entry `-1000000` to `-1999999`: script text entries,
+* entry `-2000000` to `-2999999`: text entries for custom scripts,
+* entry `-3000000` to `-3999999`: texts for scripted gossip texts.
 
+Text entries not using identifiers from the defined ranges will result in startup
+errors.
 
-=========================================
-Basic Structure of script_texts, custom_texts and gossip_texts
-=========================================
-Below is a the list of current fields within the texts tables.
+Database structure
+------------------
+`custom_texts`, `gossip_texts`, and `script_texts` share an indentical table
+structure, thus making it very easy to add new text entries.
 
-Field_Name            Description
------------------------------------------------------------
-entry                 This value is mearly an NEGATIVE identifier of the current text number. Required for sql queries.
-content_default       This is the actual text presented in the default language (English).
+Field name      | Description
+--------------- | --------------------------------------------------------------
+entry           | A unique *negative* identifier to the text entry.
+content_default | The default text to be displayed in English.
+content_loc1    | Korean localization of `content_default`.
+content_loc2    | French localization of `content_default`.
+content_loc3    | German localization of `content_default`.
+content_loc4    | Chinese localization of `content_default`.
+content_loc5    | Taiwanese localization of `content_default`.
+content_loc6    | Spanish Spain localization of `content_default`.
+content_loc7    | Spanish Latin America localization of `content_default`.
+content_loc8    | Russian localization of `content_default`.
+sound           | A sound from SoundEntries.dbc to be played.
+type            | Type of text (Say/Yell/Text emote/Whisper/Boss whisper/zone yell).
+language        | A text language from Languages.dbc
+emote           | An emote from Emotes.dbc. Only source of text will play this emote (not target, if target are defined in DoScriptText)
+comment         | This is a comment using the Creature ID of NPC using it.
 
-content_loc1          This is the actual text presented in the Localization #1 Clients (Korean)
-content_loc2          This is the actual text presented in the Localization #2 Clients (French)
-content_loc3          This is the actual text presented in the Localization #3 Clients (German)
-content_loc4          This is the actual text presented in the Localization #4 Clients (Chinese)
-content_loc5          This is the actual text presented in the Localization #5 Clients (Taiwanese)
-content_loc6          This is the actual text presented in the Localization #6 Clients (Spanish)
-content_loc7          This is the actual text presented in the Localization #7 Clients (Spanish Mexico)
-content_loc8          This is the actual text presented in the Localization #8 Clients (Russian)
+*Note*: `sound`, `type`, `language` and `emote` exist only in the tables
+`script_texts` and `custom_texts`.
 
-sound                 This value is the Sound ID that corresponds to the actual text used (Defined in SoundEntries.dbc).
-type                  Variables used to define type of text (Say/Yell/Textemote/Whisper).
-language              This value is the Language that the text is native in (Defined in Languages.dbc).
-emote                 Value from enum Emote (defined in Emotes.dbc). Only source of text will play this emote (not target, if target are defined in DoScriptText)
+*Note*: Fields `content_loc1` to `content_loc8` are `NULL` values by default and
+are handled by separate localization projects.
 
-comment               This is a comment regarding the text entry (For ACID, accepted format is to use Creature ID of NPC using it).
+Text Types (`type`)
+-------------------
+Below is the list of current text types that texts tables can handle.
 
-Note: sound, type, language and emote exist only in tables script_texts and custom_texts
-Note: Fields `content_loc1` to `content_loc8` are NULL values by default and are handled by separate localization projects.
+ID | Internal name          | Description
+-- | ---------------------- | ----------------------------------
+0  | CHAT_TYPE_SAY          | Displayed as a Say (Speech Bubble).
+1  | CHAT_TYPE_YELL         | Displayed as a Yell (Red Speech Bubble) and usually has a matching Sound ID.
+2  | CHAT_TYPE_TEXT_EMOTE   | Displayed as a text emote in orange in the chat log.
+3  | CHAT_TYPE_BOSS_EMOTE   | Displayed as a text emote in orange in the chat log (Used only for specific Bosses).
+4  | CHAT_TYPE_WHISPER      | Displayed as a whisper to the player in the chat log.
+5  | CHAT_TYPE_BOSS_WHISPER | Displayed as a whisper to the player in the chat log (Used only for specific Bosses).
+6  | CHAT_TYPE_ZONE_YELL    | Same as CHAT_TYPE_YELL but will display to all players in current zone.
 
+Language Types (`language`)
+---------------------------
+This is the race language that the text is native to. Below is the list of
+current language types that are allowed.
 
-=========================================
-Text Types (type)
-=========================================
-Below is the list of current Text types that texts tables can handle. These were previously separate Actions in ACID.
-
-#    Internal Name                 Description
------------------------------------------------------------
-0    CHAT_TYPE_SAY                 This type sets the text to be displayed as a Say (Speech Bubble).
-1    CHAT_TYPE_YELL                This type sets the text to be displayed as a Yell (Red Speech Bubble) and usually has a matching Sound ID.
-2    CHAT_TYPE_TEXT_EMOTE          This type sets the text to be displayed as a text emote in orange in the chat log.
-3    CHAT_TYPE_BOSS_EMOTE          This type sets the text to be displayed as a text emote in orange in the chat log (Used only for specific Bosses).
-4    CHAT_TYPE_WHISPER             This type sets the text to be displayed as a whisper to the player in the chat log.
-5    CHAT_TYPE_BOSS_WHISPER        This type sets the text to be displayed as a whisper to the player in the chat log (Used only for specific Bosses).
-6    CHAT_TYPE_ZONE_YELL           Same as CHAT_TYPE_YELL but will display to all players in current zone.
-
-=========================================
-Language Types (language)
-=========================================
-Below is the list of current Language types that are allowed.
-This is the Race Language that the text is native to (So it will display properly)
-
-#    Internal Name                Description
------------------------------------------------------------
-0    UNIVERSAL                    Text in this language is understood by ALL Races.
-1    ORCISH                       Text in this language is understood ONLY by Horde Races.
-2    DARNASSIAN                   Text in this language is understood ONLY by the Night Elf Race.
-3    TAURAHE                      Text in this language is understood ONLY by the Tauren Race.
-6    DWARVISH                     Text in this language is understood ONLY by the Dwarf Race.
-7    COMMON                       Text in this language is understood ONLY by Alliance Races.
-8    DEMONIC                      Text in this language is understood ONLY by the Demon Race (Not Implemented).
-9    TITAN                        This language was used by Sargeras to speak with other Titians (Not Implemented).
-10   THALASSIAN                   Text in this language is understood ONLY by the Blood Elf Race.
-11   DRACONIC                     Text in this language is understood ONLY by the Dragon Race.
-12   KALIMAG                      Text will display as Kalimag (not readable by players, language of all elementals)
-13   GNOMISH                      Text in this language is understood ONLY by the Gnome Race.
-14   TROLL                        Text in this language is understood ONLY by the Troll Race.
-33   GUTTERSPEAK                  Text in this language is understood ONLY by the Undead Race.
-35   DRAENEI                      Text in this language is understood ONLY by the Draenai Race.
-36   ZOMBIE                       (not currently used?)
-37   GNOMISH BINARY               Binary language used by Alliance when drinking Binary Brew
-38   GOBLIN BINARY                Binary language used by Horde when drinking Binary Brew
+ID  | Internal Name | Description
+--- | ------------- | --------------------------------------------------------
+0   | UNIVERSAL     | Understood by *all* races.
+1   | ORCISH        | Understood *only* by Horde races.
+2   | DARNASSIAN    | Understood *only* by the Night Elf race.
+3   | TAURAHE       | Understood *only* by the Tauren race.
+6   | DWARVISH      | Understood *only* by the Dwarf race.
+7   | COMMON        | Understood *only* by Alliance races.
+8   | DEMONIC       | Understood *only* by the Demon race (Not Implemented).
+9   | TITAN         | This language was used by Sargeras to speak with other Titians (Not Implemented).
+10  | THALASSIAN    | Understood *only* by the Blood Elf race.
+11  | DRACONIC      | Understood *only* by the Dragon race.
+12  | KALIMAG       | Text will display as Kalimag (not readable by players, language of all elementals)
+13  | GNOMISH       | Understood *only* by the Gnome race.
+14  | TROLL         | Understood *only* by the Troll race.
+33  | GUTTERSPEAK   | Understood *only* by the Undead race.

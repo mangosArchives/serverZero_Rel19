@@ -1,4 +1,4 @@
-[GUIDE] Introduction to Database content for SD2
+Introduction to Database content for SD2
 ================================================
 
 This guide is intended to help people
