@@ -38,17 +38,15 @@ if(WIN32 AND MSVC)
 ENDIF()
 
 include_directories(
+    ${CMAKE_SOURCE_DIR}/dep/include/g3dlite
+    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Include
+    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Include
+    ${CMAKE_SOURCE_DIR}/dep/src/zlib
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/src/shared
     ${CMAKE_SOURCE_DIR}/src/game
     ${CMAKE_SOURCE_DIR}/src/game/vmap
-    ${CMAKE_SOURCE_DIR}/dep/include/g3dlite
-    ${CMAKE_SOURCE_DIR}/dep/ACE_wrappers
-    ${CMAKE_SOURCE_DIR}/objdir/dep/ACE_wrappers
     ${CMAKE_SOURCE_DIR}/src/framework
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Include
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Include
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib
 )
 
 add_library(zlib

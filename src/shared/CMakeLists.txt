@@ -177,6 +177,3 @@ add_library(${LIBRARY_NAME} STATIC
 )
 
 add_dependencies(${LIBRARY_NAME} revision.h)
-if(NOT ACE_USE_EXTERNAL)
-  add_dependencies(${LIBRARY_NAME} ACE_Project)
-endif()

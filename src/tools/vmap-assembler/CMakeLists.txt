@@ -31,13 +31,11 @@
 set(EXECUTABLE_NAME vmap-assembler)
 
 include_directories(
+  ${ACE_INCLUDE_DIR}
+  ${CMAKE_SOURCE_DIR}/dep/include/g3dlite
+  ${CMAKE_SOURCE_DIR}/src/framework
   ${CMAKE_SOURCE_DIR}/src/shared
   ${CMAKE_SOURCE_DIR}/src/game/vmap
-  ${CMAKE_SOURCE_DIR}/dep/include/g3dlite
-  ${CMAKE_SOURCE_DIR}/dep/ACE_wrappers
-  ${CMAKE_SOURCE_DIR}/src/framework
-  ${CMAKE_SOURCE_DIR}/src/framework
-  ${ACE_INCLUDE_DIR}
   ${CMAKE_BINARY_DIR}
 )
 

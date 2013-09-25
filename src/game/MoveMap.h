@@ -25,11 +25,11 @@
 #ifndef _MOVE_MAP_H
 #define _MOVE_MAP_H
 
-#include "Utilities/UnorderedMapSet.h"
+#include <DetourAlloc.h>
+#include <DetourNavMesh.h>
+#include <DetourNavMeshQuery.h>
 
-#include "../../dep/recastnavigation/Detour/Include/DetourAlloc.h"
-#include "../../dep/recastnavigation/Detour/Include/DetourNavMesh.h"
-#include "../../dep/recastnavigation/Detour/Include/DetourNavMeshQuery.h"
+#include "Utilities/UnorderedMapSet.h"
 
 //  memory management
 inline void* dtCustomAlloc(int size, dtAllocHint /*hint*/)

@@ -75,10 +75,6 @@ if(WIN32)
 endif()
 
 add_dependencies(mangosscript revision.h)
-if(NOT ACE_USE_EXTERNAL)
-  add_dependencies(mangosscript ACE_Project)
-# add_dependencies(mangosscript ace)
-endif()
 
 if(UNIX)
   set(mangosscript_LINK_FLAGS "-pthread")

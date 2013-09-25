@@ -122,9 +122,6 @@ add_library(${LIBRARY_NAME} STATIC
 if(NOT TBB_USE_EXTERNAL)
   add_dependencies(${LIBRARY_NAME} TBB_Project)
 endif()
-if(NOT ACE_USE_EXTERNAL)
-  add_dependencies(${LIBRARY_NAME} ACE_Project)
-endif()
 
 target_link_libraries(${LIBRARY_NAME}
   ${TBB_LIBRARIES}

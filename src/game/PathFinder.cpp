@@ -22,13 +22,13 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
+#include <DetourCommon.h>
+
 #include "MoveMap.h"
 #include "GridMap.h"
 #include "Creature.h"
 #include "PathFinder.h"
 #include "Log.h"
-
-#include "../recastnavigation/Detour/Include/DetourCommon.h"
 
 ////////////////// PathFinder //////////////////
 PathFinder::PathFinder(const Unit* owner) :

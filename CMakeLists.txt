@@ -52,7 +52,6 @@ else()
 #Unix and other platforms
   option(USE_STD_MALLOC      "Use standard malloc instead of TBB"            ON)
 endif()
-option(ACE_USE_EXTERNAL      "Use external ACE"                             OFF)
 if(PCHSupport_FOUND AND WIN32) # TODO: why only enable it on windows by default?
   option(PCH                 "Use precompiled headers"                       ON)
 else()
@@ -77,7 +76,6 @@ message(
                             CMakeLists.txt
     TBB_USE_EXTERNAL        Use external TBB
     USE_STD_MALLOC          Use standard malloc instead of TBB
-    ACE_USE_EXTERNAL        Use external ACE
   To set an option simply type -D<OPTION>=<VALUE> after 'cmake <srcs>'.
   Also, you can specify the generator with -G. see 'cmake --help' for more details
   For example: cmake .. -DDEBUG=1 -DCMAKE_INSTALL_PREFIX=/opt/mangos"
@@ -116,7 +114,7 @@ find_package(Git)
 # check if the platform supports precomiled headers
 find_package(PCHSupport)
 
-# TODO: remove this (refactor ACE & TBB CMake code)
+# TODO: remove this (refactor & TBB CMake code)
 # VS100 uses MSBuild.exe instead of devenv.com, so force it to use devenv.com
 if(WIN32 AND MSVC_VERSION MATCHES 1600)
   find_package(VisualStudio2010)
@@ -146,24 +144,14 @@ set(CMAKE_INSTALL_NAME_DIR ${LIBS_DIR})
 set(CMAKE_BUILD_WITH_INSTALL_RPATH OFF)
 
 # Find needed packages and if necessery abort if something important is missing
-unset(ACE_INCLUDE_DIR CACHE)
-unset(ACE_LIBRARIES CACHE)
-unset(ACE_LIBRARIES_DIR CACHE)
-unset(ACE_INCLUDE_DIR)
-unset(ACE_LIBRARIES)
-unset(ACE_LIBRARIES_DIR)
-if(ACE_USE_EXTERNAL)
-  find_package(ACE)
-  if(NOT ACE_FOUND)
-    message(FATAL_ERROR
-      "This project requires ACE installed when ACE_USE_EXTERNAL is set. Please download the ACE Micro Release Kit from http://download.dre.vanderbilt.edu/ and install it. If this script didn't find ACE and it was correctly installed please set ACE_ROOT to the correct path."
-    )
-  endif()
-  if(EXISTS ${ACE_INCLUDE_DIR}/ace/Stack_Trace.h)
-    set(HAVE_ACE_STACK_TRACE_H ON) # config.h.cmake
-  endif()
-else()
-  include(cmake/ImportACE.cmake)
+find_package(ACE)
+if(NOT ACE_FOUND)
+  message(FATAL_ERROR
+    "This project requires ACE installed. Please download the ACE Micro Release Kit version 6.0.8 from http://download.dre.vanderbilt.edu/ and install it. If this script didn't find ACE and it was correctly installed please set ACE_ROOT to the correct path."
+  )
+endif()
+if(EXISTS ${ACE_INCLUDE_DIR}/ace/Stack_Trace.h)
+  set(HAVE_ACE_STACK_TRACE_H ON) # config.h.cmake
 endif()
 
 if(USE_TBB_MALLOC)

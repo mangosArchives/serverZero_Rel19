@@ -29,14 +29,14 @@
 #include <set>
 #include <map>
 
+#include <Recast.h>
+#include <DetourNavMesh.h>
+
 #include "TerrainBuilder.h"
 #include "IntermediateValues.h"
 
 #include "IVMapManager.h"
 #include "WorldModel.h"
-
-#include "Recast.h"
-#include "DetourNavMesh.h"
 
 using namespace std;
 using namespace VMAP;
