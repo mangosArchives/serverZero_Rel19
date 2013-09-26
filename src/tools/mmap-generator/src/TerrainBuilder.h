@@ -66,7 +66,7 @@ namespace MMAP
     static const float INVALID_MAP_LIQ_HEIGHT_MAX = 5000.0f;
 
     // see following files:
-    // contrib/extractor/system.cpp
+    // src/tools/map-extractor/system.cpp
     // src/game/GridMap.cpp
     static char const* MAP_VERSION_MAGIC = "z1.3";
 
