@@ -22,19 +22,16 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#define _CRT_SECURE_NO_DEPRECATE
-#define _CRT_SECURE_NO_WARNINGS
-
 #ifndef MPQ_H
 #define MPQ_H
 
-#include "loadlib/loadlib.h"
-#include "libmpq/mpq.h"
 #include <string.h>
 #include <ctype.h>
 #include <vector>
 #include <iostream>
 #include <deque>
+#include <loadlib.h>
+#include <libmpq/mpq.h>
 
 using namespace std;
 

@@ -24,157 +24,136 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-set(LIBRARY_NAME shared)
+include(MacroMangosSourceGroup)
 
-set(SRC_GRP_AUTH
+#-----------------------------------------------------------------------------
+# Define the shared library
+set(sources
     Auth/AuthCrypt.cpp
-    Auth/AuthCrypt.h
     Auth/BigNumber.cpp
-    Auth/BigNumber.h
     Auth/Hmac.cpp
+    Auth/Sha1.cpp
+
+    Config/Config.cpp
+
+    Database/Database.cpp
+    Database/DatabaseMysql.cpp
+    Database/DatabasePostgre.cpp
+    Database/DBCFileLoader.cpp
+    Database/Field.cpp
+    Database/QueryResultMysql.cpp
+    Database/QueryResultPostgre.cpp
+    Database/SqlDelayThread.cpp
+    Database/SqlOperations.cpp
+    Database/SqlPreparedStatement.cpp
+    Database/SQLStorage.cpp
+
+    ByteBuffer.cpp
+    Common.cpp
+    Log.cpp
+    ProgressBar.cpp
+    Threading.cpp
+    Util.cpp
+)
+set(headers
+    Auth/AuthCrypt.h
+    Auth/BigNumber.h
     Auth/Hmac.h
     Auth/md5.h
-    Auth/Sha1.cpp
     Auth/Sha1.h
-)
 
-set(SRC_GRP_CONFIG
-    Config/Config.cpp
     Config/Config.h
     Config/ConfigEnv.h
-)
 
-set(SRC_GRP_DATABASE
-    Database/Database.cpp
     Database/Database.h
     Database/DatabaseEnv.h
     Database/DatabaseImpl.h
-    Database/DatabaseMysql.cpp
     Database/DatabaseMysql.h
-    Database/DatabasePostgre.cpp
     Database/DatabasePostgre.h
-    Database/Field.cpp
+    Database/DBCFileLoader.h
+    Database/DBCStore.h
     Database/Field.h
     Database/PGSQLDelayThread.h
     Database/QueryResult.h
-    Database/QueryResultMysql.cpp
     Database/QueryResultMysql.h
-    Database/QueryResultPostgre.cpp
     Database/QueryResultPostgre.h
-    Database/SqlDelayThread.cpp
     Database/SqlDelayThread.h
-    Database/SqlOperations.cpp
     Database/SqlOperations.h
-    Database/SqlPreparedStatement.cpp
     Database/SqlPreparedStatement.h
-    Database/SQLStorage.cpp
     Database/SQLStorage.h
     Database/SQLStorageImpl.h
-)
 
-set(SRC_GRP_DATABASE_DBC
-    Database/DBCFileLoader.cpp
-    Database/DBCFileLoader.h
-    Database/DBCStore.h
-)
-
-set(SRC_GRP_LOG
-    Log.cpp
-    Log.h
-)
-
-set(SRC_GRP_UTIL
-    ByteBuffer.cpp
     ByteBuffer.h
+    Common.h
     Errors.h
-    # dep/include/mersennetwister/MersenneTwister.h is part of this group in the VC 2012 file but it is not part of src/shared, so it is omitted here
-    ProgressBar.cpp
+    LockedQueue.h
+    Log.h
     ProgressBar.h
+    Threading.h
     Timer.h
-    Util.cpp
     Util.h
     WorldPacket.h
-)
 
-
-set(LIBRARY_SRCS
-    ${SRC_GRP_AUTH}
-    ${SRC_GRP_CONFIG}
-    ${SRC_GRP_DATABASE}
-    ${SRC_GRP_DATABASE_DBC}
-    ${SRC_GRP_LOG}
-    ${SRC_GRP_UTIL}
-    Common.cpp
-    Common.h
-    LockedQueue.h
     revision_nr.h
     revision_sql.h
-    Threading.cpp
-    Threading.h
 )
 
-
-source_group("Auth"
-  FILES
-    ${SRC_GRP_AUTH}
-)
-
-source_group("Config"
-  FILES
-    ${SRC_GRP_CONFIG}
-)
-
-source_group("Database"
-  FILES
-    ${SRC_GRP_DATABASE}
-)
-
-source_group("Database\\DataStores"
-  FILES
-    ${SRC_GRP_DATABASE_DBC}
-)
-
-source_group("Log"
-  FILES
-    ${SRC_GRP_LOG}
-)
-
-source_group("Util"
-  FILES
-    ${SRC_GRP_UTIL}
-)
-
-# OS specific files
+#-----------------------------------------------------------------------------
+# Add platform specific sources
 if(WIN32)
-  set(LIBRARY_SRCS
-      ${LIBRARY_SRCS}
+  set(sources
+      ${sources}
       WheatyExceptionReport.cpp
-      WheatyExceptionReport.h
       ServiceWin32.cpp
+     )
+  set(headers
+      ${headers}
+      WheatyExceptionReport.h
       ServiceWin32.h
      )
 else()
-  set(LIBRARY_SRCS
-      ${LIBRARY_SRCS}
-      PosixDaemon.cpp
-      PosixDaemon.h
-     )
+    set(sources
+        ${sources}
+        PosixDaemon.cpp
+    )
+    set(headers
+        ${headers}
+        PosixDaemon.h
+    )
 endif()
 
+set(shared_LIB_SRCS ${sources} ${headers})
+
+mangos_source_group(${shared_LIB_SRCS})
+
 include_directories(
-  ${CMAKE_SOURCE_DIR}/dep/include/mersennetwister/
-  ${CMAKE_SOURCE_DIR}/dep/include/utf8cpp/
-  ${CMAKE_SOURCE_DIR}/src/framework
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_BINARY_DIR}
-  ${ACE_INCLUDE_DIR}
-  ${MYSQL_INCLUDE_DIR}
+    ${ACE_INCLUDE_DIRS}
+    ${MYSQL_INCLUDE_DIR}
+    ${OPENSSL_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/dep/include/mersennetwister/
+    ${CMAKE_SOURCE_DIR}/dep/include/utf8cpp/
+    ${CMAKE_SOURCE_DIR}/src/framework/
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}/src/shared/
 )
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/SystemConfig.h.in ${CMAKE_CURRENT_BINARY_DIR}/SystemConfig.h)
+#-----------------------------------------------------------------------------
+# Generate SystemConfig.h
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/SystemConfig.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/SystemConfig.h)
 
-add_library(${LIBRARY_NAME} STATIC
-  ${LIBRARY_SRCS}
-)
+#-----------------------------------------------------------------------------
+# Build the shared library
+add_library(mangos-shared STATIC ${shared_LIB_SRCS})
+target_link_libraries(mangos-shared mangos-framework ${ACE_LIBRARIES} ${MYSQL_LIBRARIES} ${OPENSSL_LIBRARIES})
 
-add_dependencies(${LIBRARY_NAME} revision.h)
+set(BUILD_PROPERTIES "-DHAVE_CONFIG_H")
+if(WITH_MYSQL)
+    set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DDO_MYSQL")
+elseif(WITH_POSTGRESQL)
+    set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DDO_POSTGRESQL")
+endif()
+set_target_properties(mangos-shared PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+
+add_dependencies(mangos-shared revision.h)

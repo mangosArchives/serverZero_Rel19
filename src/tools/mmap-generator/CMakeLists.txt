@@ -24,60 +24,42 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-set(EXECUTABLE_NAME mmap-generator)
+include(MacroMangosSourceGroup)
 
-ADD_DEFINITIONS(-DMMAP_GENERATOR -DNO_CORE_FUNCS)
+#-----------------------------------------------------------------------------
+# Define the mmap-generator application
+file(GLOB sources *.cpp)
+file(GLOB headers *.h)
 
-IF(DEBUG)
-    ADD_DEFINITIONS( -DDEBUG )
-ENDIF()
+set(mmap_generator_LIB_SRCS ${sources} ${headers})
 
-# zlib
-if(WIN32 AND MSVC)
-    ADD_DEFINITIONS( -DNO_vsnprintf )
-ENDIF()
+mangos_source_group(${mmap_generator_LIB_SRCS})
 
 include_directories(
-    ${ZLIB_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}/dep/include/g3dlite
+    ${ACE_INCLUDE_DIRS}
+    ${MYSQL_INCLUDE_DIR}
+    ${ZLIB_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/dep/include/g3dlite/
     ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Include
     ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Include
-    ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_SOURCE_DIR}/src/shared
-    ${CMAKE_SOURCE_DIR}/src/game
-    ${CMAKE_SOURCE_DIR}/src/game/vmap
-    ${CMAKE_SOURCE_DIR}/src/framework
+    ${CMAKE_SOURCE_DIR}/src/framework/
+    ${CMAKE_SOURCE_DIR}/src/shared/
+    ${CMAKE_SOURCE_DIR}/src/game/vmap/
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}/src/shared/
 )
 
-add_library(Detour
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Source/DetourAlloc.cpp
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Source/DetourCommon.cpp
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Source/DetourNavMesh.cpp
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Source/DetourNavMeshBuilder.cpp
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Source/DetourNavMeshQuery.cpp
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Source/DetourNode.cpp
-)
+#-----------------------------------------------------------------------------
+# Build the mmap-generator application
+add_executable(mmap-generator ${mmap_generator_LIB_SRCS})
+target_link_libraries(mmap-generator mangos-vmap mangos-shared mangos-framework g3dlite Detour Recast ${ACE_LIBRARIES} ${ZLIB_LIBRARIES})
 
-add_library(Recast
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Source/Recast.cpp
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Source/RecastAlloc.cpp
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Source/RecastArea.cpp
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Source/RecastContour.cpp
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Source/RecastFilter.cpp
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Source/RecastMesh.cpp
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Source/RecastMeshDetail.cpp
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Source/RecastRasterization.cpp
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Source/RecastRegion.cpp
-)
-
-set(SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/IntermediateValues.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/generator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/MapBuilder.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/TerrainBuilder.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/VMapExtensions.cpp
-)
-
-add_executable( ${EXECUTABLE_NAME} ${SOURCES} )
-target_link_libraries( ${EXECUTABLE_NAME} g3dlite vmap Detour Recast ${ZLIB_LIBRARIES} )
-install(TARGETS ${EXECUTABLE_NAME} DESTINATION ${BIN_DIR})
+set(BUILD_PROPERTIES "-DMMAP_GENERATOR -DNO_CORE_FUNCS")
+if(WIN32)
+    # Disabled for now. GnuWin32-zlib does not need this
+    # set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DZLIB_WINAPI" )
+endif()
+set_target_properties(mmap-generator PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+install(TARGETS mmap-generator DESTINATION ${BIN_DIR})

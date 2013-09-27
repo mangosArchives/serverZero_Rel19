@@ -1393,7 +1393,7 @@ void WorldObject::BuildMonsterChat(WorldPacket* data, ObjectGuid senderGuid, uin
         *data << uint32(strlen(targetName) + 1);            // target name length
         *data << targetName;                                // target name
     }
-    *data << (uint32)(strlen(text)+1);
+    *data << (uint32)(strlen(text) + 1);
     *data << text;
     *data << uint8(0);                                      // ChatTag
 }

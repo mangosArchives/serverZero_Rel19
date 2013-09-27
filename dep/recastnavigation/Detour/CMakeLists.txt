@@ -24,4 +24,21 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-add_subdirectory(Source)
+include(MacroMangosSourceGroup)
+
+#-----------------------------------------------------------------------------
+# Define the Detour library
+file(GLOB sources Source/*.cpp)
+file(GLOB headers Include/*.h)
+
+set(Detour_LIB_SRCS ${sources} ${headers})
+
+mangos_source_group(${Detour_LIB_SRCS})
+
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/Include
+)
+
+#-----------------------------------------------------------------------------
+# Build the Detour library
+add_library(Detour STATIC ${Detour_LIB_SRCS})

@@ -19,7 +19,6 @@
  *
  *  $Id: common.c,v 1.12 2004/02/12 00:42:54 mbroemme Exp $
  */
-#define _CRT_SECURE_NO_DEPRECATE
 //#include <dirent.h>
 #include <sys/stat.h>
 
@@ -58,7 +57,7 @@ int libmpq_decrypt_block(mpq_archive* mpq_a, unsigned int* block, unsigned int l
     while (length-- > 0)
     {
         seed2    += mpq_a->buf[0x400 + (seed1 & 0xFF)];
-        ch        = *block ^ (seed1 + seed2);
+        ch        = *block ^(seed1 + seed2);
         seed1     = ((~seed1 << 0x15) + 0x11111111) | (seed1 >> 0x0B);
         seed2     = ch + seed2 + (seed2 << 5) + 3;
         *block++  = ch;
@@ -82,7 +81,7 @@ int libmpq_decrypt_hashtable(mpq_archive* mpq_a, unsigned char* pbKey)
     while (*pbKey != 0)
     {
         ch = toupper(*pbKey++);
-        seed1 = mpq_a->buf[0x300 + ch] ^ (seed1 + seed2);
+        seed1 = mpq_a->buf[0x300 + ch] ^(seed1 + seed2);
         seed2 = ch + seed1 + seed2 + (seed2 << 5) + 3;
     }
 
@@ -91,7 +90,7 @@ int libmpq_decrypt_hashtable(mpq_archive* mpq_a, unsigned char* pbKey)
     while (length-- > 0)
     {
         seed2 += mpq_a->buf[0x400 + (seed1 & 0xFF)];
-        ch     = *pdwTable ^ (seed1 + seed2);
+        ch     = *pdwTable ^(seed1 + seed2);
         seed1  = ((~seed1 << 0x15) + 0x11111111) | (seed1 >> 0x0B);
         seed2  = ch + seed2 + (seed2 << 5) + 3;
         *pdwTable++ = ch;
@@ -114,7 +113,7 @@ int libmpq_decrypt_blocktable(mpq_archive* mpq_a, unsigned char* pbKey)
     while (*pbKey != 0)
     {
         ch = toupper(*pbKey++);
-        seed1 = mpq_a->buf[0x300 + ch] ^ (seed1 + seed2);
+        seed1 = mpq_a->buf[0x300 + ch] ^(seed1 + seed2);
         seed2 = ch + seed1 + seed2 + (seed2 << 5) + 3;
     }
 
@@ -123,7 +122,7 @@ int libmpq_decrypt_blocktable(mpq_archive* mpq_a, unsigned char* pbKey)
     while (length-- > 0)
     {
         seed2 += mpq_a->buf[0x400 + (seed1 & 0xFF)];
-        ch     = *pdwTable ^ (seed1 + seed2);
+        ch     = *pdwTable ^(seed1 + seed2);
         seed1  = ((~seed1 << 0x15) + 0x11111111) | (seed1 >> 0x0B);
         seed2  = ch + seed2 + (seed2 << 5) + 3;
         *pdwTable++ = ch;
@@ -368,7 +367,7 @@ int libmpq_detect_fileseed(mpq_archive* mpq_a, unsigned int* block, unsigned int
         /* Try the first unsigned int's (We exactly know the value) */
         seed1  = temp - mpq_a->buf[0x400 + i];
         seed2 += mpq_a->buf[0x400 + (seed1 & 0xFF)];
-        ch     = block[0] ^ (seed1 + seed2);
+        ch     = block[0] ^(seed1 + seed2);
 
         if (ch != decrypted)
         {
@@ -386,7 +385,7 @@ int libmpq_detect_fileseed(mpq_archive* mpq_a, unsigned int* block, unsigned int
         seed1  = ((~seed1 << 0x15) + 0x11111111) | (seed1 >> 0x0B);
         seed2  = ch + seed2 + (seed2 << 5) + 3;
         seed2 += mpq_a->buf[0x400 + (seed1 & 0xFF)];
-        ch     = block[1] ^ (seed1 + seed2);
+        ch     = block[1] ^(seed1 + seed2);
         if ((ch & 0xFFFF0000) == 0)
         {
             return saveseed1;

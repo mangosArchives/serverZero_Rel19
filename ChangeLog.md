@@ -12,15 +12,21 @@ awesome things such as these:
 * The *mangos-zero* build system has been overhauled, and we are now using CMake
   only. For Linux and FreeBSD users this means you can *always* use packages as
   provided by your distribution, and for Windows users this means you'll now
-  have to download and install dependencies just once. Build times for all of
-  the supported platforms should have noticeable reduced.
+  have to download and install dependencies just once.
+  We recommend that our Windows users pickup pre-built dependencies from [GNUWin32](http://gnuwin32.sourceforge.net/).
 * The tools for map extraction and generation from the game client are finally
   first class citizens when you build *mangos-zero*, and will be built, too.
+* The `genrevision` application has been removed from the build. Revision data
+  and build information is now extracted via [Git](http://git-scm.com/) only.
 * SOAP bindings for the world server are now optional, and will be disabled by
   default when building *mangos-zero*. If you need them, there is a CMake switch
   available to enable the bindings.
+* The output given by all map tools has been cleaned up, and will now give you
+  useful information such as the map version, or complete usage instructions.
 * Documentation has been rewritten and converted to **Markdown** format, which
   is readable and converts nicely to HTML when viewing in the repository browser.
+* Documentation has been added for all map tools including usage instructions
+  and examples.
 * Player movement has been rewritten, and now factors in possible issues such as
   lag when sending out character movement. This also means, looting when moving
   is no longer possible, and will be cancelled.

@@ -22,8 +22,6 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#define _CRT_SECURE_NO_DEPRECATE
-
 #include "wdt.h"
 
 bool wdt_MWMO::prepareLoadedData()

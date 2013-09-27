@@ -22,8 +22,6 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#define _CRT_SECURE_NO_DEPRECATE
-
 #include <stdio.h>
 #include <deque>
 #include <set>
@@ -88,16 +86,16 @@ enum Extract
 // Select data for extract
 int   CONF_extract = EXTRACT_MAP | EXTRACT_DBC;
 // This option allow limit minimum height to some value (Allow save some memory)
-// see contrib/mmap/src/Tilebuilder.h, INVALID_MAP_LIQ_HEIGHT
-bool  CONF_allow_height_limit = true;
-float CONF_use_minHeight = -500.0f;
+// see src/tools/mmap-generator/Tilebuilder.h, INVALID_MAP_LIQ_HEIGHT
+bool  CONF_allow_height_limit       = true;
+float CONF_use_minHeight            = -500.0f;
 
 // This option allow use float to int conversion
-bool  CONF_allow_float_to_int   = true;
-float CONF_float_to_int8_limit  = 2.0f;      // Max accuracy = val/256
-float CONF_float_to_int16_limit = 2048.0f;   // Max accuracy = val/65536
-float CONF_flat_height_delta_limit = 0.005f; // If max - min less this value - surface is flat
-float CONF_flat_liquid_delta_limit = 0.001f; // If max - min less this value - liquid surface is flat
+bool  CONF_allow_float_to_int      = true;
+float CONF_float_to_int8_limit     = 2.0f;      // Max accuracy = val/256
+float CONF_float_to_int16_limit    = 2048.0f;   // Max accuracy = val/65536
+float CONF_flat_height_delta_limit = 0.005f;    // If max - min less this value - surface is flat
+float CONF_flat_liquid_delta_limit = 0.001f;    // If max - min less this value - liquid surface is flat
 
 // List MPQ for extract from
 const char* CONF_mpq_list[] =
@@ -132,13 +130,14 @@ bool FileExists(const char* FileName)
 void Usage(char* prg)
 {
     printf(
-        "Usage:\n"\
-        "%s -[var] [value]\n"\
-        "-i set input path\n"\
-        "-o set output path\n"\
-        "-e extract only MAP(1)/DBC(2) - standard: both(3)\n"\
-        "-f height stored as int (less map size but lost some accuracy) 1 by default\n"\
-        "Example: %s -f 0 -i \"c:\\games\\game\"", prg, prg);
+        "Usage:\n\n" \
+        "%s -[var] [value]\n\n" \
+        "-i set input path\n" \
+        "-o set output path\n" \
+        "-e extract only MAP(1)/DBC(2) - standard: both(3)\n" \
+        "-f height stored as int (less map size but lost some accuracy) 1 by default\n\n" \
+        "-h This message.\n" \
+        "Example: %s -f 0 -i \"c:\\games\\game\"\n", prg, prg);
     exit(1);
 }
 
@@ -146,43 +145,64 @@ void HandleArgs(int argc, char* arg[])
 {
     for (int c = 1; c < argc; ++c)
     {
+        // h - display help
         // i - input path
         // o - output path
         // e - extract only MAP(1)/DBC(2) - standard both(3)
         // f - use float to int conversion
-        // h - limit minimum height
         if (arg[c][0] != '-')
-            { Usage(arg[0]); }
+        {
+                Usage(arg[0]);
+        }
 
         switch (arg[c][1])
         {
+            case 'h':
+                Usage(arg[0]);
+                break;
             case 'i':
                 if (c + 1 < argc)                           // all ok
-                    { strcpy(input_path, arg[(c++) + 1]); }
+                {
+                    strcpy(input_path, arg[(c++) + 1]);
+                }
                 else
-                    { Usage(arg[0]); }
+                {
+                    Usage(arg[0]);
+                }
                 break;
             case 'o':
                 if (c + 1 < argc)                           // all ok
-                    { strcpy(output_path, arg[(c++) + 1]); }
+                {
+                    strcpy(output_path, arg[(c++) + 1]);
+                }
                 else
-                    { Usage(arg[0]); }
+                {
+                    Usage(arg[0]);
+                }
                 break;
             case 'f':
                 if (c + 1 < argc)                           // all ok
-                    { CONF_allow_float_to_int = atoi(arg[(c++) + 1]) != 0; }
+                {
+                    CONF_allow_float_to_int = atoi(arg[(c++) + 1]) != 0;
+                }
                 else
-                    { Usage(arg[0]); }
+                {
+                    Usage(arg[0]);
+                }
                 break;
             case 'e':
                 if (c + 1 < argc)                           // all ok
                 {
                     CONF_extract = atoi(arg[(c++) + 1]);
                     if (!(CONF_extract > 0 && CONF_extract < 4))
-                        { Usage(arg[0]); }
+                    {
+                        Usage(arg[0]);
+                    }
                 }
                 else
-                    { Usage(arg[0]); }
+                {
+                    Usage(arg[0]);
+                }
                 break;
         }
     }
@@ -917,7 +937,7 @@ void ExtractMapsFromMpq()
         WDT_file wdt;
         if (!wdt.loadFile(mpq_map_name, false))
         {
-//            printf("Error loading %s map wdt data\n", map_ids[z].name);
+            // printf("Error loading %s map wdt data\n", map_ids[z].name);
             continue;
         }
 
@@ -1008,8 +1028,7 @@ inline void CloseMPQFiles()
 
 int main(int argc, char* arg[])
 {
-    printf("Map & DBC Extractor\n");
-    printf("===================\n\n");
+    printf("mangos-zero DBC & map (version %s) extractor\n\n", MAP_VERSION_MAGIC);
 
     HandleArgs(argc, arg);
 

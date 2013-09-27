@@ -29,6 +29,7 @@
 
 #cmakedefine USE_MULTI_THREAD_MAP
 
-#define VERSION "${MANGOS_VERSION}"
+#define VERSION      "${APPLICATION_VERSION}"
+#define SYSCONFDIR   "${CONF_DIR}/"
 
 #endif /* HAVE_CONFIG_H */

@@ -5458,7 +5458,7 @@ SpellCastResult Spell::CheckItems()
                     Powers power = Powers(m_spellInfo->EffectMiscValue[i]);
                     uint8 targetClass = m_targets.getUnitTarget()->getClass();
                     /* Mana */
-                    if(power == POWER_MANA)
+                    if (power == POWER_MANA)
                     {
                         if (targetClass == CLASS_WARRIOR || targetClass == CLASS_ROGUE)
                         {
@@ -5469,7 +5469,7 @@ SpellCastResult Spell::CheckItems()
                     /* Rage */
                     else if (power == POWER_RAGE)
                     {
-                        if(targetClass != CLASS_WARRIOR && targetClass != CLASS_DRUID)
+                        if (targetClass != CLASS_WARRIOR && targetClass != CLASS_DRUID)
                         {
                             failReason = SPELL_FAILED_BAD_TARGETS;
                             continue;
@@ -5478,7 +5478,7 @@ SpellCastResult Spell::CheckItems()
                     /* Energy */
                     else if (power == POWER_ENERGY)
                     {
-                        if(targetClass != CLASS_ROGUE && targetClass != CLASS_DRUID)
+                        if (targetClass != CLASS_ROGUE && targetClass != CLASS_DRUID)
                         {
                             failReason = SPELL_FAILED_BAD_TARGETS;
                             continue;

@@ -195,7 +195,7 @@ extern int main(int argc, char** argv)
                    " http://getmangos.com/             / // -_) '_/ _ \\     \n"
                    "                                  /___\\___|_| \\___/    \n"
                    " We love vanilla WoW!                                    \n"
-                   );
+                  );
     sLog.outString("Using configuration file %s.", cfg_file);
 
     DETAIL_LOG("%s (Library: %s)", OPENSSL_VERSION_TEXT, SSLeay_version(SSLEAY_VERSION));

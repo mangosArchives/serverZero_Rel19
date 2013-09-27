@@ -24,9 +24,11 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-set(LIBRARY_NAME g3dlite)
+include(MacroMangosSourceGroup)
 
-set(LIBRARY_SRCS
+#-----------------------------------------------------------------------------
+# Define the g3dlite library
+set(sources
     AABox.cpp
     Any.cpp
     #AnyVal.cpp
@@ -126,15 +128,25 @@ set(LIBRARY_SRCS
     stringutils.cpp
     uint128.cpp
 )
+file(GLOB headers ${CMAKE_SOURCE_DIR}/dep/include/g3dlite/G3D/*.h)
+
+set(g3dlite_LIB_SRCS ${sources} ${headers})
+
+mangos_source_group(${g3dlite_LIB_SRCS})
 
 include_directories(
-  ${ZLIB_INCLUDE_DIRS}
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_SOURCE_DIR}/dep/include
-  ${CMAKE_SOURCE_DIR}/dep/include/g3dlite
+    ${ZLIB_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/dep/include/g3dlite/
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_library(${LIBRARY_NAME} STATIC
-  ${LIBRARY_SRCS}
-  ${ZLIB_LIBRARIES}
-)
+#-----------------------------------------------------------------------------
+# Build the g3dlite library
+add_library(g3dlite STATIC ${g3dlite_LIB_SRCS})
+target_link_libraries(g3dlite ${ZLIB_LIBRARIES})
+
+if(WIN32)
+    # Disabled for now. GnuWin32-zlib does not need this
+    # set(BUILD_PROPERTIES "-DZLIB_WINAPI" )
+    # set_target_properties(g3dlite PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+endif()

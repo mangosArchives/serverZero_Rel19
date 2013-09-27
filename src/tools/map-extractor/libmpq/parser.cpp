@@ -19,8 +19,6 @@
  *
  *  $Id: parser.c,v 1.5 2004/02/12 00:47:53 mbroemme Exp $
  */
-#define _CRT_SECURE_NO_DEPRECATE
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -275,7 +273,7 @@ int libmpq_conf_get_array(FILE* fp, char* search_value, char** *filelist, int* e
 
             /* add dummy option to use with libmpq_conf_parse_line() */
             strncpy(temp, "MPQ_BUFFER = ", LIBMPQ_CONF_BUFSIZE);
-            strncat(temp, line, LIBMPQ_CONF_BUFSIZE-strlen(temp)-1);
+            strncat(temp, line, LIBMPQ_CONF_BUFSIZE - strlen(temp) - 1);
             found = libmpq_conf_parse_line(temp, "MPQ_BUFFER", temp, LIBMPQ_CONF_BUFSIZE);
 
             if (found == 1)

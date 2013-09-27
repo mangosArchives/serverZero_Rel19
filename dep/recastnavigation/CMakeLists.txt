@@ -24,5 +24,21 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
+#-----------------------------------------------------------------------------
+# Platform specifics
+IF(WIN32 AND MSVC)
+    OPTION(USE_MSVC_FAST_FLOATINGPOINT "Use MSVC /fp:fast option" ON)
+    IF(USE_MSVC_FAST_FLOATINGPOINT)
+        ADD_DEFINITIONS(/fp:fast)
+    ENDIF(USE_MSVC_FAST_FLOATINGPOINT)
+    ADD_DEFINITIONS(/D _CRT_SECURE_NO_WARNINGS)
+ENDIF()
+
+#-----------------------------------------------------------------------------
+# Add sources
+# add_subdirectory(DebugUtils)
 add_subdirectory(Detour)
-#add_subdirectory(Recast)
+# add_subdirectory(DetourCrowd)
+# add_subdirectory(DetourTileCache)
+add_subdirectory(Recast)
+# add_subdirectory(RecastDemo)

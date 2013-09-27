@@ -22,10 +22,12 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#define _CRT_SECURE_NO_DEPRECATE
-
 #include "dbcfile.h"
+#undef min
+#undef max
 #include "mpq_libmpq.h"
+
+#include <cstdio>
 
 DBCFile::DBCFile(const std::string& filename):
     filename(filename),
@@ -36,37 +38,92 @@ DBCFile::DBCFile(const std::string& filename):
 bool DBCFile::open()
 {
     MPQFile f(filename.c_str());
-    char header[4];
+
+    // Need some error checking, otherwise an unhandled exception error occurs
+    // if people screw with the data path.
+    if (f.isEof() == true)
+    {
+        f.close();
+        data = NULL;
+        printf("Could not open DBCFile %s.\n", filename.c_str());
+        return false;
+    }
+
+    unsigned char header[4];
     unsigned int na, nb, es, ss;
 
     if (f.read(header, 4) != 4)                             // Number of records
-        { return false; }
+    {
+        f.close();
+        data = NULL;
+        printf("Could not read header in DBCFile %s.\n", filename.c_str());
+        return false;
+    }
 
     if (header[0] != 'W' || header[1] != 'D' || header[2] != 'B' || header[3] != 'C')
-        { return false; }
+    {
+        f.close();
+        data = NULL;
+        printf("The header in DBCFile %s did not match.\n", filename.c_str());
+        return false;
+    }
 
     if (f.read(&na, 4) != 4)                                // Number of records
-        { return false; }
+    {
+        f.close();
+        data = NULL;
+        printf("Could not read number of records from DBCFile %s.\n", filename.c_str());
+        return false;
+    }
+
     if (f.read(&nb, 4) != 4)                                // Number of fields
-        { return false; }
+    {
+        f.close();
+        data = NULL;
+        printf("Could not read number of fields from DBCFile %s.\n", filename.c_str());
+        return false;
+    }
+
     if (f.read(&es, 4) != 4)                                // Size of a record
-        { return false; }
+    {
+        f.close();
+        data = NULL;
+        printf("Could not read record size from DBCFile %s.\n", filename.c_str());
+        return false;
+    }
+
     if (f.read(&ss, 4) != 4)                                // String size
-        { return false; }
+    {
+        f.close();
+        data = NULL;
+        printf("Could not read string block size from DBCFile %s.\n", filename.c_str());
+        return false;
+    }
 
     recordSize = es;
     recordCount = na;
     fieldCount = nb;
     stringSize = ss;
     if (fieldCount * 4 != recordSize)
-        { return false; }
+    {
+        f.close();
+        data = NULL;
+        printf("Field count and record size in DBCFile %s do not match.\n", filename.c_str());
+        return false;
+    }
 
     data = new unsigned char[recordSize * recordCount + stringSize];
     stringTable = data + recordSize * recordCount;
 
     size_t data_size = recordSize * recordCount + stringSize;
     if (f.read(data, data_size) != data_size)
-        { return false; }
+    {
+        f.close();
+        data = NULL;
+        printf("DBCFile %s did not contain expected amount of data for records.\n", filename.c_str());
+        return false;
+    }
+
     f.close();
     return true;
 }

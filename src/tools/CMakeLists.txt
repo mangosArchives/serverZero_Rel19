@@ -24,9 +24,26 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-add_subdirectory(map-extractor)
+#-----------------------------------------------------------------------------
+# Build command line git id generator
+if(WITH_GIT_ID)
+    add_subdirectory(git_id)
+endif()
 
-add_subdirectory(vmap-extractor)
-add_subdirectory(vmap-assembler)
+if(WITH_MAP_TOOLS)
+    #-------------------------------------------------------------------------
+    # Build command line map extractor
+    add_subdirectory(map-extractor)
 
-add_subdirectory(mmap-generator)
+    #-------------------------------------------------------------------------
+    # Build command line vmap extractor
+    add_subdirectory(vmap-extractor)
+
+    #-------------------------------------------------------------------------
+    # Build command line vmap assembler
+    add_subdirectory(vmap-assembler)
+
+    #-------------------------------------------------------------------------
+    # Build command line movement map generator
+    add_subdirectory(mmap-generator)
+endif()

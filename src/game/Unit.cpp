@@ -106,7 +106,7 @@ void MovementInfo::Read(ByteBuffer& data)
     }
 
     /* This is never sent when we're on a taxi */
-    if(!HasMovementFlag(MOVEFLAG_TAXI))
+    if (!HasMovementFlag(MOVEFLAG_TAXI))
     {
         data >> fallTime;
     }
@@ -146,7 +146,7 @@ void MovementInfo::Write(ByteBuffer& data) const
     }
 
     /* This is never sent when we're on a taxi */
-    if(!HasMovementFlag(MOVEFLAG_TAXI))
+    if (!HasMovementFlag(MOVEFLAG_TAXI))
     {
         data << fallTime;
     }

@@ -24,35 +24,34 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-# uncomment next line to disable debug mode
-# ADD_DEFINITIONS("-DIOMAP_DEBUG")
-# ADD_DEFINITIONS("-DNO_CORE_FUNCS")
+include(MacroMangosSourceGroup)
 
-set(EXECUTABLE_NAME vmap-assembler)
+#-----------------------------------------------------------------------------
+# Define the vmap-assembler application
+file(GLOB sources *.cpp)
+file(GLOB headers *.h)
+
+set(vmap_assembler_LIB_SRCS ${sources} ${headers})
+
+mangos_source_group(${vmap_assembler_LIB_SRCS})
 
 include_directories(
-  ${ACE_INCLUDE_DIR}
-  ${CMAKE_SOURCE_DIR}/dep/include/g3dlite
-  ${CMAKE_SOURCE_DIR}/src/framework
-  ${CMAKE_SOURCE_DIR}/src/shared
-  ${CMAKE_SOURCE_DIR}/src/game/vmap
-  ${CMAKE_BINARY_DIR}
+    ${ACE_INCLUDE_DIRS}
+    ${MYSQL_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/dep/include/g3dlite/
+    ${CMAKE_SOURCE_DIR}/src/framework/
+    ${CMAKE_SOURCE_DIR}/src/shared/
+    ${CMAKE_SOURCE_DIR}/src/game/vmap/
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}/src/shared/
 )
 
-add_library(vmap
-	${CMAKE_SOURCE_DIR}/src/game/vmap/BIH.cpp
-	${CMAKE_SOURCE_DIR}/src/game/vmap/VMapManager2.cpp
-	${CMAKE_SOURCE_DIR}/src/game/vmap/MapTree.cpp
-	${CMAKE_SOURCE_DIR}/src/game/vmap/TileAssembler.cpp
-	${CMAKE_SOURCE_DIR}/src/game/vmap/WorldModel.cpp
-	${CMAKE_SOURCE_DIR}/src/game/vmap/ModelInstance.cpp
-)
-
-target_link_libraries(vmap shared framework g3dlite z ${ACE_LIBRARIES})
-
-add_executable(${EXECUTABLE_NAME} vmap_assembler.cpp)
-target_link_libraries(${EXECUTABLE_NAME} vmap)
-install(TARGETS ${EXECUTABLE_NAME} DESTINATION ${BIN_DIR})
-
-# add_executable(vmap_test coordinate_test.cpp)
-# target_link_libraries(vmap_test vmap)
+#-----------------------------------------------------------------------------
+# Build the vmap-assembler application
+add_executable(vmap-assembler ${vmap_assembler_LIB_SRCS})
+target_link_libraries(vmap-assembler mangos-vmap mangos-shared mangos-framework g3dlite ${ACE_LIBRARIES} ${ZLIB_LIBRARIES})
+set(BUILD_PROPERTIES "-DNO_CORE_FUNCS")
+set_target_properties(mangos-loadlib PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+install(TARGETS vmap-assembler DESTINATION ${BIN_DIR})

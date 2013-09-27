@@ -24,14 +24,33 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-# uncomment next line to disable debug mode
-# ADD_DEFINITIONS("-DIOMAP_DEBUG")
+include(MacroMangosSourceGroup)
 
-# build setup currently only supports libmpq 0.4.x
-ADD_DEFINITIONS("-DUSE_LIBMPQ04")
+#-----------------------------------------------------------------------------
+# Define the vmap-extractor application
+file(GLOB sources *.cpp)
+file(GLOB headers *.h)
+
+set(vmap_extractor_LIB_SRCS ${sources} ${headers})
+
+mangos_source_group(${vmap_extractor_LIB_SRCS})
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/../../dep/libmpq
+    ${ZLIB_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/dep/libmpq/
+    ${CMAKE_CURRENT_SOURCE_DIR}/loadlib/
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-add_subdirectory(vmapextract)
+#-----------------------------------------------------------------------------
+# Build the vmap-extractor application
+add_executable(vmap-extractor ${vmap_extractor_LIB_SRCS})
+target_link_libraries(vmap-extractor mpq ${BZIP2_LIBRARIES} ${ZLIB_LIBRARIES})
+install(TARGETS vmap-extractor DESTINATION ${BIN_DIR})
+
+if(WIN32)
+    # Disabled for now. GnuWin32-zlib does not need this
+    # set(BUILD_PROPERTIES "-DZLIB_WINAPI" )
+    # set_target_properties(vmap-extractor PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+endif()

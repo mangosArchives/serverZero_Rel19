@@ -24,9 +24,16 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-if(NOT (TBB_USE_EXTERNAL OR USE_STD_MALLOC OR USE_FASTMM_MALLOC))
-  add_subdirectory(tbb)
+#-----------------------------------------------------------------------------
+# Build internal libmpq
+if(WITH_MAP_TOOLS)
+    add_subdirectory(libmpq)
 endif()
 
+#-----------------------------------------------------------------------------
+# Build internal recast-navigation
 add_subdirectory(recastnavigation)
+
+#-----------------------------------------------------------------------------
+# Build 3rd party libraries
 add_subdirectory(src)

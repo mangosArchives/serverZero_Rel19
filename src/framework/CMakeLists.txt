@@ -24,14 +24,19 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-set(LIBRARY_NAME framework)
+include(MacroMangosSourceGroup)
 
-set(SRC_GRP_DYNAMIC
+#-----------------------------------------------------------------------------
+# Define the framework library
+set(sources
+    Policies/ObjectLifeTime.cpp
+
+    Utilities/EventProcessor.cpp
+)
+set(headers
     Dynamic/FactoryHolder.h
     Dynamic/ObjectRegistry.h
-)
 
-set(SRC_GRP_GAMESYSTEM
     GameSystem/Grid.h
     GameSystem/GridLoader.h
     GameSystem/GridReference.h
@@ -40,89 +45,35 @@ set(SRC_GRP_GAMESYSTEM
     GameSystem/TypeContainer.h
     GameSystem/TypeContainerFunctions.h
     GameSystem/TypeContainerVisitor.h
-)
 
-set(SRC_GRP_PLATFORM
     Platform/CompilerDefs.h
     Platform/Define.h
-)
 
-set(SRC_GRP_POLICIES
     Policies/CreationPolicy.h
-    Policies/MemoryManagement.cpp
-    Policies/ObjectLifeTime.cpp
     Policies/ObjectLifeTime.h
     Policies/Singleton.h
     Policies/ThreadingModel.h
-)
 
-set(SRC_GRP_UTIL
     Utilities/ByteConverter.h
     Utilities/Callback.h
-    Utilities/EventProcessor.cpp
     Utilities/EventProcessor.h
     Utilities/LinkedList.h
+    Utilities/LinkedReference/Reference.h
+    Utilities/LinkedReference/RefManager.h
     Utilities/TypeList.h
     Utilities/UnorderedMapSet.h
 )
 
-set(SRC_GRP_LINKED_REFERENCE
-    Utilities/LinkedReference/Reference.h
-    Utilities/LinkedReference/RefManager.h
-)
+set(framework_LIB_SRCS ${sources} ${headers})
 
-set(LIBRARY_SRCS
-    ${SRC_GRP_DYNAMIC}
-    ${SRC_GRP_GAMESYSTEM}
-    ${SRC_GRP_PLATFORM}
-    ${SRC_GRP_POLICIES}
-    ${SRC_GRP_UTIL}
-    ${SRC_GRP_LINKED_REFERENCE}
-)
-
-source_group("Dynamic"
-  FILES
-    ${SRC_GRP_DYNAMIC}
-)
-
-source_group("GameSystem"
-  FILES
-    ${SRC_GRP_GAMESYSTEM}
-)
-
-source_group("Platform"
-  FILES
-    ${SRC_GRP_PLATFORM}
-)
-
-source_group("Policies"
-  FILES
-    ${SRC_GRP_POLICIES}
-)
-
-source_group("Utilities"
-  FILES
-    ${SRC_GRP_UTIL}
-)
-
-source_group("Utilities\\LinkedReference"
-  FILES
-    ${SRC_GRP_LINKED_REFERENCE}
-)
+mangos_source_group(${framework_LIB_SRCS})
 
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${ACE_INCLUDE_DIR}
+    ${ACE_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_library(${LIBRARY_NAME} STATIC
-  ${LIBRARY_SRCS}
-)
-
-if(NOT TBB_USE_EXTERNAL)
-  add_dependencies(${LIBRARY_NAME} TBB_Project)
-endif()
-
-target_link_libraries(${LIBRARY_NAME}
-  ${TBB_LIBRARIES}
-)
+#-----------------------------------------------------------------------------
+# Build the framework library
+add_library(mangos-framework STATIC ${framework_LIB_SRCS})
+target_link_libraries(mangos-framework ${ACE_LIBRARIES})

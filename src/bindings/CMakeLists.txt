@@ -24,6 +24,6 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-if(INCLUDE_BINDINGS_DIR)
-  add_subdirectory(${INCLUDE_BINDINGS_DIR})
-endif()
+#-----------------------------------------------------------------------------
+# Build the mangos-zero scripting library
+add_subdirectory(scripts)

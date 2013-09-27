@@ -24,22 +24,35 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-set(EXECUTABLE_NAME map-extractor)
+include(MacroMangosSourceGroup)
 
-add_subdirectory (libmpq)
-add_subdirectory (loadlib)
+#-----------------------------------------------------------------------------
+# Build the mpq application
+add_subdirectory(libmpq)
 
-include_directories (
-    ${CMAKE_CURRENT_SOURCE_DIR}/libmpq
-    ${CMAKE_CURRENT_SOURCE_DIR}/loadlib
-    ${CMAKE_BINARY_DIR}
+#-----------------------------------------------------------------------------
+# Build the loadlib application
+add_subdirectory(loadlib)
+
+#-----------------------------------------------------------------------------
+# Define the map-extractor application
+file(GLOB sources *.cpp)
+file(GLOB headers *.h)
+
+set(map_extractor_LIB_SRCS ${sources} ${headers})
+
+mangos_source_group(${map_extractor_LIB_SRCS})
+
+include_directories(
+    ${ZLIB_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/libmpq/
+    ${CMAKE_CURRENT_SOURCE_DIR}/loadlib/
 )
 
-link_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/libmpq
-    ${CMAKE_CURRENT_SOURCE_DIR}/loadlib
-)
-
-add_executable (${EXECUTABLE_NAME} dbcfile.cpp mpq_libmpq.cpp System.cpp)
-target_link_libraries (${EXECUTABLE_NAME} libmpq loadlib)
-install(TARGETS ${EXECUTABLE_NAME} DESTINATION ${BIN_DIR})
+#-----------------------------------------------------------------------------
+# Build the map-extractor application
+add_executable(map-extractor ${map_extractor_LIB_SRCS})
+target_link_libraries(map-extractor mpqlite mangos-loadlib ${ZLIB_LIBRARIES})
+install(TARGETS map-extractor DESTINATION ${BIN_DIR})

@@ -56,7 +56,7 @@ uint32 mTimeStamp()
     t /= 10;
     t -= DELTA_EPOCH_IN_USEC;
 
-    return uint32( ( ((t / 1000000L) * 1000) + ((t % 1000000L) / 1000) ) - ( (YEAR_IN_SECONDS * 20) * 1000) );
+    return uint32((((t / 1000000L) * 1000) + ((t % 1000000L) / 1000)) - ((YEAR_IN_SECONDS * 20) * 1000));
 }
 
 #else
@@ -67,7 +67,7 @@ uint32 mTimeStamp()
     struct timeval tp;
     const uint32 YEAR_IN_SECONDS = 31556952;
     gettimeofday(&tp, NULL);
-    uint32 return_val = (((tp.tv_sec * 1000) + (tp.tv_usec / 1000)) - ( (YEAR_IN_SECONDS * 20) * 1000) );
+    uint32 return_val = (((tp.tv_sec * 1000) + (tp.tv_usec / 1000)) - ((YEAR_IN_SECONDS * 20) * 1000));
     return return_val;
 }
 
@@ -310,7 +310,7 @@ void WorldSession::HandleMovementOpcodes(WorldPacket& recv_data)
     // Calculate timestamp
     int32 move_time, mstime;
     mstime = mTimeStamp();
-    if(m_clientTimeDelay == 0)
+    if (m_clientTimeDelay == 0)
     {
         m_clientTimeDelay = mstime - movementInfo.GetTime();
     }
@@ -492,7 +492,7 @@ void WorldSession::HandleMoveKnockBackAck(WorldPacket& recv_data)
     // Calculate timestamp (should probably move this into its own function?
     int32 move_time, mstime;
     mstime = mTimeStamp();
-    if(m_clientTimeDelay == 0)
+    if (m_clientTimeDelay == 0)
     {
         m_clientTimeDelay = mstime - movementInfo.GetTime();
     }
@@ -650,7 +650,7 @@ void WorldSession::HandleMoverRelocation(MovementInfo& movementInfo)
         plMover->m_movementInfo = movementInfo;
 
         /* Movement should cancel looting */
-        if(ObjectGuid lootGUID = plMover->GetLootGuid())
+        if (ObjectGuid lootGUID = plMover->GetLootGuid())
         {
             plMover->SendLootRelease(lootGUID);
         }

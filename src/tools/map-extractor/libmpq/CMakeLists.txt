@@ -24,6 +24,30 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-add_library (libmpq common.cpp  explode.cpp  extract.cpp  huffman.cpp  mpq.cpp  parser.cpp  wave.cpp )
-# link libmpq with zlib
-target_link_libraries (libmpq ${ZLIB_LIBRARIES})
+include(MacroMangosSourceGroup)
+
+#-----------------------------------------------------------------------------
+# Define the mpq library
+file(GLOB sources *.cpp)
+file(GLOB headers *.h)
+
+set(mpq_LIB_SRCS ${sources} ${headers})
+
+mangos_source_group(${mpq_LIB_SRCS})
+
+include_directories(
+    ${ZLIB_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+#-----------------------------------------------------------------------------
+# Build the mpq library
+add_library(mpqlite STATIC ${mpq_LIB_SRCS})
+target_link_libraries(mpqlite ${ZLIB_LIBRARIES})
+
+if(WIN32)
+    # Disabled for now. GnuWin32-zlib does not need this
+    # set(BUILD_PROPERTIES "-DZLIB_WINAPI" )
+    # set_target_properties(mpqlite PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+endif()

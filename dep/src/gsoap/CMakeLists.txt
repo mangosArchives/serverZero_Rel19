@@ -24,17 +24,22 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-set(LIBRARY_NAME gsoap)
+include(MacroMangosSourceGroup)
 
-set(LIBRARY_SRCS
-    stdsoap2.cpp
-   )
+#-----------------------------------------------------------------------------
+# Define the gsoaplite library
+file(GLOB sources *.cpp)
+file(GLOB headers ${CMAKE_SOURCE_DIR}/dep/include/gsoap/*.h)
+
+set(gsoaplite_LIB_SRCS ${sources} ${headers})
+
+mangos_source_group(${gsoaplite_LIB_SRCS})
 
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_SOURCE_DIR}/dep/include/gsoap
+    ${CMAKE_SOURCE_DIR}/dep/include/gsoap/
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_library(${LIBRARY_NAME} STATIC
-  ${LIBRARY_SRCS}
-)
+#-----------------------------------------------------------------------------
+# Build the gsoaplite library
+add_library(gsoaplite STATIC ${gsoaplite_LIB_SRCS})
