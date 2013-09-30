@@ -342,4 +342,3 @@ of this License.
 
 [1]: http://fsf.org/ "Free Software Foundation, Inc."
 [2]: http://www.gnu.org/licenses/ "Licenses - GNU Project"
-[3]: http://www.gnu.org/philosophy/why-not-lgpl.html "Why not LGPL"
