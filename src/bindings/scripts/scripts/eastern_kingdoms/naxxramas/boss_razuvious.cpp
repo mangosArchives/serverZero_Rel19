@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Razuvious
-SD%Complete: 85%
-SDComment: TODO: Timers and sounds need confirmation
-SDCategory: Naxxramas
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Razuvious
+ * SD%Complete: 85
+ * SDComment:   TODO: Timers and sounds need confirmation
+ * SDCategory:  Naxxramas
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "naxxramas.h"

@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: instance_dire_maul
-SD%Complete: 30
-SDComment: Basic Support - Most events and quest-related stuff missing
-SDCategory: Dire Maul
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      instance_dire_maul
+ * SD%Complete: 30
+ * SDComment:   Basic Support - Most events and quest-related stuff missing
+ * SDCategory:  Dire Maul
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "dire_maul.h"

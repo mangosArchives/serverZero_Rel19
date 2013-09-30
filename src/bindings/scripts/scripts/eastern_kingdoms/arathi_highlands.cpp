@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Arathi Highlands
-SD%Complete: 100
-SDComment: Quest support: 665
-SDCategory: Arathi Highlands
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Arathi Highlands
+ * SD%Complete: 100
+ * SDComment:   Quest support: 665.
+ * SDCategory:  Arathi Highlands
+ * EndScriptData
+ */
 
-/* ContentData
-npc_professor_phizzlethorpe
-EndContentData */
+/**
+ * ContentData
+ * npc_professor_phizzlethorpe
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

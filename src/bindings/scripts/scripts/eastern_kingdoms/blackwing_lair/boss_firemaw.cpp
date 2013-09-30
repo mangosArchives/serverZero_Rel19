@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Firemaw
-SD%Complete: 80
-SDComment: Thrash missing
-SDCategory: Blackwing Lair
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Firemaw
+ * SD%Complete: 80
+ * SDComment:   Thrash missing
+ * SDCategory:  Blackwing Lair
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "blackwing_lair.h"

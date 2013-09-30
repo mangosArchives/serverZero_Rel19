@@ -23,17 +23,21 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Silverpine_Forest
-SD%Complete: 100
-SDComment: Quest support: 435, 452
-SDCategory: Silverpine Forest
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Silverpine_Forest
+ * SD%Complete: 100
+ * SDComment:   Quest support: 435, 452.
+ * SDCategory:  Silverpine Forest
+ * EndScriptData
+ */
 
-/* ContentData
-npc_deathstalker_erland
-npc_deathstalker_faerleia
-EndContentData */
+/**
+ * ContentData
+ * npc_deathstalker_erland
+ * npc_deathstalker_faerleia
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

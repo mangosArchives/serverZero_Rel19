@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: bug_trio
-SD%Complete: 75
-SDComment: Summon Player spell NYI; Poison Cloud damage spell NYI; Timers need adjustments
-SDCategory: Temple of Ahn'Qiraj
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      bug_trio
+ * SD%Complete: 75
+ * SDComment:   Summon Player spell NYI; Poison Cloud damage spell NYI; Timers need adjustments
+ * SDCategory:  Temple of Ahn'Qiraj
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "temple_of_ahnqiraj.h"

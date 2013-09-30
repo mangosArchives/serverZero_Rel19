@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Thunder_Bluff
-SD%Complete: 0
-SDComment:
-SDCategory: Thunder Bluff
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Thunder_Bluff
+ * SD%Complete: 0
+ * SDComment:   Placeholder
+ * SDCategory:  Thunder Bluff
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

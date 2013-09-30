@@ -23,18 +23,22 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Tirisfal_Glades
-SD%Complete: 100
-SDComment: Quest support: 590, 1819
-SDCategory: Tirisfal Glades
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Tirisfal_Glades
+ * SD%Complete: 100
+ * SDComment:   Quest support: 590, 1819.
+ * SDCategory:  Tirisfal Glades
+ * EndScriptData
+ */
 
-/* ContentData
-go_mausoleum_door
-go_mausoleum_trigger
-npc_calvin_montague
-EndContentData */
+/**
+ * ContentData
+ * go_mausoleum_door
+ * go_mausoleum_trigger
+ * npc_calvin_montague
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Uldaman
-SD%Complete: 0
-SDComment: Placeholder
-SDCategory: Uldaman
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Uldaman
+ * SD%Complete: 0
+ * SDComment:   Placeholder
+ * SDCategory:  Uldaman
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "uldaman.h"

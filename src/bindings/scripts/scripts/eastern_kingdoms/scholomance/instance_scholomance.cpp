@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Scholomance
-SD%Complete: 99
-SDComment: Possible some D2 or other exotic missing
-SDCategory: Scholomance
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Scholomance
+ * SD%Complete: 99
+ * SDComment:   Possible some D2 or other exotic missing
+ * SDCategory:  Scholomance
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "scholomance.h"

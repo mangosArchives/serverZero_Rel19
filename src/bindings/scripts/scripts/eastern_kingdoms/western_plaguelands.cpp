@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Western_Plaguelands
-SD%Complete: 90
-SDComment: Quest support: 5216,5219,5222,5225,5229,5231,5233,5235.
-SDCategory: Western Plaguelands
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Western_Plaguelands
+ * SD%Complete: 90
+ * SDComment:   Quest support: 5216, 5219, 5222, 5225, 5229, 5231, 5233, 5235.
+ * SDCategory:  Western Plaguelands
+ * EndScriptData
+ */
 
-/* ContentData
-npc_the_scourge_cauldron
-EndContentData */
+/**
+ * ContentData
+ * npc_the_scourge_cauldron
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

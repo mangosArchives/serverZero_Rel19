@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Blackrock_Depths
-SD%Complete: 80
-SDComment:
-SDCategory: Blackrock Depths
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Blackrock_Depths
+ * SD%Complete: 80
+ * SDComment:   None
+ * SDCategory:  Blackrock Depths
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "blackrock_depths.h"

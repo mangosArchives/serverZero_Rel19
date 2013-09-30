@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_jandicebarov
-SD%Complete: 100
-SDComment:
-SDCategory: Scholomance
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_jandicebarov
+ * SD%Complete: 100
+ * SDComment:   None
+ * SDCategory:  Scholomance
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

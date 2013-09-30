@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: instance_sunken_temple
-SD%Complete: 90
-SDComment: Hakkar Summon Event needs more sources to improve
-SDCategory: Sunken Temple
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      instance_sunken_temple
+ * SD%Complete: 90
+ * SDComment:   Hakkar Summon Event needs more sources to improve
+ * SDCategory:  Sunken Temple
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "sunken_temple.h"

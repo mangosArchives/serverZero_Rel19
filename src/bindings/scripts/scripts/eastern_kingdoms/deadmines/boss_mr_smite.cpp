@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Mr_Smite
-SD%Complete: 100
-SDComment:
-SDCategory: Deadmines
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Mr_Smite
+ * SD%Complete: 100
+ * SDComment:   None
+ * SDCategory:  Deadmines
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "deadmines.h"

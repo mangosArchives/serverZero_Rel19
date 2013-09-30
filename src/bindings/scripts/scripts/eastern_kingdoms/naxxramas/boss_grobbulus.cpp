@@ -23,18 +23,22 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Grobbulus
-SD%Complete: 80
-SDComment: Timer need more care; Spells of Adds (Posion Cloud) need Mangos Fixes, and further handling
-SDCategory: Naxxramas
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Grobbulus
+ * SD%Complete: 80
+ * SDComment:   Timer need more care; Spells of Adds (Posion Cloud) need Mangos Fixes, and further handling
+ * SDCategory:  Naxxramas
+ * EndScriptData
+ */
 
-/*Poison Cloud 26590
-Slime Spray 28157
-Fallout slime 28218
-Mutating Injection 28169
-Enrages 26527*/
+/**
+ * Spell 26590: Poison Cloud
+ * Spell 28157: Slime Spray
+ * Spell 28218: Fallout slime
+ * Spell 28169: Mutating Injection
+ * Spell 26527: Enrages
+ */
 
 #include "precompiled.h"
 #include "naxxramas.h"

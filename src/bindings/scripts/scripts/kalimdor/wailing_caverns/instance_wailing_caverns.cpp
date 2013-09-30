@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Wailing_Caverns
-SD%Complete: 90
-SDComment:
-SDCategory: Wailing Caverns
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Wailing_Caverns
+ * SD%Complete: 90
+ * SDComment:   None
+ * SDCategory:  Wailing Caverns
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "wailing_caverns.h"

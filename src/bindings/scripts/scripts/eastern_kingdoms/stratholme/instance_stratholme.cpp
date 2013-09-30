@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Stratholme
-SD%Complete: 70
-SDComment: Undead side 90% implemented, event needs better implementation, Barthildas relocation for reload case is missing, Baron Combat handling is buggy.
-SDCategory: Stratholme
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Stratholme
+ * SD%Complete: 70
+ * SDComment:   Undead side 90% implemented, event needs better implementation, Barthildas relocation for reload case is missing, Baron Combat handling is buggy.
+ * SDCategory:  Stratholme
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "stratholme.h"

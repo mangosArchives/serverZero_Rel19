@@ -23,18 +23,22 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Dustwallow_Marsh
-SD%Complete: 95
-SDComment: Quest support: 1173, 1273, 1324.
-SDCategory: Dustwallow Marsh
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Dustwallow_Marsh
+ * SD%Complete: 95
+ * SDComment:   Quest support: 1173, 1273, 1324.
+ * SDCategory:  Dustwallow Marsh
+ * EndScriptData
+ */
 
-/* ContentData
-npc_morokk
-npc_ogron
-npc_private_hendel
-EndContentData */
+/**
+ * ContentData
+ * npc_morokk
+ * npc_ogron
+ * npc_private_hendel
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

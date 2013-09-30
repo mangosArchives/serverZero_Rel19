@@ -23,20 +23,24 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Darkshore
-SD%Complete: 100
-SDComment: Quest support: 731, 945, 994, 995, 2078, 5321
-SDCategory: Darkshore
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Darkshore
+ * SD%Complete: 100
+ * SDComment:   Quest support: 731, 945, 994, 995, 2078, 5321.
+ * SDCategory:  Darkshore
+ * EndScriptData
+ */
 
-/* ContentData
-npc_kerlonian
-npc_prospector_remtravel
-npc_threshwackonator
-npc_volcor
-npc_therylune
-EndContentData */
+/**
+ * ContentData
+ * npc_kerlonian
+ * npc_prospector_remtravel
+ * npc_threshwackonator
+ * npc_volcor
+ * npc_therylune
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

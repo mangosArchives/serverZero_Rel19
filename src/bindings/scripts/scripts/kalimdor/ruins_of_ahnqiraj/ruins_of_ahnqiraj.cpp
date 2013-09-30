@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Ruins of Ahn'Qiraj
-SD%Complete: 40
-SDComment:
-SDCategory: Ruins of Ahn'Qiraj
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Ruins of Ahn'Qiraj
+ * SD%Complete: 40
+ * SDComment:   None
+ * SDCategory:  Ruins of Ahn'Qiraj
+ * EndScriptData
+ */
 
-/* ContentData
-mob_anubisath_guardian
-EndContentData */
+/**
+ * ContentData
+ * mob_anubisath_guardian
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

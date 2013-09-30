@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: mob_anubisath_sentinel
-SD%Complete: 75
-SDComment: Abilities selection needs further improvements. Shadow storm is not properly implemented in core it should only target ppl outside of melee range.
-SDCategory: Temple of Ahn'Qiraj
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      mob_anubisath_sentinel
+ * SD%Complete: 75
+ * SDComment:   Abilities selection needs further improvements. Shadow storm is not properly implemented in core it should only target ppl outside of melee range.
+ * SDCategory:  Temple of Ahn'Qiraj
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

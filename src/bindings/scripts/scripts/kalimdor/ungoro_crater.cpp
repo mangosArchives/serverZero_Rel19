@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Ungoro_Crater
-SD%Complete: 100
-SDComment: Quest support: 4245, 4491
-SDCategory: Un'Goro Crater
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Ungoro_Crater
+ * SD%Complete: 100
+ * SDComment:   Quest support: 4245, 4491
+ * SDCategory:  Un'Goro Crater
+ * EndScriptData
+ */
 
-/* ContentData
-npc_ringo
-EndContentData */
+/**
+ * ContentData
+ * npc_ringo
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

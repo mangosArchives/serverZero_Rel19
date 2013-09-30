@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Maexxna
-SD%Complete: 90
-SDComment: Web wrap effect still needs more love and research.
-SDCategory: Naxxramas
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Maexxna
+ * SD%Complete: 90
+ * SDComment:   Web wrap effect still needs more love and research.
+ * SDCategory:  Naxxramas
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "naxxramas.h"

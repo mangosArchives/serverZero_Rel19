@@ -23,19 +23,23 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Tanaris
-SD%Complete: 80
-SDComment: Quest support: 648, 1560, 2954, 4005, 10277.
-SDCategory: Tanaris
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Tanaris
+ * SD%Complete: 80
+ * SDComment:   Quest support: 648, 1560, 2954, 4005.
+ * SDCategory:  Tanaris
+ * EndScriptData
+ */
 
-/* ContentData
-mob_aquementas
-npc_oox17tn
-npc_stone_watcher_of_norgannon
-npc_tooga
-EndContentData */
+/**
+ * ContentData
+ * mob_aquementas
+ * npc_oox17tn
+ * npc_stone_watcher_of_norgannon
+ * npc_tooga
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Onyxia
-SD%Complete: 85
-SDComment: Phase 3 need additional code. The spawning Whelps need GO-Support.
-SDCategory: Onyxia's Lair
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Onyxia
+ * SD%Complete: 85
+ * SDComment:   Phase 3 need additional code. The spawning Whelps need GO-Support.
+ * SDCategory:  Onyxia's Lair
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "onyxias_lair.h"

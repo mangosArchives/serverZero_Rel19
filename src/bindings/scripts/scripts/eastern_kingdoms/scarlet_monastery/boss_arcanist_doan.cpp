@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Arcanist_Doan
-SD%Complete: 100
-SDComment:
-SDCategory: Scarlet Monastery
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Arcanist_Doan
+ * SD%Complete: 100
+ * SDComment:   None
+ * SDCategory:  Scarlet Monastery
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

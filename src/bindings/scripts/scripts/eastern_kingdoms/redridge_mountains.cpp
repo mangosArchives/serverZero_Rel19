@@ -23,15 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: redridge_mountains
-SD%Complete: 100%
-SDComment: Quest support: 219
-SDCategory: Redridge Mountains
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      redridge_mountains
+ * SD%Complete: 100
+ * SDComment:   Quest support: 219.
+ * SDCategory:  Redridge Mountains
+ * EndScriptData
+ */
 
-/* ContentData
-npc_corporal_keeshan */
+/**
+ * ContentData
+ * npc_corporal_keeshan
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

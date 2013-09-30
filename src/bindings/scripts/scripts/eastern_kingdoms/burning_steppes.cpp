@@ -23,17 +23,21 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Burning_Steppes
-SD%Complete: 100
-SDComment: Quest support: 4121, 4122, 4224, 4866
-SDCategory: Burning Steppes
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Burning_Steppes
+ * SD%Complete: 100
+ * SDComment:   Quest support: 4121, 4122, 4224, 4866.
+ * SDCategory:  Burning Steppes
+ * EndScriptData
+ */
 
-/* ContentData
-npc_ragged_john
-npc_grark_lorkrub
-EndContentData */
+/**
+ * ContentData
+ * npc_ragged_john
+ * npc_grark_lorkrub
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

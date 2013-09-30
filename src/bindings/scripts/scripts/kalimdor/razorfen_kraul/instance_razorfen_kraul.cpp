@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: instance_razorfen_kraul
-SD%Complete: 50
-SDComment:
-SDCategory: Razorfen Kraul
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      instance_razorfen_kraul
+ * SD%Complete: 50
+ * SDComment:   None
+ * SDCategory:  Razorfen Kraul
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "razorfen_kraul.h"

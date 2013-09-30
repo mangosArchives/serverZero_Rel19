@@ -23,21 +23,25 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: bosses_emerald_dragons
-SD%Complete: 95
-SDComment: Missing correct behaviour of used trigger NPCs, some spell issues, summon player NYI
-SDCategory: Emerald Dragon Bosses
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      bosses_emerald_dragons
+ * SD%Complete: 95
+ * SDComment:   Missing correct behaviour of used trigger NPCs, some spell issues, summon player NYI
+ * SDCategory:  Emerald Dragon Bosses
+ * EndScriptData
+ */
 
-/* ContentData
-boss_emerald_dragon -- Superclass for the four dragons
-boss_emeriss
-boss_lethon
-npc_spirit_shade
-boss_taerar
-boss_ysondre
-EndContentData */
+/**
+ * ContentData
+ * boss_emerald_dragon -- Superclass for the four dragons
+ * boss_emeriss
+ * boss_lethon
+ * npc_spirit_shade
+ * boss_taerar
+ * boss_ysondre
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

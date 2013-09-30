@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Blackwing_Lair
-SD%Complete: 90
-SDComment:
-SDCategory: Blackwing Lair
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Blackwing_Lair
+ * SD%Complete: 90
+ * SDComment:   None
+ * SDCategory:  Blackwing Lair
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "blackwing_lair.h"

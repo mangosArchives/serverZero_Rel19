@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: wailing_caverns
-SD%Complete: 90
-SDComment: Missing vipers emerge effect, Naralex doesn't fly at exit(Core issue)
-SDCategory: Wailing Caverns
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      wailing_caverns
+ * SD%Complete: 90
+ * SDComment:   Missing vipers emerge effect, Naralex doesn't fly at exit(Core issue)
+ * SDCategory:  Wailing Caverns
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "wailing_caverns.h"

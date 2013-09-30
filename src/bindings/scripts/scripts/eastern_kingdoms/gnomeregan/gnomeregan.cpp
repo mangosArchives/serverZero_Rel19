@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: gnomeregan
-SD%Complete: 100
-SDComment:  Grubbis Encounter
-SDCategory: Gnomeregan
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      gnomeregan
+ * SD%Complete: 100
+ * SDComment:   Grubbis Encounter
+ * SDCategory:  Gnomeregan
+ * EndScriptData
+ */
 
-/* ContentData
-npc_blastmaster_emi_shortfuse
-EndContentData */
+/**
+ * ContentData
+ * npc_blastmaster_emi_shortfuse
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "gnomeregan.h"

@@ -23,17 +23,21 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Orgrimmar
-SD%Complete: 100
-SDComment: Quest support: 2460, 6566
-SDCategory: Orgrimmar
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Orgrimmar
+ * SD%Complete: 100
+ * SDComment:   Quest support: 2460, 6566
+ * SDCategory:  Orgrimmar
+ * EndScriptData
+ */
 
-/* ContentData
-npc_shenthul
-npc_thrall_warchief
-EndContentData */
+/**
+ * ContentData
+ * npc_shenthul
+ * npc_thrall_warchief
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

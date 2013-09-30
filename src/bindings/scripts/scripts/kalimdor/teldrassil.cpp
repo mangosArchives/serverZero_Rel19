@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Teldrassil
-SD%Complete: 100
-SDComment: Quest support: 938
-SDCategory: Teldrassil
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Teldrassil
+ * SD%Complete: 100
+ * SDComment:   Quest support: 938
+ * SDCategory:  Teldrassil
+ * EndScriptData
+ */
 
-/* ContentData
-npc_mist
-EndContentData */
+/**
+ * ContentData
+ * npc_mist
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "follower_ai.h"

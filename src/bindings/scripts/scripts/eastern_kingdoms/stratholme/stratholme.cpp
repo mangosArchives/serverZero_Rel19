@@ -23,20 +23,24 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Stratholme
-SD%Complete: 100
-SDComment: Misc mobs for instance. GO-script to apply aura and start event for quest 8945
-SDCategory: Stratholme
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Stratholme
+ * SD%Complete: 100
+ * SDComment:   Misc mobs for instance. GO-script to apply aura and start event for quest 8945
+ * SDCategory:  Stratholme
+ * EndScriptData
+ */
 
-/* ContentData
-go_service_gate
-go_gauntlet_gate
-go_stratholme_postbox
-mob_restless_soul
-mobs_spectral_ghostly_citizen
-EndContentData */
+/**
+ * ContentData
+ * go_service_gate
+ * go_gauntlet_gate
+ * go_stratholme_postbox
+ * mob_restless_soul
+ * mobs_spectral_ghostly_citizen
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "stratholme.h"

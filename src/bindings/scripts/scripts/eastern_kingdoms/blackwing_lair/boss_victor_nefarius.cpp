@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Victor_Nefarius
-SD%Complete: 90
-SDComment: Small adjustments needed; Timers
-SDCategory: Blackwing Lair
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Victor_Nefarius
+ * SD%Complete: 90
+ * SDComment:   Small adjustments needed; Timers
+ * SDCategory:  Blackwing Lair
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "blackwing_lair.h"

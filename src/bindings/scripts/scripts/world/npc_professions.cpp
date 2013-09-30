@@ -23,21 +23,27 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Npc_Professions
-SD%Complete: 80
-SDComment: Provides learn/unlearn/relearn-options for professions. Not supported: Unlearn engineering, re-learn engineering, re-learn leatherworking.
-SDCategory: NPCs
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Npc_Professions
+ * SD%Complete: 80
+ * SDComment:   Provides learning, unlearning and relearning options for profession specializations.
+ * SDCategory:  NPCs
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 
-/*
-A few notes for future developement:
-- A full implementation of gossip for GO's is required. They must have the same scripting capabilities as creatures. Basically,
-there is no difference here (except that default text is chosen with `gameobject_template`.`data3` (for GO type2, different dataN for a few others)
-- It's possible blacksmithing still require some tweaks and adjustments due to the way we _have_ to use reputation.
-*/
+/**
+ * Notes
+ *
+ * - A full implementation of gossip for GO's is required. They must have the
+ *   same scripting capabilities as creatures. Basically, there is no difference
+ *   here (except that default text is chosen with `gameobject_template`.`data3`
+ *   (for GO type2, different dataN for a few others).
+ * - It's possible blacksmithing still requires some tweaks and adjustments due
+ *   to the way we _have_ to use reputation.
+ */
 
 /*
 -- UPDATE `gameobject_template` SET `ScriptName` = 'go_soothsaying_for_dummies' WHERE `entry` = 177226;

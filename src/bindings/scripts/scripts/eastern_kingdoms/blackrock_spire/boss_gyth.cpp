@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Gyth
-SD%Complete: 100
-SDComment: Timers may need adjustments
-SDCategory: Blackrock Spire
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Gyth
+ * SD%Complete: 95
+ * SDComment:   Timers may need adjustments
+ * SDCategory:  Blackrock Spire
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "blackrock_spire.h"

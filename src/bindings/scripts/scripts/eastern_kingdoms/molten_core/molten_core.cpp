@@ -23,15 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Molten_Core
-SD%Complete:
-SDComment:
-SDCategory: Molten Core
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Molten_Core
+ * SD%Complete: 25
+ * SDComment:   None
+ * SDCategory:  Molten Core
+ * EndScriptData
+ */
 
-/* ContentData
-EndContentData */
+/**
+ * ContentData
+ * go_molten_core_rune
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "molten_core.h"

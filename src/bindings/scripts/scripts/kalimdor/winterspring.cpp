@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Winterspring
-SD%Complete: 90
-SDComment: Quest support: 4901.
-SDCategory: Winterspring
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Winterspring
+ * SD%Complete: 90
+ * SDComment:   Quest support: 4901.
+ * SDCategory:  Winterspring
+ * EndScriptData
+ */
 
-/* ContentData
-npc_ranshalla
-EndContentData */
+/**
+ * ContentData
+ * npc_ranshalla
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

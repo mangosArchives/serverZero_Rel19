@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_ZulGurub
-SD%Complete: 80
-SDComment: Missing reset function after killing a boss for Ohgan, Thekal.
-SDCategory: Zul'Gurub
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_ZulGurub
+ * SD%Complete: 80
+ * SDComment:   Missing reset function after killing a boss for Ohgan, Thekal.
+ * SDCategory:  Zul'Gurub
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "zulgurub.h"

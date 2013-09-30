@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Gothik
-SD%Complete: 95
-SDComment: Prevent Gothik from turning and "in combat state" while on balcony
-SDCategory: Naxxramas
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Gothik
+ * SD%Complete: 95
+ * SDComment:   Prevent Gothik from turning and "in combat state" while on balcony
+ * SDCategory:  Naxxramas
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "naxxramas.h"

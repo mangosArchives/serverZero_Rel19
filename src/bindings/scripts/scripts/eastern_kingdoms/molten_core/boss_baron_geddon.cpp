@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Baron_Geddon
-SD%Complete: 100
-SDComment: Armaggedon is not working properly (core issue)
-SDCategory: Molten Core
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Baron_Geddon
+ * SD%Complete: 90
+ * SDComment:   Armaggedon is not working properly (core issue)
+ * SDCategory:  Molten Core
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "molten_core.h"

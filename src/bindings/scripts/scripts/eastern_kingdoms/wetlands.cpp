@@ -23,17 +23,21 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Wetlands
-SD%Complete: 80
-SDComment: Quest support: 1249
-SDCategory: Wetlands
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Wetlands
+ * SD%Complete: 80
+ * SDComment:   Quest support: 1249.
+ * SDCategory:  Wetlands
+ * EndScriptData
+ */
 
-/* ContentData
-npc_mikhail
-npc_tapoke_slim_jahn
-EndContentData */
+/**
+ * ContentData
+ * npc_mikhail
+ * npc_tapoke_slim_jahn
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Buru
-SD%Complete: 70
-SDComment: Timers; Kill eggs on transform NYI; Egg explode damage and Buru stun are missing
-SDCategory: Ruins of Ahn'Qiraj
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Buru
+ * SD%Complete: 70
+ * SDComment:   Timers; Kill eggs on transform NYI; Egg explode damage and Buru stun are missing
+ * SDCategory:  Ruins of Ahn'Qiraj
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "ruins_of_ahnqiraj.h"

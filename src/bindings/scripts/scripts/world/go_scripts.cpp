@@ -23,17 +23,21 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: GO_Scripts
-SD%Complete: 100
-SDComment: Quest support: 5097, 5098, 10990, 10991, 10992, Barov_journal->Teaches spell 26089
-SDCategory: Game Objects
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      GO_Scripts
+ * SD%Complete: 100
+ * SDComment:   Quest support: 5097, 5098, Barov_journal->Teaches spell 26089
+ * SDCategory:  Game Objects
+ * EndScriptData
+ */
 
-/* ContentData
-go_barov_journal
-go_andorhal_tower
-EndContentData */
+/**
+ * ContentData
+ * go_barov_journal
+ * go_andorhal_tower
+ * EndContentData
+ */
 
 #include "precompiled.h"
 
