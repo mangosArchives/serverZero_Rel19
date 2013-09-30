@@ -129,83 +129,88 @@ bool FileExists(const char* FileName)
 
 void Usage(char* prg)
 {
-    printf(
-        "Usage:\n\n" \
-        "%s -[var] [value]\n\n" \
-        "-i set input path\n" \
-        "-o set output path\n" \
-        "-e extract only MAP(1)/DBC(2) - standard: both(3)\n" \
-        "-f height stored as int (less map size but lost some accuracy) 1 by default\n\n" \
-        "-h This message.\n" \
-        "Example: %s -f 0 -i \"c:\\games\\game\"\n", prg, prg);
+    printf("Usage: %s [OPTION]\n\n", prg);
+    printf("Extract client database files and generate map files.\n");
+    printf("   -h, --help            show the usage\n");
+    printf("   -i, --input <path>    search path for game client archives\n");
+    printf("   -o, --output <path>   target path for generated files\n");
+    printf("   -f, --flat #          store height information as integers reducing map\n");
+    printf("                         size, but also accuracy\n");
+    printf("   -e, --extract #       extract specified client data. 1 = maps, 2 = DBCs,\n");
+    printf("                         3 = both. Defaults to extracting both.\n");
+    printf("\n");
+    printf("Example:\n");
+    printf("- use input path and do not flatten maps:\n");
+    printf("  %s -f 0 -i \"c:\\games\\game\"\n", prg);
     exit(1);
 }
 
-void HandleArgs(int argc, char* arg[])
+bool HandleArgs(int argc, char** argv)
 {
-    for (int c = 1; c < argc; ++c)
-    {
-        // h - display help
-        // i - input path
-        // o - output path
-        // e - extract only MAP(1)/DBC(2) - standard both(3)
-        // f - use float to int conversion
-        if (arg[c][0] != '-')
-        {
-                Usage(arg[0]);
-        }
+    char* param = NULL;
 
-        switch (arg[c][1])
+    for (int i = 1; i < argc; ++i)
+    {
+        if (strcmp(argv[i], "-i") == 0 || strcmp(argv[i], "--input") == 0 )
         {
-            case 'h':
-                Usage(arg[0]);
-                break;
-            case 'i':
-                if (c + 1 < argc)                           // all ok
-                {
-                    strcpy(input_path, arg[(c++) + 1]);
-                }
-                else
-                {
-                    Usage(arg[0]);
-                }
-                break;
-            case 'o':
-                if (c + 1 < argc)                           // all ok
-                {
-                    strcpy(output_path, arg[(c++) + 1]);
-                }
-                else
-                {
-                    Usage(arg[0]);
-                }
-                break;
-            case 'f':
-                if (c + 1 < argc)                           // all ok
-                {
-                    CONF_allow_float_to_int = atoi(arg[(c++) + 1]) != 0;
-                }
-                else
-                {
-                    Usage(arg[0]);
-                }
-                break;
-            case 'e':
-                if (c + 1 < argc)                           // all ok
-                {
-                    CONF_extract = atoi(arg[(c++) + 1]);
-                    if (!(CONF_extract > 0 && CONF_extract < 4))
-                    {
-                        Usage(arg[0]);
-                    }
-                }
-                else
-                {
-                    Usage(arg[0]);
-                }
-                break;
+            param = argv[++i];
+            if (!param)
+            {
+                return false;
+            }
+
+            strcpy(input_path, param);
+        }
+        else if (strcmp(argv[i], "-o") == 0 || strcmp(argv[i], "--output") == 0 )
+        {
+            param = argv[++i];
+            if (!param)
+            {
+                return false;
+            }
+
+            strcpy(output_path, param);
+        }
+        else if (strcmp(argv[i], "-f") == 0 || strcmp(argv[i], "--flat") == 0 )
+        {
+            param = argv[++i];
+            if (!param)
+            {
+                return false;
+            }
+
+            int convertFloatToInt = atoi(param);
+            if (convertFloatToInt != 0)
+            {
+                CONF_allow_float_to_int = convertFloatToInt;
+            }
+        }
+        else if (strcmp(argv[i], "-e") == 0 || strcmp(argv[i], "--extract") == 0 )
+        {
+            param = argv[++i];
+            if (!param)
+            {
+                return false;
+            }
+
+            int convertExtract = atoi(param);
+            if (convertExtract > 0 && convertExtract < 4)
+            {
+                CONF_extract = convertExtract;
+            }
+            else
+            {
+                Usage(argv[0]);
+            }
+        }
+        else if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0 )
+        {
+            Usage(argv[0]);
         }
     }
+
+    return true;
+
 }
 
 uint32 ReadMapDBC()
@@ -1026,15 +1031,17 @@ inline void CloseMPQFiles()
     gOpenArchives.clear();
 }
 
-int main(int argc, char* arg[])
+int main(int argc, char** argv)
 {
     printf("mangos-zero DBC & map (version %s) extractor\n\n", MAP_VERSION_MAGIC);
 
-    HandleArgs(argc, arg);
+    if (!HandleArgs(argc, argv))
+    {
+        return 1;
+    }
 
     // Open MPQs
     LoadCommonMPQFiles();
-
 
     // Extract dbc
     if (CONF_extract & EXTRACT_DBC)

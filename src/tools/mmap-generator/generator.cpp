@@ -66,23 +66,30 @@ bool checkDirectories(bool debugOutput)
 
 void printUsage(char* prg)
 {
-    printf("Usage:\n\n");
-    printf("%s --[var] [value]\n\n", prg);
-    printf("[#]: Build only the map specified by #.\n");
-    printf("--maxAngle [#]: Max walkable inclination angle.\n");
-    printf("--tile [#,#]: Build the specified tile.\n");
-    printf("--skipLiquid [true|false]: skip liquid data for maps. (default: false)\n");
-    printf("--skipContinents [true|false]: skip continents. (default: false)\n");
-    printf("--skipJunkMaps [true|false]: skip unused junk maps. (default: true)\n");
-    printf("--skipBattlegrounds [true|false]: skip battleground maps. (default: false)\n");
-    printf("--bigBaseUnit [true|false]: Generate tile/map using bigger basic unit.\n");
-    printf("--offMeshInput [file.*]: Path to file containing off mesh connections data.\n");
-    printf("--debugOutput [true|false]: create debugging files for use with RecastDemo.\n");
-    printf("--silent: No questions asked.\n");
-    printf("-h: This message\n\n");
-    printf("Examples:\n%s (generate all(!) movement maps)\n"
-           "%s 0 (generate map 0)\n"
-           "%s --tile 34,46 (build tile 34,46 of map 0)\n", prg, prg, prg);
+    printf("Usage: %s [OPTION]\n\n", prg);
+    printf("Generate movement maps from extracted client maps.\n");
+    printf("   -h, --help                        show the usage\n");
+    printf("   --maxAngle [#]                    max walkable inclination angle.\n");
+    printf("   --tile [#,#]                      build the specified tile.\n");
+    printf("   --skipLiquid [true|false]         skip liquid data for maps.\n");
+    printf("   --skipContinents [true|false]     skip continents.\n");
+    printf("   --skipJunkMaps [true|false]       skip unused junk maps.\n");
+    printf("   --skipBattlegrounds [true|false]  skip battleground maps.\n");
+    printf("   --bigBaseUnit [true|false]        generate tile/map using bigger basic unit.\n");
+    printf("   --offMeshInput [file.*]           path to file containing off mesh.\n");
+    printf("                                     connections data\n");
+    printf("   --debugOutput [true|false]        create debugging files for use with\n");
+    printf("                                     RecastDemo.\n");
+    printf("   --silent                          No questions asked.\n");
+    printf("   [#]                               Build only the map specified by #.\n");
+    printf("\n");
+    printf("Examples:\n");
+    printf("- generate all movement maps:\n");
+    printf("  %s\n", prg);
+    printf("- generate only map 0:\n");
+    printf("  %s 0\n", prg);
+    printf("- build tile 34,46 of map 0:\n");
+    printf("  %s --tile 34,46\n", prg);
 }
 
 bool handleArgs(int argc, char** argv,
@@ -226,7 +233,7 @@ bool handleArgs(int argc, char** argv,
 
             offMeshInputPath = param;
         }
-        else if (strcmp(argv[i], "-h") == 0)
+        else if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0)
         {
             printUsage(argv[0]);
             exit(1);
