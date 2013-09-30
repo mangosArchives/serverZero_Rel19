@@ -27,7 +27,7 @@
  * ScriptData
  * SDName:      Arathi Highlands
  * SD%Complete: 100
- * SDComment:   Quest support: 660, 665
+ * SDComment:   Quest support: 665.
  * SDCategory:  Arathi Highlands
  * EndScriptData
  */

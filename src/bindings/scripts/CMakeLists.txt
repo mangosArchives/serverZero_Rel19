@@ -1,11 +1,5 @@
 #
-<<<<<<< HEAD
-# Copyright (C) 2006-2013 ScriptDev2 <http://www.scriptdev2.com/>
-#
-# ***** BEGIN GPL LICENSE BLOCK *****
-=======
 # Copyright (C) 2005-2014 MaNGOS <http://getmangos.eu/>
->>>>>>> 74bdcee... Merged the script library based on version z2678 of the scripts.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

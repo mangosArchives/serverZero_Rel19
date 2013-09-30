@@ -26,8 +26,8 @@
 /**
  * ScriptData
  * SDName:      gnomeregan
- * SD%Complete: 90
- * SDComment:   Grubbis Encounter, quest 2904 (A fine mess)
+ * SD%Complete: 100
+ * SDComment:   Grubbis Encounter
  * SDCategory:  Gnomeregan
  * EndScriptData
  */

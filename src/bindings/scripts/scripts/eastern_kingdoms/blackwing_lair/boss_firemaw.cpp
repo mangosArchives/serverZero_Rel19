@@ -26,8 +26,8 @@
 /**
  * ScriptData
  * SDName:      Boss_Firemaw
- * SD%Complete: 100
- * SDComment:   None
+ * SD%Complete: 80
+ * SDComment:   Thrash missing
  * SDCategory:  Blackwing Lair
  * EndScriptData
  */
