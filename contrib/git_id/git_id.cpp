@@ -914,9 +914,9 @@ int main(int argc, char* argv[])
             snprintf(remote_branch, MAX_REMOTE, "%s", argv[i] + 9);
         else if (strncmp(argv[i], "-h", 2) == 0 || strncmp(argv[i], "--help", 6) == 0)
         {
-            printf("Usage: git_id [OPTION]\n");
-            printf("Generates a new rev number and updates revision_nr.h and the commit message.\n");
-            printf("Should be used just before push.\n");
+            printf("Usage: %s [OPTION]\n\n", argv[0]);
+            printf("Generate a new revision number, update revision_nr.h and alter commit message.\n");
+            printf("Should be used before push.\n");
             printf("   -h, --help            show the usage\n");
             printf("   -r, --replace         replace the rev number if it was already applied\n");
             printf("                         to the last commit\n");
