@@ -107,7 +107,7 @@ void InitScriptLibrary()
     outstring_log(" \\__ \\/ _| '_| | '_ \\  _| |) / -_) V // / ");
     outstring_log(" |___/\\__|_| |_| .__/\\__|___/\\___|\\_//___|");
     outstring_log("               |_|                        ");
-    outstring_log("                     http://scriptdev2.com\n");
+    outstring_log("                    http://scriptdev2.com/\n");
 
     // Get configuration file
     bool configFailure = false;

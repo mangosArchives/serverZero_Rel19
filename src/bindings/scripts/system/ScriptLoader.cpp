@@ -207,12 +207,6 @@ extern void AddSC_thunder_bluff();
 extern void AddSC_ungoro_crater();
 extern void AddSC_winterspring();
 
-// northrend
-// removed
-
-// outland
-// removed
-
 void AddScripts()
 {
     // battlegrounds

@@ -508,7 +508,6 @@ UPDATE creature_template SET ScriptName='npc_ame01' WHERE entry=9623;
 UPDATE creature_template SET ScriptName='npc_ringo' WHERE entry=9999;
 
 /* UNDERCITY */
-UPDATE creature_template SET ScriptName='npc_lady_sylvanas_windrunner' WHERE entry=10181;
 
 /* WAILING CAVERNS */
 UPDATE instance_template SET ScriptName='instance_wailing_caverns' WHERE map=43;
