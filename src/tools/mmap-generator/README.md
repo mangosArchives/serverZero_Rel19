@@ -50,6 +50,7 @@ process of movement map generation.
   This command will build the map regardless of --skip* option settings. If you do
   not specify a map number, builds all maps that pass the filters specified by
   `--skip*` options.
+* `-h`, `--help`: show usage information.
 
 Examples
 --------

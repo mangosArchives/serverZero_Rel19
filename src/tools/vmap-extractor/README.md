@@ -29,12 +29,12 @@ Parameters
 The *vmap extractor* can be used with a few parameters to customize input, output
 and generated output.
 
-* `-d PATH`: set the path for reading the client's MPQ archives to the given
+* `-d PATH`, `--data PATH`: set the path for reading the client's MPQ archives to the given
   path.
-* `-s`: small size (data size optimization), ~500MB less vmap data. This is the
+* `-s`, `--small`: small size (data size optimization), ~500MB less vmap data. This is the
   default setting.
-* `-l`: arge size, ~500MB more vmap data. Stores additional details in vmap data.
-* `-h`: display the usage message, and an example call.
+* `-l`, `--large`: large size, ~500MB more vmap data. Stores additional details in vmap data.
+* `-h`, `--help`: display the usage message, and an example call.
 
 
 [1]: http://blizzard.com/games/wow/ "World of Warcraft"
