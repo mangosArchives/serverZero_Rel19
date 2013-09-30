@@ -35,6 +35,10 @@ awesome things such as these:
 * EventAI is now more verbose, and will validate targets for commands upon server
   start-up. It's very likely that you will see many more errors now. Additionally
   the `npc aiinfo` command will display more useful info.
+* **ScriptDev2** has been merged into the server repository! You do not need to
+  make a clone, and *may need to delete* previously checkouts of the scripts
+  repository. This also means, *ScriptDev2* will now always be built when you
+  build the *mangos-zero* server.
 
 Also numerous minor fixes and improvements have been added, such as:
 
