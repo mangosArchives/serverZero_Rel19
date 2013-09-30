@@ -1,7 +1,7 @@
 CHANGELOG for 0.18.x
 ====================
 
-This changelog references the relevant changes (bug and security fixes) done
+This change log references the relevant changes (bug and security fixes) done
 in 0.18 minor versions.
 
 0.18.1 (2013-XX-XX)
@@ -13,7 +13,8 @@ awesome things such as these:
   only. For Linux and FreeBSD users this means you can *always* use packages as
   provided by your distribution, and for Windows users this means you'll now
   have to download and install dependencies just once.
-  We recommend that our Windows users pickup pre-built dependencies from [GNUWin32](http://gnuwin32.sourceforge.net/).
+  We recommend that our Windows users pick up pre-built dependencies from
+  [GNUWin32](http://gnuwin32.sourceforge.net/).
 * The tools for map extraction and generation from the game client are finally
   first class citizens when you build *mangos-zero*, and will be built, too.
 * The `genrevision` application has been removed from the build. Revision data
@@ -23,6 +24,7 @@ awesome things such as these:
   available to enable the bindings.
 * The output given by all map tools has been cleaned up, and will now give you
   useful information such as the map version, or complete usage instructions.
+  Pass the `--help` parameter, and any map tool will provide usage instructions!
 * Documentation has been rewritten and converted to **Markdown** format, which
   is readable and converts nicely to HTML when viewing in the repository browser.
 * Documentation has been added for all map tools including usage instructions
@@ -41,7 +43,7 @@ Also numerous minor fixes and improvements have been added, such as:
 * Hunter pets will receive full experience when their masters are grouped.
 * Mobs fleeing will do so now in normal speed, instead of crazy speed.
 * The world server will now provide improved, readable output on start-up, and
-  less confusing messages for indentical issues.
+  less confusing messages for identical issues.
 * In-game commands `goname` and `namego` have been replaced with `appear` and
   `summon`. If you happen to find other commands with weird naming, let us know!
 * We've done extensive house-keeping and removed many TBC specific code parts,
@@ -126,11 +128,11 @@ Also numerous minor fixes and improvements have been added, such as:
   projects!
 * Spells rewarding spells, and/or casting spells on reward will now cast the
   proper spell. Also quest givers will be able to cast spells ignoring Mana
-  rewuirements when they are out of combat on reward.
+  requirements when they are out of combat on reward.
 * Documentation for many parts of the source code has been extended.
 * An issue in the realm list server has been fixed, where it would loose the
   connection to MySQL.
 * When casting [Soothe Animal](http://www.wowhead.com/spell=2908), the level
-  of the targetted creature will be checked.
-* The map extratcor build for Linux was fixed, and builds properly again.
+  of the targeted creature will be checked.
+* The map extractor build for Linux was fixed, and builds properly again.
 * A fix for applying speed for fleeing creatures was added.
