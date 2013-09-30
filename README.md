@@ -70,11 +70,6 @@ inventing the wheel again.
 * **libmpq**: [libmpq][46] provides an abstraction layer for reading from the
   client's data files.
 
-Optional dependencies
----------------------
-* **Intel TBB**: the [Threading Building Blocks][47] provide a convenient
-  cross-platform abstraction for parallel programming.
-
 Discuss
 -------
 If you need help with building and installing *mangos-zero* there is thousands
