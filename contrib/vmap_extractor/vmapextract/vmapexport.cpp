@@ -347,6 +347,8 @@ bool fillArchiveNameVector(std::vector<std::string>& pArchiveNames)
 
 bool processArgv(int argc, char** argv)
 {
+    printf("mangos-zero vmap (version %s) extractor\n\n", szRawVMAPMagic);
+
     bool result = true;
     hasInputPathParam = false;
     bool preciseVectorData = false;
@@ -388,8 +390,8 @@ bool processArgv(int argc, char** argv)
     }
     if (!result)
     {
-        printf("Extract for %s.\n", szRawVMAPMagic);
-        printf("%s [-?][-s][-l][-d <path>]\n", argv[0]);
+        printf("Usage:\n\n");
+        printf("%s [-h][-s][-l][-d <path>]\n\n", argv[0]);
         printf("   -s : (default) small size (data size optimization), ~500MB less vmap data.\n");
         printf("   -l : large size, ~500MB more vmap data. (might contain more details)\n");
         printf("   -d <path>: Path to the vector data source folder.\n");
