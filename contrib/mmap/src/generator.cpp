@@ -256,6 +256,8 @@ int finish(const char* message, int returnValue)
 
 int main(int argc, char** argv)
 {
+    printf("mangos-zero movement map (version %d) generator\n\n", MMAP_VERSION);
+
     int mapnum = -1;
     float maxAngle = 60.0f;
     int tileX = -1, tileY = -1;
