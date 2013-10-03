@@ -49,3 +49,7 @@ add_subdirectory(realmd)
 #-----------------------------------------------------------------------------
 # Build the mangos-zero world server
 add_subdirectory(mangosd)
+
+#-----------------------------------------------------------------------------
+# Build the mangos-zero script library
+add_subdirectory(bindings)
