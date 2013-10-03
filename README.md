@@ -42,9 +42,9 @@ Compilers
 ---------
 Building the server is currently possible with these compilers:
 
-* **Microsoft Visual Studio (Express[^1])**, 32bit and 64bit. Both the
-  [Visual Studio Express][30] and the professional [Visual Studio][31]
-  editions are supported.
+* **Microsoft Visual Studio (Express[^1])**, 32bit and 64bit. Both
+  [Visual Studio][30] and the Express editions of [Visual Studio][31]
+  are supported.
 * **Microsoft Windows SDK**, 32bit and 64bit. The [Windows 7 SDK][32] is
   recommeded, as older versions lack compiler features required to build
   the server.
