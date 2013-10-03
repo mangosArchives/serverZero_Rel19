@@ -101,23 +101,19 @@ set(headers
 #-----------------------------------------------------------------------------
 # Add platform specific sources
 if(WIN32)
-  set(sources
-      ${sources}
-      WheatyExceptionReport.cpp
-      ServiceWin32.cpp
+    list(APPEND sources
+        WheatyExceptionReport.cpp
+        ServiceWin32.cpp
      )
-  set(headers
-      ${headers}
-      WheatyExceptionReport.h
-      ServiceWin32.h
-     )
+    list(APPEND headers
+        WheatyExceptionReport.h
+        ServiceWin32.h
+    )
 else()
-    set(sources
-        ${sources}
+    list(APPEND sources
         PosixDaemon.cpp
     )
-    set(headers
-        ${headers}
+    list(APPEND headers
         PosixDaemon.h
     )
 endif()
