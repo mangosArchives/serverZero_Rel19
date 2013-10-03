@@ -70,6 +70,15 @@ inventing the wheel again.
 * **libmpq**: [libmpq][46] provides an abstraction layer for reading from the
   client's data files.
 
+*Recast*, *G3D* and *libmpq* are included in the *mangos-zero* distribution as
+we rely on specific versions.
+
+Optional dependencies
+---------------------
+
+* **Doxygen**: if you want to export HTML or PDF formatted documentation for the
+  *mangos-zero* API, you should install [Doxygen][49].
+
 Discuss
 -------
 If you need help with building and installing *mangos-zero* there is thousands
@@ -147,3 +156,4 @@ respects for all of the code used other than [OpenSSL][48].
 [46]: http://github.com/ge0rg/libmpq "libmpq"
 [47]: http://www.threadingbuildingblocks.org/ "Intel Threading Building Blocks · TBB"
 [48]: http://www.openssl.org/ "OpenSSL"
+[49]: http://www.stack.nl/~dimitri/doxygen/ "Doxygen"
