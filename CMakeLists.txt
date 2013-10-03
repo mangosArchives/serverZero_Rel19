@@ -133,7 +133,10 @@ option(WITH_MYSQL           "Enable MySQL database backend"                     
 option(WITH_POSTGRESQL      "Enable PostgreSQL database backend"                                            OFF)
 
 # mangos-zero language bindings
-option(WITH_LUA             "Enable Lua scripting (requires Lua 5.1"                                        OFF)
+option(WITH_MOD_LUA         "Enable Lua scripting (requires Lua 5.1"                                        OFF)
+mark_as_advanced(WITH_MOD_LUA)
+option(WITH_MOD_SCRIPTDEV2  "Enable the scripting library"                                                  OFF)
+
 
 # Modifiers
 option(WITH_MOD_SOAP        "Enable SOAP bindings (export data e.g. for a website)"                         OFF)
