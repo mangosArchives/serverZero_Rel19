@@ -156,36 +156,76 @@ void ReputationMgr::SendState(FactionState const* faction)
     m_player->SendDirectMessage(&data);
 }
 
+struct rep
+{
+    uint8 flags;
+    uint32 standing;
+};
+
+/* Called from Player::SendInitialPacketsBeforeAddToMap */
 void ReputationMgr::SendInitialReputations()
 {
-    WorldPacket data(SMSG_INITIALIZE_FACTIONS, (4 + 64 * 5));
-    data << uint32(0x00000040);
+    /* this is a guess - the value "64" was hardcoded for some reason
+     * If you know what this represents, file an issue */
+    const uint8 MAX_REPUTATION_COUNT = 64;
 
+    /* * * * * * * * * * * * * * * * *
+     * * START OF PACKET STRUCTURE * *
+     * * * * * * * * * * * * * * * * */
+
+    uint32 unk1 = 0x00000040;               // TODO: What is this?
+    std::vector<rep> reputations_to_send;   // List of reputations
+
+    /* * * * * * * * * * * * * * * * *
+     * *  END OF PACKET STRUCTURE  * *
+     * * * * * * * * * * * * * * * * */
     RepListID a = 0;
 
+    /* I'm fairly sure the code below needs re-writing...
+     * TODO : Rewrite reputation code */
+
+    /* For each reputation we have */
     for (FactionStateList::iterator itr = m_factions.begin(); itr != m_factions.end(); ++itr)
     {
-        // fill in absent fields
+        rep reputation;
+        /* Fill in reputations we have yet to encounter */
         for (; a != itr->first; ++a)
         {
-            data << uint8(0x00);
-            data << uint32(0x00000000);
+            reputation.flags =  uint8(0x00);
+            reputation.standing =  uint32(0x00000000);
+            reputations_to_send.push_back(reputation);
         }
 
-        // fill in encountered data
-        data << uint8(itr->second.Flags);
-        data << uint32(itr->second.Standing);
-
+        /* Fill in reputation we have encountered */
+        reputation.flags = uint8(itr->second.Flags);
+        reputation.standing = uint32(itr->second.Standing);
+        reputations_to_send.push_back(reputation);
+        /* We no longer need to send the reputation
+         * Checked in ReputationMgr::SendState */
         itr->second.needSend = false;
 
         ++a;
     }
 
-    // fill in absent fields
-    for (; a != 64; ++a)
+    /* Fill in any reputations we have yet to encounter */
+    for (; a != MAX_REPUTATION_COUNT; a++)
     {
-        data << uint8(0x00);
-        data << uint32(0x00000000);
+        rep reputation;
+        reputation.flags = uint8(0x00);
+        reputation.standing = uint32(0x00000000);
+        reputations_to_send.push_back(reputation);
+    }
+
+    /* Send the packet */
+    WorldPacket data(SMSG_INITIALIZE_FACTIONS, (4 +                          // Unknown
+                     MAX_REPUTATION_COUNT * (1 +  // Flags
+                             4)   // Standing
+                                               ));
+    data << unk1;
+    for (int i = 0; i < reputations_to_send.size(); ++i)
+    {
+        data << reputations_to_send[i].flags;
+        data << reputations_to_send[i].standing;
     }
 
     m_player->SendDirectMessage(&data);

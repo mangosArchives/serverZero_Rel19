@@ -457,6 +457,10 @@ class MANGOS_DLL_SPEC Creature : public Unit
 
     public:
 
+        /* Loot Variables */
+        bool hasBeenLootedOnce;
+        uint32 assignedLooter;
+
         explicit Creature(CreatureSubtype subtype = CREATURE_SUBTYPE_GENERIC);
         virtual ~Creature();
 

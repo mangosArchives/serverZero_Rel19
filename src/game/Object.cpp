@@ -421,13 +421,40 @@ void Object::BuildValuesUpdate(uint8 updatetype, ByteBuffer* data, UpdateMask* u
                 {
                     *data << (m_uint32Values[index] & ~UNIT_FLAG_NOT_SELECTABLE);
                 }
-                // hide lootable animation for unallowed players
+                /* Hide loot animation for players that aren't permitted to loot the corpse */
                 else if (index == UNIT_DYNAMIC_FLAGS && GetTypeId() == TYPEID_UNIT)
                 {
+                    uint32 send_value = m_uint32Values[index];
+
+                    /* Initiate pointer to creature so we can check loot */
+                    if (Creature* my_creature = (Creature*)this)
+                        /* If the creature is NOT fully looted */
+                        if (!my_creature->loot.isLooted())
+                            /* If the lootable flag is NOT set */
+                            if (!(send_value & UNIT_DYNFLAG_LOOTABLE))
+                            {
+                                /* Update it on the creature */
+                                my_creature->SetFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
+                                /* Update it in the packet */
+                                send_value = send_value | UNIT_DYNFLAG_LOOTABLE;
+                            }
+
+                    /* If we're not allowed to loot the target, destroy the lootable flag */
                     if (!target->isAllowedToLoot((Creature*)this))
-                        { *data << (m_uint32Values[index] & ~UNIT_DYNFLAG_LOOTABLE); }
-                    else
-                        { *data << (m_uint32Values[index] & ~UNIT_DYNFLAG_TAPPED); }
+                        if (send_value & UNIT_DYNFLAG_LOOTABLE)
+                            { send_value = send_value & ~UNIT_DYNFLAG_LOOTABLE; }
+
+                    /* If we are allowed to loot it and mob is tapped by us, destroy the tapped flag */
+                    bool is_tapped = target->isTappedByMeOrMyGroup((Creature*)this);
+
+                    /* If the creature has tapped flag but is tapped by us, remove the flag */
+                    if (send_value & UNIT_DYNFLAG_TAPPED && is_tapped)
+                        { send_value = send_value & ~UNIT_DYNFLAG_TAPPED; }
+                    /* If creature does not have tapped flag but is not tapped by us, set the flag */
+                    else if (!(send_value & UNIT_DYNFLAG_TAPPED) && !is_tapped)
+                        { send_value = send_value | UNIT_DYNFLAG_TAPPED; }
+
+                    *data << send_value;
                 }
                 else
                 {
@@ -692,6 +719,62 @@ void Object::RemoveFlag(uint16 index, uint32 oldFlag)
     {
         m_uint32Values[index] = newval;
         m_changedValues[index] = true;
+        MarkForClientUpdate();
+    }
+}
+
+void Object::RemovePlayerSpecificFlag(uint16 index, uint32 oldFlag, Player* plr)
+{
+    /* Validate input */
+    MANGOS_ASSERT(index < m_valuesCount || PrintIndexError(index, true));
+
+    uint32 oldval, newval;
+
+    /* See if we already have custom flags set for the player */
+    if (m_plrSpecificFlags.find(plr->GetGUIDLow()) != m_plrSpecificFlags.end())
+        { oldval = m_plrSpecificFlags.find(plr->GetGUIDLow())->second; }
+    /* We don't already have flags, get them from the creature */
+    else
+        { oldval = m_uint32Values[index]; }
+
+    /* Set the new flag */
+    newval = oldval & ~oldval;
+
+    /* Make sure they're not the same */
+    if (oldval != newval)
+    {
+        /* Update existing flag */
+        m_plrSpecificFlags.find(plr->GetGUIDLow())->second = newval;
+
+        /* Push updates to client */
+        MarkForClientUpdate();
+    }
+}
+
+void Object::SetPlayerSpecificFlag(uint16 index, uint32 newFlag, Player* plr)
+{
+    /* Validate input */
+    MANGOS_ASSERT(index < m_valuesCount || PrintIndexError(index, true));
+
+    uint32 oldval, newval;
+
+    /* See if we already have custom flags set for the player */
+    if (m_plrSpecificFlags.find(plr->GetGUIDLow()) != m_plrSpecificFlags.end())
+        { oldval = m_plrSpecificFlags.find(plr->GetGUIDLow())->second; }
+    /* We don't already have flags, get them from the creature */
+    else
+        { oldval = m_uint32Values[index]; }
+
+    /* Set the new flag */
+    newval = oldval | newFlag;
+
+    /* Make sure they're not the same */
+    if (oldval != newval)
+    {
+        /* Update existing flag */
+        m_plrSpecificFlags.find(plr->GetGUIDLow())->second = newval;
+
+        /* Push updates to client */
         MarkForClientUpdate();
     }
 }
