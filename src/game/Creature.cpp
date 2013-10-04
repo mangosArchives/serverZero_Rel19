@@ -150,6 +150,10 @@ Creature::Creature(CreatureSubtype subtype) : Unit(),
     m_meleeDamageSchoolMask(SPELL_SCHOOL_MASK_NORMAL), m_originalEntry(0),
     m_creatureInfo(NULL)
 {
+    /* Loot data */
+    hasBeenLootedOnce = false;
+    assignedLooter = 0;
+
     m_regenTimer = 200;
     m_valuesCount = UNIT_END;
 
@@ -880,17 +884,22 @@ bool Creature::CanTrainAndResetTalentsOf(Player* pPlayer) const
 
 void Creature::PrepareBodyLootState()
 {
-    loot.clear();
-
     // if have normal loot then prepare it access
-    if (!lootForBody)
+    if (!lootForBody || !loot.isLooted())
     {
         // have normal loot
         if (GetCreatureInfo()->maxgold > 0 || GetCreatureInfo()->lootid ||
             // ... or can have skinning after
             (GetCreatureInfo()->SkinLootId && sWorld.getConfig(CONFIG_BOOL_CORPSE_EMPTY_LOOT_SHOW)))
         {
-            SetFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
+            /* If we don't have the flag but we still have loot, set it to lootable */
+            if (!HasFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE))
+                { SetFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE); }
+            /* Removing the flag forces an update to be sent to clients
+             * Code in the update check (Object::BuildValuesUpdate) will set flag again if we still have loot
+             * This is a hackfix until I can figure out how to force MaNGOS to update, as it seems to ignore MarkForClientUpdate() */
+            else
+                { RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE); }
             return;
         }
     }
@@ -905,6 +914,7 @@ void Creature::PrepareBodyLootState()
         return;
     }
 
+    loot.clear();
     RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
     RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_SKINNABLE);
 }

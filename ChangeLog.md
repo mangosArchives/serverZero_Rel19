@@ -32,6 +32,8 @@ awesome things such as these:
 * Player movement has been rewritten, and now factors in possible issues such as
   lag when sending out character movement. This also means, looting when moving
   is no longer possible, and will be cancelled.
+* Looting in groups has been corrected, and you should now be able to use round
+  robin, master looter, free for all and need before greed looting.
 * EventAI is now more verbose, and will validate targets for commands upon server
   start-up. It's very likely that you will see many more errors now. Additionally
   the `npc aiinfo` command will display more useful info.

@@ -43,14 +43,23 @@ PlayerSocial::~PlayerSocial()
     m_playerSocialMap.clear();
 }
 
+/* Called by PlayerSocial::SendFriendList */
 uint32 PlayerSocial::GetNumberOfSocialsWithFlag(SocialFlag flag)
 {
+    /* This is the value we return
+     * It indicates the number of players that have the flag specified in arg1 */
     uint32 counter = 0;
+
+    /* For each person on our player's social map
+     * This includes both friends and enemies */
     for (PlayerSocialMap::const_iterator itr = m_playerSocialMap.begin(); itr != m_playerSocialMap.end(); ++itr)
     {
         if (itr->second.Flags & flag)
-            { ++counter; }
+        {
+            ++counter;
+        }
     }
+    /* We've done all the calculations we need to, return the counter */
     return counter;
 }
 
@@ -110,47 +119,113 @@ void PlayerSocial::RemoveFromSocialList(ObjectGuid friend_guid, bool ignore)
     }
 }
 
+struct friend_
+{
+    uint64 guid; // ObjectGuid
+    uint8 status; // is this a boolean?
+
+    /* Data below is only set if friend is online */
+    uint32 area; // Area player is in
+    uint32 level; // Level player is
+    uint32 class_; // Class player is
+};
+/* Called by WorldSession::HandlePlayerLogin */
 void PlayerSocial::SendFriendList()
 {
+    /* Make sure the player ID is actually valid */
     Player* plr = sObjectMgr.GetPlayer(ObjectGuid(HIGHGUID_PLAYER, m_playerLowGuid));
+
+    /* The ID is NOT valid, so just return */
     if (!plr)
-        { return; }
+    {
+        return;
+    }
 
+    uint32 packet_size = 0;
+
+    /* * * * * * * * * * * * * * * * *
+     * * START OF PACKET STRUCTURE * *
+     * * * * * * * * * * * * * * * * */
+
+    /* Returns the number of friends on the player's social map */
     uint32 size = GetNumberOfSocialsWithFlag(SOCIAL_FLAG_FRIEND);
+    std::vector<friend_> friends_to_send;
+    /* * * * * * * * * * * * * * * * *
+     * *  END OF PACKET STRUCTURE  * *
+     * * * * * * * * * * * * * * * * */
 
-    WorldPacket data(SMSG_FRIEND_LIST, (1 + size * 25)); // just can guess size
-    data << uint8(size);                                   // friends count
-
+    /* for each person on the player's social map */
     for (PlayerSocialMap::iterator itr = m_playerSocialMap.begin(); itr != m_playerSocialMap.end(); ++itr)
     {
-        if (itr->second.Flags & SOCIAL_FLAG_FRIEND)         // if IsFriend()
+        /* If the person is a friend */
+        if (itr->second.Flags & SOCIAL_FLAG_FRIEND)
         {
+            /* Get information about them and store it in itr */
             sSocialMgr.GetFriendInfo(plr, itr->first, itr->second);
 
-            data << ObjectGuid(HIGHGUID_PLAYER, itr->first);// player guid
-            data << uint8(itr->second.Status);              // online/offline/etc?
-            if (itr->second.Status)                         // if online
+            friend_ my_friend;
+
+            my_friend.guid = ObjectGuid(HIGHGUID_PLAYER, itr->first); // GUID
+            my_friend.status = uint8(itr->second.Status);             // Status (Offline, Online, AFK, DND)
+
+            /* used to calculate packet size */
+            packet_size += 9;
+
+            /* If friend is online, we have more data to send */
+            if (itr->second.Status != FRIEND_STATUS_OFFLINE)
             {
-                data << uint32(itr->second.Area);           // player area
-                data << uint32(itr->second.Level);          // player level
-                data << uint32(itr->second.Class);          // player class
+                /* we have more data to send */
+                packet_size += 12;
+                my_friend.area   = uint32(itr->second.Area);  // Player area
+                my_friend.level  = uint32(itr->second.Level); // Player level
+                my_friend.class_ = uint32(itr->second.Class); // Player class
             }
+
+            /* Queue up packet */
+            friends_to_send.push_back(my_friend);
         }
     }
 
+    WorldPacket data(SMSG_FRIEND_LIST, (1 +            // Number of friends
+                                        packet_size)); // 9 bytes if offline, 21 if online
+    // uint64 guid
+    // uint8 isOnline
+    // uint32 area
+    // uint32 level
+    // uint32 class
+
+    data << uint8(size);                                   // friends count
+    for (int i = 0; i < friends_to_send.size(); ++i)
+    {
+        data << friends_to_send[i].guid;
+        data << friends_to_send[i].status;
+        if (friends_to_send[i].status != FRIEND_STATUS_OFFLINE)
+        {
+            data << friends_to_send[i].area;
+            data << friends_to_send[i].level;
+            data << friends_to_send[i].class_;
+        }
+    }
     plr->GetSession()->SendPacket(&data);
     DEBUG_LOG("WORLD: Sent SMSG_FRIEND_LIST");
 }
 
 void PlayerSocial::SendIgnoreList()
 {
+    /* Make sure the player ID is actually valid */
     Player* plr = sObjectMgr.GetPlayer(ObjectGuid(HIGHGUID_PLAYER, m_playerLowGuid));
-    if (!plr)
-        { return; }
 
+    /* The ID is NOT valid, so just return */
+    if (!plr)
+    {
+        return;
+    }
+
+    /* Returns number of people the player is ignoring */
     uint32 size = GetNumberOfSocialsWithFlag(SOCIAL_FLAG_IGNORED);
 
-    WorldPacket data(SMSG_IGNORE_LIST, (1 + size * 8));     // just can guess size
+    WorldPacket data(SMSG_IGNORE_LIST, (1 +          // 1 byte for ignore list size
+                                        size * 8));  // 8 bytes per person ignored (object guid)
     data << uint8(size);                                    // friends count
 
     for (PlayerSocialMap::iterator itr = m_playerSocialMap.begin(); itr != m_playerSocialMap.end(); ++itr)
