@@ -291,6 +291,15 @@ set(headers
     WorldSocketMgr.h
 )
 
+if(WITH_MOD_LUA AND LUA51_FOUND)
+    list(APPEND sources ${CMAKE_CURRENT_SOURCE_DIR}/metztli/LuaEngine.cpp)
+    list(APPEND headers ${CMAKE_CURRENT_SOURCE_DIR}/metztli/LuaEngine.h)
+    include_directories(
+        ${LUA_INCLUDE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/metztli/
+    )
+endif()
+
 set(game_LIB_SRCS ${sources} ${headers})
 
 mangos_source_group(${game_LIB_SRCS})
@@ -318,6 +327,12 @@ include_directories(
 # Build the game library
 add_library(mangos-game STATIC ${game_LIB_SRCS})
 target_link_libraries(mangos-game mangos-auctionhouse-bot mangos-battleground mangos-outdoor-pvp mangos-movement mangos-vmap mangos-shared mangos-framework Detour g3dlite ${ACE_LIBRARIES} ${MYSQL_LIBRARIES} ${OPENSSL_LIBRARIES} ${ZLIB_LIBRARIES})
+
+if(WITH_MOD_LUA AND LUA51_FOUND)
+    set(BUILD_PROPERTIES "-DWITH_MOD_LUA" )
+    set_target_properties(mangos-game PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+    target_link_libraries(mangos-game ${LUA_LIBRARIES})
+endif()
 
 if(UNIX)
   # Both systems don't have libdl and don't need them
