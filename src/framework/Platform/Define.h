@@ -103,7 +103,7 @@ typedef ACE_SHLIB_HANDLE MANGOS_LIBRARY_HANDLE;
 #  define MANGOS_INLINE
 #endif //!DEBUG
 
-#if COMPILER == COMPILER_GNU
+#if COMPILER == COMPILER_GNU || COMPILER == COMPILER_CLANG
 #  define ATTR_NORETURN __attribute__((noreturn))
 #  define ATTR_PRINTF(F,V) __attribute__ ((format (printf, F, V)))
 #else // COMPILER != COMPILER_GNU
@@ -131,6 +131,11 @@ typedef uint32      DWORD; ///< An unsigned integer of 32 bits, only for Win
 
 #if COMPILER == COMPILER_GNU
 #  if !defined(__GXX_EXPERIMENTAL_CXX0X__) || (__GNUC__ < 4) || (__GNUC__ == 4) && (__GNUC_MINOR__ < 7)
+#    define override
+#    define static_assert(a, b) STATIC_ASSERT_WORKAROUND(a, b)
+#  endif
+#elif COMPILER == COMPILER_CLANG
+#  ifndef __cxx_static_assert
 #    define override
 #    define static_assert(a, b) STATIC_ASSERT_WORKAROUND(a, b)
 #  endif
