@@ -19,31 +19,114 @@
 # CMake policies
 cmake_minimum_required(VERSION 2.8)
 
-project(MaNGOS)
-set(MANGOS_VERSION 0.18.0)
+#-----------------------------------------------------------------------------
+# Ensure we print configuration summary only on the initial CMake run
+if(NOT EXECUTABLE_OUTPUT_PATH)
+    set(FIRST_RUN "TRUE")
+endif(NOT EXECUTABLE_OUTPUT_PATH)
 
-set(CMAKE_MODULE_PATH
-  ${CMAKE_MODULE_PATH}
-  ${CMAKE_SOURCE_DIR}/cmake
-)
+#-----------------------------------------------------------------------------
+# We provide a few modules for our own needs to find and configure uncommon
+# software on which we depend.
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
+#-----------------------------------------------------------------------------
+# We do build in Release mode by default to provide the fastest build
+# experience.
+set(CMAKE_BUILD_TYPE_INIT "Release")
 
-# define all options here
-option(DEBUG                 "Debug mode"                                   OFF)
-option(TBB_USE_EXTERNAL      "Use external TBB"                             OFF)
-option(USE_STD_MALLOC        "Use standard malloc instead of TBB"           OFF)
-option(USE_TBB_MALLOC        "Use included TBB malloc"                      OFF)
-if(WIN32)
-  if(PLATFORM MATCHES X86) # 32-bit
-    option(USE_FASTMM_MALLOC "Use included FastMM malloc (default for win*)" ON)
-    option(USE_STD_MALLOC    "Use standard malloc instead of TBB"           OFF)
-  else() # 64-bit
-    option(USE_STD_MALLOC    "Use standard malloc instead of TBB"           OFF)
-    option(USE_FASTMM_MALLOC "Use included FastMM malloc (default for win*)" ON)
-  endif()
-else()
-#Unix and other platforms
-  option(USE_STD_MALLOC      "Use standard malloc instead of TBB"            ON)
+#-----------------------------------------------------------------------------
+# If quiet output for Makefiles is desired, set this to ON. 'make -s' is an
+# alternative.
+# set_property(GLOBAL PROPERTY RULE_MESSAGES OFF)
+
+#-----------------------------------------------------------------------------
+# Global compile definitions since add_definitions() adds for all.
+set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_DEBUG           DEBUG _DEBUG)
+set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELEASE         NDEBUG)
+set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_MINSIZEREL      NDEBUG)
+set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELWITHDEBINFO  NDEBUG)
+
+#-----------------------------------------------------------------------------
+# Set policies
+
+# see "cmake --help-policy CMP0003"
+# So library linking is more sane
+cmake_policy(SET CMP0003 NEW)
+
+# see "cmake --help-policy CMP0005"
+# So BUILDINFO and MANGOSPATH strings are automatically quoted
+cmake_policy(SET CMP0005 NEW)
+
+# see "cmake --help-policy CMP0010"
+# So syntax problems are errors
+cmake_policy(SET CMP0010 NEW)
+
+# see "cmake --help-policy CMP0014"
+# Input directories must have CMakeLists.txt
+cmake_policy(SET CMP0014 NEW)
+
+#-----------------------------------------------------------------------------
+# Initialize project.
+
+project(mangos-zero C CXX)
+
+set(APPLICATION_NAME            ${PROJECT_NAME})
+set(APPLICATION_VERSION_MAJOR   "0")
+set(APPLICATION_VERSION_MINOR   "18")
+set(APPLICATION_VERSION_RELEASE "1")
+set(APPLICATION_VERSION         "${APPLICATION_VERSION_MAJOR}.${APPLICATION_VERSION_MINOR}.${APPLICATION_VERSION_RELEASE}")
+
+#-----------------------------------------------------------------------------
+# Initialize Doxygen module and prepare the Doxygen template
+SET(DOXYFILE_SOURCE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/src/)
+SET(DOXYFILE_LATEX          OFF)
+include(UseDoxygen)
+
+#-----------------------------------------------------------------------------
+# Redirect output files
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin CACHE INTERNAL "" FORCE)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib CACHE INTERNAL "" FORCE)
+
+#-----------------------------------------------------------------------------
+# Set default config options
+
+# mangos-zero internal features
+option(WITH_DEBUG_OUTPUT    "Enable mangos-zero debug output (only enable for development)"                 OFF)
+option(WITH_GIT_ID          "Build git database update helper"                                              OFF)
+mark_as_advanced(WITH_GIT_ID)
+
+# dont want people disabling this unless they really know what they are doing.
+option(WITH_MAP_TOOLS       "Build map extractors and generators"                                           ON)
+mark_as_advanced(WITH_MAP_TOOLS)
+
+# mangos-zero database bindings
+option(WITH_MYSQL           "Enable MySQL database backend"                                                 ON)
+option(WITH_POSTGRESQL      "Enable PostgreSQL database backend"                                            OFF)
+
+# mangos-zero language bindings
+option(WITH_MOD_LUA         "Enable Lua scripting (requires Lua 5.1)"                                       OFF)
+option(WITH_MOD_SCRIPTDEV2  "Enable the scripting library"                                                  OFF)
+
+# Modifiers
+option(WITH_MOD_SOAP        "Enable SOAP bindings (export data e.g. for a website)"                         OFF)
+option(WITH_MOD_CLI         "Enable command line interface"                                                 OFF)
+option(WITH_MOD_REMOTE      "Enable remote access (remote administration)"                                  OFF)
+option(WITH_RECAST_DEMO     "Build the Recast movement map viewer application"                              OFF)
+mark_as_advanced(WITH_RECAST_DEMO)
+
+#-----------------------------------------------------------------------------
+# Check for conflicting/unsupported configurations
+if(NOT WITH_MYSQL AND NOT WITH_POSTGRESQL)
+    message(FATAL_ERROR "At least one of WITH_MYSQL or WITH_POSTGRESQL must be enabled!")
+endif(NOT WITH_MYSQL AND NOT WITH_POSTGRESQL)
+
+if(NOT WITH_MAP_TOOLS AND WITH_RECAST_DEMO)
+    message(FATAL_ERROR "WITH_MAP_TOOLS must be enabled to build WITH_RECAST_DEMO!")
+endif(NOT WITH_MAP_TOOLS AND WITH_RECAST_DEMO)
+
+if(NOT ${CMAKE_BUILD_TYPE} STREQUAL "Debug" AND WITH_DEBUG_OUTPUT)
+    message(FATAL_ERROR "It is not recommeded to build mangos-zero with debug output in a non-development release.")
 endif()
 option(ACE_USE_EXTERNAL      "Use external ACE"                             OFF)
 if(PCHSupport_FOUND AND WIN32) # TODO: why only enable it on windows by default?
@@ -78,12 +161,14 @@ message(
 )
 message("")
 
-# Force out-of-source build
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
-  message(FATAL_ERROR
-    "This project requires an out of source build. Remove the file 'CMakeCache.txt' found in this directory before continuing, create a separate build directory and run 'cmake [options] <srcs>' from there."
-  )
+if(WITH_MOD_LUA AND WITH_MOD_SCRIPTDEV2)
+    message(FATAL_ERROR "Lua and ScriptDev2 can not be used in parallel. Disable Lua or ScriptDev2.")
 endif()
+
+#-----------------------------------------------------------------------------
+# Initialize un-cached vars, avoid unused warning
+# linux only, not cached
+set(WITH_BINRELOC OFF)
 
 # TODO: allow other compilers under windows in the future
 if(WIN32 AND NOT MSVC)
@@ -406,9 +491,28 @@ if(USE_STD_MALLOC)
   set(DEFINITIONS ${DEFINITIONS} USE_STANDARD_MALLOC)
 endif()
 
-set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "${DEFINITIONS}")
-set_directory_properties(PROPERTIES COMPILE_DEFINITIONS_RELEASE "${DEFINITIONS_RELEASE}")
-set_directory_properties(PROPERTIES COMPILE_DEFINITIONS_DEBUG "${DEFINITIONS_DEBUG}")
+if(WITH_MYSQL)
+    find_package(MySQL REQUIRED)
+endif(WITH_MYSQL)
+
+if(WITH_POSTGRESQL)
+    find_package(PostgreSQL REQUIRED)
+endif(WITH_POSTGRESQL)
+
+if(WITH_MOD_LUA)
+    find_package(Lua51 REQUIRED)
+endif(WITH_MOD_LUA)
+
+#-----------------------------------------------------------------------------
+# Extra compile flags
+
+#-------------------------------------------------------------------------------
+# Global Defines
+
+#-----------------------------------------------------------------------------
+# Dump generated headers and add custom target for version control information
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/revision.h.cmake ${CMAKE_BINARY_DIR}/revision.h)
 
 add_subdirectory(src)
 # if(SQL)

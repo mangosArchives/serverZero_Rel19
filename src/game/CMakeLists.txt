@@ -365,27 +365,16 @@ set(SRC_GRP_WORLD_HANDLERS
     World.h
 )
 
-set(LIBRARY_SRCS
-    ${SRC_GRP_AHBOT}
-    ${SRC_GRP_BATTLEGROUND}
-    ${SRC_GRP_CHAT_COMMANDS}
-    ${SRC_GRP_MOTION_GEN}
-    ${SRC_GRP_MOVEMENT}
-    ${SRC_GRP_OBJECT}
-    ${SRC_GRP_OUTDOOR_PVP}
-    ${SRC_GRP_REFERENCES}
-    ${SRC_GRP_SERVER}
-    ${SRC_GRP_TOOL}
-    ${SRC_GRP_VMAPS}
-    ${SRC_GRP_WORLD_HANDLERS}
-    pchdef.cpp
-    pchdef.h
-)
+if(WITH_MOD_LUA AND LUA51_FOUND)
+    list(APPEND sources ${CMAKE_CURRENT_SOURCE_DIR}/metztli/LuaEngine.cpp)
+    list(APPEND headers ${CMAKE_CURRENT_SOURCE_DIR}/metztli/LuaEngine.h)
+    include_directories(
+        ${LUA_INCLUDE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/metztli/
+    )
+endif()
 
-source_group("AhBot"
-  FILES
-    ${SRC_GRP_AHBOT}
-)
+set(game_LIB_SRCS ${sources} ${headers})
 
 source_group("BattleGround"
   FILES
@@ -454,6 +443,12 @@ target_link_libraries(${LIBRARY_NAME}
   shared
   detour
 )
+
+if(WITH_MOD_LUA AND LUA51_FOUND)
+    set(BUILD_PROPERTIES "-DWITH_MOD_LUA" )
+    set_target_properties(mangos-game PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+    target_link_libraries(mangos-game ${LUA_LIBRARIES})
+endif()
 
 if(UNIX)
   # Both systems don't have libdl and don't need them

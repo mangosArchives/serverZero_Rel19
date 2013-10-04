@@ -70,6 +70,18 @@ inventing the wheel again.
 * **libmpq**: [libmpq][46] provides an abstraction layer for reading from the
   client's data files.
 
+*Recast*, *G3D* and *libmpq* are included in the *mangos-zero* distribution as
+we rely on specific versions.
+
+Optional dependencies
+---------------------
+
+* **Doxygen**: if you want to export HTML or PDF formatted documentation for the
+  *mangos-zero* API, you should install [Doxygen][49].
+* **Lua**: if you want to test drive how *mangos-zero* feels with [Lua][50] as
+  scripting language instead of the scripting library, you will need Lua 5.1
+  installed.
+
 Discuss
 -------
 If you need help with building and installing *mangos-zero* there is thousands
@@ -136,14 +148,16 @@ respects for all of the code used other than [OpenSSL][48].
 [30]: http://www.microsoft.com/visualstudio/eng/ "Visual Studio 2012"
 [31]: http://www.microsoft.com/visualstudio/eng/products/visual-studio-express-products "Visual Studio Express 2012 for Windows Desktop"
 [32]: http://www.microsoft.com/en-us/download/details.aspx?id=8279 "Windows SDK for Windows 7 and .NET Framework 4"
-[33]: http://clang.llvm.org/ "clang: a C language family frontend for LLVM"
+[33]: http://clang.llvm.org/ "clang · a C language family frontend for LLVM"
 
 [40]: http://www.mysql.com/ "MySQL · The world's most popular open source database"
 [41]: http://www.mariadb.org/ "MariaDB · An enhanced, drop-in replacement for MySQL"
 [42]: http://www.postgresql.org/ "PostgreSQL · The world's most advanced open source database"
 [43]: http://www.cs.wustl.edu/~schmidt/ACE.html "ACE · The ADAPTIVE Communication Environment"
 [44]: http://github.com/memononen/recastnavigation "Recast · Navigation-mesh Toolset for Games"
-[45]: http://sourceforge.net/projects/g3d/ "G3D Innovation Engine"
-[46]: http://github.com/ge0rg/libmpq "libmpq"
+[45]: http://sourceforge.net/projects/g3d/ "G3D · G3D Innovation Engine"
+[46]: http://github.com/ge0rg/libmpq "libmpq · A library for reading data from MPQ archives"
 [47]: http://www.threadingbuildingblocks.org/ "Intel Threading Building Blocks · TBB"
-[48]: http://www.openssl.org/ "OpenSSL"
+[48]: http://www.openssl.org/ "OpenSSL · The Open Source toolkit for SSL/TLS"
+[49]: http://www.stack.nl/~dimitri/doxygen/ "Doxygen · API documentation generator"
+[50]: http://www.lua.org/ "Lua · The Programming Language"
