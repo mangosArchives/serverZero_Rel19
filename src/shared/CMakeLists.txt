@@ -122,9 +122,18 @@ set(shared_LIB_SRCS ${sources} ${headers})
 
 mangos_source_group(${shared_LIB_SRCS})
 
+if(WITH_MYSQL AND MYSQL_FOUND)
+    include_directories(
+        ${MYSQL_INCLUDE_DIR}
+    )
+elseif(WITH_POSTGRESQL AND PostgreSQL_FOUND)
+    include_directories(
+        ${PostgreSQL_INCLUDE_DIRS}
+    )
+endif()
+
 include_directories(
     ${ACE_INCLUDE_DIRS}
-    ${MYSQL_INCLUDE_DIR}
     ${OPENSSL_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/dep/include/mersennetwister/
     ${CMAKE_SOURCE_DIR}/dep/include/utf8cpp/
@@ -142,13 +151,15 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/SystemConfig.h.cmake ${CMAKE_CURRENT_
 #-----------------------------------------------------------------------------
 # Build the shared library
 add_library(mangos-shared STATIC ${shared_LIB_SRCS})
-target_link_libraries(mangos-shared mangos-framework ${ACE_LIBRARIES} ${MYSQL_LIBRARIES} ${OPENSSL_LIBRARIES})
+target_link_libraries(mangos-shared mangos-framework ${ACE_LIBRARIES} ${OPENSSL_LIBRARIES})
 
 set(BUILD_PROPERTIES "-DHAVE_CONFIG_H")
-if(WITH_MYSQL)
+if(WITH_MYSQL AND MYSQL_FOUND)
     set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DDO_MYSQL")
-elseif(WITH_POSTGRESQL)
+    target_link_libraries(mangos-shared ${MYSQL_LIBRARIES})
+elseif(WITH_POSTGRESQL AND PostgreSQL_FOUND)
     set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DDO_POSTGRESQL")
+    target_link_libraries(mangos-shared ${PostgreSQL_LIBRARIES})
 endif()
 set_target_properties(mangos-shared PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
 
