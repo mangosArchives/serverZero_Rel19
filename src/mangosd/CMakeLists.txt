@@ -44,6 +44,17 @@ set(headers
 
 set(mangosd_LIB_SRCS ${sources} ${headers})
 
+if(WITH_MOD_SOAP)
+    list(APPEND mangosd_LIB_SRCS
+        MaNGOSsoap.cpp
+        MaNGOSsoap.h
+        soapC.cpp
+        soapH.h
+        soapServer.cpp
+        soapStub.h
+     )
+endif()
+
 mangos_source_group(${mangosd_LIB_SRCS})
 
 include_directories(
@@ -60,7 +71,6 @@ include_directories(
 )
 
 if(WITH_MOD_SOAP)
-    set(mangosd_LIB_SRCS ${mangosd_LIB_SRCS} MaNGOSsoap.cpp MaNGOSsoap.h soapC.cpp soapH.h soapServer.cpp soapStub.h)
     include_directories(
         ${CMAKE_SOURCE_DIR}/dep/include/gsoap/
     )
