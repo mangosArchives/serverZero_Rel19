@@ -69,6 +69,9 @@ inventing the wheel again.
   data, and is used to handle basic map data.
 * **libmpq**: [libmpq][46] provides an abstraction layer for reading from the
   client's data files.
+* **Zlib**: [Zlib][51] provides compression algorithms used in both MPQ archive
+  handling and the client/server protocol.
+* **Bzip2**: [Bzip2][52] provides compression algorithms used in MPQ archives.
 
 *Recast*, *G3D* and *libmpq* are included in the *mangos-zero* distribution as
 we rely on specific versions.
@@ -161,3 +164,5 @@ respects for all of the code used other than [OpenSSL][48].
 [48]: http://www.openssl.org/ "OpenSSL · The Open Source toolkit for SSL/TLS"
 [49]: http://www.stack.nl/~dimitri/doxygen/ "Doxygen · API documentation generator"
 [50]: http://www.lua.org/ "Lua · The Programming Language"
+[51]: http://gnuwin32.sourceforge.net/packages/zlib.htm "Zlib for Windows"
+[52]: http://gnuwin32.sourceforge.net/packages/bzip2.htm "Bzip2 for Windows"
