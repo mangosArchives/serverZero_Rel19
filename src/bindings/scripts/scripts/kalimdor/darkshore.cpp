@@ -27,7 +27,7 @@
  * ScriptData
  * SDName:      Darkshore
  * SD%Complete: 100
- * SDComment:   Quest support: 731, 945, 994, 995, 2078, 5321.
+ * SDComment:   Quest support: 731, 945, 994, 995, 2078, 2118, 5321.
  * SDCategory:  Darkshore
  * EndScriptData
  */
