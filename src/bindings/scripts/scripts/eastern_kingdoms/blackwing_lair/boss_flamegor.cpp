@@ -26,8 +26,8 @@
 /**
  * ScriptData
  * SDName:      Boss_Flamegor
- * SD%Complete: 90
- * SDComment:   Thrash is missing
+ * SD%Complete: 100
+ * SDComment:   None
  * SDCategory:  Blackwing Lair
  * EndScriptData
  */
