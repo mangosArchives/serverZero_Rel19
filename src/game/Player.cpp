@@ -16483,7 +16483,14 @@ bool Player::ActivateTaxiPathTo(std::vector<uint32> const& nodes, Creature* npc 
         return false;
 
     // not let cheating with start flight in time of logout process || if casting not finished || while in combat || if not use Spell's with EffectSendTaxi
-    if (GetSession()->isLogingOut() || IsInCombat())
+    if (sWorld.getConfig(CONFIG_BOLL_INSTANT_TAXI))
+    {
+        TaxiNodesEntry const* lastnode = sTaxiNodesStore.LookupEntry(nodes[nodes.size()-1]);
+        m_taxi.ClearTaxiDestinations();
+        TeleportTo(lastnode->map_id, lastnode->x, lastnode->y, lastnode->z, GetOrientation());
+        return false;
+    }
+    else
     {
         GetSession()->SendActivateTaxiReply(ERR_TAXIPLAYERBUSY);
         return false;
