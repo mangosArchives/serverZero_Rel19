@@ -28,10 +28,10 @@
 # Platform specifics
 if(WIN32 AND MSVC)
     option(USE_MSVC_FAST_FLOATINGPOINT "Use MSVC /fp:fast option" ON)
+    mark_as_advanced(USE_MSVC_FAST_FLOATINGPOINT)
     if(USE_MSVC_FAST_FLOATINGPOINT)
         add_definitions(/fp:fast)
     endif(USE_MSVC_FAST_FLOATINGPOINT)
-    add_definitions(/D _CRT_SECURE_NO_WARNINGS)
 endif()
 
 #-----------------------------------------------------------------------------
