@@ -5,10 +5,10 @@ can store game data in [MySQL][40] and [PostgreSQL][42]. It has optional support
 for SOAP, and aims to be 100% compatible with [World of Warcraft][2] in its
 vanilla versions, namely [patch 1.12.1][5] and [patch 1.12.2][6].
 
-If you like the first incarnation of WoW, and still fancy [vanilla WoW][4],
-you should try *mangos-zero*. We provide an authentication server where you can
-manage your users, and a world server which serves game content just like
-the original [WoW][2] did back then.
+If you like the first incarnation of [World of Warcraft][2], and still fancy
+[vanilla WoW][4], you should try *mangos-zero*. We provide an authentication
+server where you can manage your users, and a world server which serves game
+content just like the original did back then.
 
 On top of that each update is built by [Travis CI][16] as you can see by the
 image next to the chapter's heading! We do love green builds, and working things.
@@ -20,19 +20,19 @@ copyrighted by [Blizzard Entertainment, Inc.][1]
 
 Requirements
 ------------
-*mangos-zero server* supports a wide range of operating systems, and various
+*mangos-zero* server supports a wide range of operating systems, and various
 compiler platforms. In order to do that, we use various free cross-platform
 libraries and use [CMake][19] to provide a cross-platform build system which
 adapts to your chosen operating system and compiler.
 
 Operating systems
 -----------------
-Currently we do support running the server on these operating systems:
+Currently we do support running *mangos-zero* on these operating systems:
 
-* **Windows**, 32bit and 64bit. [Windows][20] 7 is recommended.
-* **Linux**, 32bit and 64bit. [Debian 7][21] and [Ubuntu 12.04 LTS][22] are
-  recommended.
-* **BSD**, 32bit and 64bit. [FreeBSD][23], [NetBSD][24], [OpenBSD][25] and
+* **Windows**, 32 bit and 64 bit. [Windows][20] 7 or newer is recommended.
+* **Linux**, 32 bit and 64 bit. [Debian 7][21] and [Ubuntu 12.04 LTS][22] are
+  recommended. Other distrutions with similar package versions will work, too.
+* **BSD**, 32 bit and 64 bit. [FreeBSD][23], [NetBSD][24], [OpenBSD][25] and
   [DragonFly][26] are recommended.
 
 Of course, newer versions should work, too. In case of Windows, matching
@@ -40,21 +40,21 @@ server version will work, too.
 
 Compilers
 ---------
-Building the server is currently possible with these compilers:
+Building *mangos-zero* is currently possible with these compilers:
 
-* **Microsoft Visual Studio (Express[^1])**, 32bit and 64bit. Both
+* **Microsoft Visual Studio (Express[^1])**, 32 bit and 64 bit. Both
   [Visual Studio][30] and the Express editions of [Visual Studio][31]
   are supported.
-* **Microsoft Windows SDK**, 32bit and 64bit. The [Windows 7 SDK][32] is
+* **Microsoft Windows SDK**, 32 bit and 64 bit. The [Windows 7 SDK][32] is
   recommeded, as older versions lack compiler features required to build
   the server.
-* **Clang**, 32bit and 64bit. The [Clang compiler][33] can be used to build
-  the server on any supported operating system.[^2]
+* **Clang**, 32 bit and 64 bit. The [Clang compiler][33] can be used on any
+  supported operating system.[^2]
 
 Dependencies
 ------------
-*mangos-zero server* stands on the shoulds of a few well-known Open Source
-libraries, and a few awesome, but less common libraries to prevent us from
+*mangos-zero* server stands on the shoulders of well-known Open Source
+libraries, and a few awesome, but less known libraries to prevent us from
 inventing the wheel again.
 
 * **MySQL** / **PostgreSQL**: to store content, and user data, we rely on
@@ -79,7 +79,7 @@ Optional dependencies
 * **Doxygen**: if you want to export HTML or PDF formatted documentation for the
   *mangos-zero* API, you should install [Doxygen][49].
 * **Lua**: if you want to test drive how *mangos-zero* feels with [Lua][50] as
-  scripting language instead of the scripting library, you will need Lua 5.1
+  scripting language instead of the scripting library, you will need Lua **5.1.x**
   installed.
 
 Discuss
@@ -116,8 +116,8 @@ respects for all of the code used other than [OpenSSL][48].
 
 [^1]: Visual Studio Express versions prior to the 2012 release can only
       build 32 bit applications, unless you install the Windows SDK.
-[^2]: Clang support for Windows is experimental. Failure to compile the
-      server may also relate to the experimental state of the port.
+[^2]: Clang support for Windows is experimental. Failure to compile mangos-zero
+      may also relate to the experimental state of the port.
 
 [1]: http://blizzard.com/ "Blizzard Entertainment Inc. · we love you!"
 [2]: http://blizzard.com/games/wow/ "World of Warcraft · Classic / Vanilla"
