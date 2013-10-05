@@ -337,7 +337,7 @@ elseif(WITH_MOD_SCRIPTDEV2)
     set_target_properties(mangos-game PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
 endif()
 
-if(UNIX)
+if(UNIX AND WITH_MOD_SCRIPTDEV2)
   # Both systems don't have libdl and don't need them
   if (NOT (CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD"))
     target_link_libraries(mangos-game dl)
