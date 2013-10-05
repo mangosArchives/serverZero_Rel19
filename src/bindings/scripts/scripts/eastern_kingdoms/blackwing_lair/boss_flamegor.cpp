@@ -26,8 +26,8 @@
 /**
  * ScriptData
  * SDName:      Boss_Flamegor
- * SD%Complete: 90
- * SDComment:   Thrash is missing
+ * SD%Complete: 100
+ * SDComment:   None
  * SDCategory:  Blackwing Lair
  * EndScriptData
  */
@@ -42,7 +42,7 @@ enum
     SPELL_SHADOW_FLAME          = 22539,
     SPELL_WING_BUFFET           = 23339,
     SPELL_FRENZY                = 23342,                    // This spell periodically triggers fire nova
-    SPELL_THRASH                = 3391,                     // TODO missing
+    SPELL_THRASH                = 3391
 };
 
 struct MANGOS_DLL_DECL boss_flamegorAI : public ScriptedAI
@@ -58,12 +58,14 @@ struct MANGOS_DLL_DECL boss_flamegorAI : public ScriptedAI
     uint32 m_uiShadowFlameTimer;
     uint32 m_uiWingBuffetTimer;
     uint32 m_uiFrenzyTimer;
+    uint32 m_uiTrashTimer;
 
     void Reset() override
     {
         m_uiShadowFlameTimer = 21000;                       // These times are probably wrong
-        m_uiWingBuffetTimer = 35000;
-        m_uiFrenzyTimer = 10000;
+        m_uiWingBuffetTimer  = 35000;
+        m_uiFrenzyTimer      = 10000;
+        m_uiTrashTimer       = 25000;
     }
 
     void Aggro(Unit* /*pWho*/) override
@@ -135,6 +137,15 @@ struct MANGOS_DLL_DECL boss_flamegorAI : public ScriptedAI
         }
         else
             { m_uiFrenzyTimer -= uiDiff; }
+
+        // Thrash Timer
+        if (m_uiTrashTimer < uiDiff)
+        {
+            if (DoCastSpellIfCan(m_creature, SPELL_THRASH) == CAST_OK)
+                { m_uiTrashTimer = 20000; }
+        }
+        else
+            { m_uiTrashTimer -= uiDiff; }
 
         DoMeleeAttackIfReady();
     }

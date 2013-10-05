@@ -26,8 +26,8 @@
 /**
  * ScriptData
  * SDName:      Boss_Firemaw
- * SD%Complete: 80
- * SDComment:   Thrash missing
+ * SD%Complete: 100
+ * SDComment:   None
  * SDCategory:  Blackwing Lair
  * EndScriptData
  */
@@ -40,7 +40,7 @@ enum
     SPELL_SHADOW_FLAME          = 22539,
     SPELL_WING_BUFFET           = 23339,
     SPELL_FLAME_BUFFET          = 23341,
-    SPELL_THRASH                = 3391,                     // TODO, missing
+    SPELL_THRASH                = 3391
 };
 
 struct MANGOS_DLL_DECL boss_firemawAI : public ScriptedAI
@@ -56,12 +56,14 @@ struct MANGOS_DLL_DECL boss_firemawAI : public ScriptedAI
     uint32 m_uiShadowFlameTimer;
     uint32 m_uiWingBuffetTimer;
     uint32 m_uiFlameBuffetTimer;
+    uint32 m_uiTrashTimer;
 
     void Reset() override
     {
         m_uiShadowFlameTimer = 30000;                       // These times are probably wrong
-        m_uiWingBuffetTimer = 24000;
+        m_uiWingBuffetTimer  = 24000;
         m_uiFlameBuffetTimer = 5000;
+        m_uiTrashTimer       = 25000;
     }
 
     void Aggro(Unit* /*pWho*/) override
@@ -132,6 +134,15 @@ struct MANGOS_DLL_DECL boss_firemawAI : public ScriptedAI
         }
         else
             { m_uiFlameBuffetTimer -= uiDiff; }
+
+        // Thrash Timer
+        if (m_uiTrashTimer < uiDiff)
+        {
+            if (DoCastSpellIfCan(m_creature, SPELL_THRASH) == CAST_OK)
+                { m_uiTrashTimer = 20000; }
+        }
+        else
+            { m_uiTrashTimer -= uiDiff; }
 
         DoMeleeAttackIfReady();
     }
