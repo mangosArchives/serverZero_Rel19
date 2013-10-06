@@ -63,7 +63,6 @@ set(headers
     Auth/Sha1.h
 
     Config/Config.h
-    Config/ConfigEnv.h
 
     Database/Database.h
     Database/DatabaseEnv.h
