@@ -37,12 +37,8 @@ set(sources
     Config/Config.cpp
 
     Database/Database.cpp
-    Database/DatabaseMysql.cpp
-    Database/DatabasePostgre.cpp
     Database/DBCFileLoader.cpp
     Database/Field.cpp
-    Database/QueryResultMysql.cpp
-    Database/QueryResultPostgre.cpp
     Database/SqlDelayThread.cpp
     Database/SqlOperations.cpp
     Database/SqlPreparedStatement.cpp
@@ -67,15 +63,10 @@ set(headers
     Database/Database.h
     Database/DatabaseEnv.h
     Database/DatabaseImpl.h
-    Database/DatabaseMysql.h
-    Database/DatabasePostgre.h
     Database/DBCFileLoader.h
     Database/DBCStore.h
     Database/Field.h
-    Database/PGSQLDelayThread.h
     Database/QueryResult.h
-    Database/QueryResultMysql.h
-    Database/QueryResultPostgre.h
     Database/SqlDelayThread.h
     Database/SqlOperations.h
     Database/SqlPreparedStatement.h
@@ -117,19 +108,36 @@ else()
     )
 endif()
 
-set(shared_LIB_SRCS ${sources} ${headers})
-
-mangos_source_group(${shared_LIB_SRCS})
-
 if(WITH_MYSQL AND MYSQL_FOUND)
     include_directories(
         ${MYSQL_INCLUDE_DIR}
+    )
+    list(APPEND sources
+        Database/DatabaseMysql.cpp
+        Database/QueryResultMysql.cpp
+    )
+    list(APPEND headers
+        Database/DatabaseMysql.h
+        Database/QueryResultMysql.h
     )
 elseif(WITH_POSTGRESQL AND PostgreSQL_FOUND)
     include_directories(
         ${PostgreSQL_INCLUDE_DIRS}
     )
+    list(APPEND sources
+        Database/DatabasePostgre.cpp
+        Database/QueryResultPostgre.cpp
+    )
+    list(APPEND headers
+        Database/DatabasePostgre.h
+        Database/PGSQLDelayThread.h
+        Database/QueryResultPostgre.h
+    )
 endif()
+
+set(shared_LIB_SRCS ${sources} ${headers})
+
+mangos_source_group(${shared_LIB_SRCS})
 
 include_directories(
     ${ACE_INCLUDE_DIRS}
