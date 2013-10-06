@@ -152,6 +152,9 @@ respects for all of the code used other than [OpenSSL][48].
 [31]: http://www.microsoft.com/visualstudio/eng/products/visual-studio-express-products "Visual Studio Express 2012 for Windows Desktop"
 [32]: http://www.microsoft.com/en-us/download/details.aspx?id=8279 "Windows SDK for Windows 7 and .NET Framework 4"
 [33]: http://clang.llvm.org/ "clang · a C language family frontend for LLVM"
+[34]: http://git-scm.com/ "Git · Distributed version control system"
+[35]: http://windows.github.com/ "github · windows client"
+[36]: http://www.sourcetreeapp.com/ "SourceTree · Free Mercurial and Git Client for Windows/Mac"
 
 [40]: http://www.mysql.com/ "MySQL · The world's most popular open source database"
 [41]: http://www.mariadb.org/ "MariaDB · An enhanced, drop-in replacement for MySQL"
