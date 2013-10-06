@@ -65,6 +65,8 @@ class MANGOS_DLL_SPEC TargetedMovementGeneratorMedium
 
     protected:
         void _setTargetLocation(T&, bool updateDestination);
+        bool RequiresNewPosition(T& owner, float x, float y, float z) const;
+        virtual float GetDynamicTargetDistance(T& owner, bool forRangeCheck) const { return i_offset; }
 
         ShortTimeTracker i_recheckDistance;
         float i_offset;
@@ -79,8 +81,6 @@ template<class T>
 class MANGOS_DLL_SPEC ChaseMovementGenerator : public TargetedMovementGeneratorMedium<T, ChaseMovementGenerator<T> >
 {
     public:
-        ChaseMovementGenerator(Unit& target)
-            : TargetedMovementGeneratorMedium<T, ChaseMovementGenerator<T> >(target) {}
         ChaseMovementGenerator(Unit& target, float offset, float angle)
             : TargetedMovementGeneratorMedium<T, ChaseMovementGenerator<T> >(target, offset, angle) {}
         ~ChaseMovementGenerator() {}
@@ -97,6 +97,9 @@ class MANGOS_DLL_SPEC ChaseMovementGenerator : public TargetedMovementGeneratorM
         bool EnableWalking() const { return false;}
         bool _lostTarget(T& u) const;
         void _reachTarget(T&);
+
+    protected:
+        float GetDynamicTargetDistance(T& owner, bool forRangeCheck) const override;
 };
 
 template<class T>
@@ -121,8 +124,12 @@ class MANGOS_DLL_SPEC FollowMovementGenerator : public TargetedMovementGenerator
         bool EnableWalking() const;
         bool _lostTarget(T&) const { return false; }
         void _reachTarget(T&) {}
+
     private:
         void _updateSpeed(T& u);
+
+    protected:
+        float GetDynamicTargetDistance(T& owner, bool forRangeCheck) const override;
 };
 
 #endif
