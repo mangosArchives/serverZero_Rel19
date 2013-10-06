@@ -31,7 +31,6 @@ set(SRC_GRP_AUTH
 set(SRC_GRP_CONFIG
     Config/Config.cpp
     Config/Config.h
-    Config/ConfigEnv.h
 )
 
 set(SRC_GRP_DATABASE
