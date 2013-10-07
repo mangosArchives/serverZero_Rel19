@@ -236,6 +236,7 @@ UPDATE creature_template SET ScriptName='npc_lazy_peon' WHERE entry=10556;
 UPDATE creature_template SET ScriptName='npc_ogron' WHERE entry=4983;
 UPDATE creature_template SET ScriptName='npc_morokk' WHERE entry=4500;
 UPDATE creature_template SET ScriptName='npc_private_hendel' WHERE entry=4966;
+UPDATE creature_template SET ScriptName='npc_stinky_ignatz' WHERE entry=4880;
 
 /* EASTERN PLAGUELANDS */
 UPDATE creature_template SET ScriptName='npc_eris_havenfire' WHERE entry=14494;
