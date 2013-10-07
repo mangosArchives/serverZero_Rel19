@@ -27,7 +27,7 @@
  * ScriptData
  * SDName:      Dustwallow_Marsh
  * SD%Complete: 95
- * SDComment:   Quest support: 1173, 1273, 1324.
+ * SDComment:   Quest support: 1173, 1222, 1270, 1273, 1324.
  * SDCategory:  Dustwallow Marsh
  * EndScriptData
  */
