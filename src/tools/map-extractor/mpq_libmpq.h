@@ -38,15 +38,35 @@
 
 using namespace std;
 
+/**
+ * @brief
+ *
+ */
 class MPQArchive
 {
 
     public:
-        mpq_archive mpq_a;
+        mpq_archive mpq_a; /**< TODO */
 
+        /**
+         * @brief
+         *
+         * @param filename
+         */
         MPQArchive(const char* filename);
+        /**
+         * @brief
+         *
+         */
         void close();
 
+        /**
+         * @brief
+         *
+         * @param Input
+         * @param Offset
+         * @return uint32
+         */
         uint32 HashString(const char* Input, uint32 Offset)
         {
             uint32 seed1 = 0x7fed7fed;
@@ -61,6 +81,12 @@ class MPQArchive
 
             return seed1;
         }
+        /**
+         * @brief
+         *
+         * @param Filename
+         * @return mpq_hash
+         */
         mpq_hash GetHashEntry(const char* Filename)
         {
             uint32 index = HashString(Filename, 0);
@@ -79,6 +105,11 @@ class MPQArchive
             return nullhash;
         }
 
+        /**
+         * @brief
+         *
+         * @param filelist
+         */
         void GetFileListTo(vector<string>& filelist)
         {
             mpq_hash hash = GetHashEntry("(listfile)");
@@ -110,33 +141,110 @@ class MPQArchive
             delete[] buffer;
         }
 };
+/**
+ * @brief
+ *
+ */
 typedef std::deque<MPQArchive*> ArchiveSet;
 
+/**
+ * @brief
+ *
+ */
 class MPQFile
 {
         //MPQHANDLE handle;
-        bool eof;
-        char* buffer;
-        size_t pointer, size;
+        bool eof; /**< TODO */
+        char* buffer; /**< TODO */
+        size_t pointer, size; /**< TODO */
 
-        // disable copying
+        /**
+         * @brief disable copying
+         *
+         * @param f
+         */
         MPQFile(const MPQFile& f) {}
+        /**
+         * @brief
+         *
+         * @param f
+         */
         void operator=(const MPQFile& f) {}
 
     public:
-        MPQFile(const char* filename);    // filenames are not case sensitive
+        /**
+         * @brief
+         *
+         * @param filename filenames are not case sensitive
+         */
+        MPQFile(const char* filename);
+        /**
+         * @brief
+         *
+         */
         ~MPQFile() { close(); }
+        /**
+         * @brief
+         *
+         * @param dest
+         * @param bytes
+         * @return size_t
+         */
         size_t read(void* dest, size_t bytes);
+        /**
+         * @brief
+         *
+         * @return size_t
+         */
         size_t getSize() { return size; }
+        /**
+         * @brief
+         *
+         * @return size_t
+         */
         size_t getPos() { return pointer; }
+        /**
+         * @brief
+         *
+         * @return char
+         */
         char* getBuffer() { return buffer; }
+        /**
+         * @brief
+         *
+         * @return char
+         */
         char* getPointer() { return buffer + pointer; }
+        /**
+         * @brief
+         *
+         * @return bool
+         */
         bool isEof() { return eof; }
+        /**
+         * @brief
+         *
+         * @param offset
+         */
         void seek(int offset);
+        /**
+         * @brief
+         *
+         * @param offset
+         */
         void seekRelative(int offset);
+        /**
+         * @brief
+         *
+         */
         void close();
 };
 
+/**
+ * @brief
+ *
+ * @param fcc
+ */
 inline void flipcc(char* fcc)
 {
     char t;
