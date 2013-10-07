@@ -25,7 +25,7 @@
 #ifndef _AUTHCRYPT_H
 #define _AUTHCRYPT_H
 
-#include <Common.h>
+#include "Common.h"
 #include <vector>
 
 class BigNumber;
