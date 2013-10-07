@@ -382,9 +382,9 @@ bool Matrix4::operator==(const Matrix4& other) const {
     // If the bit patterns are identical, they must be
     // the same matrix.  If not, they *might* still have
     // equal elements due to floating point weirdness.
-    if (memcmp(this, &other, sizeof(Matrix4) == 0)) {
+    if (memcmp(this, &other, sizeof(Matrix4)) == 0) {
         return true;
-    } 
+    }
 
     for (int r = 0; r < 4; ++r) {
         for (int c = 0; c < 4; ++c) {
