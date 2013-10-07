@@ -25,7 +25,7 @@
 
 #include "precompiled.h"
 #include "system.h"
-#include "../config.h"
+#include "config-sd2.h"
 #include "ProgressBar.h"
 #include "ObjectMgr.h"
 #include "Database/DatabaseEnv.h"

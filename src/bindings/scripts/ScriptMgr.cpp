@@ -25,13 +25,13 @@
 
 #include "precompiled.h"
 #include "Config/Config.h"
-#include "config.h"
+#include "config-sd2.h"
 #include "Database/DatabaseEnv.h"
 #include "DBCStores.h"
 #include "ObjectMgr.h"
 #include "ProgressBar.h"
-#include "../system/ScriptLoader.h"
-#include "../system/system.h"
+#include "system/ScriptLoader.h"
+#include "system/system.h"
 #include "../../../game/ScriptMgr.h"
 
 typedef std::vector<Script*> SDScriptVec;

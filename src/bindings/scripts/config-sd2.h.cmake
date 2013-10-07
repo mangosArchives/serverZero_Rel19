@@ -48,7 +48,7 @@
 
 // The path to config files
 #ifndef SYSCONFDIR
-  #define SYSCONFDIR ""
+  #define SYSCONFDIR "${CONF_DIR}/"
 #endif
 
 #if PLATFORM == PLATFORM_WINDOWS

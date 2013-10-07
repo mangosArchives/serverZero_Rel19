@@ -49,9 +49,15 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/include/
     ${CMAKE_CURRENT_SOURCE_DIR}/base/
+    ${CMAKE_CURRENT_SOURCE_DIR}/system/
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_BINARY_DIR}
     ${CMAKE_BINARY_DIR}/src/shared/
 )
+
+#-----------------------------------------------------------------------------
+# Dump generated headers and add custom target for version control information
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-sd2.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-sd2.h)
 
 #-----------------------------------------------------------------------------
 # Build the scriptdev2 library
