@@ -1,9 +1,9 @@
 # - Try to find Termcap
 # Once done this will define
 #
-#  TERMCAP_FOUND - system has Termcap
-#  TERMCAP_INCLUDE_DIR - the Termcap include directory
-#  TERMCAP_LIBRARIES - Link these to use Termcap
+#  TERMCAP_FOUND        - system has Termcap
+#  TERMCAP_INCLUDE_DIR  - the Termcap include directory
+#  TERMCAP_LIBRARIES    - Link these to use Termcap
 
 FIND_PATH(TERMCAP_INCLUDE_DIR bzlib.h )
 

@@ -1,10 +1,10 @@
 # - Try to find MySQL
 # Once done this will define
 #
-#  MYSQL_FOUND - system has MySQL
-#  MYSQL_INCLUDE_DIR - the MySQL include directory
-#  MYSQL_LIBRARIES - Link these to use MySQL
-#  MYSQL_LIB_DIR - Path to MYSQL_LIBRARIES
+#  MYSQL_FOUND          - system has MySQL
+#  MYSQL_INCLUDE_DIR    - the MySQL include directory
+#  MYSQL_LIBRARIES      - Link these to use MySQL
+#  MYSQL_LIB_DIR        - Path to MYSQL_LIBRARIES
 
 if(WIN32)
    find_path(MYSQL_INCLUDE_DIR

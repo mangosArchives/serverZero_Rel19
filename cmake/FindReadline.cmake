@@ -1,9 +1,9 @@
 # - Try to find Readline
 # Once done this will define
 #
-#  READLINE_FOUND - system has Readline
+#  READLINE_FOUND       - system has Readline
 #  READLINE_INCLUDE_DIR - the Readline include directory
-#  READLINE_LIBRARIES - Link these to use Readline
+#  READLINE_LIBRARIES   - Link these to use Readline
 
 include(FindTermcap)
 

@@ -1,9 +1,9 @@
-# Try to find the ACE library
+# - Try to find ACE
+# Once done this will define
 #
-# Variables set:
-#   ACE_FOUND
-#   ACE_LIBRARIES
-#   ACE_INCLUDE_DIRS
+#  ACE_FOUND            -  system has ACE
+#  ACE_INCLUDE_DIRS     - the ACE include directory
+#  ACE_LIBRARIES        - Link to these to use ACE
 
 # Copyright: (C) 2009 RobotCub Consortium
 # Copyright: (C) 2013  iCub Facility, Istituto Italiano di Tecnologia
