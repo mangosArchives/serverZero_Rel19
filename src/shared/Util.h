@@ -30,61 +30,162 @@
 #include <string>
 #include <vector>
 
+/**
+ * @brief
+ *
+ */
 typedef std::vector<std::string> Tokens;
 
+/**
+ * @brief
+ *
+ * @param src
+ * @param sep
+ * @return Tokens
+ */
 Tokens StrSplit(const std::string& src, const std::string& sep);
+/**
+ * @brief
+ *
+ * @param data
+ * @param index
+ * @return uint32
+ */
 uint32 GetUInt32ValueFromArray(Tokens const& data, uint16 index);
+/**
+ * @brief
+ *
+ * @param data
+ * @param index
+ * @return float
+ */
 float GetFloatValueFromArray(Tokens const& data, uint16 index);
 
+/**
+ * @brief
+ *
+ * @param src
+ */
 void stripLineInvisibleChars(std::string& src);
 
+/**
+ * @brief
+ *
+ * @param timeInSecs
+ * @param shortText
+ * @param hoursOnly
+ * @return std::string
+ */
 std::string secsToTimeString(time_t timeInSecs, bool shortText = false, bool hoursOnly = false);
+/**
+ * @brief
+ *
+ * @param timestring
+ * @return uint32
+ */
 uint32 TimeStringToSecs(const std::string& timestring);
+/**
+ * @brief
+ *
+ * @param t
+ * @return std::string
+ */
 std::string TimeToTimestampStr(time_t t);
 
+/**
+ * @brief
+ *
+ * @param secs
+ * @return uint32
+ */
 inline uint32 secsToTimeBitFields(time_t secs)
 {
     tm* lt = localtime(&secs);
     return (lt->tm_year - 100) << 24 | lt->tm_mon  << 20 | (lt->tm_mday - 1) << 14 | lt->tm_wday << 11 | lt->tm_hour << 6 | lt->tm_min;
 }
 
-/* Return a random number in the range min..max; (max-min) must be smaller than 32768. */
+/**
+ * @brief Return a random number in the range min..max; (max-min) must be smaller than 32768.
+ *
+ * @param min
+ * @param max
+ * @return int32
+ */
 MANGOS_DLL_SPEC int32 irand(int32 min, int32 max);
 
-/* Return a random number in the range min..max (inclusive). For reliable results, the difference
-* between max and min should be less than RAND32_MAX. */
+/**
+ * @brief Return a random number in the range min..max (inclusive).
+ *
+ * For reliable results, the difference between max and min should be less than
+ * RAND32_MAX.
+ *
+ * @param min
+ * @param max
+ * @return uint32
+ */
 MANGOS_DLL_SPEC uint32 urand(uint32 min, uint32 max);
 
-/* Return a random number in the range min..max (inclusive). */
+/**
+ * @brief Return a random number in the range min..max (inclusive).
+ *
+ * @param min
+ * @param max
+ * @return float
+ */
 MANGOS_DLL_SPEC float frand(float min, float max);
 
-/* Return a random number in the range 0 .. RAND32_MAX. */
+/**
+ * @brief Return a random number in the range 0 .. RAND32_MAX.
+ *
+ * @return int32
+ */
 MANGOS_DLL_SPEC int32 rand32();
 
 /**
- * Return a random double from 0.0 to 1.0 (exclusive). Floats support only 7 valid decimal digits.
- * A double supports up to 15 valid decimal digits and is used internally (RAND32_MAX has 10 digits).
- * With an FPU, there is usually no difference in performance between float and double.
+ * @brief Return a random double from 0.0 to 1.0 (exclusive).
+ *
+ * Floats support only 7 valid decimal digits. A double supports up to 15 valid
+ * decimaldigits and is used internally (RAND32_MAX has 10 digits). With an FPU
+ * there is usually no difference in performance between float and double.
+ *
+ * @return double
  */
 MANGOS_DLL_SPEC double rand_norm(void);
 
+/**
+ * @brief
+ *
+ * @return float
+ */
 MANGOS_DLL_SPEC float rand_norm_f(void);
 
 /**
- * Return a random double from 0.0 to 99.9999999999999. Floats support only 7 valid decimal digits.
- * A double supports up to 15 valid decimal digits and is used internaly (RAND32_MAX has 10 digits).
- * With an FPU, there is usually no difference in performance between float and double.
+ * @brief Return a random double from 0.0 to 99.9999999999999.
+ *
+ * Floats support only 7 valid decimal digits. A double supports up to 15 valid
+ * decimal digits and is used internaly (RAND32_MAX has 10 digits). With an FPU
+ * there is usually no difference in performance between float and double.
+ *
+ * @return double
  */
 MANGOS_DLL_SPEC double rand_chance(void);
 
+/**
+ * @brief
+ *
+ * @return float
+ */
 MANGOS_DLL_SPEC float rand_chance_f(void);
 
 /**
- * Return true if a random roll gets above the given chance, ie: if the given
- * value is 0 the chance to succeed is also 0 which gives false as the return value at all
- * cases. On the other hand, giving 100 as the chance will make sure that we always succeed
- * @param chance how big the chance to succeed is. Value between 0.0f-100.0f
- * @return Return true if a random roll fits in the specified chance (range 0-100).
+ * @brief Return true if a random roll gets above the given chance
+ *
+ * ie: if the given value is 0 the chance to succeed is also 0 which gives false
+ * as the return value at all cases. On the other hand, giving 100 as the chance
+ * will make sure that we always succeed
+ *
+ * @param chance How big the chance to succeed is. Value between 0.0f-100.0f
+ * @return bool Return true if a random roll fits in the specified chance (range 0-100).
  */
 inline bool roll_chance_f(float chance)
 {
@@ -92,13 +193,23 @@ inline bool roll_chance_f(float chance)
 }
 
 /**
- * Return true if a random roll fits in the specified chance (range 0-100).
+ * @brief Return true if a random roll fits in the specified chance (range 0-100).
+ *
+ * @param chance
+ * @return bool
  */
 inline bool roll_chance_i(int chance)
 {
     return chance > irand(0, 99);
 }
 
+/**
+ * @brief
+ *
+ * @param var
+ * @param val
+ * @param apply
+ */
 inline void ApplyModUInt32Var(uint32& var, int32 val, bool apply)
 {
     int32 cur = var;
@@ -108,6 +219,13 @@ inline void ApplyModUInt32Var(uint32& var, int32 val, bool apply)
     var = cur;
 }
 
+/**
+ * @brief
+ *
+ * @param var
+ * @param val
+ * @param apply
+ */
 inline void ApplyModFloatVar(float& var, float  val, bool apply)
 {
     var += (apply ? val : -val);
@@ -115,6 +233,13 @@ inline void ApplyModFloatVar(float& var, float  val, bool apply)
         { var = 0; }
 }
 
+/**
+ * @brief
+ *
+ * @param var
+ * @param val
+ * @param apply
+ */
 inline void ApplyPercentModFloatVar(float& var, float val, bool apply)
 {
     if (val == -100.0f)     // prevent set var to zero
@@ -122,21 +247,76 @@ inline void ApplyPercentModFloatVar(float& var, float val, bool apply)
     var *= (apply ? (100.0f + val) / 100.0f : 100.0f / (100.0f + val));
 }
 
+/**
+ * @brief
+ *
+ * @param utf8str
+ * @param wstr
+ * @return bool
+ */
 bool Utf8toWStr(const std::string& utf8str, std::wstring& wstr);
-// in wsize==max size of buffer, out wsize==real string size
+/**
+ * @brief
+ *
+ * @param utf8str
+ * @param csize
+ * @param wstr
+ * @param wsize
+ * @return bool
+ */
 bool Utf8toWStr(char const* utf8str, size_t csize, wchar_t* wstr, size_t& wsize);
+/**
+ * @brief
+ *
+ * @param utf8str
+ * @param wstr
+ * @param wsize
+ * @return bool
+ */
 inline bool Utf8toWStr(const std::string& utf8str, wchar_t* wstr, size_t& wsize)
 {
     return Utf8toWStr(utf8str.c_str(), utf8str.size(), wstr, wsize);
 }
 
+/**
+ * @brief
+ *
+ * @param wstr
+ * @param utf8str
+ * @return bool
+ */
 bool WStrToUtf8(std::wstring wstr, std::string& utf8str);
-// size==real string size
+/**
+ * @brief
+ *
+ * @param wstr
+ * @param size
+ * @param utf8str
+ * @return bool
+ */
 bool WStrToUtf8(wchar_t* wstr, size_t size, std::string& utf8str);
 
+/**
+ * @brief
+ *
+ * @param utf8str
+ * @return size_t
+ */
 size_t utf8length(std::string& utf8str);                    // set string to "" if invalid utf8 sequence
+/**
+ * @brief
+ *
+ * @param utf8str
+ * @param len
+ */
 void utf8truncate(std::string& utf8str, size_t len);
 
+/**
+ * @brief
+ *
+ * @param wchar
+ * @return bool
+ */
 inline bool isBasicLatinCharacter(wchar_t wchar)
 {
     if (wchar >= L'a' && wchar <= L'z')                     // LATIN SMALL LETTER A - LATIN SMALL LETTER Z
@@ -146,6 +326,12 @@ inline bool isBasicLatinCharacter(wchar_t wchar)
     return false;
 }
 
+/**
+ * @brief
+ *
+ * @param wchar
+ * @return bool
+ */
 inline bool isExtendedLatinCharacter(wchar_t wchar)
 {
     if (isBasicLatinCharacter(wchar))
@@ -167,6 +353,12 @@ inline bool isExtendedLatinCharacter(wchar_t wchar)
     return false;
 }
 
+/**
+ * @brief
+ *
+ * @param wchar
+ * @return bool
+ */
 inline bool isCyrillicCharacter(wchar_t wchar)
 {
     if (wchar >= 0x0410 && wchar <= 0x044F)                 // CYRILLIC CAPITAL LETTER A - CYRILLIC SMALL LETTER YA
@@ -176,6 +368,12 @@ inline bool isCyrillicCharacter(wchar_t wchar)
     return false;
 }
 
+/**
+ * @brief
+ *
+ * @param wchar
+ * @return bool
+ */
 inline bool isEastAsianCharacter(wchar_t wchar)
 {
     if (wchar >= 0x1100 && wchar <= 0x11F9)                 // Hangul Jamo
@@ -197,26 +395,56 @@ inline bool isEastAsianCharacter(wchar_t wchar)
     return false;
 }
 
+/**
+ * @brief
+ *
+ * @param c
+ * @return bool
+ */
 inline bool isWhiteSpace(char c)
 {
     return ::isspace(int(c)) != 0;
 }
 
+/**
+ * @brief
+ *
+ * @param wchar
+ * @return bool
+ */
 inline bool isNumeric(wchar_t wchar)
 {
     return (wchar >= L'0' && wchar <= L'9');
 }
 
+/**
+ * @brief
+ *
+ * @param c
+ * @return bool
+ */
 inline bool isNumeric(char c)
 {
     return (c >= '0' && c <= '9');
 }
 
+/**
+ * @brief
+ *
+ * @param wchar
+ * @return bool
+ */
 inline bool isNumericOrSpace(wchar_t wchar)
 {
     return isNumeric(wchar) || wchar == L' ';
 }
 
+/**
+ * @brief
+ *
+ * @param str
+ * @return bool
+ */
 inline bool isNumeric(char const* str)
 {
     for (char const* c = str; *c; ++c)
@@ -226,6 +454,12 @@ inline bool isNumeric(char const* str)
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param str
+ * @return bool
+ */
 inline bool isNumeric(std::string const& str)
 {
     for (std::string::const_iterator itr = str.begin(); itr != str.end(); ++itr)
@@ -235,6 +469,12 @@ inline bool isNumeric(std::string const& str)
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param str
+ * @return bool
+ */
 inline bool isNumeric(std::wstring const& str)
 {
     for (std::wstring::const_iterator itr = str.begin(); itr != str.end(); ++itr)
@@ -244,6 +484,13 @@ inline bool isNumeric(std::wstring const& str)
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param wstr
+ * @param numericOrSpace
+ * @return bool
+ */
 inline bool isBasicLatinString(std::wstring wstr, bool numericOrSpace)
 {
     for (size_t i = 0; i < wstr.size(); ++i)
@@ -252,6 +499,13 @@ inline bool isBasicLatinString(std::wstring wstr, bool numericOrSpace)
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param wstr
+ * @param numericOrSpace
+ * @return bool
+ */
 inline bool isExtendedLatinString(std::wstring wstr, bool numericOrSpace)
 {
     for (size_t i = 0; i < wstr.size(); ++i)
@@ -260,6 +514,13 @@ inline bool isExtendedLatinString(std::wstring wstr, bool numericOrSpace)
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param wstr
+ * @param numericOrSpace
+ * @return bool
+ */
 inline bool isCyrillicString(std::wstring wstr, bool numericOrSpace)
 {
     for (size_t i = 0; i < wstr.size(); ++i)
@@ -268,6 +529,13 @@ inline bool isCyrillicString(std::wstring wstr, bool numericOrSpace)
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param wstr
+ * @param numericOrSpace
+ * @return bool
+ */
 inline bool isEastAsianString(std::wstring wstr, bool numericOrSpace)
 {
     for (size_t i = 0; i < wstr.size(); ++i)
@@ -276,16 +544,32 @@ inline bool isEastAsianString(std::wstring wstr, bool numericOrSpace)
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param str
+ */
 inline void strToUpper(std::string& str)
 {
     std::transform(str.begin(), str.end(), str.begin(), toupper);
 }
 
+/**
+ * @brief
+ *
+ * @param str
+ */
 inline void strToLower(std::string& str)
 {
     std::transform(str.begin(), str.end(), str.begin(), tolower);
 }
 
+/**
+ * @brief
+ *
+ * @param wchar
+ * @return wchar_t
+ */
 inline wchar_t wcharToUpper(wchar_t wchar)
 {
     if (wchar >= L'a' && wchar <= L'z')                     // LATIN SMALL LETTER A - LATIN SMALL LETTER Z
@@ -309,11 +593,23 @@ inline wchar_t wcharToUpper(wchar_t wchar)
     return wchar;
 }
 
+/**
+ * @brief
+ *
+ * @param wchar
+ * @return wchar_t
+ */
 inline wchar_t wcharToUpperOnlyLatin(wchar_t wchar)
 {
     return isBasicLatinCharacter(wchar) ? wcharToUpper(wchar) : wchar;
 }
 
+/**
+ * @brief
+ *
+ * @param wchar
+ * @return wchar_t
+ */
 inline wchar_t wcharToLower(wchar_t wchar)
 {
     if (wchar >= L'A' && wchar <= L'Z')                     // LATIN CAPITAL LETTER A - LATIN CAPITAL LETTER Z
@@ -337,24 +633,87 @@ inline wchar_t wcharToLower(wchar_t wchar)
     return wchar;
 }
 
+/**
+ * @brief
+ *
+ * @param str
+ */
 inline void wstrToUpper(std::wstring& str)
 {
     std::transform(str.begin(), str.end(), str.begin(), wcharToUpper);
 }
 
+/**
+ * @brief
+ *
+ * @param str
+ */
 inline void wstrToLower(std::wstring& str)
 {
     std::transform(str.begin(), str.end(), str.begin(), wcharToLower);
 }
 
+/**
+ * @brief
+ *
+ * @param utf8str
+ * @param conStr
+ * @return bool
+ */
 bool utf8ToConsole(const std::string& utf8str, std::string& conStr);
+/**
+ * @brief
+ *
+ * @param conStr
+ * @param utf8str
+ * @return bool
+ */
 bool consoleToUtf8(const std::string& conStr, std::string& utf8str);
+/**
+ * @brief
+ *
+ * @param str
+ * @param search
+ * @return bool
+ */
 bool Utf8FitTo(const std::string& str, std::wstring search);
+/**
+ * @brief
+ *
+ * @param out
+ * @param str...
+ */
 void utf8printf(FILE* out, const char* str, ...);
+/**
+ * @brief
+ *
+ * @param out
+ * @param str
+ * @param ap
+ */
 void vutf8printf(FILE* out, const char* str, va_list* ap);
 
+/**
+ * @brief
+ *
+ * @param ipaddress
+ * @return bool
+ */
 bool IsIPAddress(char const* ipaddress);
+/**
+ * @brief
+ *
+ * @param filename
+ * @return uint32
+ */
 uint32 CreatePIDFile(const std::string& filename);
 
+/**
+ * @brief
+ *
+ * @param bytes
+ * @param arrayLen
+ * @param result
+ */
 void hexEncodeByteArray(uint8* bytes, uint32 arrayLen, std::string& result);
 #endif
