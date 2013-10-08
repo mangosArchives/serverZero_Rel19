@@ -33,27 +33,83 @@
 
 namespace MMAP
 {
-    // this class gathers all debug info holding and output
+    /**
+     * @brief this class gathers all debug info holding and output
+     *
+     */
     struct IntermediateValues
     {
-        rcHeightfield* heightfield;
-        rcCompactHeightfield* compactHeightfield;
-        rcContourSet* contours;
-        rcPolyMesh* polyMesh;
-        rcPolyMeshDetail* polyMeshDetail;
+        rcHeightfield* heightfield; /**< TODO */
+        rcCompactHeightfield* compactHeightfield; /**< TODO */
+        rcContourSet* contours; /**< TODO */
+        rcPolyMesh* polyMesh; /**< TODO */
+        rcPolyMeshDetail* polyMeshDetail; /**< TODO */
 
+        /**
+         * @brief
+         *
+         */
         IntermediateValues() :  compactHeightfield(NULL), heightfield(NULL),
             contours(NULL), polyMesh(NULL), polyMeshDetail(NULL) {}
+        /**
+         * @brief
+         *
+         */
         ~IntermediateValues();
 
+        /**
+         * @brief
+         *
+         * @param mapID
+         * @param tileX
+         * @param tileY
+         */
         void writeIV(uint32 mapID, uint32 tileX, uint32 tileY);
 
+        /**
+         * @brief
+         *
+         * @param file
+         * @param mesh
+         */
         void debugWrite(FILE* file, const rcHeightfield* mesh);
+        /**
+         * @brief
+         *
+         * @param file
+         * @param chf
+         */
         void debugWrite(FILE* file, const rcCompactHeightfield* chf);
+        /**
+         * @brief
+         *
+         * @param file
+         * @param cs
+         */
         void debugWrite(FILE* file, const rcContourSet* cs);
+        /**
+         * @brief
+         *
+         * @param file
+         * @param mesh
+         */
         void debugWrite(FILE* file, const rcPolyMesh* mesh);
+        /**
+         * @brief
+         *
+         * @param file
+         * @param mesh
+         */
         void debugWrite(FILE* file, const rcPolyMeshDetail* mesh);
 
+        /**
+         * @brief
+         *
+         * @param mapID
+         * @param tileX
+         * @param tileY
+         * @param meshData
+         */
         void generateObjFile(uint32 mapID, uint32 tileX, uint32 tileY, MeshData& meshData);
     };
 }

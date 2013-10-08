@@ -32,22 +32,50 @@
 
 class ADTFile;
 
+/**
+ * @brief
+ *
+ */
 class WDTFile
 {
     public:
+        /**
+         * @brief
+         *
+         * @param file_name
+         * @param file_name1
+         */
         WDTFile(char* file_name, char* file_name1);
+        /**
+         * @brief
+         *
+         */
         ~WDTFile(void);
+        /**
+         * @brief
+         *
+         * @param map_id
+         * @param mapID
+         * @return bool
+         */
         bool init(char* map_id, unsigned int mapID);
 
-        string* gWmoInstansName;
-        int gnWMO, nMaps;
+        string* gWmoInstansName; /**< TODO */
+        int gnWMO, nMaps; /**< TODO */
 
+        /**
+         * @brief
+         *
+         * @param x
+         * @param z
+         * @return ADTFile
+         */
         ADTFile* GetMap(int x, int z);
 
     private:
-        MPQFile WDT;
-        bool maps[64][64];
-        string filename;
+        MPQFile WDT; /**< TODO */
+        bool maps[64][64]; /**< TODO */
+        string filename; /**< TODO */
 };
 
 #endif

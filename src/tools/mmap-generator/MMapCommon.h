@@ -44,6 +44,13 @@ using namespace std;
 
 namespace MMAP
 {
+    /**
+     * @brief
+     *
+     * @param filter
+     * @param str
+     * @return bool
+     */
     inline bool matchWildcardFilter(const char* filter, const char* str)
     {
         if (!filter || !str)
@@ -76,12 +83,25 @@ namespace MMAP
         return ((*filter == '\0' || (*filter == '*' && *++filter == '\0')) && *str == '\0');
     }
 
+    /**
+     * @brief
+     *
+     */
     enum ListFilesResult
     {
         LISTFILE_DIRECTORY_NOT_FOUND = 0,
         LISTFILE_OK = 1
     };
 
+    /**
+     * @brief
+     *
+     * @param fileList
+     * @param dirpath
+     * @param filter
+     * @param includeSubDirs
+     * @return ListFilesResult
+     */
     inline ListFilesResult getDirContents(vector<string>& fileList, string dirpath = ".", string filter = "*", bool includeSubDirs = false)
     {
 #ifdef WIN32

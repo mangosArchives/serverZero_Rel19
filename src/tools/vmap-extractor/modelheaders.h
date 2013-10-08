@@ -34,97 +34,109 @@ typedef int int32; */
 
 #pragma pack(push,1)
 
+/**
+ * @brief
+ *
+ */
 struct ModelHeader
 {
-    char id[4];
-    uint8 version[4];
-    uint32 nameLength;
-    uint32 nameOfs;
-    uint32 type;
-    uint32 nGlobalSequences;
-    uint32 ofsGlobalSequences;
-    uint32 nAnimations;
-    uint32 ofsAnimations;
-    uint32 nAnimationLookup;
-    uint32 ofsAnimationLookup;
-    uint32 nD;
-    uint32 ofsD;
-    uint32 nBones;
-    uint32 ofsBones;
-    uint32 nKeyBoneLookup;
-    uint32 ofsKeyBoneLookup;
-    uint32 nVertices;
-    uint32 ofsVertices;
-    uint32 nViews;
-    uint32 ofsViews;
-    uint32 nColors;
-    uint32 ofsColors;
-    uint32 nTextures;
-    uint32 ofsTextures;
-    uint32 nTransparency;
-    uint32 ofsTransparency;
-    uint32 nI;
-    uint32 ofsI;
-    uint32 nTextureanimations;
-    uint32 ofsTextureanimations;
-    uint32 nTexReplace;
-    uint32 ofsTexReplace;
-    uint32 nRenderFlags;
-    uint32 ofsRenderFlags;
-    uint32 nBoneLookupTable;
-    uint32 ofsBoneLookupTable;
-    uint32 nTexLookup;
-    uint32 ofsTexLookup;
-    uint32 nTexUnits;
-    uint32 ofsTexUnits;
-    uint32 nTransLookup;
-    uint32 ofsTransLookup;
-    uint32 nTexAnimLookup;
-    uint32 ofsTexAnimLookup;
-    float floats[14];
-    uint32 nBoundingTriangles;
-    uint32 ofsBoundingTriangles;
-    uint32 nBoundingVertices;
-    uint32 ofsBoundingVertices;
-    uint32 nBoundingNormals;
-    uint32 ofsBoundingNormals;
-    uint32 nAttachments;
-    uint32 ofsAttachments;
-    uint32 nAttachLookup;
-    uint32 ofsAttachLookup;
-    uint32 nAttachments_2;
-    uint32 ofsAttachments_2;
-    uint32 nLights;
-    uint32 ofsLights;
-    uint32 nCameras;
-    uint32 ofsCameras;
-    uint32 nCameraLookup;
-    uint32 ofsCameraLookup;
-    uint32 nRibbonEmitters;
-    uint32 ofsRibbonEmitters;
-    uint32 nParticleEmitters;
-    uint32 ofsParticleEmitters;
+    char id[4]; /**< TODO */
+    uint8 version[4]; /**< TODO */
+    uint32 nameLength; /**< TODO */
+    uint32 nameOfs; /**< TODO */
+    uint32 type; /**< TODO */
+    uint32 nGlobalSequences; /**< TODO */
+    uint32 ofsGlobalSequences; /**< TODO */
+    uint32 nAnimations; /**< TODO */
+    uint32 ofsAnimations; /**< TODO */
+    uint32 nAnimationLookup; /**< TODO */
+    uint32 ofsAnimationLookup; /**< TODO */
+    uint32 nD; /**< TODO */
+    uint32 ofsD; /**< TODO */
+    uint32 nBones; /**< TODO */
+    uint32 ofsBones; /**< TODO */
+    uint32 nKeyBoneLookup; /**< TODO */
+    uint32 ofsKeyBoneLookup; /**< TODO */
+    uint32 nVertices; /**< TODO */
+    uint32 ofsVertices; /**< TODO */
+    uint32 nViews; /**< TODO */
+    uint32 ofsViews; /**< TODO */
+    uint32 nColors; /**< TODO */
+    uint32 ofsColors; /**< TODO */
+    uint32 nTextures; /**< TODO */
+    uint32 ofsTextures; /**< TODO */
+    uint32 nTransparency; /**< TODO */
+    uint32 ofsTransparency; /**< TODO */
+    uint32 nI; /**< TODO */
+    uint32 ofsI; /**< TODO */
+    uint32 nTextureanimations; /**< TODO */
+    uint32 ofsTextureanimations; /**< TODO */
+    uint32 nTexReplace; /**< TODO */
+    uint32 ofsTexReplace; /**< TODO */
+    uint32 nRenderFlags; /**< TODO */
+    uint32 ofsRenderFlags; /**< TODO */
+    uint32 nBoneLookupTable; /**< TODO */
+    uint32 ofsBoneLookupTable; /**< TODO */
+    uint32 nTexLookup; /**< TODO */
+    uint32 ofsTexLookup; /**< TODO */
+    uint32 nTexUnits; /**< TODO */
+    uint32 ofsTexUnits; /**< TODO */
+    uint32 nTransLookup; /**< TODO */
+    uint32 ofsTransLookup; /**< TODO */
+    uint32 nTexAnimLookup; /**< TODO */
+    uint32 ofsTexAnimLookup; /**< TODO */
+    float floats[14]; /**< TODO */
+    uint32 nBoundingTriangles; /**< TODO */
+    uint32 ofsBoundingTriangles; /**< TODO */
+    uint32 nBoundingVertices; /**< TODO */
+    uint32 ofsBoundingVertices; /**< TODO */
+    uint32 nBoundingNormals; /**< TODO */
+    uint32 ofsBoundingNormals; /**< TODO */
+    uint32 nAttachments; /**< TODO */
+    uint32 ofsAttachments; /**< TODO */
+    uint32 nAttachLookup; /**< TODO */
+    uint32 ofsAttachLookup; /**< TODO */
+    uint32 nAttachments_2; /**< TODO */
+    uint32 ofsAttachments_2; /**< TODO */
+    uint32 nLights; /**< TODO */
+    uint32 ofsLights; /**< TODO */
+    uint32 nCameras; /**< TODO */
+    uint32 ofsCameras; /**< TODO */
+    uint32 nCameraLookup; /**< TODO */
+    uint32 ofsCameraLookup; /**< TODO */
+    uint32 nRibbonEmitters; /**< TODO */
+    uint32 ofsRibbonEmitters; /**< TODO */
+    uint32 nParticleEmitters; /**< TODO */
+    uint32 ofsParticleEmitters; /**< TODO */
 
 };
 
+/**
+ * @brief
+ *
+ */
 struct ModelVertex
 {
-    Vec3D pos;
-    uint8 weights[4];
-    uint8 bones[4];
-    Vec3D normal;
-    Vec2D texcoords;
-    int unk1, unk2; // always 0,0 so this is probably unused
+    Vec3D pos; /**< TODO */
+    uint8 weights[4]; /**< TODO */
+    uint8 bones[4]; /**< TODO */
+    Vec3D normal; /**< TODO */
+    Vec2D texcoords; /**< TODO */
+    int unk1, unk2; /**< always 0,0 so this is probably unused */
 };
 
+/**
+ * @brief
+ *
+ */
 struct ModelView
 {
-    uint32 nIndex, ofsIndex; // Vertices in this model (index into vertices[])
-    uint32 nTris, ofsTris;   // indices
-    uint32 nProps, ofsProps; // additional vtx properties
-    uint32 nSub, ofsSub;     // materials/renderops/submeshes
-    uint32 nTex, ofsTex;     // material properties/textures
-    int32 lod;               // LOD bias?
+    uint32 nIndex, ofsIndex; /**< Vertices in this model (index into vertices[]) */
+    uint32 nTris, ofsTris;   /**< indices */
+    uint32 nProps, ofsProps; /**< additional vtx properties */
+    uint32 nSub, ofsSub;     /**< materials/renderops/submeshes */
+    uint32 nTex, ofsTex;     /**< material properties/textures */
+    int32 lod;               /**< LOD bias? */
 };
 
 #pragma pack(pop)

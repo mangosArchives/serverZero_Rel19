@@ -34,26 +34,61 @@
 class WMOInstance;
 class MPQFile;
 
+/**
+ * @brief
+ *
+ * @param v
+ * @return Vec3D
+ */
 Vec3D fixCoordSystem(Vec3D v);
 
+/**
+ * @brief
+ *
+ */
 class Model
 {
     public:
-        ModelHeader header;
-        ModelVertex* origVertices;
-        Vec3D* vertices;
-        uint16* indices;
-        size_t nIndices;
+        ModelHeader header; /**< TODO */
+        ModelVertex* origVertices; /**< TODO */
+        Vec3D* vertices; /**< TODO */
+        uint16* indices; /**< TODO */
+        size_t nIndices; /**< TODO */
 
+        /**
+         * @brief
+         *
+         * @param failedPaths
+         * @return bool
+         */
         bool open(StringSet& failedPaths);
+        /**
+         * @brief
+         *
+         * @param outfilename
+         * @return bool
+         */
         bool ConvertToVMAPModel(const char* outfilename);
 
-        bool ok;
+        bool ok; /**< TODO */
 
+        /**
+         * @brief
+         *
+         * @param filename
+         */
         Model(std::string& filename);
+        /**
+         * @brief
+         *
+         */
         ~Model() {_unload();}
 
     private:
+        /**
+         * @brief
+         *
+         */
         void _unload()
         {
             delete[] vertices;
@@ -61,21 +96,39 @@ class Model
             vertices = NULL;
             indices = NULL;
         }
-        std::string filename;
-        char outfilename;
+        std::string filename; /**< TODO */
+        char outfilename; /**< TODO */
 };
 
+/**
+ * @brief
+ *
+ */
 class ModelInstance
 {
     public:
-        Model* model;
+        Model* model; /**< TODO */
 
-        uint32 id;
-        Vec3D pos, rot;
-        unsigned int d1, scale;
-        float w, sc;
+        uint32 id; /**< TODO */
+        Vec3D pos, rot; /**< TODO */
+        unsigned int d1, scale; /**< TODO */
+        float w, sc; /**< TODO */
 
+        /**
+         * @brief
+         *
+         */
         ModelInstance() {}
+        /**
+         * @brief
+         *
+         * @param f
+         * @param ModelInstName
+         * @param mapID
+         * @param tileX
+         * @param tileY
+         * @param pDirfile
+         */
         ModelInstance(MPQFile& f, const char* ModelInstName, uint32 mapID, uint32 tileX, uint32 tileY, FILE* pDirfile);
 
 };
