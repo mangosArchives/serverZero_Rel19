@@ -39,35 +39,87 @@ namespace VMAP
     class WorldModel;
 }
 
+/**
+ * @brief
+ *
+ */
 class GameObjectModel
 {
-        bool collision_enabled;
-        G3D::AABox iBound;
-        G3D::Matrix3 iInvRot;
-        G3D::Vector3 iPos;
+        bool collision_enabled; /**< TODO */
+        G3D::AABox iBound; /**< TODO */
+        G3D::Matrix3 iInvRot; /**< TODO */
+        G3D::Vector3 iPos; /**< TODO */
         //G3D::Vector3 iRot;
-        float iInvScale;
-        float iScale;
-        VMAP::WorldModel* iModel;
+        float iInvScale; /**< TODO */
+        float iScale; /**< TODO */
+        VMAP::WorldModel* iModel; /**< TODO */
 
+        /**
+         * @brief
+         *
+         */
         GameObjectModel() : collision_enabled(false), iModel(NULL) {}
+        /**
+         * @brief
+         *
+         * @param pGo
+         * @param info
+         * @return bool
+         */
         bool initialize(const GameObject* const pGo, const GameObjectDisplayInfoEntry* info);
 
     public:
-        std::string name;
+        std::string name; /**< TODO */
 
+        /**
+         * @brief
+         *
+         * @return const G3D::AABox
+         */
         const G3D::AABox& getBounds() const { return iBound; }
 
+        /**
+         * @brief
+         *
+         */
         ~GameObjectModel();
 
+        /**
+         * @brief
+         *
+         * @return const G3D::Vector3
+         */
         const G3D::Vector3& getPosition() const { return iPos;}
 
         /** Enables\disables collision. */
+        /**
+         * @brief
+         *
+         */
         void disable() { collision_enabled = false;}
+        /**
+         * @brief
+         *
+         * @param enabled
+         */
         void enable(bool enabled) { collision_enabled = enabled;}
 
+        /**
+         * @brief
+         *
+         * @param Ray
+         * @param MaxDist
+         * @param StopAtFirstHit
+         * @return bool
+         */
         bool intersectRay(const G3D::Ray& Ray, float& MaxDist, bool StopAtFirstHit) const;
 
+        /**
+         * @brief
+         *
+         * @param pGo
+         * @return GameObjectModel
+         */
         static GameObjectModel* construct(const GameObject* const pGo);
 };
 #endif

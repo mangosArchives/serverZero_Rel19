@@ -28,8 +28,6 @@
 #include <G3D/CollisionDetection.h>
 #include <G3D/AABox.h>
 
-#include "NodeValueAccess.h"
-
 /**
 The Class is mainly taken from G3D/AABSPTree.h but modified to be able to use our internal data structure.
 This is an iterator that helps us analysing the BSP-Trees.
@@ -39,13 +37,25 @@ The collision detection is modified to return true, if we are inside an object.
 namespace VMAP
 {
     template<class TValue>
+    /**
+     * @brief
+     *
+     */
     class IntersectionCallBack
     {
         public:
-            TValue*      closestEntity;
-            G3D::Vector3 hitLocation;
-            G3D::Vector3 hitNormal;
+            TValue*      closestEntity; /**< TODO */
+            G3D::Vector3 hitLocation; /**< TODO */
+            G3D::Vector3 hitNormal; /**< TODO */
 
+            /**
+             * @brief
+             *
+             * @param ray
+             * @param entity
+             * @param pStopAtFirstHit
+             * @param distance
+             */
             void operator()(const G3D::Ray& ray, const TValue* entity, bool pStopAtFirstHit, float& distance)
             {
                 entity->intersect(ray, distance, pStopAtFirstHit, hitLocation, hitNormal);
@@ -56,11 +66,25 @@ namespace VMAP
     //==============================================================
     //==============================================================
 
+    /**
+     * @brief
+     *
+     */
     class MyCollisionDetection
     {
         private:
         public:
 
+            /**
+             * @brief
+             *
+             * @param origin
+             * @param dir
+             * @param box
+             * @param location
+             * @param Inside
+             * @return bool
+             */
             static bool collisionLocationForMovingPointFixedAABox(
                 const G3D::Vector3&     origin,
                 const G3D::Vector3&     dir,

@@ -29,24 +29,44 @@
 #include <set>
 #include <lua.hpp>
 
+/**
+ * @brief
+ *
+ */
 struct LoadedLuaScripts
 {
-    std::set<std::string> luafiles;
+    std::set<std::string> luafiles; /**< TODO */
 };
 
+/**
+ * @brief
+ *
+ */
 class Lua_State
 {
     private:
-        lua_State *L;
+        lua_State *L; /**< TODO */
     public:
+        /**
+         * @brief
+         *
+         */
         Lua_State() : L(lua_open()) { }
 
+        /**
+         * @brief
+         *
+         */
         ~Lua_State()
         {
             lua_close(L);
         }
 
-        // implicitly act as a lua_State pointer
+        /**
+         * @brief implicitly act as a lua_State pointer
+         *
+         * @return operator lua_State
+         */
         inline operator lua_State*()
         {
             return L;
