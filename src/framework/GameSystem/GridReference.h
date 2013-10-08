@@ -30,10 +30,18 @@
 template<class OBJECT> class GridRefManager;
 
 template<class OBJECT>
+/**
+ * @brief
+ *
+ */
 class MANGOS_DLL_SPEC GridReference : public Reference<GridRefManager<OBJECT>, OBJECT>
 {
     protected:
 
+        /**
+         * @brief
+         *
+         */
         void targetObjectBuildLink() override
         {
             // called from link()
@@ -41,6 +49,10 @@ class MANGOS_DLL_SPEC GridReference : public Reference<GridRefManager<OBJECT>, O
             this->getTarget()->incSize();
         }
 
+        /**
+         * @brief
+         *
+         */
         void targetObjectDestroyLink() override
         {
             // called from unlink()
@@ -48,6 +60,10 @@ class MANGOS_DLL_SPEC GridReference : public Reference<GridRefManager<OBJECT>, O
                 { this->getTarget()->decSize(); }
         }
 
+        /**
+         * @brief
+         *
+         */
         void sourceObjectDestroyLink() override
         {
             // called from invalidate()
@@ -55,17 +71,29 @@ class MANGOS_DLL_SPEC GridReference : public Reference<GridRefManager<OBJECT>, O
         }
 
     public:
-
+        /**
+         * @brief
+         *
+         */
         GridReference()
             : Reference<GridRefManager<OBJECT>, OBJECT>()
         {
         }
 
+        /**
+         * @brief
+         *
+         */
         ~GridReference()
         {
             this->unlink();
         }
 
+        /**
+         * @brief
+         *
+         * @return GridReference
+         */
         GridReference* next()
         {
             return (GridReference*)Reference<GridRefManager<OBJECT>, OBJECT>::next();
