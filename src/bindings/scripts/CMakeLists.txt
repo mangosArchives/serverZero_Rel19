@@ -37,7 +37,7 @@ set(mangosscript_LIB_SRCS ${sources} ${headers})
 mangos_source_group(${mangosscript_LIB_SRCS})
 
 include_directories(
-    # ${ACE_INCLUDE_DIRS}
+    ${ACE_INCLUDE_DIRS}
     ${MYSQL_INCLUDE_DIR}
     # ${OPENSSL_INCLUDE_DIR}
     # ${ZLIB_INCLUDE_DIR}
