@@ -30,6 +30,11 @@
 #include <windows.h>
 #include <winsvc.h>
 
+// stupid ACE define
+#ifdef main
+#undef main
+#endif
+
 #if !defined(WINADVAPI)
 #if !defined(_ADVAPI32_)
 #define WINADVAPI DECLSPEC_IMPORT
