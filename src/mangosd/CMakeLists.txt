@@ -92,11 +92,18 @@ elseif(WITH_MOD_REMOTE)
 endif()
 set_target_properties(mangosd PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
 
-install(TARGETS mangosd DESTINATION ${BIN_DIR})
-
+if(WIN32 AND WITH_MOD_SCRIPTDEV2)
+    set_target_properties(mangosd
+    PROPERTIES
+    ENABLE_EXPORTS ON
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}
+    )
+endif()
 add_dependencies(mangosd revision.h)
 
 #-----------------------------------------------------------------------------
 # Build and install the mangosd configuration
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mangosd.conf.dist.cmake ${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist DESTINATION ${CONF_DIR})
+
+install(TARGETS mangosd DESTINATION ${BIN_DIR})
