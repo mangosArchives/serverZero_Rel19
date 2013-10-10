@@ -366,11 +366,11 @@ set(SRC_GRP_WORLD_HANDLERS
 )
 
 if(WITH_MOD_LUA AND LUA51_FOUND)
-    list(APPEND sources ${CMAKE_CURRENT_SOURCE_DIR}/metztli/LuaEngine.cpp)
-    list(APPEND headers ${CMAKE_CURRENT_SOURCE_DIR}/metztli/LuaEngine.h)
+    list(APPEND sources ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaEngine.cpp)
+    list(APPEND headers ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaEngine.h)
     include_directories(
         ${LUA_INCLUDE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/metztli/
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/
     )
 endif()
 
