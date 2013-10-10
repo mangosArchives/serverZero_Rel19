@@ -61,15 +61,15 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-sd2.h.cmake ${CMAKE_CURRENT_BI
 
 #-----------------------------------------------------------------------------
 # Build the scriptdev2 library
-add_library(mangosscript SHARED ${mangosscript_LIB_SRCS})
-# target_link_libraries(mangos-game mangos-auctionhouse-bot mangos-battleground mangos-outdoor-pvp mangos-movement mangos-vmap mangos-shared mangos-framework Detour g3dlite ${ACE_LIBRARIES} ${MYSQL_LIBRARIES} ${OPENSSL_LIBRARIES} ${ZLIB_LIBRARIES})
+add_library(mangos-scripts SHARED ${mangosscript_LIB_SRCS})
+# target_link_libraries(mangos-scripts mangos-game mangos-auctionhouse-bot mangos-battleground mangos-outdoor-pvp mangos-movement mangos-vmap mangos-shared mangos-framework Detour g3dlite ${ACE_LIBRARIES} ${MYSQL_LIBRARIES} ${OPENSSL_LIBRARIES} ${ZLIB_LIBRARIES})
 
 #-----------------------------------------------------------------------------
 # Build and install the scriptdev2 files
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/scriptdev2.conf.dist.cmake ${CMAKE_CURRENT_BINARY_DIR}/scriptdev2.conf.dist)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/scriptdev2.conf.dist DESTINATION ${CONF_DIR})
 
-install(TARGETS mangosscript
+install(TARGETS mangos-scripts
     DESTINATION ${LIBS_DIR}
     LIBRARY DESTINATION ${LIBS_DIR}
 )
