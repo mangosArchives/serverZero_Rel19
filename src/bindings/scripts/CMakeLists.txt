@@ -62,7 +62,15 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-sd2.h.cmake ${CMAKE_CURRENT_BI
 #-----------------------------------------------------------------------------
 # Build the scriptdev2 library
 add_library(mangos-scripts SHARED ${mangosscript_LIB_SRCS})
-# target_link_libraries(mangos-scripts mangos-game mangos-auctionhouse-bot mangos-battleground mangos-outdoor-pvp mangos-movement mangos-vmap mangos-shared mangos-framework Detour g3dlite ${ACE_LIBRARIES} ${MYSQL_LIBRARIES} ${OPENSSL_LIBRARIES} ${ZLIB_LIBRARIES})
+
+#-----------------------------------------------------------------------------
+# Link the scriptdev2 library
+#
+# NOTE: this a hack, required for Windows to make it possible to actually use
+#       the library. This will be dropped once we have Lua working.
+if(WIN32 AND MSVC)
+    target_link_libraries(mangos-scripts mangosd ${ACE_LIBRARIES}) # ${MYSQL_LIBRARIES} ${OPENSSL_LIBRARIES} ${ZLIB_LIBRARIES}
+endif()
 
 #-----------------------------------------------------------------------------
 # Build and install the scriptdev2 files
