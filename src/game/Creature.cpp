@@ -190,7 +190,7 @@ void Creature::RemoveCorpse()
     if (uint16 poolid = sPoolMgr.IsPartOfAPool<Creature>(GetGUIDLow()))
         sPoolMgr.UpdatePool<Creature>(*GetMap()->GetPersistentState(), poolid, GetGUIDLow());
 
-    if (IsInWorld())                            // can be despawned by update pool
+    if (!IsInWorld())                            // can be despawned by update pool
       return;
 
     if ((GetDeathState() != CORPSE && !m_IsDeadByDefault) || (GetDeathState() != ALIVE && m_IsDeadByDefault))
@@ -513,17 +513,8 @@ void Creature::Update(uint32 update_diff, uint32 diff)
             {
                 if (m_corpseDecayTimer <= update_diff)
                 {
-                    // since pool system can fail to roll unspawned object, this one can remain spawned, so must set respawn nevertheless
-                    if (uint16 poolid = sPoolMgr.IsPartOfAPool<Creature>(GetGUIDLow()))
-                        sPoolMgr.UpdatePool<Creature>(*GetMap()->GetPersistentState(), poolid, GetGUIDLow());
-
-                    if (IsInWorld())                        // can be despawned by update pool
-                    {
-                        RemoveCorpse();
-                        DEBUG_FILTER_LOG(LOG_FILTER_AI_AND_MOVEGENSS, "Removing alive corpse... %u ", GetEntry());
-                    }
-                    else
-                        return;
+                    RemoveCorpse();
+                    break;
                 }
                 else
                 {
