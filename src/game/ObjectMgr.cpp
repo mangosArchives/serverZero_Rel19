@@ -389,7 +389,7 @@ void ObjectMgr::LoadPointOfInterestLocales()
     delete result;
 
     sLog.outString();
-    sLog.outString(">> Loaded %u points_of_interest locale strings", mPointOfInterestLocaleMap.size());
+    sLog.outString(">> Loaded %lu points_of_interest locale strings", mPointOfInterestLocaleMap.size());
 }
 
 struct SQLCreatureLoader : public SQLStorageLoaderBase<SQLCreatureLoader, SQLStorage>
@@ -2527,7 +2527,7 @@ void ObjectMgr::LoadStandingList()
     DistributeRankPoints(HORDE, LastWeekBegin);
 
     sLog.outString();
-    sLog.outString(">> Loaded %u Horde and %u Ally honor standing definitions", HordeHonorStandingList.size(), AllyHonorStandingList.size());
+    sLog.outString(">> Loaded %lu Horde and %lu Ally honor standing definitions", HordeHonorStandingList.size(), AllyHonorStandingList.size());
 }
 
 
