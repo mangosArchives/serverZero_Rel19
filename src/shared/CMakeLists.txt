@@ -33,6 +33,7 @@ set(sources
     Auth/BigNumber.cpp
     Auth/Hmac.cpp
     Auth/Sha1.cpp
+    Auth/md5.c
 
     Config/Config.cpp
 
