@@ -938,7 +938,7 @@ Item* Item::CreateItem(uint32 item, uint32 count, Player const* player, uint32 r
         if (count > pProto->GetMaxStackSize())
             { count = pProto->GetMaxStackSize(); }
 
-        MANGOS_ASSERT(count != 0 && "pProto->Stackable == 0 but checked at loading already");
+        MANGOS_ASSERT(count != 0);                              // count != 0 && pProto->Stackable == 0 but checked at loading already
 
         Item* pItem = NewItemOrBag(pProto);
         if (pItem->Create(sObjectMgr.GenerateItemLowGuid(), item, player))
