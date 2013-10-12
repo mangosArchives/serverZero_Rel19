@@ -23,3 +23,4 @@
  */
 
 #include "LuaHookMgr.h"
+#include "LuaIncludes.h"

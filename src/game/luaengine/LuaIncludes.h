@@ -22,7 +22,7 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef LUA_HOOKMGR_H
-#define LUA_HOOKMGR_H
+#ifndef LUA_INCLUDES_H
+#define LUA_INCLUDES_H
 
 #endif
