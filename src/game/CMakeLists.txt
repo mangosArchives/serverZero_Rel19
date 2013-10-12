@@ -301,6 +301,7 @@ if(WITH_MOD_LUA AND LUA51_FOUND)
     list(APPEND headers
         ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaEngine.h
         ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaHookMgr.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaIncludes.h
     )
     include_directories(
         ${LUA_INCLUDE_DIR}

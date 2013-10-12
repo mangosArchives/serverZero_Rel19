@@ -23,3 +23,4 @@
  */
 
 #include "LuaEngine.h"
+#include "LuaHookMgr.h"

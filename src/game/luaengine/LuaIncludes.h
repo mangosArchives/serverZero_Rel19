@@ -22,57 +22,7 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef LUA_ENGINE_H
-#define LUA_ENGINE_H
-
-#include <string>
-#include <set>
-#include <lua.hpp>
-
-#include "LuaIncludes.h"
-
-/**
- * @brief
- *
- */
-struct LoadedLuaScripts
-{
-    std::set<std::string> luafiles; /**< TODO */
-};
-
-/**
- * @brief
- *
- */
-class Lua_State
-{
-    private:
-        lua_State *L; /**< TODO */
-    public:
-        /**
-         * @brief
-         *
-         */
-        Lua_State() : L(lua_open()) { }
-
-        /**
-         * @brief
-         *
-         */
-        ~Lua_State()
-        {
-            lua_close(L);
-        }
-
-        /**
-         * @brief implicitly act as a lua_State pointer
-         *
-         * @return operator lua_State
-         */
-        inline operator lua_State*()
-        {
-            return L;
-        }
-};
+#ifndef LUA_INCLUDES_H
+#define LUA_INCLUDES_H
 
 #endif
