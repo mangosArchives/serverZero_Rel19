@@ -30,6 +30,7 @@
 #include <lua.hpp>
 
 #include "LuaIncludes.h"
+#include "Policies/Singleton.h"
 
 /**
  * @brief
@@ -40,14 +41,32 @@ struct LoadedLuaScripts
     std::set<std::string> luafiles;
 };
 
-class Lua_State
+/**
+ * @brief
+ *
+ */
+class Metztli
 {
     private:
         lua_State *L;
     public:
+<<<<<<< HEAD
         Lua_State() : L(lua_open()) { }
 
         ~Lua_State()
+=======
+        /**
+         * @brief
+         *
+         */
+        Metztli() : L(lua_open()) { }
+
+        /**
+         * @brief
+         *
+         */
+        ~Metztli()
+>>>>>>> 86a414a... Instantiate Lua engine as singleton.
         {
             lua_close(L);
         }
@@ -59,4 +78,5 @@ class Lua_State
         }
 };
 
+#define sMetztli MaNGOS::Singleton<Metztli>::Instance()
 #endif
