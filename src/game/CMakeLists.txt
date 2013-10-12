@@ -292,8 +292,16 @@ set(headers
 )
 
 if(WITH_MOD_LUA AND LUA51_FOUND)
-    list(APPEND sources ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaEngine.cpp)
-    list(APPEND headers ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaEngine.h)
+    list(APPEND sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaEngine.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaHookMgr.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaFunctions.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaHooks.cpp
+    )
+    list(APPEND headers
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaEngine.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaHookMgr.h
+    )
     include_directories(
         ${LUA_INCLUDE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/
