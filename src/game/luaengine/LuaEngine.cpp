@@ -24,3 +24,6 @@
 
 #include "LuaEngine.h"
 #include "LuaHookMgr.h"
+#include "Policies/Singleton.h"
+
+INSTANTIATE_SINGLETON_1(Metztli);
