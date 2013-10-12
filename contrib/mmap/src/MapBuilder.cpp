@@ -551,6 +551,7 @@ namespace MMAP
         if (!pmmerge)
         {
             printf("%s alloc pmmerge FIALED!          \r", tileString);
+            delete [] tiles;
             return;
         }
 
@@ -558,6 +559,7 @@ namespace MMAP
         if (!dmmerge)
         {
             printf("%s alloc dmmerge FIALED!          \r", tileString);
+            delete [] tiles;
             return;
         }
 
@@ -580,6 +582,7 @@ namespace MMAP
         if (!iv.polyMesh)
         {
             printf("%s alloc iv.polyMesh FIALED!          \r", tileString);
+            delete [] tiles;
             return;
         }
         rcMergePolyMeshes(m_rcContext, pmmerge, nmerge, *iv.polyMesh);
@@ -588,6 +591,7 @@ namespace MMAP
         if (!iv.polyMeshDetail)
         {
             printf("%s alloc m_dmesh FIALED!          \r", tileString);
+            delete [] tiles;
             return;
         }
         rcMergePolyMeshDetails(m_rcContext, dmmerge, nmerge, *iv.polyMeshDetail);

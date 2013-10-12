@@ -748,9 +748,14 @@ bool change_sql_database()
         rename(old_file, tmp_file);
 
         FILE* fin = fopen(tmp_file, "r");
-        if (!fin) return false;
+        if (!fin)
+            return false;
         FILE* fout = fopen(old_file, "w");
-        if (!fout) return false;
+        if (!fout)
+        {
+            fclose(fin);
+            return false;
+        }
 
         snprintf(dummy, MAX_CMD, "CREATE TABLE `%s` (\n", db_version_table[i]);
         while (fgets(buffer, MAX_BUF, fin))
