@@ -839,10 +839,10 @@ namespace MMAP
             { return false; }
 
         MmapTileHeader header;
-        fread(&header, sizeof(MmapTileHeader), 1, file);
+        size_t file_read = fread(&header, sizeof(MmapTileHeader), 1, file);
         fclose(file);
 
-        if (header.mmapMagic != MMAP_MAGIC || header.dtVersion != DT_NAVMESH_VERSION)
+        if (header.mmapMagic != MMAP_MAGIC || header.dtVersion != DT_NAVMESH_VERSION || file_read <= 0)
             { return false; }
 
         if (header.mmapVersion != MMAP_VERSION)

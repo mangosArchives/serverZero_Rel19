@@ -346,13 +346,16 @@ BinaryInput::BinaryInput(
     }
     debugAssert(m_buffer);
     
-    fread(m_buffer, m_bufferLength, sizeof(int8), file);
+    size_t file_read = fread(m_buffer, m_bufferLength, sizeof(int8), file);
+    if (file_read <= 0) {
+        throw "Could not read compressed file. (2)";
+    }
     fclose(file);
     file = NULL;
 
     if (compressed) {
         if (m_bufferLength != m_length) {
-            throw "Not enough memory to load compressed file. (2)";
+            throw "Not enough memory to load compressed file. (3)";
         }
 
         decompress();
