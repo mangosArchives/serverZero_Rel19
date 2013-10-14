@@ -882,6 +882,7 @@ int32_t libmpq__block_read(mpq_archive_s *mpq_archive, uint32_t file_number, uin
 	uint32_t compressed = 0;
 	uint32_t imploded   = 0;
 	int32_t tb          = 0;
+	size_t file_read    = 0;
 	libmpq__off_t block_offset  = 0;
 	off_t in_size       = 0;
 	libmpq__off_t unpacked_size = 0;
@@ -937,7 +938,7 @@ int32_t libmpq__block_read(mpq_archive_s *mpq_archive, uint32_t file_number, uin
 	}
 
 	/* read block from file. */
-	size_t file_read = fread(in_buf, 1, in_size, mpq_archive->fp);
+	file_read = fread(in_buf, 1, in_size, mpq_archive->fp);
 	if (file_read <= 0) {
 
 		/* free buffers. */
