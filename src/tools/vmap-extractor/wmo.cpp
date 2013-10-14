@@ -525,10 +525,10 @@ WMOInstance::WMOInstance(MPQFile& f, const char* WmoInstName, uint32 mapID, uint
 
     fseek(input, 8, SEEK_SET); // get the correct no of vertices
     int nVertices;
-    fread(&nVertices, sizeof(int), 1, input);
+    size_t file_read = fread(&nVertices, sizeof(int), 1, input);
     fclose(input);
 
-    if (nVertices == 0)
+    if (nVertices == 0 || file_read <= 0)
         { return; }
 
     float x, z;

@@ -937,7 +937,8 @@ int32_t libmpq__block_read(mpq_archive_s *mpq_archive, uint32_t file_number, uin
 	}
 
 	/* read block from file. */
-	if (fread(in_buf, 1, in_size, mpq_archive->fp) < 0) {
+	size_t file_read = fread(in_buf, 1, in_size, mpq_archive->fp);
+	if (file_read <= 0) {
 
 		/* free buffers. */
 		free(in_buf);
