@@ -83,6 +83,10 @@ target_link_libraries(mangosd ${ACE_LIBRARIES} mangos-game mangos-auctionhouse-b
 install(TARGETS mangosd DESTINATION ${BIN_DIR})
 
 set(BUILD_PROPERTIES "-DHAVE_CONFIG_H")
+if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+    set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DMANGOS_DEBUG")
+endif()
+
 if(WITH_MOD_SOAP)
     set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DENABLE_SOAP")
     target_link_libraries(mangosd gsoaplite)

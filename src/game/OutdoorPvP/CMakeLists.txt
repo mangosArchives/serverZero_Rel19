@@ -53,4 +53,9 @@ include_directories(
 add_library(mangos-outdoor-pvp STATIC ${outdoor-pvp_LIB_SRCS})
 target_link_libraries(mangos-outdoor-pvp mangos-shared mangos-framework g3dlite ${ACE_LIBRARIES} ${MYSQL_LIBRARIES})
 
+if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+    set(BUILD_PROPERTIES "-DMANGOS_DEBUG")
+    set_target_properties(mangos-outdoor-pvp PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+endif()
+
 add_dependencies(mangos-outdoor-pvp revision.h)

@@ -51,6 +51,13 @@ include_directories(
 # Build the realmd application
 add_executable(realmd ${realmd_LIB_SRCS})
 target_link_libraries(realmd mangos-framework mangos-shared ${ACE_LIBRARIES} ${MYSQL_LIBRARIES} ${OPENSSL_LIBRARIES})
+
+set(BUILD_PROPERTIES "")
+if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+    set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DMANGOS_DEBUG")
+    set_target_properties(realmd PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+endif()
+
 install(TARGETS realmd DESTINATION ${BIN_DIR})
 
 add_dependencies(realmd revision.h)

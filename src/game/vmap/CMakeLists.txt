@@ -52,3 +52,8 @@ include_directories(
 # Build the vmap library
 add_library(mangos-vmap STATIC ${vmap_LIB_SRCS})
 target_link_libraries(mangos-vmap mangos-shared mangos-framework g3dlite ${ACE_LIBRARIES} ${MYSQL_LIBRARIES})
+
+if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+    set(BUILD_PROPERTIES "-DMANGOS_DEBUG")
+    set_target_properties(mangos-vmap PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+endif()

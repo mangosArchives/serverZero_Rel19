@@ -55,8 +55,8 @@ target_link_libraries(mangos-auctionhouse-bot mangos-shared mangos-framework g3d
 
 if(${CMAKE_BUILD_TYPE} MATCHES Debug)
     set(BUILD_PROPERTIES "-DMANGOS_DEBUG")
+    set_target_properties(mangos-auctionhouse-bot PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
 endif()
-set_target_properties(mangos-auctionhouse-bot PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
 
 add_dependencies(mangos-auctionhouse-bot revision.h)
 
