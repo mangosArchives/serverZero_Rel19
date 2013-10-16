@@ -53,9 +53,18 @@ include_directories(
 add_library(mangos-auctionhouse-bot STATIC ${auctionhouse-bot_LIB_SRCS})
 target_link_libraries(mangos-auctionhouse-bot mangos-shared mangos-framework g3dlite ${ACE_LIBRARIES} ${MYSQL_LIBRARIES})
 
+if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+    set(BUILD_PROPERTIES "-DMANGOS_DEBUG")
+endif()
+set_target_properties(mangos-auctionhouse-bot PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+
 add_dependencies(mangos-auctionhouse-bot revision.h)
 
 #-----------------------------------------------------------------------------
 # Build and install the auctionhouse-bot files
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/ahbot.conf.dist.cmake ${CMAKE_CURRENT_BINARY_DIR}/ahbot.conf.dist)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ahbot.conf.dist DESTINATION ${CONF_DIR})
+if(WIN32)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ahbot.conf.dist DESTINATION ${BIN_DIR})
+else()
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ahbot.conf.dist DESTINATION ${CONF_DIR})
+endif()

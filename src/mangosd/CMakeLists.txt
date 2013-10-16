@@ -80,6 +80,7 @@ endif()
 # Build the mangosd application
 add_executable(mangosd ${mangosd_LIB_SRCS})
 target_link_libraries(mangosd ${ACE_LIBRARIES} mangos-game mangos-auctionhouse-bot mangos-battleground mangos-outdoor-pvp mangos-movement mangos-vmap mangos-shared mangos-framework Detour g3dlite ${MYSQL_LIBRARIES} ${OPENSSL_LIBRARIES})
+install(TARGETS mangosd DESTINATION ${BIN_DIR})
 
 set(BUILD_PROPERTIES "-DHAVE_CONFIG_H")
 if(WITH_MOD_SOAP)
@@ -104,6 +105,8 @@ add_dependencies(mangosd revision.h)
 #-----------------------------------------------------------------------------
 # Build and install the mangosd configuration
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mangosd.conf.dist.cmake ${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist DESTINATION ${CONF_DIR})
-
-install(TARGETS mangosd DESTINATION ${BIN_DIR})
+if(WIN32)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist DESTINATION ${BIN_DIR})
+else()
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist DESTINATION ${CONF_DIR})
+endif()

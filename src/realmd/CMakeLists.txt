@@ -58,4 +58,8 @@ add_dependencies(realmd revision.h)
 #-----------------------------------------------------------------------------
 # Build and install the realmd configuration
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/realmd.conf.dist.cmake ${CMAKE_CURRENT_BINARY_DIR}/realmd.conf.dist)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/realmd.conf.dist DESTINATION ${CONF_DIR})
+if(WIN32)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/realmd.conf.dist DESTINATION ${BIN_DIR})
+else()
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/realmd.conf.dist DESTINATION ${CONF_DIR})
+endif()
