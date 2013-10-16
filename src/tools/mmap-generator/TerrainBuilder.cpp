@@ -200,6 +200,12 @@ namespace MMAP
             else
             {
                 file_read = fread(V9, sizeof(float), V9_SIZE_SQ, mapFile);
+                if (file_read <= 0)
+                {
+                    fclose(mapFile);
+                    printf("Could not read map data from %s.\n", mapFileName);
+                    return false;
+                }
                 file_read = fread(V8, sizeof(float), V8_SIZE_SQ, mapFile);
                 if (file_read <= 0)
                 {
