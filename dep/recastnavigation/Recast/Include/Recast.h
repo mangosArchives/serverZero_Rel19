@@ -15,7 +15,7 @@
 //    misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 //
- 
+
 #ifndef RECAST_H
 #define RECAST_H
 
@@ -61,7 +61,7 @@ enum rcTimerLabel
 };
 
 // Build context provides several optional utilities needed for the build process,
-// such as timing, logging, and build time collecting. 
+// such as timing, logging, and build time collecting.
 class rcContext
 {
 public:
@@ -94,7 +94,7 @@ protected:
 	virtual void doStartTimer(const rcTimerLabel /*label*/) {}
 	virtual void doStopTimer(const rcTimerLabel /*label*/) {}
 	virtual int doGetAccumulatedTime(const rcTimerLabel /*label*/) const { return -1; }
-	
+
 	bool m_logEnabled;
 	bool m_timerEnabled;
 };
@@ -175,7 +175,7 @@ struct rcCompactSpan
 	unsigned int h : 8;			// Height of the span.
 };
 
-// Compact static heightfield. 
+// Compact static heightfield.
 struct rcCompactHeightfield
 {
 	int width, height;					// Width and height of the heightfield.
@@ -229,7 +229,7 @@ void rcFreeContourSet(rcContourSet* cset);
 //   y = bmin[1] + verts[i*3+1]*ch;
 //   z = bmin[2] + verts[i*3+2]*cs;
 struct rcPolyMesh
-{	
+{
 	unsigned short* verts;	// Vertices of the mesh, 3 elements per vertex.
 	unsigned short* polys;	// Polygons of the mesh, nvp*2 elements per polygon.
 	unsigned short* regs;	// Region ID of the polygons.
@@ -251,7 +251,7 @@ void rcFreePolyMesh(rcPolyMesh* pmesh);
 // Each submesh represents a polygon in the polymesh and they are stored in
 // exactly same order. Each submesh is described as 4 values:
 // base vertex, vertex count, base triangle, triangle count. That is,
-//   const unsigned char* t = &dmesh.tris[(tbase+i)*3]; and
+//   const unsigned char* t = &dmesh.tris[(tbase+i)*4]; and
 //   const float* v = &dmesh.verts[(vbase+t[j])*3];
 // If the input polygon has 'n' vertices, those vertices are first in the
 // submesh vertex list. This allows to compres the mesh by not storing the
@@ -462,7 +462,7 @@ bool rcCreateHeightfield(rcContext* ctx, rcHeightfield& hf, int width, int heigh
 //	nt - (in) triangle count
 //	areas - (out) array of triangle area types
 void rcMarkWalkableTriangles(rcContext* ctx, const float walkableSlopeAngle, const float* verts, int nv,
-							 const int* tris, int nt, unsigned char* areas); 
+							 const int* tris, int nt, unsigned char* areas);
 
 // Sets the RC_NULL_AREA for every triangle whose slope is steeper than
 // the maximum walkable slope angle.
@@ -474,7 +474,7 @@ void rcMarkWalkableTriangles(rcContext* ctx, const float walkableSlopeAngle, con
 //	nt - (in) triangle count
 //	areas - (out) array of triangle are types
 void rcClearUnwalkableTriangles(rcContext* ctx, const float walkableSlopeAngle, const float* verts, int nv,
-								const int* tris, int nt, unsigned char* areas); 
+								const int* tris, int nt, unsigned char* areas);
 
 // Adds span to heightfield.
 // The span addition can set to favor flags. If the span is merged to
