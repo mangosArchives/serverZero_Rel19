@@ -25,7 +25,7 @@
 // Define DT_VIRTUAL_QUERYFILTER if you wish to derive a custom filter from dtQueryFilter.
 // On certain platforms indirect or virtual function call is expensive. The default
 // setting is to use non-virtual functions, the actualy implementations of the functions
-// are declared as inline for maximum speed. 
+// are declared as inline for maximum speed.
 
 //#define DT_VIRTUAL_QUERYFILTER 1
 
@@ -44,10 +44,10 @@ class dtQueryFilter
 	float m_areaCost[DT_MAX_AREAS];		// Array storing cost per area type, used by default implementation.
 	unsigned short m_includeFlags;		// Include poly flags, used by default implementation.
 	unsigned short m_excludeFlags;		// Exclude poly flags, used by default implementation.
-	
+
 public:
 	dtQueryFilter();
-	
+
 	// Returns true if the polygon is can visited.
 	// Params:
 	//  ref - (in) reference to the polygon test.
@@ -65,7 +65,7 @@ public:
 
 	// Returns cost to travel from 'pa' to 'pb'.'
 	// The segment is fully contained inside 'cur'.
-	// 'pa' lies on the edge between 'prev' and 'cur', 
+	// 'pa' lies on the edge between 'prev' and 'cur',
 	// 'pb' lies on the edge between 'cur' and 'next'.
 	// Params:
 	//  pa - (in) segment start position.
@@ -84,16 +84,16 @@ public:
 				  const dtPolyRef curRef, const dtMeshTile* curTile, const dtPoly* curPoly,
 				  const dtPolyRef nextRef, const dtMeshTile* nextTile, const dtPoly* nextPoly) const;
 #endif
-	
+
 	// Getters and setters for the default implementation data.
 	inline float getAreaCost(const int i) const { return m_areaCost[i]; }
-	inline void setAreaCost(const int i, const float cost) { m_areaCost[i] = cost; } 
+	inline void setAreaCost(const int i, const float cost) { m_areaCost[i] = cost; }
 
 	inline unsigned short getIncludeFlags() const { return m_includeFlags; }
 	inline void setIncludeFlags(const unsigned short flags) { m_includeFlags = flags; }
 
 	inline unsigned short getExcludeFlags() const { return m_excludeFlags; }
-	inline void setExcludeFlags(const unsigned short flags) { m_excludeFlags = flags; }	
+	inline void setExcludeFlags(const unsigned short flags) { m_excludeFlags = flags; }
 };
 
 class dtNavMeshQuery
@@ -101,14 +101,13 @@ class dtNavMeshQuery
 public:
 	dtNavMeshQuery();
 	~dtNavMeshQuery();
-	
+
 	// Initializes the nav mesh query.
 	// Params:
 	//  nav - (in) pointer to navigation mesh data.
 	//  maxNodes - (in) Maximum number of search nodes to use (max 65536).
-	// Returns: True if succeed, else false.
 	dtStatus init(const dtNavMesh* nav, const int maxNodes);
-	
+
 	// Finds the nearest navigation polygon around the center location.
 	// Params:
 	//	center[3] - (in) The center of the search box.
@@ -116,11 +115,10 @@ public:
 	//  filter - (in) path polygon filter.
 	//  nearestRef - (out) Reference to the nearest polygon.
 	//  nearestPt[3] - (out, opt) The nearest point on found polygon, null if not needed.
-	// Returns: Reference identifier for the polygon, or 0 if no polygons found.
 	dtStatus findNearestPoly(const float* center, const float* extents,
 							 const dtQueryFilter* filter,
 							 dtPolyRef* nearestRef, float* nearestPt) const;
-	
+
 	// Returns polygons which overlap the query box.
 	// Params:
 	//	center[3] - (in) the center of the search box.
@@ -132,7 +130,7 @@ public:
 	dtStatus queryPolygons(const float* center, const float* extents,
 						   const dtQueryFilter* filter,
 						   dtPolyRef* polys, int* polyCount, const int maxPolys) const;
-	
+
 	// Finds path from start polygon to end polygon.
 	// If target polygon canno be reached through the navigation graph,
 	// the last node on the array is nearest node to the end polygon.
@@ -151,7 +149,7 @@ public:
 					  const float* startPos, const float* endPos,
 					  const dtQueryFilter* filter,
 					  dtPolyRef* path, int* pathCount, const int maxPath) const;
-	
+
 	// Intializes sliced path find query.
 	// Note 1: calling any other dtNavMeshQuery method before calling findPathEnd()
 	// may results in corrupted data!
@@ -178,7 +176,7 @@ public:
 	//  pathCount - (out) Number of polygons in search result array.
 	//	maxPath - (in) The max number of polygons the path array can hold.
 	dtStatus finalizeSlicedFindPath(dtPolyRef* path, int* pathCount, const int maxPath);
-	
+
 	// Finalizes partial sliced path find query and returns path to the furthest
 	// polygon on the existing path that was visited during the search.
 	//	existing - (out) Array of polygons in the existing path.
@@ -188,7 +186,7 @@ public:
 	//	maxPath - (in) The max number of polygons the path array can hold.
 	dtStatus finalizeSlicedFindPathPartial(const dtPolyRef* existing, const int existingSize,
 										   dtPolyRef* path, int* pathCount, const int maxPath);
-	
+
 	// Finds a straight path from start to end locations within the corridor
 	// described by the path polygons.
 	// Start and end locations will be clamped on the corridor.
@@ -209,12 +207,12 @@ public:
 							  const dtPolyRef* path, const int pathSize,
 							  float* straightPath, unsigned char* straightPathFlags, dtPolyRef* straightPathRefs,
 							  int* straightPathCount, const int maxStraightPath) const;
-	
+
 	// Moves from startPos to endPos constrained to the navmesh.
 	// If the endPos is reachable, the resultPos will be endPos,
 	// or else the resultPos will be the nearest point in navmesh.
 	// Note: The resulting point is not projected to the ground, use getPolyHeight() to get height.
-	// Note: The algorithm is optimized for small delta movement and small number of polygons. 
+	// Note: The algorithm is optimized for small delta movement and small number of polygons.
 	// Params:
 	//  startRef - (in) ref to the polygon where startPos lies.
 	//  startPos[3] - (in) start position of the mover.
@@ -227,7 +225,7 @@ public:
 	dtStatus moveAlongSurface(dtPolyRef startRef, const float* startPos, const float* endPos,
 							  const dtQueryFilter* filter,
 							  float* resultPos, dtPolyRef* visited, int* visitedCount, const int maxVisitedSize) const;
-	
+
 	// Casts 'walkability' ray along the navmesh surface from startPos towards the endPos.
 	// Params:
 	//	startRef - (in) ref to the polygon where the start lies.
@@ -242,7 +240,7 @@ public:
 	dtStatus raycast(dtPolyRef startRef, const float* startPos, const float* endPos,
 					 const dtQueryFilter* filter,
 					 float* t, float* hitNormal, dtPolyRef* path, int* pathCount, const int maxPath) const;
-	
+
 	// Returns distance to nearest wall from the specified location.
 	// Params:
 	//	startRef - (in) ref to the polygon where the center lies.
@@ -255,7 +253,7 @@ public:
 	dtStatus findDistanceToWall(dtPolyRef startRef, const float* centerPos, const float maxRadius,
 								const dtQueryFilter* filter,
 								float* hitDist, float* hitPos, float* hitNormal) const;
-	
+
 	// Finds polygons found along the navigation graph which touch the specified circle.
 	// Params:
 	//	startRef - (in) ref to the polygon where the search starts.
@@ -271,7 +269,7 @@ public:
 								   const dtQueryFilter* filter,
 								   dtPolyRef* resultRef, dtPolyRef* resultParent, float* resultCost,
 								   int* resultCount, const int maxResult) const;
-	
+
 	// Finds polygons found along the navigation graph which touch the convex polygon shape.
 	// Params:
 	//	startRef - (in) ref to the polygon where the search starts.
@@ -287,9 +285,9 @@ public:
 								  const dtQueryFilter* filter,
 								  dtPolyRef* resultRef, dtPolyRef* resultParent, float* resultCost,
 								  int* resultCount, const int maxResult) const;
-	
+
 	// Finds non-overlapping local neighbourhood around center location.
-	// Note: The algorithm is optimized for small query radius and small number of polygons. 
+	// Note: The algorithm is optimized for small query radius and small number of polygons.
 	// Params:
 	//	startRef - (in) ref to the polygon where the search starts.
 	//	centerPos[3] - (in) center if the query circle.
@@ -303,7 +301,7 @@ public:
 									const dtQueryFilter* filter,
 									dtPolyRef* resultRef, dtPolyRef* resultParent,
 									int* resultCount, const int maxResult) const;
-	
+
 	// Returns wall segments of specified polygon.
 	// Params:
 	//  ref - (in) ref to the polygon.
@@ -313,16 +311,16 @@ public:
 	//  maxSegments - (in) max number of segments that can be stored in 'segments'.
 	dtStatus getPolyWallSegments(dtPolyRef ref, const dtQueryFilter* filter,
 								 float* segments, int* segmentCount, const int maxSegments) const;
-	
+
 	// Returns closest point on navigation polygon.
-	// Uses detail polygons to find the closest point to the navigation polygon surface. 
+	// Uses detail polygons to find the closest point to the navigation polygon surface.
 	// Params:
 	//	ref - (in) ref to the polygon.
 	//	pos[3] - (in) the point to check.
 	//	closest[3] - (out) closest point.
 	// Returns: true if closest point found.
 	dtStatus closestPointOnPoly(dtPolyRef ref, const float* pos, float* closest) const;
-	
+
 	// Returns closest point on navigation polygon boundary.
 	// Uses the navigation polygon boundary to snap the point to poly boundary
 	// if it is outside the polygon. Much faster than closestPointToPoly. Does not affect height.
@@ -332,7 +330,7 @@ public:
 	//	closest[3] - (out) closest point.
 	// Returns: true if closest point found.
 	dtStatus closestPointOnPolyBoundary(dtPolyRef ref, const float* pos, float* closest) const;
-	
+
 	// Returns start and end location of an off-mesh link polygon.
 	// Params:
 	//	prevRef - (in) ref to the polygon before the link (used to select direction).
@@ -341,7 +339,7 @@ public:
 	//	endPos[3] - (out) end point of the link.
 	// Returns: true if link is found.
 	dtStatus getOffMeshConnectionPolyEndPoints(dtPolyRef prevRef, dtPolyRef polyRef, float* startPos, float* endPos) const;
-	
+
 	// Returns height of the polygon at specified location.
 	// Params:
 	//	ref - (in) ref to the polygon.
@@ -349,15 +347,15 @@ public:
 	//	height - (out) height at the location.
 	// Returns: true if over polygon.
 	dtStatus getPolyHeight(dtPolyRef ref, const float* pos, float* height) const;
-		
+
 	// Returns true if poly reference ins in closed list.
 	bool isInClosedList(dtPolyRef ref) const;
-	
+
 	class dtNodePool* getNodePool() const { return m_nodePool; }
-	
+
 private:
-	
-	// Returns neighbour tile based on side. 
+
+	// Returns neighbour tile based on side.
 	dtMeshTile* getNeighbourTileAt(int x, int y, int side) const;
 
 	// Queries polygons within a tile.
@@ -368,20 +366,20 @@ private:
 									const dtQueryFilter* filter, float* nearestPt) const;
 	// Returns closest point on polygon.
 	dtStatus closestPointOnPolyInTile(const dtMeshTile* tile, const dtPoly* poly, const float* pos, float* closest) const;
-	
+
 	// Returns portal points between two polygons.
 	dtStatus getPortalPoints(dtPolyRef from, dtPolyRef to, float* left, float* right,
 							 unsigned char& fromType, unsigned char& toType) const;
 	dtStatus getPortalPoints(dtPolyRef from, const dtPoly* fromPoly, const dtMeshTile* fromTile,
 							 dtPolyRef to, const dtPoly* toPoly, const dtMeshTile* toTile,
 							 float* left, float* right) const;
-	
+
 	// Returns edge mid point between two polygons.
 	dtStatus getEdgeMidPoint(dtPolyRef from, dtPolyRef to, float* mid) const;
 	dtStatus getEdgeMidPoint(dtPolyRef from, const dtPoly* fromPoly, const dtMeshTile* fromTile,
 							 dtPolyRef to, const dtPoly* toPoly, const dtMeshTile* toTile,
 							 float* mid) const;
-	
+
 	const dtNavMesh* m_nav;				// Pointer to navmesh data.
 
 	struct dtQueryData
