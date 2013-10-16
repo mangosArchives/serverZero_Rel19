@@ -287,6 +287,7 @@ namespace MMAP
                 if (file_read <= 0)
                 {
                     fclose(mapFile);
+                    delete [] liquid_map;
                     printf("Could not read map data from %s.\n", mapFileName);
                     return false;
                 }
