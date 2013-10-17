@@ -24,21 +24,37 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-#-----------------------------------------------------------------------------
-# Platform specifics
-if(WIN32 AND MSVC)
-    option(USE_MSVC_FAST_FLOATINGPOINT "Use MSVC /fp:fast option" ON)
-    mark_as_advanced(USE_MSVC_FAST_FLOATINGPOINT)
-    if(USE_MSVC_FAST_FLOATINGPOINT)
-        add_definitions(/fp:fast)
-    endif(USE_MSVC_FAST_FLOATINGPOINT)
-endif()
+include(MacroMangosSourceGroup)
 
 #-----------------------------------------------------------------------------
-# Add sources
-add_subdirectory(Detour)
-add_subdirectory(Recast)
-if(WITH_RECAST_DEMO)
-    add_subdirectory(DebugUtils)
-    add_subdirectory(RecastDemo)
+# Define the RecastDemo dependencies
+find_package(OpenGL REQUIRED)
+find_package(SDL REQUIRED)
+
+#-----------------------------------------------------------------------------
+# Define the RecastDemo executable
+file(GLOB sources Source/*.cpp)
+file(GLOB headers Include/*.h)
+
+set(RecastDemo_LIB_SRCS ${sources} ${headers})
+
+mangos_source_group(${RecastDemo_LIB_SRCS})
+
+include_directories(
+    ${SDL_INCLUDE_DIR}
+    ${OPENGL_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/Contrib
+    ${CMAKE_CURRENT_SOURCE_DIR}/Include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../DebugUtils/Include/
+    ${CMAKE_CURRENT_SOURCE_DIR}/../Detour/Include/
+    ${CMAKE_CURRENT_SOURCE_DIR}/../Recast/Include/
+)
+
+#-----------------------------------------------------------------------------
+# Build the RecastDemo executable
+if(WIN32)
+    add_executable(RecastDemo WIN32 ${RecastDemo_LIB_SRCS})
+else()
+    add_executable(RecastDemo ${RecastDemo_LIB_SRCS})
 endif()
+target_link_libraries(RecastDemo DebugUtils Detour Recast ${SDL_LIBRARY} ${OPENGL_LIBRARIES})

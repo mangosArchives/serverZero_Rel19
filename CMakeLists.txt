@@ -142,7 +142,6 @@ option(WITH_MOD_SOAP        "Enable SOAP bindings (export data e.g. for a websit
 option(WITH_MOD_CLI         "Enable command line interface"                                                 OFF)
 option(WITH_MOD_REMOTE      "Enable remote access (remote administration)"                                  OFF)
 option(WITH_RECAST_DEMO     "Build the Recast movement map viewer application"                              OFF)
-mark_as_advanced(WITH_RECAST_DEMO)
 
 #-----------------------------------------------------------------------------
 # Check for conflicting/unsupported configurations
