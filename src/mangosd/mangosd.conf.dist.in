@@ -694,6 +694,11 @@ LogColors = "13 7 11 9"
 #        Default:  0 (not wait)
 #                  N (>0, wait N secs)
 #
+#    PlayerCommands
+#        Should player chat be parsed for GM commands.
+#        Default: 0 (ignore commands)
+#                 1 (parse commands)
+#
 #    Motd
 #        Message of the Day. Displayed at worldlogin for every user ('@' for a newline).
 #
@@ -754,6 +759,7 @@ Event.Announce = 0
 BeepAtStart = 1
 ShowProgressBars = 1
 WaitAtStartupError = 0
+PlayerCommands = 0
 Motd = "Welcome to the World of Warcraft."
 
 ###################################################################################################################
