@@ -56,6 +56,9 @@ Also numerous minor fixes and improvements have been added, such as:
   and replaced TBC specific values with the proper vanilla WoW counterparts.
   This includes the TBC spell modifiers, which now have been dropped and are no
   longer available.
+* Unprivileged player accounts will no longer be able to execute mangos dot
+  commands in the in-game chat. If you need this, enable `PlayerCommands` in
+  the mangosd configuration. The default setting is off.
 
 0.18.0 (2013-08-31)
 -------------------
