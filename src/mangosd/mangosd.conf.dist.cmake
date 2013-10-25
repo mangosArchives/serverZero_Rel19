@@ -670,7 +670,7 @@ LogColors = "13 7 11 9"
 #        Default: 10
 #
 #    PetUnsummonAtMount
-#        Persmanent pet will unsummoned at player mount
+#        Permanent pet will unsummoned at player mount
 #        Default: 0 - not unsummon
 #                 1 - unsummon for any mount
 #
@@ -1489,7 +1489,8 @@ Network.KickOnBadPacket = 0
 #
 ###################################################################################################################
 
-Console.Enable = 1
+Console.Enable = 0
+
 Ra.Enable = 0
 Ra.IP = 0.0.0.0
 Ra.Port = 3443
