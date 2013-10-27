@@ -312,31 +312,28 @@ bool scan_patches(char* scanmatch, std::vector<std::string>& pArchiveNames)
 
 bool fillArchiveNameVector(std::vector<std::string>& pArchiveNames)
 {
-    if (!hasInputPathParam)
-        { getGamePath(); }
-
     printf("\nGame path: %s\n", input_path);
 
     char path[512];
 
     // open expansion and common files
     printf("Opening data files from data directory.\n");
-    sprintf(path, "%sterrain.MPQ", input_path);
+    sprintf(path, "%s/Data/terrain.MPQ", input_path);
     pArchiveNames.push_back(path);
-    sprintf(path, "%smodel.MPQ", input_path);
+    sprintf(path, "%s/Data/model.MPQ", input_path);
     pArchiveNames.push_back(path);
     pArchiveNames.push_back(path);
-    sprintf(path, "%stexture.MPQ", input_path);
+    sprintf(path, "%s/Data/texture.MPQ", input_path);
     pArchiveNames.push_back(path);
-    sprintf(path, "%swmo.MPQ", input_path);
+    sprintf(path, "%s/Data/wmo.MPQ", input_path);
     pArchiveNames.push_back(path);
-    sprintf(path, "%sbase.MPQ", input_path);
+    sprintf(path, "%s/Data/base.MPQ", input_path);
     pArchiveNames.push_back(path);
-    sprintf(path, "%smisc.MPQ", input_path);
+    sprintf(path, "%s/Data/misc.MPQ", input_path);
 
     // now, scan for the patch levels in the core dir
     printf("Scanning patch levels from data directory.\n");
-    sprintf(path, "%spatch", input_path);
+    sprintf(path, "%s/Data/patch", input_path);
     if (!scan_patches(path, pArchiveNames))
         { return(false); }
 
@@ -358,7 +355,7 @@ void Usage(char* prg)
     printf("\n");
     printf("Example:\n");
     printf("- use data path and create larger vmaps:\n");
-    printf("  %s -l -d \"c:\\games\\game\"\n", prg);
+    printf("  %s -l -d \"c:\\games\\world of warcraft\"\n", prg);
 }
 
 bool processArgv(int argc, char** argv)
