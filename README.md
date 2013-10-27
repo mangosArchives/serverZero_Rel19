@@ -1,4 +1,4 @@
-mangos-zero, a World of Warcraft server for vanilla WoW  [![Build status](https://travis-ci.org/mangoszero/server.png)][16] [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mangoszero/server/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+mangos-zero, a World of Warcraft server for vanilla WoW  [![Build status](https://travis-ci.org/mangoszero/server.png)][16]
 =======================================================
 *mangos-zero* is open source, built in [C++][7], fast, runs on multiple platforms,
 can store game data in [MySQL][40] and [PostgreSQL][42]. It has optional support
