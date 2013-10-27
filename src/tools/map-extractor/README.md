@@ -12,7 +12,7 @@ Instructions - Linux
 Use the created executable to extract model information. Change the data path if
 needed.
 
-    $ map-extractor -i /mnt/windows/games/wow/Data/
+    $ map-extractor -i /mnt/windows/games/world of warcraft/
 
 Resulting files will be in `./dbc` and `./maps`
 

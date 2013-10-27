@@ -12,7 +12,7 @@ Instructions - Linux
 Use the created executable to extract model information. Change the data path if
 needed.
 
-    $ vmap-extractor -d /mnt/windows/games/wow/Data/
+    $ vmap-extractor -d /mnt/windows/games/world of warcraft/
 
 Resulting files will be in ./Buildings
 
