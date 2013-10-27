@@ -38,14 +38,6 @@
 #include "sc_instance.h"
 #include "SpellAuras.h"
 
-#ifdef WIN32
-#  include <windows.h>
-BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
-{
-    return true;
-}
-#endif
-
 // sc_gossip.h:             ADD_GOSSIP_ITEM_EXTENDED outcommented box-money (Required until professions are fixed)
 // sc_creature.cpp:         Used in ScriptedAI::SelectSpell, outcommented SchoolMask
 
