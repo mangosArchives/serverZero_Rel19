@@ -157,7 +157,7 @@ void Usage(char* prg)
     printf("\n");
     printf("Example:\n");
     printf("- use input path and do not flatten maps:\n");
-    printf("  %s -f 0 -i \"c:\\games\\game\"\n", prg);
+    printf("  %s -f 0 -i \"c:\\games\\world of warcraft\"\n", prg);
     exit(1);
 }
 
