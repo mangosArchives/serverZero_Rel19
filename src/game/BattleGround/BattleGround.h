@@ -479,16 +479,12 @@ class BattleGround
 
 
     protected:
-<<<<<<< HEAD
-        // this method is called, when BG cannot spawn its own spirit guide, or something is wrong, It correctly ends BattleGround
-=======
         /**
          * @brief Ends a battleground
          *
          * This method is called, when BG can not spawn its own spirit guide, or
          * something is wrong, It correctly ends BattleGround
          */
->>>>>>> 42b6c14... Corrected a few text errors in code comments.
         void EndNow();
         void PlayerAddedToBGCheckIfBGIsRunning(Player* plr);
 
