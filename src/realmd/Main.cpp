@@ -231,7 +231,7 @@ extern int main(int argc, char** argv)
         uint32 pid = CreatePIDFile(pidfile);
         if (!pid)
         {
-            sLog.outError("Cannot create PID file %s.\n", pidfile.c_str());
+            sLog.outError("Can not create PID file %s.\n", pidfile.c_str());
             Log::WaitBeforeContinueIfNeed();
             return 1;
         }
@@ -398,7 +398,7 @@ bool StartDB()
 
     if (!LoginDatabase.Initialize(dbstring.c_str()))
     {
-        sLog.outError("Cannot connect to database");
+        sLog.outError("Can not connect to database");
         return false;
     }
 

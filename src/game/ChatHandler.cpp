@@ -235,7 +235,7 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recv_data)
             if (msg.empty())
                 { break; }
 
-            // if player is in battleground, he cannot say to battleground members by /p
+            // if player is in battleground, he can not say to battleground members by /p
             Group* group = GetPlayer()->GetOriginalGroup();
             if (!group)
             {
@@ -313,7 +313,7 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recv_data)
             if (msg.empty())
                 { break; }
 
-            // if player is in battleground, he cannot say to battleground members by /ra
+            // if player is in battleground, he can not say to battleground members by /ra
             Group* group = GetPlayer()->GetOriginalGroup();
             if (!group)
             {
@@ -343,7 +343,7 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recv_data)
             if (msg.empty())
                 { break; }
 
-            // if player is in battleground, he cannot say to battleground members by /ra
+            // if player is in battleground, he can not say to battleground members by /ra
             Group* group = GetPlayer()->GetOriginalGroup();
             if (!group)
             {

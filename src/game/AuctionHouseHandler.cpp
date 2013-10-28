@@ -367,7 +367,7 @@ void WorldSession::HandleAuctionPlaceBid(WorldPacket& recv_data)
 
     if (!auction || auction->owner == pl->GetGUIDLow())
     {
-        // you cannot bid your own auction:
+        // you can not bid your own auction:
         SendAuctionCommandResult(NULL, AUCTION_BID_PLACED, AUCTION_ERR_BID_OWN);
         return;
     }
@@ -378,7 +378,7 @@ void WorldSession::HandleAuctionPlaceBid(WorldPacket& recv_data)
     Player* auction_owner = sObjectMgr.GetPlayer(ownerGuid);
     if (!auction_owner && sObjectMgr.GetPlayerAccountIdByGUID(ownerGuid) == pl->GetSession()->GetAccountId())
     {
-        // you cannot bid your another character auction:
+        // you can not bid your another character auction:
         SendAuctionCommandResult(NULL, AUCTION_BID_PLACED, AUCTION_ERR_BID_OWN);
         return;
     }

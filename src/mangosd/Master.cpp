@@ -190,7 +190,7 @@ int Master::Run()
         uint32 pid = CreatePIDFile(pidfile);
         if (!pid)
         {
-            sLog.outError("Cannot create PID file %s.\n", pidfile.c_str());
+            sLog.outError("Can not create PID file %s.\n", pidfile.c_str());
             Log::WaitBeforeContinueIfNeed();
             return 1;
         }
@@ -417,11 +417,8 @@ int Master::Run()
         BOOL ret = WriteConsoleInput(hStdIn, b, 4, &numb);
 
         cliThread->wait();
-
 #else
-
         cliThread->destroy();
-
 #endif
 
         delete cliThread;
@@ -447,7 +444,7 @@ bool Master::_StartDB()
     ///- Initialise the world database
     if (!WorldDatabase.Initialize(dbstring.c_str(), nConnections))
     {
-        sLog.outError("Cannot connect to world database %s", dbstring.c_str());
+        sLog.outError("Can not connect to world database %s", dbstring.c_str());
         return false;
     }
 
@@ -473,7 +470,7 @@ bool Master::_StartDB()
     ///- Initialise the Character database
     if (!CharacterDatabase.Initialize(dbstring.c_str(), nConnections))
     {
-        sLog.outError("Cannot connect to Character database %s", dbstring.c_str());
+        sLog.outError("Can not connect to Character database %s", dbstring.c_str());
 
         ///- Wait for already started DB delay threads to end
         WorldDatabase.HaltDelayThread();
@@ -505,7 +502,7 @@ bool Master::_StartDB()
     sLog.outString("Login Database total connections: %i", nConnections + 1);
     if (!LoginDatabase.Initialize(dbstring.c_str(), nConnections))
     {
-        sLog.outError("Cannot connect to login database %s", dbstring.c_str());
+        sLog.outError("Can not connect to login database %s", dbstring.c_str());
 
         ///- Wait for already started DB delay threads to end
         WorldDatabase.HaltDelayThread();

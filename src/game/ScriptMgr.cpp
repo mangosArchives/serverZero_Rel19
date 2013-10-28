@@ -96,7 +96,7 @@ ScriptMgr::~ScriptMgr()
 // /////////////////////////////////////////////////////////
 //              DB SCRIPTS (loaders of static data)
 // /////////////////////////////////////////////////////////
-// returns priority (0 == cannot start script)
+// returns priority (0 == can not start script)
 uint8 GetSpellStartDBScriptPriority(SpellEntry const* spellinfo, SpellEffectIndex effIdx)
 {
     if (spellinfo->Effect[effIdx] == SPELL_EFFECT_SCRIPT_EFFECT)

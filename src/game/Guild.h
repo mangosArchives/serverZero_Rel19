@@ -37,7 +37,7 @@ class Item;
 
 enum GuildDefaultRanks
 {
-    // these ranks can be modified, but they cannot be deleted
+    // these ranks can be modified, but they can not be deleted
     GR_GUILDMASTER  = 0,
     GR_OFFICER      = 1,
     GR_VETERAN      = 2,

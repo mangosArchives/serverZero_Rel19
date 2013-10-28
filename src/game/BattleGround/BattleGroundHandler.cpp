@@ -355,7 +355,7 @@ void WorldSession::HandleBattleFieldPortOpcode(WorldPacket& recv_data)
         return;
     }
 
-    // some checks if player isn't cheating - it is not exactly cheating, but we cannot allow it
+    // some checks if player isn't cheating - it is not exactly cheating, but we can not allow it
     if (action == 1)
     {
         // if player is trying to enter battleground (not arena!) and he has deserter debuff, we must just remove him from queue
@@ -469,7 +469,7 @@ void WorldSession::HandleBattlefieldStatusOpcode(WorldPacket & /*recv_data*/)
         if (bgTypeId == _player->GetBattleGroundTypeId())
         {
             bg = _player->GetBattleGround();
-            // i cannot check any variable from player class because player class doesn't know if player is in 2v2 / 3v3 or 5v5 arena
+            // i can not check any variable from player class because player class doesn't know if player is in 2v2 / 3v3 or 5v5 arena
             // so i must use bg pointer to get that information
             if (bg)
             {

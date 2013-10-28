@@ -1244,10 +1244,11 @@ class BattleGround
 
 
     protected:
-        // this method is called, when BG cannot spawn its own spirit guide, or something is wrong, It correctly ends BattleGround
         /**
-         * @brief
+         * @brief Ends a battleground
          *
+         * This method is called, when BG can not spawn its own spirit guide, or
+         * something is wrong, It correctly ends BattleGround
          */
         void EndNow();
         /**

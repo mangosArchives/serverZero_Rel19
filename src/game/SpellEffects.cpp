@@ -4928,7 +4928,7 @@ void Spell::EffectSummonDemon(SpellEffectIndex eff_idx)
     if (m_spellInfo->EffectMiscValue[eff_idx] == 89)        // Inferno summon
     {
         // Enslave demon effect, without mana cost and cooldown
-        m_caster->CastSpell(Charmed, 20882, true);          // FIXME: enslave does not scale with level, level 62+ minions cannot be enslaved
+        m_caster->CastSpell(Charmed, 20882, true);          // FIXME: enslave does not scale with level, level 62+ minions can not be enslaved
 
         // Inferno effect
         Charmed->CastSpell(Charmed, 22703, true, 0);

@@ -735,10 +735,10 @@ enum MangosStrings
     LANG_BG_GROUP_MEMBER_DESERTER       = 731,              // "Someone in your party is Deserter. You can't join as group."
     LANG_BG_GROUP_MEMBER_NO_FREE_QUEUE_SLOTS = 732,         // "Someone in your party is already in three battleground queues. You cannot join as group."
 
-    LANG_CANNOT_TELE_TO_BG              = 733,              // "You cannot teleport to a battleground or arena map."
-    LANG_CANNOT_SUMMON_TO_BG            = 734,              // "You cannot summon players to a battleground or arena map."
+    LANG_CANNOT_TELE_TO_BG              = 733,              // "You can not teleport to a battleground or arena map."
+    LANG_CANNOT_SUMMON_TO_BG            = 734,              // "You can not summon players to a battleground or arena map."
     LANG_CANNOT_GO_TO_BG_GM             = 735,              // "You must be in GM mode to teleport to a player in a battleground."
-    LANG_CANNOT_GO_TO_BG_FROM_BG        = 736,              // "You cannot teleport to a battleground from another battleground. Please leave the current battleground first."
+    LANG_CANNOT_GO_TO_BG_FROM_BG        = 736,              // "You can not teleport to a battleground from another battleground. Please leave the current battleground first."
     // LANG_DEBUG_ARENA_ON               = 737,
     // LANG_DEBUG_ARENA_OFF              = 738,
     LANG_DEBUG_BG_ON                    = 739,

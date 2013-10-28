@@ -502,7 +502,7 @@ void ScriptedAI::DoResetThreat()
 {
     if (!m_creature->CanHaveThreatList() || m_creature->GetThreatManager().isThreatListEmpty())
     {
-        script_error_log("DoResetThreat called for creature that either cannot have threat list or has empty threat list (m_creature entry = %d)", m_creature->GetEntry());
+        script_error_log("DoResetThreat called for creature that either can not have threat list or has empty threat list (m_creature entry = %d)", m_creature->GetEntry());
         return;
     }
 

@@ -4038,7 +4038,7 @@ void Player::BuildPlayerRepop()
         { CastSpell(this, 20584, true); }                       // auras SPELL_AURA_INCREASE_SPEED(+speed in wisp form), SPELL_AURA_INCREASE_SWIM_SPEED(+swim speed in wisp form), SPELL_AURA_TRANSFORM (to wisp form)
     CastSpell(this, 8326, true);                            // auras SPELL_AURA_GHOST, SPELL_AURA_INCREASE_SPEED(why?), SPELL_AURA_INCREASE_SWIM_SPEED(why?)
 
-    // the player cannot have a corpse already, only bones which are not returned by GetCorpse
+    // the player can not have a corpse already, only bones which are not returned by GetCorpse
     if (GetCorpse())
     {
         sLog.outError("BuildPlayerRepop: player %s(%d) already has a corpse", GetName(), GetGUIDLow());
@@ -6664,7 +6664,7 @@ void Player::ApplyEquipSpell(SpellEntry const* spellInfo, Item* item, bool apply
 {
     if (apply)
     {
-        // Cannot be used in this stance/form
+        // Can not be used in this stance/form
         if (GetErrorAtShapeshiftedCast(spellInfo, GetShapeshiftForm()) != SPELL_CAST_OK)
             { return; }
 
@@ -6698,7 +6698,7 @@ void Player::ApplyEquipSpell(SpellEntry const* spellInfo, Item* item, bool apply
     {
         if (form_change)                                    // check aura compatibility
         {
-            // Cannot be used in this stance/form
+            // Can not be used in this stance/form
             if (GetErrorAtShapeshiftedCast(spellInfo, GetShapeshiftForm()) == SPELL_CAST_OK)
                 { return; }                                     // and remove only not compatible at form change
         }
@@ -18563,7 +18563,7 @@ void Player::ResurectUsingRequestData()
     if (m_resurrectGuid.IsPlayer())
         { TeleportTo(m_resurrectMap, m_resurrectX, m_resurrectY, m_resurrectZ, GetOrientation()); }
 
-    // we cannot resurrect player when we triggered far teleport
+    // we can not resurrect player when we triggered far teleport
     // player will be resurrected upon teleportation
     if (IsBeingTeleportedFar())
     {
@@ -19541,7 +19541,7 @@ AreaLockStatus Player::GetAreaTriggerLockStatus(AreaTrigger const* at, uint32& m
     // Map's state check
     if (map && map->IsDungeon())
     {
-        // cannot enter if the instance is full (player cap), GMs don't count
+        // can not enter if the instance is full (player cap), GMs don't count
         if (((DungeonMap*)map)->GetPlayersCountExceptGMs() >= ((DungeonMap*)map)->GetMaxPlayers())
             { return AREA_LOCKSTATUS_INSTANCE_IS_FULL; }
 

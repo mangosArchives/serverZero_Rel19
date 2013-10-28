@@ -107,26 +107,26 @@ ConfVersion=2010062001
 #                 1 (Ban Account)
 #
 ################################################################################
-LoginDatabaseInfo = "127.0.0.1;3306;mangos;mangos;realmd"
-LogsDir           = ""
-PidFile           = ""
+LoginDatabaseInfo      = "127.0.0.1;3306;mangos;mangos;realmd"
+LogsDir                = ""
+PidFile                = ""
 
-MaxPingTime     = 30
-RealmServerPort = 3724
-BindIP          = "0.0.0.0"
+MaxPingTime            = 30
+RealmServerPort        = 3724
+BindIP                 = "0.0.0.0"
 
-LogLevel     = 0
-LogTime      = 0
-LogFile      = "realm-list.log"
-LogTimestamp = 0
-LogFileLevel = 0
-LogColors    = "13 7 11 9"
+LogLevel               = 0
+LogTime                = 0
+LogFile                = "realm-list.log"
+LogTimestamp           = 0
+LogFileLevel           = 0
+LogColors              = "13 7 11 9"
 
 UseProcessors          = 0
 ProcessPriority        = 1
 WaitAtStartupError     = 0
 RealmsStateUpdateDelay = 20
 
-WrongPass.MaxCount = 3
-WrongPass.BanTime  = 300
-WrongPass.BanType  = 0
+WrongPass.MaxCount     = 3
+WrongPass.BanTime      = 300
+WrongPass.BanType      = 0

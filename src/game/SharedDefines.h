@@ -286,14 +286,14 @@ enum SpellAttributes
     SPELL_ATTR_UNK18                            = 0x00040000,            // 18
     SPELL_ATTR_LEVEL_DAMAGE_CALCULATION         = 0x00080000,            // 19 spelldamage depends on caster level
     SPELL_ATTR_STOP_ATTACK_TARGET               = 0x00100000,            // 20 Stop attack after use this spell (and not begin attack if use)
-    SPELL_ATTR_IMPOSSIBLE_DODGE_PARRY_BLOCK     = 0x00200000,            // 21 Cannot be dodged/parried/blocked
+    SPELL_ATTR_IMPOSSIBLE_DODGE_PARRY_BLOCK     = 0x00200000,            // 21 Can not be dodged/parried/blocked
     SPELL_ATTR_SET_TRACKING_TARGET              = 0x00400000,            // 22 SetTrackingTarget
     SPELL_ATTR_UNK23                            = 0x00800000,            // 23 castable while dead?
     SPELL_ATTR_CASTABLE_WHILE_MOUNTED           = 0x01000000,            // 24 castable while mounted
     SPELL_ATTR_DISABLED_WHILE_ACTIVE            = 0x02000000,            // 25 Activate and start cooldown after aura fade or remove summoned creature or go
     SPELL_ATTR_UNK26                            = 0x04000000,            // 26
     SPELL_ATTR_CASTABLE_WHILE_SITTING           = 0x08000000,            // 27 castable while sitting
-    SPELL_ATTR_CANT_USED_IN_COMBAT              = 0x10000000,            // 28 Cannot be used in combat
+    SPELL_ATTR_CANT_USED_IN_COMBAT              = 0x10000000,            // 28 Can not be used in combat
     SPELL_ATTR_UNAFFECTED_BY_INVULNERABILITY    = 0x20000000,            // 29 unaffected by invulnerability (hmm possible not...)
     SPELL_ATTR_UNK30                            = 0x40000000,            // 30 breakable by damage?
     SPELL_ATTR_CANT_CANCEL                      = 0x80000000,            // 31 positive aura can't be canceled
@@ -404,7 +404,7 @@ enum SpellAttributesEx3
     SPELL_ATTR_EX3_UNK28                        = 0x10000000,            // 28
     SPELL_ATTR_EX3_UNK29                        = 0x20000000,            // 29
     SPELL_ATTR_EX3_UNK30                        = 0x40000000,            // 30
-    SPELL_ATTR_EX3_UNK31                        = 0x80000000,            // 31
+    SPELL_ATTR_EX3_UNK31                        = 0x80000000             // 31
 };
 
 enum SpellAttributesEx4
@@ -415,7 +415,7 @@ enum SpellAttributesEx4
     SPELL_ATTR_EX4_UNK3                         = 0x00000008,            // 3
     SPELL_ATTR_EX4_UNK4                         = 0x00000010,            // 4 This will no longer cause guards to attack on use??
     SPELL_ATTR_EX4_UNK5                         = 0x00000020,            // 5
-    SPELL_ATTR_EX4_NOT_STEALABLE                = 0x00000040,            // 6 although such auras might be dispellable, they cannot be stolen
+    SPELL_ATTR_EX4_NOT_STEALABLE                = 0x00000040,            // 6 although such auras might be dispellable, they can not be stolen
     SPELL_ATTR_EX4_UNK7                         = 0x00000080,            // 7
     SPELL_ATTR_EX4_UNK8                         = 0x00000100,            // 8
     SPELL_ATTR_EX4_UNK9                         = 0x00000200,            // 9
@@ -440,7 +440,7 @@ enum SpellAttributesEx4
     SPELL_ATTR_EX4_UNK28                        = 0x10000000,            // 28
     SPELL_ATTR_EX4_UNK29                        = 0x20000000,            // 29
     SPELL_ATTR_EX4_UNK30                        = 0x40000000,            // 30
-    SPELL_ATTR_EX4_UNK31                        = 0x80000000,            // 31
+    SPELL_ATTR_EX4_UNK31                        = 0x80000000             // 31
 };
 
 enum SheathTypes
@@ -1086,7 +1086,7 @@ enum GameobjectTypes
     GAMEOBJECT_TYPE_MINI_GAME              = 27,
     GAMEOBJECT_TYPE_LOTTERY_KIOSK          = 28,
     GAMEOBJECT_TYPE_CAPTURE_POINT          = 29,
-    GAMEOBJECT_TYPE_AURA_GENERATOR         = 30,
+    GAMEOBJECT_TYPE_AURA_GENERATOR         = 30
 };
 
 #define MAX_GAMEOBJECT_TYPE                  31             // sending to client this or greater value can crash client.
@@ -1095,9 +1095,9 @@ enum GameObjectFlags
 {
     GO_FLAG_IN_USE          = 0x00000001,                   // disables interaction while animated
     GO_FLAG_LOCKED          = 0x00000002,                   // require key, spell, event, etc to be opened. Makes "Locked" appear in tooltip
-    GO_FLAG_INTERACT_COND   = 0x00000004,                   // cannot interact (condition to interact)
+    GO_FLAG_INTERACT_COND   = 0x00000004,                   // can not interact (condition to interact)
     GO_FLAG_TRANSPORT       = 0x00000008,                   // any kind of transport? Object can transport (elevator, boat, car)
-    GO_FLAG_NO_INTERACT     = 0x00000010,                   // players cannot interact with this go (often need to remove flag in event)
+    GO_FLAG_NO_INTERACT     = 0x00000010,                   // players can not interact with this go (often need to remove flag in event)
     GO_FLAG_NODESPAWN       = 0x00000020,                   // never despawn, typically for doors, they just change state
     GO_FLAG_TRIGGERED       = 0x00000040                    // typically, summoned objects. Triggered by spell or other events
 };
@@ -1106,7 +1106,7 @@ enum GameObjectDynamicLowFlags
 {
     GO_DYNFLAG_LO_ACTIVATE          = 0x01,                 // enables interaction with GO
     GO_DYNFLAG_LO_ANIMATE           = 0x02,                 // possibly more distinct animation of GO
-    GO_DYNFLAG_LO_NO_INTERACT       = 0x04,                 // appears to disable interaction (not fully verified)
+    GO_DYNFLAG_LO_NO_INTERACT       = 0x04                  // appears to disable interaction (not fully verified)
 };
 
 enum TextEmotes

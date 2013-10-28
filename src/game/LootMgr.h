@@ -38,7 +38,7 @@ class LootStore;
 class WorldObject;
 
 #define MAX_NR_LOOT_ITEMS 16
-// note: the client cannot show more than 16 items total
+// note: the client can not show more than 16 items total
 #define MAX_NR_QUEST_ITEMS 32
 // unrelated to the number of quest items shown, just for reserve
 

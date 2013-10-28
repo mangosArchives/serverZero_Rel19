@@ -3934,7 +3934,7 @@ SpellCastResult Spell::CheckCast(bool strict)
     // for now, ignore triggered spells
     if (strict && !m_IsTriggeredSpell)
     {
-        // Cannot be used in this stance/form
+        // Can not be used in this stance/form
         SpellCastResult shapeError = GetErrorAtShapeshiftedCast(m_spellInfo, m_caster->GetShapeshiftForm());
         if (shapeError != SPELL_CAST_OK)
             { return shapeError; }

@@ -447,7 +447,7 @@ struct MANGOS_DLL_DECL boss_cthunAI : public Scripted_NoMovementAI
 
     void EnterEvadeMode() override
     {
-        // Kill any player from the stomach on evade - this is becuase C'thun cannot be soloed.
+        // Kill any player from the stomach on evade - this is because C'thun can not be soloed.
         for (GuidList::const_iterator itr = m_lPlayersInStomachList.begin(); itr != m_lPlayersInStomachList.end(); ++itr)
         {
             if (Player* pPlayer = m_creature->GetMap()->GetPlayer(*itr))

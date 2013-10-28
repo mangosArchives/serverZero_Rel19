@@ -212,7 +212,7 @@ bool Guild::AddMember(ObjectGuid plGuid, uint32 plRank)
         if (newmember.Level < 1 || newmember.Level > STRONG_MAX_LEVEL ||
             !((1 << (newmember.Class - 1)) & CLASSMASK_ALL_PLAYABLE))
         {
-            sLog.outError("%s has a broken data in field `characters` table, cannot add him to guild.", plGuid.GetString().c_str());
+            sLog.outError("%s has a broken data in field `characters` table, can not add him to guild.", plGuid.GetString().c_str());
             return false;
         }
     }
@@ -328,7 +328,7 @@ bool Guild::LoadRanksFromDB(QueryResult* guildRanksResult)
 
     // GUILD RANKS are sequence starting from 0 = GUILD_MASTER (ALL PRIVILEGES) to max 9 (lowest privileges)
     // the lower rank id is considered higher rank - so promotion does rank-- and demotion does rank++
-    // between ranks in sequence cannot be gaps - so 0,1,2,4 cannot be
+    // between ranks in sequence can not be gaps - so 0,1,2,4 can not be
     // min ranks count is 5 and max is 10.
 
     do

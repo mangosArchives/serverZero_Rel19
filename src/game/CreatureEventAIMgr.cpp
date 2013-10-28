@@ -206,10 +206,10 @@ bool IsValidTargetType(EventAI_Type eventType, EventAI_ActionType actionType, ui
                 case EVENT_T_TIMER_OOC:
                 case EVENT_T_OOC_LOS:
                 case EVENT_T_REACHED_HOME:
-                    sLog.outErrorEventAI("Event %u Action%u uses incorrect Target type %u for event-type %u (cannot be used OOC)", eventId, action, targetType, eventType);
+                    sLog.outErrorEventAI("Event %u Action%u uses incorrect Target type %u for event-type %u (can not be used OOC)", eventId, action, targetType, eventType);
                     return false;
                 case EVENT_T_TIMER_GENERIC:
-                    sLog.outErrorEventAI("Event %u Action%u uses LIKELY incorrect Target type %u for event-type %u (cannot be used OOC)", eventId, action, targetType, eventType);
+                    sLog.outErrorEventAI("Event %u Action%u uses LIKELY incorrect Target type %u for event-type %u (can not be used OOC)", eventId, action, targetType, eventType);
                     return true;                            // Does not need to be an error
                 default:
                     return true;
@@ -334,7 +334,7 @@ void CreatureEventAIMgr::LoadCreatureEventAI_Scripts()
 
                     if (temp.event_flags & EFLAG_REPEATABLE && !temp.percent_range.repeatMin && !temp.percent_range.repeatMax)
                     {
-                        sLog.outErrorEventAI("Creature %u has param3 and param4=0 (RepeatMin/RepeatMax) but cannot be repeatable without timers. Removing EFLAG_REPEATABLE for event %u.", temp.creature_id, i);
+                        sLog.outErrorEventAI("Creature %u has param3 and param4=0 (RepeatMin/RepeatMax) but can not be repeatable without timers. Removing EFLAG_REPEATABLE for event %u.", temp.creature_id, i);
                         temp.event_flags &= ~EFLAG_REPEATABLE;
                     }
                     break;
@@ -714,7 +714,7 @@ void CreatureEventAIMgr::LoadCreatureEventAI_Scripts()
                         break;
                     case ACTION_T_SET_PHASE:
                         if (action.set_phase.phase >= MAX_PHASE)
-                            { sLog.outErrorEventAI("Event %u Action %u attempts to set phase >= %u. Phase mask cannot be used past phase %u.", i, j + 1, MAX_PHASE, MAX_PHASE - 1); }
+                            { sLog.outErrorEventAI("Event %u Action %u attempts to set phase >= %u. Phase mask can not be used past phase %u.", i, j + 1, MAX_PHASE, MAX_PHASE - 1); }
                         break;
                     case ACTION_T_INC_PHASE:
                         if (action.set_inc_phase.step == 0)
@@ -744,17 +744,17 @@ void CreatureEventAIMgr::LoadCreatureEventAI_Scripts()
                         break;
                     case ACTION_T_RANDOM_PHASE:             // PhaseId1, PhaseId2, PhaseId3
                         if (action.random_phase.phase1 >= MAX_PHASE)
-                            { sLog.outErrorEventAI("Event %u Action %u attempts to set phase1 >= %u. Phase mask cannot be used past phase %u.", i, j + 1, MAX_PHASE, MAX_PHASE - 1); }
+                            { sLog.outErrorEventAI("Event %u Action %u attempts to set phase1 >= %u. Phase mask can not be used past phase %u.", i, j + 1, MAX_PHASE, MAX_PHASE - 1); }
                         if (action.random_phase.phase2 >= MAX_PHASE)
-                            { sLog.outErrorEventAI("Event %u Action %u attempts to set phase2 >= %u. Phase mask cannot be used past phase %u.", i, j + 1, MAX_PHASE, MAX_PHASE - 1); }
+                            { sLog.outErrorEventAI("Event %u Action %u attempts to set phase2 >= %u. Phase mask can not be used past phase %u.", i, j + 1, MAX_PHASE, MAX_PHASE - 1); }
                         if (action.random_phase.phase3 >= MAX_PHASE)
-                            { sLog.outErrorEventAI("Event %u Action %u attempts to set phase3 >= %u. Phase mask cannot be used past phase %u.", i, j + 1, MAX_PHASE, MAX_PHASE - 1); }
+                            { sLog.outErrorEventAI("Event %u Action %u attempts to set phase3 >= %u. Phase mask can not be used past phase %u.", i, j + 1, MAX_PHASE, MAX_PHASE - 1); }
                         break;
                     case ACTION_T_RANDOM_PHASE_RANGE:       // PhaseMin, PhaseMax
                         if (action.random_phase_range.phaseMin >= MAX_PHASE)
-                            { sLog.outErrorEventAI("Event %u Action %u attempts to set phaseMin >= %u. Phase mask cannot be used past phase %u.", i, j + 1, MAX_PHASE, MAX_PHASE - 1); }
+                            { sLog.outErrorEventAI("Event %u Action %u attempts to set phaseMin >= %u. Phase mask can not be used past phase %u.", i, j + 1, MAX_PHASE, MAX_PHASE - 1); }
                         if (action.random_phase_range.phaseMin >= MAX_PHASE)
-                            { sLog.outErrorEventAI("Event %u Action %u attempts to set phaseMax >= %u. Phase mask cannot be used past phase %u.", i, j + 1, MAX_PHASE, MAX_PHASE - 1); }
+                            { sLog.outErrorEventAI("Event %u Action %u attempts to set phaseMax >= %u. Phase mask can not be used past phase %u.", i, j + 1, MAX_PHASE, MAX_PHASE - 1); }
                         if (action.random_phase_range.phaseMin >= action.random_phase_range.phaseMax)
                         {
                             sLog.outErrorEventAI("Event %u Action %u attempts to set phaseMax <= phaseMin.", i, j + 1);

@@ -1027,7 +1027,7 @@ void PoolManager::LoadFromDB()
         {
             if (!CheckPool(pool_entry))
             {
-                sLog.outErrorDb("Pool Id (%u) has all creatures or gameobjects with explicit chance sum <>100 and no equal chance defined. The pool system cannot pick one to spawn.", pool_entry);
+                sLog.outErrorDb("Pool Id (%u) has all creatures or gameobjects with explicit chance sum <>100 and no equal chance defined. The pool system can not pick one to spawn.", pool_entry);
                 mPoolTemplate[pool_entry].AutoSpawn = false;
             }
         }
