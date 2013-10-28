@@ -299,7 +299,7 @@ void PathFinder::BuildPolyPath(const Vector3& startPos, const Vector3& endPos)
         m_polyLength -= pathStartIndex;
 
         // try to adjust the suffix of the path instead of recalculating entire length
-        // at given interval the target cannot get too far from its last location
+        // at given interval the target can not get too far from its last location
         // thus we have less poly to cover
         // sub-path of optimal path is optimal
 

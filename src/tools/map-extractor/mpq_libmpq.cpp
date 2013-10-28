@@ -55,7 +55,7 @@ MPQArchive::MPQArchive(const char* filename)
                 printf("Error opening archive '%s': Maybe not enough memory\n", filename);
                 break;
             case LIBMPQ_EFREEMEM :                /* can not free memory */
-                printf("Error opening archive '%s': Cannot free memory\n", filename);
+                printf("Error opening archive '%s': Can not free memory\n", filename);
                 break;
             case LIBMPQ_EINV_RANGE :              /* Given filenumber is out of range */
                 printf("Error opening archive '%s': Given filenumber is out of range\n", filename);

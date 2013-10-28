@@ -791,7 +791,7 @@ bool AuthSocket::_HandleReconnectChallenge()
     // Stop if the account is not found
     if (!result)
     {
-        sLog.outError("[ERROR] user %s tried to login and we cannot find his session key in the database.", _login.c_str());
+        sLog.outError("[ERROR] user %s tried to login and we can not find his session key in the database.", _login.c_str());
         close_connection();
         return false;
     }
@@ -869,7 +869,7 @@ bool AuthSocket::_HandleRealmList()
     QueryResult* result = LoginDatabase.PQuery("SELECT id,sha_pass_hash FROM account WHERE username = '%s'", _safelogin.c_str());
     if (!result)
     {
-        sLog.outError("[ERROR] user %s tried to login and we cannot find him in the database.", _login.c_str());
+        sLog.outError("[ERROR] user %s tried to login and we can not find him in the database.", _login.c_str());
         close_connection();
         return false;
     }

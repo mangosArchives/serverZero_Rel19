@@ -658,7 +658,7 @@ bool WorldSession::CanInteractWithQuestGiver(ObjectGuid guid, char const* descr)
         Creature* pCreature = _player->GetNPCIfCanInteractWith(guid, UNIT_NPC_FLAG_QUESTGIVER);
         if (!pCreature)
         {
-            DEBUG_LOG("WORLD: %s - %s cannot interact with %s.", descr, _player->GetGuidStr().c_str(), guid.GetString().c_str());
+            DEBUG_LOG("WORLD: %s - %s can not interact with %s.", descr, _player->GetGuidStr().c_str(), guid.GetString().c_str());
             return false;
         }
     }
@@ -667,7 +667,7 @@ bool WorldSession::CanInteractWithQuestGiver(ObjectGuid guid, char const* descr)
         GameObject* pGo = _player->GetGameObjectIfCanInteractWith(guid, GAMEOBJECT_TYPE_QUESTGIVER);
         if (!pGo)
         {
-            DEBUG_LOG("WORLD: %s - %s cannot interact with %s.", descr, _player->GetGuidStr().c_str(), guid.GetString().c_str());
+            DEBUG_LOG("WORLD: %s - %s can not interact with %s.", descr, _player->GetGuidStr().c_str(), guid.GetString().c_str());
             return false;
         }
     }

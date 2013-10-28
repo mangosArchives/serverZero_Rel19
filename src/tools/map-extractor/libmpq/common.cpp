@@ -614,7 +614,7 @@ int libmpq_file_read_block(mpq_archive* mpq_a, mpq_file* mpq_f, unsigned int blo
                 mpq_f->seed = libmpq_detect_fileseed(mpq_a, mpq_f->blockpos, nread);
             }
 
-            /* If we don't know the file seed, sorry but we cannot extract the file. */
+            /* If we don't know the file seed, sorry but we can not extract the file. */
             if (mpq_f->seed == 0)
             {
                 return 0;

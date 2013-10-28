@@ -1007,7 +1007,7 @@ void Creature::SaveToDB()
     CreatureData const* data = sObjectMgr.GetCreatureData(GetGUIDLow());
     if (!data)
     {
-        sLog.outError("Creature::SaveToDB failed, cannot get creature data!");
+        sLog.outError("Creature::SaveToDB failed, can not get creature data!");
         return;
     }
 
@@ -1914,7 +1914,7 @@ void Creature::SetInCombatWithZone()
 {
     if (!CanHaveThreatList())
     {
-        sLog.outError("Creature entry %u call SetInCombatWithZone but creature cannot have threat list.", GetEntry());
+        sLog.outError("Creature entry %u call SetInCombatWithZone but creature can not have threat list.", GetEntry());
         return;
     }
 

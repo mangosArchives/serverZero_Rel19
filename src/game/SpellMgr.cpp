@@ -911,7 +911,7 @@ bool IsSingleTargetSpell(SpellEntry const* spellInfo)
         case 24664:                                         // Sleep (group targets)
             return false;
     }
-    // cannot be cast on another target while not cooled down anyway
+    // can not be cast on another target while not cooled down anyway
     if (GetSpellDuration(spellInfo) < int32(GetSpellRecoveryTime(spellInfo)))
         { return false; }
 

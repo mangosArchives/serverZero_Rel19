@@ -493,7 +493,7 @@ void DungeonResetScheduler::ScheduleReset(bool add, time_t time, DungeonResetEve
             }
 
             if (itr == m_resetTimeQueue.end())
-                { sLog.outError("DungeonResetScheduler::ScheduleReset: cannot cancel the reset, the event(%d,%d,%d) was not found!", event.type, event.mapid, event.instanceId); }
+                { sLog.outError("DungeonResetScheduler::ScheduleReset: can not cancel the reset, the event(%d,%d,%d) was not found!", event.type, event.mapid, event.instanceId); }
         }
     }
 }

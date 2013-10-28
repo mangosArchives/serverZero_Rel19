@@ -204,7 +204,7 @@ class DungeonPersistentState : public MapPersistentState
         void SetResetTime(time_t resetTime) { m_resetTime = resetTime; }
         time_t GetResetTimeForDB() const;
 
-        /* instances cannot be reset (except at the global reset time)
+        /* instances can not be reset (except at the global reset time)
            if there are players permanently bound to it
            this is cached for the case when those players are offline */
         bool CanReset() const { return m_canReset; }

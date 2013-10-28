@@ -605,7 +605,7 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
             { lockStatus = AREA_LOCKSTATUS_UNKNOWN_ERROR; }
     }
 
-    /* This code is run if we cannot add the player to the map for some reason */
+    /* This code is run if we can not add the player to the map for some reason */
     if (lockStatus != AREA_LOCKSTATUS_OK || !pCurrChar->GetMap()->Add(pCurrChar))
     {
         /* Attempt to find an areatrigger to teleport the player for us */

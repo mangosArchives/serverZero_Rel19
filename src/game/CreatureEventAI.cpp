@@ -735,7 +735,7 @@ void CreatureEventAI::ProcessAction(CreatureEventAI_Action const& action, uint32
             }
             else if (new_phase >= MAX_PHASE)
             {
-                sLog.outErrorEventAI("Event %d incremented Phase above %u. Phase mask cannot be used with phases past %u. CreatureEntry = %d", EventId, MAX_PHASE - 1, MAX_PHASE - 1, m_creature->GetEntry());
+                sLog.outErrorEventAI("Event %d incremented Phase above %u. Phase mask can not be used with phases past %u. CreatureEntry = %d", EventId, MAX_PHASE - 1, MAX_PHASE - 1, m_creature->GetEntry());
                 m_Phase = MAX_PHASE - 1;
             }
             else
@@ -790,7 +790,7 @@ void CreatureEventAI::ProcessAction(CreatureEventAI_Action const& action, uint32
             if (action.random_phase_range.phaseMax > action.random_phase_range.phaseMin)
                 { m_Phase = action.random_phase_range.phaseMin + (rnd % (action.random_phase_range.phaseMax - action.random_phase_range.phaseMin)); }
             else
-                { sLog.outErrorEventAI("ACTION_T_RANDOM_PHASE_RANGE cannot have Param2 <= Param1. Divide by Zero. Event = %d. CreatureEntry = %d", EventId, m_creature->GetEntry()); }
+                { sLog.outErrorEventAI("ACTION_T_RANDOM_PHASE_RANGE can not have Param2 <= Param1. Divide by Zero. Event = %d. CreatureEntry = %d", EventId, m_creature->GetEntry()); }
             break;
         case ACTION_T_SUMMON_ID:
         {
@@ -1267,7 +1267,7 @@ void CreatureEventAI::UpdateAI(const uint32 diff)
             {
                 if ((*i).Time > m_EventDiff)
                 {
-                    // Do not decrement timers if event cannot trigger in this phase
+                    // Do not decrement timers if event can not trigger in this phase
                     if (!((*i).Event.event_inverse_phase_mask & (1 << m_Phase)))
                         { (*i).Time -= m_EventDiff; }
 
@@ -1420,7 +1420,7 @@ Unit* CreatureEventAI::DoSelectLowestHpFriendly(float range, uint32 MinHPDiff)
 
     /*
     typedef TYPELIST_4(GameObject, Creature*except pets*, DynamicObject, Corpse*Bones*) AllGridObjectTypes;
-    This means that if we only search grid then we cannot possibly return pets or players so this is safe
+    This means that if we only search grid then we can not possibly return pets or players so this is safe
     */
     Cell::VisitGridObjects(m_creature, searcher, range);
     return pUnit;

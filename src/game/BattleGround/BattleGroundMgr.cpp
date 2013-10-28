@@ -313,7 +313,7 @@ void BattleGroundQueue::RemovePlayer(ObjectGuid guid, bool decreaseInvitedCount)
     // player can't be in queue without group, but just in case
     if (bracket_id == -1)
     {
-        sLog.outError("BattleGroundQueue: ERROR Cannot find groupinfo for %s", guid.GetString().c_str());
+        sLog.outError("BattleGroundQueue: ERROR Can not find groupinfo for %s", guid.GetString().c_str());
         return;
     }
     DEBUG_LOG("BattleGroundQueue: Removing %s, from bracket_id %u", guid.GetString().c_str(), (uint32)bracket_id);
@@ -685,7 +685,7 @@ void BattleGroundQueue::Update(BattleGroundTypeId bgTypeId, BattleGroundBracketI
             BattleGround* bg2 = sBattleGroundMgr.CreateNewBattleGround(bgTypeId, bracket_id);
             if (!bg2)
             {
-                sLog.outError("BattleGroundQueue::Update - Cannot create battleground: %u", bgTypeId);
+                sLog.outError("BattleGroundQueue::Update - Can not create battleground: %u", bgTypeId);
                 return;
             }
             // invite those selection pools
@@ -709,7 +709,7 @@ void BattleGroundQueue::Update(BattleGroundTypeId bgTypeId, BattleGroundBracketI
             BattleGround* bg2 = sBattleGroundMgr.CreateNewBattleGround(bgTypeId, bracket_id);
             if (!bg2)
             {
-                sLog.outError("BattleGroundQueue::Update - Cannot create battleground: %u", bgTypeId);
+                sLog.outError("BattleGroundQueue::Update - Can not create battleground: %u", bgTypeId);
                 return;
             }
 

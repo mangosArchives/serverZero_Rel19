@@ -103,7 +103,7 @@ CanCastResult CreatureAI::DoCastSpellIfCan(Unit* pTarget, uint32 uiSpell, uint32
                     { return CAST_FAIL_TARGET_AURA; }
             }
 
-            // Check if cannot cast spell
+            // Check if can not cast spell
             if (!(uiCastFlags & (CAST_FORCE_TARGET_SELF | CAST_FORCE_CAST)))
             {
                 CanCastResult castResult = CanCastSpell(pTarget, pSpell, uiCastFlags & CAST_TRIGGERED);
