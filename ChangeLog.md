@@ -28,7 +28,7 @@ in 0.18 minor versions.
   and examples.
 * Player movement has been rewritten, and now factors in possible issues such as
   lag when sending out character movement. This also means, looting when moving
-  is no longer possible, and will be cancelled.
+  is no longer possible, and will be canceled.
 * Looting in groups has been corrected, and you should now be able to use round
   robin, master looter, free for all and need before greed looting.
 * EventAI is now more verbose, and will validate targets for commands upon server
@@ -49,7 +49,7 @@ Also numerous minor fixes and improvements have been added, such as:
   less confusing messages for identical issues.
 * In-game commands `goname` and `namego` have been replaced with `appear` and
   `summon`. If you happen to find other commands with weird naming, let us know!
-* We've done extensive house-keeping and removed many TBC specific code parts,
+* We have done extensive house-keeping and removed many TBC specific code parts,
   and replaced TBC specific values with the proper vanilla WoW counterparts.
   This includes the TBC spell modifiers, which now have been dropped and are no
   longer available.
@@ -126,7 +126,7 @@ The following highlights the changes to the Scripting API:
 
 Also numerous minor fixes and improvements have been added, such as:
 
-* We've continued our research on client data, and resolved another batch of
+* We have continued our research on client data, and resolved another batch of
   unknown variables and flags with their proper values including spell families
   and item classes.
 * A few compile time warnings have been resolved, as well as a number of

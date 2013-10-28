@@ -11,8 +11,8 @@ Thanks should also go out to the Ludmilla team, who are also providing the
 community with a great server. We have not gained too much help from them,
 but we have received some.
 
-Thanks to WCell team (especially Ralek) for reseach on realm reconnect sequence,
-item scaling stats algorithm, gameobject rotation issues.
+Thanks to WCell team (especially Ralek) for research on realm reconnect sequence,
+item scaling stats algorithm, game object rotation issues.
 
 We would also like to acknowledge the contributions made by the following
 teams, those input and code has from time to time been included in the MaNGOS

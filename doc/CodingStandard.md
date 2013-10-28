@@ -28,7 +28,7 @@ characters between them into one.
 
 Brackets
 --------
-Now we use symmetric bracket placement, closing bracked under the opening bracket:
+Now we use symmetric bracket placement, closing bracket under the opening bracket:
 
 	if (something)
 	{
@@ -145,5 +145,5 @@ Here's a example that shows most useful keywords that you can use in a comment b
 	void Something();
 
 Use normal comments like `//` and `/* ... */` only if you want to make a comment
-that shouldn't go into the automatically annotated code (like:
+that should not go into the automatically annotated code (like:
 `/* shit ... this does not work */`).

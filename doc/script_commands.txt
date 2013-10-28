@@ -14,9 +14,9 @@ the various types of game content.
 -----------
 * `dbscripts_on_creature_death`: Creature entry
 * `dbscripts_on_creature_movement`: DB project self defined id
-* `dbscripts_on_event`: Event id. Several sources: spell effect 61, taxi/transport nodes, gameobject_template data
-* `dbscripts_on_go_use`: Gameobject guid
-* `dbscripts_on_go_template_use`: Gameobject entry
+* `dbscripts_on_event`: Event id. Several sources: spell effect 61, taxi/transport nodes, game object_template data
+* `dbscripts_on_go_use`: Game object guid
+* `dbscripts_on_go_template_use`: Game object entry
 * `dbscripts_on_gossip`: DB project self defined id
 * `dbscripts_on_quest_end`: DB project self defined id (generally quest entry)
 * `dbscripts_on_quest_start`: DB project self defined id (generally quest entry)
@@ -55,7 +55,7 @@ Value | Name                            | Notes
 4     | SCRIPT_FLAG_SOURCE_TARGETS_SELF |
 8     | SCRIPT_FLAG_COMMAND_ADDITIONAL  | (Only for some commands possible)
 16    | SCRIPT_FLAG_BUDDY_BY_GUID       | (Interpret search_radius as buddy's guid)
-32    | SCRIPT_FLAG_BUDDY_IS_PET        | (Do not search for an npc, but for a pet)
+32    | SCRIPT_FLAG_BUDDY_IS_PET        | (Do not search for an NPC, but for a pet)
 
 `dataint` columns
 -----------------
@@ -133,8 +133,8 @@ ID | Name                                   | Parameters
 1  | SCRIPT_COMMAND_EMOTE                   | resultingSource = Unit, resultingTarget = Unit/none, `datalong` = emote_id
 2  | SCRIPT_COMMAND_FIELD_SET               | source = any, `datalong` = field_id, `datalong2` = field value
 3  | SCRIPT_COMMAND_MOVE_TO                 | resultingSource = Creature. If position is very near to current position, or x=y=z=0, then only orientation is changed. `datalong2` = travel_speed*100 (use 0 for creature default movement). `data_flags` & SCRIPT_FLAG_COMMAND_ADDITIONAL: teleport unit to position `x`/`y`/`z`/`o`
-4  | SCRIPT_COMMAND_FLAG_SET                | source = any. `datalong` = field_id, `datalong2` = bitmask
-5  | SCRIPT_COMMAND_FLAG_REMOVE             | source = any. `datalong` = field_id, `datalong2` = bitmask
+4  | SCRIPT_COMMAND_FLAG_SET                | source = any. `datalong` = field_id, `datalong2` = bit mask
+5  | SCRIPT_COMMAND_FLAG_REMOVE             | source = any. `datalong` = field_id, `datalong2` = bit mask
 6  | SCRIPT_COMMAND_TELEPORT_TO             | source or target with Player. `datalong` = map_id, x/y/z
 7  | SCRIPT_COMMAND_QUEST_EXPLORED          | one from source or target must be Player, another GO/Creature. `datalong` = quest_id, `datalong2` = distance or 0
 8  | SCRIPT_COMMAND_KILL_CREDIT             | source or target with Player. `datalong` = creature entry, or 0; If 0 the entry of the creature source or target is used, `datalong2` = bool (0=personal credit, 1=group credit)
@@ -145,7 +145,7 @@ ID | Name                                   | Parameters
 13 | SCRIPT_COMMAND_ACTIVATE_OBJECT         | source = unit, target=GO.
 14 | SCRIPT_COMMAND_REMOVE_AURA             | resultingSource = Unit. `datalong` = spell_id
 15 | SCRIPT_COMMAND_CAST_SPELL              | resultingSource = Unit, cast spell at resultingTarget = Unit. `datalong` = spell id, `data_flags` & SCRIPT_FLAG_COMMAND_ADDITIONAL: cast triggered
-16 | SCRIPT_COMMAND_PLAY_SOUND              | source = any object, target=any/player. `datalong` = sound_id, `datalong2` (bitmask: 0/1=target-player, 0/2=with distance dependent, 0/4=map wide, 0/8=zone wide; so 1|2 = 3 is target with distance dependent)
+16 | SCRIPT_COMMAND_PLAY_SOUND              | source = any object, target=any/player. `datalong` = sound_id, `datalong2` (bit mask: 0/1=target-player, 0/2=with distance dependent, 0/4=map wide, 0/8=zone wide; so 1|2 = 3 is target with distance dependent)
 17 | SCRIPT_COMMAND_CREATE_ITEM             | source or target must be player. `datalong` = item entry, `datalong2` = amount
 18 | SCRIPT_COMMAND_DESPAWN_SELF            | resultingSource = Creature. `datalong` = despawn delay
 19 | SCRIPT_COMMAND_PLAY_MOVIE              | target can only be a player. `datalong` = movie id
@@ -160,7 +160,7 @@ ID | Name                                   | Parameters
 28 | SCRIPT_COMMAND_STAND_STATE             | resultingSource = Creature. `datalong` = stand state (enum UnitStandStateType)
 29 | SCRIPT_COMMAND_MODIFY_NPC_FLAGS        | resultingSource = Creature. `datalong` = NPCFlags, `datalong2` = 0x00=toggle, 0x01=add, 0x02=remove
 30 | SCRIPT_COMMAND_SEND_TAXI_PATH          | resultingTarget or Source must be Player. `datalong` = taxi path id
-31 | SCRIPT_COMMAND_TERMINATE_SCRIPT        | `datalong` = search for npc entry if provided, `datalong2` = search distance, `!(data_flags & SCRIPT_FLAG_COMMAND_ADDITIONAL)`: if npc not alive found, terminate script, `data_flags & SCRIPT_FLAG_COMMAND_ADDITIONAL`:  if npc alive found, terminate script, `dataint` = change of waittime (MILLIESECONDS) of a current waypoint movement type (negative values will decrease time)
+31 | SCRIPT_COMMAND_TERMINATE_SCRIPT        | `datalong` = search for npc entry if provided, `datalong2` = search distance, `!(data_flags & SCRIPT_FLAG_COMMAND_ADDITIONAL)`: if npc not alive found, terminate script, `data_flags & SCRIPT_FLAG_COMMAND_ADDITIONAL`:  if npc alive found, terminate script, `dataint` = change of waittime (MILLISECONDS) of a current waypoint movement type (negative values will decrease time)
 32 | SCRIPT_COMMAND_PAUSE_WAYPOINTS         | resultingSource must be Creature. `datalong` = 0/1 unpause/pause waypoint movement
 33 | SCRIPT_COMMAND_RESERVED_1              | reserved for 3.x and later. Do not use!
 34 | SCRIPT_COMMAND_TERMINATE_COND          | `datalong` = condition_id, `datalong2` = fail-quest (if provided this quest will be failed for a player), `!(data_flags & SCRIPT_FLAG_COMMAND_ADDITIONAL)`: terminate when condition is true, `data_flags & SCRIPT_FLAG_COMMAND_ADDITIONAL`:  terminate when condition is false
@@ -170,7 +170,7 @@ TemporaryFactionFlags
 ---------------------
 * `TEMPFACTION_NONE`: 0x00, when no flag is used in temporary faction change, faction will be persistent. It will then require manual change back to default/another faction when changed once
 * `TEMPFACTION_RESTORE_RESPAWN`: 0x01, default faction will be restored at respawn
-* `TEMPFACTION_RESTORE_COMBAT_STOP`: 0x02, ... at CombatStop() (happens at creature death, at evade or custom scripte among others)
+* `TEMPFACTION_RESTORE_COMBAT_STOP`: 0x02, ... at CombatStop() (happens at creature death, at evade or custom script among others)
 * `TEMPFACTION_RESTORE_REACH_HOME`: 0x04, ... at reaching home in home movement (evade), if not already done at CombatStop()
 
 The next three allow to remove unit_flags combined with a faction change (also these flags will be reapplied when the faction is changed back)
