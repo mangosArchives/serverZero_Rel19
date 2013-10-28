@@ -6,7 +6,7 @@ This guide is intended to help people
 * to understand which information of the database is used with SD2
 * who want to contribute their patches as complete as possible
 
-All sql-related files are located in the ScriptDev2/sql and subsequent directories.
+All SQL-related files are located in the ScriptDev2/SQL and subsequent directories.
 
 SQL-Files
 ---------
@@ -18,7 +18,7 @@ For a script we usually have to take care of these files:
 
 * mangos_scriptname_full.sql
 +
-This file is applied to the world database (default: mangos), and contains the ScriptNames
+This file is applied to the world database (default: mangos), and contains the script names
 +
 * scriptdev2_script_full.sql
 +
@@ -31,7 +31,7 @@ Patches for the databases are stored in the files:
 
 * Updates/rXXXX_mangos.sql
 +
-This file contains the changes that should be done with the patch to the world-databse
+This file contains the changes that should be done with the patch to the world-database
 +
 * Updates/rXXXX_scriptdev2.sql
 +

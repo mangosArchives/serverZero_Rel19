@@ -2,7 +2,7 @@ Auction house bot
 -----------------
 For testing purposes and low population home servers, *mangos-zero* provides an
 auction house bot, which will provide a set of items on the auction houses based
-on various configuration settins.
+on various configuration settings.
 
 Configuration
 -------------

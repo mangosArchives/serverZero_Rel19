@@ -31,7 +31,7 @@ Currently we do support running *mangos-zero* on these operating systems:
 
 * **Windows**, 32 bit and 64 bit. [Windows][20] 7 or newer is recommended.
 * **Linux**, 32 bit and 64 bit. [Debian 7][21] and [Ubuntu 12.04 LTS][22] are
-  recommended. Other distrutions with similar package versions will work, too.
+  recommended. Other distributions with similar package versions will work, too.
 * **BSD**, 32 bit and 64 bit. [FreeBSD][23], [NetBSD][24], [OpenBSD][25] and
   [DragonFly][26] are recommended.
 
@@ -46,7 +46,7 @@ Building *mangos-zero* is currently possible with these compilers:
   [Visual Studio][30] and the Express editions of [Visual Studio][31]
   are supported.
 * **Microsoft Windows SDK**, 32 bit and 64 bit. The [Windows 7 SDK][32] is
-  recommeded, as older versions lack compiler features required to build
+  recommended, as older versions lack compiler features required to build
   the server.
 * **Clang**, 32 bit and 64 bit. The [Clang compiler][33] can be used on any
   supported operating system.[^2]
@@ -88,7 +88,7 @@ Optional dependencies
 Discuss
 -------
 If you need help with building and installing *mangos-zero* there is thousands
-of users out there already running *mangos-zero* and many you can find online
+of users out there already running *mangos-zero* and many you can find on
 
 * project website: [getmangos.com][10]
 * discussion forums: [community.getmangos.co.uk][11]
@@ -163,7 +163,6 @@ respects for all of the code used other than [OpenSSL][48].
 [44]: http://github.com/memononen/recastnavigation "Recast · Navigation-mesh Toolset for Games"
 [45]: http://sourceforge.net/projects/g3d/ "G3D · G3D Innovation Engine"
 [46]: http://github.com/ge0rg/libmpq "libmpq · A library for reading data from MPQ archives"
-[47]: http://www.threadingbuildingblocks.org/ "Intel Threading Building Blocks · TBB"
 [48]: http://www.openssl.org/ "OpenSSL · The Open Source toolkit for SSL/TLS"
 [49]: http://www.stack.nl/~dimitri/doxygen/ "Doxygen · API documentation generator"
 [50]: http://www.lua.org/ "Lua · The Programming Language"
