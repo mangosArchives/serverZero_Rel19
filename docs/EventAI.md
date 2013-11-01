@@ -19,51 +19,40 @@ Database documentation
 All scripts and related information are stored within the database tables
 `creature_ai_scripts`, `creature_ai_summons` and `creature_ai_texts`.
 
-
-[1]: http://en.wikipedia.org/wiki/SQL "SQL"
-
 For the AI to be used, you must first make sure to set AIname for each creature that should use this AI.
-UPDATE creature_template SET AIName = 'EventAI' WHERE entry IN (...);
 
-=========================================
+    UPDATE creature_template SET AIName = 'EventAI' WHERE entry IN (...);
+
 Basic Structure of creature_ai_scripts
 =========================================
 
-Field_Name                      Description
--------------------------------------------
-id                              This value is merely an incrementing counter of the current Event number. Required for sql queries. (ACID Standards: CreatureID+Additional 2 digit Increment Starting with 01)
-creature_id                     Creature ID which should trigger this event (This is entry value from `creature_template` table).
-
-event_type                      The type of event you want to script. (see "Event Types" below for different values)
-event_inverse_phase_mask        Mask with phases this event should NOT trigger in* (See footnote for more details on using any other value then 0)
-event_chance                    Percentage chance of triggering the event (1 - 100)
-event_flags                     Event Flags (Used to select Repeatable or Dungeon Heroic Mode)... See "Event Flags" Below For Defined Values
-event_param1                    Variables for the event (depends on event_type)
-event_param2                    Variables for the event (depends on event_type)
-event_param3                    Variables for the event (depends on event_type)
-event_param4                    Variables for the event (depends on event_type)
-
-action1_type                    Action #1 to take when the Event occurs (see "Action types" below)
-action1_param1                  Variables used by Action1 (depends on action_type)
-action1_param2                  Variables used by Action1 (depends on action_type)
-action1_param3                  Variables used by Action1 (depends on action_type)
-
-action2_type                    Action #2 to take when the Event occurs (see "Action types" below)
-action2_param1                  Variables used by Action1 (depends on action_type)
-action2_param2                  Variables used by Action1 (depends on action_type)
-action2_param3                  Variables used by Action1 (depends on action_type)
-
-action3_type                    Action #3 to take when the Event occurs (see "Action types" below)
-action3_param1                  Variables used by Action1 (depends on action_type)
-action3_param2                  Variables used by Action1 (depends on action_type)
-action3_param3                  Variables used by Action1 (depends on action_type)
+Field_Name                    | Description
+------------------------------| -----------
+id                            | This value is merely an incrementing counter of the current Event number. Required for sql queries. (ACID Standards: CreatureID+Additional 2 digit Increment Starting with 01)
+creature_id                   | Creature ID which should trigger this event (This is entry value from `creature_template` table).
+event_type                    | The type of event you want to script. (see "Event Types" below for different values)
+event_inverse_phase_mask      | Mask with phases this event should NOT trigger in[^1] (See footnote for more details on using any other value then 0)
+event_chance                  | Percentage chance of triggering the event (1 - 100)
+event_flags                   | Event Flags (Used to select Repeatable or Dungeon Heroic Mode)... See "Event Flags" Below For Defined Values
+event_param1                  | Variables for the event (depends on event_type)
+event_param2                  | Variables for the event (depends on event_type)
+event_param3                  | Variables for the event (depends on event_type)
+event_param4                  | Variables for the event (depends on event_type)
+action1_type                  | Action #1 to take when the Event occurs (see "Action types" below)
+action1_param1                | Variables used by Action1 (depends on action_type)
+action1_param2                | Variables used by Action1 (depends on action_type)
+action1_param3                | Variables used by Action1 (depends on action_type)
+action2_type                  | Action #2 to take when the Event occurs (see "Action types" below)
+action2_param1                | Variables used by Action1 (depends on action_type)
+action2_param2                | Variables used by Action1 (depends on action_type)
+action2_param3                | Variables used by Action1 (depends on action_type)
+action3_type                  | Action #3 to take when the Event occurs (see "Action types" below)
+action3_param1                | Variables used by Action1 (depends on action_type)
+action3_param2                | Variables used by Action1 (depends on action_type)
+action3_param3                | Variables used by Action1 (depends on action_type)
 
 All parameters are signed 32-bit values (+/- 2147483647). Time values are always in milliseconds.
 In case of a percentage value, use value/100 (ie. param = 500 then that means 500%, -50 = -50%)
-
-[*] Phase mask is a bit mask of phases which should not trigger this event. (ie. Phase mask of value 12 (binary 1100) results in triggering this event in phases 0, 1 and all others with exception for phases 2 and 3 (counting from 0).
-[*] Phase 0 is default so this will occur in all phases unless specified. (1101 = Triggers in Phase 1 of 3, 1011 = Triggers in Phase 2 of 3, 0111 = Triggers in Phase 3 of 3, 0011 = Triggers in Both Phase 2 and 3).
-[*] Take Desired Binary Configuration and convert into Decimal and this is your event_inverse_phase_mask to use in your script.
 
 Structure of creature_ai_texts
 ------------------------------
@@ -126,10 +115,8 @@ ID  | Internal Name | Description
 14  | TROLL         | Understood *only* by the Troll race.
 33  | GUTTERSPEAK   | Understood *only* by the Undead race.
 
-=========================================
 Event Types
 =========================================
-
 This is the list of available Event Types EventAI is able to handle.
 Each event type has its own specific interpretation of the parameters that accompany it.
 Parameters are always read in the ascending order (from Param1 to Param3).
@@ -169,7 +156,6 @@ Some events such as EVENT_T_AGGRO, EVENT_T_DEATH, EVENT_T_SPAWNED, and EVENT_T_E
 29   EVENT_T_TIMER_GENERIC         InitialMin, InitialMax, RepeatMin, RepeatMax            Expires at first between (Param1) and (Param2) and then will repeat between every (Param3) and (Param4).
 30   EVENT_T_RECEIVE_AI_EVENT      AIEventType, Sender-Entry, unused, unused               Expires when the creature receives an AIEvent of type (Param1), sent by creature (Param2 != 0). If (Param2 = 0) then sent by any creature
 
-=========================================
 Action Types
 =========================================
 
@@ -945,3 +931,10 @@ Below is the list of current Event Flags that EventAI can handle. Event flags ar
 7       128       EFLAG_DEBUG_ONLY              Prevents events from occurring on Release builds. Useful for testing new features.
 
 NOTE: You can add the numbers in the decimal column to combine flags.
+
+
+[^1]: Phase mask is a bit mask of phases which should not trigger this event. (ie. Phase mask of value 12 (binary 1100) results in triggering this event in phases 0, 1 and all others with exception for phases 2 and 3 (counting from 0).
+      Phase 0 is default so this will occur in all phases unless specified. (1101 = Triggers in Phase 1 of 3, 1011 = Triggers in Phase 2 of 3, 0111 = Triggers in Phase 3 of 3, 0011 = Triggers in Both Phase 2 and 3).
+      Take Desired Binary Configuration and convert into Decimal and this is your event_inverse_phase_mask to use in your script.
+
+[1]: http://en.wikipedia.org/wiki/SQL "SQL"
