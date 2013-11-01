@@ -9,7 +9,7 @@ branches:
   only:
     - master
 
-# do not build with clang until fixed
+# build with both gcc and clang to ensure compatibility
 compiler:
   - gcc
 
