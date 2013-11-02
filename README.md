@@ -57,6 +57,9 @@ Dependencies
 libraries, and a few awesome, but less known libraries to prevent us from
 inventing the wheel again.
 
+*Please note that Linux and Mac OS X users should install packages using
+their systems package management instead of source packages.*
+
 * **MySQL** / **PostgreSQL**: to store content, and user data, we rely on
   [MySQL][40]/[MariaDB][41] and [PostgreSQL][42] to handle data.
 * **ACE**: the [ADAPTIVE Communication Environment][43] aka. *ACE* provides us
@@ -69,9 +72,10 @@ inventing the wheel again.
   data, and is used to handle basic map data.
 * **libmpq**: [libmpq][46] provides an abstraction layer for reading from the
   client's data files.
-* **Zlib**: [Zlib][51] provides compression algorithms used in both MPQ archive
-  handling and the client/server protocol.
-* **Bzip2**: [Bzip2][52] provides compression algorithms used in MPQ archives.
+* **Zlib**: [Zlib][53] ([Zlib for Windows][51]) provides compression algorithms
+  used in both MPQ archive handling and the client/server protocol.
+* **Bzip2**: [Bzip2][54] ([Bzip2 for Windows][52]) provides compression
+  algorithms used in MPQ archives.
 
 *Recast*, *G3D* and *libmpq* are included in the *mangos-zero* distribution as
 we rely on specific versions.
@@ -168,3 +172,5 @@ respects for all of the code used other than [OpenSSL][48].
 [50]: http://www.lua.org/ "Lua · The Programming Language"
 [51]: http://gnuwin32.sourceforge.net/packages/zlib.htm "Zlib for Windows"
 [52]: http://gnuwin32.sourceforge.net/packages/bzip2.htm "Bzip2 for Windows"
+[53]: http://www.zlib.net/ "Zlib"
+[54]: http://www.bzip.org/ "Bzip2"
