@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 /**
@@ -69,7 +75,7 @@ MailSender::MailSender(Object* sender, MailStationery stationery) : m_stationery
             m_messageType = MAIL_NORMAL;
             m_senderId = sender->GetGUIDLow();
             if (static_cast<Player *>(sender)->isGameMaster())
-                m_stationery = MAIL_STATIONERY_GM;
+                { m_stationery = MAIL_STATIONERY_GM; }
             break;
         default:
             m_messageType = MAIL_NORMAL;
@@ -145,7 +151,7 @@ MailDraft& MailDraft::AddItem(Item* item)
 bool MailDraft::prepareItems(Player* receiver)
 {
     if (!m_mailTemplateId || !m_mailTemplateItemsNeed)
-        return false;
+        { return false; }
 
     m_mailTemplateItemsNeed = false;
 
@@ -181,7 +187,7 @@ void MailDraft::deleteIncludedItems(bool inDB /**= false*/)
         Item* item = mailItemIter->second;
 
         if (inDB)
-            CharacterDatabase.PExecute("DELETE FROM item_instance WHERE guid='%u'", item->GetGUIDLow());
+            { CharacterDatabase.PExecute("DELETE FROM item_instance WHERE guid='%u'", item->GetGUIDLow()); }
 
         delete item;
     }
@@ -234,7 +240,7 @@ void MailDraft::SendReturnToSender(uint32 sender_acc, ObjectGuid sender_guid, Ob
 
     uint32 rc_account = 0;
     if (!receiver)
-        rc_account = sObjectMgr.GetPlayerAccountIdByGUID(receiver_guid);
+        { rc_account = sObjectMgr.GetPlayerAccountIdByGUID(receiver_guid); }
 
     if (!receiver && !rc_account)                           // sender not exist
     {
@@ -282,7 +288,7 @@ void MailDraft::SendMailTo(MailReceiver const& receiver, MailSender const& sende
 
     uint32 pReceiverAccount = 0;
     if (!pReceiver)
-        pReceiverAccount = sObjectMgr.GetPlayerAccountIdByGUID(receiver.GetPlayerGuid());
+        { pReceiverAccount = sObjectMgr.GetPlayerAccountIdByGUID(receiver.GetPlayerGuid()); }
 
     if (!pReceiver && !pReceiverAccount)                    // receiver not exist
     {
@@ -296,7 +302,7 @@ void MailDraft::SendMailTo(MailReceiver const& receiver, MailSender const& sende
     if (pReceiver)
     {
         if (prepareItems(pReceiver))
-            has_items = true;
+            { has_items = true; }
     }
 
     uint32 mailId = sObjectMgr.GenerateMailID();
@@ -307,13 +313,13 @@ void MailDraft::SendMailTo(MailReceiver const& receiver, MailSender const& sende
     uint32 expire_delay;
     // auction mail without any items and money (auction sale note) pending 1 hour
     if (sender.GetMailMessageType() == MAIL_AUCTION && m_items.empty() && !m_money)
-        expire_delay = HOUR;
+        { expire_delay = HOUR; }
     // mail from battlemaster (rewardmarks) should last only one day
     else if (sender.GetMailMessageType() == MAIL_CREATURE && sBattleGroundMgr.GetBattleMasterBG(sender.GetSenderId()) != BATTLEGROUND_TYPE_NONE)
-        expire_delay = DAY;
+        { expire_delay = DAY; }
     // default case: expire time if COD 3 days, if no COD 30 days
     else
-        expire_delay = (m_COD > 0) ? 3 * DAY : 30 * DAY;
+        { expire_delay = (m_COD > 0) ? 3 * DAY : 30 * DAY; }
 
     time_t expire_time = deliver_time + expire_delay;
 
@@ -367,11 +373,11 @@ void MailDraft::SendMailTo(MailReceiver const& receiver, MailSender const& sende
         if (!m_items.empty())
         {
             for (MailItemMap::iterator mailItemIter = m_items.begin(); mailItemIter != m_items.end(); ++mailItemIter)
-                pReceiver->AddMItem(mailItemIter->second);
+                { pReceiver->AddMItem(mailItemIter->second); }
         }
     }
     else if (!m_items.empty())
-        deleteIncludedItems();
+        { deleteIncludedItems(); }
 }
 
 /**
@@ -383,7 +389,7 @@ void MailDraft::SendMailTo(MailReceiver const& receiver, MailSender const& sende
 void Mail::prepareTemplateItems(Player* receiver)
 {
     if (!mailTemplateId || !items.empty())
-        return;
+        { return; }
 
     has_items = true;
 

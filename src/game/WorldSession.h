@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 /// \addtogroup u2w
@@ -222,7 +228,7 @@ class MANGOS_DLL_SPEC WorldSession
             {
                 m_Tutorials[intId] = value;
                 if (m_tutorialState == TUTORIALDATA_UNCHANGED)
-                    m_tutorialState = TUTORIALDATA_CHANGED;
+                    { m_tutorialState = TUTORIALDATA_CHANGED; }
             }
         }
 
@@ -273,6 +279,7 @@ class MANGOS_DLL_SPEC WorldSession
 
         uint32 GetLatency() const { return m_latency; }
         void SetLatency(uint32 latency) { m_latency = latency; }
+        void SetClientTimeDelay(uint32 delay) { m_clientTimeDelay = delay; }
         uint32 getDialogStatus(Player* pPlayer, Object* questgiver, uint32 defstatus);
 
         // Misc
@@ -389,6 +396,7 @@ class MANGOS_DLL_SPEC WorldSession
 
         void HandleGameObjectQueryOpcode(WorldPacket& recvPacket);
 
+        // Movement Handler
         void HandleMoveWorldportAckOpcode(WorldPacket& recvPacket);
         void HandleMoveWorldportAckOpcode();                // for server-side calls
 
@@ -498,7 +506,7 @@ class MANGOS_DLL_SPEC WorldSession
         void HandleAuctionListOwnerItems(WorldPacket& recv_data);
         void HandleAuctionPlaceBid(WorldPacket& recv_data);
 
-        void AuctionBind( uint32 price, AuctionEntry * auction, Player * pl, Player* auction_owner );
+        void AuctionBind(uint32 price, AuctionEntry * auction, Player * pl, Player* auction_owner);
 
         void HandleGetMailList(WorldPacket& recv_data);
         void HandleSendMail(WorldPacket& recv_data);
@@ -686,6 +694,7 @@ class MANGOS_DLL_SPEC WorldSession
         uint32 m_latency;
         uint32 m_Tutorials[8];
         TutorialDataState m_tutorialState;
+        int32 m_clientTimeDelay;
         ACE_Based::LockedQueue<WorldPacket*, ACE_Thread_Mutex> _recvQueue;
 };
 #endif

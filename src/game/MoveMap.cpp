@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "GridMap.h"
@@ -35,7 +41,7 @@ namespace MMAP
     MMapManager* MMapFactory::createOrGetMMapManager()
     {
         if (g_MMapManager == NULL)
-            g_MMapManager = new MMapManager();
+            { g_MMapManager = new MMapManager(); }
 
         return g_MMapManager;
     }
@@ -43,7 +49,7 @@ namespace MMAP
     void MMapFactory::preventPathfindingOnMaps(const char* ignoreMapIds)
     {
         if (!g_mmapDisabledIds)
-            g_mmapDisabledIds = new std::set<uint32>();
+            { g_mmapDisabledIds = new std::set<uint32>(); }
 
         uint32 strLenght = strlen(ignoreMapIds) + 1;
         char* mapList = new char[strLenght];
@@ -78,7 +84,7 @@ namespace MMAP
     MMapManager::~MMapManager()
     {
         for (MMapDataSet::iterator i = loadedMMaps.begin(); i != loadedMMaps.end(); ++i)
-            delete i->second;
+            { delete i->second; }
 
         // by now we should not have maps loaded
         // if we had, tiles in MMapData->mmapLoadedTiles, their actual data is lost!
@@ -88,7 +94,7 @@ namespace MMAP
     {
         // we already have this map loaded?
         if (loadedMMaps.find(mapId) != loadedMMaps.end())
-            return true;
+            { return true; }
 
         // load and init dtNavMesh - read parameters from file
         uint32 pathLen = sWorld.GetDataPath().length() + strlen("mmaps/%03i.mmap") + 1;
@@ -99,18 +105,25 @@ namespace MMAP
         if (!file)
         {
             if (MMapFactory::IsPathfindingEnabled(mapId))
-                sLog.outError("MMAP:loadMapData: Error: Could not open mmap file '%s'", fileName);
+                { sLog.outError("MMAP:loadMapData: Error: Could not open mmap file '%s'", fileName); }
             delete[] fileName;
             return false;
         }
 
         dtNavMeshParams params;
-        fread(&params, sizeof(dtNavMeshParams), 1, file);
+        size_t file_read = fread(&params, sizeof(dtNavMeshParams), 1, file);
+        if (file_read <= 0)
+        {
+            sLog.outError("MMAP:loadMapData: Failed to load mmap %03u from file %s", mapId, fileName);
+            delete[] fileName;
+            fclose(file);
+            return false;
+        }
         fclose(file);
 
         dtNavMesh* mesh = dtAllocNavMesh();
         MANGOS_ASSERT(mesh);
-        if (DT_SUCCESS != mesh->init(&params))
+        if (dtStatusFailed(mesh->init(&params)))
         {
             dtFreeNavMesh(mesh);
             sLog.outError("MMAP:loadMapData: Failed to initialize dtNavMesh for mmap %03u from file %s", mapId, fileName);
@@ -139,7 +152,7 @@ namespace MMAP
     {
         // make sure the mmap is loaded and ready to load tiles
         if (!loadMapData(mapId))
-            return false;
+            { return false; }
 
         // get this mmap data
         MMapData* mmap = loadedMMaps[mapId];
@@ -169,7 +182,14 @@ namespace MMAP
 
         // read header
         MmapTileHeader fileHeader;
-        fread(&fileHeader, sizeof(MmapTileHeader), 1, file);
+        size_t file_read = fread(&fileHeader, sizeof(MmapTileHeader), 1, file);
+
+        if (file_read <= 0)
+        {
+            sLog.outError("MMAP:loadMap: Could not load mmap %03u%02i%02i.mmtile", mapId, x, y);
+            fclose(file);
+            return false;
+        }
 
         if (fileHeader.mmapMagic != MMAP_MAGIC)
         {
@@ -203,7 +223,7 @@ namespace MMAP
         dtTileRef tileRef = 0;
 
         // memory allocated for data is now managed by detour, and will be deallocated when the tile is removed
-        if (mmap->navMesh->addTile(data, fileHeader.size, DT_TILE_FREE_DATA, 0, &tileRef) != DT_SUCCESS)
+        if (dtStatusFailed(mmap->navMesh->addTile(data, fileHeader.size, DT_TILE_FREE_DATA, 0, &tileRef)))
         {
             sLog.outError("MMAP:loadMap: Could not load %03u%02i%02i.mmtile into navmesh", mapId, x, y);
             dtFree(data);
@@ -240,11 +260,11 @@ namespace MMAP
         dtTileRef tileRef = mmap->mmapLoadedTiles[packedGridPos];
 
         // unload, and mark as non loaded
-        if (DT_SUCCESS != mmap->navMesh->removeTile(tileRef, NULL, NULL))
+        if (dtStatusFailed(mmap->navMesh->removeTile(tileRef, NULL, NULL)))
         {
             // this is technically a memory leak
             // if the grid is later reloaded, dtNavMesh::addTile will return error but no extra memory is used
-            // we cannot recover from this error - assert out
+            // we can not recover from this error - assert out
             sLog.outError("MMAP:unloadMap: Could not unload %03u%02i%02i.mmtile from navmesh", mapId, x, y);
             MANGOS_ASSERT(false);
         }
@@ -274,8 +294,8 @@ namespace MMAP
         {
             uint32 x = (i->first >> 16);
             uint32 y = (i->first & 0x0000FFFF);
-            if (DT_SUCCESS != mmap->navMesh->removeTile(i->second, NULL, NULL))
-                sLog.outError("MMAP:unloadMap: Could not unload %03u%02i%02i.mmtile from navmesh", mapId, x, y);
+            if (dtStatusFailed(mmap->navMesh->removeTile(i->second, NULL, NULL)))
+                { sLog.outError("MMAP:unloadMap: Could not unload %03u%02i%02i.mmtile from navmesh", mapId, x, y); }
             else
             {
                 --loadedTiles;
@@ -319,7 +339,7 @@ namespace MMAP
     dtNavMesh const* MMapManager::GetNavMesh(uint32 mapId)
     {
         if (loadedMMaps.find(mapId) == loadedMMaps.end())
-            return NULL;
+            { return NULL; }
 
         return loadedMMaps[mapId]->navMesh;
     }
@@ -327,7 +347,7 @@ namespace MMAP
     dtNavMeshQuery const* MMapManager::GetNavMeshQuery(uint32 mapId, uint32 instanceId)
     {
         if (loadedMMaps.find(mapId) == loadedMMaps.end())
-            return NULL;
+            { return NULL; }
 
         MMapData* mmap = loadedMMaps[mapId];
         if (mmap->navMeshQueries.find(instanceId) == mmap->navMeshQueries.end())
@@ -335,7 +355,7 @@ namespace MMAP
             // allocate mesh query
             dtNavMeshQuery* query = dtAllocNavMeshQuery();
             MANGOS_ASSERT(query);
-            if (DT_SUCCESS != query->init(mmap->navMesh, 1024))
+            if (dtStatusFailed(query->init(mmap->navMesh, 1024)))
             {
                 dtFreeNavMeshQuery(query);
                 sLog.outError("MMAP:GetNavMeshQuery: Failed to initialize dtNavMeshQuery for mapId %03u instanceId %u", mapId, instanceId);

@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include <sys/types.h>
@@ -88,7 +94,7 @@ namespace VMAP
     void VMapFactory::preventSpellsFromBeingTestedForLoS(const char* pSpellIdString)
     {
         if (!iIgnoreSpellIds)
-            iIgnoreSpellIds = new Table<unsigned int , bool>();
+            { iIgnoreSpellIds = new Table<unsigned int , bool>(); }
         if (pSpellIdString != NULL)
         {
             unsigned int pos = 0;
@@ -114,7 +120,7 @@ namespace VMAP
     IVMapManager* VMapFactory::createOrGetVMapManager()
     {
         if (gVMapManager == 0)
-            gVMapManager = new VMapManager2();              // should be taken from config ... Please change if you like :-)
+            { gVMapManager = new VMapManager2(); }              // should be taken from config ... Please change if you like :-)
         return gVMapManager;
     }
 

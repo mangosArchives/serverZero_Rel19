@@ -1,5 +1,8 @@
-/*
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+/**
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,13 +17,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "Util.h"
 #include "Timer.h"
 
-#include "utf8cpp/utf8.h"
-#include "mersennetwister/MersenneTwister.h"
+#include <utf8.h>
+#include <MersenneTwister.h>
 #include <ace/TSS_T.h>
 #include <ace/INET_Addr.h>
 
@@ -116,7 +122,7 @@ Tokens StrSplit(const std::string& src, const std::string& sep)
     {
         if (sep.find(*i) != std::string::npos)
         {
-            if (s.length()) r.push_back(s);
+            if (s.length()) { r.push_back(s); }
             s = "";
         }
         else
@@ -124,14 +130,14 @@ Tokens StrSplit(const std::string& src, const std::string& sep)
             s += *i;
         }
     }
-    if (s.length()) r.push_back(s);
+    if (s.length()) { r.push_back(s); }
     return r;
 }
 
 uint32 GetUInt32ValueFromArray(Tokens const& data, uint16 index)
 {
     if (index >= data.size())
-        return 0;
+        { return 0; }
 
     return (uint32)atoi(data[index].c_str());
 }
@@ -165,15 +171,15 @@ void stripLineInvisibleChars(std::string& str)
         else
         {
             if (wpos != pos)
-                str[wpos++] = str[pos];
+                { str[wpos++] = str[pos]; }
             else
-                ++wpos;
+                { ++wpos; }
             space = false;
         }
     }
 
     if (wpos < str.size())
-        str.erase(wpos, str.size());
+        { str.erase(wpos, str.size()); }
 }
 
 std::string secsToTimeString(time_t timeInSecs, bool shortText, bool hoursOnly)
@@ -185,15 +191,15 @@ std::string secsToTimeString(time_t timeInSecs, bool shortText, bool hoursOnly)
 
     std::ostringstream ss;
     if (days)
-        ss << days << (shortText ? "d" : " Day(s) ");
+        { ss << days << (shortText ? "d" : " Day(s) "); }
     if (hours || hoursOnly)
-        ss << hours << (shortText ? "h" : " Hour(s) ");
+        { ss << hours << (shortText ? "h" : " Hour(s) "); }
     if (!hoursOnly)
     {
         if (minutes)
-            ss << minutes << (shortText ? "m" : " Minute(s) ");
+            { ss << minutes << (shortText ? "m" : " Minute(s) "); }
         if (secs || (!days && !hours && !minutes))
-            ss << secs << (shortText ? "s" : " Second(s).");
+            { ss << secs << (shortText ? "s" : " Second(s)."); }
     }
 
     return ss.str();
@@ -249,7 +255,7 @@ std::string TimeToTimestampStr(time_t t)
 bool IsIPAddress(char const* ipaddress)
 {
     if (!ipaddress)
-        return false;
+        { return false; }
 
     // Let the big boys do it.
     // Drawback: all valid ip address formats are recognized e.g.: 12.23,121234,0xABCD)
@@ -261,7 +267,7 @@ uint32 CreatePIDFile(const std::string& filename)
 {
     FILE* pid_file = fopen(filename.c_str(), "w");
     if (pid_file == NULL)
-        return 0;
+        { return 0; }
 
 #ifdef WIN32
     DWORD pid = GetCurrentProcessId();
@@ -294,7 +300,7 @@ void utf8truncate(std::string& utf8str, size_t len)
     {
         size_t wlen = utf8::distance(utf8str.c_str(), utf8str.c_str() + utf8str.size());
         if (wlen <= len)
-            return;
+            { return; }
 
         std::wstring wstr;
         wstr.resize(wlen);
@@ -317,7 +323,7 @@ bool Utf8toWStr(char const* utf8str, size_t csize, wchar_t* wstr, size_t& wsize)
         if (len > wsize)
         {
             if (wsize > 0)
-                wstr[0] = L'\0';
+                { wstr[0] = L'\0'; }
             wsize = 0;
             return false;
         }
@@ -329,7 +335,7 @@ bool Utf8toWStr(char const* utf8str, size_t csize, wchar_t* wstr, size_t& wsize)
     catch (std::exception)
     {
         if (wsize > 0)
-            wstr[0] = L'\0';
+            { wstr[0] = L'\0'; }
         wsize = 0;
         return false;
     }
@@ -345,7 +351,7 @@ bool Utf8toWStr(const std::string& utf8str, std::wstring& wstr)
         wstr.resize(len);
 
         if (len)
-            utf8::utf8to16(utf8str.c_str(), utf8str.c_str() + utf8str.size(), &wstr[0]);
+            { utf8::utf8to16(utf8str.c_str(), utf8str.c_str() + utf8str.size(), &wstr[0]); }
     }
     catch (std::exception)
     {
@@ -403,7 +409,7 @@ bool utf8ToConsole(const std::string& utf8str, std::string& conStr)
 #if PLATFORM == PLATFORM_WINDOWS
     std::wstring wstr;
     if (!Utf8toWStr(utf8str, wstr))
-        return false;
+        { return false; }
 
     conStr.resize(wstr.size());
     CharToOemBuffW(&wstr[0], &conStr[0], wstr.size());
@@ -435,13 +441,13 @@ bool Utf8FitTo(const std::string& str, std::wstring search)
     std::wstring temp;
 
     if (!Utf8toWStr(str, temp))
-        return false;
+        { return false; }
 
     // converting to lower case
     wstrToLower(temp);
 
     if (temp.find(search) == std::wstring::npos)
-        return false;
+        { return false; }
 
     return true;
 }
@@ -482,9 +488,9 @@ void hexEncodeByteArray(uint8* bytes, uint32 arrayLen, std::string& result)
             unsigned char nibble = 0x0F & (bytes[i] >> ((1 - j) * 4));
             char encodedNibble;
             if (nibble < 0x0A)
-                encodedNibble = '0' + nibble;
+                { encodedNibble = '0' + nibble; }
             else
-                encodedNibble = 'A' + nibble - 0x0A;
+                { encodedNibble = 'A' + nibble - 0x0A; }
             ss << encodedNibble;
         }
     }

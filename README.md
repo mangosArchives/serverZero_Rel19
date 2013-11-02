@@ -1,14 +1,14 @@
-mangos-zero, a World of Warcraft server for vanilla WoW  [![Build status](https://travis-ci.org/mangoszero/server.png)][16] [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mangoszero/server/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+mangos-zero, a World of Warcraft server for vanilla WoW  [![Build status](https://travis-ci.org/mangoszero/server.png)][16]
 =======================================================
 *mangos-zero* is open source, built in [C++][7], fast, runs on multiple platforms,
 can store game data in [MySQL][40] and [PostgreSQL][42]. It has optional support
 for SOAP, and aims to be 100% compatible with [World of Warcraft][2] in its
 vanilla versions, namely [patch 1.12.1][5] and [patch 1.12.2][6].
 
-If you like the first incarnation of WoW, and still fancy [vanilla WoW][4],
-you should try *mangos-zero*. We provide an authentication server where you can
-manage your users, and a world server which serves game content just like
-the original [WoW][2] did back then.
+If you like the first incarnation of [World of Warcraft][2], and still fancy
+[vanilla WoW][4], you should try *mangos-zero*. We provide an authentication
+server where you can manage your users, and a world server which serves game
+content just like the original did back then.
 
 On top of that each update is built by [Travis CI][16] as you can see by the
 image next to the chapter's heading! We do love green builds, and working things.
@@ -20,19 +20,19 @@ copyrighted by [Blizzard Entertainment, Inc.][1]
 
 Requirements
 ------------
-*mangos-zero server* supports a wide range of operating systems, and various
+*mangos-zero* server supports a wide range of operating systems, and various
 compiler platforms. In order to do that, we use various free cross-platform
 libraries and use [CMake][19] to provide a cross-platform build system which
 adapts to your chosen operating system and compiler.
 
 Operating systems
 -----------------
-Currently we do support running the server on these operating systems:
+Currently we do support running *mangos-zero* on these operating systems:
 
-* **Windows**, 32bit and 64bit. [Windows][20] 7 is recommended.
-* **Linux**, 32bit and 64bit. [Debian 7][21] and [Ubuntu 12.04 LTS][22] are
-  recommended.
-* **BSD**, 32bit and 64bit. [FreeBSD][23], [NetBSD][24], [OpenBSD][25] and
+* **Windows**, 32 bit and 64 bit. [Windows][20] 7 or newer is recommended.
+* **Linux**, 32 bit and 64 bit. [Debian 7][21] and [Ubuntu 12.04 LTS][22] are
+  recommended. Other distributions with similar package versions will work, too.
+* **BSD**, 32 bit and 64 bit. [FreeBSD][23], [NetBSD][24], [OpenBSD][25] and
   [DragonFly][26] are recommended.
 
 Of course, newer versions should work, too. In case of Windows, matching
@@ -40,22 +40,25 @@ server version will work, too.
 
 Compilers
 ---------
-Building the server is currently possible with these compilers:
+Building *mangos-zero* is currently possible with these compilers:
 
-* **Microsoft Visual Studio (Express[^1])**, 32bit and 64bit. Both the
-  [Visual Studio Express][30] and the professional [Visual Studio][31]
-  editions are supported.
-* **Microsoft Windows SDK**, 32bit and 64bit. The [Windows 7 SDK][32] is
-  recommeded, as older versions lack compiler features required to build
+* **Microsoft Visual Studio (Express[^1])**, 32 bit and 64 bit. Both
+  [Visual Studio][30] and the Express editions of [Visual Studio][31]
+  are supported.
+* **Microsoft Windows SDK**, 32 bit and 64 bit. The [Windows 7 SDK][32] is
+  recommended, as older versions lack compiler features required to build
   the server.
-* **Clang**, 32bit and 64bit. The [Clang compiler][33] can be used to build
-  the server on any supported operating system.[^2]
+* **Clang**, 32 bit and 64 bit. The [Clang compiler][33] can be used on any
+  supported operating system.[^2]
 
 Dependencies
 ------------
-*mangos-zero server* stands on the shoulds of a few well-known Open Source
-libraries, and a few awesome, but less common libraries to prevent us from
+*mangos-zero* server stands on the shoulders of well-known Open Source
+libraries, and a few awesome, but less known libraries to prevent us from
 inventing the wheel again.
+
+*Please note that Linux and Mac OS X users should install packages using
+their systems package management instead of source packages.*
 
 * **MySQL** / **PostgreSQL**: to store content, and user data, we rely on
   [MySQL][40]/[MariaDB][41] and [PostgreSQL][42] to handle data.
@@ -69,16 +72,27 @@ inventing the wheel again.
   data, and is used to handle basic map data.
 * **libmpq**: [libmpq][46] provides an abstraction layer for reading from the
   client's data files.
+* **Zlib**: [Zlib][53] ([Zlib for Windows][51]) provides compression algorithms
+  used in both MPQ archive handling and the client/server protocol.
+* **Bzip2**: [Bzip2][54] ([Bzip2 for Windows][52]) provides compression
+  algorithms used in MPQ archives.
+
+*Recast*, *G3D* and *libmpq* are included in the *mangos-zero* distribution as
+we rely on specific versions.
 
 Optional dependencies
 ---------------------
-* **Intel TBB**: the [Threading Building Blocks][47] provide a convenient
-  cross-platform abstraction for parallel programming.
+
+* **Doxygen**: if you want to export HTML or PDF formatted documentation for the
+  *mangos-zero* API, you should install [Doxygen][49].
+* **Lua**: if you want to test drive how *mangos-zero* feels with [Lua][50] as
+  scripting language instead of the scripting library, you will need Lua **5.1.x**
+  installed.
 
 Discuss
 -------
 If you need help with building and installing *mangos-zero* there is thousands
-of users out there already running *mangos-zero* and many you can find online
+of users out there already running *mangos-zero* and many you can find on
 
 * project website: [getmangos.com][10]
 * discussion forums: [community.getmangos.co.uk][11]
@@ -109,8 +123,8 @@ respects for all of the code used other than [OpenSSL][48].
 
 [^1]: Visual Studio Express versions prior to the 2012 release can only
       build 32 bit applications, unless you install the Windows SDK.
-[^2]: Clang support for Windows is experimental. Failure to compile the
-      server may also relate to the experimental state of the port.
+[^2]: Clang support for Windows is experimental. Failure to compile mangos-zero
+      may also relate to the experimental state of the port.
 
 [1]: http://blizzard.com/ "Blizzard Entertainment Inc. · we love you!"
 [2]: http://blizzard.com/games/wow/ "World of Warcraft · Classic / Vanilla"
@@ -141,14 +155,22 @@ respects for all of the code used other than [OpenSSL][48].
 [30]: http://www.microsoft.com/visualstudio/eng/ "Visual Studio 2012"
 [31]: http://www.microsoft.com/visualstudio/eng/products/visual-studio-express-products "Visual Studio Express 2012 for Windows Desktop"
 [32]: http://www.microsoft.com/en-us/download/details.aspx?id=8279 "Windows SDK for Windows 7 and .NET Framework 4"
-[33]: http://clang.llvm.org/ "clang: a C language family frontend for LLVM"
+[33]: http://clang.llvm.org/ "clang · a C language family frontend for LLVM"
+[34]: http://git-scm.com/ "Git · Distributed version control system"
+[35]: http://windows.github.com/ "github · windows client"
+[36]: http://www.sourcetreeapp.com/ "SourceTree · Free Mercurial and Git Client for Windows/Mac"
 
 [40]: http://www.mysql.com/ "MySQL · The world's most popular open source database"
 [41]: http://www.mariadb.org/ "MariaDB · An enhanced, drop-in replacement for MySQL"
 [42]: http://www.postgresql.org/ "PostgreSQL · The world's most advanced open source database"
 [43]: http://www.cs.wustl.edu/~schmidt/ACE.html "ACE · The ADAPTIVE Communication Environment"
 [44]: http://github.com/memononen/recastnavigation "Recast · Navigation-mesh Toolset for Games"
-[45]: http://sourceforge.net/projects/g3d/ "G3D Innovation Engine"
-[46]: http://github.com/ge0rg/libmpq "libmpq"
-[47]: http://www.threadingbuildingblocks.org/ "Intel Threading Building Blocks · TBB"
-[48]: http://www.openssl.org/ "OpenSSL"
+[45]: http://sourceforge.net/projects/g3d/ "G3D · G3D Innovation Engine"
+[46]: http://github.com/ge0rg/libmpq "libmpq · A library for reading data from MPQ archives"
+[48]: http://www.openssl.org/ "OpenSSL · The Open Source toolkit for SSL/TLS"
+[49]: http://www.stack.nl/~dimitri/doxygen/ "Doxygen · API documentation generator"
+[50]: http://www.lua.org/ "Lua · The Programming Language"
+[51]: http://gnuwin32.sourceforge.net/packages/zlib.htm "Zlib for Windows"
+[52]: http://gnuwin32.sourceforge.net/packages/bzip2.htm "Bzip2 for Windows"
+[53]: http://www.zlib.net/ "Zlib"
+[54]: http://www.bzip.org/ "Bzip2"

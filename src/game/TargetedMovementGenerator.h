@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOS_TARGETEDMOVEMENTGENERATOR_H
@@ -59,6 +65,8 @@ class MANGOS_DLL_SPEC TargetedMovementGeneratorMedium
 
     protected:
         void _setTargetLocation(T&, bool updateDestination);
+        bool RequiresNewPosition(T& owner, float x, float y, float z) const;
+        virtual float GetDynamicTargetDistance(T& owner, bool forRangeCheck) const { return i_offset; }
 
         ShortTimeTracker i_recheckDistance;
         float i_offset;
@@ -73,8 +81,6 @@ template<class T>
 class MANGOS_DLL_SPEC ChaseMovementGenerator : public TargetedMovementGeneratorMedium<T, ChaseMovementGenerator<T> >
 {
     public:
-        ChaseMovementGenerator(Unit& target)
-            : TargetedMovementGeneratorMedium<T, ChaseMovementGenerator<T> >(target) {}
         ChaseMovementGenerator(Unit& target, float offset, float angle)
             : TargetedMovementGeneratorMedium<T, ChaseMovementGenerator<T> >(target, offset, angle) {}
         ~ChaseMovementGenerator() {}
@@ -91,6 +97,9 @@ class MANGOS_DLL_SPEC ChaseMovementGenerator : public TargetedMovementGeneratorM
         bool EnableWalking() const { return false;}
         bool _lostTarget(T& u) const;
         void _reachTarget(T&);
+
+    protected:
+        float GetDynamicTargetDistance(T& owner, bool forRangeCheck) const override;
 };
 
 template<class T>
@@ -115,8 +124,12 @@ class MANGOS_DLL_SPEC FollowMovementGenerator : public TargetedMovementGenerator
         bool EnableWalking() const;
         bool _lostTarget(T&) const { return false; }
         void _reachTarget(T&) {}
+
     private:
         void _updateSpeed(T& u);
+
+    protected:
+        float GetDynamicTargetDistance(T& owner, bool forRangeCheck) const override;
 };
 
 #endif

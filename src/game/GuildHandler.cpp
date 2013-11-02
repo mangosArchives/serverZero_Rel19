@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "Common.h"
@@ -52,7 +58,7 @@ void WorldSession::HandleGuildCreateOpcode(WorldPacket& recvPacket)
     recvPacket >> gname;
 
     if (GetPlayer()->GetGuildId())                          // already in guild
-        return;
+        { return; }
 
     Guild* guild = new Guild;
     if (!guild->Create(GetPlayer(), gname))
@@ -74,7 +80,7 @@ void WorldSession::HandleGuildInviteOpcode(WorldPacket& recvPacket)
     recvPacket >> Invitedname;
 
     if (normalizePlayerName(Invitedname))
-        player = ObjectAccessor::FindPlayerByName(Invitedname.c_str());
+        { player = ObjectAccessor::FindPlayerByName(Invitedname.c_str()); }
 
     if (!player)
     {
@@ -91,7 +97,7 @@ void WorldSession::HandleGuildInviteOpcode(WorldPacket& recvPacket)
 
     // OK result but not send invite
     if (player->GetSocial()->HasIgnore(GetPlayer()->GetObjectGuid()))
-        return;
+        { return; }
 
     // not let enemies sign guild charter
     if (!sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_INTERACTION_GUILD) && player->GetTeam() != GetPlayer()->GetTeam())
@@ -142,7 +148,7 @@ void WorldSession::HandleGuildRemoveOpcode(WorldPacket& recvPacket)
     recvPacket >> plName;
 
     if (!normalizePlayerName(plName))
-        return;
+        { return; }
 
     Guild* guild = sGuildMgr.GetGuildById(GetPlayer()->GetGuildId());
     if (!guild)
@@ -200,14 +206,14 @@ void WorldSession::HandleGuildAcceptOpcode(WorldPacket& /*recvPacket*/)
 
     guild = sGuildMgr.GetGuildById(player->GetGuildIdInvited());
     if (!guild || player->GetGuildId())
-        return;
+        { return; }
 
     // not let enemies sign guild charter
     if (!sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_INTERACTION_GUILD) && player->GetTeam() != sObjectMgr.GetPlayerTeamByGUID(guild->GetLeaderGuid()))
-        return;
+        { return; }
 
     if (!guild->AddMember(GetPlayer()->GetObjectGuid(), guild->GetLowestRank()))
-        return;
+        { return; }
     // Put record into guild log
     guild->LogGuildEvent(GUILD_EVENT_LOG_JOIN_GUILD, GetPlayer()->GetObjectGuid());
 
@@ -248,7 +254,7 @@ void WorldSession::HandleGuildRosterOpcode(WorldPacket& /*recvPacket*/)
     DEBUG_LOG("WORLD: Received opcode CMSG_GUILD_ROSTER");
 
     if (Guild* guild = sGuildMgr.GetGuildById(_player->GetGuildId()))
-        guild->Roster(this);
+        { guild->Roster(this); }
 }
 
 void WorldSession::HandleGuildPromoteOpcode(WorldPacket& recvPacket)
@@ -259,7 +265,7 @@ void WorldSession::HandleGuildPromoteOpcode(WorldPacket& recvPacket)
     recvPacket >> plName;
 
     if (!normalizePlayerName(plName))
-        return;
+        { return; }
 
     Guild* guild = sGuildMgr.GetGuildById(GetPlayer()->GetGuildId());
     if (!guild)
@@ -312,7 +318,7 @@ void WorldSession::HandleGuildDemoteOpcode(WorldPacket& recvPacket)
     recvPacket >> plName;
 
     if (!normalizePlayerName(plName))
-        return;
+        { return; }
 
     Guild* guild = sGuildMgr.GetGuildById(GetPlayer()->GetGuildId());
 
@@ -437,7 +443,7 @@ void WorldSession::HandleGuildLeaderOpcode(WorldPacket& recvPacket)
     Player* oldLeader = GetPlayer();
 
     if (!normalizePlayerName(name))
-        return;
+        { return; }
 
     Guild* guild = sGuildMgr.GetGuildById(oldLeader->GetGuildId());
 
@@ -480,9 +486,9 @@ void WorldSession::HandleGuildMOTDOpcode(WorldPacket& recvPacket)
     std::string MOTD;
 
     if (!recvPacket.empty())
-        recvPacket >> MOTD;
+        { recvPacket >> MOTD; }
     else
-        MOTD = "";
+        { MOTD = ""; }
 
     Guild* guild = sGuildMgr.GetGuildById(GetPlayer()->GetGuildId());
     if (!guild)
@@ -509,7 +515,7 @@ void WorldSession::HandleGuildSetPublicNoteOpcode(WorldPacket& recvPacket)
     recvPacket >> name;
 
     if (!normalizePlayerName(name))
-        return;
+        { return; }
 
     Guild* guild = sGuildMgr.GetGuildById(GetPlayer()->GetGuildId());
 
@@ -547,7 +553,7 @@ void WorldSession::HandleGuildSetOfficerNoteOpcode(WorldPacket& recvPacket)
     recvPacket >> plName;
 
     if (!normalizePlayerName(plName))
-        return;
+        { return; }
 
     Guild* guild = sGuildMgr.GetGuildById(GetPlayer()->GetGuildId());
 
@@ -607,7 +613,7 @@ void WorldSession::HandleGuildRankOpcode(WorldPacket& recvPacket)
     guild->SetRankName(rankId, rankname);
 
     if (rankId == GR_GUILDMASTER)                           // prevent loss leader rights
-        rights = GR_RIGHT_ALL;
+        { rights = GR_RIGHT_ALL; }
 
     guild->SetRankRights(rankId, rights);
 
@@ -636,7 +642,7 @@ void WorldSession::HandleGuildAddRankOpcode(WorldPacket& recvPacket)
     }
 
     if (guild->GetRanksSize() >= GUILD_RANKS_MAX_COUNT)     // client not let create more 10 than ranks
-        return;
+        { return; }
 
     guild->CreateRank(rankname, GR_RIGHT_GCHATLISTEN | GR_RIGHT_GCHATSPEAK);
 
@@ -722,7 +728,7 @@ void WorldSession::HandleSaveGuildEmblemOpcode(WorldPacket& recvPacket)
 
     // remove fake death
     if (GetPlayer()->hasUnitState(UNIT_STAT_DIED))
-        GetPlayer()->RemoveSpellsCausingAura(SPELL_AURA_FEIGN_DEATH);
+        { GetPlayer()->RemoveSpellsCausingAura(SPELL_AURA_FEIGN_DEATH); }
 
     Guild* guild = sGuildMgr.GetGuildById(GetPlayer()->GetGuildId());
     if (!guild)
@@ -762,7 +768,7 @@ void WorldSession::HandleGuildEventLogQueryOpcode(WorldPacket& /* recvPacket */)
 
     if (uint32 GuildId = GetPlayer()->GetGuildId())
         if (Guild* pGuild = sGuildMgr.GetGuildById(GuildId))
-            pGuild->DisplayGuildEventLog(this);
+            { pGuild->DisplayGuildEventLog(this); }
 }
 
 void WorldSession::SendSaveGuildEmblem(uint32 msg)

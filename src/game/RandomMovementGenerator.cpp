@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "Creature.h"
@@ -57,9 +63,9 @@ void RandomMovementGenerator<Creature>::_setRandomLocation(Creature& creature)
     init.Launch();
 
     if (creature.CanFly())
-        i_nextMoveTime.Reset(0);
+        { i_nextMoveTime.Reset(0); }
     else
-        i_nextMoveTime.Reset(urand(500, 10000));
+        { i_nextMoveTime.Reset(urand(500, 10000)); }
 }
 
 template<>
@@ -68,7 +74,7 @@ void RandomMovementGenerator<Creature>::Initialize(Creature& creature)
     creature.addUnitState(UNIT_STAT_ROAMING);               // _MOVE set in _setRandomLocation
 
     if (!creature.IsAlive() || creature.hasUnitState(UNIT_STAT_NOT_MOVE))
-        return;
+        { return; }
 
     _setRandomLocation(creature);
 }
@@ -108,7 +114,7 @@ bool RandomMovementGenerator<Creature>::Update(Creature& creature, const uint32&
     {
         i_nextMoveTime.Update(diff);
         if (i_nextMoveTime.Passed())
-            _setRandomLocation(creature);
+            { _setRandomLocation(creature); }
     }
     return true;
 }

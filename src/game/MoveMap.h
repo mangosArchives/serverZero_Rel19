@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,16 +17,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef _MOVE_MAP_H
 #define _MOVE_MAP_H
 
-#include "Utilities/UnorderedMapSet.h"
+#include <DetourAlloc.h>
+#include <DetourNavMesh.h>
+#include <DetourNavMeshQuery.h>
 
-#include "../../dep/recastnavigation/Detour/Include/DetourAlloc.h"
-#include "../../dep/recastnavigation/Detour/Include/DetourNavMesh.h"
-#include "../../dep/recastnavigation/Detour/Include/DetourNavMeshQuery.h"
+#include "Utilities/UnorderedMapSet.h"
 
 //  memory management
 inline void* dtCustomAlloc(int size, dtAllocHint /*hint*/)
@@ -49,10 +55,10 @@ namespace MMAP
         ~MMapData()
         {
             for (NavMeshQuerySet::iterator i = navMeshQueries.begin(); i != navMeshQueries.end(); ++i)
-                dtFreeNavMeshQuery(i->second);
+                { dtFreeNavMeshQuery(i->second); }
 
             if (navMesh)
-                dtFreeNavMesh(navMesh);
+                { dtFreeNavMesh(navMesh); }
         }
 
         dtNavMesh* navMesh;

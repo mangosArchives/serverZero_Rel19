@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "ByteBuffer.h"
@@ -29,7 +35,7 @@ int
 ReactorAI::Permissible(const Creature* creature)
 {
     if ((creature->GetCreatureInfo()->flags_extra & CREATURE_FLAG_EXTRA_NO_AGGRO) || creature->IsNeutralToAll())
-        return PERMIT_BASE_REACTIVE;
+        { return PERMIT_BASE_REACTIVE; }
 
     return PERMIT_BASE_NO;
 }
@@ -43,7 +49,7 @@ void
 ReactorAI::AttackStart(Unit* p)
 {
     if (!p)
-        return;
+        { return; }
 
     if (m_creature->Attack(p, true))
     {
@@ -69,7 +75,7 @@ ReactorAI::UpdateAI(const uint32 /*time_diff*/)
 {
     // update i_victimGuid if i_creature.getVictim() !=0 and changed
     if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-        return;
+        { return; }
 
     i_victimGuid = m_creature->getVictim()->GetObjectGuid();
 
@@ -117,5 +123,5 @@ ReactorAI::EnterEvadeMode()
 
     // Remove ChaseMovementGenerator from MotionMaster stack list, and add HomeMovementGenerator instead
     if (m_creature->GetMotionMaster()->GetCurrentMovementGeneratorType() == CHASE_MOTION_TYPE)
-        m_creature->GetMotionMaster()->MoveTargetedHome();
+        { m_creature->GetMotionMaster()->MoveTargetedHome(); }
 }

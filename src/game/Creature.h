@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOSSERVER_CREATURE_H
@@ -145,11 +151,11 @@ struct CreatureInfo
     SkillType GetRequiredLootSkill() const
     {
         if (type_flags & CREATURE_TYPEFLAGS_HERBLOOT)
-            return SKILL_HERBALISM;
+            { return SKILL_HERBALISM; }
         else if (type_flags & CREATURE_TYPEFLAGS_MININGLOOT)
-            return SKILL_MINING;
+            { return SKILL_MINING; }
         else
-            return SKILL_SKINNING;                          // normal case
+            { return SKILL_SKINNING; }                          // normal case
     }
 
     bool isTameable() const
@@ -313,7 +319,7 @@ struct VendorItemData
 
     VendorItem* GetItem(uint32 slot) const
     {
-        if (slot >= m_items.size()) return NULL;
+        if (slot >= m_items.size()) { return NULL; }
         return m_items[slot];
     }
     bool Empty() const { return m_items.empty(); }
@@ -329,7 +335,7 @@ struct VendorItemData
     void Clear()
     {
         for (VendorItemList::const_iterator itr = m_items.begin(); itr != m_items.end(); ++itr)
-            delete(*itr);
+            { delete(*itr); }
         m_items.clear();
     }
 };
@@ -451,6 +457,10 @@ class MANGOS_DLL_SPEC Creature : public Unit
 
     public:
 
+        /* Loot Variables */
+        bool hasBeenLootedOnce;
+        uint32 assignedLooter;
+
         explicit Creature(CreatureSubtype subtype = CREATURE_SUBTYPE_GENERIC);
         virtual ~Creature();
 
@@ -500,7 +510,7 @@ class MANGOS_DLL_SPEC Creature : public Unit
         bool IsElite() const
         {
             if (IsPet())
-                return false;
+                { return false; }
 
             uint32 rank = GetCreatureInfo()->rank;
             return rank != CREATURE_ELITE_NORMAL && rank != CREATURE_ELITE_RARE;
@@ -509,7 +519,7 @@ class MANGOS_DLL_SPEC Creature : public Unit
         bool IsWorldBoss() const
         {
             if (IsPet())
-                return false;
+                { return false; }
 
             return GetCreatureInfo()->rank == CREATURE_ELITE_WORLDBOSS;
         }
@@ -670,9 +680,9 @@ class MANGOS_DLL_SPEC Creature : public Unit
         virtual uint32 GetPetAutoSpellOnPos(uint8 pos) const
         {
             if (pos >= CREATURE_MAX_SPELLS || m_charmInfo->GetCharmSpell(pos)->GetType() != ACT_ENABLED)
-                return 0;
+                { return 0; }
             else
-                return m_charmInfo->GetCharmSpell(pos)->GetAction();
+                { return m_charmInfo->GetCharmSpell(pos)->GetAction(); }
         }
 
         void SetCombatStartPosition(float x, float y, float z) { m_combatStartX = x; m_combatStartY = y; m_combatStartZ = z; }

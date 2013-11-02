@@ -1,4 +1,9 @@
-# This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+# mangos-zero is a full featured server for World of Warcraft in its vanilla
+# version, supporting clients for patch 1.12.x.
+#
+# Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
+#
+# ***** BEGIN GPL LICENSE BLOCK *****
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,475 +18,344 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+# ***** END GPL LICENSE BLOCK *****
+#
+# World of Warcraft, and all World of Warcraft or Warcraft art, images,
+# and lore are copyrighted by Blizzard Entertainment, Inc.
 
-set(LIBRARY_NAME game)
+include(MacroMangosSourceGroup)
 
-include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/vmap
-  ${CMAKE_CURRENT_SOURCE_DIR}/AuctionHouseBot
-  ${CMAKE_CURRENT_SOURCE_DIR}/BattleGround
-  ${CMAKE_CURRENT_SOURCE_DIR}/OutdoorPvP
-  ${CMAKE_SOURCE_DIR}/dep/include/g3dlite
-  ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour
-  ${CMAKE_SOURCE_DIR}/dep/recastnavigation/
-  ${CMAKE_SOURCE_DIR}/dep/include
-  ${CMAKE_SOURCE_DIR}/src/shared
-  ${CMAKE_SOURCE_DIR}/src/framework
-  ${CMAKE_BINARY_DIR}
-  ${CMAKE_BINARY_DIR}/src/shared
-  ${MYSQL_INCLUDE_DIR}
-  ${ACE_INCLUDE_DIR}
-)
+#-----------------------------------------------------------------------------
+# Build the mangos-zero vmap library
+add_subdirectory(vmap)
 
-set(SRC_GRP_AHBOT
-    AuctionHouseBot/AuctionHouseBot.cpp
-    AuctionHouseBot/AuctionHouseBot.h
-)
+#-----------------------------------------------------------------------------
+# Build the mangos-zero auctionhousebot library
+add_subdirectory(AuctionHouseBot)
 
-set(SRC_GRP_BATTLEGROUND
-    BattleGround/BattleGround.cpp
-    BattleGround/BattleGround.h
-    BattleGround/BattleGroundAB.cpp
-    BattleGround/BattleGroundAB.h
-    BattleGround/BattleGroundAV.cpp
-    BattleGround/BattleGroundAV.h
-    BattleGround/BattleGroundHandler.cpp
-    BattleGround/BattleGroundMgr.cpp
-    BattleGround/BattleGroundMgr.h
-    BattleGround/BattleGroundWS.cpp
-    BattleGround/BattleGroundWS.h
-)
+#-----------------------------------------------------------------------------
+# Build the mangos-zero battleground library
+add_subdirectory(BattleGround)
 
-set(SRC_GRP_CHAT_COMMANDS
+#-----------------------------------------------------------------------------
+# Build the mangos-zero outdoor PvP library
+add_subdirectory(OutdoorPvP)
+
+#-----------------------------------------------------------------------------
+# Build the mangos-zero movement library
+add_subdirectory(movement)
+
+#-----------------------------------------------------------------------------
+# Define the game library
+set(sources
+    AccountMgr.cpp
+    AddonHandler.cpp
+    AggressorAI.cpp
+    AuctionHouseHandler.cpp
+    AuctionHouseMgr.cpp
+    Bag.cpp
+    Camera.cpp
+    Channel.cpp
+    ChannelHandler.cpp
+    ChannelMgr.cpp
+    CharacterDatabaseCleaner.cpp
+    CharacterHandler.cpp
+    Chat.cpp
+    ChatHandler.cpp
+    CombatHandler.cpp
+    ConfusedMovementGenerator.cpp
+    Corpse.cpp
+    CreatureAI.cpp
+    CreatureAIRegistry.cpp
+    CreatureAISelector.cpp
+    Creature.cpp
+    CreatureEventAI.cpp
+    CreatureEventAIMgr.cpp
+    CreatureLinkingMgr.cpp
+    DBCStores.cpp
     debugcmds.cpp
+    DuelHandler.cpp
+    DynamicObject.cpp
+    FleeingMovementGenerator.cpp
+    FollowerReference.cpp
+    GameEventMgr.cpp
+    GameObject.cpp
+    GMTicketHandler.cpp
+    GMTicketMgr.cpp
+    GossipDef.cpp
+    GridMap.cpp
+    GridNotifiers.cpp
+    GridStates.cpp
+    Group.cpp
+    GroupHandler.cpp
+    GroupReference.cpp
+    GuardAI.cpp
+    Guild.cpp
+    GuildHandler.cpp
+    GuildMgr.cpp
+    HomeMovementGenerator.cpp
+    HostileRefManager.cpp
+    IdleMovementGenerator.cpp
+    InstanceData.cpp
+    Item.cpp
+    ItemEnchantmentMgr.cpp
+    ItemHandler.cpp
     Level0.cpp
     Level1.cpp
     Level2.cpp
     Level3.cpp
-)
-
-set(SRC_GRP_MOTION_GEN
-    ConfusedMovementGenerator.cpp
-    ConfusedMovementGenerator.h
-    FleeingMovementGenerator.cpp
-    FleeingMovementGenerator.h
-    HomeMovementGenerator.cpp
-    HomeMovementGenerator.h
-    IdleMovementGenerator.cpp
-    IdleMovementGenerator.h
+    LFGHandler.cpp
+    LootHandler.cpp
+    LootMgr.cpp
+    Mail.cpp
+    MailHandler.cpp
+    Map.cpp
+    MapManager.cpp
+    MapPersistentStateMgr.cpp
+    MassMailMgr.cpp
+    MiscHandler.cpp
     MotionMaster.cpp
-    MotionMaster.h
+    MoveMap.cpp
     MovementGenerator.cpp
-    MovementGenerator.h
-    MovementGeneratorImpl.h   # TODO: this is not in the VC files - does it belong in here?
+    MovementHandler.cpp
+    NPCHandler.cpp
+    NullCreatureAI.cpp
+    ObjectAccessor.cpp
+    Object.cpp
+    ObjectGridLoader.cpp
+    ObjectGuid.cpp
+    ObjectMgr.cpp
+    ObjectPosSelector.cpp
+    Opcodes.cpp
     PathFinder.cpp
-    PathFinder.h
+    PetAI.cpp
+    Pet.cpp
+    PetHandler.cpp
+    PetitionsHandler.cpp
+    Player.cpp
+    PlayerDump.cpp
     PointMovementGenerator.cpp
-    PointMovementGenerator.h
+    PoolManager.cpp
+    QueryHandler.cpp
+    QuestDef.cpp
+    QuestHandler.cpp
     RandomMovementGenerator.cpp
-    RandomMovementGenerator.h
+    ReactorAI.cpp
+    ReputationMgr.cpp
+    ScriptMgr.cpp
+    SkillHandler.cpp
+    SocialMgr.cpp
+    SpellAuras.cpp
+    Spell.cpp
+    SpellEffects.cpp
+    SpellHandler.cpp
+    SpellMgr.cpp
+    SQLStorages.cpp
+    StatSystem.cpp
     TargetedMovementGenerator.cpp
-    TargetedMovementGenerator.h
+    TaxiHandler.cpp
+    TemporarySummon.cpp
+    ThreatManager.cpp
+    TotemAI.cpp
+    Totem.cpp
+    TradeHandler.cpp
+    Transports.cpp
+    UnitAuraProcHandler.cpp
+    Unit.cpp
+    UpdateData.cpp
+    WaypointManager.cpp
     WaypointMovementGenerator.cpp
-    WaypointMovementGenerator.h
+    Weather.cpp
+    World.cpp
+    WorldSession.cpp
+    WorldSocket.cpp
+    WorldSocketMgr.cpp
 )
 
-set(SRC_GRP_MOVEMENT
-    movement/MoveSpline.cpp
-    movement/MoveSpline.h
-    movement/MoveSplineFlag.h
-    movement/MoveSplineInit.cpp
-    movement/MoveSplineInit.h
-    movement/MoveSplineInitArgs.h
-    movement/packet_builder.cpp
-    movement/packet_builder.h
-    movement/spline.cpp
-    movement/spline.h
-    movement/spline.impl.h
-    movement/typedefs.h
-    movement/util.cpp
-)
-
-set(SRC_GRP_OBJECT
-    AggressorAI.cpp
+set(headers
+    AccountMgr.h
+    AddonHandler.h
     AggressorAI.h
-    AuctionHouseMgr.cpp
     AuctionHouseMgr.h
-    Bag.cpp
     Bag.h
-    Camera.cpp
     Camera.h
-    Corpse.cpp
+    Cell.h
+    CellImpl.h
+    Channel.h
+    ChannelMgr.h
+    CharacterDatabaseCleaner.h
+    Chat.h
+    ConfusedMovementGenerator.h
     Corpse.h
-    Creature.cpp
-    Creature.h
-    CreatureAI.cpp
     CreatureAI.h
     CreatureAIImpl.h
-    CreatureAIRegistry.cpp
     CreatureAIRegistry.h
-    CreatureAISelector.cpp
     CreatureAISelector.h
-    CreatureEventAI.cpp
     CreatureEventAI.h
-    CreatureEventAIMgr.cpp
     CreatureEventAIMgr.h
-    DynamicObject.cpp
-    DynamicObject.h
-    Formulas.h
-    GameObject.cpp
-    GameObject.h
-    GMTicketMgr.cpp
-    GMTicketMgr.h
-    GuardAI.cpp
-    GuardAI.h
-    Guild.cpp
-    Guild.h
-    Item.cpp
-    Item.h
-    ItemEnchantmentMgr.cpp
-    ItemEnchantmentMgr.h
-    ItemPrototype.h
-    LootMgr.cpp
-    LootMgr.h
-    Mail.cpp
-    NullCreatureAI.cpp
-    NullCreatureAI.h
-    Object.cpp
-    Object.h
-    ObjectAccessor.cpp
-    ObjectAccessor.h
-    ObjectGuid.cpp
-    ObjectGuid.h
-    ObjectMgr.cpp
-    ObjectMgr.h
-    ObjectPosSelector.cpp
-    ObjectPosSelector.h
-    Pet.cpp
-    Pet.h
-    PetAI.cpp
-    PetAI.h
-    Player.cpp
-    Player.h
-    ReactorAI.cpp
-    ReactorAI.h
-    ReputationMgr.cpp
-    ReputationMgr.h
-    SocialMgr.cpp
-    SocialMgr.h
-    SpellMgr.cpp
-    SpellMgr.h
-    StatSystem.cpp
-    TemporarySummon.cpp
-    TemporarySummon.h
-    Totem.cpp
-    Totem.h
-    TotemAI.cpp
-    TotemAI.h
-    Unit.cpp
-    Unit.h
-    UnitEvents.h
-    UpdateFields.h
-    UpdateMask.h
-)
-
-set(SRC_GRP_OUTDOOR_PVP
-    OutdoorPvP/OutdoorPvP.cpp
-    OutdoorPvP/OutdoorPvP.h
-    OutdoorPvP/OutdoorPvPEP.cpp
-    OutdoorPvP/OutdoorPvPEP.h
-    OutdoorPvP/OutdoorPvPMgr.cpp
-    OutdoorPvP/OutdoorPvPMgr.h
-    OutdoorPvP/OutdoorPvPSI.cpp
-    OutdoorPvP/OutdoorPvPSI.h
-)
-
-set(SRC_GRP_REFERENCES
-    FollowerReference.cpp
-    FollowerReference.h
-    FollowerRefManager.h
-    GroupReference.cpp
-    GroupReference.h
-    GroupRefManager.h
-    HostileRefManager.cpp
-    HostileRefManager.h
-    MapReference.h
-    MapRefManager.h
-    ThreatManager.cpp
-    ThreatManager.h
-)
-
-set(SRC_GRP_SERVER
+    Creature.h
+    CreatureLinkingMgr.h
     DBCEnums.h
     DBCfmt.h
-    DBCStores.cpp
     DBCStores.h
     DBCStructure.h
-    Opcodes.cpp
+    DynamicObject.h
+    FleeingMovementGenerator.h
+    FollowerReference.h
+    FollowerRefManager.h
+    Formulas.h
+    GameEventMgr.h
+    GameObject.h
+    GMTicketMgr.h
+    GossipDef.h
+    GridDefines.h
+    GridMap.h
+    GridNotifiers.h
+    GridNotifiersImpl.h
+    GridStates.h
+    Group.h
+    GroupReference.h
+    GroupRefManager.h
+    GuardAI.h
+    Guild.h
+    GuildMgr.h
+    HomeMovementGenerator.h
+    HostileRefManager.h
+    IdleMovementGenerator.h
+    InstanceData.h
+    ItemEnchantmentMgr.h
+    Item.h
+    ItemPrototype.h
+    Language.h
+    LFGHandler.h
+    LootMgr.h
+    Mail.h
+    Map.h
+    MapManager.h
+    MapPersistentStateMgr.h
+    MapReference.h
+    MapRefManager.h
+    MassMailMgr.h
+    MotionMaster.h
+    MoveMap.h
+    MoveMapSharedDefines.h
+    MovementGenerator.h
+    MovementGeneratorImpl.h
+    NPCHandler.h
+    NullCreatureAI.h
+    ObjectAccessor.h
+    ObjectGridLoader.h
+    ObjectGuid.h
+    Object.h
+    ObjectMgr.h
+    ObjectPosSelector.h
     Opcodes.h
+    PathFinder.h
+    Path.h
+    PetAI.h
+    Pet.h
+    PlayerDump.h
+    Player.h
+    PointMovementGenerator.h
+    PoolManager.h
+    QuestDef.h
+    RandomMovementGenerator.h
+    ReactorAI.h
+    ReputationMgr.h
+    ScriptMgr.h
     SharedDefines.h
-    SQLStorages.cpp
+    SocialMgr.h
+    SpellAuraDefines.h
+    SpellAuras.h
+    Spell.h
+    SpellMgr.h
     SQLStorages.h
-    WorldSession.cpp
+    TargetedMovementGenerator.h
+    TemporarySummon.h
+    ThreatManager.h
+    TotemAI.h
+    Totem.h
+    Transports.h
+    UnitEvents.h
+    Unit.h
+    UpdateData.h
+    UpdateFields.h
+    UpdateMask.h
+    WaypointManager.h
+    WaypointMovementGenerator.h
+    Weather.h
+    World.h
     WorldSession.h
-    WorldSocket.cpp
     WorldSocket.h
-    WorldSocketMgr.cpp
     WorldSocketMgr.h
 )
 
-set(SRC_GRP_TOOL
-    CharacterDatabaseCleaner.cpp
-    CharacterDatabaseCleaner.h
-    Language.h
-    PlayerDump.cpp
-    PlayerDump.h
-)
-
-set(SRC_GRP_VMAPS
-    vmap/BIH.cpp
-    vmap/BIH.h
-    vmap/BIHWrap.h
-    vmap/DynamicTree.cpp
-    vmap/DynamicTree.h
-    vmap/GameObjectModel.cpp
-    vmap/GameObjectModel.h
-    vmap/IVMapManager.h
-    vmap/MapTree.cpp
-    vmap/MapTree.h
-    vmap/ModelInstance.cpp
-    vmap/ModelInstance.h
-    vmap/RegularGrid.h
-    vmap/TileAssembler.cpp
-    vmap/TileAssembler.h
-    vmap/VMapDefinitions.h
-    vmap/VMapFactory.cpp
-    vmap/VMapFactory.h
-    vmap/VMapManager2.cpp
-    vmap/VMapManager2.h
-    vmap/VMapTools.h
-    vmap/WorldModel.cpp
-    vmap/WorldModel.h
-)
-
-set(SRC_GRP_WORLD_HANDLERS
-    AccountMgr.cpp
-    AccountMgr.h
-    AddonHandler.cpp
-    AddonHandler.h
-    AuctionHouseHandler.cpp
-    Cell.h
-    CellImpl.h
-    Channel.cpp
-    Channel.h
-    ChannelHandler.cpp
-    ChannelMgr.cpp
-    ChannelMgr.h
-    CharacterHandler.cpp
-    Chat.cpp
-    Chat.h
-    ChatHandler.cpp
-    CombatHandler.cpp
-    CreatureLinkingMgr.cpp
-    CreatureLinkingMgr.h
-    DuelHandler.cpp
-    GameEventMgr.cpp
-    GameEventMgr.h
-    GMTicketHandler.cpp
-    GossipDef.cpp
-    GossipDef.h
-    GridDefines.h
-    GridMap.cpp
-    GridMap.h
-    GridNotifiers.cpp
-    GridNotifiers.h
-    GridNotifiersImpl.h
-    GridStates.cpp
-    GridStates.h
-    Group.cpp
-    Group.h
-    GroupHandler.cpp
-    GuildHandler.cpp
-    GuildMgr.cpp
-    GuildMgr.h
-    InstanceData.cpp
-    InstanceData.h
-    ItemHandler.cpp
-    LFGHandler.cpp
-    LFGHandler.h
-    LootHandler.cpp
-    Mail.cpp
-    Mail.h
-    MailHandler.cpp
-    Map.cpp
-    Map.h
-    MapManager.cpp
-    MapManager.h
-    MapPersistentStateMgr.cpp
-    MapPersistentStateMgr.h
-    MassMailMgr.cpp
-    MassMailMgr.h
-    MiscHandler.cpp
-    MoveMap.cpp
-    MoveMap.h
-    MoveMapSharedDefines.h
-    MovementHandler.cpp
-    NPCHandler.cpp
-    NPCHandler.h
-    ObjectGridLoader.cpp
-    ObjectGridLoader.h
-    Path.h
-    PetHandler.cpp
-    PetitionsHandler.cpp
-    PoolManager.cpp
-    PoolManager.h
-    QueryHandler.cpp
-    QuestDef.cpp
-    QuestDef.h
-    QuestHandler.cpp
-    ScriptMgr.cpp
-    ScriptMgr.h
-    SkillHandler.cpp
-    Spell.cpp
-    Spell.h
-    SpellAuraDefines.h
-    SpellAuras.cpp
-    SpellAuras.h
-    SpellEffects.cpp
-    SpellHandler.cpp
-    TaxiHandler.cpp
-    TradeHandler.cpp
-    Transports.cpp
-    Transports.h
-    UnitAuraProcHandler.cpp
-    UpdateData.cpp
-    UpdateData.h
-    WaypointManager.cpp
-    WaypointManager.h
-    Weather.cpp
-    Weather.h
-    World.cpp
-    World.h
-)
-
-set(LIBRARY_SRCS
-    ${SRC_GRP_AHBOT}
-    ${SRC_GRP_BATTLEGROUND}
-    ${SRC_GRP_CHAT_COMMANDS}
-    ${SRC_GRP_MOTION_GEN}
-    ${SRC_GRP_MOVEMENT}
-    ${SRC_GRP_OBJECT}
-    ${SRC_GRP_OUTDOOR_PVP}
-    ${SRC_GRP_REFERENCES}
-    ${SRC_GRP_SERVER}
-    ${SRC_GRP_TOOL}
-    ${SRC_GRP_VMAPS}
-    ${SRC_GRP_WORLD_HANDLERS}
-    pchdef.cpp
-    pchdef.h
-)
-
-source_group("AhBot"
-  FILES
-    ${SRC_GRP_AHBOT}
-)
-
-source_group("BattleGround"
-  FILES
-    ${SRC_GRP_BATTLEGROUND}
-)
-
-source_group("Chat Commands"
-  FILES
-    ${SRC_GRP_CHAT_COMMANDS}
-)
-
-source_group("Motion generators"
-  FILES
-    ${SRC_GRP_MOTION_GEN}
-)
-
-source_group("Movement"
-  FILES
-    ${SRC_GRP_MOVEMENT}
-)
-
-source_group("Object"
-  FILES
-    ${SRC_GRP_OBJECT}
-)
-
-source_group("Outdoor PvP"
-  FILES
-    ${SRC_GRP_OUTDOOR_PVP}
-)
-
-source_group("References"
-  FILES
-    ${SRC_GRP_REFERENCES}
-)
-
-source_group("Server"
-  FILES
-    ${SRC_GRP_SERVER}
-)
-
-source_group("Tool"
-  FILES
-    ${SRC_GRP_TOOL}
-)
-
-source_group("vmaps"
-  FILES
-    ${SRC_GRP_VMAPS}
-)
-
-source_group("World/Handlers"
-  FILES
-    ${SRC_GRP_WORLD_HANDLERS}
-)
-
-if(PCH)
-  include_directories(${CMAKE_CURRENT_BINARY_DIR})
+if(WITH_MOD_LUA AND LUA51_FOUND)
+    list(APPEND sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaEngine.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaHookMgr.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaFunctions.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaHooks.cpp
+    )
+    list(APPEND headers
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaEngine.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaHookMgr.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/LuaIncludes.h
+    )
+    include_directories(
+        ${LUA_INCLUDE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/luaengine/
+    )
 endif()
 
-add_library(${LIBRARY_NAME} STATIC
-  ${LIBRARY_SRCS}
+set(game_LIB_SRCS ${sources} ${headers})
+
+mangos_source_group(${game_LIB_SRCS})
+
+include_directories(
+    ${ACE_INCLUDE_DIRS}
+    ${MYSQL_INCLUDE_DIR}
+    ${OPENSSL_INCLUDE_DIR}
+    ${ZLIB_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/dep/include/g3dlite/
+    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Include/
+    ${CMAKE_SOURCE_DIR}/src/framework/
+    ${CMAKE_SOURCE_DIR}/src/shared/
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/vmap/
+    ${CMAKE_CURRENT_SOURCE_DIR}/AuctionHouseBot/
+    ${CMAKE_CURRENT_SOURCE_DIR}/BattleGround/
+    ${CMAKE_CURRENT_SOURCE_DIR}/OutdoorPvP/
+    ${CMAKE_CURRENT_SOURCE_DIR}/movement/
+    ${CMAKE_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}/src/shared/
 )
 
-target_link_libraries(${LIBRARY_NAME}
-  shared
-  detour
-)
+#-----------------------------------------------------------------------------
+# Build the game library
+add_library(mangos-game STATIC ${game_LIB_SRCS})
+target_link_libraries(mangos-game mangos-auctionhouse-bot mangos-battleground mangos-outdoor-pvp mangos-movement mangos-vmap mangos-shared mangos-framework Detour g3dlite ${ACE_LIBRARIES} ${MYSQL_LIBRARIES} ${OPENSSL_LIBRARIES} ${ZLIB_LIBRARIES})
 
-if(UNIX)
+set(BUILD_PROPERTIES "")
+if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+    set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DMANGOS_DEBUG")
+endif()
+
+if(WITH_MOD_LUA AND LUA51_FOUND)
+    set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DWITH_MOD_LUA" )
+    set_target_properties(mangos-game PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+    target_link_libraries(mangos-game ${LUA_LIBRARIES})
+elseif(WITH_MOD_SCRIPTDEV2)
+    set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DWITH_MOD_SCRIPTDEV2" )
+    set_target_properties(mangos-game PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+endif()
+
+if(UNIX AND WITH_MOD_SCRIPTDEV2)
   # Both systems don't have libdl and don't need them
   if (NOT (CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD"))
-    target_link_libraries(${LIBRARY_NAME}
-      dl
-    )
+    target_link_libraries(mangos-game dl)
   endif()
 endif()
 
-add_dependencies(${LIBRARY_NAME} revision.h)
-if(NOT ACE_USE_EXTERNAL)
-  add_dependencies(${LIBRARY_NAME} ACE_Project)
-endif()
-
-# Generate precompiled header
-if(PCH)
-  if(MSVC OR XCODE)
-    if(MSVC)
-      set(game_pch "${CMAKE_CURRENT_SOURCE_DIR}/pchdef.cpp")
-    endif()
-    add_native_precompiled_header(${LIBRARY_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/pchdef.h)
-  elseif(CMAKE_COMPILER_IS_GNUCXX)
-    add_precompiled_header(${LIBRARY_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/pchdef.h)
-    if(NOT ACE_USE_EXTERNAL)
-      add_dependencies(game_pch_dephelp ACE_Project)
-    endif()
-  endif()
-endif()
-
-add_subdirectory(AuctionHouseBot)
+add_dependencies(mangos-game revision.h)

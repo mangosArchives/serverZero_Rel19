@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "ObjectGridLoader.h"
@@ -58,7 +64,7 @@ ObjectGridRespawnMover::Visit(CreatureMapType& m)
 
         Creature* c = iter->getSource();
 
-        MANGOS_ASSERT(!c->IsPet() && "ObjectGridRespawnMover don't must be called for pets");
+        MANGOS_ASSERT(!c->IsPet());                         // ObjectGridRespawnMover don't must be called for pets
 
         Cell const& cur_cell  = c->GetCurrentCell();
 
@@ -129,12 +135,12 @@ void LoadHelper(CellGuidSet const& guid_set, CellPair& cell, GridRefManager<T>& 
         obj->SetMap(map);
         obj->AddToWorld();
         if (obj->isActiveObject())
-            map->AddToActive(obj);
+            { map->AddToActive(obj); }
 
         obj->GetViewPoint().Event_AddedToWorld(&grid);
 
         if (bg)
-            bg->OnObjectDBLoad(obj);
+            { bg->OnObjectDBLoad(obj); }
 
         ++count;
     }
@@ -143,18 +149,18 @@ void LoadHelper(CellGuidSet const& guid_set, CellPair& cell, GridRefManager<T>& 
 void LoadHelper(CellCorpseSet const& cell_corpses, CellPair& cell, CorpseMapType& /*m*/, uint32& count, Map* map, GridType& grid)
 {
     if (cell_corpses.empty())
-        return;
+        { return; }
 
     for (CellCorpseSet::const_iterator itr = cell_corpses.begin(); itr != cell_corpses.end(); ++itr)
     {
         if (itr->second != map->GetInstanceId())
-            continue;
+            { continue; }
 
         uint32 player_lowguid = itr->first;
 
         Corpse* obj = sObjectAccessor.GetCorpseForPlayerGUID(ObjectGuid(HIGHGUID_PLAYER, player_lowguid));
         if (!obj)
-            continue;
+            { continue; }
 
         grid.AddWorldObject(obj);
 
@@ -162,7 +168,7 @@ void LoadHelper(CellCorpseSet const& cell_corpses, CellPair& cell, CorpseMapType
         obj->SetMap(map);
         obj->AddToWorld();
         if (obj->isActiveObject())
-            map->AddToActive(obj);
+            { map->AddToActive(obj); }
 
         ++count;
     }
@@ -269,14 +275,14 @@ ObjectGridUnloader::Visit(GridRefManager<T>& m)
 {
     // remove all cross-reference before deleting
     for (typename GridRefManager<T>::iterator iter = m.begin(); iter != m.end(); ++iter)
-        iter->getSource()->CleanupsBeforeDelete();
+        { iter->getSource()->CleanupsBeforeDelete(); }
 
     while (!m.isEmpty())
     {
         T* obj = m.getFirst()->getSource();
         // if option set then object already saved at this moment
         if (!sWorld.getConfig(CONFIG_BOOL_SAVE_RESPAWN_TIME_IMMEDIATELY))
-            obj->SaveRespawnTime();
+            { obj->SaveRespawnTime(); }
         ///- object must be out of world before delete
         obj->RemoveFromWorld();
         ///- object will get delinked from the manager when deleted

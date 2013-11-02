@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "Corpse.h"
@@ -51,7 +57,7 @@ void Corpse::AddToWorld()
 {
     ///- Register the corpse for guid lookup
     if (!IsInWorld())
-        sObjectAccessor.AddObject(this);
+        { sObjectAccessor.AddObject(this); }
 
     Object::AddToWorld();
 }
@@ -60,7 +66,7 @@ void Corpse::RemoveFromWorld()
 {
     ///- Remove the corpse from the accessor
     if (IsInWorld())
-        sObjectAccessor.RemoveObject(this);
+        { sObjectAccessor.RemoveObject(this); }
 
     Object::RemoveFromWorld();
 }
@@ -230,9 +236,9 @@ bool Corpse::LoadFromDB(uint32 lowguid, Field* fields)
 
     uint32 flags = CORPSE_FLAG_UNK2;
     if (playerFlags & PLAYER_FLAGS_HIDE_HELM)
-        flags |= CORPSE_FLAG_HIDE_HELM;
+        { flags |= CORPSE_FLAG_HIDE_HELM; }
     if (playerFlags & PLAYER_FLAGS_HIDE_CLOAK)
-        flags |= CORPSE_FLAG_HIDE_CLOAK;
+        { flags |= CORPSE_FLAG_HIDE_CLOAK; }
     SetUInt32Value(CORPSE_FIELD_FLAGS, flags);
 
     // no need to mark corpse as lootable, because corpses are not saved in battle grounds
@@ -262,23 +268,23 @@ bool Corpse::IsVisibleForInState(Player const* u, WorldObject const* viewPoint, 
 bool Corpse::IsHostileTo(Unit const* unit) const
 {
     if (Player* owner = sObjectMgr.GetPlayer(GetOwnerGuid()))
-        return owner->IsHostileTo(unit);
+        { return owner->IsHostileTo(unit); }
     else
-        return false;
+        { return false; }
 }
 
 bool Corpse::IsFriendlyTo(Unit const* unit) const
 {
     if (Player* owner = sObjectMgr.GetPlayer(GetOwnerGuid()))
-        return owner->IsFriendlyTo(unit);
+        { return owner->IsFriendlyTo(unit); }
     else
-        return true;
+        { return true; }
 }
 
 bool Corpse::IsExpired(time_t t) const
 {
     if (m_type == CORPSE_BONES)
-        return m_time < t - 60 * MINUTE;
+        { return m_time < t - 60 * MINUTE; }
     else
-        return m_time < t - 3 * DAY;
+        { return m_time < t - 3 * DAY; }
 }

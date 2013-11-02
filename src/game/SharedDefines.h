@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOS_SHAREDDEFINES_H
@@ -50,17 +56,17 @@ enum Races
 
 #define RACEMASK_ALL_PLAYABLE \
     ((1<<(RACE_HUMAN-1))    |(1<<(RACE_ORC-1))      |(1<<(RACE_DWARF-1))   | \
-    (1<<(RACE_NIGHTELF-1))  |(1<<(RACE_UNDEAD-1))   |(1<<(RACE_TAUREN-1))  | \
-    (1<<(RACE_GNOME-1))     |(1<<(RACE_TROLL-1)))
+     (1<<(RACE_NIGHTELF-1))  |(1<<(RACE_UNDEAD-1))   |(1<<(RACE_TAUREN-1))  | \
+     (1<<(RACE_GNOME-1))     |(1<<(RACE_TROLL-1)))
 
 // for most cases batter use ChrRace data for team check as more safe, but when need full mask of team can be use this defines.
 #define RACEMASK_ALLIANCE \
     ((1<<(RACE_HUMAN-1))    |(1<<(RACE_DWARF-1))    |(1<<(RACE_NIGHTELF-1))| \
-    (1<<(RACE_GNOME-1)))
+     (1<<(RACE_GNOME-1)))
 
 #define RACEMASK_HORDE \
     ((1<<(RACE_ORC-1))      |(1<<(RACE_UNDEAD-1))   |(1<<(RACE_TAUREN-1))  | \
-    (1<<(RACE_TROLL-1)))
+     (1<<(RACE_TROLL-1)))
 
 // Class value is index in ChrClasses.dbc
 enum Classes
@@ -83,8 +89,8 @@ enum Classes
 
 #define CLASSMASK_ALL_PLAYABLE \
     ((1<<(CLASS_WARRIOR-1))|(1<<(CLASS_PALADIN-1))|(1<<(CLASS_HUNTER-1))| \
-    (1<<(CLASS_ROGUE-1))  |(1<<(CLASS_PRIEST-1)) |(1<<(CLASS_SHAMAN-1))| \
-    (1<<(CLASS_MAGE-1))   |(1<<(CLASS_WARLOCK-1))|(1<<(CLASS_DRUID-1))   )
+     (1<<(CLASS_ROGUE-1))  |(1<<(CLASS_PRIEST-1)) |(1<<(CLASS_SHAMAN-1))| \
+     (1<<(CLASS_MAGE-1))   |(1<<(CLASS_WARLOCK-1))|(1<<(CLASS_DRUID-1))   )
 
 #define CLASSMASK_ALL_CREATURES ((1<<(CLASS_WARRIOR-1)) | (1<<(CLASS_PALADIN-1)) | (1<<(CLASS_ROGUE-1)) | (1<<(CLASS_MAGE-1)) )
 
@@ -187,8 +193,8 @@ enum SpellSchoolMask
 
     /// 124, not include normal and holy damage
     SPELL_SCHOOL_MASK_SPELL   = (SPELL_SCHOOL_MASK_FIRE   |
-                                 SPELL_SCHOOL_MASK_NATURE | SPELL_SCHOOL_MASK_FROST  |
-                                 SPELL_SCHOOL_MASK_SHADOW | SPELL_SCHOOL_MASK_ARCANE),
+    SPELL_SCHOOL_MASK_NATURE | SPELL_SCHOOL_MASK_FROST  |
+    SPELL_SCHOOL_MASK_SHADOW | SPELL_SCHOOL_MASK_ARCANE),
     /// 126
     SPELL_SCHOOL_MASK_MAGIC   = (SPELL_SCHOOL_MASK_HOLY | SPELL_SCHOOL_MASK_SPELL),
 
@@ -224,7 +230,7 @@ inline SpellSchools GetFirstSchoolInMask(SpellSchoolMask mask)
 {
     for (int i = 0; i < MAX_SPELL_SCHOOL; ++i)
         if (mask & (1 << i))
-            return SpellSchools(i);
+            { return SpellSchools(i); }
 
     return SPELL_SCHOOL_NORMAL;
 }
@@ -280,14 +286,14 @@ enum SpellAttributes
     SPELL_ATTR_UNK18                            = 0x00040000,            // 18
     SPELL_ATTR_LEVEL_DAMAGE_CALCULATION         = 0x00080000,            // 19 spelldamage depends on caster level
     SPELL_ATTR_STOP_ATTACK_TARGET               = 0x00100000,            // 20 Stop attack after use this spell (and not begin attack if use)
-    SPELL_ATTR_IMPOSSIBLE_DODGE_PARRY_BLOCK     = 0x00200000,            // 21 Cannot be dodged/parried/blocked
+    SPELL_ATTR_IMPOSSIBLE_DODGE_PARRY_BLOCK     = 0x00200000,            // 21 Can not be dodged/parried/blocked
     SPELL_ATTR_SET_TRACKING_TARGET              = 0x00400000,            // 22 SetTrackingTarget
     SPELL_ATTR_UNK23                            = 0x00800000,            // 23 castable while dead?
     SPELL_ATTR_CASTABLE_WHILE_MOUNTED           = 0x01000000,            // 24 castable while mounted
     SPELL_ATTR_DISABLED_WHILE_ACTIVE            = 0x02000000,            // 25 Activate and start cooldown after aura fade or remove summoned creature or go
     SPELL_ATTR_UNK26                            = 0x04000000,            // 26
     SPELL_ATTR_CASTABLE_WHILE_SITTING           = 0x08000000,            // 27 castable while sitting
-    SPELL_ATTR_CANT_USED_IN_COMBAT              = 0x10000000,            // 28 Cannot be used in combat
+    SPELL_ATTR_CANT_USED_IN_COMBAT              = 0x10000000,            // 28 Can not be used in combat
     SPELL_ATTR_UNAFFECTED_BY_INVULNERABILITY    = 0x20000000,            // 29 unaffected by invulnerability (hmm possible not...)
     SPELL_ATTR_UNK30                            = 0x40000000,            // 30 breakable by damage?
     SPELL_ATTR_CANT_CANCEL                      = 0x80000000,            // 31 positive aura can't be canceled
@@ -398,7 +404,7 @@ enum SpellAttributesEx3
     SPELL_ATTR_EX3_UNK28                        = 0x10000000,            // 28
     SPELL_ATTR_EX3_UNK29                        = 0x20000000,            // 29
     SPELL_ATTR_EX3_UNK30                        = 0x40000000,            // 30
-    SPELL_ATTR_EX3_UNK31                        = 0x80000000,            // 31
+    SPELL_ATTR_EX3_UNK31                        = 0x80000000             // 31
 };
 
 enum SpellAttributesEx4
@@ -409,7 +415,7 @@ enum SpellAttributesEx4
     SPELL_ATTR_EX4_UNK3                         = 0x00000008,            // 3
     SPELL_ATTR_EX4_UNK4                         = 0x00000010,            // 4 This will no longer cause guards to attack on use??
     SPELL_ATTR_EX4_UNK5                         = 0x00000020,            // 5
-    SPELL_ATTR_EX4_NOT_STEALABLE                = 0x00000040,            // 6 although such auras might be dispellable, they cannot be stolen
+    SPELL_ATTR_EX4_NOT_STEALABLE                = 0x00000040,            // 6 although such auras might be dispellable, they can not be stolen
     SPELL_ATTR_EX4_UNK7                         = 0x00000080,            // 7
     SPELL_ATTR_EX4_UNK8                         = 0x00000100,            // 8
     SPELL_ATTR_EX4_UNK9                         = 0x00000200,            // 9
@@ -434,7 +440,7 @@ enum SpellAttributesEx4
     SPELL_ATTR_EX4_UNK28                        = 0x10000000,            // 28
     SPELL_ATTR_EX4_UNK29                        = 0x20000000,            // 29
     SPELL_ATTR_EX4_UNK30                        = 0x40000000,            // 30
-    SPELL_ATTR_EX4_UNK31                        = 0x80000000,            // 31
+    SPELL_ATTR_EX4_UNK31                        = 0x80000000             // 31
 };
 
 enum SheathTypes
@@ -848,17 +854,17 @@ enum Mechanics
 #define MAX_MECHANIC            31
 
 #define IMMUNE_TO_ROOT_AND_SNARE_MASK ( \
-    (1<<(MECHANIC_ROOT-1))|(1<<(MECHANIC_SNARE-1)))
+                                        (1<<(MECHANIC_ROOT-1))|(1<<(MECHANIC_SNARE-1)))
 
 #define IMMUNE_TO_ROOT_AND_STUN_MASK ( \
-    (1<<(MECHANIC_ROOT-1))|(1<<(MECHANIC_STUN-1)))
+                                       (1<<(MECHANIC_ROOT-1))|(1<<(MECHANIC_STUN-1)))
 
 // Daze and all croud control spells except polymorph are not removed
 #define MECHANIC_NOT_REMOVED_BY_SHAPESHIFT ( \
-    (1<<(MECHANIC_CHARM -1))|(1<<(MECHANIC_DISORIENTED-1))|(1<<(MECHANIC_FEAR  -1))| \
-    (1<<(MECHANIC_PACIFY-1))|(1<<(MECHANIC_STUN       -1))|(1<<(MECHANIC_FREEZE-1))| \
-    (1<<(MECHANIC_BANISH-1))|(1<<(MECHANIC_SHACKLE    -1))|(1<<(MECHANIC_HORROR-1))| \
-    (1<<(MECHANIC_TURN  -1))|(1<<(MECHANIC_DAZE       -1))|(1<<(MECHANIC_SAPPED-1)))
+        (1<<(MECHANIC_CHARM -1))|(1<<(MECHANIC_DISORIENTED-1))|(1<<(MECHANIC_FEAR  -1))| \
+        (1<<(MECHANIC_PACIFY-1))|(1<<(MECHANIC_STUN       -1))|(1<<(MECHANIC_FREEZE-1))| \
+        (1<<(MECHANIC_BANISH-1))|(1<<(MECHANIC_SHACKLE    -1))|(1<<(MECHANIC_HORROR-1))| \
+        (1<<(MECHANIC_TURN  -1))|(1<<(MECHANIC_DAZE       -1))|(1<<(MECHANIC_SAPPED-1)))
 
 // Spell dispell type
 enum DispelType
@@ -1080,7 +1086,7 @@ enum GameobjectTypes
     GAMEOBJECT_TYPE_MINI_GAME              = 27,
     GAMEOBJECT_TYPE_LOTTERY_KIOSK          = 28,
     GAMEOBJECT_TYPE_CAPTURE_POINT          = 29,
-    GAMEOBJECT_TYPE_AURA_GENERATOR         = 30,
+    GAMEOBJECT_TYPE_AURA_GENERATOR         = 30
 };
 
 #define MAX_GAMEOBJECT_TYPE                  31             // sending to client this or greater value can crash client.
@@ -1089,9 +1095,9 @@ enum GameObjectFlags
 {
     GO_FLAG_IN_USE          = 0x00000001,                   // disables interaction while animated
     GO_FLAG_LOCKED          = 0x00000002,                   // require key, spell, event, etc to be opened. Makes "Locked" appear in tooltip
-    GO_FLAG_INTERACT_COND   = 0x00000004,                   // cannot interact (condition to interact)
+    GO_FLAG_INTERACT_COND   = 0x00000004,                   // can not interact (condition to interact)
     GO_FLAG_TRANSPORT       = 0x00000008,                   // any kind of transport? Object can transport (elevator, boat, car)
-    GO_FLAG_NO_INTERACT     = 0x00000010,                   // players cannot interact with this go (often need to remove flag in event)
+    GO_FLAG_NO_INTERACT     = 0x00000010,                   // players can not interact with this go (often need to remove flag in event)
     GO_FLAG_NODESPAWN       = 0x00000020,                   // never despawn, typically for doors, they just change state
     GO_FLAG_TRIGGERED       = 0x00000040                    // typically, summoned objects. Triggered by spell or other events
 };
@@ -1100,7 +1106,7 @@ enum GameObjectDynamicLowFlags
 {
     GO_DYNFLAG_LO_ACTIVATE          = 0x01,                 // enables interaction with GO
     GO_DYNFLAG_LO_ANIMATE           = 0x02,                 // possibly more distinct animation of GO
-    GO_DYNFLAG_LO_NO_INTERACT       = 0x04,                 // appears to disable interaction (not fully verified)
+    GO_DYNFLAG_LO_NO_INTERACT       = 0x04                  // appears to disable interaction (not fully verified)
 };
 
 enum TextEmotes

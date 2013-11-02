@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include <stdio.h>
@@ -35,22 +41,10 @@ BarGoLink::BarGoLink(int row_count)
     init(row_count);
 }
 
-BarGoLink::BarGoLink(uint32 row_count)
-{
-    MANGOS_ASSERT(row_count < (uint32)ACE_INT32_MAX);
-    init((int)row_count);
-}
-
-BarGoLink::BarGoLink(uint64 row_count)
-{
-    MANGOS_ASSERT(row_count < (uint64)ACE_INT32_MAX);
-    init((int)row_count);
-}
-
 BarGoLink::~BarGoLink()
 {
     if (!m_showOutput)
-        return;
+        { return; }
 
     printf("\n");
     fflush(stdout);
@@ -64,14 +58,14 @@ void BarGoLink::init(int row_count)
     num_rec   = row_count;
 
     if (!m_showOutput)
-        return;
+        { return; }
 
 #ifdef _WIN32
     printf("\x3D");
 #else
     printf("[");
 #endif
-    for (int i = 0; i < indic_len; ++i) printf(empty);
+    for (int i = 0; i < indic_len; ++i) { printf(empty); }
 #ifdef _WIN32
     printf("\x3D 0%%\r\x3D");
 #else
@@ -83,11 +77,11 @@ void BarGoLink::init(int row_count)
 void BarGoLink::step()
 {
     if (!m_showOutput)
-        return;
+        { return; }
 
     int i, n;
 
-    if (num_rec == 0) return;
+    if (num_rec == 0) { return; }
     ++rec_no;
     n = rec_no * indic_len / num_rec;
     if (n != rec_pos)
@@ -97,8 +91,8 @@ void BarGoLink::step()
 #else
         printf("\r[");
 #endif
-        for (i = 0; i < n; ++i) printf(full);
-        for (; i < indic_len; ++i) printf(empty);
+        for (i = 0; i < n; ++i) { printf(full); }
+        for (; i < indic_len; ++i) { printf(empty); }
         float percent = (((float)n / (float)indic_len) * 100);
 #ifdef _WIN32
         printf("\x3D %i%%  \r\x3D", (int)percent);

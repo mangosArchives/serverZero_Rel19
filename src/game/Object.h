@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef _OBJECT_H
@@ -101,7 +107,7 @@ class WorldUpdateCounter
         time_t timeElapsed()
         {
             if (!m_tmStart)
-                m_tmStart = WorldTimer::tickPrevTime();
+                { m_tmStart = WorldTimer::tickPrevTime(); }
 
             return WorldTimer::getMSTimeDiff(m_tmStart, WorldTimer::tickTime());
         }
@@ -121,7 +127,7 @@ class MANGOS_DLL_SPEC Object
         virtual void AddToWorld()
         {
             if (m_inWorld)
-                return;
+                { return; }
 
             m_inWorld = true;
 
@@ -236,15 +242,18 @@ class MANGOS_DLL_SPEC Object
         void SetFlag(uint16 index, uint32 newFlag);
         void RemoveFlag(uint16 index, uint32 oldFlag);
 
+        void SetPlayerSpecificFlag(uint16 index, uint32 newFlag, Player* plr);
+        void RemovePlayerSpecificFlag(uint16 index, uint32 newFlag, Player* plr);
+
         void ToggleFlag(uint16 index, uint32 flag)
         {
             if (HasFlag(index, flag))
-                RemoveFlag(index, flag);
+                { RemoveFlag(index, flag); }
             else
-                SetFlag(index, flag);
+                { SetFlag(index, flag); }
         }
 
-        /** 
+        /**
          * Checks if a certain flag is set.
          * @param index The index to check, values may originate from at least \ref EUnitFields
          * @param flag Which flag to check, value may originate from a lot of places, see code
@@ -261,9 +270,9 @@ class MANGOS_DLL_SPEC Object
         void ApplyModFlag(uint16 index, uint32 flag, bool apply)
         {
             if (apply)
-                SetFlag(index, flag);
+                { SetFlag(index, flag); }
             else
-                RemoveFlag(index, flag);
+                { RemoveFlag(index, flag); }
         }
 
         void SetByteFlag(uint16 index, uint8 offset, uint8 newFlag);
@@ -272,9 +281,9 @@ class MANGOS_DLL_SPEC Object
         void ToggleByteFlag(uint16 index, uint8 offset, uint8 flag)
         {
             if (HasByteFlag(index, offset, flag))
-                RemoveByteFlag(index, offset, flag);
+                { RemoveByteFlag(index, offset, flag); }
             else
-                SetByteFlag(index, offset, flag);
+                { SetByteFlag(index, offset, flag); }
         }
 
         bool HasByteFlag(uint16 index, uint8 offset, uint8 flag) const
@@ -287,9 +296,9 @@ class MANGOS_DLL_SPEC Object
         void ApplyModByteFlag(uint16 index, uint8 offset, uint32 flag, bool apply)
         {
             if (apply)
-                SetByteFlag(index, offset, flag);
+                { SetByteFlag(index, offset, flag); }
             else
-                RemoveByteFlag(index, offset, flag);
+                { RemoveByteFlag(index, offset, flag); }
         }
 
         void SetShortFlag(uint16 index, bool highpart, uint16 newFlag);
@@ -298,9 +307,9 @@ class MANGOS_DLL_SPEC Object
         void ToggleShortFlag(uint16 index, bool highpart, uint8 flag)
         {
             if (HasShortFlag(index, highpart, flag))
-                RemoveShortFlag(index, highpart, flag);
+                { RemoveShortFlag(index, highpart, flag); }
             else
-                SetShortFlag(index, highpart, flag);
+                { SetShortFlag(index, highpart, flag); }
         }
 
         bool HasShortFlag(uint16 index, bool highpart, uint8 flag) const
@@ -312,9 +321,9 @@ class MANGOS_DLL_SPEC Object
         void ApplyModShortFlag(uint16 index, bool highpart, uint32 flag, bool apply)
         {
             if (apply)
-                SetShortFlag(index, highpart, flag);
+                { SetShortFlag(index, highpart, flag); }
             else
-                RemoveShortFlag(index, highpart, flag);
+                { RemoveShortFlag(index, highpart, flag); }
         }
 
         void SetFlag64(uint16 index, uint64 newFlag)
@@ -334,9 +343,9 @@ class MANGOS_DLL_SPEC Object
         void ToggleFlag64(uint16 index, uint64 flag)
         {
             if (HasFlag64(index, flag))
-                RemoveFlag64(index, flag);
+                { RemoveFlag64(index, flag); }
             else
-                SetFlag64(index, flag);
+                { SetFlag64(index, flag); }
         }
 
         bool HasFlag64(uint16 index, uint64 flag) const
@@ -348,9 +357,9 @@ class MANGOS_DLL_SPEC Object
         void ApplyModFlag64(uint16 index, uint64 flag, bool apply)
         {
             if (apply)
-                SetFlag64(index, flag);
+                { SetFlag64(index, flag); }
             else
-                RemoveFlag64(index, flag);
+                { RemoveFlag64(index, flag); }
         }
 
         void ClearUpdateMask(bool remove);
@@ -389,6 +398,7 @@ class MANGOS_DLL_SPEC Object
         };
 
         std::vector<bool> m_changedValues;
+        std::map<uint32, uint32> m_plrSpecificFlags;
 
         uint16 m_valuesCount;
 
@@ -456,17 +466,33 @@ class MANGOS_DLL_SPEC WorldObject : public Object
         void GetPosition(WorldLocation& loc) const
         { loc.mapid = m_mapId; GetPosition(loc.coord_x, loc.coord_y, loc.coord_z); loc.orientation = GetOrientation(); }
         float GetOrientation() const { return m_position.o; }
-        void GetNearPoint2D(float& x, float& y, float distance, float absAngle) const;
+
+        /// Gives a 2d-point in distance distance2d in direction absAngle around the current position (point-to-point)
+        void GetNearPoint2D(float& x, float& y, float distance2d, float absAngle) const;
+        /** Gives a "free" spot for searcher in distance distance2d in direction absAngle on "good" height
+         * @param searcher          -           for whom a spot is searched for
+         * @param x, y, z           -           position for the found spot of the searcher
+         * @param searcher_bounding_radius  -   how much space the searcher will require
+         * @param distance2d        -           distance between the middle-points
+         * @param absAngle          -           angle in which the spot is preferred
+         */
         void GetNearPoint(WorldObject const* searcher, float& x, float& y, float& z, float searcher_bounding_radius, float distance2d, float absAngle) const;
-        void GetClosePoint(float& x, float& y, float& z, float bounding_radius, float distance2d = 0, float angle = 0, const WorldObject* obj = NULL) const
+        /** Gives a "free" spot for a searcher on the distance (including bounding-radius calculation)
+         * @param x, y, z           -           position for the found spot
+         * @param bounding_radius   -           radius for the searcher
+         * @param distance2d        -           range in which to find a free spot. Default = 0.0f (which usually means the units will have contact)
+         * @param angle             -           direction in which to look for a free spot. Default = 0.0f (direction in which 'this' is looking
+         * @param obj               -           for whom to look for a spot. Default = NULL
+         */
+        void GetClosePoint(float& x, float& y, float& z, float bounding_radius, float distance2d = 0.0f, float angle = 0.0f, const WorldObject* obj = NULL) const
         {
             // angle calculated from current orientation
-            GetNearPoint(obj, x, y, z, bounding_radius, distance2d, GetOrientation() + angle);
+            GetNearPoint(obj, x, y, z, bounding_radius, distance2d + GetObjectBoundingRadius() + bounding_radius, GetOrientation() + angle);
         }
         void GetContactPoint(const WorldObject* obj, float& x, float& y, float& z, float distance2d = CONTACT_DISTANCE) const
         {
             // angle to face `obj` to `this` using distance includes size of `obj`
-            GetNearPoint(obj, x, y, z, obj->GetObjectBoundingRadius(), distance2d, GetAngle(obj));
+            GetNearPoint(obj, x, y, z, obj->GetObjectBoundingRadius(), distance2d + GetObjectBoundingRadius() + obj->GetObjectBoundingRadius(), GetAngle(obj));
         }
 
         virtual float GetObjectBoundingRadius() const { return DEFAULT_WORLD_OBJECT_SIZE; }

@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOS_FORMULAS_H
@@ -54,13 +60,13 @@ namespace MaNGOS
                 int8 rank = prk.positive ? prk.rank - NEGATIVE_HONOR_RANK_COUNT - 1 : prk.rank - NEGATIVE_HONOR_RANK_COUNT;
                 prk.maxRP = (rank) * 5000.00f;
                 if (prk.maxRP < 0) // in negative rank case
-                    prk.maxRP *= -1;
+                    { prk.maxRP *= -1; }
                 prk.minRP = prk.maxRP > 5000.0f ? prk.maxRP  - 5000.00f : 2000.00f;
 
                 prk.visualRank = prk.rank > NEGATIVE_HONOR_RANK_COUNT ? prk.rank - NEGATIVE_HONOR_RANK_COUNT : prk.rank * -1;
             }
             else
-                InitRankInfo(prk);
+                { InitRankInfo(prk); }
 
             return prk;
         }
@@ -73,21 +79,21 @@ namespace MaNGOS
 
             // rank none
             if (honor_points == 0)
-                return prk;
+                { return prk; }
 
             prk.positive = honor_points > 0;
             if (!prk.positive)
-                honor_points *= -1;
+                { honor_points *= -1; }
 
             uint8 rCount = prk.positive ? POSITIVE_HONOR_RANK_COUNT - 2 : NEGATIVE_HONOR_RANK_COUNT;
             uint8 firstRank = prk.positive ? NEGATIVE_HONOR_RANK_COUNT + 1 : 1;
 
             if (honor_points < 2000.00f)
-                prk.rank = prk.positive ? firstRank : NEGATIVE_HONOR_RANK_COUNT;
+                { prk.rank = prk.positive ? firstRank : NEGATIVE_HONOR_RANK_COUNT; }
             else
             {
                 if (honor_points > (rCount - 1) * 5000.00f)
-                    prk.rank = prk.positive ? HONOR_RANK_COUNT - 1 : firstRank;
+                    { prk.rank = prk.positive ? HONOR_RANK_COUNT - 1 : firstRank; }
                 else
                 {
                     prk.rank = uint32(honor_points / 5000.00f) + firstRank;
@@ -122,7 +128,7 @@ namespace MaNGOS
 
             // get the WS scores at the top of each break point
             for (uint8 group = 0; group < 14; group++)
-                sc.BRK[group] = floor((sc.BRK[group] * standingList.size()) + 0.5f);
+                { sc.BRK[group] = floor((sc.BRK[group] * standingList.size()) + 0.5f); }
 
             // initialize RP array
             // set the low point
@@ -155,7 +161,7 @@ namespace MaNGOS
                     honor += tempSt->honorPoints;
                     tempSt = sObjectMgr.GetHonorStandingByPosition(sc.BRK[i] + 1, team);
                     if (tempSt)
-                        honor += tempSt->honorPoints;
+                        { honor += tempSt->honorPoints; }
                 }
 
                 sc.FX[i] = honor ? honor / 2 : 0;
@@ -172,7 +178,7 @@ namespace MaNGOS
             // search the function for the two points that bound the given CP
             uint8 i = 0;
             while (i < 14 && sc.BRK[i] > 0 && sc.FX[i] <= CP)
-                i++;
+                { i++; }
 
             // we now have i such that FX[i] > CP >= FX[i-1]
             // so interpolate
@@ -198,23 +204,23 @@ namespace MaNGOS
         {
             float result = 10;
             if (level >= 30 && level <= 35)
-                result = result + 1.5 * (level - 29);
+                { result = result + 1.5 * (level - 29); }
             if (level >= 36 && level <= 41)
-                result = result + 9 + 2 * (level - 35);
+                { result = result + 9 + 2 * (level - 35); }
             if (level >= 42 && level <= 50)
-                result = result + 21 + 3.2 * (level - 41);
+                { result = result + 21 + 3.2 * (level - 41); }
             if (level >= 51)
-                result = result + 50 + 4 * (level - 50);
+                { result = result + 50 + 4 * (level - 50); }
             if (result > 100)
-                return 100.0;
+                { return 100.0; }
             else
-                return result;
+                { return result; }
         }
 
         inline float HonorableKillPoints(Player* killer, Player* victim, uint32 groupsize)
         {
             if (!killer || !victim || !groupsize)
-                return 0.0;
+                { return 0.0; }
 
             uint32 today = sWorld.GetDateToday();
 
@@ -235,45 +241,45 @@ namespace MaNGOS
 
     namespace XP
     {
-        typedef enum XPColorChar { RED, ORANGE, YELLOW, GREEN, GRAY };
+        typedef enum XPColorChar { RED, ORANGE, YELLOW, GREEN, GRAY } XPColorChar;
 
         inline uint32 GetGrayLevel(uint32 pl_level)
         {
             if (pl_level <= 5)
-                return 0;
+                { return 0; }
             else if (pl_level <= 39)
-                return pl_level - 5 - pl_level / 10;
+                { return pl_level - 5 - pl_level / 10; }
             else
-                return pl_level - 1 - pl_level / 5;
+                { return pl_level - 1 - pl_level / 5; }
         }
 
         inline XPColorChar GetColorCode(uint32 pl_level, uint32 mob_level)
         {
             if (mob_level >= pl_level + 5)
-                return RED;
+                { return RED; }
             else if (mob_level >= pl_level + 3)
-                return ORANGE;
+                { return ORANGE; }
             else if (mob_level >= pl_level - 2)
-                return YELLOW;
+                { return YELLOW; }
             else if (mob_level > GetGrayLevel(pl_level))
-                return GREEN;
+                { return GREEN; }
             else
-                return GRAY;
+                { return GRAY; }
         }
 
         inline uint32 GetZeroDifference(uint32 pl_level)
         {
-            if (pl_level < 8)  return 5;
-            if (pl_level < 10) return 6;
-            if (pl_level < 12) return 7;
-            if (pl_level < 16) return 8;
-            if (pl_level < 20) return 9;
-            if (pl_level < 30) return 11;
-            if (pl_level < 40) return 12;
-            if (pl_level < 45) return 13;
-            if (pl_level < 50) return 14;
-            if (pl_level < 55) return 15;
-            if (pl_level < 60) return 16;
+            if (pl_level < 8)  { return 5; }
+            if (pl_level < 10) { return 6; }
+            if (pl_level < 12) { return 7; }
+            if (pl_level < 16) { return 8; }
+            if (pl_level < 20) { return 9; }
+            if (pl_level < 30) { return 11; }
+            if (pl_level < 40) { return 12; }
+            if (pl_level < 45) { return 13; }
+            if (pl_level < 50) { return 14; }
+            if (pl_level < 55) { return 15; }
+            if (pl_level < 60) { return 16; }
             return 17;
         }
 
@@ -284,7 +290,7 @@ namespace MaNGOS
             {
                 uint32 nLevelDiff = mob_level - pl_level;
                 if (nLevelDiff > 4)
-                    nLevelDiff = 4;
+                    { nLevelDiff = 4; }
                 return ((pl_level * 5 + nBaseExp) * (20 + nLevelDiff) / 10 + 1) / 2;
             }
             else
@@ -302,16 +308,16 @@ namespace MaNGOS
         inline uint32 Gain(Player* pl, Unit* u)
         {
             if (u->GetTypeId() == TYPEID_UNIT && (
-                        ((Creature*)u)->IsTotem() || ((Creature*)u)->IsPet() ||
-                        (((Creature*)u)->GetCreatureInfo()->flags_extra & CREATURE_FLAG_EXTRA_NO_XP_AT_KILL)))
-                return 0;
+                    ((Creature*)u)->IsTotem() || ((Creature*)u)->IsPet() ||
+                    (((Creature*)u)->GetCreatureInfo()->flags_extra & CREATURE_FLAG_EXTRA_NO_XP_AT_KILL)))
+                { return 0; }
 
             uint32 xp_gain = BaseGain(pl->getLevel(), u->getLevel());
             if (xp_gain == 0)
-                return 0;
+                { return 0; }
 
             if (u->GetTypeId() == TYPEID_UNIT && ((Creature*)u)->IsElite())
-                xp_gain *= 2;
+                { xp_gain *= 2; }
 
             return (uint32)(xp_gain * sWorld.getConfig(CONFIG_FLOAT_RATE_XP_KILL));
         }

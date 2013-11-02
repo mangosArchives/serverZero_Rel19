@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "ConfusedMovementGenerator.h"
@@ -33,7 +39,7 @@ void ConfusedMovementGenerator<T>::Initialize(T& unit)
     unit.GetPosition(i_x, i_y, i_z);
 
     if (!unit.IsAlive() || unit.hasUnitState(UNIT_STAT_NOT_MOVE))
-        return;
+        { return; }
 
     unit.StopMoving();
     unit.addUnitState(UNIT_STAT_CONFUSED_MOVE);
@@ -53,7 +59,7 @@ void ConfusedMovementGenerator<T>::Reset(T& unit)
     i_nextMoveTime.Reset(0);
 
     if (!unit.IsAlive() || unit.hasUnitState(UNIT_STAT_NOT_MOVE))
-        return;
+        { return; }
 
     unit.StopMoving();
     unit.addUnitState(UNIT_STAT_CONFUSED | UNIT_STAT_CONFUSED_MOVE);
@@ -64,7 +70,7 @@ bool ConfusedMovementGenerator<T>::Update(T& unit, const uint32& diff)
 {
     // ignore in case other no reaction state
     if (unit.hasUnitState(UNIT_STAT_CAN_NOT_REACT & ~UNIT_STAT_CONFUSED))
-        return true;
+        { return true; }
 
     if (i_nextMoveTime.Passed())
     {
@@ -72,7 +78,7 @@ bool ConfusedMovementGenerator<T>::Update(T& unit, const uint32& diff)
         unit.addUnitState(UNIT_STAT_CONFUSED_MOVE);
 
         if (unit.movespline->Finalized())
-            i_nextMoveTime.Reset(urand(800, 1500));
+            { i_nextMoveTime.Reset(urand(800, 1500)); }
     }
     else
     {

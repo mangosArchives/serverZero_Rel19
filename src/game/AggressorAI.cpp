@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "AggressorAI.h"
@@ -32,7 +38,7 @@ AggressorAI::Permissible(const Creature* creature)
 {
     // have some hostile factions, it will be selected by IsHostileTo check at MoveInLineOfSight
     if (!(creature->GetCreatureInfo()->flags_extra & CREATURE_FLAG_EXTRA_NO_AGGRO) && !creature->IsNeutralToAll())
-        return PERMIT_BASE_PROACTIVE;
+        { return PERMIT_BASE_PROACTIVE; }
 
     return PERMIT_BASE_NO;
 }
@@ -46,10 +52,10 @@ AggressorAI::MoveInLineOfSight(Unit* u)
 {
     // Ignore Z for flying creatures
     if (!m_creature->CanFly() && m_creature->GetDistanceZ(u) > CREATURE_Z_ATTACK_RANGE)
-        return;
+        { return; }
 
     if (m_creature->CanInitiateAttack() && u->IsTargetableForAttack() &&
-            m_creature->IsHostileTo(u) && u->isInAccessablePlaceFor(m_creature))
+        m_creature->IsHostileTo(u) && u->isInAccessablePlaceFor(m_creature))
     {
         float attackRadius = m_creature->GetAttackDistance(u);
         if (m_creature->IsWithinDistInMap(u, attackRadius) && m_creature->IsWithinLOSInMap(u))
@@ -110,7 +116,7 @@ void AggressorAI::EnterEvadeMode()
 
         // Remove ChaseMovementGenerator from MotionMaster stack list, and add HomeMovementGenerator instead
         if (m_creature->GetMotionMaster()->GetCurrentMovementGeneratorType() == CHASE_MOTION_TYPE)
-            m_creature->GetMotionMaster()->MoveTargetedHome();
+            { m_creature->GetMotionMaster()->MoveTargetedHome(); }
     }
 
     m_creature->DeleteThreatList();
@@ -124,7 +130,7 @@ AggressorAI::UpdateAI(const uint32 /*diff*/)
 {
     // update i_victimGuid if m_creature->getVictim() !=0 and changed
     if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-        return;
+        { return; }
 
     i_victimGuid = m_creature->getVictim()->GetObjectGuid();
 
@@ -142,7 +148,7 @@ void
 AggressorAI::AttackStart(Unit* u)
 {
     if (!u)
-        return;
+        { return; }
 
     if (m_creature->Attack(u, true))
     {

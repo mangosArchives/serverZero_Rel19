@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOS_GRIDNOTIFIERSIMPL_H
@@ -55,7 +61,7 @@ inline void PlayerCreatureRelocationWorker(Player* pl, Creature* c)
     if (!c->hasUnitState(UNIT_STAT_LOST_CONTROL))
     {
         if (c->AI() && c->AI()->IsVisible(pl) && !c->IsInEvadeMode())
-            c->AI()->MoveInLineOfSight(pl);
+            { c->AI()->MoveInLineOfSight(pl); }
     }
 }
 
@@ -64,26 +70,26 @@ inline void CreatureCreatureRelocationWorker(Creature* c1, Creature* c2)
     if (!c1->hasUnitState(UNIT_STAT_LOST_CONTROL))
     {
         if (c1->AI() && c1->AI()->IsVisible(c2) && !c1->IsInEvadeMode())
-            c1->AI()->MoveInLineOfSight(c2);
+            { c1->AI()->MoveInLineOfSight(c2); }
     }
 
     if (!c2->hasUnitState(UNIT_STAT_LOST_CONTROL))
     {
         if (c2->AI() && c2->AI()->IsVisible(c1) && !c2->IsInEvadeMode())
-            c2->AI()->MoveInLineOfSight(c1);
+            { c2->AI()->MoveInLineOfSight(c1); }
     }
 }
 
 inline void MaNGOS::PlayerRelocationNotifier::Visit(CreatureMapType& m)
 {
     if (!i_player.IsAlive() || i_player.IsTaxiFlying())
-        return;
+        { return; }
 
     for (CreatureMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
     {
         Creature* c = iter->getSource();
         if (c->IsAlive())
-            PlayerCreatureRelocationWorker(&i_player, c);
+            { PlayerCreatureRelocationWorker(&i_player, c); }
     }
 }
 
@@ -91,13 +97,13 @@ template<>
 inline void MaNGOS::CreatureRelocationNotifier::Visit(PlayerMapType& m)
 {
     if (!i_creature.IsAlive())
-        return;
+        { return; }
 
     for (PlayerMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
     {
         Player* player = iter->getSource();
         if (player->IsAlive() && !player->IsTaxiFlying())
-            PlayerCreatureRelocationWorker(player, &i_creature);
+            { PlayerCreatureRelocationWorker(player, &i_creature); }
     }
 }
 
@@ -105,60 +111,60 @@ template<>
 inline void MaNGOS::CreatureRelocationNotifier::Visit(CreatureMapType& m)
 {
     if (!i_creature.IsAlive())
-        return;
+        { return; }
 
     for (CreatureMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
     {
         Creature* c = iter->getSource();
         if (c != &i_creature && c->IsAlive())
-            CreatureCreatureRelocationWorker(c, &i_creature);
+            { CreatureCreatureRelocationWorker(c, &i_creature); }
     }
 }
 
 inline void MaNGOS::DynamicObjectUpdater::VisitHelper(Unit* target)
 {
     if (!target->IsAlive() || target->IsTaxiFlying())
-        return;
+        { return; }
 
     if (target->GetTypeId() == TYPEID_UNIT && ((Creature*)target)->IsTotem())
-        return;
+        { return; }
 
     if (!i_dynobject.IsWithinDistInMap(target, i_dynobject.GetRadius()))
-        return;
+        { return; }
 
     // Check targets for not_selectable unit flag and remove
     if (target->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_OOC_NOT_ATTACKABLE))
-        return;
+        { return; }
 
     // Evade target
     if (target->GetTypeId() == TYPEID_UNIT && ((Creature*)target)->IsInEvadeMode())
-        return;
+        { return; }
 
     // Check player targets and remove if in GM mode or GM invisibility (for not self casting case)
     if (target->GetTypeId() == TYPEID_PLAYER && target != i_check && (((Player*)target)->isGameMaster() || ((Player*)target)->GetVisibility() == VISIBILITY_OFF))
-        return;
+        { return; }
 
     // for player casts use less strict negative and more stricted positive targeting
     if (i_check->GetTypeId() == TYPEID_PLAYER)
     {
         if (i_check->IsFriendlyTo(target) != i_positive)
-            return;
+            { return; }
     }
     else
     {
         if (i_check->IsHostileTo(target) == i_positive)
-            return;
+            { return; }
     }
 
     if (i_dynobject.IsAffecting(target))
-        return;
+        { return; }
 
     SpellEntry const* spellInfo = sSpellStore.LookupEntry(i_dynobject.GetSpellId());
     SpellEffectIndex eff_index  = i_dynobject.GetEffIndex();
 
     // Check target immune to spell or aura
     if (target->IsImmuneToSpell(spellInfo, false) || target->IsImmuneToSpellEffect(spellInfo, eff_index, false))
-        return;
+        { return; }
 
     // Apply PersistentAreaAura on target
     // in case 2 dynobject overlap areas for same spell, same holder is selected, so dynobjects share holder
@@ -196,14 +202,14 @@ template<>
 inline void MaNGOS::DynamicObjectUpdater::Visit(CreatureMapType&  m)
 {
     for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
-        VisitHelper(itr->getSource());
+        { VisitHelper(itr->getSource()); }
 }
 
 template<>
 inline void MaNGOS::DynamicObjectUpdater::Visit(PlayerMapType&  m)
 {
     for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
-        VisitHelper(itr->getSource());
+        { VisitHelper(itr->getSource()); }
 }
 
 // SEARCHERS & LIST SEARCHERS & WORKERS
@@ -215,7 +221,7 @@ void MaNGOS::WorldObjectSearcher<Check>::Visit(GameObjectMapType& m)
 {
     // already found
     if (i_object)
-        return;
+        { return; }
 
     for (GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
@@ -232,7 +238,7 @@ void MaNGOS::WorldObjectSearcher<Check>::Visit(PlayerMapType& m)
 {
     // already found
     if (i_object)
-        return;
+        { return; }
 
     for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
@@ -249,7 +255,7 @@ void MaNGOS::WorldObjectSearcher<Check>::Visit(CreatureMapType& m)
 {
     // already found
     if (i_object)
-        return;
+        { return; }
 
     for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
@@ -266,7 +272,7 @@ void MaNGOS::WorldObjectSearcher<Check>::Visit(CorpseMapType& m)
 {
     // already found
     if (i_object)
-        return;
+        { return; }
 
     for (CorpseMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
@@ -283,7 +289,7 @@ void MaNGOS::WorldObjectSearcher<Check>::Visit(DynamicObjectMapType& m)
 {
     // already found
     if (i_object)
-        return;
+        { return; }
 
     for (DynamicObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
@@ -300,7 +306,7 @@ void MaNGOS::WorldObjectListSearcher<Check>::Visit(PlayerMapType& m)
 {
     for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (i_check(itr->getSource()))
-            i_objects.push_back(itr->getSource());
+            { i_objects.push_back(itr->getSource()); }
 }
 
 template<class Check>
@@ -308,7 +314,7 @@ void MaNGOS::WorldObjectListSearcher<Check>::Visit(CreatureMapType& m)
 {
     for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (i_check(itr->getSource()))
-            i_objects.push_back(itr->getSource());
+            { i_objects.push_back(itr->getSource()); }
 }
 
 template<class Check>
@@ -316,7 +322,7 @@ void MaNGOS::WorldObjectListSearcher<Check>::Visit(CorpseMapType& m)
 {
     for (CorpseMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (i_check(itr->getSource()))
-            i_objects.push_back(itr->getSource());
+            { i_objects.push_back(itr->getSource()); }
 }
 
 template<class Check>
@@ -324,7 +330,7 @@ void MaNGOS::WorldObjectListSearcher<Check>::Visit(GameObjectMapType& m)
 {
     for (GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (i_check(itr->getSource()))
-            i_objects.push_back(itr->getSource());
+            { i_objects.push_back(itr->getSource()); }
 }
 
 template<class Check>
@@ -332,7 +338,7 @@ void MaNGOS::WorldObjectListSearcher<Check>::Visit(DynamicObjectMapType& m)
 {
     for (DynamicObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (i_check(itr->getSource()))
-            i_objects.push_back(itr->getSource());
+            { i_objects.push_back(itr->getSource()); }
 }
 
 // Gameobject searchers
@@ -342,7 +348,7 @@ void MaNGOS::GameObjectSearcher<Check>::Visit(GameObjectMapType& m)
 {
     // already found
     if (i_object)
-        return;
+        { return; }
 
     for (GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
@@ -360,7 +366,7 @@ void MaNGOS::GameObjectLastSearcher<Check>::Visit(GameObjectMapType& m)
     for (GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (i_check(itr->getSource()))
-            i_object = itr->getSource();
+            { i_object = itr->getSource(); }
     }
 }
 
@@ -369,7 +375,7 @@ void MaNGOS::GameObjectListSearcher<Check>::Visit(GameObjectMapType& m)
 {
     for (GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (i_check(itr->getSource()))
-            i_objects.push_back(itr->getSource());
+            { i_objects.push_back(itr->getSource()); }
 }
 
 // Unit searchers
@@ -379,7 +385,7 @@ void MaNGOS::UnitSearcher<Check>::Visit(CreatureMapType& m)
 {
     // already found
     if (i_object)
-        return;
+        { return; }
 
     for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
@@ -396,7 +402,7 @@ void MaNGOS::UnitSearcher<Check>::Visit(PlayerMapType& m)
 {
     // already found
     if (i_object)
-        return;
+        { return; }
 
     for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
@@ -414,7 +420,7 @@ void MaNGOS::UnitLastSearcher<Check>::Visit(CreatureMapType& m)
     for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (i_check(itr->getSource()))
-            i_object = itr->getSource();
+            { i_object = itr->getSource(); }
     }
 }
 
@@ -424,7 +430,7 @@ void MaNGOS::UnitLastSearcher<Check>::Visit(PlayerMapType& m)
     for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (i_check(itr->getSource()))
-            i_object = itr->getSource();
+            { i_object = itr->getSource(); }
     }
 }
 
@@ -433,7 +439,7 @@ void MaNGOS::UnitListSearcher<Check>::Visit(PlayerMapType& m)
 {
     for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (i_check(itr->getSource()))
-            i_objects.push_back(itr->getSource());
+            { i_objects.push_back(itr->getSource()); }
 }
 
 template<class Check>
@@ -441,7 +447,7 @@ void MaNGOS::UnitListSearcher<Check>::Visit(CreatureMapType& m)
 {
     for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (i_check(itr->getSource()))
-            i_objects.push_back(itr->getSource());
+            { i_objects.push_back(itr->getSource()); }
 }
 
 // Creature searchers
@@ -451,7 +457,7 @@ void MaNGOS::CreatureSearcher<Check>::Visit(CreatureMapType& m)
 {
     // already found
     if (i_object)
-        return;
+        { return; }
 
     for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
@@ -469,7 +475,7 @@ void MaNGOS::CreatureLastSearcher<Check>::Visit(CreatureMapType& m)
     for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (i_check(itr->getSource()))
-            i_object = itr->getSource();
+            { i_object = itr->getSource(); }
     }
 }
 
@@ -478,7 +484,7 @@ void MaNGOS::CreatureListSearcher<Check>::Visit(CreatureMapType& m)
 {
     for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (i_check(itr->getSource()))
-            i_objects.push_back(itr->getSource());
+            { i_objects.push_back(itr->getSource()); }
 }
 
 template<class Check>
@@ -486,7 +492,7 @@ void MaNGOS::PlayerSearcher<Check>::Visit(PlayerMapType& m)
 {
     // already found
     if (i_object)
-        return;
+        { return; }
 
     for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
@@ -503,7 +509,7 @@ void MaNGOS::PlayerListSearcher<Check>::Visit(PlayerMapType& m)
 {
     for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (i_check(itr->getSource()))
-            i_objects.push_back(itr->getSource());
+            { i_objects.push_back(itr->getSource()); }
 }
 
 template<class Builder>
@@ -517,7 +523,7 @@ void MaNGOS::LocalizedPacketDo<Builder>::operator()(Player* p)
     if (i_data_cache.size() < cache_idx + 1 || !i_data_cache[cache_idx])
     {
         if (i_data_cache.size() < cache_idx + 1)
-            i_data_cache.resize(cache_idx + 1);
+            { i_data_cache.resize(cache_idx + 1); }
 
         data = new WorldPacket(SMSG_MESSAGECHAT, 200);
 
@@ -526,7 +532,7 @@ void MaNGOS::LocalizedPacketDo<Builder>::operator()(Player* p)
         i_data_cache[cache_idx] = data;
     }
     else
-        data = i_data_cache[cache_idx];
+        { data = i_data_cache[cache_idx]; }
 
     p->SendDirectMessage(data);
 }
@@ -542,17 +548,17 @@ void MaNGOS::LocalizedPacketListDo<Builder>::operator()(Player* p)
     if (i_data_cache.size() < cache_idx + 1 || i_data_cache[cache_idx].empty())
     {
         if (i_data_cache.size() < cache_idx + 1)
-            i_data_cache.resize(cache_idx + 1);
+            { i_data_cache.resize(cache_idx + 1); }
 
         data_list = &i_data_cache[cache_idx];
 
         i_builder(*data_list, loc_idx);
     }
     else
-        data_list = &i_data_cache[cache_idx];
+        { data_list = &i_data_cache[cache_idx]; }
 
     for (size_t i = 0; i < data_list->size(); ++i)
-        p->SendDirectMessage((*data_list)[i]);
+        { p->SendDirectMessage((*data_list)[i]); }
 }
 
 #endif                                                      // MANGOS_GRIDNOTIFIERSIMPL_H

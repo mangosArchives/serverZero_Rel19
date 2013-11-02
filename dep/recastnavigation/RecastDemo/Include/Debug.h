@@ -3,6 +3,9 @@
 #define _MMAP_DEBUG_H
 
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "DetourNavMesh.h"
 #include "Recast.h"
 #include "ChunkyTriMesh.h"
@@ -29,7 +32,7 @@ private:
 public:
 	myMeshLoaderObj();
 	~myMeshLoaderObj();
-	
+
 	bool load(const char* fileName);
 
 	inline const float* getVerts() const { return m_verts; }

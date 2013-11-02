@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "MoveSplineFlag.h"
@@ -35,22 +41,22 @@ namespace Movement
     float computeFallTime(float path_length, bool isSafeFall)
     {
         if (path_length < 0.f)
-            return 0.f;
+            { return 0.f; }
 
         float time;
         if (isSafeFall)
         {
             if (path_length >= terminal_savefall_length)
-                time = (path_length - terminal_savefall_length) / terminalSavefallVelocity + terminalSavefallVelocity / gravity;
+                { time = (path_length - terminal_savefall_length) / terminalSavefallVelocity + terminalSavefallVelocity / gravity; }
             else
-                time = sqrtf(2.f * path_length / gravity);
+                { time = sqrtf(2.f * path_length / gravity); }
         }
         else
         {
             if (path_length >= terminal_length)
-                time = (path_length - terminal_length) / terminalVelocity + terminalFallTime;
+                { time = (path_length - terminal_length) / terminalVelocity + terminalFallTime; }
             else
-                time = sqrtf(2.f * path_length / gravity);
+                { time = sqrtf(2.f * path_length / gravity); }
         }
 
         return time;
@@ -62,12 +68,12 @@ namespace Movement
         float result;
 
         if (isSafeFall)
-            termVel = terminalSavefallVelocity;
+            { termVel = terminalSavefallVelocity; }
         else
-            termVel = terminalVelocity;
+            { termVel = terminalVelocity; }
 
         if (start_velocity > termVel)
-            start_velocity = termVel;
+            { start_velocity = termVel; }
 
         float terminal_time = terminalFallTime - start_velocity / gravity; // the time that needed to reach terminalVelocity
 
@@ -77,7 +83,7 @@ namespace Movement
                      start_velocity * terminal_time + gravity * terminal_time * terminal_time * 0.5f;
         }
         else
-            result = t_passed * (start_velocity + t_passed * gravity * 0.5f);
+            { result = t_passed * (start_velocity + t_passed * gravity * 0.5f); }
 
         return result;
     }
@@ -93,7 +99,7 @@ namespace Movement
             result = terminalVelocity * (t_passed - terminalFallTime) + terminal_length;
         }
         else
-            result = t_passed * t_passed * gravity * 0.5f;
+            { result = t_passed * t_passed * gravity * 0.5f; }
 
         return result;
     }
@@ -195,7 +201,7 @@ namespace Movement
         for (int i = 0; i < N; ++i)
         {
             if ((t & (Flags)(1 << i)) && names[i] != NULL)
-                str.append(" ").append(names[i]);
+                { str.append(" ").append(names[i]); }
         }
     }
 

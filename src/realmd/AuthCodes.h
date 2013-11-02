@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 /** \file
@@ -23,6 +29,10 @@
 #ifndef _AUTHCODES_H
 #define _AUTHCODES_H
 
+/**
+ * @brief
+ *
+ */
 enum eAuthCmd
 {
     CMD_AUTH_LOGON_CHALLENGE        = 0x00,
@@ -38,7 +48,10 @@ enum eAuthCmd
     CMD_XFER_CANCEL                 = 0x34
 };
 
-// not used by us currently
+/**
+ * @brief not used by us currently
+ *
+ */
 enum eAuthSrvCmd
 {
     CMD_GRUNT_AUTH_CHALLENGE        = 0x0,
@@ -54,6 +67,10 @@ enum eAuthSrvCmd
     CMD_GRUNT_SUNKEN_ONLINE         = 0x46
 };
 
+/**
+ * @brief
+ *
+ */
 enum AuthResult
 {
     WOW_SUCCESS                     = 0x00,
@@ -75,7 +92,7 @@ enum AuthResult
     WOW_FAIL_PARENTCONTROL          = 0x0F,                 ///< Access to this account has been blocked by parental controls. Your settings may be changed in your account preferences at <site>
     WOW_FAIL_LOCKED_ENFORCED        = 0x10,                 ///< You have applied a lock to your account. You can change your locked status by calling your account lock phone number.
     WOW_FAIL_TRIAL_ENDED            = 0x11,                 ///< Your trial subscription has expired. Please visit <site> to upgrade your account.
-    WOW_FAIL_USE_BATTLENET          = 0x12,                 ///< WOW_FAIL_OTHER This account is now attached to a Battle.net account. Please login with your Battle.net account email address and password.
+    WOW_FAIL_USE_BATTLENET          = 0x12                  ///< WOW_FAIL_OTHER This account is now attached to a Battle.net account. Please login with your Battle.net account email address and password.
     // WOW_FAIL_OVERMIND_CONVERTED
     // WOW_FAIL_ANTI_INDULGENCE
     // WOW_FAIL_EXPIRED

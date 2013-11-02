@@ -1162,7 +1162,7 @@ void Any::deserializeBody(TextInput& ti, Token& token) {
         }
 
         // Pointer the value being read
-        Any a = NULL;
+        Any a = 0;
         std::string key;
         
         if (m_type == TABLE) {

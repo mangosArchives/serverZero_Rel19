@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "MaNGOSsoap.h"
@@ -117,7 +123,7 @@ int ns1__executeCommand(soap* soap, char* command, char** result)
     }
 
     if (!command || !*command)
-        return soap_sender_fault(soap, "Command mustn't be empty", "The supplied command was an empty string");
+        { return soap_sender_fault(soap, "Command mustn't be empty", "The supplied command was an empty string"); }
 
     DEBUG_LOG("MaNGOSsoap: got command '%s'", command);
     SOAPCommand connection;
@@ -146,7 +152,7 @@ int ns1__executeCommand(soap* soap, char* command, char** result)
         return SOAP_OK;
     }
     else
-        return soap_sender_fault(soap, printBuffer, printBuffer);
+        { return soap_sender_fault(soap, printBuffer, printBuffer); }
 }
 
 void SOAPCommand::commandFinished(void* soapconnection, bool success)

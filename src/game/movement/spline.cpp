@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "spline.h"
@@ -227,9 +233,9 @@ namespace Movement
         // first and last two indexes are space for special 'virtual points'
         // these points are required for proper C_Evaluate and C_Evaluate_Derivative methtod work
         if (cyclic)
-            points[count] = controls[cyclic_point];
+            { points[count] = controls[cyclic_point]; }
         else
-            points[count] = controls[count - 1];
+            { points[count] = controls[count - 1]; }
 
         index_lo = 0;
         index_hi = cyclic ? count : (count - 1);
@@ -251,9 +257,9 @@ namespace Movement
         if (cyclic)
         {
             if (cyclic_point == 0)
-                points[0] = controls[count - 1];
+                { points[0] = controls[count - 1]; }
             else
-                points[0] = controls[0].lerp(controls[1], -1);
+                { points[0] = controls[0].lerp(controls[1], -1); }
 
             points[high_index + 1] = controls[cyclic_point];
             points[high_index + 2] = controls[cyclic_point + 1];
@@ -297,7 +303,7 @@ namespace Movement
         str << "mode: " << mode_str[mode()] << std::endl;
         str << "points count: " << count << std::endl;
         for (index_type i = 0; i < count; ++i)
-            str << "point " << i << " : " << points[i].toString() << std::endl;
+            { str << "point " << i << " : " << points[i].toString() << std::endl; }
 
         return str.str();
     }

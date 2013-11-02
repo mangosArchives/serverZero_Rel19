@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "Camera.h"
@@ -47,7 +53,7 @@ void Camera::UpdateForCurrentViewPoint()
     m_gridRef.unlink();
 
     if (GridType* grid = m_source->GetViewPoint().m_grid)
-        grid->AddWorldObject(this);
+        { grid->AddWorldObject(this); }
 
     UpdateVisibilityForOwner();
 }
@@ -57,7 +63,7 @@ void Camera::SetView(WorldObject* obj, bool update_far_sight_field /*= true*/)
     MANGOS_ASSERT(obj);
 
     if (m_source == obj)
-        return;
+        { return; }
 
     if (!m_owner.IsInMap(obj))
     {
@@ -74,17 +80,17 @@ void Camera::SetView(WorldObject* obj, bool update_far_sight_field /*= true*/)
     // detach and deregister from active objects if there are no more reasons to be active
     m_source->GetViewPoint().Detach(this);
     if (!m_source->isActiveObject())
-        m_source->GetMap()->RemoveFromActive(m_source);
+        { m_source->GetMap()->RemoveFromActive(m_source); }
 
     m_source = obj;
 
     if (!m_source->isActiveObject())
-        m_source->GetMap()->AddToActive(m_source);
+        { m_source->GetMap()->AddToActive(m_source); }
 
     m_source->GetViewPoint().Attach(this);
 
     if (update_far_sight_field)
-        m_owner.SetGuidValue(PLAYER_FARSIGHT, (m_source == &m_owner ? ObjectGuid() : m_source->GetObjectGuid()));
+        { m_owner.SetGuidValue(PLAYER_FARSIGHT, (m_source == &m_owner ? ObjectGuid() : m_source->GetObjectGuid())); }
 
     UpdateForCurrentViewPoint();
 }
@@ -92,7 +98,7 @@ void Camera::SetView(WorldObject* obj, bool update_far_sight_field /*= true*/)
 void Camera::Event_ViewPointVisibilityChanged()
 {
     if (!m_owner.HaveAtClient(m_source))
-        ResetView();
+        { ResetView(); }
 }
 
 void Camera::ResetView(bool update_far_sight_field /*= true*/)

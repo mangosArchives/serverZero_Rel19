@@ -22,6 +22,7 @@
 /.externalToolBuilders
 
 # Sublime Text 2 - project files
+/*.sublime-build
 /*.sublime-project
 /*.sublime-workspace
 

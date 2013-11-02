@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOS_MAPMANAGER_H
@@ -22,7 +28,7 @@
 #include "Common.h"
 #include "Platform/Define.h"
 #include "Policies/Singleton.h"
-#include "ace/Recursive_Thread_Mutex.h"
+#include <ace/Recursive_Thread_Mutex.h>
 #include "Map.h"
 #include "GridStates.h"
 
@@ -37,7 +43,7 @@ struct MANGOS_DLL_DECL MapID
     bool operator<(const MapID& val) const
     {
         if (nMapId == val.nMapId)
-            return nInstanceId < val.nInstanceId;
+            { return nInstanceId < val.nInstanceId; }
 
         return nMapId < val.nMapId;
     }
@@ -74,15 +80,15 @@ class MANGOS_DLL_DECL MapManager : public MaNGOS::Singleton<MapManager, MaNGOS::
         void SetGridCleanUpDelay(uint32 t)
         {
             if (t < MIN_GRID_DELAY)
-                i_gridCleanUpDelay = MIN_GRID_DELAY;
+                { i_gridCleanUpDelay = MIN_GRID_DELAY; }
             else
-                i_gridCleanUpDelay = t;
+                { i_gridCleanUpDelay = t; }
         }
 
         void SetMapUpdateInterval(uint32 t)
         {
             if (t > MIN_MAP_UPDATE_DELAY)
-                t = MIN_MAP_UPDATE_DELAY;
+                { t = MIN_MAP_UPDATE_DELAY; }
 
             i_timer.SetInterval(t);
             i_timer.Reset();
@@ -188,7 +194,7 @@ inline void MapManager::DoForAllMapsWithMapId(uint32 mapId, Do& _do)
     MapMapType::const_iterator start = i_maps.lower_bound(MapID(mapId, 0));
     MapMapType::const_iterator end   = i_maps.lower_bound(MapID(mapId + 1, 0));
     for (MapMapType::const_iterator itr = start; itr != end; ++itr)
-        _do(itr->second);
+        { _do(itr->second); }
 }
 
 #define sMapMgr MapManager::Instance()

@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "Threading.h"
@@ -27,7 +33,7 @@ using namespace ACE_Based;
 ThreadPriority::ThreadPriority()
 {
     for (int i = Idle; i < MAXPRIORITYNUM; ++i)
-        m_priority[i] = ACE_THR_PRI_OTHER_DEF;
+        { m_priority[i] = ACE_THR_PRI_OTHER_DEF; }
 
     m_priority[Idle] = ACE_Sched_Params::priority_min(ACE_SCHED_OTHER);
     m_priority[Realtime] = ACE_Sched_Params::priority_max(ACE_SCHED_OTHER);
@@ -66,7 +72,7 @@ ThreadPriority::ThreadPriority()
         const size_t _divider = 4;
         size_t _div = (norm_pos - min_pos) / _divider;
         if (_div == 0)
-            _div = 1;
+            { _div = 1; }
 
         min_pos = (norm_pos - 1);
 
@@ -75,7 +81,7 @@ ThreadPriority::ThreadPriority()
 
         _div = (max_pos - norm_pos) / _divider;
         if (_div == 0)
-            _div = 1;
+            { _div = 1; }
 
         min_pos = norm_pos - 1;
 
@@ -87,10 +93,10 @@ ThreadPriority::ThreadPriority()
 int ThreadPriority::getPriority(Priority p) const
 {
     if (p < Idle)
-        p = Idle;
+        { p = Idle; }
 
     if (p > Realtime)
-        p = Realtime;
+        { p = Realtime; }
 
     return m_priority[p];
 }
@@ -109,7 +115,7 @@ Thread::Thread(Runnable* instance) : m_iThreadId(0), m_hThreadHandle(0), m_task(
 {
     // register reference to m_task to prevent it deeltion until destructor
     if (m_task)
-        m_task->incReference();
+        { m_task->incReference(); }
 
     bool _start = start();
     MANGOS_ASSERT(_start);
@@ -121,7 +127,7 @@ Thread::~Thread()
 
     // deleted runnable object (if no other references)
     if (m_task)
-        m_task->decReference();
+        { m_task->decReference(); }
 }
 
 // initialize Thread's class static member
@@ -131,12 +137,12 @@ ThreadPriority Thread::m_TpEnum;
 bool Thread::start()
 {
     if (m_task == 0 || m_iThreadId != 0)
-        return false;
+        { return false; }
 
     bool res = (ACE_Thread::spawn(&Thread::ThreadTask, (void*)m_task, THREADFLAG, &m_iThreadId, &m_hThreadHandle) == 0);
 
     if (res)
-        m_task->incReference();
+        { m_task->incReference(); }
 
     return res;
 }
@@ -144,7 +150,7 @@ bool Thread::start()
 bool Thread::wait()
 {
     if (!m_hThreadHandle || !m_task)
-        return false;
+        { return false; }
 
     ACE_THR_FUNC_RETURN _value = ACE_THR_FUNC_RETURN(-1);
     int _res = ACE_Thread::join(m_hThreadHandle, &_value);
@@ -158,10 +164,10 @@ bool Thread::wait()
 void Thread::destroy()
 {
     if (!m_iThreadId || !m_task)
-        return;
+        { return; }
 
     if (ACE_Thread::kill(m_iThreadId, -1) != 0)
-        return;
+        { return; }
 
     m_iThreadId = 0;
     m_hThreadHandle = 0;

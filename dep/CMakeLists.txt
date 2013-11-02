@@ -1,4 +1,9 @@
-# This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+# mangos-zero is a full featured server for World of Warcraft in its vanilla
+# version, supporting clients for patch 1.12.x.
+#
+# Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
+#
+# ***** BEGIN GPL LICENSE BLOCK *****
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,14 +18,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+# ***** END GPL LICENSE BLOCK *****
+#
+# World of Warcraft, and all World of Warcraft or Warcraft art, images,
+# and lore are copyrighted by Blizzard Entertainment, Inc.
 
-if(NOT (TBB_USE_EXTERNAL OR USE_STD_MALLOC OR USE_FASTMM_MALLOC))
-  add_subdirectory(tbb)
+#-----------------------------------------------------------------------------
+# Build internal libmpq
+if(WITH_MAP_TOOLS)
+    add_subdirectory(libmpq)
 endif()
 
-if(NOT ACE_USE_EXTERNAL)
-  add_subdirectory(ACE_wrappers)
-endif()
-
+#-----------------------------------------------------------------------------
+# Build internal recast-navigation
 add_subdirectory(recastnavigation)
+
+#-----------------------------------------------------------------------------
+# Build 3rd party libraries
 add_subdirectory(src)

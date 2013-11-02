@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "Common.h"
@@ -30,6 +36,43 @@
 #include "MapPersistentStateMgr.h"
 #include "ObjectMgr.h"
 
+#if defined(WIN32) && !defined(__MINGW32__)
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
+#define DELTA_EPOCH_IN_USEC  11644473600000000ULL
+
+uint32 mTimeStamp()
+{
+    /* We subtract 20 years from the epoch so that it doesn't overflow uint32
+     * TODO: Remember to update code in 20 years */
+    const uint32 YEAR_IN_SECONDS = 31556952;
+
+    FILETIME ft;
+    uint64 t;
+    GetSystemTimeAsFileTime(&ft);
+
+    t = (uint64)ft.dwHighDateTime << 32;
+    t |= ft.dwLowDateTime;
+    t /= 10;
+    t -= DELTA_EPOCH_IN_USEC;
+
+    return uint32((((t / 1000000L) * 1000) + ((t % 1000000L) / 1000)) - ((YEAR_IN_SECONDS * 20) * 1000));
+}
+
+#else
+#include <time.h>
+
+uint32 mTimeStamp()
+{
+    struct timeval tp;
+    const uint32 YEAR_IN_SECONDS = 31556952;
+    gettimeofday(&tp, NULL);
+    uint32 return_val = (((tp.tv_sec * 1000) + (tp.tv_usec / 1000)) - ((YEAR_IN_SECONDS * 20) * 1000));
+    return return_val;
+}
+
+#endif
+
 void WorldSession::HandleMoveWorldportAckOpcode(WorldPacket& /*recv_data*/)
 {
     DEBUG_LOG("WORLD: got MSG_MOVE_WORLDPORT_ACK.");
@@ -40,7 +83,7 @@ void WorldSession::HandleMoveWorldportAckOpcode()
 {
     // ignore unexpected far teleports
     if (!GetPlayer()->IsBeingTeleportedFar())
-        return;
+        { return; }
 
     // get start teleport coordinates (will used later in fail case)
     WorldLocation old_loc;
@@ -71,7 +114,7 @@ void WorldSession::HandleMoveWorldportAckOpcode()
     if (mEntry->IsBattleGround())
     {
         if (GetPlayer()->GetBattleGroundId())
-            map = sMapMgr.FindMap(loc.mapid, GetPlayer()->GetBattleGroundId());
+            { map = sMapMgr.FindMap(loc.mapid, GetPlayer()->GetBattleGroundId()); }
 
         if (!map)
         {
@@ -81,10 +124,10 @@ void WorldSession::HandleMoveWorldportAckOpcode()
 
             GetPlayer()->SetSemaphoreTeleportFar(false);
 
-            // Teleport to previous place, if cannot be ported back TP to homebind place
+            // Teleport to previous place, if can not be ported back TP to homebind place
             if (!GetPlayer()->TeleportTo(old_loc))
             {
-                DETAIL_LOG("WorldSession::HandleMoveWorldportAckOpcode: %s cannot be ported to his previous place, teleporting him to his homebind place...",
+                DETAIL_LOG("WorldSession::HandleMoveWorldportAckOpcode: %s can not be ported to his previous place, teleporting him to his homebind place...",
                            GetPlayer()->GetGuidStr().c_str());
                 GetPlayer()->TeleportToHomebind();
             }
@@ -96,13 +139,13 @@ void WorldSession::HandleMoveWorldportAckOpcode()
 
     // reset instance validity, except if going to an instance inside an instance
     if (GetPlayer()->m_InstanceValid == false && !mInstance)
-        GetPlayer()->m_InstanceValid = true;
+        { GetPlayer()->m_InstanceValid = true; }
 
     GetPlayer()->SetSemaphoreTeleportFar(false);
 
     // relocate the player to the teleport destination
     if (!map)
-        map = sMapMgr.CreateMap(loc.mapid, GetPlayer());
+        { map = sMapMgr.CreateMap(loc.mapid, GetPlayer()); }
 
     GetPlayer()->SetMap(map);
     GetPlayer()->Relocate(loc.coord_x, loc.coord_y, loc.coord_z, loc.orientation);
@@ -119,10 +162,10 @@ void WorldSession::HandleMoveWorldportAckOpcode()
                    " (map:%u, x:%f, y:%f, z:%f) Trying to port him to his previous place..",
                    GetPlayer()->GetGuidStr().c_str(), loc.mapid, loc.coord_x, loc.coord_y, loc.coord_z);
 
-        // Teleport to previous place, if cannot be ported back TP to homebind place
+        // Teleport to previous place, if can not be ported back TP to homebind place
         if (!GetPlayer()->TeleportTo(old_loc))
         {
-            DETAIL_LOG("WorldSession::HandleMoveWorldportAckOpcode: %s cannot be ported to his previous place, teleporting him to his homebind place...",
+            DETAIL_LOG("WorldSession::HandleMoveWorldportAckOpcode: %s can not be ported to his previous place, teleporting him to his homebind place...",
                        GetPlayer()->GetGuidStr().c_str());
             GetPlayer()->TeleportToHomebind();
         }
@@ -145,7 +188,7 @@ void WorldSession::HandleMoveWorldportAckOpcode()
         else if (BattleGround* bg = _player->GetBattleGround())
         {
             if (_player->IsInvitedForBattleGroundInstance(_player->GetBattleGroundId()))
-                bg->AddPlayer(_player);
+                { bg->AddPlayer(_player); }
         }
     }
 
@@ -178,11 +221,11 @@ void WorldSession::HandleMoveWorldportAckOpcode()
 
     // mount allow check
     if (!mEntry->IsMountAllowed())
-        _player->RemoveSpellsCausingAura(SPELL_AURA_MOUNTED);
+        { _player->RemoveSpellsCausingAura(SPELL_AURA_MOUNTED); }
 
     // honorless target
     if (GetPlayer()->pvpInfo.inHostileArea)
-        GetPlayer()->CastSpell(GetPlayer(), 2479, true);
+        { GetPlayer()->CastSpell(GetPlayer(), 2479, true); }
 
     // resummon pet
     GetPlayer()->ResummonPetTemporaryUnSummonedIfAny();
@@ -208,10 +251,10 @@ void WorldSession::HandleMoveTeleportAckOpcode(WorldPacket& recv_data)
     Player* plMover = mover->GetTypeId() == TYPEID_PLAYER ? (Player*)mover : NULL;
 
     if (!plMover || !plMover->IsBeingTeleportedNear())
-        return;
+        { return; }
 
     if (guid != plMover->GetObjectGuid())
-        return;
+        { return; }
 
     plMover->SetSemaphoreTeleportNear(false);
 
@@ -230,7 +273,7 @@ void WorldSession::HandleMoveTeleportAckOpcode(WorldPacket& recv_data)
     {
         // honorless target
         if (plMover->pvpInfo.inHostileArea)
-            plMover->CastSpell(plMover, 2479, true);
+            { plMover->CastSpell(plMover, 2479, true); }
     }
 
     // resummon pet
@@ -261,23 +304,50 @@ void WorldSession::HandleMovementOpcodes(WorldPacket& recv_data)
 
     /* extract packet */
     MovementInfo movementInfo;
-    recv_data >> movementInfo;
+    movementInfo.Read(recv_data);
     /*----------------*/
 
+    // Calculate timestamp
+    int32 move_time, mstime;
+    mstime = mTimeStamp();
+    if (m_clientTimeDelay == 0)
+    {
+        m_clientTimeDelay = mstime - movementInfo.GetTime();
+    }
+
+    /* if(movementInfo.GetTime() - (mstime + m_clientTimeDelay) < 0)
+    {
+        move_time = mstime + 500;
+        move_time -= (movementInfo.GetTime() - (mstime + m_clientTimeDelay));
+        movementInfo.UpdateTime(move_time);
+    }
+    else
+    {
+    int calc_var = (movementInfo.GetTime() - (mstime + m_clientTimeDelay));
+    if(calc_var < 0)
+    {
+        calc_var *= -1;
+    }
+    calc_var += 500 + mstime;
+    move_time = calc_var; */
+
+    move_time = (movementInfo.GetTime() - (mstime - m_clientTimeDelay)) + 500 + mstime;
+    movementInfo.UpdateTime(move_time);
+
     if (!VerifyMovementInfo(movementInfo))
-        return;
+        { return; }
 
     // fall damage generation (ignore in flight case that can be triggered also at lags in moment teleportation to another map).
     if (opcode == MSG_MOVE_FALL_LAND && plMover && !plMover->IsTaxiFlying())
-        plMover->HandleFall(movementInfo);
+        { plMover->HandleFall(movementInfo); }
 
     /* process position-change */
     HandleMoverRelocation(movementInfo);
 
     if (plMover)
-        plMover->UpdateFallInformationIfNeed(movementInfo, opcode);
+        { plMover->UpdateFallInformationIfNeed(movementInfo, opcode); }
 
-    WorldPacket data(opcode, recv_data.size());
+    WorldPacket data(opcode, uint16(recv_data.size() + 2));
     data << mover->GetPackGUID();             // write guid
     movementInfo.Write(data);                               // write data
     mover->SendMessageToSetExcept(&data, _player);
@@ -300,7 +370,7 @@ void WorldSession::HandleForceSpeedChangeAckOpcodes(WorldPacket& recv_data)
 
     // now can skip not our packet
     if (_player->GetObjectGuid() != guid)
-        return;
+        { return; }
     /*----------------*/
 
     // client ACK send one packet for mounted/run case and need skip all except last from its
@@ -329,7 +399,7 @@ void WorldSession::HandleForceSpeedChangeAckOpcodes(WorldPacket& recv_data)
     {
         --_player->m_forced_speed_changes[force_move_type];
         if (_player->m_forced_speed_changes[force_move_type] > 0)
-            return;
+            { return; }
     }
 
     if (!_player->GetTransport() && fabs(_player->GetSpeed(move_type) - newspeed) > 0.01f)
@@ -413,25 +483,49 @@ void WorldSession::HandleMoveKnockBackAck(WorldPacket& recv_data)
     }
 
     ObjectGuid guid;
-    MovementInfo movementInfo;
+    MovementInfo movementInfo;                              // Sent in addition to knockback data
 
     recv_data >> guid;
-    recv_data >> Unused<uint32>();                          // knockback packets counter
-    recv_data >> movementInfo;
+    recv_data >> Unused<uint32>(); // Always set to zero?
+    movementInfo.Read(recv_data);
 
+    // Calculate timestamp (should probably move this into its own function?
+    int32 move_time, mstime;
+    mstime = mTimeStamp();
+    if (m_clientTimeDelay == 0)
+    {
+        m_clientTimeDelay = mstime - movementInfo.GetTime();
+    }
+
+    /* The 500 delay lets the client sync the movement correctly.
+     * Yes it slows things a bit, but removing it causes stutter.
+     * Fixes itself after a short while */
+    move_time = (movementInfo.GetTime() - (mstime - m_clientTimeDelay)) + 500 + mstime;
+    movementInfo.UpdateTime(move_time);
+
+    /* Make sure input is valid */
     if (!VerifyMovementInfo(movementInfo, guid))
+    {
         return;
+    }
 
     HandleMoverRelocation(movementInfo);
 
-    WorldPacket data(MSG_MOVE_KNOCK_BACK, recv_data.size() + 15);
-    data << mover->GetObjectGuid();
-    data << movementInfo;
+    /* Weird size, maybe needs correcting */
+    WorldPacket data(MSG_MOVE_KNOCK_BACK, uint16(recv_data.size() + 4));
+    data.appendPackGUID(guid);
+
+    /* Includes data shown below (but in different order) */
+    movementInfo.Write(data);
+
+    /* This is sent in addition to the rest of the movement data (yes, angle+velocity are sent twice) */
     data << movementInfo.GetJumpInfo().sinAngle;
     data << movementInfo.GetJumpInfo().cosAngle;
     data << movementInfo.GetJumpInfo().xyspeed;
     data << movementInfo.GetJumpInfo().velocity;
-    mover->SendMessageToSetExcept(&data, _player);
+
+    /* Do we really need to send the data to everyone? Seemed to work better */
+    mover->SendMessageToSet(&data, false);
 }
 
 void WorldSession::SendKnockBack(float angle, float horizontalSpeed, float verticalSpeed)
@@ -476,7 +570,7 @@ void WorldSession::HandleMoveWaterWalkAck(WorldPacket& recv_data)
 void WorldSession::HandleSummonResponseOpcode(WorldPacket& recv_data)
 {
     if (!_player->IsAlive() || _player->IsInCombat())
-        return;
+        { return; }
 
     ObjectGuid summonerGuid;
     recv_data >> summonerGuid;
@@ -488,7 +582,7 @@ bool WorldSession::VerifyMovementInfo(MovementInfo const& movementInfo, ObjectGu
 {
     // ignore wrong guid (player attempt cheating own session for not own guid possible...)
     if (guid != _player->GetMover()->GetObjectGuid())
-        return false;
+        { return false; }
 
     return VerifyMovementInfo(movementInfo);
 }
@@ -496,14 +590,14 @@ bool WorldSession::VerifyMovementInfo(MovementInfo const& movementInfo, ObjectGu
 bool WorldSession::VerifyMovementInfo(MovementInfo const& movementInfo) const
 {
     if (!MaNGOS::IsValidMapCoord(movementInfo.GetPos()->x, movementInfo.GetPos()->y, movementInfo.GetPos()->z, movementInfo.GetPos()->o))
-        return false;
+        { return false; }
 
-    if (movementInfo.HasMovementFlag(MOVEFLAG_ONTRANSPORT))
+    if (movementInfo.HasMovementFlag(MOVEFLAG_TAXI))
     {
         // transports size limited
         // (also received at zeppelin/lift leave by some reason with t_* as absolute in continent coordinates, can be safely skipped)
         if (movementInfo.GetTransportPos()->x > 50 || movementInfo.GetTransportPos()->y > 50 || movementInfo.GetTransportPos()->z > 100)
-            return false;
+            { return false; }
 
         if (!MaNGOS::IsValidMapCoord(movementInfo.GetPos()->x + movementInfo.GetTransportPos()->x, movementInfo.GetPos()->y + movementInfo.GetTransportPos()->y,
                                      movementInfo.GetPos()->z + movementInfo.GetTransportPos()->z, movementInfo.GetPos()->o + movementInfo.GetTransportPos()->o))
@@ -523,7 +617,7 @@ void WorldSession::HandleMoverRelocation(MovementInfo& movementInfo)
 
     if (Player* plMover = mover->GetTypeId() == TYPEID_PLAYER ? (Player*)mover : NULL)
     {
-        if (movementInfo.HasMovementFlag(MOVEFLAG_ONTRANSPORT))
+        if (movementInfo.HasMovementFlag(MOVEFLAG_TAXI))
         {
             if (!plMover->m_transport)
             {
@@ -555,10 +649,16 @@ void WorldSession::HandleMoverRelocation(MovementInfo& movementInfo)
         plMover->SetPosition(movementInfo.GetPos()->x, movementInfo.GetPos()->y, movementInfo.GetPos()->z, movementInfo.GetPos()->o);
         plMover->m_movementInfo = movementInfo;
 
+        /* Movement should cancel looting */
+        if (ObjectGuid lootGUID = plMover->GetLootGuid())
+        {
+            plMover->SendLootRelease(lootGUID);
+        }
+
         if (movementInfo.GetPos()->z < -500.0f)
         {
             if (plMover->GetBattleGround()
-                    && plMover->GetBattleGround()->HandlePlayerUnderMap(_player))
+                && plMover->GetBattleGround()->HandlePlayerUnderMap(_player))
             {
                 // do nothing, the handle already did if returned true
             }
@@ -591,6 +691,6 @@ void WorldSession::HandleMoverRelocation(MovementInfo& movementInfo)
     else                                                    // creature charmed
     {
         if (mover->IsInWorld())
-            mover->GetMap()->CreatureRelocation((Creature*)mover, movementInfo.GetPos()->x, movementInfo.GetPos()->y, movementInfo.GetPos()->z, movementInfo.GetPos()->o);
+            { mover->GetMap()->CreatureRelocation((Creature*)mover, movementInfo.GetPos()->x, movementInfo.GetPos()->y, movementInfo.GetPos()->z, movementInfo.GetPos()->o); }
     }
 }

@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "WaypointManager.h"
@@ -30,11 +36,11 @@ INSTANTIATE_SINGLETON_1(WaypointManager);
 bool WaypointBehavior::isEmpty()
 {
     if (emote || spell || model1 || model2)
-        return false;
+        { return false; }
 
     for (int i = 0; i < MAX_WAYPOINT_TEXT; ++i)
         if (textid[i])
-            return false;
+            { return false; }
 
     return true;
 }
@@ -46,7 +52,7 @@ WaypointBehavior::WaypointBehavior(const WaypointBehavior& b)
     model1 = b.model1;
     model2 = b.model2;
     for (int i = 0; i < MAX_WAYPOINT_TEXT; ++i)
-        textid[i] = b.textid[i];
+        { textid[i] = b.textid[i]; }
 }
 
 void WaypointManager::Load()
@@ -58,7 +64,7 @@ void WaypointManager::Load()
     std::set<uint32> movementScriptSet;
 
     for (ScriptMapMap::const_iterator itr = sCreatureMovementScripts.second.begin(); itr != sCreatureMovementScripts.second.end(); ++itr)
-        movementScriptSet.insert(itr->first);
+        { movementScriptSet.insert(itr->first); }
 
     // creature_movement
     QueryResult* result = WorldDatabase.Query("SELECT id, COUNT(point) FROM creature_movement GROUP BY id");
@@ -118,7 +124,7 @@ void WaypointManager::Load()
             }
 
             if (cData->movementType != WAYPOINT_MOTION_TYPE)
-                creatureNoMoveType.insert(id);
+                { creatureNoMoveType.insert(id); }
 
             WaypointPath& path  = m_pathMap[id];
             WaypointNode& node  = path[point];
@@ -195,7 +201,7 @@ void WaypointManager::Load()
             if (be.emote)
             {
                 if (!sEmotesStore.LookupEntry(be.emote))
-                    sLog.outErrorDb("Waypoint path %u (Point %u) are using emote %u, but emote does not exist.", id, point, be.emote);
+                    { sLog.outErrorDb("Waypoint path %u (Point %u) are using emote %u, but emote does not exist.", id, point, be.emote); }
             }
 
             // save memory by not storing empty behaviors
@@ -205,7 +211,7 @@ void WaypointManager::Load()
                 ++total_behaviors;
             }
             else
-                node.behavior = NULL;
+                { node.behavior = NULL; }
         }
         while (result->NextRow());
 
@@ -219,7 +225,7 @@ void WaypointManager::Load()
                 sLog.outErrorDb("Table creature_movement has waypoint for creature guid %u (entry %u), but MovementType is not WAYPOINT_MOTION_TYPE(2). Creature will not use this path.", *itr, cData->id);
 
                 if (cInfo->MovementType == WAYPOINT_MOTION_TYPE)
-                    sLog.outErrorDb("    creature_template for this entry has MovementType WAYPOINT_MOTION_TYPE(2), did you intend to use creature_movement_template ?");
+                    { sLog.outErrorDb("    creature_template for this entry has MovementType WAYPOINT_MOTION_TYPE(2), did you intend to use creature_movement_template ?"); }
             }
         }
 
@@ -353,7 +359,7 @@ void WaypointManager::Load()
             if (be.emote)
             {
                 if (!sEmotesStore.LookupEntry(be.emote))
-                    sLog.outErrorDb("Waypoint template path %u (point %u) are using emote %u, but emote does not exist.", entry, point, be.emote);
+                    { sLog.outErrorDb("Waypoint template path %u (point %u) are using emote %u, but emote does not exist.", entry, point, be.emote); }
             }
 
             // save memory by not storing empty behaviors
@@ -363,7 +369,7 @@ void WaypointManager::Load()
                 ++total_behaviors;
             }
             else
-                node.behavior   = NULL;
+                { node.behavior   = NULL; }
         }
         while (result->NextRow());
 
@@ -378,25 +384,25 @@ void WaypointManager::Load()
     if (!movementScriptSet.empty())
     {
         for (std::set<uint32>::const_iterator itr = movementScriptSet.begin(); itr != movementScriptSet.end(); ++itr)
-            sLog.outErrorDb("Table `dbscripts_on_creature_movement` contain unused script, id %u.", *itr);
+            { sLog.outErrorDb("Table `dbscripts_on_creature_movement` contain unused script, id %u.", *itr); }
     }
 }
 
 void WaypointManager::Unload()
 {
     for (WaypointPathMap::iterator itr = m_pathMap.begin(); itr != m_pathMap.end(); ++itr)
-        _clearPath(itr->second);
+        { _clearPath(itr->second); }
     m_pathMap.clear();
 
     for (WaypointPathMap::iterator itr = m_pathTemplateMap.begin(); itr != m_pathTemplateMap.end(); ++itr)
-        _clearPath(itr->second);
+        { _clearPath(itr->second); }
     m_pathTemplateMap.clear();
 }
 
 void WaypointManager::_clearPath(WaypointPath& path)
 {
     for (WaypointPath::const_iterator itr = path.begin(); itr != path.end(); ++itr)
-        delete itr->second.behavior;
+        { delete itr->second.behavior; }
     path.clear();
 }
 
@@ -410,7 +416,7 @@ void WaypointManager::AddLastNode(uint32 id, float x, float y, float z, float o,
 void WaypointManager::AddAfterNode(uint32 id, uint32 point, float x, float y, float z, float o, uint32 delay, uint32 wpGuid)
 {
     for (uint32 i = GetLastPoint(id, 0); i > point; --i)
-        WorldDatabase.PExecuteLog("UPDATE creature_movement SET point=point+1 WHERE id=%u AND point=%u", id, i);
+        { WorldDatabase.PExecuteLog("UPDATE creature_movement SET point=point+1 WHERE id=%u AND point=%u", id, i); }
 
     _addNode(id, point + 1, x, y, z, o, delay, wpGuid);
 }
@@ -429,7 +435,7 @@ uint32 WaypointManager::GetLastPoint(uint32 id, uint32 default_notfound)
 {
     WaypointPathMap::const_iterator itr = m_pathMap.find(id);
     if (itr != m_pathMap.end() && itr->second.rbegin() != itr->second.rend())
-        default_notfound = itr->second.rbegin()->first;
+        { default_notfound = itr->second.rbegin()->first; }
 
     return default_notfound;
 }
@@ -440,7 +446,7 @@ void WaypointManager::DeleteNode(uint32 id, uint32 point)
     WorldDatabase.PExecuteLog("UPDATE creature_movement SET point=point-1 WHERE id=%u AND point>%u", id, point);
     WaypointPathMap::iterator itr = m_pathMap.find(id);
     if (itr == m_pathMap.end())
-        return;
+        { return; }
 
     itr->second.erase(point);
 }
@@ -450,7 +456,7 @@ void WaypointManager::DeletePath(uint32 id)
     WorldDatabase.PExecuteLog("DELETE FROM creature_movement WHERE id=%u", id);
     WaypointPathMap::iterator itr = m_pathMap.find(id);
     if (itr != m_pathMap.end())
-        _clearPath(itr->second);
+        { _clearPath(itr->second); }
     // the path is not removed from the map, just cleared
     // WMGs have pointers to the path, so deleting them would crash
     // this wastes some memory, but these functions are
@@ -462,7 +468,7 @@ void WaypointManager::SetNodePosition(uint32 id, uint32 point, float x, float y,
     WorldDatabase.PExecuteLog("UPDATE creature_movement SET position_x=%f, position_y=%f, position_z=%f WHERE id=%u AND point=%u", x, y, z, id, point);
     WaypointPathMap::iterator itr = m_pathMap.find(id);
     if (itr == m_pathMap.end())
-        return;
+        { return; }
 
     WaypointPath::iterator find = itr->second.find(point);
     if (find != itr->second.end())
@@ -475,7 +481,7 @@ void WaypointManager::SetNodePosition(uint32 id, uint32 point, float x, float y,
 
 void WaypointManager::SetNodeText(uint32 id, uint32 point, const char* text_field, const char* text)
 {
-    if (!text_field) return;
+    if (!text_field) { return; }
     std::string field = text_field;
     WorldDatabase.escape_string(field);
 
@@ -492,23 +498,23 @@ void WaypointManager::SetNodeText(uint32 id, uint32 point, const char* text_fiel
 
     WaypointPathMap::iterator itr = m_pathMap.find(id);
     if (itr == m_pathMap.end())
-        return;
+        { return; }
 
     WaypointPath::iterator find = itr->second.find(point);
     if (find != itr->second.end())
     {
         WaypointNode& node = find->second;
-        if (!node.behavior) node.behavior = new WaypointBehavior();
+        if (!node.behavior) { node.behavior = new WaypointBehavior(); }
 
 //        if(field == "text1") node.behavior->text[0] = text ? text : "";
 //        if(field == "text2") node.behavior->text[1] = text ? text : "";
 //        if(field == "text3") node.behavior->text[2] = text ? text : "";
 //        if(field == "text4") node.behavior->text[3] = text ? text : "";
 //        if(field == "text5") node.behavior->text[4] = text ? text : "";
-        if (field == "emote") node.behavior->emote   = text ? atoi(text) : 0;
-        if (field == "spell") node.behavior->spell   = text ? atoi(text) : 0;
-        if (field == "model1") node.behavior->model1 = text ? atoi(text) : 0;
-        if (field == "model2") node.behavior->model2 = text ? atoi(text) : 0;
+        if (field == "emote") { node.behavior->emote   = text ? atoi(text) : 0; }
+        if (field == "spell") { node.behavior->spell   = text ? atoi(text) : 0; }
+        if (field == "model1") { node.behavior->model1 = text ? atoi(text) : 0; }
+        if (field == "model2") { node.behavior->model2 = text ? atoi(text) : 0; }
     }
 }
 
@@ -548,13 +554,13 @@ void WaypointManager::CheckTextsExistance(std::set<int32>& ids)
     {
         for (WaypointPath::const_iterator pItr = pmItr->second.begin(); pItr != pmItr->second.end(); ++pItr)
             if (pItr->second.behavior)
-                CheckWPText(false, pmItr->first, pItr->first, pItr->second.behavior, ids);
+                { CheckWPText(false, pmItr->first, pItr->first, pItr->second.behavior, ids); }
     }
 
     for (WaypointPathMap::const_iterator pmItr = m_pathTemplateMap.begin(); pmItr != m_pathTemplateMap.end(); ++pmItr)
     {
         for (WaypointPath::const_iterator pItr = pmItr->second.begin(); pItr != pmItr->second.end(); ++pItr)
             if (pItr->second.behavior)
-                CheckWPText(false, pmItr->first, pItr->first, pItr->second.behavior, ids);
+                { CheckWPText(false, pmItr->first, pItr->first, pItr->second.behavior, ids); }
     }
 }

@@ -1,5 +1,8 @@
-/*
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+/**
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOS_DEFINE_H
@@ -39,9 +45,13 @@
 #  endif // ACE_BYTE_ORDER
 #endif // MANGOS_ENDIAN
 
+/**
+ * @brief
+ *
+ */
 typedef ACE_SHLIB_HANDLE MANGOS_LIBRARY_HANDLE;
 
-#define MANGOS_SCRIPT_NAME "mangosscript"
+#define MANGOS_SCRIPT_NAME "mangos-scripts"
 #define MANGOS_SCRIPT_SUFFIX ACE_DLL_SUFFIX
 #define MANGOS_SCRIPT_PREFIX ACE_DLL_PREFIX
 #define MANGOS_LOAD_LIBRARY(libname)    ACE_OS::dlopen(libname)
@@ -97,7 +107,7 @@ typedef ACE_SHLIB_HANDLE MANGOS_LIBRARY_HANDLE;
 #  define MANGOS_INLINE
 #endif //!DEBUG
 
-#if COMPILER == COMPILER_GNU
+#if COMPILER == COMPILER_GNU || COMPILER == COMPILER_CLANG
 #  define ATTR_NORETURN __attribute__((noreturn))
 #  define ATTR_PRINTF(F,V) __attribute__ ((format (printf, F, V)))
 #else // COMPILER != COMPILER_GNU
@@ -105,18 +115,58 @@ typedef ACE_SHLIB_HANDLE MANGOS_LIBRARY_HANDLE;
 #  define ATTR_PRINTF(F,V)
 #endif // COMPILER == COMPILER_GNU
 
-typedef ACE_INT64 int64;    ///< A signed integer of 64 bits
-typedef ACE_INT32 int32;    ///< A signed integer of 32 bits
-typedef ACE_INT16 int16;    ///< A signed integer of 16 bits
-typedef ACE_INT8 int8;      ///< A signed integer of 8 bits
-typedef ACE_UINT64 uint64;  ///< An unsigned integer of 64 bits
-typedef ACE_UINT32 uint32;  ///< An unsigned integer of 32 bits
-typedef ACE_UINT16 uint16;  ///< An unsigned integer of 16 bits
-typedef ACE_UINT8 uint8;    ///< An unsigned integer of 8 bits
+/**
+ * @brief A signed integer of 64 bits
+ *
+ */
+typedef ACE_INT64 int64;
+/**
+ * @brief A signed integer of 32 bits
+ *
+ */
+typedef ACE_INT32 int32;
+/**
+ * @brief A signed integer of 16 bits
+ *
+ */
+typedef ACE_INT16 int16;
+/**
+ * @brief A signed integer of 8 bits
+ *
+ */
+typedef ACE_INT8 int8;
+/**
+ * @brief An unsigned integer of 64 bits
+ *
+ */
+typedef ACE_UINT64 uint64;
+/**
+ * @brief An unsigned integer of 32 bits
+ *
+ */
+typedef ACE_UINT32 uint32;
+/**
+ * @brief An unsigned integer of 16 bits
+ *
+ */
+typedef ACE_UINT16 uint16;
+/**
+ * @brief An unsigned integer of 8 bits
+ *
+ */
+typedef ACE_UINT8 uint8;
 
 #if COMPILER != COMPILER_MICROSOFT
-typedef uint16      WORD;  ///< An unsigned integer of 16 bits, only for Win
-typedef uint32      DWORD; ///< An unsigned integer of 32 bits, only for Win
+/**
+ * @brief An unsigned integer of 16 bits, only for Win
+ *
+ */
+typedef uint16      WORD;
+/**
+ * @brief An unsigned integer of 32 bits, only for Win
+ *
+ */
+typedef uint32      DWORD;
 #endif // COMPILER
 
 #define CONCAT(x, y) CONCAT1(x, y)
@@ -128,12 +178,21 @@ typedef uint32      DWORD; ///< An unsigned integer of 32 bits, only for Win
 #    define override
 #    define static_assert(a, b) STATIC_ASSERT_WORKAROUND(a, b)
 #  endif
+#elif COMPILER == COMPILER_CLANG
+#  ifndef __cxx_static_assert
+#    define override
+#    define static_assert(a, b) STATIC_ASSERT_WORKAROUND(a, b)
+#  endif
 #elif COMPILER == COMPILER_MICROSOFT
 #  if _MSC_VER < 1600
 #    define static_assert(a, b) STATIC_ASSERT_WORKAROUND(a, b)
 #  endif
 #endif
 
+/**
+ * @brief
+ *
+ */
 typedef uint64 OBJECT_HANDLE;
 
 #endif // MANGOS_DEFINE_H

@@ -1,68 +1,119 @@
+# - Try to find ACE
+# Once done this will define
 #
-# Find the ACE client includes and library
-#
+#  ACE_FOUND            -  system has ACE
+#  ACE_INCLUDE_DIRS     - the ACE include directory
+#  ACE_LIBRARIES        - Link to these to use ACE
 
-# This module defines
-# ACE_INCLUDE_DIR, where to find ace.h
-# ACE_LIBRARIES, the libraries to link against
-# ACE_FOUND, if false, you cannot build anything that requires ACE
+# Copyright: (C) 2009 RobotCub Consortium
+# Copyright: (C) 2013  iCub Facility, Istituto Italiano di Tecnologia
+# Authors: Alexandre Bernardino, Paul Fitzpatrick, Lorenzo Natale, Daniele E. Domenichelli
+# CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
 
-# also defined, but not for general use are
-# ACE_LIBRARY, where to find the ACE library.
+include(MacroStandardFindModule)
+macro_standard_find_module(ACE ACE SKIP_CMAKE_CONFIG NOT_REQUIRED)
 
-set( ACE_FOUND 0 )
-if ( UNIX )
-  FIND_PATH( ACE_INCLUDE_DIR
-    NAMES
-      ace/ACE.h
-    PATHS
-      /usr/include
-      /usr/include/ace
-      /usr/local/include
-      /usr/local/include/ace
-      ${ACE_ROOT}
-      ${ACE_ROOT}/include
-      $ENV{ACE_ROOT}
-      $ENV{ACE_ROOT}/include
-      # ${CMAKE_SOURCE_DIR}/dep/ACE_wrappers
-  DOC
-    "Specify include-directories that might contain ace.h here."
-  )
-  FIND_LIBRARY( ACE_LIBRARIES
-    NAMES
-      ace ACE
-    PATHS
-      /usr/lib
-      /usr/lib/ace
-      /usr/local/lib
-      /usr/local/lib/ace
-      /usr/local/ace/lib
-      ${ACE_ROOT}
-      ${ACE_ROOT}/lib
-      $ENV{ACE_ROOT}/lib
-      $ENV{ACE_ROOT}
-    DOC "Specify library-locations that might contain the ACE library here."
-  )
+## script does not work if executed twice bc ACE_LIBRARY get appended
+# fix "optimized.lib" problem in windows (Lorenzo Natale)
+if(NOT ACE_FOUND)
+    ########################################################################
+    ##  general find
 
-#  FIND_LIBRARY( ACE_EXTRA_LIBRARIES
-#    NAMES
-#      z zlib
-#    PATHS
-#      /usr/lib
-#      /usr/local/lib
-#    DOC
-#      "if more libraries are necessary to link into ACE, specify them here."
-#  )
+    find_path(ACE_INCLUDE_DIR
+              NAMES ace/ACE.h
+              PATHS $ENV{ACE_ROOT}
+                    $ENV{ACE_ROOT}/include
+                    /usr/include
+                    /usr/local/include
+                    $ENV{ProgramFiles}/ACE/*/include
+              DOC "ACE framework development headers")
+    mark_as_advanced(ACE_INCLUDE_DIR)
 
-  if ( ACE_LIBRARIES )
-    if ( ACE_INCLUDE_DIR )
-      set( ACE_FOUND 1 )
-      message( STATUS "Found ACE library: ${ACE_LIBRARIES}")
-      message( STATUS "Found ACE headers: ${ACE_INCLUDE_DIR}")
-    else ( ACE_INCLUDE_DIR )
-      message(FATAL_ERROR "Could not find ACE headers! Please install ACE libraries and headers")
-    endif ( ACE_INCLUDE_DIR )
-  endif ( ACE_LIBRARIES )
+    find_library(ACE_LIBRARY_RELEASE
+                 NAMES ACE
+                       ace
+                 PATHS $ENV{ACE_ROOT}/lib
+                       $ENV{ACE_ROOT}
+                       /usr/lib
+                       /usr/local/lib
+                       $ENV{ProgramFiles}/ACE/*/lib/
+                 DOC "ACE libraries")
 
-  mark_as_advanced( ACE_FOUND ACE_LIBRARIES ACE_EXTRA_LIBRARIES ACE_INCLUDE_DIR )
-endif (UNIX)
+    set(CMAKE_DEBUG_POSTFIX "d")
+    find_library(ACE_LIBRARY_DEBUG
+                 NAMES ACE${CMAKE_DEBUG_POSTFIX}
+                       ace${CMAKE_DEBUG_POSTFIX}
+                 PATHS $ENV{ACE_ROOT}/lib
+                       $ENV{ACE_ROOT}
+                       /usr/lib
+                       /usr/local/lib
+                       $ENV{ProgramFiles}/ACE/*/lib/
+                 DOC "ACE libraries (debug version)")
+    include(SelectLibraryConfigurations)
+    select_library_configurations(ACE)
+
+    set(ACE_LIBRARIES ${ACE_LIBRARY})
+    set(ACE_INCLUDE_DIRS ${ACE_INCLUDE_DIR})
+
+    ########################################################################
+    ## OS-specific extra linkage
+
+    # Solaris needs some extra libraries that may not have been found already
+    if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
+        list(APPEND ACE_LIBRARIES socket rt nsl)
+    endif(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
+
+    # ACE package doesn't specify that pthread and rt are needed, which is
+    # a problem for users of GoLD.  Link pthread (just on Linux for now).
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        message(STATUS "ACE: we will link against pthread and rt.")
+        list(APPEND ACE_LIBRARIES pthread rt)
+    endif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+
+    # Windows needs some extra libraries
+    if(WIN32 AND NOT CYGWIN)
+        list(APPEND ACE_LIBRARIES winmm)
+    endif(WIN32 AND NOT CYGWIN)
+
+    # Mingw needs some extra libraries
+    if(WIN32 AND MINGW)
+        list(APPEND ACE_LIBRARIES winmm ws2_32 wsock32)
+    endif(WIN32 AND MINGW)
+
+    ########################################################################
+    ## finished - now just set up flags and complain to user if necessary
+
+    include(FindPackageHandleStandardArgs)
+    find_package_handle_standard_args(ACE DEFAULT_MSG ACE_LIBRARIES ACE_INCLUDE_DIRS)
+else()
+    ########################################################################
+    ## OS-specific extra linkage
+    ## Needed with our default ACE finder, too.
+
+    # Solaris needs some extra libraries that may not have been found already
+    if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
+        list(APPEND ACE_LIBRARIES socket rt nsl)
+    endif(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
+
+    # ACE package doesn't specify that pthread and rt are needed, which is
+    # a problem for users of GoLD.  Link pthread (just on Linux for now).
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        list(APPEND ACE_LIBRARIES pthread rt)
+    endif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+
+    # Windows needs some extra libraries
+    if(WIN32 AND NOT CYGWIN)
+        list(APPEND ACE_LIBRARIES winmm)
+    endif(WIN32 AND NOT CYGWIN)
+
+    # Mingw needs some extra libraries
+    if(WIN32 AND MINGW)
+        list(APPEND ACE_LIBRARIES winmm ws2_32 wsock32)
+    endif(WIN32 AND MINGW)
+endif()
+
+# Set package properties if FeatureSummary was included
+if(COMMAND set_package_properties)
+    set_package_properties(ACE PROPERTIES DESCRIPTION "The ADAPTIVE Communication Environment"
+                                          URL "http://www.cs.wustl.edu/~schmidt/ACE.html")
+endif()

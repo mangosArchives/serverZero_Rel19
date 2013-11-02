@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "MapManager.h"
@@ -41,10 +47,10 @@ MapManager::MapManager()
 MapManager::~MapManager()
 {
     for (MapMapType::iterator iter = i_maps.begin(); iter != i_maps.end(); ++iter)
-        delete iter->second;
+        { delete iter->second; }
 
     for (TransportSet::iterator i = m_Transports.begin(); i != m_Transports.end(); ++i)
-        delete *i;
+        { delete *i; }
 
     DeleteStateMachine();
 }
@@ -84,7 +90,7 @@ void MapManager::UpdateGridState(grid_state_t state, Map& map, NGridType& ngrid,
 void MapManager::InitializeVisibilityDistanceInfo()
 {
     for (MapMapType::iterator iter = i_maps.begin(); iter != i_maps.end(); ++iter)
-        (*iter).second->InitVisibilityDistance();
+        { (*iter).second->InitVisibilityDistance(); }
 }
 
 Map* MapManager::CreateMap(uint32 id, const WorldObject* obj)
@@ -97,14 +103,14 @@ Map* MapManager::CreateMap(uint32 id, const WorldObject* obj)
 
     const MapEntry* entry = sMapStore.LookupEntry(id);
     if (!entry)
-        return NULL;
+        { return NULL; }
 
     if (entry->Instanceable())
     {
         MANGOS_ASSERT(obj->GetTypeId() == TYPEID_PLAYER);
         // create DungeonMap object
         if (obj->GetTypeId() == TYPEID_PLAYER)
-            m = CreateInstance(id, (Player*)obj);
+            { m = CreateInstance(id, (Player*)obj); }
     }
     else
     {
@@ -138,7 +144,7 @@ Map* MapManager::FindMap(uint32 mapid, uint32 instanceId) const
 
     MapMapType::const_iterator iter = i_maps.find(MapID(mapid, instanceId));
     if (iter == i_maps.end())
-        return NULL;
+        { return NULL; }
 
     // this is a small workaround for transports
     if (instanceId == 0 && iter->second->Instanceable())
@@ -172,10 +178,10 @@ void MapManager::Update(uint32 diff)
 {
     i_timer.Update(diff);
     if (!i_timer.Passed())
-        return;
+        { return; }
 
     for (MapMapType::iterator iter = i_maps.begin(); iter != i_maps.end(); ++iter)
-        iter->second->Update((uint32)i_timer.GetCurrent());
+        { iter->second->Update((uint32)i_timer.GetCurrent()); }
 
     for (TransportSet::iterator iter = m_Transports.begin(); iter != m_Transports.end(); ++iter)
     {
@@ -197,7 +203,7 @@ void MapManager::Update(uint32 diff)
             i_maps.erase(iter++);
         }
         else
-            ++iter;
+            { ++iter; }
     }
 
     i_timer.SetCurrent(0);
@@ -206,7 +212,7 @@ void MapManager::Update(uint32 diff)
 void MapManager::RemoveAllObjectsInRemoveList()
 {
     for (MapMapType::iterator iter = i_maps.begin(); iter != i_maps.end(); ++iter)
-        iter->second->RemoveAllObjectsInRemoveList();
+        { iter->second->RemoveAllObjectsInRemoveList(); }
 }
 
 bool MapManager::ExistMapAndVMap(uint32 mapid, float x, float y)
@@ -229,7 +235,7 @@ bool MapManager::IsValidMAP(uint32 mapid)
 void MapManager::UnloadAll()
 {
     for (MapMapType::iterator iter = i_maps.begin(); iter != i_maps.end(); ++iter)
-        iter->second->UnloadAll(true);
+        { iter->second->UnloadAll(true); }
 
     while (!i_maps.empty())
     {
@@ -258,7 +264,7 @@ uint32 MapManager::GetNumInstances()
     for (MapMapType::iterator itr = i_maps.begin(); itr != i_maps.end(); ++itr)
     {
         Map* map = itr->second;
-        if (!map->IsDungeon()) continue;
+        if (!map->IsDungeon()) { continue; }
         ret += 1;
     }
     return ret;
@@ -270,7 +276,7 @@ uint32 MapManager::GetNumPlayersInInstances()
     for (MapMapType::iterator itr = i_maps.begin(); itr != i_maps.end(); ++itr)
     {
         Map* map = itr->second;
-        if (!map->IsDungeon()) continue;
+        if (!map->IsDungeon()) { continue; }
         ret += map->GetPlayers().getSize();
     }
     return ret;
@@ -300,7 +306,7 @@ Map* MapManager::CreateInstance(uint32 id, Player* player)
         map = FindMap(id, NewInstanceId);
         // it is possible that the save exists but the map doesn't
         if (!map)
-            pNewMap = CreateDungeonMap(id, NewInstanceId, pSave);
+            { pNewMap = CreateDungeonMap(id, NewInstanceId, pSave); }
     }
     else
     {

@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "ChannelMgr.h"
@@ -26,12 +32,12 @@ INSTANTIATE_SINGLETON_1(HordeChannelMgr);
 ChannelMgr* channelMgr(Team team)
 {
     if (sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_INTERACTION_CHANNEL))
-        return &MaNGOS::Singleton<AllianceChannelMgr>::Instance();        // cross-faction
+        { return &MaNGOS::Singleton<AllianceChannelMgr>::Instance(); }        // cross-faction
 
     if (team == ALLIANCE)
-        return &MaNGOS::Singleton<AllianceChannelMgr>::Instance();
+        { return &MaNGOS::Singleton<AllianceChannelMgr>::Instance(); }
     if (team == HORDE)
-        return &MaNGOS::Singleton<HordeChannelMgr>::Instance();
+        { return &MaNGOS::Singleton<HordeChannelMgr>::Instance(); }
 
     return NULL;
 }
@@ -39,7 +45,7 @@ ChannelMgr* channelMgr(Team team)
 ChannelMgr::~ChannelMgr()
 {
     for (ChannelMap::iterator itr = channels.begin(); itr != channels.end(); ++itr)
-        delete itr->second;
+        { delete itr->second; }
 
     channels.clear();
 }
@@ -49,14 +55,14 @@ Channel* ChannelMgr::GetJoinChannel(std::string name, uint32 channelId)
     std::wstring wname;
     Utf8toWStr(name, wname);
     wstrToLower(wname);
-    
+
     if (channels.find(wname) == channels.end())
     {
         Channel* nchan = new Channel(name, channelId);
         channels[wname] = nchan;
         return nchan;
     }
-    
+
     return channels[wname];
 }
 
@@ -80,7 +86,7 @@ Channel* ChannelMgr::GetChannel(std::string name, Player* p, bool pkt)
         return NULL;
     }
     else
-        return i->second;
+        { return i->second; }
 }
 
 void ChannelMgr::LeftChannel(std::string name)
@@ -92,7 +98,7 @@ void ChannelMgr::LeftChannel(std::string name)
     ChannelMap::const_iterator i = channels.find(wname);
 
     if (i == channels.end())
-        return;
+        { return; }
 
     Channel* channel = i->second;
 

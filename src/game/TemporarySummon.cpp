@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "TemporarySummon.h"
@@ -55,7 +61,7 @@ void TemporarySummon::Update(uint32 update_diff,  uint32 diff)
                 m_timer -= update_diff;
             }
             else if (m_timer != m_lifetime)
-                m_timer = m_lifetime;
+                { m_timer = m_lifetime; }
 
             break;
         }
@@ -116,10 +122,10 @@ void TemporarySummon::Update(uint32 update_diff,  uint32 diff)
                     return;
                 }
                 else
-                    m_timer -= update_diff;
+                    { m_timer -= update_diff; }
             }
             else if (m_timer != m_lifetime)
-                m_timer = m_lifetime;
+                { m_timer = m_lifetime; }
             break;
         }
         case TEMPSUMMON_TIMED_OOC_OR_DEAD_DESPAWN:
@@ -139,10 +145,10 @@ void TemporarySummon::Update(uint32 update_diff,  uint32 diff)
                     return;
                 }
                 else
-                    m_timer -= update_diff;
+                    { m_timer -= update_diff; }
             }
             else if (m_timer != m_lifetime)
-                m_timer = m_lifetime;
+                { m_timer = m_lifetime; }
             break;
         }
         case TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN:
@@ -203,7 +209,7 @@ void TemporarySummon::UnSummon()
     if (GetSummonerGuid().IsCreature())
         if (Creature* sum = GetMap()->GetCreature(GetSummonerGuid()))
             if (sum->AI())
-                sum->AI()->SummonedCreatureDespawn(this);
+                { sum->AI()->SummonedCreatureDespawn(this); }
 
     AddObjectToRemoveList();
 }

@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOS_SINGLETON_H
@@ -36,40 +42,74 @@ namespace MaNGOS
              class CreatePolicy = MaNGOS::OperatorNew<T>,
              class LifeTimePolicy = MaNGOS::ObjectLifeTime<T>
              >
+    /**
+     * @brief
+     *
+     */
     class MANGOS_DLL_DECL Singleton
     {
         public:
 
+            /**
+             * @brief
+             *
+             * @return T
+             */
             static T& Instance();
 
         protected:
 
+            /**
+             * @brief
+             *
+             */
             Singleton()
             {
             }
 
         private:
 
-            // Prohibited actions...this does not prevent hijacking.
+            /**
+             * @brief Prohibited actions...this does not prevent hijacking.
+             *
+             * @param
+             */
             Singleton(const Singleton&);
+            /**
+             * @brief
+             *
+             * @param
+             * @return Singleton &operator
+             */
             Singleton& operator=(const Singleton&);
 
-            // Singleton Helpers
+            /**
+             * @brief Singleton Helpers
+             *
+             */
             static void DestroySingleton();
 
-            // data structure
+            /**
+             * @brief data structure
+             *
+             */
             typedef typename ThreadingModel::Lock Guard;
-            static T* si_instance;
-            static bool si_destroyed;
+            static T* si_instance; /**< TODO */
+            static bool si_destroyed; /**< TODO */
     };
 
     template<typename T, class ThreadingModel, class CreatePolicy, class LifeTimePolicy>
-    T* Singleton<T, ThreadingModel, CreatePolicy, LifeTimePolicy>::si_instance = NULL;
+    T* Singleton<T, ThreadingModel, CreatePolicy, LifeTimePolicy>::si_instance = NULL; /**< TODO */
 
     template<typename T, class ThreadingModel, class CreatePolicy, class LifeTimePolicy>
-    bool Singleton<T, ThreadingModel, CreatePolicy, LifeTimePolicy>::si_destroyed = false;
+    bool Singleton<T, ThreadingModel, CreatePolicy, LifeTimePolicy>::si_destroyed = false; /**< TODO */
 
     template<typename T, class ThreadingModel, class CreatePolicy, class LifeTimePolicy>
+    /**
+     * @brief
+     *
+     * @return T &MaNGOS::Singleton<T, ThreadingModel, CreatePolicy, LifeTimePolicy>
+     */
     T& MaNGOS::Singleton<T, ThreadingModel, CreatePolicy, LifeTimePolicy>::Instance()
     {
         if (!si_instance)
@@ -94,6 +134,10 @@ namespace MaNGOS
     }
 
     template<typename T, class ThreadingModel, class CreatePolicy, class LifeTimePolicy>
+    /**
+     * @brief
+     *
+     */
     void MaNGOS::Singleton<T, ThreadingModel, CreatePolicy, LifeTimePolicy>::DestroySingleton()
     {
         CreatePolicy::Destroy(si_instance);

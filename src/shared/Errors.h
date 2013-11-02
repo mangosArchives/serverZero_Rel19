@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOSSERVER_ERRORS_H
@@ -26,45 +32,45 @@
 #endif
 
 #ifdef HAVE_ACE_STACK_TRACE_H
-#  include "ace/Stack_Trace.h"
+#  include <ace/Stack_Trace.h>
 #endif
 
 #ifdef HAVE_ACE_STACK_TRACE_H
 // Normal assert.
 #define WPError(CONDITION) \
-if (!(CONDITION)) \
-{ \
-    ACE_Stack_Trace st; \
-    printf("%s:%i: Error: Assertion in %s failed: %s\nStack Trace:\n%s", \
-        __FILE__, __LINE__, __FUNCTION__, STRINGIZE(CONDITION), st.c_str()); \
-    assert(STRINGIZE(CONDITION) && 0); \
-}
+    if (!(CONDITION)) \
+    { \
+        ACE_Stack_Trace st; \
+        printf("%s:%i: Error: Assertion in %s failed: %s\nStack Trace:\n%s", \
+               __FILE__, __LINE__, __FUNCTION__, STRINGIZE(CONDITION), st.c_str()); \
+        assert(STRINGIZE(CONDITION) && 0); \
+    }
 
 // Just warn.
 #define WPWarning(CONDITION) \
-if (!(CONDITION)) \
-{ \
-    ACE_Stack_Trace st; \
-    printf("%s:%i: Warning: Assertion in %s failed: %s\nStack Trace:\n%s",\
-        __FILE__, __LINE__, __FUNCTION__, STRINGIZE(CONDITION), st.c_str()); \
-}
+    if (!(CONDITION)) \
+    { \
+        ACE_Stack_Trace st; \
+        printf("%s:%i: Warning: Assertion in %s failed: %s\nStack Trace:\n%s",\
+               __FILE__, __LINE__, __FUNCTION__, STRINGIZE(CONDITION), st.c_str()); \
+    }
 #else
 // Normal assert.
 #define WPError(CONDITION) \
-if (!(CONDITION)) \
-{ \
-    printf("%s:%i: Error: Assertion in %s failed: %s", \
-        __FILE__, __LINE__, __FUNCTION__, STRINGIZE(CONDITION)); \
-    assert(STRINGIZE(CONDITION) && 0); \
-}
+    if (!(CONDITION)) \
+    { \
+        printf("%s:%i: Error: Assertion in %s failed: %s", \
+               __FILE__, __LINE__, __FUNCTION__, STRINGIZE(CONDITION)); \
+        assert(STRINGIZE(CONDITION) && 0); \
+    }
 
 // Just warn.
 #define WPWarning(CONDITION) \
-if (!(CONDITION)) \
-{ \
-    printf("%s:%i: Warning: Assertion in %s failed: %s",\
-        __FILE__, __LINE__, __FUNCTION__, STRINGIZE(CONDITION)); \
-}
+    if (!(CONDITION)) \
+    { \
+        printf("%s:%i: Warning: Assertion in %s failed: %s",\
+               __FILE__, __LINE__, __FUNCTION__, STRINGIZE(CONDITION)); \
+    }
 #endif
 
 #ifdef MANGOS_DEBUG

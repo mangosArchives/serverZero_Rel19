@@ -1,4 +1,9 @@
-# This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+# mangos-zero is a full featured server for World of Warcraft in its vanilla
+# version, supporting clients for patch 1.12.x.
+#
+# Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
+#
+# ***** BEGIN GPL LICENSE BLOCK *****
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,10 +18,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+# ***** END GPL LICENSE BLOCK *****
+#
+# World of Warcraft, and all World of Warcraft or Warcraft art, images,
+# and lore are copyrighted by Blizzard Entertainment, Inc.
 
-set(LIBRARY_NAME g3dlite)
+include(MacroMangosSourceGroup)
 
-set(LIBRARY_SRCS
+#-----------------------------------------------------------------------------
+# Define the g3dlite library
+set(sources
     AABox.cpp
     Any.cpp
     #AnyVal.cpp
@@ -116,20 +128,25 @@ set(LIBRARY_SRCS
     stringutils.cpp
     uint128.cpp
 )
+file(GLOB headers ${CMAKE_SOURCE_DIR}/dep/include/g3dlite/G3D/*.h)
+
+set(g3dlite_LIB_SRCS ${sources} ${headers})
+
+mangos_source_group(${g3dlite_LIB_SRCS})
 
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_SOURCE_DIR}/dep/include
-  ${CMAKE_SOURCE_DIR}/dep/include/g3dlite
-  ${CMAKE_SOURCE_DIR}/dep/include/zlib
+    ${ZLIB_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/dep/include/g3dlite/
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_library(${LIBRARY_NAME} STATIC
-  ${LIBRARY_SRCS}
-)
+#-----------------------------------------------------------------------------
+# Build the g3dlite library
+add_library(g3dlite STATIC ${g3dlite_LIB_SRCS})
+target_link_libraries(g3dlite ${ZLIB_LIBRARIES})
 
 if(WIN32)
-  target_link_libraries(${LIBRARY_NAME}
-    zlib
-  )
+    # Disabled for now. GnuWin32-zlib does not need this
+    # set(BUILD_PROPERTIES "-DZLIB_WINAPI" )
+    # set_target_properties(g3dlite PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
 endif()

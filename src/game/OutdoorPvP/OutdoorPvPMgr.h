@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -8,12 +11,15 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef WORLD_PVP_MGR_H
@@ -23,11 +29,19 @@
 #include "Policies/Singleton.h"
 #include "Timer.h"
 
+/**
+ * @brief
+ *
+ */
 enum
 {
     TIMER_OPVP_MGR_UPDATE           = MINUTE * IN_MILLISECONDS // 1 minute is enough for us but this might change with wintergrasp support
 };
 
+/**
+ * @brief
+ *
+ */
 enum OutdoorPvPTypes
 {
     OPVP_ID_SI = 0,
@@ -36,6 +50,10 @@ enum OutdoorPvPTypes
     MAX_OPVP_ID
 };
 
+/**
+ * @brief
+ *
+ */
 enum OutdoorPvPZones
 {
     ZONE_ID_SILITHUS                = 1377,
@@ -45,7 +63,7 @@ enum OutdoorPvPZones
 
     ZONE_ID_EASTERN_PLAGUELANDS     = 139,
     ZONE_ID_STRATHOLME              = 2017,
-    ZONE_ID_SCHOLOMANCE             = 2057,
+    ZONE_ID_SCHOLOMANCE             = 2057
 };
 
 class Player;
@@ -53,43 +71,97 @@ class GameObject;
 class Creature;
 class OutdoorPvP;
 
+/**
+ * @brief
+ *
+ */
 class OutdoorPvPMgr
 {
     public:
+        /**
+         * @brief
+         *
+         */
         OutdoorPvPMgr();
+        /**
+         * @brief
+         *
+         */
         ~OutdoorPvPMgr();
 
-        // load all outdoor pvp scripts
+        /**
+         * @brief load all outdoor pvp scripts
+         *
+         */
         void InitOutdoorPvP();
 
-        // called when a player enters an outdoor pvp area
+        /**
+         * @brief called when a player enters an outdoor pvp area
+         *
+         * @param player
+         * @param zoneId
+         */
         void HandlePlayerEnterZone(Player* player, uint32 zoneId);
 
-        // called when player leaves an outdoor pvp area
+        /**
+         * @brief called when player leaves an outdoor pvp area
+         *
+         * @param player
+         * @param zoneId
+         */
         void HandlePlayerLeaveZone(Player* player, uint32 zoneId);
 
-        // return assigned outdoor pvp script
+        /**
+         * @brief return assigned outdoor pvp script
+         *
+         * @param zoneId
+         * @return OutdoorPvP
+         */
         OutdoorPvP* GetScript(uint32 zoneId);
 
+        /**
+         * @brief
+         *
+         * @param diff
+         */
         void Update(uint32 diff);
 
-        // Save and load capture point slider values
+        /**
+         * @brief Save and load capture point slider values
+         *
+         * @param entry
+         * @param defaultValue
+         * @return float
+         */
         float GetCapturePointSliderValue(uint32 entry, float defaultValue);
+        /**
+         * @brief
+         *
+         * @param entry
+         * @param value
+         */
         void SetCapturePointSlider(uint32 entry, float value) { m_capturePointSlider[entry] = value; }
 
     private:
-        // return assigned outdoor pvp script
+        /**
+         * @brief return assigned outdoor pvp script
+         *
+         * @param zoneId
+         * @return OutdoorPvP
+         */
         OutdoorPvP* GetScriptOfAffectedZone(uint32 zoneId);
 
-        // contains all outdoor pvp scripts
-        OutdoorPvP* m_scripts[MAX_OPVP_ID];
+        OutdoorPvP* m_scripts[MAX_OPVP_ID]; /**< contains all outdoor pvp scripts */
 
-        typedef std::map<uint32 /*capture point entry*/, float /*slider value*/> CapturePointSliderMap;
+        /**
+         * @brief
+         *
+         */
+        typedef std::map < uint32 /*capture point entry*/, float /*slider value*/ > CapturePointSliderMap;
 
-        CapturePointSliderMap m_capturePointSlider;
+        CapturePointSliderMap m_capturePointSlider; /**< TODO */
 
-        // update interval
-        ShortIntervalTimer m_updateTimer;
+        ShortIntervalTimer m_updateTimer; /**< update interval */
 };
 
 #define sOutdoorPvPMgr MaNGOS::Singleton<OutdoorPvPMgr>::Instance()

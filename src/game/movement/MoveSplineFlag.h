@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOSSERVER_MOVESPLINEFLAG_H
@@ -30,9 +36,17 @@ namespace Movement
 #pragma pack(push,1)
 #endif
 
+    /**
+     * @brief
+     *
+     */
     class MoveSplineFlag
     {
         public:
+            /**
+             * @brief
+             *
+             */
             enum eFlags
             {
                 None         = 0x00000000,
@@ -74,67 +88,146 @@ namespace Movement
                 // flags that shouldn't be appended into SMSG_MONSTER_MOVE\SMSG_MONSTER_MOVE_TRANSPORT packet, should be more probably
                 Mask_No_Monster_Move = Mask_Final_Facing | Done,
                 // CatmullRom interpolation mode used
-                Mask_CatmullRom = Flying,
+                Mask_CatmullRom = Flying
             };
 
+            /**
+             * @brief
+             *
+             * @return uint32
+             */
             inline uint32& raw() { return (uint32&) * this;}
+            /**
+             * @brief
+             *
+             * @return const uint32
+             */
             inline const uint32& raw() const { return (const uint32&) * this;}
 
+            /**
+             * @brief
+             *
+             */
             MoveSplineFlag() { raw() = 0; }
+            /**
+             * @brief
+             *
+             * @param f
+             */
             MoveSplineFlag(uint32 f) { raw() = f; }
+            /**
+             * @brief
+             *
+             * @param f
+             */
             MoveSplineFlag(const MoveSplineFlag& f) { raw() = f.raw(); }
 
             // Constant interface
 
+            /**
+             * @brief
+             *
+             * @return bool
+             */
             bool isSmooth() const { return raw() & Mask_CatmullRom;}
+            /**
+             * @brief
+             *
+             * @return bool
+             */
             bool isFacing() const { return raw() & Mask_Final_Facing;}
 
+            /**
+             * @brief
+             *
+             * @param f
+             * @return bool
+             */
             bool hasAllFlags(uint32 f) const { return (raw() & f) == f;}
+            /**
+             * @brief
+             *
+             * @param f
+             * @return uint32 operator
+             */
             uint32 operator & (uint32 f) const { return (raw() & f);}
+            /**
+             * @brief
+             *
+             * @param f
+             * @return uint32 operator
+             */
             uint32 operator | (uint32 f) const { return (raw() | f);}
+            /**
+             * @brief
+             *
+             * @return std::string
+             */
             std::string ToString() const;
 
             // Not constant interface
 
+            /**
+             * @brief
+             *
+             * @param f
+             */
             void operator &= (uint32 f) { raw() &= f;}
+            /**
+             * @brief
+             *
+             * @param f
+             */
             void operator |= (uint32 f) { raw() |= f;}
 
+            /**
+             * @brief
+             *
+             */
             void EnableFacingPoint()    { raw() = (raw() & ~Mask_Final_Facing) | Final_Point;}
+            /**
+             * @brief
+             *
+             */
             void EnableFacingAngle()    { raw() = (raw() & ~Mask_Final_Facing) | Final_Angle;}
+            /**
+             * @brief
+             *
+             */
             void EnableFacingTarget()   { raw() = (raw() & ~Mask_Final_Facing) | Final_Target;}
 
-            bool done          : 1;
-            bool falling       : 1;
-            bool unknown3      : 1;
-            bool unknown4      : 1;
-            bool unknown5      : 1;
-            bool unknown6      : 1;
-            bool unknown7      : 1;
-            bool unknown8      : 1;
-            bool runmode       : 1;
-            bool flying        : 1;
-            bool no_spline     : 1;
-            bool unknown12     : 1;
-            bool unknown13     : 1;
-            bool unknown14     : 1;
-            bool unknown15     : 1;
-            bool unknown16     : 1;
-            bool final_point   : 1;
-            bool final_target  : 1;
-            bool final_angle   : 1;
-            bool unknown19     : 1;
-            bool cyclic        : 1;
-            bool enter_cycle   : 1;
-            bool frozen        : 1;
-            bool unknown23     : 1;
-            bool unknown24     : 1;
-            bool unknown25     : 1;
-            bool unknown26     : 1;
-            bool unknown27     : 1;
-            bool unknown28     : 1;
-            bool unknown29     : 1;
-            bool unknown30     : 1;
-            bool unknown31     : 1;
+            bool done          : 1; /**< TODO */
+            bool falling       : 1; /**< TODO */
+            bool unknown3      : 1; /**< TODO */
+            bool unknown4      : 1; /**< TODO */
+            bool unknown5      : 1; /**< TODO */
+            bool unknown6      : 1; /**< TODO */
+            bool unknown7      : 1; /**< TODO */
+            bool unknown8      : 1; /**< TODO */
+            bool runmode       : 1; /**< TODO */
+            bool flying        : 1; /**< TODO */
+            bool no_spline     : 1; /**< TODO */
+            bool unknown12     : 1; /**< TODO */
+            bool unknown13     : 1; /**< TODO */
+            bool unknown14     : 1; /**< TODO */
+            bool unknown15     : 1; /**< TODO */
+            bool unknown16     : 1; /**< TODO */
+            bool final_point   : 1; /**< TODO */
+            bool final_target  : 1; /**< TODO */
+            bool final_angle   : 1; /**< TODO */
+            bool unknown19     : 1; /**< TODO */
+            bool cyclic        : 1; /**< TODO */
+            bool enter_cycle   : 1; /**< TODO */
+            bool frozen        : 1; /**< TODO */
+            bool unknown23     : 1; /**< TODO */
+            bool unknown24     : 1; /**< TODO */
+            bool unknown25     : 1; /**< TODO */
+            bool unknown26     : 1; /**< TODO */
+            bool unknown27     : 1; /**< TODO */
+            bool unknown28     : 1; /**< TODO */
+            bool unknown29     : 1; /**< TODO */
+            bool unknown30     : 1; /**< TODO */
+            bool unknown31     : 1; /**< TODO */
     };
 #if defined( __GNUC__ )
 #pragma pack()

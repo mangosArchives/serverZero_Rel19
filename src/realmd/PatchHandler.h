@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 /** \file
@@ -36,47 +42,113 @@
 
 /**
  * @brief Caches MD5 hash of client patches present on the server
+ *
  */
 class PatchCache
 {
     public:
+        /**
+         * @brief
+         *
+         */
         ~PatchCache();
+        /**
+         * @brief
+         *
+         */
         PatchCache();
 
+        /**
+         * @brief
+         *
+         * @return PatchCache
+         */
         static PatchCache* instance();
 
+        /**
+         * @brief
+         *
+         */
         struct PATCH_INFO
         {
-            ACE_UINT8 md5[MD5_DIGEST_LENGTH];
+            ACE_UINT8 md5[MD5_DIGEST_LENGTH]; /**< TODO */
         };
 
+        /**
+         * @brief
+         *
+         */
         typedef std::map<std::string, PATCH_INFO*> Patches;
 
+        /**
+         * @brief
+         *
+         * @return Patches::const_iterator
+         */
         Patches::const_iterator begin() const
         {
             return patches_.begin();
         }
 
+        /**
+         * @brief
+         *
+         * @return Patches::const_iterator
+         */
         Patches::const_iterator end() const
         {
             return patches_.end();
         }
 
+        /**
+         * @brief
+         *
+         * @param
+         */
         void LoadPatchMD5(const char*);
+        /**
+         * @brief
+         *
+         * @param pat
+         * @param mymd5[]
+         * @return bool
+         */
         bool GetHash(const char* pat, ACE_UINT8 mymd5[MD5_DIGEST_LENGTH]);
 
     private:
+        /**
+         * @brief
+         *
+         */
         void LoadPatchesInfo();
-        Patches patches_;
+        Patches patches_; /**< TODO */
 };
 
+/**
+ * @brief
+ *
+ */
 class PatchHandler: public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>
 {
     protected:
+        /**
+         * @brief
+         *
+         */
         typedef ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH> Base;
 
     public:
+        /**
+         * @brief
+         *
+         * @param socket
+         * @param patch
+         */
         PatchHandler(ACE_HANDLE socket, ACE_HANDLE patch);
+        /**
+         * @brief
+         *
+         */
         virtual ~PatchHandler();
 
         int open(void* = 0) override;
@@ -85,7 +157,7 @@ class PatchHandler: public ACE_Svc_Handler<ACE_SOCK_STREAM, ACE_NULL_SYNCH>
         virtual int svc(void) override;
 
     private:
-        ACE_HANDLE patch_fd_;
+        ACE_HANDLE patch_fd_; /**< TODO */
 };
 
 #endif /* _BK_PATCHHANDLER_H__ */

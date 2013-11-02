@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOSSERVER_PACKET_BUILDER_H
@@ -25,12 +31,34 @@ class WorldPacket;
 namespace Movement
 {
     class MoveSpline;
+    /**
+     * @brief
+     *
+     */
     class PacketBuilder
     {
+            /**
+             * @brief
+             *
+             * @param mov
+             * @param data
+             */
             static void WriteCommonMonsterMovePart(const MoveSpline& mov, WorldPacket& data);
         public:
 
+            /**
+             * @brief
+             *
+             * @param mov
+             * @param data
+             */
             static void WriteMonsterMove(const MoveSpline& mov, WorldPacket& data);
+            /**
+             * @brief
+             *
+             * @param mov
+             * @param data
+             */
             static void WriteCreate(const MoveSpline& mov, ByteBuffer& data);
     };
 }

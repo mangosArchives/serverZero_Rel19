@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "GuildMgr.h"
@@ -34,7 +40,7 @@ GuildMgr::GuildMgr()
 GuildMgr::~GuildMgr()
 {
     for (GuildMap::iterator itr = m_GuildMap.begin(); itr != m_GuildMap.end(); ++itr)
-        delete itr->second;
+        { delete itr->second; }
 }
 
 void GuildMgr::AddGuild(Guild* guild)
@@ -51,7 +57,7 @@ Guild* GuildMgr::GetGuildById(uint32 guildId) const
 {
     GuildMap::const_iterator itr = m_GuildMap.find(guildId);
     if (itr != m_GuildMap.end())
-        return itr->second;
+        { return itr->second; }
 
     return NULL;
 }
@@ -60,7 +66,7 @@ Guild* GuildMgr::GetGuildByName(std::string const& name) const
 {
     for (GuildMap::const_iterator itr = m_GuildMap.begin(); itr != m_GuildMap.end(); ++itr)
         if (itr->second->GetName() == name)
-            return itr->second;
+            { return itr->second; }
 
     return NULL;
 }
@@ -69,7 +75,7 @@ Guild* GuildMgr::GetGuildByLeader(ObjectGuid const& guid) const
 {
     for (GuildMap::const_iterator itr = m_GuildMap.begin(); itr != m_GuildMap.end(); ++itr)
         if (itr->second->GetLeaderGuid() == guid)
-            return itr->second;
+            { return itr->second; }
 
     return NULL;
 }
@@ -78,7 +84,7 @@ std::string GuildMgr::GetGuildNameById(uint32 guildId) const
 {
     GuildMap::const_iterator itr = m_GuildMap.find(guildId);
     if (itr != m_GuildMap.end())
-        return itr->second->GetName();
+        { return itr->second->GetName(); }
 
     return "";
 }
@@ -126,9 +132,9 @@ void GuildMgr::LoadGuilds()
 
         newGuild = new Guild;
         if (!newGuild->LoadGuildFromDB(result) ||
-                !newGuild->LoadRanksFromDB(guildRanksResult) ||
-                !newGuild->LoadMembersFromDB(guildMembersResult) ||
-                !newGuild->CheckGuildStructure()
+            !newGuild->LoadRanksFromDB(guildRanksResult) ||
+            !newGuild->LoadMembersFromDB(guildMembersResult) ||
+            !newGuild->CheckGuildStructure()
            )
         {
             newGuild->Disband();

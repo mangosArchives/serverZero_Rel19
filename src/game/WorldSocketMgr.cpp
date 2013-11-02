@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 /** \file WorldSocketMgr.cpp
@@ -92,7 +98,7 @@ class ReactorRunnable : protected ACE_Task_Base
         int Start()
         {
             if (m_ThreadId != -1)
-                return -1;
+                { return -1; }
 
             return (m_ThreadId = activate());
         }
@@ -127,7 +133,7 @@ class ReactorRunnable : protected ACE_Task_Base
             ACE_GUARD(ACE_Thread_Mutex, Guard, m_NewSockets_Lock);
 
             if (m_NewSockets.empty())
-                return;
+                { return; }
 
             for (SocketSet::const_iterator i = m_NewSockets.begin(); i != m_NewSockets.end(); ++i)
             {
@@ -139,7 +145,7 @@ class ReactorRunnable : protected ACE_Task_Base
                     --m_Connections;
                 }
                 else
-                    m_Sockets.insert(sock);
+                    { m_Sockets.insert(sock); }
             }
 
             m_NewSockets.clear();
@@ -162,7 +168,7 @@ class ReactorRunnable : protected ACE_Task_Base
                 ACE_Time_Value interval(0, 10000);
 
                 if (m_Reactor->run_reactor_event_loop(interval) == -1)
-                    break;
+                    { break; }
 
                 AddNewSockets();
 
@@ -178,7 +184,7 @@ class ReactorRunnable : protected ACE_Task_Base
                         m_Sockets.erase(t);
                     }
                     else
-                        ++i;
+                        { ++i; }
                 }
             }
 
@@ -260,7 +266,7 @@ int WorldSocketMgr::StartReactiveIO(ACE_UINT16 port, const char* address)
     }
 
     for (size_t i = 0; i < m_NetThreadsCount; ++i)
-        m_NetThreads[i].Start();
+        { m_NetThreads[i].Start(); }
 
     return 0;
 }
@@ -268,10 +274,10 @@ int WorldSocketMgr::StartReactiveIO(ACE_UINT16 port, const char* address)
 int WorldSocketMgr::StartNetwork(ACE_UINT16 port, std::string& address)
 {
     if (!sLog.HasLogLevelOrHigher(LOG_LVL_DEBUG))
-        ACE_Log_Msg::instance()->priority_mask(LM_ERROR, ACE_Log_Msg::PROCESS);
+        { ACE_Log_Msg::instance()->priority_mask(LM_ERROR, ACE_Log_Msg::PROCESS); }
 
     if (StartReactiveIO(port, address.c_str()) == -1)
-        return -1;
+        { return -1; }
 
     return 0;
 }
@@ -283,13 +289,13 @@ void WorldSocketMgr::StopNetwork()
         WorldSocket::Acceptor* acc = dynamic_cast<WorldSocket::Acceptor*>(m_Acceptor);
 
         if (acc)
-            acc->close();
+            { acc->close(); }
     }
 
     if (m_NetThreadsCount != 0)
     {
         for (size_t i = 0; i < m_NetThreadsCount; ++i)
-            m_NetThreads[i].Stop();
+            { m_NetThreads[i].Stop(); }
     }
 
     Wait();
@@ -300,7 +306,7 @@ void WorldSocketMgr::Wait()
     if (m_NetThreadsCount != 0)
     {
         for (size_t i = 0; i < m_NetThreadsCount; ++i)
-            m_NetThreads[i].Wait();
+            { m_NetThreads[i].Wait(); }
     }
 }
 
@@ -337,7 +343,7 @@ int WorldSocketMgr::OnSocketOpen(WorldSocket* sock)
 
     for (size_t i = 1; i < m_NetThreadsCount; ++i)
         if (m_NetThreads[i].Connections() < m_NetThreads[min].Connections())
-            min = i;
+            { min = i; }
 
     return m_NetThreads[min].AddSocket(sock);
 }

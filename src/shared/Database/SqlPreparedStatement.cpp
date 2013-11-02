@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "DatabaseEnv.h"
@@ -22,7 +28,7 @@ SqlStmtParameters::SqlStmtParameters(uint32 nParams)
 {
     // reserve memory if needed
     if (nParams > 0)
-        m_params.reserve(nParams);
+        { m_params.reserve(nParams); }
 }
 
 void SqlStmtParameters::reset(const SqlStatement& stmt)
@@ -30,7 +36,7 @@ void SqlStmtParameters::reset(const SqlStatement& stmt)
     m_params.clear();
     // reserve memory if needed
     if (stmt.arguments() > 0)
-        m_params.reserve(stmt.arguments());
+        { m_params.reserve(stmt.arguments()); }
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -45,7 +51,7 @@ SqlStatement& SqlStatement::operator=(const SqlStatement& index)
         m_pParams = NULL;
 
         if (index.m_pParams)
-            m_pParams = new SqlStmtParameters(*(index.m_pParams));
+            { m_pParams = new SqlStmtParameters(*(index.m_pParams)); }
     }
 
     return *this;
@@ -126,7 +132,7 @@ void SqlPlainPreparedStatement::bind(const SqlStmtParameters& holder)
 bool SqlPlainPreparedStatement::execute()
 {
     if (m_szPlainRequest.empty())
-        return false;
+        { return false; }
 
     return m_pConn.Execute(m_szPlainRequest.c_str());
 }

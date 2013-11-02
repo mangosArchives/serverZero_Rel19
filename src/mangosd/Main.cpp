@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 /// \addtogroup mangosd Mangos Daemon
@@ -110,15 +116,15 @@ extern int main(int argc, char** argv)
                 const char* mode = cmd_opts.opt_arg();
 
                 if (!strcmp(mode, "run"))
-                    serviceDaemonMode = 'r';
+                    { serviceDaemonMode = 'r'; }
 #ifdef WIN32
                 else if (!strcmp(mode, "install"))
-                    serviceDaemonMode = 'i';
+                    { serviceDaemonMode = 'i'; }
                 else if (!strcmp(mode, "uninstall"))
-                    serviceDaemonMode = 'u';
+                    { serviceDaemonMode = 'u'; }
 #else
                 else if (!strcmp(mode, "stop"))
-                    serviceDaemonMode = 's';
+                    { serviceDaemonMode = 's'; }
 #endif
                 else
                 {
@@ -147,11 +153,11 @@ extern int main(int argc, char** argv)
     {
         case 'i':
             if (WinServiceInstall())
-                sLog.outString("Installing service");
+                { sLog.outString("Installing service"); }
             return 1;
         case 'u':
             if (WinServiceUninstall())
-                sLog.outString("Uninstalling service");
+                { sLog.outString("Uninstalling service"); }
             return 1;
         case 'r':
             WinServiceRun();
@@ -179,30 +185,17 @@ extern int main(int argc, char** argv)
 #endif
 
     sLog.outString("%s [world-daemon]", _FULLVERSION(REVISION_DATE, REVISION_TIME, REVISION_NR, REVISION_ID));
-    sLog.outString("<Ctrl-C> to stop.");
-    sLog.outString("\n\n"
-                    " ####       ####            ###     ###   ########    #######     ######## \n"
-                    " #####     #####            ####    ###  ##########  #########   ##########\n"
-                    " #####     #####            #####   ###  ##########  #########   ##########\n"
-                    " ######   ######            #####   ###  ###        ####   ####  ###       \n"
-                    " ######   ######    ####    ######  ###  ###        ###     ###  ###       \n"
-                    " ####### #######   ######   ######  ###  ###  ##### ###     ###  ########  \n"
-                    " ### ### ### ###   ######   ####### ###  ###  ##### ###     ###  ######### \n"
-                    " ### ### ### ###  ###  ###  ### ### ###  ###  ##### ###     ###   #########\n"
-                    " ### ####### ###  ###  ###  ###  ######  ###    ### ###     ###        ####\n"
-                    " ### ####### ###  ###  ###  ###  ######  ###    ### ###     ###         ###\n"
-                    " ###  #####  ### ########## ###   #####  ###   #### ####   ####        ####\n"
-                    " ###  #####  ### ########## ###   #####  #########   #########   ##########\n"
-                    " ###  #####  ### ###    ### ###    ####  #########   #########   ######### \n"
-                    " ###   ###   ### ###    ### ###     ###   #######     #######     #######  \n"
-                    "\n"
-                    "                                                #####                      \n"
-                    " Website: http://www.getmangos.co.uk              ###  ####  #####    #### \n"
-                    "                                                  ##   ##    ##  ##  ##  ##\n"
-                    "    Wiki: http://github.com/mangoswiki/wiki      ##    ####  #####   ##  ##\n"
-                    "                                                ##     ##    ## ##   ##  ##\n"
-                    "   Forum: http://community.getmangos.co.uk      #####  ####  ##  ##   #### \n"
-                    "\n\n");
+    sLog.outString("<Ctrl-C> to stop.\n"
+                   "  __  __      _  _  ___  ___  ___                        \n"
+                   " |  \\/  |__ _| \\| |/ __|/ _ \\/ __|                    \n"
+                   " | |\\/| / _` | .` | (_ | (_) \\__ \\                    \n"
+                   " |_|  |_\\__,_|_|\\_|\\___|\\___/|___/                   \n"
+                   "                                   ___                   \n"
+                   " Visit our website for support:   |_  /___ _ _ ___       \n"
+                   " http://getmangos.com/             / // -_) '_/ _ \\     \n"
+                   "                                  /___\\___|_| \\___/    \n"
+                   " We love vanilla WoW!                                    \n"
+                  );
     sLog.outString("Using configuration file %s.", cfg_file);
 
     DETAIL_LOG("%s (Library: %s)", OPENSSL_VERSION_TEXT, SSLeay_version(SSLEAY_VERSION));

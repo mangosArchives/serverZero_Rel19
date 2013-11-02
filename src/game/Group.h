@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOSSERVER_GROUP_H
@@ -208,7 +214,7 @@ class MANGOS_DLL_SPEC Group
         {
             for (member_citerator itr = m_memberSlots.begin(); itr != m_memberSlots.end(); ++itr)
                 if (itr->name == name)
-                    return itr->guid;
+                    { return itr->guid; }
 
             return ObjectGuid();
         }
@@ -216,7 +222,7 @@ class MANGOS_DLL_SPEC Group
         {
             member_citerator mslot = _getMemberCSlot(guid);
             if (mslot == m_memberSlots.end())
-                return false;
+                { return false; }
 
             return mslot->assistant;
         }
@@ -239,7 +245,7 @@ class MANGOS_DLL_SPEC Group
         {
             member_citerator mslot = _getMemberCSlot(guid);
             if (mslot == m_memberSlots.end())
-                return MAX_RAID_SUBGROUPS + 1;
+                { return MAX_RAID_SUBGROUPS + 1; }
 
             return mslot->group;
         }
@@ -259,25 +265,25 @@ class MANGOS_DLL_SPEC Group
         void SetAssistant(ObjectGuid guid, bool state)
         {
             if (!isRaidGroup())
-                return;
+                { return; }
             if (_setAssistantFlag(guid, state))
-                SendUpdate();
+                { SendUpdate(); }
         }
         void SetMainTank(ObjectGuid guid)
         {
             if (!isRaidGroup())
-                return;
+                { return; }
 
             if (_setMainTank(guid))
-                SendUpdate();
+                { SendUpdate(); }
         }
         void SetMainAssistant(ObjectGuid guid)
         {
             if (!isRaidGroup())
-                return;
+                { return; }
 
             if (_setMainAssistant(guid))
-                SendUpdate();
+                { SendUpdate(); }
         }
 
         void SetTargetIcon(uint8 id, ObjectGuid targetGuid);
@@ -337,19 +343,19 @@ class MANGOS_DLL_SPEC Group
         {
             // Sub group counters initialization
             if (!m_subGroupsCounts)
-                m_subGroupsCounts = new uint8[MAX_RAID_SUBGROUPS];
+                { m_subGroupsCounts = new uint8[MAX_RAID_SUBGROUPS]; }
 
             memset((void*)m_subGroupsCounts, 0, MAX_RAID_SUBGROUPS * sizeof(uint8));
 
             for (member_citerator itr = m_memberSlots.begin(); itr != m_memberSlots.end(); ++itr)
-                ++m_subGroupsCounts[itr->group];
+                { ++m_subGroupsCounts[itr->group]; }
         }
 
         member_citerator _getMemberCSlot(ObjectGuid guid) const
         {
             for (member_citerator itr = m_memberSlots.begin(); itr != m_memberSlots.end(); ++itr)
                 if (itr->guid == guid)
-                    return itr;
+                    { return itr; }
 
             return m_memberSlots.end();
         }
@@ -358,7 +364,7 @@ class MANGOS_DLL_SPEC Group
         {
             for (member_witerator itr = m_memberSlots.begin(); itr != m_memberSlots.end(); ++itr)
                 if (itr->guid == guid)
-                    return itr;
+                    { return itr; }
 
             return m_memberSlots.end();
         }
@@ -366,13 +372,13 @@ class MANGOS_DLL_SPEC Group
         void SubGroupCounterIncrease(uint8 subgroup)
         {
             if (m_subGroupsCounts)
-                ++m_subGroupsCounts[subgroup];
+                { ++m_subGroupsCounts[subgroup]; }
         }
 
         void SubGroupCounterDecrease(uint8 subgroup)
         {
             if (m_subGroupsCounts)
-                --m_subGroupsCounts[subgroup];
+                { --m_subGroupsCounts[subgroup]; }
         }
 
         void CountTheRoll(Rolls::iterator& roll);           // iterator update to next, in CountRollVote if true

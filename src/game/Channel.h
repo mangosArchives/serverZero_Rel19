@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef _CHANNEL_H
@@ -95,13 +101,13 @@ class Channel
             CHANNEL_FLAG_CITY       = 0x20,
             CHANNEL_FLAG_LFG        = 0x40,
             CHANNEL_FLAG_VOICE      = 0x80
-                                      // General                  0x18 = 0x10 | 0x08
-                                      // Trade                    0x3C = 0x20 | 0x10 | 0x08 | 0x04
-                                      // LocalDefence             0x18 = 0x10 | 0x08
-                                      // GuildRecruitment         0x38 = 0x20 | 0x10 | 0x08
-                                      // LookingForGroup          0x50 = 0x40 | 0x10
+            // General                  0x18 = 0x10 | 0x08
+            // Trade                    0x3C = 0x20 | 0x10 | 0x08 | 0x04
+            // LocalDefence             0x18 = 0x10 | 0x08
+            // GuildRecruitment         0x38 = 0x20 | 0x10 | 0x08
+            // LookingForGroup          0x50 = 0x40 | 0x10
         };
-    
+
         enum ChannelDBCFlags
         {
             CHANNEL_DBC_FLAG_NONE       = 0x00000,
@@ -135,24 +141,24 @@ class Channel
             uint8 flags;
 
             bool HasFlag(uint8 flag) { return flags & flag; }
-            void SetFlag(uint8 flag) { if (!HasFlag(flag)) flags |= flag; }
+            void SetFlag(uint8 flag) { if (!HasFlag(flag)) { flags |= flag; } }
             bool IsOwner() { return flags & MEMBER_FLAG_OWNER; }
             void SetOwner(bool state)
             {
-                if (state) flags |= MEMBER_FLAG_OWNER;
-                else flags &= ~MEMBER_FLAG_OWNER;
+                if (state) { flags |= MEMBER_FLAG_OWNER; }
+                else { flags &= ~MEMBER_FLAG_OWNER; }
             }
             bool IsModerator() { return flags & MEMBER_FLAG_MODERATOR; }
             void SetModerator(bool state)
             {
-                if (state) flags |= MEMBER_FLAG_MODERATOR;
-                else flags &= ~MEMBER_FLAG_MODERATOR;
+                if (state) { flags |= MEMBER_FLAG_MODERATOR; }
+                else { flags &= ~MEMBER_FLAG_MODERATOR; }
             }
             bool IsMuted() { return flags & MEMBER_FLAG_MUTED; }
             void SetMuted(bool state)
             {
-                if (state) flags |= MEMBER_FLAG_MUTED;
-                else flags &= ~MEMBER_FLAG_MUTED;
+                if (state) { flags |= MEMBER_FLAG_MUTED; }
+                else { flags &= ~MEMBER_FLAG_MUTED; }
             }
         };
 
@@ -201,14 +207,14 @@ class Channel
          * it makes it the "real" rank 9 in the client, if we hadn't added that it would've been rank
          * 5 in the client.
          * \see HonorRankInfo
-         */ 
+         */
         static const uint8 SPEAK_IN_LOCALDEFENSE_RANK = 4 + 9;
         /**
          * This denotes the PvP rank needed to speak in world defense, see
          * \ref Channel::SPEAK_IN_LOCALDEFENSE_RANK for more info on the 4 added.
          */
-        static const uint8 SPEAK_IN_WORLDDEFENSE_RANK = 4 + 10; 
-        
+        static const uint8 SPEAK_IN_WORLDDEFENSE_RANK = 4 + 10;
+
     private:
         // initial packet data (notify type and channel name)
         void MakeNotifyPacket(WorldPacket* data, uint8 notify_type);
@@ -256,7 +262,7 @@ class Channel
         {
             PlayerList::const_iterator p_itr = m_players.find(p);
             if (p_itr == m_players.end())
-                return 0;
+                { return 0; }
 
             return p_itr->second.flags;
         }
@@ -295,7 +301,7 @@ class Channel
         uint8       m_flags;
         uint32      m_channelId;
         ObjectGuid  m_ownerGuid;
-        
+
         typedef     std::map<ObjectGuid, PlayerInfo> PlayerList;
         PlayerList  m_players;
         GuidSet m_banned;

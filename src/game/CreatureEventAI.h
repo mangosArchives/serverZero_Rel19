@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOS_CREATURE_EAI_H
@@ -117,7 +123,7 @@ enum EventAI_ActionType
     ACTION_T_CHANCED_TEXT               = 44,               // Chance to display the text, TextId1, optionally TextId2. If more than just -TextId1 is defined, randomize. Negative values.
     ACTION_T_THROW_AI_EVENT             = 45,               // EventType, Radius, unused
     ACTION_T_SET_THROW_MASK             = 46,               // EventTypeMask, unused, unused
-	ACTION_T_SUMMON_UNIQUE              = 47,               // CreatureId, Target, SpawnId
+    ACTION_T_SUMMON_UNIQUE              = 47,               // CreatureId, Target, SpawnId
 
     ACTION_T_END,
 };
@@ -391,7 +397,7 @@ struct CreatureEventAI_Action
             uint32 unused;
         } throwEvent;
         // ACTION_T_SET_THROW_MASK                          = 46
-		struct
+        struct
         {
             uint32 eventTypeMask;
             uint32 unused1;
@@ -404,7 +410,7 @@ struct CreatureEventAI_Action
             uint32 target;
             uint32 spawnId;
         } summon_unique;
-		// RAW
+        // RAW
         struct
         {
             uint32 param1;

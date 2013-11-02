@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "Common.h"
@@ -41,7 +47,7 @@ bool ChatHandler::HandleHelpCommand(char* args)
     else
     {
         if (!ShowHelpForCommand(getCommandTable(), args))
-            SendSysMessage(LANG_NO_CMD);
+            { SendSysMessage(LANG_NO_CMD); }
     }
 
     return true;
@@ -57,7 +63,7 @@ bool ChatHandler::HandleAccountCommand(char* args)
 {
     // let show subcommands at unexpected data in args
     if (*args)
-        return false;
+        { return false; }
 
     AccountTypes gmlevel = GetAccessLevel();
     PSendSysMessage(LANG_ACCOUNT_LEVEL, uint32(gmlevel));
@@ -97,21 +103,21 @@ bool ChatHandler::HandleServerInfoCommand(char* /*args*/)
 
     char const* full;
     if (m_session)
-        full = _FULLVERSION(REVISION_DATE, REVISION_TIME, REVISION_NR, "|cffffffff|Hurl:" REVISION_ID "|h" REVISION_ID "|h|r");
+        { full = _FULLVERSION(REVISION_DATE, REVISION_TIME, REVISION_NR, "|cffffffff|Hurl:" REVISION_ID "|h" REVISION_ID "|h|r"); }
     else
-        full = _FULLVERSION(REVISION_DATE, REVISION_TIME, REVISION_NR, REVISION_ID);
+        { full = _FULLVERSION(REVISION_DATE, REVISION_TIME, REVISION_NR, REVISION_ID); }
     SendSysMessage(full);
 
     if (sScriptMgr.IsScriptLibraryLoaded())
     {
         char const* ver = sScriptMgr.GetScriptLibraryVersion();
         if (ver && *ver)
-            PSendSysMessage(LANG_USING_SCRIPT_LIB, ver);
+            { PSendSysMessage(LANG_USING_SCRIPT_LIB, ver); }
         else
-            SendSysMessage(LANG_USING_SCRIPT_LIB_UNKNOWN);
+            { SendSysMessage(LANG_USING_SCRIPT_LIB_UNKNOWN); }
     }
     else
-        SendSysMessage(LANG_USING_SCRIPT_LIB_NONE);
+        { SendSysMessage(LANG_USING_SCRIPT_LIB_NONE); }
 
     PSendSysMessage(LANG_USING_WORLD_DB, sWorld.GetDBVersion());
     PSendSysMessage(LANG_USING_EVENT_AI, sWorld.GetCreatureEventAIVersion());
@@ -158,7 +164,7 @@ bool ChatHandler::HandleSaveCommand(char* /*args*/)
     // save or plan save after 20 sec (logout delay) if current next save time more this value and _not_ output any messages to prevent cheat planning
     uint32 save_interval = sWorld.getConfig(CONFIG_UINT32_INTERVAL_SAVE);
     if (save_interval == 0 || (save_interval > 20 * IN_MILLISECONDS && player->GetSaveTimer() <= save_interval - 20 * IN_MILLISECONDS))
-        player->SaveToDB();
+        { player->SaveToDB(); }
 
     return true;
 }
@@ -174,8 +180,8 @@ bool ChatHandler::HandleGMListIngameCommand(char* /*args*/)
         {
             AccountTypes itr_sec = itr->second->GetSession()->GetSecurity();
             if ((itr->second->isGameMaster() || (itr_sec > SEC_PLAYER && itr_sec <= (AccountTypes)sWorld.getConfig(CONFIG_UINT32_GM_LEVEL_IN_GM_LIST))) &&
-                    (!m_session || itr->second->IsVisibleGloballyFor(m_session->GetPlayer())))
-                names.push_back(std::make_pair<std::string, bool>(GetNameLink(itr->second), itr->second->isAcceptWhispers()));
+                (!m_session || itr->second->IsVisibleGloballyFor(m_session->GetPlayer())))
+                { names.push_back(std::make_pair<std::string, bool>(GetNameLink(itr->second), itr->second->isAcceptWhispers())); }
         }
     }
 
@@ -186,10 +192,10 @@ bool ChatHandler::HandleGMListIngameCommand(char* /*args*/)
         char const* accepts = GetMangosString(LANG_GM_ACCEPTS_WHISPER);
         char const* not_accept = GetMangosString(LANG_GM_NO_WHISPER);
         for (std::list<std::pair< std::string, bool> >::const_iterator iter = names.begin(); iter != names.end(); ++iter)
-            PSendSysMessage("%s - %s", iter->first.c_str(), iter->second ? accepts : not_accept);
+            { PSendSysMessage("%s - %s", iter->first.c_str(), iter->second ? accepts : not_accept); }
     }
     else
-        SendSysMessage(LANG_GMS_NOT_LOGGED);
+        { SendSysMessage(LANG_GMS_NOT_LOGGED); }
 
     return true;
 }
@@ -210,7 +216,7 @@ bool ChatHandler::HandleAccountPasswordCommand(char* args)
     char* new_pass_c = ExtractQuotedOrLiteralArg(&args);
 
     if (!old_pass || !new_pass || !new_pass_c)
-        return false;
+        { return false; }
 
     std::string password_old = old_pass;
     std::string password_new = new_pass;

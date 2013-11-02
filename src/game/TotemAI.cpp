@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "TotemAI.h"
@@ -30,7 +36,7 @@ int
 TotemAI::Permissible(const Creature* creature)
 {
     if (creature->IsTotem())
-        return PERMIT_BASE_PROACTIVE;
+        { return PERMIT_BASE_PROACTIVE; }
 
     return PERMIT_BASE_NO;
 }
@@ -53,15 +59,15 @@ void
 TotemAI::UpdateAI(const uint32 /*diff*/)
 {
     if (getTotem().GetTotemType() != TOTEM_ACTIVE)
-        return;
+        { return; }
 
     if (!m_creature->IsAlive() || m_creature->IsNonMeleeSpellCasted(false))
-        return;
+        { return; }
 
     // Search spell
     SpellEntry const* spellInfo = sSpellStore.LookupEntry(getTotem().GetSpell());
     if (!spellInfo)
-        return;
+        { return; }
 
     // Get spell rangy
     SpellRangeEntry const* srange = sSpellRangeStore.LookupEntry(spellInfo->rangeIndex);
@@ -74,8 +80,8 @@ TotemAI::UpdateAI(const uint32 /*diff*/)
 
     // Search victim if no, not attackable, or out of range, or friendly (possible in case duel end)
     if (!victim ||
-            !victim->IsTargetableForAttack() || !m_creature->IsWithinDistInMap(victim, max_range) ||
-            m_creature->IsFriendlyTo(victim) || !victim->IsVisibleForOrDetect(m_creature, m_creature, false))
+        !victim->IsTargetableForAttack() || !m_creature->IsWithinDistInMap(victim, max_range) ||
+        m_creature->IsFriendlyTo(victim) || !victim->IsVisibleForOrDetect(m_creature, m_creature, false))
     {
         victim = NULL;
 
@@ -95,7 +101,7 @@ TotemAI::UpdateAI(const uint32 /*diff*/)
         m_creature->CastSpell(victim, getTotem().GetSpell(), false);
     }
     else
-        i_victimGuid.Clear();
+        { i_victimGuid.Clear(); }
 }
 
 bool

@@ -1,33 +1,21 @@
-# find Termcap (terminal input library) includes and library
+# - Try to find Termcap
+# Once done this will define
 #
-# TERMCAP_INCLUDE_DIR - where the directory containing the TERMCAP headers can be found
-# TERMCAP_LIBRARY     - full path to the TERMCAP library
-# TERMCAP_FOUND       - TRUE if TERMCAP was found
+#  TERMCAP_FOUND        - system has Termcap
+#  TERMCAP_INCLUDE_DIR  - the Termcap include directory
+#  TERMCAP_LIBRARIES    - Link these to use Termcap
 
-MACRO(FIND_TERMCAP)
+FIND_PATH(TERMCAP_INCLUDE_DIR bzlib.h )
 
-FIND_PATH(TERMCAP_INCLUDE_DIR termcap.h
-    /usr/include
-    /usr/local/include
+FIND_LIBRARY(TERMCAP_LIBRARIES NAMES termcap )
 
-    /opt/local/include
-)
+# handle the QUIETLY and REQUIRED arguments and set TERMCAP_FOUND to TRUE if
+# all listed variables are TRUE
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(Termcap DEFAULT_MSG TERMCAP_LIBRARIES TERMCAP_INCLUDE_DIR)
 
-FIND_LIBRARY(TERMCAP_LIBRARY NAMES termcap PATH
-    /usr/lib
-    /usr/local/lib
-    /opt/local/lib
-    /usr/lib64
-)
+IF (TERMCAP_FOUND)
+    MESSAGE(STATUS "Found GNU termcap: ${TERMCAP_INCLUDE_DIR}, ${TERMCAP_LIBRARIES}")
+ENDIF (TERMCAP_FOUND)
 
-IF (TERMCAP_INCLUDE_DIR AND TERMCAP_LIBRARY)
-    SET(TERMCAP_FOUND TRUE)
-    MESSAGE(STATUS "Found GNU termcap: ${TERMCAP_LIBRARY}")
-    MESSAGE(STATUS "Include dir is: ${TERMCAP_INCLUDE_DIR}")
-    INCLUDE_DIRECTORIES(${TERMCAP_INCLUDE_DIR})
-ELSE (TERMCAP_INCLUDE_DIR AND TERMCAP_LIBRARY)
-    SET(TERMCAP_FOUND FALSE)
-    MESSAGE(FATAL_ERROR "Could not find GNU termcap")
-ENDIF (TERMCAP_INCLUDE_DIR AND TERMCAP_LIBRARY)
-
-ENDMACRO(FIND_TERMCAP)
+MARK_AS_ADVANCED(TERMCAP_INCLUDE_DIR TERMCAP_LIBRARIES)

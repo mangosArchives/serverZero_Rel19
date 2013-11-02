@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "Common.h"
@@ -45,7 +51,7 @@ enum CinematicsSkipMode
 {
     CINEMATICS_SKIP_NONE      = 0,
     CINEMATICS_SKIP_SAME_RACE = 1,
-    CINEMATICS_SKIP_ALL       = 2,
+    CINEMATICS_SKIP_ALL       = 2
 };
 
 class LoginQueryHolder : public SqlQueryHolder
@@ -115,7 +121,7 @@ class CharacterHandler
         }
         void HandlePlayerLoginCallback(QueryResult * /*dummy*/, SqlQueryHolder* holder)
         {
-            if (!holder) return;
+            if (!holder) { return; }
             WorldSession* session = sWorld.FindSession(((LoginQueryHolder*)holder)->GetAccountId());
             if (!session)
             {
@@ -141,7 +147,7 @@ void WorldSession::HandleCharEnum(QueryResult* result)
             uint32 guidlow = (*result)[0].GetUInt32();
             DETAIL_LOG("Build enum data for char guid %u from account %u.", guidlow, GetAccountId());
             if (Player::BuildEnumData(result, &data))
-                ++num;
+                { ++num; }
         }
         while (result->NextRow());
 
@@ -316,7 +322,7 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recv_data)
             while (skipCinematics == CINEMATICS_SKIP_SAME_RACE && !have_same_race)
             {
                 if (!result2->NextRow())
-                    break;
+                    { break; }
 
                 field = result2->Fetch();
                 acc_race = field[0].GetUInt32();
@@ -340,7 +346,7 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recv_data)
     }
 
     if ((have_same_race && skipCinematics == CINEMATICS_SKIP_SAME_RACE) || skipCinematics == CINEMATICS_SKIP_ALL)
-        pNewChar->setCinematic(1);                          // not show intro
+        { pNewChar->setCinematic(1); }                          // not show intro
 
     pNewChar->SetAtLoginFlag(AT_LOGIN_FIRST);               // First login
 
@@ -368,7 +374,7 @@ void WorldSession::HandleCharDeleteOpcode(WorldPacket& recv_data)
 
     // can't delete loaded character
     if (sObjectMgr.GetPlayer(guid))
-        return;
+        { return; }
 
     uint32 accountId = 0;
     std::string name;
@@ -395,7 +401,7 @@ void WorldSession::HandleCharDeleteOpcode(WorldPacket& recv_data)
 
     // prevent deleting other players' characters using cheating tools
     if (accountId != GetAccountId())
-        return;
+        { return; }
 
     std::string IP_str = GetRemoteAddress();
     BASIC_LOG("Account: %d (IP: %s) Delete Character:[%s] (guid: %u)", GetAccountId(), IP_str.c_str(), name.c_str(), lowguid);
@@ -442,21 +448,32 @@ void WorldSession::HandlePlayerLoginOpcode(WorldPacket& recv_data)
 
 void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
 {
+    /* Store the player's GUID for later reference */
     ObjectGuid playerGuid = holder->GetGuid();
 
+    /* Create a new instance of the player object */
     Player* pCurrChar = new Player(this);
+
+    /* Initialize a motion generator */
     pCurrChar->GetMotionMaster()->Initialize();
 
-    // "GetAccountId()==db stored account id" checked in LoadFromDB (prevent login not own character using cheating tools)
-    if (!pCurrChar->LoadFromDB(playerGuid, holder))
+    /* Account ID is validated in LoadFromDB (prevents cheaters logging in to characters not on their account) */
+    if (!pCurrChar->LoadFromDB(playerGuid, holder))         /// Could not load character from database, cancel login
     {
-        KickPlayer();                                       // disconnect client, player no set to session and it will not deleted or saved at kick
-        delete pCurrChar;                                   // delete it manually
-        delete holder;                                      // delete all unprocessed queries
+        /* Disconnect the game client */
+        KickPlayer();
+
+        /* Remove references to avoid dangling pointers */
+        delete pCurrChar;
+        delete holder;
+
+        /* Checked in WorldSession::Update */
         m_playerLoading = false;
+
         return;
     }
 
+    /* Validation check completely, assign player to WorldSession::_player for later use */
     SetPlayer(pCurrChar);
 
     WorldPacket data(SMSG_LOGIN_VERIFY_WORLD, 20);
@@ -469,57 +486,68 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
 
     data.Initialize(SMSG_ACCOUNT_DATA_TIMES, 128);
     for (int i = 0; i < 32; ++i)
-        data << uint32(0);
+        { data << uint32(0); }
     SendPacket(&data);
 
-    // Send MOTD (1.12.1 not have SMSG_MOTD, so do it in another way)
+    /* 1.12.1 does not have SMSG_MOTD, so we send a server message */
+    /* Used for counting number of newlines in MOTD */
+    uint32 linecount = 0;
+    /* The MOTD itself */
+    std::string str_motd = sWorld.GetMotd();
+    /* Used for tracking our position within the MOTD while iterating through it */
+    std::string::size_type pos = 0, nextpos;
+
+    /* Find the next occurance of @ in the string
+     * This is how newlines are represented */
+    while ((nextpos = str_motd.find('@', pos)) != std::string::npos)
     {
-        uint32 linecount = 0;
-        std::string str_motd = sWorld.GetMotd();
-        std::string::size_type pos, nextpos;
-        std::string motd;
-
-        pos = 0;
-        while ((nextpos = str_motd.find('@', pos)) != std::string::npos)
+        /* If these are not equal, it means a '@' was found
+         * These are used to represent newlines in the string
+         * It is set by the code above here */
+        if (nextpos != pos)
         {
-            if (nextpos != pos)
-            {
-                ChatHandler(pCurrChar).PSendSysMessage(str_motd.substr(pos, nextpos - pos).c_str());
-                ++linecount;
-            }
-            pos = nextpos + 1;
-        }
-
-        if (pos < str_motd.length())
-        {
-            ChatHandler(pCurrChar).PSendSysMessage(str_motd.substr(pos).c_str());
+            /* Send the player a system message containing the substring from pos to nextpos - pos */
+            ChatHandler(pCurrChar).PSendSysMessage(str_motd.substr(pos, nextpos - pos).c_str());
             ++linecount;
         }
 
-        DEBUG_LOG("WORLD: Sent motd (SMSG_MOTD)");
+        pos = nextpos + 1;
     }
-
-    // QueryResult *result = CharacterDatabase.PQuery("SELECT guildid,rank FROM guild_member WHERE guid = '%u'",pCurrChar->GetGUIDLow());
-    QueryResult* resultGuild = holder->GetResult(PLAYER_LOGIN_QUERY_LOADGUILD);
-
-    if (resultGuild)
+    /* There are no more newlines in our MOTD, so we send whatever is left */
+    if (pos < str_motd.length())
     {
+        ChatHandler(pCurrChar).PSendSysMessage(str_motd.substr(pos).c_str());
+    }
+    DEBUG_LOG("WORLD: Sent motd (SMSG_MOTD)");
+
+    /* Attempt to load guild for player */
+    if (QueryResult *resultGuild = holder->GetResult(PLAYER_LOGIN_QUERY_LOADGUILD))
+    {
+        /* We're in a guild, so set the player's guild data to represent that */
         Field* fields = resultGuild->Fetch();
         pCurrChar->SetInGuild(fields[0].GetUInt32());
         pCurrChar->SetRank(fields[1].GetUInt32());
+        /* Avoid dangling pointers */
         delete resultGuild;
     }
-    else if (pCurrChar->GetGuildId())                       // clear guild related fields in case wrong data about nonexistent membership
+    /* Player thinks they have a guild, but it isn't in the database. Clear that information */
+    else if (pCurrChar->GetGuildId())
     {
         pCurrChar->SetInGuild(0);
         pCurrChar->SetRank(0);
     }
 
+    /* Player is in a guild
+     * TODO: Can we move this code into the block above? Not sure why it's down here */
     if (pCurrChar->GetGuildId() != 0)
     {
+        /* Get guild based on what we set the player's guild to above */
         Guild* guild = sGuildMgr.GetGuildById(pCurrChar->GetGuildId());
+
+        /* More checks to see if they're in a guild? I'm sure this is redundant */
         if (guild)
         {
+            /* Build MOTD packet and send it to the player */
             data.Initialize(SMSG_GUILD_EVENT, (1 + 1 + guild->GetMOTD().size() + 1));
             data << uint8(GE_MOTD);
             data << uint8(1);
@@ -527,58 +555,84 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
             SendPacket(&data);
             DEBUG_LOG("WORLD: Sent guild-motd (SMSG_GUILD_EVENT)");
 
+            /* Let everyone in the guild know you've just signed in */
             guild->BroadcastEvent(GE_SIGNED_ON, pCurrChar->GetObjectGuid(), pCurrChar->GetName());
         }
+        /* If the player is not in a guild */
         else
         {
-            // remove wrong guild data
-            sLog.outError("Player %s (GUID: %u) marked as member of nonexistent guild (id: %u), removing guild membership for player.", pCurrChar->GetName(), pCurrChar->GetGUIDLow(), pCurrChar->GetGuildId());
+            sLog.outError("Player %s (GUID: %u) marked as member of nonexistent guild (id: %u), removing guild membership for player.",
+                          pCurrChar->GetName(),
+                          pCurrChar->GetGUIDLow(),
+                          pCurrChar->GetGuildId());
+
+            /* Set guild to 0 (again) */
             pCurrChar->SetInGuild(0);
         }
     }
 
+    /* Don't let the player get stuck logging in with no corpse */
     if (!pCurrChar->IsAlive())
+    {
         pCurrChar->SendCorpseReclaimDelay(true);
+    }
 
+    /* Sends information required before the player can be added to the map
+     * TODO: See if we can send information about game objects here (prevent alt+f4 through object) */
     pCurrChar->SendInitialPacketsBeforeAddToMap();
 
-    // Show cinematic at the first time that player login
+    /* If it's the player's first login, send a cinematic */
     if (!pCurrChar->getCinematic())
     {
         pCurrChar->setCinematic(1);
 
+        /* Set the start location to the player's racial starting point */
         if (ChrRacesEntry const* rEntry = sChrRacesStore.LookupEntry(pCurrChar->getRace()))
-            pCurrChar->SendCinematicStart(rEntry->CinematicSequence);
+            { pCurrChar->SendCinematicStart(rEntry->CinematicSequence); }
     }
 
     uint32 miscRequirement = 0;
     AreaLockStatus lockStatus = AREA_LOCKSTATUS_OK;
     if (AreaTrigger const* at = sObjectMgr.GetMapEntranceTrigger(pCurrChar->GetMapId()))
+    {
         lockStatus = pCurrChar->GetAreaTriggerLockStatus(at, miscRequirement);
+    }
     else
     {
         // Some basic checks in case of a map without areatrigger
         MapEntry const* mapEntry = sMapStore.LookupEntry(pCurrChar->GetMapId());
         if (!mapEntry)
-            lockStatus = AREA_LOCKSTATUS_UNKNOWN_ERROR;
+            { lockStatus = AREA_LOCKSTATUS_UNKNOWN_ERROR; }
     }
+
+    /* This code is run if we can not add the player to the map for some reason */
     if (lockStatus != AREA_LOCKSTATUS_OK || !pCurrChar->GetMap()->Add(pCurrChar))
     {
-        // normal delayed teleport protection not applied (and this correct) for this case (Player object just created)
+        /* Attempt to find an areatrigger to teleport the player for us */
         AreaTrigger const* at = sObjectMgr.GetGoBackTrigger(pCurrChar->GetMapId());
         if (at)
+        {
             lockStatus = pCurrChar->GetAreaTriggerLockStatus(at, miscRequirement);
+        }
+
+        /* We couldn't find an areatrigger to teleport, so just move the player back to their home bind */
         if (!at || lockStatus != AREA_LOCKSTATUS_OK || !pCurrChar->TeleportTo(at->target_mapId, at->target_X, at->target_Y, at->target_Z, pCurrChar->GetOrientation()))
+        {
             pCurrChar->TeleportToHomebind();
+        }
     }
 
     sObjectAccessor.AddObject(pCurrChar);
-    // DEBUG_LOG("Player %s added to Map.",pCurrChar->GetName());
+    DEBUG_LOG("Player %s added to map %i", pCurrChar->GetName(), pCurrChar->GetMapId());
+
+    /* send the player's social lists */
     pCurrChar->GetSocial()->SendFriendList();
     pCurrChar->GetSocial()->SendIgnoreList();
 
+    /* Send packets that must be sent only after player is added to the map */
     pCurrChar->SendInitialPacketsAfterAddToMap();
 
+    /* Mark player as online in the database */
     static SqlStatementID updChars;
     static SqlStatementID updAccount;
 
@@ -588,42 +642,55 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
     stmt = LoginDatabase.CreateStatement(updAccount, "UPDATE account SET active_realm_id = ? WHERE id = ?");
     stmt.PExecute(realmID, GetAccountId());
 
+    /* Sync player's in-game time with server time */
     pCurrChar->SetInGameTime(WorldTimer::getMSTime());
 
-    // announce group about member online (must be after add to player list to receive announce to self)
+    /* Send logon notification to player's group
+     * This is sent after player is added to the world so that player receives it too */
     if (Group* group = pCurrChar->GetGroup())
-        group->SendUpdate();
+        { group->SendUpdate(); }
 
-    // friend status
+    /* Inform player's friends that player has come online */
     sSocialMgr.SendFriendStatus(pCurrChar, FRIEND_ONLINE, pCurrChar->GetObjectGuid(), true);
 
-    // Place character in world (and load zone) before some object loading
+    /* Load the player's corpse if it exists, or resurrect the player if not */
     pCurrChar->LoadCorpse();
 
-    // setting Ghost+speed if dead
+    /* If the player is dead, we need to set them as a ghost and increase movespeed */
     if (pCurrChar->m_deathState != ALIVE)
     {
-        // not blizz like, we must correctly save and load player instead...
+        /* If player is a night elf, wisp racial should be applied */
         if (pCurrChar->getRace() == RACE_NIGHTELF)
+        {
             pCurrChar->CastSpell(pCurrChar, 20584, true);   // auras SPELL_AURA_INCREASE_SPEED(+speed in wisp form), SPELL_AURA_INCREASE_SWIM_SPEED(+swim speed in wisp form), SPELL_AURA_TRANSFORM (to wisp form)
+        }
+
+        /* Apply ghost spell to player */
         pCurrChar->CastSpell(pCurrChar, 8326, true);        // auras SPELL_AURA_GHOST, SPELL_AURA_INCREASE_SPEED(why?), SPELL_AURA_INCREASE_SWIM_SPEED(why?)
 
+        /* Allow player to walk on water */
         pCurrChar->SetWaterWalk(true);
     }
 
+    /* If player is on a taxi, continue their flight */
     pCurrChar->ContinueTaxiFlight();
 
-    // Load pet if any (if player not alive and in taxi flight or another then pet will remember as temporary unsummoned)
+    /* Load pet if player has one
+     * If the player is dead or on a taxi, the pet will be remembered as a temporary summon */
     pCurrChar->LoadPet();
 
-    // Set FFA PvP for non GM in non-rest mode
+    /* If we're running an FFA PvP realm and the player isn't a GM, mark them as PvP flagged */
     if (sWorld.IsFFAPvPRealm() && !pCurrChar->isGameMaster() && !pCurrChar->HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_RESTING))
+    {
         pCurrChar->SetFFAPvP(true);
+    }
 
     if (pCurrChar->HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_CONTESTED_PVP))
+    {
         pCurrChar->SetContestedPvP();
+    }
 
-    // Apply at_login requests
+    /* Apply onLogon requests (such as talent resets) */
     if (pCurrChar->HasAtLoginFlag(AT_LOGIN_RESET_SPELLS))
     {
         pCurrChar->resetSpells();
@@ -636,35 +703,54 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
         SendNotification(LANG_RESET_TALENTS);               // we can use SMSG_TALENTS_INVOLUNTARILY_RESET here
     }
 
+    /* We've done what we need to, remove the flag */
     if (pCurrChar->HasAtLoginFlag(AT_LOGIN_FIRST))
+    {
         pCurrChar->RemoveAtLoginFlag(AT_LOGIN_FIRST);
+    }
 
-    // show time before shutdown if shutdown planned.
+    /* If the server is shutting down, show shutdown time remaining */
     if (sWorld.IsShutdowning())
+    {
         sWorld.ShutdownMsg(true, pCurrChar);
+    }
 
+    /* If player should have all taxi paths, give them to the player */
     if (sWorld.getConfig(CONFIG_BOOL_ALL_TAXI_PATHS))
+    {
         pCurrChar->SetTaxiCheater(true);
+    }
 
+    /* Send GM notifications */
     if (pCurrChar->isGameMaster())
+    {
         SendNotification(LANG_GM_ON);
+    }
 
     if (!pCurrChar->isGMVisible())
     {
         SendNotification(LANG_INVISIBLE_INVISIBLE);
         SpellEntry const* invisibleAuraInfo = sSpellStore.LookupEntry(sWorld.getConfig(CONFIG_UINT32_GM_INVISIBLE_AURA));
         if (invisibleAuraInfo && IsSpellAppliesAura(invisibleAuraInfo))
-            pCurrChar->CastSpell(pCurrChar, invisibleAuraInfo, true);
+            { pCurrChar->CastSpell(pCurrChar, invisibleAuraInfo, true); }
     }
 
     std::string IP_str = GetRemoteAddress();
     sLog.outChar("Account: %d (IP: %s) Login Character:[%s] (guid: %u)",
                  GetAccountId(), IP_str.c_str(), pCurrChar->GetName(), pCurrChar->GetGUIDLow());
 
+    /* Make player stand up if they're not already stood up and not stunned */
     if (!pCurrChar->IsStandState() && !pCurrChar->hasUnitState(UNIT_STAT_STUNNED))
-        pCurrChar->SetStandState(UNIT_STAND_STATE_STAND);
+        { pCurrChar->SetStandState(UNIT_STAND_STATE_STAND); }
 
     m_playerLoading = false;
+
+    /* Used for movement */
+    m_clientTimeDelay = 0;
+
+    /* Used for looting */
+    pCurrChar->lastTimeLooted = time(NULL);
+
     delete holder;
 }
 
@@ -713,13 +799,13 @@ void WorldSession::HandleTutorialFlagOpcode(WorldPacket& recv_data)
 void WorldSession::HandleTutorialClearOpcode(WorldPacket & /*recv_data*/)
 {
     for (int i = 0; i < 8; ++i)
-        SetTutorialInt(i, 0xFFFFFFFF);
+        { SetTutorialInt(i, 0xFFFFFFFF); }
 }
 
 void WorldSession::HandleTutorialResetOpcode(WorldPacket & /*recv_data*/)
 {
     for (int i = 0; i < 8; ++i)
-        SetTutorialInt(i, 0x00000000);
+        { SetTutorialInt(i, 0x00000000); }
 }
 
 void WorldSession::HandleSetWatchedFactionOpcode(WorldPacket& recv_data)
@@ -804,7 +890,7 @@ void WorldSession::HandleChangePlayerNameOpcodeCallBack(QueryResult* result, uin
     WorldSession* session = sWorld.FindSession(accountId);
     if (!session)
     {
-        if (result) delete result;
+        if (result) { delete result; }
         return;
     }
 

@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 /** \file
@@ -65,13 +71,13 @@ PatchHandler::PatchHandler(ACE_HANDLE socket, ACE_HANDLE patch)
 PatchHandler::~PatchHandler()
 {
     if (patch_fd_ != ACE_INVALID_HANDLE)
-        ACE_OS::close(patch_fd_);
+        { ACE_OS::close(patch_fd_); }
 }
 
 int PatchHandler::open(void*)
 {
     if (get_handle() == ACE_INVALID_HANDLE || patch_fd_ == ACE_INVALID_HANDLE)
-        return -1;
+        { return -1; }
 
     int nodelay = 0;
     if (-1 == peer().set_option(ACE_IPPROTO_TCP,
@@ -134,7 +140,7 @@ int PatchHandler::svc(void)
 PatchCache::~PatchCache()
 {
     for (Patches::iterator i = patches_.begin(); i != patches_.end(); ++i)
-        delete i->second;
+        { delete i->second; }
 }
 
 PatchCache::PatchCache()
@@ -156,7 +162,7 @@ void PatchCache::LoadPatchMD5(const char* szFileName)
     sLog.outDebug("Loading patch info from %s", path.c_str());
 
     if (!pPatch)
-        return;
+        { return; }
 
     // Calculate the MD5 hash
     MD5_CTX ctx;
@@ -196,7 +202,7 @@ void PatchCache::LoadPatchesInfo()
     ACE_DIR* dirp = ACE_OS::opendir(ACE_TEXT("./patches/"));
 
     if (!dirp)
-        return;
+        { return; }
 
     ACE_DIRENT* dp;
 
@@ -204,10 +210,10 @@ void PatchCache::LoadPatchesInfo()
     {
         int l = strlen(dp->d_name);
         if (l < 8)
-            continue;
+            { continue; }
 
         if (!memcmp(&dp->d_name[l - 4], ".mpq", 4))
-            LoadPatchMD5(dp->d_name);
+            { LoadPatchMD5(dp->d_name); }
     }
 
     ACE_OS::closedir(dirp);

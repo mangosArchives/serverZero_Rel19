@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "packet_builder.h"
@@ -76,7 +82,7 @@ namespace Movement
         // add fake Enter_Cycle flag - needed for client-side cyclic movement (client will erase first spline vertex after first cycle done)
         splineflags.enter_cycle = move_spline.isCyclic();
         // add fake Runmode flag - client has strange issues without that flag
-        data << uint32(splineflags & ~MoveSplineFlag::Mask_No_Monster_Move | MoveSplineFlag::Runmode);
+        data << uint32((splineflags & ~MoveSplineFlag::Mask_No_Monster_Move) | MoveSplineFlag::Runmode);
         data << move_spline.Duration();
     }
 
@@ -124,12 +130,12 @@ namespace Movement
         if (splineflags & MoveSplineFlag::Mask_CatmullRom)
         {
             if (splineflags.cyclic)
-                WriteCatmullRomCyclicPath(spline, data);
+                { WriteCatmullRomCyclicPath(spline, data); }
             else
-                WriteCatmullRomPath(spline, data);
+                { WriteCatmullRomPath(spline, data); }
         }
         else
-            WriteLinearPath(spline, data);
+            { WriteLinearPath(spline, data); }
     }
 
     void PacketBuilder::WriteCreate(const MoveSpline& move_spline, ByteBuffer& data)

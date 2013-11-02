@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,8 +17,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
+#include <zlib.h>
 #include "Common.h"
 #include "UpdateData.h"
 #include "ByteBuffer.h"
@@ -24,7 +31,6 @@
 #include "Opcodes.h"
 #include "World.h"
 #include "ObjectGuid.h"
-#include <zlib/zlib.h>
 
 UpdateData::UpdateData() : m_blockCount(0)
 {
@@ -117,7 +123,7 @@ bool UpdateData::BuildPacket(WorldPacket* packet, bool hasTransport)
         buf << (uint32) m_outOfRangeGUIDs.size();
 
         for (GuidSet::const_iterator i = m_outOfRangeGUIDs.begin(); i != m_outOfRangeGUIDs.end(); ++i)
-            buf << i->WriteAsPacked();
+            { buf << i->WriteAsPacked(); }
     }
 
     buf.append(m_data);
@@ -132,7 +138,7 @@ bool UpdateData::BuildPacket(WorldPacket* packet, bool hasTransport)
         packet->put<uint32>(0, pSize);
         Compress(const_cast<uint8*>(packet->contents()) + sizeof(uint32), &destsize, (void*)buf.contents(), pSize);
         if (destsize == 0)
-            return false;
+            { return false; }
 
         packet->resize(destsize + sizeof(uint32));
         packet->SetOpcode(SMSG_COMPRESSED_UPDATE_OBJECT);

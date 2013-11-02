@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #ifndef MANGOS_DBCSTRUCTURE_H
@@ -295,8 +301,8 @@ struct FactionEntry
         for (int i = 0; i < 4; ++i)
         {
             if ((BaseRepRaceMask[i] == 0 || (BaseRepRaceMask[i] & raceMask)) &&
-                    (BaseRepClassMask[i] == 0 || (BaseRepClassMask[i] & classMask)))
-                return i;
+                (BaseRepClassMask[i] == 0 || (BaseRepClassMask[i] & classMask)))
+                { return i; }
         }
 
         return -1;
@@ -320,7 +326,7 @@ struct FactionTemplateEntry
     /// 6-9
     uint32      enemyFaction[4];
     /// 10-13
-    uint32      friendFaction[4];                           
+    uint32      friendFaction[4];
     //-------------------------------------------------------  end structure
 
     // helpers
@@ -330,10 +336,10 @@ struct FactionTemplateEntry
         {
             for (int i = 0; i < 4; ++i)
                 if (enemyFaction[i]  == entry.faction)
-                    return false;
+                    { return false; }
             for (int i = 0; i < 4; ++i)
                 if (friendFaction[i] == entry.faction)
-                    return true;
+                    { return true; }
         }
         return (friendlyMask & entry.ourMask) || (ourMask & entry.friendlyMask);
     }
@@ -343,10 +349,10 @@ struct FactionTemplateEntry
         {
             for (int i = 0; i < 4; ++i)
                 if (enemyFaction[i]  == entry.faction)
-                    return true;
+                    { return true; }
             for (int i = 0; i < 4; ++i)
                 if (friendFaction[i] == entry.faction)
-                    return false;
+                    { return false; }
         }
         return (hostileMask & entry.ourMask) != 0;
     }
@@ -355,7 +361,7 @@ struct FactionTemplateEntry
     {
         for (int i = 0; i < 4; ++i)
             if (enemyFaction[i] != 0)
-                return false;
+                { return false; }
         return hostileMask == 0 && friendlyMask == 0;
     }
     bool IsContestedGuardFaction() const { return (factionFlags & FACTION_TEMPLATE_FLAG_CONTESTED_GUARD) != 0; }

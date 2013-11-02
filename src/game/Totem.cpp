@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * mangos-zero is a full featured server for World of Warcraft in its vanilla
+ * version, supporting clients for patch 1.12.x.
+ *
+ * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include "Totem.h"
@@ -40,22 +46,22 @@ bool Totem::Create(uint32 guidlow, CreatureCreatePos& cPos, CreatureInfo const* 
     Team team = owner->GetTypeId() == TYPEID_PLAYER ? ((Player*)owner)->GetTeam() : TEAM_NONE;
 
     if (!CreateFromProto(guidlow, cinfo, team))
-        return false;
+        { return false; }
 
     cPos.SelectFinalPoint(this);
 
     // totem must be at same Z in case swimming caster and etc.
     if (fabs(cPos.m_pos.z - owner->GetPositionZ()) > 5.0f)
-        cPos.m_pos.z = owner->GetPositionZ();
+        { cPos.m_pos.z = owner->GetPositionZ(); }
 
     if (!cPos.Relocate(this))
-        return false;
+        { return false; }
 
     // Notify the map's instance data.
     // Only works if you create the object in it, not if it is moves to that map.
     // Normally non-players do not teleport to other maps.
     if (InstanceData* iData = GetMap()->GetInstanceData())
-        iData->OnCreatureCreate(this);
+        { iData->OnCreatureCreate(this); }
 
     LoadCreatureAddon(false);
 
@@ -77,7 +83,7 @@ void Totem::Update(uint32 update_diff, uint32 time)
         return;
     }
     else
-        m_duration -= update_diff;
+        { m_duration -= update_diff; }
 
     Creature::Update(update_diff, time);
 }
@@ -92,11 +98,11 @@ void Totem::Summon(Unit* owner)
     SendMessageToSet(&data, true);
 
     if (owner->GetTypeId() == TYPEID_UNIT && ((Creature*)owner)->AI())
-        ((Creature*)owner)->AI()->JustSummoned((Creature*)this);
+        { ((Creature*)owner)->AI()->JustSummoned((Creature*)this); }
 
     // there are some totems, which exist just for their visual appeareance
     if (!GetSpell())
-        return;
+        { return; }
 
     switch (m_type)
     {
@@ -132,18 +138,18 @@ void Totem::UnSummon()
                 {
                     Player* Target = itr->getSource();
                     if (Target && pGroup->SameSubGroup((Player*)owner, Target))
-                        Target->RemoveAurasDueToSpell(GetSpell());
+                        { Target->RemoveAurasDueToSpell(GetSpell()); }
                 }
             }
         }
 
         if (owner->GetTypeId() == TYPEID_UNIT && ((Creature*)owner)->AI())
-            ((Creature*)owner)->AI()->SummonedCreatureDespawn((Creature*)this);
+            { ((Creature*)owner)->AI()->SummonedCreatureDespawn((Creature*)this); }
     }
 
     // any totem unsummon look like as totem kill, req. for proper animation
     if (IsAlive())
-        SetDeathState(DEAD);
+        { SetDeathState(DEAD); }
 
     AddObjectToRemoveList();
 }
@@ -159,7 +165,7 @@ void Totem::SetOwner(Unit* owner)
 Unit* Totem::GetOwner()
 {
     if (ObjectGuid ownerGuid = GetOwnerGuid())
-        return ObjectAccessor::GetUnit(*this, ownerGuid);
+        { return ObjectAccessor::GetUnit(*this, ownerGuid); }
 
     return NULL;
 }
@@ -172,10 +178,10 @@ void Totem::SetTypeBySummonSpell(SpellEntry const* spellProto)
     {
         // If spell have cast time -> so its active totem
         if (GetSpellCastTime(totemSpell))
-            m_type = TOTEM_ACTIVE;
+            { m_type = TOTEM_ACTIVE; }
     }
     if (spellProto->SpellIconID == 2056)
-        m_type = TOTEM_STATUE;                              // Jewelery statue
+        { m_type = TOTEM_STATUE; }                              // Jewelery statue
 }
 
 bool Totem::IsImmuneToSpellEffect(SpellEntry const* spellInfo, SpellEffectIndex index, bool castOnSelf) const
@@ -185,8 +191,8 @@ bool Totem::IsImmuneToSpellEffect(SpellEntry const* spellInfo, SpellEffectIndex 
     {
         case SPELLFAMILY_SHAMAN:
             if (spellInfo->IsFitToFamilyMask(UI64LIT(0x00000002000)) ||
-                    spellInfo->IsFitToFamilyMask(UI64LIT(0x00000004000)))
-                return false;
+                spellInfo->IsFitToFamilyMask(UI64LIT(0x00000004000)))
+                { return false; }
             break;
         default:
             break;
@@ -195,7 +201,7 @@ bool Totem::IsImmuneToSpellEffect(SpellEntry const* spellInfo, SpellEffectIndex 
     switch (spellInfo->Effect[index])
     {
         case SPELL_EFFECT_ATTACK_ME:
-        // immune to any type of regeneration effects hp/mana etc.
+            // immune to any type of regeneration effects hp/mana etc.
         case SPELL_EFFECT_HEAL:
         case SPELL_EFFECT_HEAL_MAX_HEALTH:
         case SPELL_EFFECT_HEAL_MECHANICAL:
@@ -209,13 +215,13 @@ bool Totem::IsImmuneToSpellEffect(SpellEntry const* spellInfo, SpellEffectIndex 
     {
         // immune to all negative auras
         if (IsAuraApplyEffect(spellInfo, index))
-            return true;
+            { return true; }
     }
     else
     {
         // immune to any type of regeneration auras hp/mana etc.
         if (IsPeriodicRegenerateEffect(spellInfo, index))
-            return true;
+            { return true; }
     }
 
     return Creature::IsImmuneToSpellEffect(spellInfo, index, castOnSelf);
