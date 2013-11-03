@@ -254,6 +254,7 @@ UPDATE creature_template SET ScriptName='npc_kroshius' WHERE entry=14467;
 
 /* FERALAS */
 UPDATE creature_template SET ScriptName='npc_oox22fe' WHERE entry=7807;
+UPDATE gameobject_template SET ScriptName='go_gordunni_trap' WHERE entry=144050;
 
 /* GNOMEREGAN */
 UPDATE creature_template SET ScriptName='boss_thermaplugg' WHERE entry=7800;
