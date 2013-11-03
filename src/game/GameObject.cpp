@@ -407,6 +407,7 @@ void GameObject::Update(uint32 update_diff, uint32 p_time)
 
                     // any return here in case battleground traps
                     break;
+
                 case GAMEOBJECT_TYPE_CAPTURE_POINT:
                     // remove capturing players because slider wont be displayed if capture point is being locked
                     for (GuidSet::const_iterator itr = m_UniqueUsers.begin(); itr != m_UniqueUsers.end(); ++itr)
@@ -418,6 +419,43 @@ void GameObject::Update(uint32 update_diff, uint32 p_time)
                     m_UniqueUsers.clear();
                     SetLootState(GO_READY);
                     return; // SetLootState and return because go is treated as "burning flag" due to GetGoAnimProgress() being 100 and would be removed on the client
+                case GAMEOBJECT_TYPE_CHEST:
+                    {
+                        uint32 trapEntry = GetGOInfo()->GetLinkedGameObjectEntry();
+                        if (144064) // Special case for Gordunni Cobalt Visual
+                        {
+                            float range = 0.5f;
+                            GameObject* visualGO = NULL;
+
+                            MaNGOS::NearestGameObjectEntryInObjectRangeCheck go_check(*this, 177683, range); //177683 Visual Entry
+                            MaNGOS::GameObjectLastSearcher<MaNGOS::NearestGameObjectEntryInObjectRangeCheck> checker(visualGO, go_check);
+
+                            Cell::VisitGridObjects(this, checker, range);
+
+                            if (visualGO)
+                                visualGO->SetLootState(GO_JUST_DEACTIVATED);
+                        }
+                        
+                        if (!trapEntry)
+                            break;
+                        GameObjectInfo const* trapInfo = sGOStorage.LookupEntry<GameObjectInfo>(trapEntry);
+                        if (!trapInfo || trapInfo->type != GAMEOBJECT_TYPE_TRAP)
+                            break;
+                        
+                        float range = 0.5f;
+                        
+                        GameObject* trapGO = NULL;
+
+                        MaNGOS::NearestGameObjectEntryInObjectRangeCheck go_check(*this, trapEntry, range);
+                        MaNGOS::GameObjectLastSearcher<MaNGOS::NearestGameObjectEntryInObjectRangeCheck> checker(trapGO, go_check);
+
+                        Cell::VisitGridObjects(this, checker, range);
+                        
+                        // found correct GO
+                        if (trapGO)
+                            trapGO->SetLootState(GO_JUST_DEACTIVATED);
+                    }
+
                 default:
                     break;
             }
