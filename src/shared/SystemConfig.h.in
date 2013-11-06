@@ -58,13 +58,13 @@
 #endif
 
 #if defined(i386) || defined(__i386) || defined(__i386__) || defined(_M_IX86)
-# define ARCHITECTURE "x32"
+# define ARCHITECTURE "x86"
 #elif defined(__amd64) || defined(__amd64__) || defined(__x86_64) || defined(_M_X64)
 # define ARCHITECTURE "x64"
 #elif defined(__ia64)  || defined(__IA64__)  || defined(_M_IA64)
 # define ARCHITECTURE "IA64"
 #else
-# define ARCHITECTURE "x32"
+# define ARCHITECTURE "x86"
 #endif
 
 // The path to config files
