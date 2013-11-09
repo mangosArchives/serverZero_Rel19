@@ -130,7 +130,7 @@ Commands and their parameters
 ID | Name                                   | Parameters
 -- | -------------------------------------- | -------------------------------------
 0  | SCRIPT_COMMAND_TALK                    | resultingSource = WorldObject, resultingTarget = Unit/none, `dataint` = text entry from db_script_string -table. `dataint2`-`dataint4` optionally, for random selection of text
-1  | SCRIPT_COMMAND_EMOTE                   | resultingSource = Unit, resultingTarget = Unit/none, `datalong` = emote_id
+1  | SCRIPT_COMMAND_EMOTE                   | resultingSource = Unit, resultingTarget = Unit/none, `datalong` = emote_id. `dataint1`-`dataint4` optionally, for random selection of emote
 2  | SCRIPT_COMMAND_FIELD_SET               | source = any, `datalong` = field_id, `datalong2` = field value
 3  | SCRIPT_COMMAND_MOVE_TO                 | resultingSource = Creature. If position is very near to current position, or x=y=z=0, then only orientation is changed. `datalong2` = travel_speed*100 (use 0 for creature default movement). `data_flags` & SCRIPT_FLAG_COMMAND_ADDITIONAL: teleport unit to position `x`/`y`/`z`/`o`
 4  | SCRIPT_COMMAND_FLAG_SET                | source = any. `datalong` = field_id, `datalong2` = bit mask
