@@ -107,13 +107,23 @@ typedef ACE_SHLIB_HANDLE MANGOS_LIBRARY_HANDLE;
 #  define MANGOS_INLINE
 #endif //!DEBUG
 
-#if COMPILER == COMPILER_GNU || COMPILER == COMPILER_CLANG
+#if COMPILER == COMPILER_GNU
 #  define ATTR_NORETURN __attribute__((noreturn))
-#  define ATTR_PRINTF(F,V) __attribute__ ((format (printf, F, V)))
-#else // COMPILER != COMPILER_GNU
+#  define ATTR_PRINTF(F, V) __attribute__ ((format (printf, F, V)))
+#  define ATTR_DEPRECATED __attribute__((deprecated))
+#else //COMPILER != COMPILER_GNU
 #  define ATTR_NORETURN
-#  define ATTR_PRINTF(F,V)
-#endif // COMPILER == COMPILER_GNU
+#  define ATTR_PRINTF(F, V)
+#  define ATTR_DEPRECATED
+#endif //COMPILER == COMPILER_GNU
+
+#if COMPILER_HAS_CPP11_SUPPORT
+#  define OVERRIDE override
+#  define FINAL final
+#else
+#  define OVERRIDE
+#  define FINAL
+#endif //COMPILER_HAS_CPP11_SUPPORT
 
 /**
  * @brief A signed integer of 64 bits
