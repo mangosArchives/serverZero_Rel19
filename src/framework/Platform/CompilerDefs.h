@@ -58,10 +58,8 @@
 #  define COMPILER COMPILER_INTEL
 #elif defined(__clang__)
 #  define COMPILER COMPILER_CLANG
-#  pragma error "FATAL ERROR: clang used"
 #elif defined( __GNUC__ ) && !defined(__clang__)
 #  define COMPILER COMPILER_GNU
-#  pragma error "FATAL ERROR: gcc used"
 #else
 #  pragma error "FATAL ERROR: Unknown compiler."
 #endif
