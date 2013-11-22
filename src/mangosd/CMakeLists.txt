@@ -101,7 +101,7 @@ if(WIN32 AND WITH_MOD_SCRIPTDEV2)
     set_target_properties(mangosd
     PROPERTIES
     ENABLE_EXPORTS ON
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/${CMAKE_BUILD_TYPE}
     )
 endif()
 add_dependencies(mangosd revision.h)
