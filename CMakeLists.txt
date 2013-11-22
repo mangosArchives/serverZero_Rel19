@@ -64,6 +64,12 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 # experience.
 set(CMAKE_BUILD_TYPE_INIT "Release")
 
+IF(NOT CMAKE_BUILD_TYPE)
+  SET(CMAKE_BUILD_TYPE "Release" CACHE STRING
+      "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel."
+      FORCE)
+ENDIF(NOT CMAKE_BUILD_TYPE)
+
 #-----------------------------------------------------------------------------
 # If quiet output for Makefiles is desired, set this to ON. 'make -s' is an
 # alternative.
