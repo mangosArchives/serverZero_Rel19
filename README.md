@@ -76,8 +76,11 @@ their systems package management instead of source packages.*
   used in both MPQ archive handling and the client/server protocol.
 * **Bzip2**: [Bzip2][54] ([Bzip2 for Windows][52]) provides compression
   algorithms used in MPQ archives.
-* **OpenSSL**; [OpenSSL][48] ([OpenSSL for Windows][55]) provides encryption
+* **OpenSSL**: [OpenSSL][48] ([OpenSSL for Windows][55]) provides encryption
   algorithms used when authenticating clients.
+* **Lua**: [Lua 5.1][56] ([Lua 5.1 for Windows][57]) provides a convenient, fast
+  scripting environment, which allows us to make live changes to scripted
+  content.
 
 *Recast*, *G3D* and *libmpq* are included in the *mangos-zero* distribution as
 we rely on specific versions.
@@ -177,3 +180,5 @@ respects for all of the code used other than [OpenSSL][48].
 [53]: http://www.zlib.net/ "Zlib"
 [54]: http://www.bzip.org/ "Bzip2"
 [55]: http://slproweb.com/products/Win32OpenSSL.html "OpenSSL for Windows"
+[56]: http://www.lua.org/ "Lua"
+[57]: https://code.google.com/p/luaforwindows/ "Lua for Windows"
