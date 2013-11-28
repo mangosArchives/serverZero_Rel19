@@ -851,7 +851,7 @@ void WorldSession::HandleMoveTimeSkippedOpcode(WorldPacket& recv_data)
     uint64 guid;
     uint32 time_dif;
     uint8 buf[16];
-    WorldPacket data(0x319, 16);
+    WorldPacket data(MSG_MOVE_TIME_SKIPPED, 16);
 
     recv_data >> guid;
     recv_data >> time_dif;
