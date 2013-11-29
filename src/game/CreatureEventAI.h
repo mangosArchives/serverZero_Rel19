@@ -403,7 +403,7 @@ struct CreatureEventAI_Action
             uint32 unused1;
             uint32 unused2;
         } setThrowMask;
-        // ACTION_T_SUMMON_ID                               = 47
+        // ACTION_T_SUMMON_UNIQUE                           = 47
         struct
         {
             uint32 creatureId;
