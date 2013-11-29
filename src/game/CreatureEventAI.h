@@ -410,6 +410,12 @@ struct CreatureEventAI_Action
             uint32 target;
             uint32 spawnId;
         } summon_unique;
+        // ACTION_T_EMOTE_TARGET                            = 48
+        struct
+        {
+            uint32 emoteId;
+            uint32 targetGuid;
+        } emoteTarget;
         // RAW
         struct
         {
