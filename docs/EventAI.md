@@ -212,6 +212,7 @@ For all ACTION_T_RANDOM Actions, When a Particular Param is selected for the Eve
 45 | ACTION_T_THROW_AI_EVENT              | EventType, Radius             | Throws an AIEvent of type (Param1) to nearby friendly Npcs in range of (Param2)
 46 | ACTION_T_SET_THROW_MASK              | EventTypeMask                 | Marks for which AIEvents the npc will throw AIEvents on its own.
 47 | ACTION_T_SUMMON_UNIQUE               | CreatureID, Target, SummonID  | Only summons a creature when not already spawned (Param1) to attack target (Param2) at location specified by EventAI_Summons (Param3). Preventing multiple spawns of unique creatures.
+48 | ACTION_T_EMOTE_TARGET                | EmoteId, TargetGuid           | NPC faces to creature (Param2) and does a specified emote id (Param1).
 
 Event Types: Expanded and Detailed Information
 ----------------------------------------------
@@ -886,6 +887,22 @@ AI_EVENT_LOST_SOME_HEALTH  |  MaskValue: 0x08  |  Sender = Hurt Npc, Invoker = D
 AI_EVENT_GOT_FULL_HEALTH   |  MaskValue: 0x10  |  Sender = Healed Npc, Invoker = Healer      |  Sent when healed to full health
 
 So if you want an npc to throw AIEvents automatically on death and on critical health, you would set its EventTypeMask to 0x03
+
+47 = ACTION_T_SUMMON_UNIQUE
+-----------------------------
+* Parameter 1: CreatureID - The creature template ID to be summoned. The value here needs to be a valid creature template ID.
+* Parameter 2: Target - The target type defining who the summoned creature will attack. The value in this field needs to be a valid target type as specified in the reference tables below. NOTE: Using target type 0 will cause the summoned creature to not attack anyone.
+* Parameter 3: SummonID - The summon ID from the creature_ai_summons table controlling the position (and spawn time) where the summoned mob should be spawned at.
+
+Only summons a creature when not already spawned (Param1) to attack target (Param2) at location specified by EventAI_Summons (Param3). Preventing multiple spawns of unique creatures.
+
+48 = ACTION_T_EMOTE_TARGET
+-----------------------------
+Parameter 1: The Emote ID that the creature should perform. (Emote IDs are also contained in the DBC but they can be found in the mangos source as well).
+Parameter 2: Creature guid, to which emote dealer will performed.
+
+The creature will perform a visual emote. Unlike a text emote, a visual emote is one where the creature will actually move or perform a gesture.
+This is commonly used for NPC's who may perform a special action (Salute, Roar, ect...). Not all player emotes work for creature models.
 
 Target types
 ------------
