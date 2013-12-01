@@ -128,21 +128,21 @@ set(sources_kalimdor
 )
 
 set(sources_instance_ek_brd
-    scripts/eastern_kingdoms/blackrock_depths/blackrock_depths.cpp
-    scripts/eastern_kingdoms/blackrock_depths/boss_ambassador_flamelash.cpp
-    scripts/eastern_kingdoms/blackrock_depths/boss_emperor_dagran_thaurissan.cpp
-    scripts/eastern_kingdoms/blackrock_depths/boss_general_angerforge.cpp
-    scripts/eastern_kingdoms/blackrock_depths/boss_high_interrogator_gerstahn.cpp
-    scripts/eastern_kingdoms/blackrock_depths/instance_blackrock_depths.cpp
-    scripts/eastern_kingdoms/blackrock_depths/blackrock_depths.h
+    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/blackrock_depths.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/boss_ambassador_flamelash.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/boss_emperor_dagran_thaurissan.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/boss_general_angerforge.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/boss_high_interrogator_gerstahn.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/instance_blackrock_depths.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/blackrock_depths.h
 )
 
 set(sources_instance_ek_brs
-    scripts/eastern_kingdoms/blackrock_spire/boss_gyth.cpp
-    scripts/eastern_kingdoms/blackrock_spire/boss_overlord_wyrmthalak.cpp
-    scripts/eastern_kingdoms/blackrock_spire/boss_pyroguard_emberseer.cpp
-    scripts/eastern_kingdoms/blackrock_spire/instance_blackrock_spire.cpp
-    scripts/eastern_kingdoms/blackrock_spire/blackrock_spire.h
+    scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/boss_gyth.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/boss_overlord_wyrmthalak.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/boss_pyroguard_emberseer.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/instance_blackrock_spire.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/blackrock_spire.h
 )
 
 set(sources_instance_ek_tdm
@@ -204,33 +204,33 @@ set(sources_instance_ek_uld
 )
 
 set(sources_raid_ek_mc
-    scripts/eastern_kingdoms/molten_core/boss_baron_geddon.cpp
-    scripts/eastern_kingdoms/molten_core/boss_garr.cpp
-    scripts/eastern_kingdoms/molten_core/boss_gehennas.cpp
-    scripts/eastern_kingdoms/molten_core/boss_golemagg.cpp
-    scripts/eastern_kingdoms/molten_core/boss_lucifron.cpp
-    scripts/eastern_kingdoms/molten_core/boss_magmadar.cpp
-    scripts/eastern_kingdoms/molten_core/boss_majordomo_executus.cpp
-    scripts/eastern_kingdoms/molten_core/boss_ragnaros.cpp
-    scripts/eastern_kingdoms/molten_core/boss_shazzrah.cpp
-    scripts/eastern_kingdoms/molten_core/boss_sulfuron_harbinger.cpp
-    scripts/eastern_kingdoms/molten_core/instance_molten_core.cpp
-    scripts/eastern_kingdoms/molten_core/molten_core.cpp
-    scripts/eastern_kingdoms/molten_core/molten_core.h
+    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_baron_geddon.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_garr.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_gehennas.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_golemagg.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_lucifron.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_magmadar.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_majordomo_executus.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_ragnaros.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_shazzrah.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_sulfuron_harbinger.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/molten_core/instance_molten_core.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/molten_core/molten_core.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/molten_core/molten_core.h
 )
 
 set(sources_raid_ek_bwl
-    scripts/eastern_kingdoms/blackwing_lair/boss_broodlord_lashlayer.cpp
-    scripts/eastern_kingdoms/blackwing_lair/boss_chromaggus.cpp
-    scripts/eastern_kingdoms/blackwing_lair/boss_ebonroc.cpp
-    scripts/eastern_kingdoms/blackwing_lair/boss_firemaw.cpp
-    scripts/eastern_kingdoms/blackwing_lair/boss_flamegor.cpp
-    scripts/eastern_kingdoms/blackwing_lair/boss_nefarian.cpp
-    scripts/eastern_kingdoms/blackwing_lair/boss_razorgore.cpp
-    scripts/eastern_kingdoms/blackwing_lair/boss_vaelastrasz.cpp
-    scripts/eastern_kingdoms/blackwing_lair/boss_victor_nefarius.cpp
-    scripts/eastern_kingdoms/blackwing_lair/instance_blackwing_lair.cpp
-    scripts/eastern_kingdoms/blackwing_lair/blackwing_lair.h
+    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_broodlord_lashlayer.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_chromaggus.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_ebonroc.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_firemaw.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_flamegor.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_nefarian.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_razorgore.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_vaelastrasz.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_victor_nefarius.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/instance_blackwing_lair.cpp
+    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/blackwing_lair.h
 )
 
 set(sources_raid_ek_naxx
