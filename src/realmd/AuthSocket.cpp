@@ -335,7 +335,7 @@ bool AuthSocket::_HandleLogonChallenge()
 
     recv((char*)&buf[0], 4);
 
-#ifdef MANGOS_ENDIAN == MANGOS_BIGENDIAN
+#ifdef MANGOS_BIGENDIAN
     EndianConvert(*((uint16*)(buf[0])));
 #endif
 

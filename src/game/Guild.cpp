@@ -147,7 +147,7 @@ bool Guild::Create(Player* leader, std::string gname)
 
     CreateDefaultGuildRanks(lSession->GetSessionDbLocaleIndex());
 
-    return AddMember(m_LeaderGuid, (uint32)GR_GUILDMASTER);
+    return AddMember(m_LeaderGuid, GR_GUILDMASTER);
 }
 
 void Guild::CreateDefaultGuildRanks(int locale_idx)
