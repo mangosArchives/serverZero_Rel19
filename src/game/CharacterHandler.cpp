@@ -507,7 +507,7 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
         if (nextpos != pos)
         {
             /* Send the player a system message containing the substring from pos to nextpos - pos */
-            ChatHandler(pCurrChar).PSendSysMessage(str_motd.substr(pos, nextpos - pos).c_str());
+            ChatHandler(pCurrChar).PSendSysMessage("%s", str_motd.substr(pos, nextpos - pos).c_str());
             ++linecount;
         }
 
@@ -516,7 +516,7 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
     /* There are no more newlines in our MOTD, so we send whatever is left */
     if (pos < str_motd.length())
     {
-        ChatHandler(pCurrChar).PSendSysMessage(str_motd.substr(pos).c_str());
+        ChatHandler(pCurrChar).PSendSysMessage("%s", str_motd.substr(pos).c_str());
     }
     DEBUG_LOG("WORLD: Sent motd (SMSG_MOTD)");
 
