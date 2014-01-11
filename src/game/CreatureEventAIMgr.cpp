@@ -867,6 +867,14 @@ void CreatureEventAIMgr::LoadCreatureEventAI_Scripts()
                         }
                         break;
 
+                    case ACTION_T_SUMMON_UNIQUE:                                          //47
+                        if (!sCreatureStorage.LookupEntry<CreatureInfo>(action.summon_unique.creatureId))
+                            { sLog.outErrorEventAI("Event %u Action %u uses nonexistent creature entry %u.", i, j + 1, action.summon_unique.creatureId); }
+                        IsValidTargetType(temp.event_type, action.type, action.summon_unique.target, i, j + 1);
+                        if (m_CreatureEventAI_Summon_Map.find(action.summon_unique.spawnId) == m_CreatureEventAI_Summon_Map.end())
+                            { sLog.outErrorEventAI("Event %u Action %u summons missing CreatureEventAI_Summon %u", i, j + 1, action.summon_unique.spawnId); }
+                        break;
+
                     default:
                         sLog.outErrorEventAI("Event %u Action %u have currently not checked at load action type (%u). Need check code update?", i, j + 1, temp.action[j].type);
                         break;
