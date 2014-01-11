@@ -176,6 +176,17 @@ struct EquipmentInfo
     uint32  equipentry[3];
 };
 
+struct EquipmentInfoItem
+{
+    uint32  entry;
+    uint32  Class;
+    uint32  SubClass;
+    uint32  Material;
+    uint32  DisplayID;
+    uint32  InventoryType;
+    uint32  Sheath;
+};
+
 // depricated old way
 struct EquipmentInfoRaw
 {
