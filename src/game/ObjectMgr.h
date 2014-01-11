@@ -619,6 +619,7 @@ class ObjectMgr
         static CreatureInfo const* GetCreatureTemplate(uint32 id);                  ///< Wrapper for sCreatureStorage.LookupEntry
         static CreatureModelInfo const* GetCreatureModelInfo(uint32 modelid);       ///< Wrapper for sCreatureModelStorage.LookupEntry
         static EquipmentInfo const* GetEquipmentInfo(uint32 entry);                 ///< Wrapper for sEquipmentStorage.LookupEntry
+        static EquipmentInfoItem const* GetEquipmentInfoItem(uint32 entry);         ///< Wrapper for sEquipmentStorageItem.LookupEntry
         static EquipmentInfoRaw const* GetEquipmentInfoRaw(uint32 entry);           ///< Wrapper for sEquipmentStorageRaw.LookupEntry
         static CreatureDataAddon const* GetCreatureAddon(uint32 lowguid);           ///< Wrapper for sCreatureDataAddonStorage.LookupEntry
         static CreatureDataAddon const* GetCreatureTemplateAddon(uint32 entry);     ///< Wrapper for sCreatureInfoAddonStorage.LookupEntry
@@ -648,6 +649,7 @@ class ObjectMgr
         void LoadCreatures();
         void LoadCreatureAddons();
         void LoadCreatureModelInfo();
+        void LoadCreatureItemTemplates();
         void LoadEquipmentTemplates();
         void LoadGameObjectLocales();
         void LoadGameObjects();

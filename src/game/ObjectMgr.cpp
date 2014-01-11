@@ -681,6 +681,39 @@ void ObjectMgr::LoadCreatureAddons()
                 { sLog.outErrorDb("Creature (GUID: %u) does not exist but has a record in `creature_addon`", addon->guidOrEntry); }
 }
 
+void ObjectMgr::LoadCreatureItemTemplates()
+{
+    sEquipmentStorageItem.Load(true);
+
+    for (uint32 i = 0; i < sEquipmentStorageItem.GetMaxEntry(); ++i)
+    {
+        EquipmentInfoItem const* eqInfo = sEquipmentStorageItem.LookupEntry<EquipmentInfoItem>(i);
+
+        if (!eqInfo)
+            { continue; }
+		        
+            EquipmentInfoItem const* itemProto = GetEquipmentInfoItem(eqInfo->entry);
+
+            if (itemProto->InventoryType != INVTYPE_WEAPON &&
+                itemProto->InventoryType != INVTYPE_SHIELD &&
+                itemProto->InventoryType != INVTYPE_RANGED &&
+                itemProto->InventoryType != INVTYPE_2HWEAPON &&
+                itemProto->InventoryType != INVTYPE_WEAPONMAINHAND &&
+                itemProto->InventoryType != INVTYPE_WEAPONOFFHAND &&
+                itemProto->InventoryType != INVTYPE_HOLDABLE &&
+                itemProto->InventoryType != INVTYPE_THROWN &&
+                itemProto->InventoryType != INVTYPE_RANGEDRIGHT &&
+                itemProto->InventoryType != INVTYPE_RELIC)
+            {
+                sLog.outErrorDb("Item (entry=%u) in creature_item_template.entry%u for entry = %u is not equipable in a hand, forced to 0.", eqInfo->entry, i);
+                const_cast<EquipmentInfoItem*>(eqInfo)->entry = 0;
+            }
+    }
+            sLog.outString(">> Loaded %u creature item template", sEquipmentStorageItem.GetRecordCount());
+            sLog.outString();    
+}
+
+
 void ObjectMgr::LoadEquipmentTemplates()
 {
     sEquipmentStorage.Load(true);
@@ -697,7 +730,7 @@ void ObjectMgr::LoadEquipmentTemplates()
             if (!eqInfo->equipentry[j])
                 { continue; }
 
-            ItemPrototype const* itemProto = GetItemPrototype(eqInfo->equipentry[j]);
+            EquipmentInfoItem const* itemProto = GetEquipmentInfoItem(eqInfo->equipentry[j]);
             if (!itemProto)
             {
                 sLog.outErrorDb("Unknown item (entry=%u) in creature_equip_template.equipentry%u for entry = %u, forced to 0.", eqInfo->equipentry[j], j + 1, i);
@@ -2803,6 +2836,7 @@ Player* ObjectMgr::GetPlayer(ObjectGuid guid, bool inWorld /*=true*/) { return O
 CreatureInfo const* ObjectMgr::GetCreatureTemplate(uint32 id) { return sCreatureStorage.LookupEntry<CreatureInfo>(id); }
 CreatureModelInfo const* ObjectMgr::GetCreatureModelInfo(uint32 modelid) { return sCreatureModelStorage.LookupEntry<CreatureModelInfo>(modelid); }
 EquipmentInfo const* ObjectMgr::GetEquipmentInfo(uint32 entry) { return sEquipmentStorage.LookupEntry<EquipmentInfo>(entry); }
+EquipmentInfoItem const* ObjectMgr::GetEquipmentInfoItem(uint32 entry) { return sEquipmentStorageItem.LookupEntry<EquipmentInfoItem>(entry); }
 EquipmentInfoRaw const* ObjectMgr::GetEquipmentInfoRaw(uint32 entry) { return sEquipmentStorageRaw.LookupEntry<EquipmentInfoRaw>(entry); }
 CreatureDataAddon const* ObjectMgr::GetCreatureAddon(uint32 lowguid) { return sCreatureDataAddonStorage.LookupEntry<CreatureDataAddon>(lowguid); }
 CreatureDataAddon const* ObjectMgr::GetCreatureTemplateAddon(uint32 entry) { return sCreatureInfoAddonStorage.LookupEntry<CreatureDataAddon>(entry); }
