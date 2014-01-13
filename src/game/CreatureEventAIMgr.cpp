@@ -164,6 +164,7 @@ void CreatureEventAIMgr::CheckUnusedAISummons()
                 switch (action.type)
                 {
                     case ACTION_T_SUMMON_ID:
+                    case ACTION_T_SUMMON_UNIQUE:
                     {
                         if (action.summon_id.spawnId)
                             { idx_set.erase(action.summon_id.spawnId); }
