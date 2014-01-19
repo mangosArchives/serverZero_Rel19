@@ -66,6 +66,16 @@ enum OutdoorPvPZones
     ZONE_ID_SCHOLOMANCE             = 2057
 };
 
+struct CapturePointSlider
+{
+    CapturePointSlider() : Value(0.0f), IsLocked(false) {}
+    CapturePointSlider(float value, bool isLocked) : Value(value), IsLocked(isLocked) {}
+
+    float Value;
+    bool IsLocked;
+};
+
+// forward declaration
 class Player;
 class GameObject;
 class Creature;
@@ -75,6 +85,8 @@ class OutdoorPvP;
  * @brief
  *
  */
+typedef std::map<uint32 /*capture point entry*/, CapturePointSlider /*slider value and lock state*/> CapturePointSliderMap;
+
 class OutdoorPvPMgr
 {
     public:
@@ -126,21 +138,9 @@ class OutdoorPvPMgr
          */
         void Update(uint32 diff);
 
-        /**
-         * @brief Save and load capture point slider values
-         *
-         * @param entry
-         * @param defaultValue
-         * @return float
-         */
-        float GetCapturePointSliderValue(uint32 entry, float defaultValue);
-        /**
-         * @brief
-         *
-         * @param entry
-         * @param value
-         */
-        void SetCapturePointSlider(uint32 entry, float value) { m_capturePointSlider[entry] = value; }
+        // Save and load capture point slider
+        CapturePointSliderMap const* GetCapturePointSliderMap() const { return &m_capturePointSlider; }
+        void SetCapturePointSlider(uint32 entry, CapturePointSlider value) { m_capturePointSlider[entry] = value; }
 
     private:
         /**
@@ -153,13 +153,7 @@ class OutdoorPvPMgr
 
         OutdoorPvP* m_scripts[MAX_OPVP_ID]; /**< contains all outdoor pvp scripts */
 
-        /**
-         * @brief
-         *
-         */
-        typedef std::map < uint32 /*capture point entry*/, float /*slider value*/ > CapturePointSliderMap;
-
-        CapturePointSliderMap m_capturePointSlider; /**< TODO */
+        CapturePointSliderMap m_capturePointSlider;
 
         ShortIntervalTimer m_updateTimer; /**< update interval */
 };
