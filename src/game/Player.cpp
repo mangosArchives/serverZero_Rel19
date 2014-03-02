@@ -17266,18 +17266,7 @@ void Player::SendInitialPacketsBeforeAddToMap()
 
     /* Tutorial data */
     GetSession()->SendTutorialsData();
-
     SendInitialSpells();
-
-    /* Another packet that seems useless
-     * SMSG_SEND_UNLEARN_SPELLS maybe not implemented in 1.12?
-     * TODO: Check to see if SMSG_SEND_UNLEARN_SPELLS is required */
-    data.Initialize(SMSG_SEND_UNLEARN_SPELLS, 4);
-    data << uint32(0);                                      // count, for(count) uint32;
-    GetSession()->SendPacket(&data);
-
-    /* Send position of buttons on action bar
-     * Spells, items, etc */
     SendInitialActionButtons();
 
     /* Send player reputations */
