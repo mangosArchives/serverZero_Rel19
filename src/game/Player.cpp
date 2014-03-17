@@ -17902,8 +17902,23 @@ bool Player::IsSpellFitByClassAndRace(uint32 spell_id, uint32* pReqlevel /*= NUL
                 }
                 else                                        // check availble case at train
                 {
-                    if (skillRCEntry->reqLevel && getLevel() < skillRCEntry->reqLevel)
-                        { return false; }
+                    // for riding spells, override the required level with the level from the configuration file
+                    switch (spell_id) {
+                        case 33388: // Riding 
+                        case 33389: // Apprentice Riding
+                            if (getLevel() < AccountTypes(sWorld.getConfig(CONFIG_UINT32_MIN_TRAIN_MOUNT_LEVEL)))
+                                { return false; }
+                            break;
+                        case 33391: // Riding
+                        case 33392: // Journeyman Riding
+                            if (getLevel() < AccountTypes(sWorld.getConfig(CONFIG_UINT32_MIN_TRAIN_EPIC_MOUNT_LEVEL)))
+                                { return false; }
+                            break;
+                        default: // any other spell
+                            if (skillRCEntry->reqLevel && getLevel() < skillRCEntry->reqLevel)
+                                { return false; }
+                            break;
+                    }
                 }
             }
         }

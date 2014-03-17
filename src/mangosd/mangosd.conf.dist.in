@@ -553,6 +553,30 @@ SD2ErrorLogFile             = "scriptdev2-errors.log"
 #        Enable or disable instant logout for security level (0..4) or high (NOT in combat/while dueling/while falling)
 #        Default: 1 (Mods/GMs/Admins)
 #
+#    MountCost
+#        The cost in copper of the regular mounts usually purchased at level 40.
+#        Default: 100000 (10g)
+#
+#    TrainMountCost
+#        The cost in copper for training the apprentice riding skill for regular mounts usually purchased at level 40.
+#        Default: 900000 (90g)
+#
+#    MinTrainMountLevel
+#        The minimal level at which players can train the apprentice riding skill for regular mounts.
+#        Default: 40 (level 40)
+#
+#    EpicMountCost
+#        The cost in copper for epic mounts usually purchased at level 60.
+#        Default: 1000000 (100g)
+#
+#    TrainEpicMountCost
+#        The cost in copper for training the journeyman riding skill for epic mounts usually purchased at level 60.
+#        Default: 9000000 (900g)
+#
+#    MinTrainEpicMountLevel
+#        The minimal level at which players can train the journeyman riding skill for epic mounts.
+#        Default: 60 (level 60)
+#
 #    AllFlightPaths
 #        Players will start with all flight paths (Note: ALL flight paths, not only player's team)
 #        Default: 0 (true)
@@ -744,6 +768,12 @@ StartHonorPoints                          = 0
 MinHonorKills                             = 15
 MaintenanceDay                            = 3
 InstantLogout                             = 1
+MountCost                                 = 100000
+TrainMountCost                            = 900000
+MinTrainMountLevel                        = 40
+EpicMountCost                             = 1000000
+TrainEpicMountCost                        = 9000000
+MinTrainEpicMountLevel                    = 60
 AllFlightPaths                            = 0
 AlwaysMaxSkillForLevel                    = 0
 ActivateWeather                           = 1

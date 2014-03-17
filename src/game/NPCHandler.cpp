@@ -41,6 +41,7 @@
 #include "Spell.h"
 #include "GuildMgr.h"
 #include "Chat.h"
+#include "World.h"
 #include "Item.h"
 #ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
@@ -130,7 +131,19 @@ static void SendTrainerSpellHelper(WorldPacket& data, TrainerSpell const* tSpell
 
     data << uint32(tSpell->spell);                      // learned spell (or cast-spell in profession case)
     data << uint8(state == TRAINER_SPELL_GREEN_DISABLED ? TRAINER_SPELL_GREEN : state);
-    data << uint32(floor(tSpell->spellCost * fDiscountMod));
+
+    // alter the cost of riding spells with the setting from the configuration file while preserving faction discounts
+    switch (tSpell->spell) {
+        case 33389: // Apprentice Riding
+            data << uint32(floor(AccountTypes(sWorld.getConfig(CONFIG_UINT32_TRAIN_MOUNT_COST)) * fDiscountMod));
+            break;
+        case 33392: // Journeyman Riding
+            data << uint32(floor(AccountTypes(sWorld.getConfig(CONFIG_UINT32_TRAIN_EPIC_MOUNT_COST)) * fDiscountMod));
+            break;
+        default: // for any other spell just apply the discount
+            data << uint32(floor(tSpell->spellCost * fDiscountMod));
+            break;
+    }
 
     data << uint32(primary_prof_first_rank && can_learn_primary_prof ? 1 : 0);
     // primary prof. learn confirmation dialog
@@ -203,7 +216,18 @@ void WorldSession::SendTrainerList(ObjectGuid guid, const std::string& strTitle)
             if (!_player->IsSpellFitByClassAndRace(tSpell->spell, &reqLevel))
                 { continue; }
 
-            reqLevel = tSpell->isProvidedReqLevel ? tSpell->reqLevel : std::max(reqLevel, tSpell->reqLevel);
+            // for riding spells, override the levels with the levels from the configuration file
+            switch (tSpell->spell) {
+                case 33389: // Apprentice Riding
+                    reqLevel = AccountTypes(sWorld.getConfig(CONFIG_UINT32_MIN_TRAIN_MOUNT_LEVEL));
+                    break;
+                case 33392: // Journeyman Riding
+                    reqLevel = AccountTypes(sWorld.getConfig(CONFIG_UINT32_MIN_TRAIN_EPIC_MOUNT_LEVEL));
+                    break;
+                default: // any other spell requirement is read from DBC and the database
+                   reqLevel = tSpell->isProvidedReqLevel ? tSpell->reqLevel : std::max(reqLevel, tSpell->reqLevel);
+                   break;
+            }
 
             TrainerSpellState state = _player->GetTrainerSpellState(tSpell, reqLevel);
 

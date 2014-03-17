@@ -592,6 +592,13 @@ void World::LoadConfigSettings(bool reload)
     setConfigMinMax(CONFIG_UINT32_MAINTENANCE_DAY, "MaintenanceDay", 4, 0, 6);
 
     setConfig(CONFIG_BOOL_ALL_TAXI_PATHS, "AllFlightPaths", false);
+    
+    setConfig(CONFIG_UINT32_MOUNT_COST, "MountCost", 100000);    
+    setConfigMin(CONFIG_UINT32_MIN_TRAIN_MOUNT_LEVEL, "MinTrainMountLevel", 40, 1);
+    setConfig(CONFIG_UINT32_TRAIN_MOUNT_COST, "TrainMountCost", 900000);
+    setConfig(CONFIG_UINT32_EPIC_MOUNT_COST, "EpicMountCost", 1000000);
+    setConfigMin(CONFIG_UINT32_MIN_TRAIN_EPIC_MOUNT_LEVEL, "MinTrainEpicMountLevel", 60, 1);
+    setConfig(CONFIG_UINT32_TRAIN_EPIC_MOUNT_COST, "TrainEpicMountCost", 9000000);
 
     setConfig(CONFIG_BOOL_INSTANCE_IGNORE_LEVEL, "Instance.IgnoreLevel", false);
     setConfig(CONFIG_BOOL_INSTANCE_IGNORE_RAID,  "Instance.IgnoreRaid", false);
