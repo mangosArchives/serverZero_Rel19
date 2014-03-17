@@ -32,6 +32,7 @@
 #include "Item.h"
 #include "UpdateData.h"
 #include "Chat.h"
+#include "World.h"
 
 void WorldSession::HandleSplitItemOpcode(WorldPacket& recv_data)
 {
@@ -767,8 +768,92 @@ void WorldSession::SendListInventory(ObjectGuid vendorguid)
 
                 ++count;
 
-                // reputation discount
-                uint32 price = uint32(floor(pProto->BuyPrice * discountMod));
+                uint32 price = 0;
+                // check if the item to sell is a mount
+                switch (itemId) {
+                    case 1132: // all regular mounts
+                    case 2411:
+                    case 2414:
+                    case 5655:
+                    case 5656:
+                    case 5665:
+                    case 5668:
+                    case 5864:
+                    case 5872:
+                    case 5873:
+                    case 8563:
+                    case 8588:
+                    case 8591:
+                    case 8592:
+                    case 8595:
+                    case 8629:
+                    case 8631:
+                    case 8632:
+                    case 12325:
+                    case 12326:
+                    case 12327:
+                    case 13321:
+                    case 13322:
+                    case 13331:
+                    case 13332:
+                    case 13333:
+                    case 15277:
+                    case 15290:
+                    case 18241:
+                    case 18242:
+                    case 18243:
+                    case 18244:
+                    case 18245:
+                    case 18246:
+                    case 18247:
+                    case 18248:
+                        // apply discount for regular mount and set price
+                        price = uint32(floor(AccountTypes(sWorld.getConfig(CONFIG_UINT32_MOUNT_COST)) * discountMod));
+                        break;
+                    case 12302: // all epic mounts
+                    case 12303:
+                    case 12330:
+                    case 12351:
+                    case 12353:
+                    case 12354:
+                    case 13086:
+                    case 13326:
+                    case 13327:
+                    case 13328:
+                    case 13329:
+                    case 13334:
+                    case 13335:
+                    case 18766:
+                    case 18767:
+                    case 18768:
+                    case 18772:
+                    case 18773:
+                    case 18774:
+                    case 18776:
+                    case 18777:
+                    case 18778:
+                    case 18785:
+                    case 18786:
+                    case 18787:
+                    case 18788:
+                    case 18789:
+                    case 18790:
+                    case 18791:
+                    case 18793:
+                    case 18794:
+                    case 18795:
+                    case 18796:
+                    case 18797:
+                    case 18798:
+                    case 18902:
+                        // apply discount for epic mount and set price
+                        price = uint32(floor(AccountTypes(sWorld.getConfig(CONFIG_UINT32_EPIC_MOUNT_COST)) * discountMod));
+                        break;
+                    default:
+                        // any other items
+                        price = uint32(floor(pProto->BuyPrice * discountMod));
+                        break;
+                }
 
                 data << uint32(count);
                 data << uint32(itemId);
