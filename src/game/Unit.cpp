@@ -273,6 +273,7 @@ Unit::Unit() :
 
     m_isCreatureLinkingTrigger = false;
     m_isSpawningLinked = false;
+    m_dummyCombatState = false;
 }
 
 Unit::~Unit()
@@ -326,7 +327,7 @@ void Unit::Update(uint32 update_diff, uint32 p_time)
     }
 
     // update combat timer only for players and pets
-    if (IsInCombat() && GetCharmerOrOwnerPlayerOrPlayerItself())
+    if (isInCombat() && GetCharmerOrOwnerPlayerOrPlayerItself() && !m_dummyCombatState)
     {
         // Check UNIT_STAT_MELEE_ATTACKING or UNIT_STAT_CHASE (without UNIT_STAT_FOLLOW in this case) so pets can reach far away
         // targets without stopping half way there and running off.
@@ -6346,6 +6347,17 @@ void Unit::SetInCombatWith(Unit* enemy)
     }
 
     SetInCombatState(false, enemy);
+}
+
+void Unit::SetInDummyCombatState(bool state)
+{
+    if (state)
+    {
+        m_dummyCombatState = true;
+        SetInCombatState(false);
+    }
+    else
+        m_dummyCombatState = false;
 }
 
 void Unit::SetInCombatState(bool PvP, Unit* enemy)
