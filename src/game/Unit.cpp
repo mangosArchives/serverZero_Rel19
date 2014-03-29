@@ -6968,7 +6968,7 @@ void Unit::SetDeathState(DeathState s)
         RemoveGuardians();
         UnsummonAllTotems();
 
-        StopMoving();
+        StopMoving(true);
         i_motionMaster.Clear(false, true);
         i_motionMaster.MoveIdle();
 
