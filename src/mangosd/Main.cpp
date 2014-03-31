@@ -2,7 +2,7 @@
  * mangos-zero is a full featured server for World of Warcraft in its vanilla
  * version, supporting clients for patch 1.12.x.
  *
- * Copyright (C) 2005-2013  MaNGOS project <http://getmangos.com>
+ * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -186,15 +186,14 @@ extern int main(int argc, char** argv)
 
     sLog.outString("%s [world-daemon]", _FULLVERSION(REVISION_DATE, REVISION_TIME, REVISION_NR, REVISION_ID));
     sLog.outString("<Ctrl-C> to stop.\n"
-                   "  __  __      _  _  ___  ___  ___                        \n"
-                   " |  \\/  |__ _| \\| |/ __|/ _ \\/ __|                    \n"
-                   " | |\\/| / _` | .` | (_ | (_) \\__ \\                    \n"
-                   " |_|  |_\\__,_|_|\\_|\\___|\\___/|___/                   \n"
-                   "                                   ___                   \n"
-                   " Visit our website for support:   |_  /___ _ _ ___       \n"
-                   " http://getmangos.com/             / // -_) '_/ _ \\     \n"
-                   "                                  /___\\___|_| \\___/    \n"
-                   " We love vanilla WoW!                                    \n"
+                   "  __  __      _  _  ___  ___  ___                       \n"
+                   " |  \\/  |__ _| \\| |/ __|/ _ \\/ __|                      \n"                                         
+                   " | |\\/| / _` | .` | (_ | (_) \__ \\                      \n"                                         
+                   " |_|  |_\\__,_|_|\_|\\___|\\___/|___/                      \n"
+                   "                                        ____            \n"
+                   " For help and support please visit:    /_  /___ _ _ ___ \n" 
+                   " Website: https://getmangos.eu          / // -_) '_/ _ \\\n" 
+                   "    Wiki: http://github.com/mangoswiki /___\\___|_| \\___/\n" 
                   );
     sLog.outString("Using configuration file %s.", cfg_file);
 

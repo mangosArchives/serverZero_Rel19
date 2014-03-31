@@ -94,7 +94,7 @@ Discuss
 If you need help with building and installing *mangos-zero* there is thousands
 of users out there already running *mangos-zero* and many you can find on
 
-* project website: [getmangos.com][10]
+* project website: [getmangos.eu][10]
 * discussion forums: [community.getmangos.co.uk][11]
 
 License
@@ -134,7 +134,7 @@ respects for all of the code used other than [OpenSSL][48].
 [6]: http://www.wowpedia.org/Patch_1.12.2 "Vanilla WoW · Patch 1.12.2 release notes"
 [7]: http://www.cppreference.com/ "C / C++ reference"
 
-[10]: http://getmangos.com/ "mangos · project site"
+[10]: http://getmangos.eu/ "mangos · project site"
 [11]: http://community.getmangos.co.uk/ "mangos · discussion forums"
 [12]: http://github.com/mangoszero "mangos-zero · github organization"
 [13]: http://github.com/mangoszero/server "mangos zero · server repository"
