@@ -24,7 +24,7 @@ for the community.
   archival to this day.
 * **2008**: the *MaNGOS project* grew in terms of users and developers,
   and relocated to [github][3]. With the move, the project website changed
-  to [getmangos.com][4].
+  to [getmangos.eu][4].
 * **2013**: the *MaNGOS project* now is also available on [getmangos.co.uk][5].
 
 Authors
@@ -236,7 +236,7 @@ Authors
 * kolomati
 * komdori
 * ksergik
-* Kubius@getmangos.com
+* Kubius
 * kyle1
 * Laise (a.k.a. Beaste)
 * Laizerox
@@ -465,5 +465,5 @@ Authors
 [1]: http://blizzard.com/games/wow/ "World of Warcraft"
 [2]: http://sourceforge.net/p/mangos/ "mangos on SourceForge"
 [3]: https://github.com/mangos/ "mangos on github"
-[4]: http://getmangos.com/ "mangos project"
+[4]: http://getmangos.eu/ "mangos project"
 [5]: http://getmangos.co.uk/ "mangos project"
