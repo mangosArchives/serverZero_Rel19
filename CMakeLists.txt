@@ -217,11 +217,8 @@ if(UNIX AND NOT APPLE)
     # lfs on glibc, all compilers should use
     add_definitions(-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE)
 
-    # GNU Compiler
-    if(CMAKE_COMPILER_IS_GNUCC)
-        set(PLATFORM_CFLAGS "-pipe -fPIC -funsigned-char -fno-strict-aliasing")
-    # CLang is the same as GCC for now.
-    elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    # GNU
+    if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         set(PLATFORM_CFLAGS "-pipe -fPIC -funsigned-char -fno-strict-aliasing")
     # Solaris CC
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "SunPro")
@@ -461,15 +458,13 @@ endif()
 
 if(WITH_MYSQL)
     find_package(MySQL REQUIRED)
-endif(WITH_MYSQL)
-
-if(WITH_POSTGRESQL)
+elseif(WITH_POSTGRESQL)
     find_package(PostgreSQL REQUIRED)
-endif(WITH_POSTGRESQL)
+endif()
 
 if(WITH_MOD_LUA)
     find_package(Lua51 REQUIRED)
-endif(WITH_MOD_LUA)
+endif()
 
 #-----------------------------------------------------------------------------
 # Extra compile flags
@@ -502,4 +497,4 @@ if(FIRST_RUN)
     else()
         message(STATUS "  Git revision: not building from git clone")
     endif()
-endif(FIRST_RUN)
+endif()
