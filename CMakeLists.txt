@@ -153,7 +153,7 @@ endif()
 
 if(NOT WITH_MAP_TOOLS AND WITH_RECAST_DEMO)
     message(FATAL_ERROR "WITH_MAP_TOOLS must be enabled to build WITH_RECAST_DEMO!")
-endif(NOT WITH_MAP_TOOLS AND WITH_RECAST_DEMO)
+endif()
 
 if(NOT ${CMAKE_BUILD_TYPE} STREQUAL "Debug" AND WITH_DEBUG_OUTPUT)
     message(FATAL_ERROR "It is not recommeded to build mangos-zero with debug output in a non-development release.")
@@ -203,6 +203,10 @@ set(CMAKE_INSTALL_NAME_DIR          ${LIBS_DIR})
 # Run out of build tree
 set(CMAKE_BUILD_WITH_INSTALL_RPATH  OFF)
 
+IF(WIN32 AND CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    SET(CMAKE_INSTALL_PREFIX "C:/MaNGOS" CACHE PATH "Install path prefix" FORCE )
+ENDIF()
+
 #-----------------------------------------------------------------------------
 # Platform specifics
 
@@ -217,13 +221,12 @@ if(UNIX AND NOT APPLE)
     # lfs on glibc, all compilers should use
     add_definitions(-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE)
 
-    # GNU
+    # GNU/Clang
     if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         set(PLATFORM_CFLAGS "-pipe -fPIC -funsigned-char -fno-strict-aliasing")
     # Solaris CC
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "SunPro")
         set(PLATFORM_CFLAGS "-pipe -features=extensions -fPIC -D__FUNCTION__=__func__")
-
     # Intel C++ Compiler
     elseif(CMAKE_C_COMPILER_ID MATCHES "Intel")
         # think these next two are broken
