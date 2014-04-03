@@ -139,7 +139,7 @@ option(WITH_MOD_SCRIPTDEV2  "Enable the scripting library"                      
 
 # Modifiers
 option(WITH_MOD_SOAP        "Enable SOAP bindings (export data e.g. for a website)"                         OFF)
-option(WITH_MOD_CLI         "Enable command line interface"                                                 OFF)
+option(WITH_MOD_CLI         "Enable command line interface"                                                 ON)
 option(WITH_MOD_REMOTE      "Enable remote access (remote administration)"                                  OFF)
 option(WITH_RECAST_DEMO     "Build the Recast movement map viewer application"                              OFF)
 
