@@ -147,7 +147,9 @@ option(WITH_RECAST_DEMO     "Build the Recast movement map viewer application"  
 # Check for conflicting/unsupported configurations
 if(NOT WITH_MYSQL AND NOT WITH_POSTGRESQL)
     message(FATAL_ERROR "At least one of WITH_MYSQL or WITH_POSTGRESQL must be enabled!")
-endif(NOT WITH_MYSQL AND NOT WITH_POSTGRESQL)
+elseif(WITH_MYSQL AND WITH_POSTGRESQL)
+    message(FATAL_ERROR "Only one database server can be used.")
+endif()
 
 if(NOT WITH_MAP_TOOLS AND WITH_RECAST_DEMO)
     message(FATAL_ERROR "WITH_MAP_TOOLS must be enabled to build WITH_RECAST_DEMO!")
