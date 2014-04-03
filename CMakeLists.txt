@@ -194,13 +194,7 @@ set(PLATFORM_LINKFLAGS_DEBUG "")
 # Configure target directories
 set(BIN_DIR       "${CMAKE_INSTALL_PREFIX}/bin")
 set(CONF_DIR      "${CMAKE_INSTALL_PREFIX}/etc")
-
-if(WIN32)
-    set(CONF_DIR  ".")
-    set(LIBS_DIR  "${CMAKE_INSTALL_PREFIX}/bin")
-else()
-    set(LIBS_DIR  "${CMAKE_INSTALL_PREFIX}/lib")
-endif()
+set(LIBS_DIR      "${CMAKE_INSTALL_PREFIX}/lib")
 
 # For Unix systems set the rpath so that libraries are found
 set(CMAKE_INSTALL_RPATH             ${LIBS_DIR})
