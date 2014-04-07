@@ -87,8 +87,7 @@ Discuss
 If you need help with building and installing *mangos-zero* there is thousands
 of users out there already running *mangos-zero* and many you can find on
 
-* project website: [getmangos.eu][10]
-* discussion forums: [community.getmangos.co.uk][11]
+* project website and discussion forum: [getmangos.eu][10]
 
 License
 -------
@@ -128,7 +127,6 @@ respects for all of the code used other than [OpenSSL][48].
 [7]: http://www.cppreference.com/ "C / C++ reference"
 
 [10]: http://getmangos.eu/ "mangos · project site"
-[11]: http://community.getmangos.co.uk/ "mangos · discussion forums"
 [12]: http://github.com/mangoszero "mangos-zero · github organization"
 [13]: http://github.com/mangoszero/server "mangos zero · server repository"
 [14]: http://github.com/mangoszero/scripts "mangos zero · script extensions repository"
