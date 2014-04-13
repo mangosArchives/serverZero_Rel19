@@ -1405,7 +1405,7 @@ void Unit::DealSpellDamage(SpellNonMeleeDamage* damageInfo, bool durabilityLoss)
 }
 
 // TODO for melee need create structure as in
-void Unit::CalculateMeleeDamage(Unit* pVictim, uint32 damage, CalcDamageInfo* damageInfo, WeaponAttackType attackType)
+void Unit::CalculateMeleeDamage(Unit* pVictim, CalcDamageInfo* damageInfo, WeaponAttackType attackType /*= BASE_ATTACK*/)
 {
     damageInfo->attacker         = this;
     damageInfo->target           = pVictim;
@@ -1462,7 +1462,7 @@ void Unit::CalculateMeleeDamage(Unit* pVictim, uint32 damage, CalcDamageInfo* da
         damageInfo->cleanDamage    = 0;
         return;
     }
-    damage += CalculateDamage(damageInfo->attackType, false);
+    uint32 damage = CalculateDamage(damageInfo->attackType, false);
     // Add melee damage bonus
     damage = MeleeDamageBonusDone(damageInfo->target, damage, damageInfo->attackType);
     damage = damageInfo->target->MeleeDamageBonusTaken(this, damage, damageInfo->attackType);
@@ -2120,7 +2120,7 @@ void Unit::AttackerStateUpdate(Unit* pVictim, WeaponAttackType attType, bool ext
     }
 
     CalcDamageInfo damageInfo;
-    CalculateMeleeDamage(pVictim, 0, &damageInfo, attType);
+    CalculateMeleeDamage(pVictim, &damageInfo, attType);
     // Send log damage message to client
     DealDamageMods(pVictim, damageInfo.damage, &damageInfo.absorb);
     SendAttackStateUpdate(&damageInfo);
