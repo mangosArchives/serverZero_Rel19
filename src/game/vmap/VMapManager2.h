@@ -232,7 +232,7 @@ namespace VMAP
              * @param pCommand
              * @return bool
              */
-            bool processCommand(char* pCommand) override { return false; }      // for debug and extensions
+            bool processCommand(char* /*pCommand*/) override { return false; }      // for debug and extensions
 
             /**
              * @brief
@@ -286,7 +286,8 @@ namespace VMAP
              * @param y
              * @return std::string
              */
-            std::string getDirFileName(unsigned int pMapId, int x, int y) const override
+            // what's the use of this? o.O
+            std::string getDirFileName(unsigned int pMapId, int /*x*/, int /*y*/) const override
             {
                 return getMapFileName(pMapId);
             }

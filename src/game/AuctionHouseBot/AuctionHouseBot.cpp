@@ -1582,7 +1582,8 @@ bool AuctionBotSeller::getRandomArray(AHB_Seller_Config& config, RandomArray& ra
     return Ok;
 }
 
-void AuctionBotSeller::SetPricesOfItem(ItemPrototype const* itemProto, AHB_Seller_Config& config, uint32& buyp, uint32& bidp, uint32 stackcnt, ItemQualities itemQuality)
+// Set items price. All important value are passed by address.
+void AuctionBotSeller::SetPricesOfItem(ItemPrototype const* /*itemProto*/, AHB_Seller_Config& config, uint32& buyp, uint32& bidp, uint32 stackcnt, ItemQualities itemQuality)
 {
     double temp_buyp = buyp * stackcnt *
                        (itemQuality < MAX_AUCTION_QUALITY ? config.GetPriceRatioPerQuality(AuctionQuality(itemQuality)) : 1) ;
