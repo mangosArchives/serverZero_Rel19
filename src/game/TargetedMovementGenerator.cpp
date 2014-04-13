@@ -56,7 +56,6 @@ void TargetedMovementGeneratorMedium<T, D>::_setTargetLocation(T& owner, bool up
         {
             if (!owner.movespline->Finalized())
                 { return; }
-
         }
         // Chase Movement and angle == 0 case: Chase to current angle
         else if (this->GetMovementGeneratorType() == CHASE_MOTION_TYPE && i_angle == 0.0f)
