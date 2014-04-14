@@ -39,7 +39,6 @@ set(SRC_GRP_PLATFORM
 
 set(SRC_GRP_POLICIES
     Policies/CreationPolicy.h
-    Policies/MemoryManagement.cpp
     Policies/ObjectLifeTime.cpp
     Policies/ObjectLifeTime.h
     Policies/Singleton.h
