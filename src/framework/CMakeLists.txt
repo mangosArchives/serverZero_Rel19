@@ -1,9 +1,4 @@
-# mangos-zero is a full featured server for World of Warcraft in its vanilla
-# version, supporting clients for patch 1.12.x.
-#
-# Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
-#
-# ***** BEGIN GPL LICENSE BLOCK *****
+# This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,25 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-#
-# ***** END GPL LICENSE BLOCK *****
-#
-# World of Warcraft, and all World of Warcraft or Warcraft art, images,
-# and lore are copyrighted by Blizzard Entertainment, Inc.
 
-include(MacroMangosSourceGroup)
+set(LIBRARY_NAME framework)
 
-#-----------------------------------------------------------------------------
-# Define the framework library
-set(sources
-    Policies/ObjectLifeTime.cpp
-
-    Utilities/EventProcessor.cpp
-)
-set(headers
+set(SRC_GRP_DYNAMIC
     Dynamic/FactoryHolder.h
     Dynamic/ObjectRegistry.h
+)
 
+set(SRC_GRP_GAMESYSTEM
     GameSystem/Grid.h
     GameSystem/GridLoader.h
     GameSystem/GridReference.h
@@ -45,41 +30,92 @@ set(headers
     GameSystem/TypeContainer.h
     GameSystem/TypeContainerFunctions.h
     GameSystem/TypeContainerVisitor.h
+)
 
+set(SRC_GRP_PLATFORM
     Platform/CompilerDefs.h
     Platform/Define.h
+)
 
+set(SRC_GRP_POLICIES
     Policies/CreationPolicy.h
+    Policies/MemoryManagement.cpp
+    Policies/ObjectLifeTime.cpp
     Policies/ObjectLifeTime.h
     Policies/Singleton.h
     Policies/ThreadingModel.h
+)
 
+set(SRC_GRP_UTIL
     Utilities/ByteConverter.h
     Utilities/Callback.h
+    Utilities/EventProcessor.cpp
     Utilities/EventProcessor.h
     Utilities/LinkedList.h
-    Utilities/LinkedReference/Reference.h
-    Utilities/LinkedReference/RefManager.h
     Utilities/TypeList.h
     Utilities/UnorderedMapSet.h
 )
 
-set(framework_LIB_SRCS ${sources} ${headers})
-
-mangos_source_group(${framework_LIB_SRCS})
-
-include_directories(
-    ${ACE_INCLUDE_DIRS}
-    ${CMAKE_CURRENT_SOURCE_DIR}
+set(SRC_GRP_LINKED_REFERENCE
+    Utilities/LinkedReference/Reference.h
+    Utilities/LinkedReference/RefManager.h
 )
 
-#-----------------------------------------------------------------------------
-# Build the framework library
-add_library(mangos-framework STATIC ${framework_LIB_SRCS})
-target_link_libraries(mangos-framework ${ACE_LIBRARIES})
+set(LIBRARY_SRCS
+    ${SRC_GRP_DYNAMIC}
+    ${SRC_GRP_GAMESYSTEM}
+    ${SRC_GRP_PLATFORM}
+    ${SRC_GRP_POLICIES}
+    ${SRC_GRP_UTIL}
+    ${SRC_GRP_LINKED_REFERENCE}
+)
 
-set(BUILD_PROPERTIES "")
-if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-    set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DMANGOS_DEBUG")
-    set_target_properties(mangos-framework PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+source_group("Dynamic"
+  FILES
+    ${SRC_GRP_DYNAMIC}
+)
+
+source_group("GameSystem"
+  FILES
+    ${SRC_GRP_GAMESYSTEM}
+)
+
+source_group("Platform"
+  FILES
+    ${SRC_GRP_PLATFORM}
+)
+
+source_group("Policies"
+  FILES
+    ${SRC_GRP_POLICIES}
+)
+
+source_group("Utilities"
+  FILES
+    ${SRC_GRP_UTIL}
+)
+
+source_group("Utilities\\LinkedReference"
+  FILES
+    ${SRC_GRP_LINKED_REFERENCE}
+)
+
+include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ${ACE_INCLUDE_DIR}
+)
+
+add_library(${LIBRARY_NAME} STATIC
+  ${LIBRARY_SRCS}
+)
+
+if(NOT TBB_USE_EXTERNAL)
+  add_dependencies(${LIBRARY_NAME} TBB_Project)
 endif()
+if(NOT ACE_USE_EXTERNAL)
+  add_dependencies(${LIBRARY_NAME} ACE_Project)
+endif()
+
+target_link_libraries(${LIBRARY_NAME}
+  ${TBB_LIBRARIES}
+)

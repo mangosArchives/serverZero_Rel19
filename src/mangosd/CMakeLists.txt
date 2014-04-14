@@ -1,9 +1,4 @@
-# mangos-zero is a full featured server for World of Warcraft in its vanilla
-# version, supporting clients for patch 1.12.x.
-#
-# Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
-#
-# ***** BEGIN GPL LICENSE BLOCK *****
+# This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,99 +13,103 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-#
-# ***** END GPL LICENSE BLOCK *****
-#
-# World of Warcraft, and all World of Warcraft or Warcraft art, images,
-# and lore are copyrighted by Blizzard Entertainment, Inc.
 
-include(MacroMangosSourceGroup)
+set(EXECUTABLE_NAME mangosd)
 
-#-----------------------------------------------------------------------------
-# Define the mangosd application
-set(sources
+set(EXECUTABLE_SRCS
     CliRunnable.cpp
+    CliRunnable.h
+    MaNGOSsoap.cpp
+    MaNGOSsoap.h
     Main.cpp
     Master.cpp
-    RASocket.cpp
-    WorldRunnable.cpp
-)
-set(headers
-    CliRunnable.h
     Master.h
+    RASocket.cpp
     RASocket.h
+    WorldRunnable.cpp
     WorldRunnable.h
-)
+    soapC.cpp
+    soapH.h
+    soapServer.cpp
+    soapStub.h
+   )
 
-set(mangosd_LIB_SRCS ${sources} ${headers})
-
-if(WITH_MOD_SOAP)
-    list(APPEND mangosd_LIB_SRCS
-        MaNGOSsoap.cpp
-        MaNGOSsoap.h
-        soapC.cpp
-        soapH.h
-        soapServer.cpp
-        soapStub.h
-     )
+if(WIN32)
+  # add resource file to windows build
+  set(EXECUTABLE_SRCS ${EXECUTABLE_SRCS} mangosd.rc)
 endif()
-
-mangos_source_group(${mangosd_LIB_SRCS})
 
 include_directories(
-    ${ACE_INCLUDE_DIRS}
-    ${MYSQL_INCLUDE_DIR}
-    ${OPENSSL_INCLUDE_DIR}
-    ${CMAKE_SOURCE_DIR}/src/framework/
-    ${CMAKE_SOURCE_DIR}/src/shared/
-    ${CMAKE_SOURCE_DIR}/src/game/
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_BINARY_DIR}
-    ${CMAKE_BINARY_DIR}/src/shared/
+  ${CMAKE_SOURCE_DIR}/src/shared
+  ${CMAKE_SOURCE_DIR}/dep/include/gsoap
+  ${CMAKE_SOURCE_DIR}/src/framework
+  ${CMAKE_SOURCE_DIR}/src/game
+  ${CMAKE_BINARY_DIR}
+  ${CMAKE_BINARY_DIR}/src/shared
+  ${ACE_INCLUDE_DIR}
+  ${MYSQL_INCLUDE_DIR}
+  ${OPENSSL_INCLUDE_DIR}
 )
 
-if(WITH_MOD_SOAP)
-    include_directories(
-        ${CMAKE_SOURCE_DIR}/dep/include/gsoap/
-    )
+add_executable(${EXECUTABLE_NAME}
+  ${EXECUTABLE_SRCS}
+)
+
+add_dependencies(${EXECUTABLE_NAME} revision.h)
+if(NOT ACE_USE_EXTERNAL)
+  add_dependencies(${EXECUTABLE_NAME} ACE_Project)
+# add_dependencies(${EXECUTABLE_NAME} ace)
 endif()
 
-#-----------------------------------------------------------------------------
-# Build the mangosd application
-add_executable(mangosd ${mangosd_LIB_SRCS})
-target_link_libraries(mangosd ${ACE_LIBRARIES} mangos-game mangos-auctionhouse-bot mangos-battleground mangos-outdoor-pvp mangos-movement mangos-vmap mangos-shared mangos-framework Detour g3dlite ${MYSQL_LIBRARIES} ${OPENSSL_LIBRARIES})
-install(TARGETS mangosd DESTINATION ${BIN_DIR})
+target_link_libraries(${EXECUTABLE_NAME}
+  game
+  shared
+  framework
+  g3dlite
+  gsoap
+  ${ACE_LIBRARIES}
+)
 
-set(BUILD_PROPERTIES "-DHAVE_CONFIG_H")
-if(${CMAKE_BUILD_TYPE} MATCHES Debug)
-    set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DMANGOS_DEBUG")
-endif()
-
-if(WITH_MOD_SOAP)
-    set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DENABLE_SOAP")
-    target_link_libraries(mangosd gsoaplite)
-elseif(WITH_MOD_CLI)
-    set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DENABLE_CLI")
-elseif(WITH_MOD_REMOTE)
-    set(BUILD_PROPERTIES "${BUILD_PROPERTIES} -DENABLE_RA")
-endif()
-set_target_properties(mangosd PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
-
-if(WIN32 AND WITH_MOD_SCRIPTDEV2)
-    set_target_properties(mangosd
-    PROPERTIES
-    ENABLE_EXPORTS ON
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}
-    )
-endif()
-add_dependencies(mangosd revision.h)
-
-#-----------------------------------------------------------------------------
-# Build and install the mangosd configuration
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mangosd.conf.dist.cmake ${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist)
 if(WIN32)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist DESTINATION ${BIN_DIR})
-else()
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist DESTINATION ${CONF_DIR})
+  target_link_libraries(${EXECUTABLE_NAME}
+    zlib
+    optimized ${MYSQL_LIBRARY}
+    optimized ${OPENSSL_LIBRARIES}
+    debug ${MYSQL_DEBUG_LIBRARY}
+    debug ${OPENSSL_DEBUG_LIBRARIES}
+  )
+  if(PLATFORM MATCHES X86)
+    target_link_libraries(${EXECUTABLE_NAME})
+  endif()
+endif()
+
+if(UNIX)
+  target_link_libraries(${EXECUTABLE_NAME}
+    ${MYSQL_LIBRARY}
+    ${OPENSSL_LIBRARIES}
+    ${OPENSSL_EXTRA_LIBRARIES}
+    ${ZLIB_LIBRARIES}
+  )
+endif()
+
+set(EXECUTABLE_LINK_FLAGS "")
+
+if(UNIX)
+  set(EXECUTABLE_LINK_FLAGS "-pthread ${EXECUTABLE_LINK_FLAGS} -rdynamic")
+endif()
+
+if(APPLE)
+  set(EXECUTABLE_LINK_FLAGS "-framework Carbon ${EXECUTABLE_LINK_FLAGS}")
+endif()
+
+set_target_properties(${EXECUTABLE_NAME} PROPERTIES LINK_FLAGS
+  "${EXECUTABLE_LINK_FLAGS}"
+)
+
+install(TARGETS ${EXECUTABLE_NAME} DESTINATION ${BIN_DIR})
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mangosd.conf.dist.in ${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist DESTINATION ${CONF_DIR})
+
+if(WIN32 AND MSVC)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/\${BUILD_TYPE}/${EXECUTABLE_NAME}.pdb DESTINATION ${BIN_DIR} CONFIGURATIONS Debug)
 endif()

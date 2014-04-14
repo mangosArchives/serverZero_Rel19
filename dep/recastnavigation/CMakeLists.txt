@@ -1,9 +1,4 @@
-# mangos-zero is a full featured server for World of Warcraft in its vanilla
-# version, supporting clients for patch 1.12.x.
-#
-# Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
-#
-# ***** BEGIN GPL LICENSE BLOCK *****
+# This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,27 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-#
-# ***** END GPL LICENSE BLOCK *****
-#
-# World of Warcraft, and all World of Warcraft or Warcraft art, images,
-# and lore are copyrighted by Blizzard Entertainment, Inc.
 
-#-----------------------------------------------------------------------------
-# Platform specifics
-if(WIN32 AND MSVC)
-    option(USE_MSVC_FAST_FLOATINGPOINT "Use MSVC /fp:fast option" ON)
-    mark_as_advanced(USE_MSVC_FAST_FLOATINGPOINT)
-    if(USE_MSVC_FAST_FLOATINGPOINT)
-        add_definitions(/fp:fast)
-    endif(USE_MSVC_FAST_FLOATINGPOINT)
-endif()
-
-#-----------------------------------------------------------------------------
-# Add sources
 add_subdirectory(Detour)
-add_subdirectory(Recast)
-if(WITH_RECAST_DEMO)
-    add_subdirectory(DebugUtils)
-    add_subdirectory(RecastDemo)
-endif()
+#add_subdirectory(Recast)
