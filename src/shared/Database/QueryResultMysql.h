@@ -36,20 +36,51 @@
 #include <mysql.h>
 #endif
 
+/**
+ * @brief
+ *
+ */
 class QueryResultMysql : public QueryResult
 {
     public:
+        /**
+         * @brief
+         *
+         * @param result
+         * @param fields
+         * @param rowCount
+         * @param fieldCount
+         */
         QueryResultMysql(MYSQL_RES* result, MYSQL_FIELD* fields, uint64 rowCount, uint32 fieldCount);
 
+        /**
+         * @brief
+         *
+         */
         ~QueryResultMysql();
 
+        /**
+         * @brief
+         *
+         * @return bool
+         */
         bool NextRow() override;
 
     private:
+        /**
+         * @brief
+         *
+         * @param mysqlType
+         * @return Field::DataTypes
+         */
         enum Field::DataTypes ConvertNativeType(enum_field_types mysqlType) const;
+        /**
+         * @brief
+         *
+         */
         void EndQuery();
 
-        MYSQL_RES* mResult;
+        MYSQL_RES* mResult; /**< TODO */
 };
 #endif
 #endif

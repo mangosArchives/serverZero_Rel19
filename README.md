@@ -5,10 +5,10 @@ can store game data in [MySQL][40] and [PostgreSQL][42]. It has optional support
 for SOAP, and aims to be 100% compatible with [World of Warcraft][2] in its
 vanilla versions, namely [patch 1.12.1][5] and [patch 1.12.2][6].
 
-If you like the first incarnation of WoW, and still fancy [vanilla WoW][4],
-you should try *mangos-zero*. We provide an authentication server where you can
-manage your users, and a world server which serves game content just like
-the original [WoW][2] did back then.
+If you like the first incarnation of [World of Warcraft][2], and still fancy
+[vanilla WoW][4], you should try *mangos-zero*. We provide an authentication
+server where you can manage your users, and a world server which serves game
+content just like the original did back then.
 
 On top of that each update is built by [Travis CI][16] as you can see by the
 image next to the chapter's heading! We do love green builds, and working things.
@@ -20,14 +20,14 @@ copyrighted by [Blizzard Entertainment, Inc.][1]
 
 Requirements
 ------------
-*mangos-zero server* supports a wide range of operating systems, and various
+*mangos-zero* server supports a wide range of operating systems, and various
 compiler platforms. In order to do that, we use various free cross-platform
 libraries and use [CMake][19] to provide a cross-platform build system which
 adapts to your chosen operating system and compiler.
 
 Operating systems
 -----------------
-Currently we do support running the server on these operating systems:
+Currently we do support running *mangos-zero* on these operating systems:
 
 * **Windows**, 32 bit and 64 bit. [Windows][20] 7 or newer is recommended.
 * **Linux**, 32 bit and 64 bit. [Debian 7][21] and [Ubuntu 12.04 LTS][22] are
@@ -40,7 +40,7 @@ server version will work, too.
 
 Compilers
 ---------
-Building the server is currently possible with these compilers:
+Building *mangos-zero* is currently possible with these compilers:
 
 * **Microsoft Visual Studio (Express[^1])**, 32 bit and 64 bit. Both
   [Visual Studio][30] and the Express editions of [Visual Studio][31]
@@ -48,14 +48,17 @@ Building the server is currently possible with these compilers:
 * **Microsoft Windows SDK**, 32 bit and 64 bit. The [Windows 7 SDK][32] is
   recommended, as older versions lack compiler features required to build
   the server.
-* **Clang**, 32bit and 64bit. The [Clang compiler][33] can be used to build
-  the server on any supported operating system.[^2]
+* **Clang**, 32 bit and 64 bit. The [Clang compiler][33] can be used on any
+  supported operating system.[^2]
 
 Dependencies
 ------------
-*mangos-zero server* stands on the shoulds of a few well-known Open Source
-libraries, and a few awesome, but less common libraries to prevent us from
+*mangos-zero* server stands on the shoulders of well-known Open Source
+libraries, and a few awesome, but less known libraries to prevent us from
 inventing the wheel again.
+
+*Please note that Linux and Mac OS X users should install packages using
+their systems package management instead of source packages.*
 
 * **MySQL** / **PostgreSQL**: to store content, and user data, we rely on
   [MySQL][40]/[MariaDB][41] and [PostgreSQL][42] to handle data.
@@ -69,6 +72,10 @@ inventing the wheel again.
   data, and is used to handle basic map data.
 * **libmpq**: [libmpq][46] provides an abstraction layer for reading from the
   client's data files.
+* **Zlib**: [Zlib][53] ([Zlib for Windows][51]) provides compression algorithms
+  used in both MPQ archive handling and the client/server protocol.
+* **Bzip2**: [Bzip2][54] ([Bzip2 for Windows][52]) provides compression
+  algorithms used in MPQ archives.
 
 *Recast*, *G3D* and *libmpq* are included in the *mangos-zero* distribution as
 we rely on specific versions.
@@ -79,7 +86,7 @@ Optional dependencies
 * **Doxygen**: if you want to export HTML or PDF formatted documentation for the
   *mangos-zero* API, you should install [Doxygen][49].
 * **Lua**: if you want to test drive how *mangos-zero* feels with [Lua][50] as
-  scripting language instead of the scripting library, you will need Lua 5.1
+  scripting language instead of the scripting library, you will need Lua **5.1.x**
   installed.
 
 Discuss
@@ -115,8 +122,8 @@ respects for all of the code used other than [OpenSSL][48].
 
 [^1]: Visual Studio Express versions prior to the 2012 release can only
       build 32 bit applications, unless you install the Windows SDK.
-[^2]: Clang support for Windows is experimental. Failure to compile the
-      server may also relate to the experimental state of the port.
+[^2]: Clang support for Windows is experimental. Failure to compile mangos-zero
+      may also relate to the experimental state of the port.
 
 [1]: http://blizzard.com/ "Blizzard Entertainment Inc. · we love you!"
 [2]: http://blizzard.com/games/wow/ "World of Warcraft · Classic / Vanilla"
@@ -147,6 +154,9 @@ respects for all of the code used other than [OpenSSL][48].
 [31]: http://www.microsoft.com/visualstudio/eng/products/visual-studio-express-products "Visual Studio Express 2012 for Windows Desktop"
 [32]: http://www.microsoft.com/en-us/download/details.aspx?id=8279 "Windows SDK for Windows 7 and .NET Framework 4"
 [33]: http://clang.llvm.org/ "clang · a C language family frontend for LLVM"
+[34]: http://git-scm.com/ "Git · Distributed version control system"
+[35]: http://windows.github.com/ "github · windows client"
+[36]: http://www.sourcetreeapp.com/ "SourceTree · Free Mercurial and Git Client for Windows/Mac"
 
 [40]: http://www.mysql.com/ "MySQL · The world's most popular open source database"
 [41]: http://www.mariadb.org/ "MariaDB · An enhanced, drop-in replacement for MySQL"
@@ -158,3 +168,7 @@ respects for all of the code used other than [OpenSSL][48].
 [48]: http://www.openssl.org/ "OpenSSL · The Open Source toolkit for SSL/TLS"
 [49]: http://www.stack.nl/~dimitri/doxygen/ "Doxygen · API documentation generator"
 [50]: http://www.lua.org/ "Lua · The Programming Language"
+[51]: http://gnuwin32.sourceforge.net/packages/zlib.htm "Zlib for Windows"
+[52]: http://gnuwin32.sourceforge.net/packages/bzip2.htm "Bzip2 for Windows"
+[53]: http://www.zlib.net/ "Zlib"
+[54]: http://www.bzip.org/ "Bzip2"

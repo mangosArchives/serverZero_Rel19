@@ -28,18 +28,62 @@
 #include "DBCFileLoader.h"
 
 template<class T>
+/**
+ * @brief
+ *
+ */
 class DBCStorage
 {
+        /**
+         * @brief
+         *
+         */
         typedef std::list<char*> StringPoolList;
     public:
+        /**
+         * @brief
+         *
+         * @param f
+         */
         explicit DBCStorage(const char* f) : nCount(0), fieldCount(0), fmt(f), indexTable(NULL), m_dataTable(NULL) { }
+        /**
+         * @brief
+         *
+         */
         ~DBCStorage() { Clear(); }
 
+        /**
+         * @brief
+         *
+         * @param id
+         * @return const T
+         */
         T const* LookupEntry(uint32 id) const { return (id >= nCount) ? NULL : indexTable[id]; }
+        /**
+         * @brief
+         *
+         * @return uint32
+         */
         uint32  GetNumRows() const { return nCount; }
+        /**
+         * @brief
+         *
+         * @return const char
+         */
         char const* GetFormat() const { return fmt; }
+        /**
+         * @brief
+         *
+         * @return uint32
+         */
         uint32 GetFieldCount() const { return fieldCount; }
 
+        /**
+         * @brief
+         *
+         * @param fn
+         * @return bool
+         */
         bool Load(char const* fn)
         {
             DBCFileLoader dbc;
@@ -59,6 +103,12 @@ class DBCStorage
             return indexTable != NULL;
         }
 
+        /**
+         * @brief
+         *
+         * @param fn
+         * @return bool
+         */
         bool LoadStringsFrom(char const* fn)
         {
             // DBC must be already loaded using Load
@@ -76,6 +126,10 @@ class DBCStorage
             return true;
         }
 
+        /**
+         * @brief
+         *
+         */
         void Clear()
         {
             if (!indexTable)
@@ -94,16 +148,27 @@ class DBCStorage
             nCount = 0;
         }
 
-        void EraseEntry(uint32 id) { assert(id < nCount && "To be erased entry must be in bounds!") ; indexTable[id] = NULL; }
-        void InsertEntry(T* entry, uint32 id) { assert(id < nCount && "To be inserted entry must be in bounds!"); indexTable[id] = entry; }
+        /**
+         * @brief
+         *
+         * @param id
+         */
+        void EraseEntry(uint32 id) { assert(id < nCount && "Entry to be erased must be in bounds!") ; indexTable[id] = NULL; }
+        /**
+         * @brief
+         *
+         * @param entry
+         * @param id
+         */
+        void InsertEntry(T* entry, uint32 id) { assert(id < nCount && "Entry to be inserted must be in bounds!"); indexTable[id] = entry; }
 
     private:
-        uint32 nCount;
-        uint32 fieldCount;
-        char const* fmt;
-        T** indexTable;
-        T* m_dataTable;
-        StringPoolList m_stringPoolList;
+        uint32 nCount; /**< TODO */
+        uint32 fieldCount; /**< TODO */
+        char const* fmt; /**< TODO */
+        T** indexTable; /**< TODO */
+        T* m_dataTable; /**< TODO */
+        StringPoolList m_stringPoolList; /**< TODO */
 };
 
 #endif

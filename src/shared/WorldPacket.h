@@ -31,19 +31,42 @@
 
 // Note: m_opcode and size stored in platfom dependent format
 // ignore endianess until send, and converted at receive
+/**
+ * @brief
+ *
+ */
 class WorldPacket : public ByteBuffer
 {
     public:
-        // just container for later use
-        WorldPacket()                                       : ByteBuffer(0), m_opcode(MSG_NULL_ACTION)
+        /**
+         * @brief just container for later use
+         *
+         */
+        WorldPacket() : ByteBuffer(0), m_opcode(MSG_NULL_ACTION)
         {
         }
+        /**
+         * @brief
+         *
+         * @param opcode
+         * @param res
+         */
         explicit WorldPacket(uint16 opcode, size_t res = 200) : ByteBuffer(res), m_opcode(opcode) { }
-        // copy constructor
-        WorldPacket(const WorldPacket& packet)              : ByteBuffer(packet), m_opcode(packet.m_opcode)
+        /**
+         * @brief copy constructor
+         *
+         * @param packet
+         */
+        WorldPacket(const WorldPacket& packet) : ByteBuffer(packet), m_opcode(packet.m_opcode)
         {
         }
 
+        /**
+         * @brief
+         *
+         * @param opcode
+         * @param newres
+         */
         void Initialize(uint16 opcode, size_t newres = 200)
         {
             clear();
@@ -51,11 +74,26 @@ class WorldPacket : public ByteBuffer
             m_opcode = opcode;
         }
 
+        /**
+         * @brief
+         *
+         * @return uint16
+         */
         uint16 GetOpcode() const { return m_opcode; }
+        /**
+         * @brief
+         *
+         * @param opcode
+         */
         void SetOpcode(uint16 opcode) { m_opcode = opcode; }
+        /**
+         * @brief
+         *
+         * @return const char
+         */
         inline const char* GetOpcodeName() const { return LookupOpcodeName(m_opcode); }
 
     protected:
-        uint16 m_opcode;
+        uint16 m_opcode; /**< TODO */
 };
 #endif

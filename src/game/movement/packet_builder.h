@@ -31,12 +31,34 @@ class WorldPacket;
 namespace Movement
 {
     class MoveSpline;
+    /**
+     * @brief
+     *
+     */
     class PacketBuilder
     {
+            /**
+             * @brief
+             *
+             * @param mov
+             * @param data
+             */
             static void WriteCommonMonsterMovePart(const MoveSpline& mov, WorldPacket& data);
         public:
 
+            /**
+             * @brief
+             *
+             * @param mov
+             * @param data
+             */
             static void WriteMonsterMove(const MoveSpline& mov, WorldPacket& data);
+            /**
+             * @brief
+             *
+             * @param mov
+             * @param data
+             */
             static void WriteCreate(const MoveSpline& mov, ByteBuffer& data);
     };
 }

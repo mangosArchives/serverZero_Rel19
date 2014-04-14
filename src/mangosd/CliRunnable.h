@@ -32,10 +32,17 @@
 #include "Common.h"
 #include "Threading.h"
 
-/// Command Line Interface handling thread
+/**
+ * @brief Command Line Interface handling thread
+ *
+ */
 class CliRunnable : public ACE_Based::Runnable
 {
     public:
+        /**
+         * @brief
+         *
+         */
         void run() override;
 };
 #endif

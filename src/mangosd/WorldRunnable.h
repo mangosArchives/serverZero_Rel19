@@ -32,10 +32,17 @@
 #include "Common.h"
 #include "Threading.h"
 
-/// Heartbeat thread for the World
+/**
+ * @brief Heartbeat thread for the World
+ *
+ */
 class WorldRunnable : public ACE_Based::Runnable
 {
     public:
+        /**
+         * @brief
+         *
+         */
         void run() override;
 };
 #endif

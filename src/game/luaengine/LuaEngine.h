@@ -38,7 +38,7 @@
  */
 struct LoadedLuaScripts
 {
-    std::set<std::string> luafiles;
+    std::set<std::string> luafiles; /**< TODO */
 };
 
 /**
@@ -48,13 +48,8 @@ struct LoadedLuaScripts
 class Metztli
 {
     private:
-        lua_State *L;
+        lua_State *L; /**< TODO */
     public:
-<<<<<<< HEAD
-        Lua_State() : L(lua_open()) { }
-
-        ~Lua_State()
-=======
         /**
          * @brief
          *
@@ -66,12 +61,15 @@ class Metztli
          *
          */
         ~Metztli()
->>>>>>> 86a414a... Instantiate Lua engine as singleton.
         {
             lua_close(L);
         }
 
-        // implicitly act as a lua_State pointer
+        /**
+         * @brief implicitly act as a lua_State pointer
+         *
+         * @return operator lua_State
+         */
         inline operator lua_State*()
         {
             return L;

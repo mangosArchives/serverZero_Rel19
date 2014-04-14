@@ -29,6 +29,10 @@
 #include "OutdoorPvP.h"
 #include "Language.h"
 
+/**
+ * @brief
+ *
+ */
 enum
 {
     // npcs
@@ -66,23 +70,70 @@ enum
     WORLD_STATE_SI_SILITHYST_MAX        = 2317
 };
 
+/**
+ * @brief
+ *
+ */
 class OutdoorPvPSI : public OutdoorPvP
 {
     public:
+        /**
+         * @brief
+         *
+         */
         OutdoorPvPSI();
 
+        /**
+         * @brief
+         *
+         * @param player
+         * @param isMainZone
+         */
         void HandlePlayerEnterZone(Player* player, bool isMainZone) override;
+        /**
+         * @brief
+         *
+         * @param player
+         * @param isMainZone
+         */
         void HandlePlayerLeaveZone(Player* player, bool isMainZone) override;
+        /**
+         * @brief
+         *
+         * @param data
+         * @param count
+         */
         void FillInitialWorldStates(WorldPacket& data, uint32& count) override;
 
+        /**
+         * @brief
+         *
+         * @param player
+         * @param triggerId
+         * @return bool
+         */
         bool HandleAreaTrigger(Player* player, uint32 triggerId) override;
+        /**
+         * @brief
+         *
+         * @param player
+         * @param go
+         * @return bool
+         */
         bool HandleGameObjectUse(Player* player, GameObject* go) override;
+        /**
+         * @brief
+         *
+         * @param player
+         * @param spellId
+         * @return bool
+         */
         bool HandleDropFlag(Player* player, uint32 spellId) override;
 
     private:
-        uint8 m_resourcesAlliance;
-        uint8 m_resourcesHorde;
-        Team m_zoneOwner;
+        uint8 m_resourcesAlliance; /**< TODO */
+        uint8 m_resourcesHorde; /**< TODO */
+        Team m_zoneOwner; /**< TODO */
 };
 
 #endif

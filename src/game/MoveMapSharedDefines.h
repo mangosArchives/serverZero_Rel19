@@ -25,8 +25,8 @@
 #ifndef _MOVE_MAP_SHARED_DEFINES_H
 #define _MOVE_MAP_SHARED_DEFINES_H
 
-#include "Platform/Define.h"
 #include "../recastnavigation/Detour/Include/DetourNavMesh.h"
+#include "Platform/Define.h"
 
 #define MMAP_MAGIC 0x4d4d4150   // 'MMAP'
 #define MMAP_VERSION 3

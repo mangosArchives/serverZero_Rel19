@@ -27,26 +27,53 @@
 
 #include "Platform/Define.h"
 
+/**
+ * @brief
+ *
+ */
 class MANGOS_DLL_SPEC BarGoLink
 {
-    public:                                                 // constructors
+    public:
+        /**
+         * @brief constructors
+         *
+         * @param row_count
+         */
         explicit BarGoLink(int row_count);
+        /**
+         * @brief
+         *
+         */
         ~BarGoLink();
 
-    public:                                                 // modifiers
+    public:
+        /**
+         * @brief modifiers
+         *
+         */
         void step();
 
+        /**
+         * @brief
+         *
+         * @param on
+         */
         static void SetOutputState(bool on);
     private:
+        /**
+         * @brief
+         *
+         * @param row_count
+         */
         void init(int row_count);
 
-        static bool m_showOutput;                           // not recommended change with existed active bar
-        static char const* const empty;
-        static char const* const full;
+        static bool m_showOutput; /**< not recommended change with existed active bar */
+        static char const* const empty; /**< TODO */
+        static char const* const full; /**< TODO */
 
-        int rec_no;
-        int rec_pos;
-        int num_rec;
-        int indic_len;
+        int rec_no; /**< TODO */
+        int rec_pos; /**< TODO */
+        int num_rec; /**< TODO */
+        int indic_len; /**< TODO */
 };
 #endif

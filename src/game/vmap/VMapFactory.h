@@ -35,13 +35,37 @@ namespace VMAP
 {
     //===========================================================
 
+    /**
+     * @brief
+     *
+     */
     class VMapFactory
     {
         public:
+            /**
+             * @brief
+             *
+             * @return IVMapManager
+             */
             static IVMapManager* createOrGetVMapManager();
+            /**
+             * @brief
+             *
+             */
             static void clear();
 
+            /**
+             * @brief
+             *
+             * @param pSpellIdString
+             */
             static void preventSpellsFromBeingTestedForLoS(const char* pSpellIdString);
+            /**
+             * @brief
+             *
+             * @param pSpellId
+             * @return bool
+             */
             static bool checkSpellForLoS(unsigned int pSpellId);
     };
 }

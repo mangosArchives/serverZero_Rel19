@@ -1,0 +1,152 @@
+# mangos-zero is a full featured server for World of Warcraft in its vanilla
+# version, supporting clients for patch 1.12.x.
+#
+# Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
+#
+# ***** BEGIN GPL LICENSE BLOCK *****
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+# ***** END GPL LICENSE BLOCK *****
+#
+# World of Warcraft, and all World of Warcraft or Warcraft art, images,
+# and lore are copyrighted by Blizzard Entertainment, Inc.
+
+include(MacroMangosSourceGroup)
+
+#-----------------------------------------------------------------------------
+# Define the g3dlite library
+set(sources
+    AABox.cpp
+    Any.cpp
+    #AnyVal.cpp
+    #AreaMemoryManager.cpp
+    BinaryFormat.cpp
+    BinaryInput.cpp
+    BinaryOutput.cpp
+    Box.cpp
+    #Box2D.cpp
+    #BumpMapPreprocess.cpp
+    Capsule.cpp
+    CollisionDetection.cpp
+    #Color1.cpp
+    #Color1uint8.cpp
+    #Color3.cpp
+    #Color3uint8.cpp
+    #Color4.cpp
+    #Color4uint8.cpp
+    #Cone.cpp
+    #ConvexPolyhedron.cpp
+    CoordinateFrame.cpp
+    Crypto.cpp
+    #Crypto_md5.cpp
+    Cylinder.cpp
+    FileSystem.cpp
+    #GCamera.cpp
+    #GImage.cpp
+    #GImage_bayer.cpp
+    #GImage_bmp.cpp
+    #GImage_jpeg.cpp
+    #GImage_png.cpp
+    #GImage_ppm.cpp
+    #GImage_tga.cpp
+    #GLight.cpp
+    #GThread.cpp
+    #GUniqueID.cpp
+    #Image1.cpp
+    #Image1uint8.cpp
+    #Image3.cpp
+    #Image3uint8.cpp
+    #Image4.cpp
+    #Image4uint8.cpp
+    #ImageFormat.cpp
+    #ImageFormat_convert.cpp
+    #Intersect.cpp
+    Line.cpp
+    LineSegment.cpp
+    Log.cpp
+    #Matrix.cpp
+    Matrix3.cpp
+    Matrix4.cpp
+    MemoryManager.cpp
+    #MeshAlg.cpp
+    #MeshAlgAdjacency.cpp
+    #MeshAlgWeld.cpp
+    #MeshBuilder.cpp
+    #NetAddress.cpp
+    #NetworkDevice.cpp
+    PhysicsFrame.cpp
+    #PhysicsFrameSpline.cpp
+    Plane.cpp
+    #PrecomputedRandom.cpp
+    Quat.cpp
+    Random.cpp
+    Ray.cpp
+    #Rect2D.cpp
+    ReferenceCount.cpp
+    RegistryUtil.cpp
+    Sphere.cpp
+    #SplineBase.cpp
+    #Stopwatch.cpp
+    System.cpp
+    TextInput.cpp
+    TextOutput.cpp
+    #ThreadSet.cpp
+    Triangle.cpp
+    UprightFrame.cpp
+    Vector2.cpp
+    #Vector2int16.cpp
+    Vector3.cpp
+    #Vector3int16.cpp
+    #Vector3int32.cpp
+    Vector4.cpp
+    #Vector4int8.cpp
+    #Welder.cpp
+    #WinMain.cpp
+    #XML.cpp
+    #constants.cpp
+    debugAssert.cpp
+    fileutils.cpp
+    #filter.cpp
+    format.cpp
+    g3dfnmatch.cpp
+    g3dmath.cpp
+    #license.cpp
+    prompt.cpp
+    stringutils.cpp
+    uint128.cpp
+)
+file(GLOB headers ${CMAKE_SOURCE_DIR}/dep/include/g3dlite/G3D/*.h)
+
+set(g3dlite_LIB_SRCS ${sources} ${headers})
+
+mangos_source_group(${g3dlite_LIB_SRCS})
+
+include_directories(
+    ${ZLIB_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/dep/include/g3dlite/
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+#-----------------------------------------------------------------------------
+# Build the g3dlite library
+add_library(g3dlite STATIC ${g3dlite_LIB_SRCS})
+target_link_libraries(g3dlite ${ZLIB_LIBRARIES})
+
+if(WIN32)
+    # Disabled for now. GnuWin32-zlib does not need this
+    # set(BUILD_PROPERTIES "-DZLIB_WINAPI" )
+    # set_target_properties(g3dlite PROPERTIES COMPILE_FLAGS ${BUILD_PROPERTIES})
+endif()
