@@ -111,6 +111,17 @@
     <ClInclude Include="map-extractor\mpq_libmpq.h" />
     <ClInclude Include="map-extractor\loadlib\wdt.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\dep\libmpq\win\VC110\libmpq.vcxproj">
+      <Project>{03ab0f44-628e-4855-99a0-c98a1eb52c50}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\win\VC110\bzip2.vcxproj">
+      <Project>{b96f612a-c91d-43b3-a4c3-d4294817ec6c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\win\VC110\zlib.vcxproj">
+      <Project>{8f1dea42-6a5b-4b62-839d-c141a7bfacf2}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

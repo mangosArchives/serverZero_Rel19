@@ -31,7 +31,7 @@
 #include <iostream>
 #include <deque>
 #include "loadlib\loadlib.h"
-#include "..\..\..\dep\libmpq\libmpq\mpq.h"
+#include "libmpq\mpq.h"
 
 using namespace std;
 
