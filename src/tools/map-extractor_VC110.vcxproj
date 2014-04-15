@@ -52,7 +52,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -74,7 +74,8 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\..\dep\libmpq;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </ClCompile>
@@ -90,15 +91,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="map-extractor\loadlib\adt.cpp" />
-    <ClCompile Include="map-extractor\libmpq\common.cpp" />
     <ClCompile Include="map-extractor\dbcfile.cpp" />
-    <ClCompile Include="map-extractor\libmpq\explode.cpp" />
-    <ClCompile Include="map-extractor\libmpq\extract.cpp" />
-    <ClCompile Include="map-extractor\libmpq\huffman.cpp" />
     <ClCompile Include="map-extractor\loadlib\loadlib.cpp" />
-    <ClCompile Include="map-extractor\libmpq\mpq.cpp" />
     <ClCompile Include="map-extractor\mpq_libmpq.cpp" />
-    <ClCompile Include="map-extractor\libmpq\parser.cpp" />
     <ClCompile Include="map-extractor\system.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -107,19 +102,13 @@
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <ClCompile Include="map-extractor\libmpq\wave.cpp" />
     <ClCompile Include="map-extractor\loadlib\wdt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="map-extractor\loadlib\adt.h" />
-    <ClInclude Include="map-extractor\libmpq\common.h" />
     <ClInclude Include="map-extractor\dbcfile.h" />
-    <ClInclude Include="map-extractor\libmpq\explode.h" />
-    <ClInclude Include="map-extractor\libmpq\huffman.h" />
     <ClInclude Include="map-extractor\loadlib\loadlib.h" />
-    <ClInclude Include="map-extractor\libmpq\mpq.h" />
     <ClInclude Include="map-extractor\mpq_libmpq.h" />
-    <ClInclude Include="map-extractor\libmpq\wave.h" />
     <ClInclude Include="map-extractor\loadlib\wdt.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

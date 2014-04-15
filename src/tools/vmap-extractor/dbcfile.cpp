@@ -45,7 +45,7 @@ bool DBCFile::open()
     {
         f.close();
         data = NULL;
-        printf("Could not open DBCFile %s.", filename.c_str());
+        printf("Could not open DBCFile %s.\n", filename.c_str());
         return false;
     }
 
@@ -56,7 +56,7 @@ bool DBCFile::open()
     {
         f.close();
         data = NULL;
-        printf("Could not read header in DBCFile %s.", filename.c_str());
+        printf("Could not read header in DBCFile %s.\n", filename.c_str());
         return false;
     }
 
@@ -64,7 +64,7 @@ bool DBCFile::open()
     {
         f.close();
         data = NULL;
-        printf("The header in DBCFile %s did not match.", filename.c_str());
+        printf("The header in DBCFile %s did not match.\n", filename.c_str());
         return false;
     }
 
@@ -72,7 +72,7 @@ bool DBCFile::open()
     {
         f.close();
         data = NULL;
-        printf("Could not read number of records from DBCFile %s.", filename.c_str());
+        printf("Could not read number of records from DBCFile %s.\n", filename.c_str());
         return false;
     }
 
@@ -80,7 +80,7 @@ bool DBCFile::open()
     {
         f.close();
         data = NULL;
-        printf("Could not read number of fields from DBCFile %s.", filename.c_str());
+        printf("Could not read number of fields from DBCFile %s.\n", filename.c_str());
         return false;
     }
 
@@ -88,7 +88,7 @@ bool DBCFile::open()
     {
         f.close();
         data = NULL;
-        printf("Could not read record size from DBCFile %s.", filename.c_str());
+        printf("Could not read record size from DBCFile %s.\n", filename.c_str());
         return false;
     }
 
@@ -96,7 +96,7 @@ bool DBCFile::open()
     {
         f.close();
         data = NULL;
-        printf("Could not read string block size from DBCFile %s.", filename.c_str());
+        printf("Could not read string block size from DBCFile %s.\n", filename.c_str());
         return false;
     }
 
@@ -108,7 +108,7 @@ bool DBCFile::open()
     {
         f.close();
         data = NULL;
-        printf("Field count and record size in DBCFile %s do not match.", filename.c_str());
+        printf("Field count and record size in DBCFile %s do not match.\n", filename.c_str());
         return false;
     }
 
@@ -120,7 +120,7 @@ bool DBCFile::open()
     {
         f.close();
         data = NULL;
-        printf("DBCFile %s did not contain expected amount of data for records.", filename.c_str());
+        printf("DBCFile %s did not contain expected amount of data for records.\n", filename.c_str());
         return false;
     }
 

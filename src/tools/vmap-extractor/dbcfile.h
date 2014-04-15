@@ -188,6 +188,7 @@ class DBCFile
                 friend class DBCFile;
                 friend class DBCFile::Iterator;
         };
+
         /**
          * @brief Iterator that iterates over records
          *
