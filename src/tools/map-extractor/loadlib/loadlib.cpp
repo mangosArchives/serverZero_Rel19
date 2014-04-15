@@ -22,10 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#define _CRT_SECURE_NO_DEPRECATE
-
-#include "loadlib.h"
 #include "../mpq_libmpq.h"
+#include "loadlib.h"
 
 #include <stdio.h>
 

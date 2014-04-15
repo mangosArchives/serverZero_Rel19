@@ -19,8 +19,6 @@
  *
  *  $Id: mpq.c,v 1.6 2004/02/12 00:49:00 mbroemme Exp $
  */
-#define _CRT_SECURE_NO_DEPRECATE
-
 #include <stdlib.h>
 #include <sys/stat.h>
 //#include <unistd.h>
@@ -672,7 +670,7 @@ int libmpq_file_getdata(mpq_archive* mpq_a, mpq_hash mpq_h, const int number, un
     }
 
     if (libmpq_file_read_file(mpq_a, mpq_f, 0, (char*)dest, mpq_b->fsize) == mpq_b->fsize)
-        success = 1;
+        { success = 1; }
 
     if (mpq_f->mpq_b->flags & LIBMPQ_FILE_COMPRESSED)
     {

@@ -10,13 +10,6 @@
 
 cmake_minimum_required (VERSION 2.8)
 
-project (MANGOS_VMAP_EXTRACT_IO)
-
-# uncomment next line to disable debug mode
-ADD_DEFINITIONS("-DIOMAP_DEBUG")
-# build setup currently only supports libmpq 0.4.x
-ADD_DEFINITIONS("-DUSE_LIBMPQ04")
-
-include_directories(${CMAKE_SOURCE_DIR}/../../dep/libmpq)
-
-add_subdirectory(vmapextract)
+LINK_DIRECTORIES( ${LINK_DIRECTORIES} ${CMAKE_SOURCE_DIR}/../../dep/libmpq/libmpq/.libs/ )
+add_executable(vmapextractor adtfile.cpp  dbcfile.cpp gameobject_extract.cpp model.cpp  mpq_libmpq.cpp  vmapexport.cpp  wdtfile.cpp  wmo.cpp)
+target_link_libraries(vmapextractor mpq bz2 z)

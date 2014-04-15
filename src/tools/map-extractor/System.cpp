@@ -22,15 +22,13 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#define _CRT_SECURE_NO_DEPRECATE
-
 #include <stdio.h>
 #include <deque>
 #include <set>
 #include <cstdlib>
 
 #ifdef WIN32
-#include "direct.h"
+#include <direct.h>
 #else
 #include <sys/stat.h>
 #endif
@@ -1113,7 +1111,7 @@ void LoadCommonMPQFiles()
     int count = sizeof(CONF_mpq_list) / sizeof(char*);
     for (int i = 0; i < count; ++i)
     {
-        sprintf(filename, "%s/Data/%s", input_path, CONF_mpq_list[i]);
+        sprintf_s(filename, "%s/Data/%s", input_path, CONF_mpq_list[i]);
         if (FileExists(filename))
             { new MPQArchive(filename); }
     }
@@ -1138,8 +1136,7 @@ inline void CloseMPQFiles()
  */
 int main(int argc, char** argv)
 {
-    printf("Map & DBC Extractor\n");
-    printf("===================\n\n");
+    printf("mangos-zero DBC & map (version %s) extractor\n\n", MAP_VERSION_MAGIC);
 
     if (!HandleArgs(argc, argv))
     {

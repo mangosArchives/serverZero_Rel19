@@ -36,7 +36,7 @@ MPQArchive::MPQArchive(const char* filename)
     {
         switch (result)
         {
-            case LIBMPQ_EFILE :                   /* error on file operation */
+			case LIBMPQ_EFILE :                   /* error on file operation */
                 printf("Error opening archive '%s': File operation Error\n", filename);
                 break;
             case LIBMPQ_EFILE_FORMAT :            /* bad file format */
