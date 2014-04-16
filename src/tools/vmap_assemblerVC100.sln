@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vmap_assembler", "VC100\vmap_assembler.vcxproj", "{572FFF74-480C-4472-8ABF-81733BB4049D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vmap-Assembler", "vmap_assembler_VC100.vcxproj", "{572FFF74-480C-4472-8ABF-81733BB4049D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8F1DEA42-6A5B-4B62-839D-C141A7BFACF2} = {8F1DEA42-6A5B-4B62-839D-C141A7BFACF2}
 		{8072769E-CF10-48BF-B9E1-12752A5DAC6E} = {8072769E-CF10-48BF-B9E1-12752A5DAC6E}

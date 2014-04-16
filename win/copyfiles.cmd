@@ -29,3 +29,11 @@ echo **********************
 echo ** ahbot.conf       **
 echo **********************
 copy ..\..\src\game\AuctionHouseBot\ahbot.conf.dist.in %2
+
+echo .
+echo **********************
+echo ** Extraction Tools **
+echo **********************
+copy ..\..\src\tools\Extractor_Binaries\*.* %2
+
+
