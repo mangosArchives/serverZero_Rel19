@@ -89,7 +89,7 @@ createMMaps()
 		continue 2
 	  fi
 	done
-	./mmap-generator $PARAMS $OFFMESH $i | tee -a $DETAIL_LOG_FILE
+	movemap-generator $PARAMS $OFFMESH $i | tee -a $DETAIL_LOG_FILE
 	echo "`date`: (Re)created map $i" | tee -a $LOG_FILE
   done
 }
@@ -136,25 +136,14 @@ case "$1" in
 	createMMaps $MAP_LIST_D &
 	;;
   "offmesh" )
-<<<<<<< HEAD
-    echo "`date`: Recreate offmeshs from file $OFFMESH_FILE" | tee -a $LOG_FILE
-    echo "Recreate offmeshs from file $OFFMESH_FILE" | tee -a $DETAIL_LOG_FILE
-    while read map tile line
-    do
-      ./MoveMapGen $PARAMS $OFFMESH $map --tile $tile | tee -a $DETAIL_LOG_FILE
-      echo "`date`: Recreated $map $tile from $OFFMESH_FILE" | tee -a $LOG_FILE
-    done < $OFFMESH_FILE &
-    ;;
-=======
 	echo "`date`: Recreate offmeshs from file $OFFMESH_FILE" | tee -a $LOG_FILE
 	echo "Recreate offmeshs from file $OFFMESH_FILE" | tee -a $DETAIL_LOG_FILE
 	while read map tile line
 	do
-	  ./mmap-generator $PARAMS $OFFMESH $map --tile $tile | tee -a $DETAIL_LOG_FILE
+	  movemap-generator $PARAMS $OFFMESH $map --tile $tile | tee -a $DETAIL_LOG_FILE
 	  echo "`date`: Recreated $map $tile from $OFFMESH_FILE" | tee -a $LOG_FILE
 	done < $OFFMESH_FILE &
 	;;
->>>>>>> 34cdcbf... *mangos-zero* documentation has been converted from plain text to Markdown.
   * )
 	badParam
 	exit 1
