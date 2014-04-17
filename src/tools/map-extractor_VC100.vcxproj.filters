@@ -11,76 +11,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\dep\src\zlib\adler32.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dep\src\zlib\compress.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dep\src\zlib\crc32.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dep\src\zlib\deflate.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dep\src\zlib\gzio.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dep\src\zlib\infback.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dep\src\zlib\inffast.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dep\src\zlib\inflate.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dep\src\zlib\inftrees.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dep\src\zlib\trees.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dep\src\zlib\uncompr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\dep\src\zlib\zutil.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="map-extractor\loadlib\adt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="map-extractor\libmpq\common.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="map-extractor\dbcfile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="map-extractor\libmpq\explode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="map-extractor\libmpq\extract.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="map-extractor\libmpq\huffman.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="map-extractor\loadlib\loadlib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="map-extractor\libmpq\mpq.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="map-extractor\mpq_libmpq.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="map-extractor\libmpq\parser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="map-extractor\system.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="map-extractor\libmpq\wave.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="map-extractor\loadlib\wdt.cpp">
@@ -88,61 +31,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\dep\src\zlib\crc32.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\dep\src\zlib\deflate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\dep\src\zlib\inffast.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\dep\src\zlib\inffixed.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\dep\src\zlib\inflate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\dep\src\zlib\inftrees.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\dep\src\zlib\trees.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\dep\src\zlib\zconf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\dep\src\zlib\zlib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\dep\src\zlib\zutil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="map-extractor\loadlib\adt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="map-extractor\libmpq\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="map-extractor\dbcfile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="map-extractor\libmpq\explode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="map-extractor\libmpq\huffman.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="map-extractor\loadlib\loadlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="map-extractor\libmpq\mpq.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="map-extractor\mpq_libmpq.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="map-extractor\libmpq\wave.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="map-extractor\loadlib\wdt.h">
