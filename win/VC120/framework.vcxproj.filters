@@ -96,9 +96,6 @@
     <ClInclude Include="..\..\dep\fastmm\FastMM.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\framework\Policies\MemoryManagement.cpp">
-      <Filter>Policies</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\framework\Policies\ObjectLifeTime.cpp">
       <Filter>Policies</Filter>
     </ClCompile>
