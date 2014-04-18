@@ -27,10 +27,15 @@ add_subdirectory(src)
 add_subdirectory(libmpq)
 
 # This is done to generate the config.h file for libmpq
+# Kind of a cludge..
 include(ExternalProject)
-ExternalProject_Add(mympq
+ExternalProject_Add(mympqtmp
   PREFIX "./"
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/dep/libmpq/"
+  # This is for the CONFIGURE_COMMAND to have the right working dir
+  BINARY_DIR "${CMAKE_SOURCE_DIR}/dep/libmpq/"
   CONFIGURE_COMMAND "${CMAKE_SOURCE_DIR}/dep/libmpq/autogen.sh"
+  BUILD_COMMAND ""
+  INSTALL_COMMAND ""
 )
 
