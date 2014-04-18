@@ -24,8 +24,6 @@
 # World of Warcraft, and all World of Warcraft or Warcraft art, images,
 # and lore are copyrighted by Blizzard Entertainment, Inc.
 
-include(MacroMangosSourceGroup)
-
 #-----------------------------------------------------------------------------
 # Define the Recast library
 file(GLOB sources Source/*.cpp)
@@ -33,12 +31,10 @@ file(GLOB headers Include/*.h)
 
 set(Recast_LIB_SRCS ${sources} ${headers})
 
-mangos_source_group(${Recast_LIB_SRCS})
-
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/Include
 )
 
 #-----------------------------------------------------------------------------
 # Build the Recast library
-add_library(Recast STATIC ${Recast_LIB_SRCS})
+add_library(recast STATIC ${Recast_LIB_SRCS})

@@ -24,3 +24,13 @@ endif()
 
 add_subdirectory(recastnavigation)
 add_subdirectory(src)
+add_subdirectory(libmpq)
+
+# This is done to generate the config.h file for libmpq
+include(ExternalProject)
+ExternalProject_Add(mympq
+  PREFIX "./"
+  SOURCE_DIR "${CMAKE_SOURCE_DIR}/dep/libmpq/"
+  CONFIGURE_COMMAND "${CMAKE_SOURCE_DIR}/dep/libmpq/autogen.sh"
+)
+

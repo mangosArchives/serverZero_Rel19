@@ -29,6 +29,9 @@ elseif( WIN32 )
   )
 endif()
 
-add_library(mpq STATIC ${mpq_STAT_SRCS})
+add_library(libmpq STATIC ${mpq_STAT_SRCS})
 
-set_target_properties(mpq PROPERTIES LINKER_LANGUAGE CXX)
+include_directories( ${ZLIB_INCLUDE_DIRS} )
+target_link_libraries(libmpq ${ZLIB_LIBRARIES} bzip2)
+
+set_target_properties(libmpq PROPERTIES LINKER_LANGUAGE CXX)

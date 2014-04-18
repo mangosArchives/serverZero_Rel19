@@ -42,6 +42,10 @@
 
 #ifndef WIN32
 #include <unistd.h>
+/* This isn't the nicest way to do things..
+ * TODO: Fix this with snprintf instead and check that it still works
+ */
+#define sprintf_s sprintf
 #endif
 
 #if defined( __GNUC__ )

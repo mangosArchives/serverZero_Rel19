@@ -29,4 +29,6 @@ add_subdirectory(shared)
 add_subdirectory(realmd)
 add_subdirectory(game)
 add_subdirectory(mangosd)
+# Should have a check for if we're building tools aswell here
+add_subdirectory(tools)
 #add_subdirectory(scripts)

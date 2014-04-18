@@ -30,8 +30,8 @@
 #include <vector>
 #include <iostream>
 #include <deque>
-#include "loadlib\loadlib.h"
-#include "libmpq\mpq.h"
+#include "loadlib/loadlib.h"
+#include "libmpq/mpq.h"
 
 using namespace std;
 

@@ -25,7 +25,7 @@
 #include "mpq_libmpq.h"
 #include <deque>
 #include <cstdio>
-#include "libmpq\mpq.h"
+#include "libmpq/mpq.h"
 
 ArchiveSet gOpenArchives;
 
