@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Mekgineer_Thermaplugg
-SD%Complete: 90 - Timer
-SDComment: Timer need improvement, especially for bomb-spawning
-SDCategory: Gnomeregan
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Mekgineer_Thermaplugg
+ * SD%Complete: 90
+ * SDComment:   Timer need improvement, especially for bomb-spawning
+ * SDCategory:  Gnomeregan
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "gnomeregan.h"

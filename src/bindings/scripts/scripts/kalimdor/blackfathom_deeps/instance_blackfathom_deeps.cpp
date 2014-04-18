@@ -23,20 +23,23 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Blackfathom_Deeps
-SD%Complete: 50
-SDComment:
-SDCategory: Blackfathom Deeps
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Blackfathom_Deeps
+ * SD%Complete: 50
+ * SDComment:   None
+ * SDCategory:  Blackfathom Deeps
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "blackfathom_deeps.h"
 
-/* Encounter 0 = Twilight Lord Kelris
-   Encounter 1 = Shrine event
-   Must kill twilight lord for shrine event to be possible
-   Encounter 3 = Baron Aquanis
+/**
+ * Encounter 0 = Twilight Lord Kelris
+ * Encounter 1 = Shrine event
+ * Must kill twilight lord for shrine event to be possible
+ * Encounter 3 = Baron Aquanis
  */
 
 instance_blackfathom_deeps::instance_blackfathom_deeps(Map* pMap) : ScriptedInstance(pMap),

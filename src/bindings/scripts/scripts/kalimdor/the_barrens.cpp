@@ -23,21 +23,25 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: The_Barrens
-SD%Complete: 90
-SDComment: Quest support: 863, 898, 1719, 2458, 4921.
-SDCategory: Barrens
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      The_Barrens
+ * SD%Complete: 90
+ * SDComment:   Quest support: 863, 898, 1719, 2458, 4921.
+ * SDCategory:  Barrens
+ * EndScriptData
+ */
 
-/* ContentData
-npc_beaten_corpse
-npc_gilthares
-npc_taskmaster_fizzule
-npc_twiggy_flathead
-at_twiggy_flathead
-npc_wizzlecrank_shredder
-EndContentData */
+/**
+ * ContentData
+ * npc_beaten_corpse
+ * npc_gilthares
+ * npc_taskmaster_fizzule
+ * npc_twiggy_flathead
+ * at_twiggy_flathead
+ * npc_wizzlecrank_shredder
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

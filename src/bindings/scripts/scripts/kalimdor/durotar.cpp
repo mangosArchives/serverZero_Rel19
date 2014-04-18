@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Durotar
-SD%Complete: 100
-SDComment: Quest support: 5441
-SDCategory: Durotar
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Durotar
+ * SD%Complete: 100
+ * SDComment:   Quest support: 5441.
+ * SDCategory:  Durotar
+ * EndScriptData
+ */
 
-/* ContentData
-npc_lazy_peon
-EndContentData */
+/**
+ * ContentData
+ * npc_lazy_peon
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

@@ -23,15 +23,19 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Elwynn_Forest
-SD%Complete: 0
-SDComment: Placeholder
-SDCategory: Elwynn Forest
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Elwynn_Forest
+ * SD%Complete: 0
+ * SDComment:   Placeholder
+ * SDCategory:  Elwynn Forest
+ * EndScriptData
+ */
 
-/* ContentData
-EndContentData */
+/**
+ * ContentData
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

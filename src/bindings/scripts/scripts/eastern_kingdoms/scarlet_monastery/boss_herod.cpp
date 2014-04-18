@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Herod
-SD%Complete: 95
-SDComment: Should in addition spawn Myrmidons in the hallway outside
-SDCategory: Scarlet Monastery
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Herod
+ * SD%Complete: 95
+ * SDComment:   Should in addition spawn Myrmidons in the hallway outside
+ * SDCategory:  Scarlet Monastery
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

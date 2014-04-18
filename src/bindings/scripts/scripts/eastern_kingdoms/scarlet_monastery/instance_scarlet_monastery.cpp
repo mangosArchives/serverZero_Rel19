@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Scarlet_Monastery
-SD%Complete: 50
-SDComment:
-SDCategory: Scarlet Monastery
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Scarlet_Monastery
+ * SD%Complete: 50
+ * SDComment:   None
+ * SDCategory:  Scarlet Monastery
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "scarlet_monastery.h"

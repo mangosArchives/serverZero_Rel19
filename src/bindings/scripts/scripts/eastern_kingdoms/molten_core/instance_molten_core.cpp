@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Molten_Core
-SD%Complete: 25
-SDComment: Majordomos and Ragnaros Event missing
-SDCategory: Molten Core
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Molten_Core
+ * SD%Complete: 25
+ * SDComment:   Majordomos and Ragnaros Event missing
+ * SDCategory:  Molten Core
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "molten_core.h"

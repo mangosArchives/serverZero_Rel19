@@ -23,12 +23,21 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Stonetalon_Mountains
-SD%Complete: 100
-SDComment: Quest support: 1090, 6523.
-SDCategory: Stonetalon Mountains
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Stonetalon_Mountains
+ * SD%Complete: 100
+ * SDComment:   Quest support: 1090, 6523.
+ * SDCategory:  Stonetalon Mountains
+ * EndScriptData
+ */
+
+/**
+ * ContentData
+ * npc_kaya
+ * npc_piznik
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

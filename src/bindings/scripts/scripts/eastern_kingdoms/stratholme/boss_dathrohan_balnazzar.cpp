@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Dathrohan_Balnazzar
-SD%Complete: 95
-SDComment: Possibly need to fix/improve summons after death
-SDCategory: Stratholme
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Dathrohan_Balnazzar
+ * SD%Complete: 95
+ * SDComment:   Possibly need to fix/improve summons after death
+ * SDCategory:  Stratholme
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

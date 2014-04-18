@@ -23,15 +23,19 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Alterac_Mountains
-SD%Complete: 0
-SDComment: Placeholder
-SDCategory: Alterac Mountains
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Alterac_Mountains
+ * SD%Complete: 0
+ * SDComment:   Placeholder
+ * SDCategory:  Alterac Mountains
+ * EndScriptData
+ */
 
-/* ContentData
-EndContentData */
+/**
+ * ContentData
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

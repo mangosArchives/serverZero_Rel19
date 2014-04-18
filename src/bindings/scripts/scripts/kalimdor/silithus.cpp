@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Silithus
-SD%Complete: 100
-SDComment: Quest support: 8519.
-SDCategory: Silithus
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Silithus
+ * SD%Complete: 100
+ * SDComment:   Quest support: 8519.
+ * SDCategory:  Silithus
+ * EndScriptData
+ */
 
-/* ContentData
-npc_anachronos_the_ancient
-EndContentData */
+/**
+ * ContentData
+ * npc_anachronos_the_ancient
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

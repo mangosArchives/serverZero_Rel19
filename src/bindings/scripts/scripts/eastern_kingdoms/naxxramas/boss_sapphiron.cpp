@@ -23,14 +23,17 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Sapphiron
-SD%Complete: 80
-SDComment: Some spells need core implementation
-SDCategory: Naxxramas
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Sapphiron
+ * SD%Complete: 0
+ * SDComment:   Some spells need core implementation
+ * SDCategory:  Naxxramas
+ * EndScriptData
+ */
 
-/* Additional comments:
+/**
+ * Additional comments:
  * Bugged spells:   28560 (needs maxTarget = 1, Summon of 16474 implementation, TODO, 30s duration)
  *                  28526 (needs ScriptEffect to cast 28522 onto random target)
  *

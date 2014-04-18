@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Shazzrah
-SD%Complete: 75
-SDComment: Teleport NYI (need core support, remove hack here when implemented)
-SDCategory: Molten Core
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Shazzrah
+ * SD%Complete: 75
+ * SDComment:   Teleport NYI (need core support, remove hack here when implemented)
+ * SDCategory:  Molten Core
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "molten_core.h"

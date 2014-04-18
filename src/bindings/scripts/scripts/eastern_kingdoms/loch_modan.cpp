@@ -23,17 +23,21 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Loch_Modan
-SD%Complete: 100
-SDComment: Quest support: 3181 (only to argue with pebblebitty to get to searing gorge, before quest rewarded), 309
-SDCategory: Loch Modan
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Loch_Modan
+ * SD%Complete: 100
+ * SDComment:   Quest support: 309, 3181 (only to argue with pebblebitty to get to searing gorge, before quest rewarded).
+ * SDCategory:  Loch Modan
+ * EndScriptData
+ */
 
-/* ContentData
-npc_mountaineer_pebblebitty
-npc_miran
-EndContentData */
+/**
+ * ContentData
+ * npc_mountaineer_pebblebitty
+ * npc_miran
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

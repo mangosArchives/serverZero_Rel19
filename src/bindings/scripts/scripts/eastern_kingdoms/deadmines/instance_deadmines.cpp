@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Deadmines
-SD%Complete: 0
-SDComment: Placeholder
-SDCategory: Deadmines
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Deadmines
+ * SD%Complete: 0
+ * SDComment:   Placeholder
+ * SDCategory:  Deadmines
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "deadmines.h"

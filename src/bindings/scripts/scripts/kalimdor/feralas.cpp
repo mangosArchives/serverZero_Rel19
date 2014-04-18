@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Feralas
-SD%Complete: 100
-SDComment: Quest support: 2767.
-SDCategory: Feralas
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Feralas
+ * SD%Complete: 100
+ * SDComment:   Quest support: 2767.
+ * SDCategory:  Feralas
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

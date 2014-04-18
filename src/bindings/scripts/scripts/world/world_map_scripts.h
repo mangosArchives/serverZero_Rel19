@@ -40,7 +40,7 @@ enum
     NPC_WRYNN                   = 1747,
     NPC_BOLVAR                  = 1748,
     NPC_PRESTOR                 = 1749,
-    NPC_WINDSOR                 = 12580,
+    NPC_WINDSOR                 = 12580
 };
 
 enum SpawnIndexes
@@ -53,9 +53,9 @@ enum SpawnIndexes
 
 static const float aSpawnLocations[POS_IDX_MAX][4] =
 {
-    {12583.019f, -6916.194f,  4.601f, 6.18f},           // Emissary of Hate, guesswork
-    {4981.031f,    597.955f, -1.361f, 4.82f},           // Murkdeep spawn, guesswork
-    {4988.970f,    547.002f,  5.379f, 0.0f},            // Murkdeep move, guesswork
+    {12583.019f, -6916.194f,  4.601f, 6.18f},               // Emissary of Hate, guesswork
+    {4981.031f,    597.955f, -1.361f, 4.82f},               // Murkdeep spawn, guesswork
+    {4988.970f,    547.002f,  5.379f, 0.0f},                // Murkdeep move, guesswork
 };
 
 #endif

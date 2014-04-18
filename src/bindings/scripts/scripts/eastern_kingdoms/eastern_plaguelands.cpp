@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Eastern_Plaguelands
-SD%Complete: 100
-SDComment: Quest support: 7622.
-SDCategory: Eastern Plaguelands
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Eastern_Plaguelands
+ * SD%Complete: 100
+ * SDComment:   Quest support: 7622.
+ * SDCategory:  Eastern Plaguelands
+ * EndScriptData
+ */
 
-/* ContentData
-npc_eris_havenfire
-EndContentData */
+/**
+ * ContentData
+ * npc_eris_havenfire
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

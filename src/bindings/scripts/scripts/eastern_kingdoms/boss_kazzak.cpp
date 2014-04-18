@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Kazzak
-SD%Complete: 80
-SDComment: Spells and timers need to be confirmed.
-SDCategory: Bosses
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Kazzak
+ * SD%Complete: 80
+ * SDComment:   Spells and timers need to be confirmed.
+ * SDCategory:  Bosses
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Archaedas
-SD%Complete: 100
-SDComment:
-SDCategory: Uldaman
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Archaedas
+ * SD%Complete: 100
+ * SDComment:   None
+ * SDCategory:  Uldaman
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "uldaman.h"

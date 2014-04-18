@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Instance_Gnomeregan
-SD%Complete: 90%
-SDComment:  Support for Grubbis and Thermaplugg Encounters
-SDCategory: Gnomeregan
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Instance_Gnomeregan
+ * SD%Complete: 90
+ * SDComment:   Support for Grubbis and Thermaplugg Encounters
+ * SDCategory:  Gnomeregan
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "gnomeregan.h"

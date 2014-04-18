@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Nefarian
-SD%Complete: 80
-SDComment: Some issues with class calls effecting more than one class
-SDCategory: Blackwing Lair
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Nefarian
+ * SD%Complete: 80
+ * SDComment:   Some issues with class calls effecting more than one class
+ * SDCategory:  Blackwing Lair
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "blackwing_lair.h"

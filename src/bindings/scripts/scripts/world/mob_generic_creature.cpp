@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Generic_Creature
-SD%Complete: 80
-SDComment: Should be replaced with core based AI
-SDCategory: Creatures
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Generic_Creature
+ * SD%Complete: 80
+ * SDComment:   Should be replaced with core based AI
+ * SDCategory:  Creatures
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

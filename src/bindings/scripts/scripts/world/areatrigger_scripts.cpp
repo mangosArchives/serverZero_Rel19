@@ -23,19 +23,23 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Areatrigger_Scripts
-SD%Complete: 100
-SDComment: Quest support: 4291, 6681, 10589/10604
-SDCategory: Areatrigger
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Areatrigger_Scripts
+ * SD%Complete: 100
+ * SDComment:   Quest support: 4291, 6681
+ * SDCategory:  Areatrigger
+ * EndScriptData
+ */
 
-/* ContentData
-at_ravenholdt
-at_childrens_week_spot          3546,3547,3548,3552,3549,3550
-at_scent_larkorwi               1726,1727,1728,1729,1730,1731,1732,1733,1734,1735,1736,1737,1738,1739,1740
-at_murkdeep                     1966
-EndContentData */
+/**
+ * ContentData
+ * at_ravenholdt
+ * at_childrens_week_spot           3546, 3547, 3548, 3549, 3550, 3552
+ * at_scent_larkorwi                1726, 1727, 1728, 1729, 1730, 1731, 1732, 1733, 1734, 1735, 1736, 1737, 1738, 1739, 1740
+ * at_murkdeep                      1966
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "world_map_scripts.h"

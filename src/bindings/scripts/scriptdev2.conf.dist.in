@@ -1,16 +1,31 @@
-# ScriptDev2 Configuration file
-# This file must be placed within the directory which holds mangosd.conf and realmd.conf
+################################################################################
+# ScriptDev2 configuration file                                                #
+################################################################################
 
 [ScriptDev2Conf]
 ConfVersion=2012112301
 
-# Database connection settings for the world server.
-# Default: hostname;port;username;password;database
-#          .;somenumber;username;password;database - use named pipes at Windows
-#                Named pipes: mySQL required adding "enable-named-pipe" to [mysqld] section my.ini
-#          .;/path/to/unix_socket;username;password;database - use Unix sockets at Unix/Linux
-#                Unix sockets: experimental, not tested
+################################################################################
+# DATABASE CONNECTIONS
+#
+#    ScriptDev2DatabaseInfo
+#    Connection settings for the script library database
+#        Default: hostname;port;username;password;database
+#                 Use named pipes at Windows
+#                 .;somenumber;username;password;database
+#
+#                 Use Unix sockets on Unix/Linux
+#                 .;/path/to/unix_socket;username;password;database
+#
+################################################################################
 ScriptDev2DatabaseInfo     = "127.0.0.1;3306;mangos;mangos;scriptdev2"
 
-# Log File for SD2-Errors
+################################################################################
+# LOGGING
+#
+#    SD2ErrorLogFile
+#        File name for logging errors
+#        Default: "scriptdev2-error.log"
+#                 "" - Empty name disable creating log file
+################################################################################
 SD2ErrorLogFile = "scriptdev2-errors.log"

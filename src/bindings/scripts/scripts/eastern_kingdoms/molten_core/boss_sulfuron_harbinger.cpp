@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Sulfuron_Harbringer
-SD%Complete: 80
-SDComment: Spells Dark strike and Flamespear need confirmation
-SDCategory: Molten Core
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Sulfuron_Harbringer
+ * SD%Complete: 80
+ * SDComment:   Spells Dark strike and Flamespear need confirmation
+ * SDCategory:  Molten Core
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "molten_core.h"

@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Jeklik
-SD%Complete: 85
-SDComment: Some minor improvements are required; Bat rider movement not implemented
-SDCategory: Zul'Gurub
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Jeklik
+ * SD%Complete: 85
+ * SDComment:   Some minor improvements are required; Bat rider movement not implemented
+ * SDCategory:  Zul'Gurub
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 #include "zulgurub.h"

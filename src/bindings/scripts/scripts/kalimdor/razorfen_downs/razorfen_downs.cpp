@@ -23,16 +23,20 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Razorfen_Downs
-SD%Complete: 100
-SDComment: Quest 3525
-SDCategory: Razorfen Downs
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Razorfen_Downs
+ * SD%Complete: 100
+ * SDComment:   Quest 3525.
+ * SDCategory:  Razorfen Downs
+ * EndScriptData
+ */
 
-/* ContentData
-npc_belnistrasz
-EndContentData */
+/**
+ * ContentData
+ * npc_belnistrasz
+ * EndContentData
+ */
 
 #include "precompiled.h"
 #include "escort_ai.h"

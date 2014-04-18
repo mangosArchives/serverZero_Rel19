@@ -1,10 +1,13 @@
 CHANGELOG for 0.18.x
 ====================
 
-This changelog references the relevant changes (bug and security fixes) done
+This change log references the relevant changes (bug and security fixes) done
 in 0.18 minor versions.
 
-* 0.18.0 (2013-08-31)
+0.18.1 (2013-11-02)
+-------------------
+Major changes for this build which require your attention when upgrading include
+awesome things such as these:
 
 * The *mangos-zero* build system has been overhauled, and we are now using CMake
   only. For Linux and FreeBSD users this means you can *always* use packages as

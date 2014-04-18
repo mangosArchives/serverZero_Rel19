@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Overlord_Wyrmthalak
-SD%Complete: 100
-SDComment:
-SDCategory: Blackrock Spire
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Overlord_Wyrmthalak
+ * SD%Complete: 100
+ * SDComment:   None
+ * SDCategory:  Blackrock Spire
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

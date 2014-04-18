@@ -23,15 +23,19 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Ironforge
-SD%Complete: 0
-SDComment: Placeholder
-SDCategory: Ironforge
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Ironforge
+ * SD%Complete: 0
+ * SDComment:   Placeholder
+ * SDCategory:  Ironforge
+ * EndScriptData
+ */
 
-/* ContentData
-EndContentData */
+/**
+ * ContentData
+ * EndContentData
+ */
 
 #include "precompiled.h"
 

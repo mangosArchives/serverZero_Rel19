@@ -23,12 +23,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Boss_Noxxion
-SD%Complete: 100
-SDComment:
-SDCategory: Maraudon
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Boss_Noxxion
+ * SD%Complete: 100
+ * SDComment:   None
+ * SDCategory:  Maraudon
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 

@@ -23,26 +23,29 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-/* ScriptData
-SDName: Battleground
-SD%Complete: 100
-SDComment: Spirit guides in battlegrounds will revive all players every 30 sec
-SDCategory: Battlegrounds
-EndScriptData */
+/**
+ * ScriptData
+ * SDName:      Battleground
+ * SD%Complete: 100
+ * SDComment:   Spirit guides in battlegrounds will revive all players every 30 sec.
+ * SDCategory:  Battlegrounds
+ * EndScriptData
+ */
 
 #include "precompiled.h"
 
-// **** Script Info ****
-// Spiritguides in battlegrounds resurrecting many players at once
-// every 30 seconds - through a channeled spell, which gets autocasted
-// the whole time
-// if spiritguide despawns all players around him will get teleported
-// to the next spiritguide
-// here i'm not sure, if a dummyspell exist for it
-
-// **** Quick Info ****
-// battleground spiritguides - this script handles gossipHello
-// and JustDied also it let autocast the channel-spell
+/**
+ * Script Info
+ *
+ * Spirit guides in battlegrounds resurrecting many players at once every 30
+ * seconds through a channeled spell, which gets autocasted the whole time.
+ *
+ * If a spirit guide despawns all players around him will get teleported to
+ * the next spirit guide.
+ *
+ * this script handles gossipHello and JustDied also allows autocast of the
+ * channeled spell.
+ */
 
 enum
 {

@@ -986,7 +986,20 @@ void CreatureEventAI::ProcessAction(CreatureEventAI_Action const& action, uint32
             }
 
         }
+        case ACTION_T_EMOTE_TARGET:
+        {
+            Unit* pCreature = m_creature->GetMap()->GetCreature(ObjectGuid(HIGHGUID_UNIT, action.emoteTarget.targetGuid));
+            if (!pCreature)
+            {
+                sLog.outErrorEventAI("Event %d. Cannot find creature by guid %d", EventId, action.emoteTarget.targetGuid);
+                return;
+            }
 
+
+            m_creature->SetFacingToObject(pCreature);
+            m_creature->HandleEmote(action.emoteTarget.emoteId);
+            break;
+        }
     }
 }
 
