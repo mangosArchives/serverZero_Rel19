@@ -20,6 +20,7 @@
 -- Table support for creature_item_template and added a unique key to creature_equip_template
 -- to avoid having again up to 6 templates with identical data like in creature_equip_template_raw
 
+ALTER TABLE  `db_version` CHANGE `required_r2441_01_mangos_db_version` `required_z2463_01_mangos_creature_equip_template` BIT(1) NULL DEFAULT NULL;
 
 -- Table structure for table `creature_equip_template`
 
