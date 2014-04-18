@@ -23,7 +23,7 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#include "precompiled.h"
+#include "precompiled.h"//..\bindings\scripts\include\precompiled.h"
 #include "Config/Config.h"
 #include "config-sd2.h"
 #include "Database/DatabaseEnv.h"
@@ -32,7 +32,7 @@
 #include "ProgressBar.h"
 #include "system/ScriptLoader.h"
 #include "system/system.h"
-#include "ScriptMgr.h"
+#include "ScriptDevMgr.h"
 
 typedef std::vector<Script*> SDScriptVec;
 int num_sc_scripts;
