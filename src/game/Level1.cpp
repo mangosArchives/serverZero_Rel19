@@ -59,7 +59,7 @@ bool ChatHandler::HandleNpcSayCommand(char* args)
         return false;
     }
 
-    pCreature->MonsterSay(args, LANG_UNIVERSAL);
+    pCreature->MonsterSay(args, LANG_UNIVERSAL, m_session->GetPlayer());
 
     return true;
 }
@@ -77,7 +77,7 @@ bool ChatHandler::HandleNpcYellCommand(char* args)
         return false;
     }
 
-    pCreature->MonsterYell(args, LANG_UNIVERSAL);
+    pCreature->MonsterYell(args, LANG_UNIVERSAL, m_session->GetPlayer());
 
     return true;
 }
