@@ -514,7 +514,6 @@ enum UnitFlags
     UNIT_FLAG_PASSIVE               = 0x00000200,           ///< makes you unable to attack everything. Almost identical to our "civilian"-term. Will ignore it's surroundings and not engage in combat unless "called upon" or engaged by another unit.
     UNIT_FLAG_PVP                   = 0x00001000,
     UNIT_FLAG_SILENCED              = 0x00002000,           ///< silenced, 2.1.1
-    UNIT_FLAG_MOUNT                 = 0x00002000,           ///< to check, need find proper flag
     UNIT_FLAG_UNK_14                = 0x00004000,
     UNIT_FLAG_UNK_15                = 0x00008000,
     UNIT_FLAG_UNK_16                = 0x00010000,           ///< removes attackable icon
@@ -1798,7 +1797,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return true if it's mounted, false otherwise
          * \see EUnitFields
          */
-        bool IsMounted() const { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_MOUNT); }
+        bool IsMounted() const { return GetMountID(); }
         /**
          * Gets the currently used mount id.
          * @return id of the currently used mount
