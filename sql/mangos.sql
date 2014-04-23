@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `db_version`;
 CREATE TABLE `db_version` (
   `version` varchar(120) NOT NULL DEFAULT '',
   `creature_ai_version` varchar(120) DEFAULT NULL,
-  `required_z2489_mangos_creature_template` bit(1) DEFAULT NULL,
+  `required_z2498_mangos_creature_template_classlevelstats` bit(1) DEFAULT NULL,
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='Used DB version notes';
 /*!40101 SET character_set_client = @saved_cs_client */;
