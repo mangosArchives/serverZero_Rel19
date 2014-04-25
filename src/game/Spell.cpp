@@ -5772,7 +5772,7 @@ void Spell::Delayed()
     if (m_spellState == SPELL_STATE_DELAYED)
         { return; }                                             // spell is active and can't be time-backed
 
-    // spells not loosing casting time ( slam, dynamites, bombs.. )
+    // spells not losing casting time ( slam, dynamites, bombs.. )
     if (!(m_spellInfo->InterruptFlags & SPELL_INTERRUPT_FLAG_DAMAGE))
         { return; }
 
