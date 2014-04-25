@@ -145,6 +145,12 @@ uint32 GetSpellCastTime(SpellEntry const* spellInfo, Spell const* spell)
     if (spellInfo->HasAttribute(SPELL_ATTR_RANGED) && (!spell || !spell->IsAutoRepeat()))
         { castTime += 500; }
 
+    // [workaround] holy light (spell 19968) has a 2.5 sec cast time in DBC but it should be an instant cast.
+	// TODO: Once DBC's are moved to the database, a hotfix can be applied directly to the db and this code removed
+    if (spellInfo->Id == 19968)
+    {
+        castTime = 0;
+    }
     return (castTime > 0) ? uint32(castTime) : 0;
 }
 
