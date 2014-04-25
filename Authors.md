@@ -25,7 +25,7 @@ for the community.
 * **2008**: the *MaNGOS project* grew in terms of users and developers,
   and relocated to [github][3]. With the move, the project website changed
   to [getmangos.eu][4].
-* **2013**: the *MaNGOS project* now is also available on [getmangos.co.uk][5].
+* **2013**: the *MaNGOS project* now is also available on [getmangos.eu][5].
 
 Authors
 -------
@@ -466,4 +466,4 @@ Authors
 [2]: http://sourceforge.net/p/mangos/ "mangos on SourceForge"
 [3]: https://github.com/mangos/ "mangos on github"
 [4]: http://getmangos.eu/ "mangos project"
-[5]: http://getmangos.co.uk/ "mangos project"
+[5]: http://getmangos.eu/ "mangos project"

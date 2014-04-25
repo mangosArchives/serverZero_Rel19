@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2014 MaNGOS <http://getmangos.co.uk/>
+ * Copyright (C) 2005-2014 MaNGOS <http://getmangos.eu/>
  * Copyright (C) 2005-2014 ScriptDev2 <http://www.scriptdev2.com/>
  *
  * This program is free software; you can redistribute it and/or modify
