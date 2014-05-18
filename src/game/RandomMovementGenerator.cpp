@@ -59,12 +59,6 @@ void RandomMovementGenerator<Creature>::_setRandomLocation(Creature& creature)
 
     creature.addUnitState(UNIT_STAT_ROAMING_MOVE);
 
-	// Calculate a path to the target
-// 	PathFinder path(&creature);
-// 	path.setPathLengthLimit(range * 1.5f);
-// 	path.calculate(destX, destY, destZ, true);
-// 	Movement::PointsArray &points = path.getPath();
-
     Movement::MoveSplineInit init(creature);
 	init.MoveTo(destX, destY, destZ, true, false, maxPathRange);
     init.SetWalk(true);
