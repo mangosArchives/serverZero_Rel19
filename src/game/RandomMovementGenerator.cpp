@@ -29,6 +29,7 @@
 #include "Util.h"
 #include "movement/MoveSplineInit.h"
 #include "movement/MoveSpline.h"
+#include "PathFinder.h"
 
 template<>
 RandomMovementGenerator<Creature>::RandomMovementGenerator(const Creature& creature)
@@ -49,6 +50,7 @@ void RandomMovementGenerator<Creature>::_setRandomLocation(Creature& creature)
 {
     const float angle = rand_norm_f() * (M_PI_F * 2.0f);
     const float range = rand_norm_f() * i_radius;
+	const float maxPathRange = range * 1.5f;	// This should prevent stupid paths like from inside of a cave outside
 
     float destX = i_x + range * cos(angle);
     float destY = i_y + range * sin(angle);
@@ -57,8 +59,14 @@ void RandomMovementGenerator<Creature>::_setRandomLocation(Creature& creature)
 
     creature.addUnitState(UNIT_STAT_ROAMING_MOVE);
 
+	// Calculate a path to the target
+// 	PathFinder path(&creature);
+// 	path.setPathLengthLimit(range * 1.5f);
+// 	path.calculate(destX, destY, destZ, true);
+// 	Movement::PointsArray &points = path.getPath();
+
     Movement::MoveSplineInit init(creature);
-    init.MoveTo(destX, destY, destZ, true);
+	init.MoveTo(destX, destY, destZ, true, false, maxPathRange);
     init.SetWalk(true);
     init.Launch();
 

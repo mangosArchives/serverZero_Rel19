@@ -53,7 +53,7 @@ include_directories(
 #-----------------------------------------------------------------------------
 # Build the RecastDemo executable
 if(WIN32)
-    add_executable(RecastDemo WIN32 ${RecastDemo_LIB_SRCS})
+    add_executable(RecastDemo ${RecastDemo_LIB_SRCS})
 else()
     add_executable(RecastDemo ${RecastDemo_LIB_SRCS})
 endif()
