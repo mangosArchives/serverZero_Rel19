@@ -487,6 +487,7 @@ void WorldSession::DoLootRelease(ObjectGuid lguid)
             {
                 /* Update creature */
                 pCreature->AllLootRemovedFromCorpse();
+				loot->clear();
             }
             break;
         }
