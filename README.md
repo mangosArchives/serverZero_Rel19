@@ -1,5 +1,10 @@
 mangos-zero, a World of Warcraft server for vanilla WoW  [![Build status](https://travis-ci.org/mangoszero/server.png)][16]
 =======================================================
+
+Rel19 is the current branch in testing, please use this branch in preference to master
+====
+
+
 *mangos-zero* is open source, built in [C++][7], fast, runs on multiple platforms,
 can store game data in [MySQL][40] and [PostgreSQL][42]. It has optional support
 for SOAP, and aims to be 100% compatible with [World of Warcraft][2] in its
