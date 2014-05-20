@@ -89,7 +89,7 @@ namespace Movement
              * @param destination
              * @param generatePath
              * @param forceDestination
-			 * @param maxPathRange Maximum length of the generated path. Values <= 0.0f won't limit the path length.
+			 * @param maxPathRange 
              */
             void MoveTo(const Vector3& destination, bool generatePath = false, bool forceDestination = false, float maxPathRange = 0.0f);
             /**
@@ -100,7 +100,7 @@ namespace Movement
              * @param z
              * @param generatePath
              * @param forceDestination
-			 * @param maxPathRange Maximum length of the generated path. Values <= 0.0f won't limit the path length.
+			 * @param maxPathRange
              */
 			void MoveTo(float x, float y, float z, bool generatePath = false, bool forceDestination = false, float maxPathRange = 0.0f);
 
@@ -160,68 +160,28 @@ namespace Movement
             Unit&  unit; /**< TODO */
     };
 
-    /**
-     * @brief
-     *
-     */
     inline void MoveSplineInit::SetFly() { args.flags.flying = true;}
-    /**
-     * @brief
-     *
-     * @param enable
-     */
+
     inline void MoveSplineInit::SetWalk(bool enable) { args.flags.runmode = !enable;}
-    /**
-     * @brief
-     *
-     */
+
     inline void MoveSplineInit::SetCyclic() { args.flags.cyclic = true;}
-    /**
-     * @brief
-     *
-     */
+
     inline void MoveSplineInit::SetFall() { args.flags.falling = true;}
-    /**
-     * @brief
-     *
-     * @param vel
-     */
+
     inline void MoveSplineInit::SetVelocity(float vel) { args.velocity = vel;}
 
-    /**
-     * @brief
-     *
-     * @param controls
-     * @param path_offset
-     */
     inline void MoveSplineInit::MovebyPath(const PointsArray& controls, int32 path_offset)
     {
         args.path_Idx_offset = path_offset;
         args.path.assign(controls.begin(), controls.end());
     }
 
-    /**
-     * @brief
-     *
-     * @param x
-     * @param y
-     * @param z
-     * @param generatePath
-     * @param forceDestination
-     */
-    inline void MoveSplineInit::MoveTo(float x, float y, float z, bool generatePath, bool forceDestination, float maxPathRange)
-    {
-        Vector3 v(x, y, z);
+	inline void MoveSplineInit::MoveTo(float x, float y, float z, bool generatePath, bool forceDestination, float maxPathRange)
+	{
+		Vector3 v(x, y, z);
 		MoveTo(v, generatePath, forceDestination, maxPathRange);
-    }
+	}
 
-    /**
-     * @brief
-     *
-     * @param dest
-     * @param generatePath
-     * @param forceDestination
-     */
     inline void MoveSplineInit::MoveTo(const Vector3& dest, bool generatePath, bool forceDestination, float maxPathRange)
     {
         if (generatePath)
@@ -242,11 +202,6 @@ namespace Movement
         }
     }
 
-    /**
-     * @brief
-     *
-     * @param spot
-     */
     inline void MoveSplineInit::SetFacing(Vector3 const& spot)
     {
         args.facing.f.x = spot.x;
@@ -255,4 +210,5 @@ namespace Movement
         args.flags.EnableFacingPoint();
     }
 }
+
 #endif // MANGOSSERVER_MOVESPLINEINIT_H

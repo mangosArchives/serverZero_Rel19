@@ -50,8 +50,7 @@ void RandomMovementGenerator<Creature>::_setRandomLocation(Creature& creature)
     const float angle = rand_norm_f() * (M_PI_F * 2.0f);
     const float range = rand_norm_f() * i_radius;
 
-	// This should prevent stupid paths from inside of a cave outside
-	const float maxPathRange = range * 1.5f;	
+	const float maxPathRange = range * 1.5f;
 
     float destX = i_x + range * cos(angle);
     float destY = i_y + range * sin(angle);
