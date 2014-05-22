@@ -4010,6 +4010,68 @@ SpellCastResult Spell::CheckCast(bool strict)
             }
         }
 
+		// Fill possible dispel list
+		bool isDispell = false;
+		bool isEmpty = true;
+		
+		// As of Patch 1.10.0, dispel effects now check if there is something to dispel first
+		for (int i = 0; i < MAX_EFFECT_INDEX; ++i)
+		{
+			// Dispell Magic
+			switch (m_spellInfo->Effect[i])
+			{
+				case SPELL_EFFECT_DISPEL:
+				{
+					// It is a dispell spell
+					isDispell = true;
+
+					// Create dispel mask by dispel type
+					uint32 dispel_type = m_spellInfo->EffectMiscValue[i];
+					uint32 dispelMask = GetDispellMask(DispelType(dispel_type));
+					Unit::SpellAuraHolderMap const& auras = target->GetSpellAuraHolderMap();
+					for (Unit::SpellAuraHolderMap::const_iterator itr = auras.begin(); itr != auras.end(); ++itr)
+					{
+						SpellAuraHolder* holder = itr->second;
+						uint32 disp = (1 << holder->GetSpellProto()->Dispel);
+						if (disp & dispelMask)
+						{
+							if (holder->GetSpellProto()->Dispel == DISPEL_MAGIC)
+							{
+								bool positive = true;
+								if (!holder->IsPositive())
+								{
+									positive = false;
+								}
+								else
+								{
+									positive = (holder->GetSpellProto()->AttributesEx & SPELL_ATTR_EX_NEGATIVE) == 0;
+								}
+
+								// do not remove positive auras if friendly target
+								//               negative auras if non-friendly target
+								if (positive == target->IsFriendlyTo(m_caster))
+								{
+									continue;
+								}
+							}
+
+							isEmpty = false;
+							break;
+						}
+					}
+
+					break;
+				}
+			}
+		}
+
+		// Ok if exist some buffs for dispel try dispel it
+		if (isDispell && 
+			isEmpty)
+		{
+			return SPELL_FAILED_NOTHING_TO_DISPEL;
+		}
+
         if (!m_IsTriggeredSpell && IsDeathOnlySpell(m_spellInfo) && target->IsAlive())
             { return SPELL_FAILED_TARGET_NOT_DEAD; }
 
