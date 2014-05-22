@@ -41,25 +41,56 @@ void WorldSession::HandleJoinChannelOpcode(WorldPacket& recvPacket)
     uint32 channelId = 0;
     char tmpStr[255];
 
-    //TODO: This doesn't seem like the right way to do it, but the client doesn't send any ID of the channel, and it's needed
-    for (uint32 i = 0; i < sChatChannelsStore.GetNumRows(); ++i)
-    {
-        ChatChannelsEntry const* channel = sChatChannelsStore.LookupEntry(i);
-        AreaTableEntry const* area = sAreaStore.LookupEntry(_player->GetZoneId());
+	// Current player area id
+	const uint32 playerZoneId = _player->GetZoneId();
+	const uint32 stormwindZoneID = 1519;
+	const uint32 ironforgeZoneID = 1537;
+	const uint32 darnassusZoneID = 1657;
+	const uint32 orgrimmarZoneID = 1637;
+	const uint32 thunderbluffZoneID = 1638;
+	const uint32 undercityZoneID = 1497;
+	uint32 cityLookupAreaID = playerZoneId;	// Used to lookup for channels which support cross-city-chat
 
-        if (area && channel)
-        {
-            snprintf(tmpStr, 255, channel->pattern[GetSessionDbcLocale()], area->area_name[GetSessionDbcLocale()]);
-            //With a format string
-            if (strcmp(tmpStr, channelName.c_str()) == 0
-                //Without one, used for ie: World Defense
-                || strcmp(channel->pattern[0], channelName.c_str()) == 0)
-            {
-                channelId = channel->ChannelID;
-                break;
-            }
-        }
-    }
+	// Area id of "Cities"
+	const uint32 citiesZoneID = 3459;
+
+	// Channel ID of the trade channel since this only applies to it
+	const uint32 tradeChannelID = 2;
+	const uint32 guildRecruitmentChannelID = 25;
+
+	// Check if we are inside of a city
+	if (playerZoneId == stormwindZoneID ||
+		playerZoneId == ironforgeZoneID ||
+		playerZoneId == darnassusZoneID ||
+		playerZoneId == orgrimmarZoneID ||
+		playerZoneId == thunderbluffZoneID ||
+		playerZoneId == undercityZoneID)
+	{
+		// Use cities instead of the player id
+		cityLookupAreaID = citiesZoneID;
+	}
+
+	//TODO: This doesn't seem like the right way to do it, but the client doesn't send any ID of the channel, and it's needed
+	for (uint32 i = 0; i < sChatChannelsStore.GetNumRows(); ++i)
+	{
+		ChatChannelsEntry const* channel = sChatChannelsStore.LookupEntry(i);
+		AreaTableEntry const* area = sAreaStore.LookupEntry(
+			(channel->ChannelID == tradeChannelID || channel->ChannelID == guildRecruitmentChannelID) ? cityLookupAreaID : playerZoneId);
+
+		if (area && channel)
+		{
+			snprintf(tmpStr, 255, channel->pattern[GetSessionDbcLocale()], area->area_name[GetSessionDbcLocale()]);
+
+			//With a format string
+			if (strcmp(tmpStr, channelName.c_str()) == 0
+				//Without one, used for ie: World Defense
+				|| strcmp(channel->pattern[0], channelName.c_str()) == 0)
+			{
+				channelId = channel->ChannelID;
+				break;
+			}
+		}
+	}
 
     if (ChannelMgr* cMgr = channelMgr(_player->GetTeam()))
 		if (Channel* chn = cMgr->GetJoinChannel(channelName, channelId)) // channel id seems to be useless but must be checked for LFG
