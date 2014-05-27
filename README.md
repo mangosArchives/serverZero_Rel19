@@ -1,3 +1,5 @@
+# ![logo](https://www.getmangos.eu/images/primus/blue/misc/logo.png)
+
 mangos-zero, a World of Warcraft server for vanilla WoW  [![Build status](https://travis-ci.org/mangoszero/server.png)][16]
 =======================================================
 *mangos-zero* is open source, built in [C++][7], fast, runs on multiple platforms,
