@@ -388,6 +388,7 @@ INSERT INTO scripted_event VALUES
 (5623,'event_spell_gandling_shadow_portal');
 
 /* SEARING GORGE */
+UPDATE creature_template SET ScriptName='npc_dorius_stonetender' WHERE entry=8284;
 
 /* SHADOWFANG KEEP */
 UPDATE instance_template SET ScriptName='instance_shadowfang_keep' WHERE map=33;

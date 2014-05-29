@@ -3,7 +3,7 @@
 --
 
 DELETE FROM sd2_db_version;
-INSERT INTO sd2_db_version (version) VALUES ('ScriptDev2 (for MaNGOS classic z2383+) ');
+INSERT INTO sd2_db_version (version) VALUES ('ScriptDev2 (for MaNGOS Zero Release 0.19+) ');
 
 --
 -- Below contains data for table `script_texts` mainly used in C++ parts.
@@ -923,7 +923,15 @@ INSERT INTO script_texts (entry,content_default,sound,type,language,emote,commen
 (-1000959,'This part of forest are very danger for us. We must be a careful!',0,0,0,0,'stinky ignatz SAY_STINKY_FIRST_STOP'),
 (-1000960,'Kill two monsters, who stay near Bogbean plant and then I gather a bogbean.',0,0,0,0,'stinky ignatz SAY_STINKY_2_MONSTERS'),
 (-1000961,'I am gathering a bogbean. It takes some time.',0,0,0,69,'stinky ignatz SAY_STINKY_GATHERING'),
-(-1000962,'Thanks you for help.',0,0,0,0,'stinky ignatz SAY_STINKY_END');
+(-1000962,'Thanks you for help.',0,0,0,0,'stinky ignatz SAY_STINKY_END'),
+
+(-1000977,'Oh, it\'s on now! But you thought I\'d be alone too, huh?!',0,0,0,0,'tapoke slim jahn SAY_AGGRO'),
+(-1000978,'Okay, okay! No need to get all violent. I\'ll talk. I\'ll talk!',0,0,0,20,'tapoke slim jahn SAY_DEFEAT'),
+(-1000979,'Whoa! This is way more than what I bargained for, you\'re on your own, Slim!',0,0,0,0,'slim\'s friend SAY_FRIEND_DEFEAT'),
+(-1000980,'I have a few notes from the job back at my place. I\'ll get them and then meet you back in the inn.',0,0,0,1,'tapoke slim jahn SAY_NOTES'),
+
+(-1000993,'It\'s on! $N, meet my fists. Fists, say hello to $N.',0,0,0,0,'dorius stonetender SAY_AGGRO_1'),
+(-1000994,'I\'m about to open a can on this $N.',0,0,0,0,'dorius stonetender SAY_AGGRO_2');
 
 -- -1 033 000 SHADOWFANG KEEP
 INSERT INTO script_texts (entry,content_default,sound,type,language,emote,comment) VALUES
@@ -1773,10 +1781,10 @@ INSERT INTO script_waypoint VALUES
 (1978, 10, 1295.49, 1124.32, 50.49, 0, ''),
 (1978, 11, 1294.84, 1137.25, 51.75, 0, ''),
 (1978, 12, 1292.89, 1158.99, 52.65, 0, ''),
-(1978, 13, 1290.75, 1168.67, 52.56, 2000, 'quest complete'),
-(1978, 14, 1287.12, 1203.49, 52.66, 0, ''),
-(1978, 15, 1288.30, 1203.89, 52.68, 0, ''),
-(1978, 16, 1288.30, 1203.89, 52.68, 0, ''),
+(1978, 13, 1290.75, 1168.67, 52.56, 2000, 'quest complete SAY_END'),
+(1978, 14, 1287.12, 1203.49, 52.66, 5000, 'SAY_RANE'),
+(1978, 15, 1288.30, 1203.89, 52.68, 5000, 'SAY_RANE_REPLY'),
+(1978, 16, 1288.30, 1203.89, 52.68, 5000, 'SAY_CHECK_NEXT'),
 (1978, 17, 1290.72, 1207.44, 52.69, 0, ''),
 (1978, 18, 1297.50, 1207.18, 53.74, 0, ''),
 (1978, 19, 1301.32, 1220.90, 53.74, 0, ''),
@@ -1784,9 +1792,9 @@ INSERT INTO script_waypoint VALUES
 (1978, 21, 1297.38, 1212.87, 58.51, 0, ''),
 (1978, 22, 1297.80, 1210.04, 58.51, 0, ''),
 (1978, 23, 1305.01, 1206.10, 58.51, 0, ''),
-(1978, 24, 1310.51, 1207.36, 58.51, 0, ''),
-(1978, 25, 1312.59, 1207.21, 58.51, 0, ''),
-(1978, 26, 1312.59, 1207.21, 58.51, 30000, '');
+(1978, 24, 1310.51, 1207.36, 58.51, 5000, 'SAY_QUINN'),
+(1978, 25, 1312.59, 1207.21, 58.51, 5000, 'SAY_QUINN_REPLY'),
+(1978, 26, 1312.59, 1207.21, 58.51, 30000, 'SAY_BYE');
 
 DELETE FROM script_waypoint WHERE entry=2768;
 INSERT INTO script_waypoint VALUES
@@ -3210,5 +3218,42 @@ INSERT INTO script_waypoint VALUES
 (4880, 22, -2881.64, -3601.28, 42.2111, 0, ''),
 (4880, 23, -2904.04, -3601.35, 34.969,  0, ''),
 (4880, 24, -2907.6,  -3612.73, 34.2434, 10000, 'SAY_STINKY_END');
+
+DELETE FROM script_waypoint WHERE entry=8284;
+INSERT INTO script_waypoint VALUES
+(8284, 0, -7007.209, -1749.160, 234.182, 3000, 'stand up'),
+(8284, 1, -7007.324, -1729.849, 234.162, 0, ''),
+(8284, 2, -7006.394, -1726.522, 234.099, 0, ''),
+(8284, 3, -7003.256, -1726.903, 234.594, 0, ''),
+(8284, 4, -6994.778, -1733.571, 238.281, 0, ''),
+(8284, 5, -6987.904, -1735.935, 240.727, 0, ''),
+(8284, 6, -6978.704, -1736.991, 241.809, 0, ''),
+(8284, 7, -6964.261, -1740.251, 241.713, 0, ''),
+(8284, 8, -6946.701, -1746.284, 241.667, 0, ''),
+(8284, 9, -6938.751, -1749.381, 240.744, 0, ''),
+(8284, 10, -6927.004, -1768.782, 240.744, 0, ''),
+(8284, 11, -6909.453, -1791.258, 240.744, 0, ''),
+(8284, 12, -6898.225, -1804.870, 240.744, 0, ''),
+(8284, 13, -6881.280, -1821.788, 240.744, 0, ''),
+(8284, 14, -6867.653, -1832.672, 240.706, 0, ''),
+(8284, 15, -6850.184, -1839.254, 243.006, 0, ''),
+(8284, 16, -6829.381, -1847.635, 244.190, 0, ''),
+(8284, 17, -6804.618, -1857.535, 244.209, 0, ''),
+(8284, 18, -6776.421, -1868.879, 244.142, 0, ''),
+(8284, 19, -6753.471, -1876.906, 244.170, 10000, 'stop'),
+(8284, 20, -6753.471, -1876.906, 244.170, 0, 'ambush'),
+(8284, 21, -6731.033, -1884.944, 244.144, 0, ''),
+(8284, 22, -6705.738, -1896.779, 244.144, 0, ''),
+(8284, 23, -6678.956, -1909.607, 244.369, 0, ''),
+(8284, 24, -6654.263, -1916.758, 244.145, 0, ''),
+(8284, 25, -6620.604, -1917.608, 244.149, 0, ''),
+(8284, 26, -6575.958, -1922.408, 244.149, 0, ''),
+(8284, 27, -6554.811, -1929.883, 244.162, 0, ''),
+(8284, 28, -6521.856, -1947.322, 244.151, 0, ''),
+(8284, 29, -6493.320, -1962.654, 244.151, 0, ''),
+(8284, 30, -6463.350, -1975.537, 244.213, 0, ''),
+(8284, 31, -6435.428, -1983.847, 244.548, 0, ''),
+(8284, 32, -6418.380, -1985.778, 246.554, 0, ''),
+(8284, 33, -6389.783, -1986.544, 246.771, 30000, 'quest complete');
 
 -- EOF
