@@ -156,16 +156,6 @@
 # formulas to calculate unlearning cost
 ###*/
 
-int32 GetLearningCost(Player* /*pPlayer*/)                      // tailor, alchemy
-{
-    return 200000;
-}
-
-int32 GetUnlearnCostHigh(Player* /*pPlayer*/)                   // tailor, alchemy
-{
-    return 1500000;
-}
-
 int32 GetUnlearnCostMedium(Player* pPlayer)                 // blacksmith, leatherwork
 {
     uint32 level = pPlayer->getLevel();
