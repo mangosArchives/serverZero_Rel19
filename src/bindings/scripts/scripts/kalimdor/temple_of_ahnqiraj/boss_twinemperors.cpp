@@ -103,7 +103,7 @@ struct MANGOS_DLL_DECL boss_twin_emperorsAI : public ScriptedAI
             return;
         }
 
-        if (Creature* pTwin = m_pInstance->GetSingleCreatureFromStorage(m_creature->GetEntry() == NPC_VEKLOR ? NPC_VEKLOR : NPC_VEKNILASH))
+        if (Creature* pTwin = m_pInstance->GetSingleCreatureFromStorage(m_creature->GetEntry() == NPC_VEKLOR ? NPC_VEKNILASH : NPC_VEKLOR))
         {
             float fDamPercent = ((float)uiDamage) / ((float)m_creature->GetMaxHealth());
             uint32 uiTwinDamage = (uint32)(fDamPercent * ((float)pTwin->GetMaxHealth()));
@@ -126,7 +126,7 @@ struct MANGOS_DLL_DECL boss_twin_emperorsAI : public ScriptedAI
             return;
         }
 
-        if (Creature* pTwin = m_pInstance->GetSingleCreatureFromStorage(m_creature->GetEntry() == NPC_VEKLOR ? NPC_VEKLOR : NPC_VEKNILASH))
+        if (Creature* pTwin = m_pInstance->GetSingleCreatureFromStorage(m_creature->GetEntry() == NPC_VEKLOR ? NPC_VEKNILASH : NPC_VEKLOR))
         {
             float fHealPercent = ((float)uiHealedAmount) / ((float)m_creature->GetMaxHealth());
             uint32 uiTwinHeal = (uint32)(fHealPercent * ((float)pTwin->GetMaxHealth()));
