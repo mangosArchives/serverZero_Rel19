@@ -714,7 +714,7 @@ struct MANGOS_DLL_DECL npc_rabid_bearAI : public ScriptedAI
     void MoveInLineOfSight(Unit* pWho) override
     {
         if (!m_uiCheckTimer && pWho->GetTypeId() == TYPEID_UNIT && pWho->GetEntry() == NPC_THARNARIUN_TREETENDER &&
-        pWho->IsWithinDist(m_creature, 2 * INTERACTION_DISTANCE, false))
+                pWho->IsWithinDist(m_creature, 2 * INTERACTION_DISTANCE, false))
         {
             // Possible related spell: 9455 9372
             m_creature->ForcedDespawn(1000);
@@ -748,7 +748,7 @@ struct MANGOS_DLL_DECL npc_rabid_bearAI : public ScriptedAI
                     // get player
                     Unit* pTrapOwner = pTrap->GetOwner();
                     if (pTrapOwner && pTrapOwner->GetTypeId() == TYPEID_PLAYER &&
-                    ((Player*)pTrapOwner)->GetQuestStatus(QUEST_PLAGUED_LANDS) == QUEST_STATUS_INCOMPLETE)
+                            ((Player*)pTrapOwner)->GetQuestStatus(QUEST_PLAGUED_LANDS) == QUEST_STATUS_INCOMPLETE)
                     {
                         ((Player*)pTrapOwner)->KilledMonsterCredit(m_creature->GetEntry(), m_creature->GetObjectGuid());
                         m_creature->GetMotionMaster()->MoveFollow(pTrapOwner, PET_FOLLOW_DIST, PET_FOLLOW_ANGLE);

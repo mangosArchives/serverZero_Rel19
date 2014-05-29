@@ -25,5 +25,5 @@
 
 #ifndef __SD2_REVISION_NR_H__
 #define __SD2_REVISION_NR_H__
-  #define SD2_REVISION_NR "z2687"
+#define SD2_REVISION_NR "Rel0.19"
 #endif // __SD2_REVISION_NR_H__
