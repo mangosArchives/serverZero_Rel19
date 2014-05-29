@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game", "VC120\game.vcxproj", "{1DC6C4DA-A028-41F3-877D-D5400C594F88}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -84,6 +84,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmpq", "..\dep\libmpq\win\VC120\libmpq.vcxproj", "{03AB0F44-628E-4855-99A0-C98A1EB52C50}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bzip2", "VC120\bzip2.vcxproj", "{B96F612A-C91D-43B3-A4C3-D4294817EC6C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScriptDev2", "..\src\bindings\scripts\120ScriptDev2.vcxproj", "{4295C8A9-79B7-4354-8064-F05FB9CA0C96}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A3A04E47-43A2-4C08-90B3-029CEF558594} = {A3A04E47-43A2-4C08-90B3-029CEF558594}
+		{1DC6C4DA-A028-41F3-877D-D5400C594F88} = {1DC6C4DA-A028-41F3-877D-D5400C594F88}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -316,6 +322,18 @@ Global
 		{B96F612A-C91D-43B3-A4C3-D4294817EC6C}.Release|Win32.Build.0 = Release|Win32
 		{B96F612A-C91D-43B3-A4C3-D4294817EC6C}.Release|x64.ActiveCfg = Release|x64
 		{B96F612A-C91D-43B3-A4C3-D4294817EC6C}.Release|x64.Build.0 = Release|x64
+		{4295C8A9-79B7-4354-8064-F05FB9CA0C96}.Debug_NoPCH|Win32.ActiveCfg = Debug|Win32
+		{4295C8A9-79B7-4354-8064-F05FB9CA0C96}.Debug_NoPCH|Win32.Build.0 = Debug|Win32
+		{4295C8A9-79B7-4354-8064-F05FB9CA0C96}.Debug_NoPCH|x64.ActiveCfg = Debug|x64
+		{4295C8A9-79B7-4354-8064-F05FB9CA0C96}.Debug_NoPCH|x64.Build.0 = Debug|x64
+		{4295C8A9-79B7-4354-8064-F05FB9CA0C96}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4295C8A9-79B7-4354-8064-F05FB9CA0C96}.Debug|Win32.Build.0 = Debug|Win32
+		{4295C8A9-79B7-4354-8064-F05FB9CA0C96}.Debug|x64.ActiveCfg = Debug|x64
+		{4295C8A9-79B7-4354-8064-F05FB9CA0C96}.Debug|x64.Build.0 = Debug|x64
+		{4295C8A9-79B7-4354-8064-F05FB9CA0C96}.Release|Win32.ActiveCfg = Release|Win32
+		{4295C8A9-79B7-4354-8064-F05FB9CA0C96}.Release|Win32.Build.0 = Release|Win32
+		{4295C8A9-79B7-4354-8064-F05FB9CA0C96}.Release|x64.ActiveCfg = Release|x64
+		{4295C8A9-79B7-4354-8064-F05FB9CA0C96}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
