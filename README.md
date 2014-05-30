@@ -1,14 +1,20 @@
-# ![logo](https://www.getmangos.eu/images/primus/blue/misc/logo.png)
+[![](https://www.getmangos.eu/images/primus/blue/misc/logo.png)](http://www.getmangos.eu)&nbsp;
+[![](/icons/FORUM.gif)](https://www.getmangos.eu/forum.php)
+[![](/icons/WIKI.gif)](http://github.com/mangoswiki/wiki/wiki)
+[![](/icons/TOOLS.gif)](http://github.com/mangostools)
+[![Build status](https://travis-ci.org/mangoszero/server.png)][16]
 
-mangos-zero, a World of Warcraft server for vanilla WoW  [![Build status](https://travis-ci.org/mangoszero/server.png)][16]
-=======================================================
-*mangos-zero* is open source, built in [C++][7], fast, runs on multiple platforms,
-can store game data in [MySQL][40] and [PostgreSQL][42]. It has optional support
-for SOAP, and aims to be 100% compatible with [World of Warcraft][2] in its
+MangosZero 
+===
+###- A World of Warcraft server for vanilla WoW  
+----
+*MangosZero* is open source project, built in [C++][7], it's fast, runs on multiple,
+platforms, can store game data in [MySQL][40] and [PostgreSQL][42]. It also has
+optional support for SOAP, and aims to be 100% compatible with [World of Warcraft][2] in its
 vanilla versions, namely [patch 1.12.1][5] and [patch 1.12.2][6].
 
-If you like the first incarnation of [World of Warcraft][2], and still fancy
-[vanilla WoW][4], you should try *mangos-zero*. We provide an authentication
+If you liked the first incarnation of [World of Warcraft][2] and still want to play
+[vanilla WoW][4], you should try *MangosZero*. We provide an authentication
 server where you can manage your users, and a world server which serves game
 content just like the original did back then.
 
@@ -22,14 +28,14 @@ copyrighted by [Blizzard Entertainment, Inc.][1]
 
 Requirements
 ------------
-*mangos-zero* server supports a wide range of operating systems, and various
+*MangosZero* server supports a wide range of operating systems, and various
 compiler platforms. In order to do that, we use various free cross-platform
 libraries and use [CMake][19] to provide a cross-platform build system which
 adapts to your chosen operating system and compiler.
 
 Operating systems
 -----------------
-Currently we do support running *mangos-zero* on these operating systems:
+Currently we support running *MangosZero* on these operating systems:
 
 * **Windows**, 32 bit and 64 bit. [Windows][20] 7 or newer is recommended.
 * **Linux**, 32 bit and 64 bit. [Debian 7][21] and [Ubuntu 12.04 LTS][22] are
@@ -42,7 +48,7 @@ server version will work, too.
 
 Compilers
 ---------
-Building *mangos-zero* is currently possible with these compilers:
+Building *MangosZero* is currently possible with these compilers:
 
 * **Microsoft Visual Studio (Express[^1])**, 32 bit and 64 bit. Both
   [Visual Studio][30] and the Express editions of [Visual Studio][31]
@@ -55,7 +61,7 @@ Building *mangos-zero* is currently possible with these compilers:
 
 Dependencies
 ------------
-*mangos-zero* server stands on the shoulders of well-known Open Source
+*MangosZero* server stands on the shoulders of well-known Open Source
 libraries, and a few awesome, but less known libraries to prevent us from
 inventing the wheel again.
 
@@ -84,24 +90,25 @@ their systems package management instead of source packages.*
   scripting environment, which allows us to make live changes to scripted
   content.
 
-*Recast*, *G3D* and *libmpq* are included in the *mangos-zero* distribution as
+*Recast*, *G3D* and *libmpq* are included in the *MangosZero* distribution as
 we rely on specific versions.
 
 Optional dependencies
 ---------------------
 
 * **Doxygen**: if you want to export HTML or PDF formatted documentation for the
-  *mangos-zero* API, you should install [Doxygen][49].
-* **Lua**: if you want to test drive how *mangos-zero* feels with [Lua][50] as
+  *MangosZero* API, you should install [Doxygen][49].
+* **Lua**: if you want to test drive how *MangosZero* feels with [Lua][50] as
   scripting language instead of the scripting library, you will need Lua **5.1.x**
   installed.
 
 Discuss
 -------
-If you need help with building and installing *mangos-zero* there is thousands
-of users out there already running *mangos-zero* and many you can find on
+If you need help with building and installing *MangosZero* there is thousands
+of users out there already running *MangosZero* and many you can find on our
+project website and discussion forum
 
-* project website and discussion forum: [getmangos.eu][10]
+* [getmangos.eu][10]
 
 License
 -------
@@ -121,7 +128,7 @@ Street, Fifth Floor, Boston, MA 02110-1301 USA.
 The full license is included in the file `License.md`.
 
 In addition, as a special exception, permission is granted to link the code of
-*mangos-zero* with the OpenSSL project's [OpenSSL library][48] (or with modified
+*MangosZero* with the OpenSSL project's [OpenSSL library][48] (or with modified
 versions of it that use the same license as the OpenSSL library), and distribute
 the linked executables. You must obey the GNU General Public License in all
 respects for all of the code used other than [OpenSSL][48].
@@ -129,7 +136,7 @@ respects for all of the code used other than [OpenSSL][48].
 
 [^1]: Visual Studio Express versions prior to the 2012 release can only
       build 32 bit applications, unless you install the Windows SDK.
-[^2]: Clang support for Windows is experimental. Failure to compile mangos-zero
+[^2]: Clang support for Windows is experimental. Failure to compile MangosZero
       may also relate to the experimental state of the port.
 
 [1]: http://blizzard.com/ "Blizzard Entertainment Inc. · we love you!"
@@ -182,3 +189,4 @@ respects for all of the code used other than [OpenSSL][48].
 [55]: http://slproweb.com/products/Win32OpenSSL.html "OpenSSL for Windows"
 [56]: http://www.lua.org/ "Lua"
 [57]: https://code.google.com/p/luaforwindows/ "Lua for Windows"
+
