@@ -6,7 +6,7 @@
 
 MangosZero 
 ===
-###- A World of Warcraft server for vanilla WoW  
+### A World of Warcraft server for vanilla WoW  
 ----
 *MangosZero* is open source project, built in [C++][7], it's fast, runs on multiple,
 platforms, can store game data in [MySQL][40] and [PostgreSQL][42]. It also has
