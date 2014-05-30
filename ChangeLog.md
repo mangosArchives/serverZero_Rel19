@@ -11,7 +11,131 @@ Major changes for this build which require your attention when upgrading include
 * In the win folder there is a new solution "BuildEverything" which does just that.
   It builds the Core, Extraction Tools and Scripts library.
 
-* TODO: Remaining Change summary here
+* Add a configurable delay between when a creature respawns 
+* Add clang to the compiler list.
+* Add script support for quest 660.	
+* Added a few basics for embedding Lua, and updated docs accordingly.
+* Added creature_equip_template sql	
+* Added exception to allow/restrict use of specific mounts.
+* Added files for Lua engine.
+* Added missing definition	
+* Added support for quest 2118.	
+* Added Trash spell for Ebonroc, Firemaw and Flamegor
+* Added VS2013 support	
+* Backport recastnavigation
+* Big rename of creature_template fields. 
+* change to random movement	
+* Chat commands disabled for normal players. 
+* Chat system refactoring All chat function now call same method
+* Cleaned up references slightly	
+* Cleanup world state sending 
+* Closed a few resource leaks.
+* Continued fixing EventAI documentation. 
+* Correct Holy Light Cast time. 
+* Correct some BG chat message missing target name. 
+* Corrected some missed year updates	
+* Correctly check aura on target for HealingBonusTaken instead. 
+* Don't do periodic heal ticks if the target is already at max 
+* Drop gossip for learning/unlearning advanced tailor skills	
+* EventAI documentation style fixes. 
+* Extract vmaps using correct path. 
+* Finished Movemap-generator and added new BuildTools projects	
+* Fix a bug that area was not correctly returned in some cases.
+* Fix conflict between quest 8447 and 8733	
+* Fix creature flee dont loose target. 
+* Fix creature loose target while rooted. 
+* Fix failed assertions while playing with the Mac client. 
+* Fix fleeing creature walking instead of running. 
+* Fix freeze if opcode.txt file does not exist on .debug send 
+* Fix LANG_ADDON use on Guild Channels 
+* Fix libmpq	
+* Fix mistake in Twin Emperors script	
+* Fix npc_Ame01 aggro texts	
+* Fix PostgreSQL bindings and add support to build 
+* Fix reloading horde controlled capture point 
+* Fix Rockbiter Weapon and remove some TBC-specific code.	
+* Fix some spellmods.	
+* Fix spell 6346 (Fear Ward) 
+* Fix spirit based mana regen 	
+* Fix Tauren druid size when shapeshifted. 
+* Fix vmapexporter building on Mac OS X	
+* Fixed a race condition in Thread. 
+* Fixed an error in map extractor help message. 
+* Fixed architecture name. 
+* Fixed issue with PCH not working on some versions of GCC 
+* Fixed the `debug send chatmmessage`.
+* Get rid of bounding radius in GetNearPoint[2D] and ObjectPosSelector.
+* Hide known recipes when the Usable box is checked in the AH. 
+* Hunter pet's will now properly follow stay commands.
+* Hunter pets will gain full experience while in group, instead of half.
+* Implement 2 chat channel responses
+* Implement basic follow-quest 2904 - A fine mess.	
+* Implement escort quests 1222, 1270.	
+* Implement new stats system for Health and Mana. 
+* Implement script support for quest 3367.	
+* Implemented fix from for issue #152 (fixed by user EdwardTuring)	
+* Improve 'NPCs gets stuck in melee animation while casting'.
+* Improve chat channel code.
+* Improve handling of TargetMMGen.
+* Improve random movement by permit randomly no wait time.
+* Instantiate Lua engine as singleton.
+* Integrate map extractor into build process.
+* Let git_id create mysqldump alike dumps. 
+* Loading/reloading classlevelstats. 
+* Looting in groups has been corrected, and you should now be able to use group loot
+* Looting will be cancelled upon movement.
+* Makes Paladin's talent Benediction reduces mana cost
+* Map extractor messages have been cleaned up.
+* Map/Vmap extractor dependancies cleaned up	
+* Maximum path length can be provided from random movement generator. 
+* Merged ACTION_T_EMOTE_TARGET from mangos-three.	
+* Mobs fleeing in fear will now properly flee, instead of running. 
+* Move Lua engine to different folder.
+* Movement flags for character movement have been updated for vanilla WoW.
+* Movement map generator now will print clean usage instructions.
+* Movement maps generator will report map version on startup.
+* Pet stats are not modified by owner stats in vanilla.
+* Prevent resource leaks in DBC loader.
+* Properly detect clang and TR1 features.
+* Readd clang to condition. 
+* Remove a compile warning and better test with float. 
+* Remove prebuild extractors	
+* Remove unused argument in CalculateMeleeDamage. 
+* Remove unused constructor overloads. 
+* Removed off-mesh coordinates for maps not available in vanilla WoW.
+* Removed redundant log output, and corrected a few compile time warnings.
+* Removed script library entries for creatures not available in vanilla
+* Rename m_respawnAggroDelay to make it more generic 
+* Renamed DBC field format enums. 	
+* Reorder and unify the config's stat modifier handling. 
+* Reorganize code to allow rage rewarded for critter type. 	
+* Reputation discount fix. Now there is a flat 10% discount 
+* Reserve more DB_SCRIPT_STRING_ID. It seems that could be useful
+* Restore warnings, and provide macros for C++11. 
+* Script for quest 4021 Counterattack	
+* Script Library Fixup #1	
+* Script support for quest 2987 Gordunni cobalt	
+* Set max gossip menu items to 32. 
+* Simple fix to avoid corpse moving in some situation. 
+* startup check for action_t_summon_unique	
+* Summon ID checks now for EVENT_T_SUMMON_UNIQUE	
+* support for creature_item_template	
+* There is no unit flag for mounted state. 
+* Prevent creatures from pulling too many nearby mobs
+* Trap GO now dispawn with their parrent object and special case for quest	
+* Update all stats after creature respawn. 
+* Update and improve script for quest 1249	
+* Update Vmap asembler and others	
+* Updated database structure and default contents. 
+* Updated HandleMoveTimeSkippedOpcode to use proper definition
+* Updated libmpq library slightly	
+* Updated ScriptData/ContentData comments in Script library.	
+* Updated VS2010/13 projects for scripts	
+* Use proper path in usage examples. 
+* Various 64Bit Build fixes	
+* When consuming potions not usable by their class, characters will now to told they can't
+* Windows service handler / ACE compatibility fixed.
+
 
 
 0.18.1 (2013-11-02)
