@@ -6,8 +6,11 @@ in recent versions.
 0.19 (2014-06-01)
 -------------------
 Major changes for this build which require your attention when upgrading include:
+
+Many Thanks to all the groups and individuals who contributed to this release.
+
 * The *mangos-zero* build system has been overhauled again since the previous
-  version was unwieldy for a majority of users and some devs !.
+  version was unwieldy for a majority of windows users and some devs !.
 * In the win folder there is a new solution "BuildEverything" which does just that.
   It builds the Core, Extraction Tools and Scripts library.
 
