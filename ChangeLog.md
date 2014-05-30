@@ -1,8 +1,18 @@
-CHANGELOG for 0.18.x
-====================
-
+MaNGOS Zero Changelog
+=====================
 This change log references the relevant changes (bug and security fixes) done
-in 0.18 minor versions.
+in recent versions.
+
+0.19 (2014-06-01)
+-------------------
+Major changes for this build which require your attention when upgrading include:
+* The *mangos-zero* build system has been overhauled again since the previous
+  version was unwieldy for a majority of users and some devs !.
+* In the win folder there is a new solution "BuildEverything" which does just that.
+  It builds the Core, Extraction Tools and Scripts library.
+
+* TODO: Remaining Change summary here
+
 
 0.18.1 (2013-11-02)
 -------------------
