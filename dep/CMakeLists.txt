@@ -32,10 +32,10 @@ include(ExternalProject)
 ExternalProject_Add(mympqtmp
   PREFIX "./"
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/dep/libmpq/"
+  INSTALL_DIR "${CMAKE_BINARY_DIR}/lib"
   # This is for the CONFIGURE_COMMAND to have the right working dir
   BINARY_DIR "${CMAKE_SOURCE_DIR}/dep/libmpq/"
   CONFIGURE_COMMAND "${CMAKE_SOURCE_DIR}/dep/libmpq/autogen.sh"
-  BUILD_COMMAND ""
+  BUILD_COMMAND "${CMAKE_SOURCE_DIR}/dep/libmpq/configure"
   INSTALL_COMMAND ""
 )
-
