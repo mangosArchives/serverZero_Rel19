@@ -24,6 +24,10 @@
 #   include <CoreServices/CoreServices.h>
 #endif
 
+#if defined(__FreeBSD__)
+    #include <sys/_timeval.h>
+#endif
+
 namespace G3D {
 
 /**
