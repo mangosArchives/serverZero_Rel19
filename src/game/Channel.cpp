@@ -105,8 +105,8 @@ void Channel::Join(Player* player, const char* password)
     pinfo.flags = MEMBER_FLAG_NONE;
 
     MakeYouJoined(&data);
-    SendToOne(&data, p);
-	JoinNotify(p);
+	SendToOne(&data, guid);
+	JoinNotify(guid);
 
     // if no owner first logged will become
     if (!IsConstant() && !m_ownerGuid)
@@ -151,7 +151,7 @@ void Channel::Leave(Player* player, bool send)
         SendToAll(&data);
     }
 
-		LeaveNotify(p);
+		LeaveNotify(guid);
 
     if (changeowner)
     {
