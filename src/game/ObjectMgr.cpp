@@ -121,6 +121,7 @@ T IdGenerator<T>::Generate()
 template uint32 IdGenerator<uint32>::Generate();
 template uint64 IdGenerator<uint64>::Generate();
 
+// create the standing order
 bool operator < (const HonorStanding& lhs, const HonorStanding& rhs)
 {
     return lhs.honorPoints > rhs.honorPoints;
