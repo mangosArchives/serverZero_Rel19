@@ -115,3 +115,6 @@ ipch
 /src/bindings/scripts/ScriptDev2__x64_Release/
 
 /src/tools/Extractor_Binaries/*.exe
+
+# File generated during compile
+/dep/libmpq/compile
