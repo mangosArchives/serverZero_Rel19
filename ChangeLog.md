@@ -24,10 +24,12 @@ Many Thanks to all the groups and individuals who contributed to this release.
 * Added missing definition	
 * Added support for quest 2118.	
 * Added Trash spell for Ebonroc, Firemaw and Flamegor
-* Added VS2013 support	
+* Added VS2013 support
+* All dispel spells will check if there is something to dispell
+* Anger control and Superposition of combustion
 * Backport recastnavigation
 * Big rename of creature_template fields. 
-* change to random movement	
+* Change to random movement	
 * Chat commands disabled for normal players. 
 * Chat system refactoring All chat function now call same method
 * Cleaned up references slightly	
@@ -98,6 +100,7 @@ Many Thanks to all the groups and individuals who contributed to this release.
 * Movement map generator now will print clean usage instructions.
 * Movement maps generator will report map version on startup.
 * Pet stats are not modified by owner stats in vanilla.
+* Power Infusion spell from priests can more restrictions
 * Prevent resource leaks in DBC loader.
 * Properly detect clang and TR1 features.
 * Readd clang to condition. 
@@ -125,6 +128,7 @@ Many Thanks to all the groups and individuals who contributed to this release.
 * support for creature_item_template	
 * There is no unit flag for mounted state. 
 * Prevent creatures from pulling too many nearby mobs
+* Trade channel and guild recruitment channel still had notifications
 * Trap GO now dispawn with their parrent object and special case for quest	
 * Update all stats after creature respawn. 
 * Update and improve script for quest 1249	
