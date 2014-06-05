@@ -100,7 +100,7 @@ Many Thanks to all the groups and individuals who contributed to this release.
 * Movement map generator now will print clean usage instructions.
 * Movement maps generator will report map version on startup.
 * Pet stats are not modified by owner stats in vanilla.
-* Power Infusion spell from priests can more restrictions
+* Power Infusion spell from priests now has more restrictions
 * Prevent resource leaks in DBC loader.
 * Properly detect clang and TR1 features.
 * Readd clang to condition. 
