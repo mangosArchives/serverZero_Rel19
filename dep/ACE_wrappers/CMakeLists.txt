@@ -53,9 +53,9 @@ if(WIN32 AND MSVC)
     ALWAYS 0
   )
 elseif(UNIX)
-	if (${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD")
-		# ACE Won't build on FreeBSD 10 with the exceptions test enabled so we're just turning that test off
-		set(DISABLE_EXCEPTIONS "--enable-exceptions=no")
+  if (${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD")
+    # ACE Won't build on FreeBSD 10 with the exceptions test enabled so we're just turning that test off
+    set(DISABLE_EXCEPTIONS "--enable-exceptions=no")
   else()
     set(DISABLE_EXCEPTIONS "")
   endif()
