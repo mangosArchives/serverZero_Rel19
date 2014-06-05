@@ -70,15 +70,15 @@ void WorldSession::HandleJoinChannelOpcode(WorldPacket& recvPacket)
 		cityLookupAreaID = citiesZoneID;
 	}
 
-	//TODO: This doesn't seem like the right way to do it, but the client doesn't send any ID of the channel, and it's needed
-	for (uint32 i = 0; i < sChatChannelsStore.GetNumRows(); ++i)
-	{
-		ChatChannelsEntry const* channel = sChatChannelsStore.LookupEntry(i);
+    //TODO: This doesn't seem like the right way to do it, but the client doesn't send any ID of the channel, and it's needed
+    for (uint32 i = 0; i < sChatChannelsStore.GetNumRows(); ++i)
+    {
+        ChatChannelsEntry const* channel = sChatChannelsStore.LookupEntry(i);
 		AreaTableEntry const* area = sAreaStore.LookupEntry(
 			(channel->ChannelID == tradeChannelID || channel->ChannelID == guildRecruitmentChannelID) ? cityLookupAreaID : playerZoneId);
 
-		if (area && channel)
-		{
+        if (area && channel)
+        {
 			snprintf(tmpStr, 255, channel->pattern[GetSessionDbcLocale()], area->area_name[GetSessionDbcLocale()]);
 
 			//With a format string
@@ -89,8 +89,8 @@ void WorldSession::HandleJoinChannelOpcode(WorldPacket& recvPacket)
 				channelId = channel->ChannelID;
 				break;
 			}
-		}
-	}
+        }
+    }
 
     if (ChannelMgr* cMgr = channelMgr(_player->GetTeam()))
 		if (Channel* chn = cMgr->GetJoinChannel(channelName, channelId)) // channel id seems to be useless but must be checked for LFG

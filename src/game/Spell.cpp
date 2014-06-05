@@ -2716,6 +2716,12 @@ void Spell::cast(bool skipCheck)
             break;
     }
 
+	// As of patch 1.10.0, Arcane Power will replace Power Infusion
+	if (m_spellInfo->Id == 12042)
+	{
+		m_targets.getUnitTarget()->RemoveAurasDueToSpell(10060);
+	}
+
     // Linked spells (precast chain)
     SpellLinkedSet linkedSet = sSpellMgr.GetSpellLinked(m_spellInfo->Id, SPELL_LINKED_TYPE_PRECAST);
     if (linkedSet.size() > 0)
@@ -4004,6 +4010,68 @@ SpellCastResult Spell::CheckCast(bool strict)
             }
         }
 
+		// Fill possible dispel list
+		bool isDispell = false;
+		bool isEmpty = true;
+		
+		// As of Patch 1.10.0, dispel effects now check if there is something to dispel first
+		for (int i = 0; i < MAX_EFFECT_INDEX; ++i)
+		{
+			// Dispell Magic
+			switch (m_spellInfo->Effect[i])
+			{
+				case SPELL_EFFECT_DISPEL:
+				{
+					// It is a dispell spell
+					isDispell = true;
+
+					// Create dispel mask by dispel type
+					uint32 dispel_type = m_spellInfo->EffectMiscValue[i];
+					uint32 dispelMask = GetDispellMask(DispelType(dispel_type));
+					Unit::SpellAuraHolderMap const& auras = target->GetSpellAuraHolderMap();
+					for (Unit::SpellAuraHolderMap::const_iterator itr = auras.begin(); itr != auras.end(); ++itr)
+					{
+						SpellAuraHolder* holder = itr->second;
+						uint32 disp = (1 << holder->GetSpellProto()->Dispel);
+						if (disp & dispelMask)
+						{
+							if (holder->GetSpellProto()->Dispel == DISPEL_MAGIC)
+							{
+								bool positive = true;
+								if (!holder->IsPositive())
+								{
+									positive = false;
+								}
+								else
+								{
+									positive = (holder->GetSpellProto()->AttributesEx & SPELL_ATTR_EX_NEGATIVE) == 0;
+								}
+
+								// do not remove positive auras if friendly target
+								//               negative auras if non-friendly target
+								if (positive == target->IsFriendlyTo(m_caster))
+								{
+									continue;
+								}
+							}
+
+							isEmpty = false;
+							break;
+						}
+					}
+
+					break;
+				}
+			}
+		}
+
+		// Ok if exist some buffs for dispel try dispel it
+		if (isDispell && 
+			isEmpty)
+		{
+			return SPELL_FAILED_NOTHING_TO_DISPEL;
+		}
+
         if (!m_IsTriggeredSpell && IsDeathOnlySpell(m_spellInfo) && target->IsAlive())
             { return SPELL_FAILED_TARGET_NOT_DEAD; }
 
@@ -4014,6 +4082,16 @@ SpellCastResult Spell::CheckCast(bool strict)
             && ((Creature*)target)->IsTotem())
             { return SPELL_FAILED_IMMUNE; }
 
+		// Power Infusion: As of patch 1.10, this is no longer usable if the target 
+		// has Arcane Power aura from mage.
+		if (m_spellInfo->Id == 10060)	// 10060 = Power Infusion
+		{
+			if (target->HasAura(12042))	// 12042 = Arcane Power
+			{
+				return SPELL_FAILED_MORE_POWERFUL_SPELL_ACTIVE;
+			}
+		}
+		
         bool non_caster_target = target != m_caster && !IsSpellWithCasterSourceTargetsOnly(m_spellInfo);
 
         if (non_caster_target)
