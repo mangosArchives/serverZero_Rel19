@@ -344,7 +344,7 @@ bool AreaTrigger_at_temple_ahnqiraj(Player* pPlayer, AreaTriggerEntry const* pAt
  
         if (instance_temple_of_ahnqiraj* pInstance = (instance_temple_of_ahnqiraj*)pPlayer->GetInstanceData()) 
            if (Creature* pSartura = pInstance->GetSingleCreatureFromStorage(NPC_SARTURA)) 
-                if (pSartura->isAlive() && !pSartura->isInCombat()) 
+                if (pSartura->IsAlive() && !pSartura->IsInCombat()) 
                 { 
                     pInstance->SetData(TYPE_SARTURA, IN_PROGRESS); 
 
