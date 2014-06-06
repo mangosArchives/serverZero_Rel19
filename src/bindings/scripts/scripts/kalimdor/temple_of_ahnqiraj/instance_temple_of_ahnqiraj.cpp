@@ -337,6 +337,22 @@ bool AreaTrigger_at_temple_ahnqiraj(Player* pPlayer, AreaTriggerEntry const* pAt
         }
     }
 
+    if (pAt->id == AREATRIGGER_SARTURA) 
+    { 
+        if (pPlayer->isGameMaster() || !pPlayer->isAlive()) 
+           return false; 
+ 
+        if (instance_temple_of_ahnqiraj* pInstance = (instance_temple_of_ahnqiraj*)pPlayer->GetInstanceData()) 
+           if (pInstance->GetData(TYPE_SARTURA) == NOT_STARTED) 
+               if (Creature* pSartura = pInstance->GetSingleCreatureFromStorage(NPC_SARTURA)) 
+                    if (pSartura->isAlive()) 
+                    { 
+                        pInstance->SetData(TYPE_SARTURA, IN_PROGRESS); 
+
+                        pSartura->SetInCombatWithZone(); 
+                    } 
+    } 
+    
     return false;
 }
 
