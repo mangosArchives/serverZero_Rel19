@@ -100,6 +100,7 @@ void instance_temple_of_ahnqiraj::OnCreatureCreate(Creature* pCreature)
             {
                 break;
             }
+        case NPC_SARTURA:
         case NPC_VEKLOR:
         case NPC_VEKNILASH:
         case NPC_MASTERS_EYE:
@@ -324,12 +325,13 @@ InstanceData* GetInstanceData_instance_temple_of_ahnqiraj(Map* pMap)
 
 bool AreaTrigger_at_temple_ahnqiraj(Player* pPlayer, AreaTriggerEntry const* pAt)
 {
+    if (pPlayer->isGameMaster() || !pPlayer->IsAlive())
+    {
+        return false;
+    }
+
     if (pAt->id == AREATRIGGER_TWIN_EMPERORS)
     {
-        if (pPlayer->isGameMaster() || !pPlayer->IsAlive())
-        {
-            return false;
-        }
 
         if (instance_temple_of_ahnqiraj* pInstance = (instance_temple_of_ahnqiraj*)pPlayer->GetInstanceData())
         {
@@ -339,20 +341,17 @@ bool AreaTrigger_at_temple_ahnqiraj(Player* pPlayer, AreaTriggerEntry const* pAt
 
     if (pAt->id == AREATRIGGER_SARTURA) 
     { 
-        if (pPlayer->isGameMaster() || !pPlayer->isAlive()) 
-           return false; 
  
         if (instance_temple_of_ahnqiraj* pInstance = (instance_temple_of_ahnqiraj*)pPlayer->GetInstanceData()) 
-           if (pInstance->GetData(TYPE_SARTURA) == NOT_STARTED) 
-               if (Creature* pSartura = pInstance->GetSingleCreatureFromStorage(NPC_SARTURA)) 
-                    if (pSartura->isAlive()) 
-                    { 
-                        pInstance->SetData(TYPE_SARTURA, IN_PROGRESS); 
+           if (Creature* pSartura = pInstance->GetSingleCreatureFromStorage(NPC_SARTURA)) 
+                if (pSartura->isAlive() && !pSartura->isInCombat()) 
+                { 
+                    pInstance->SetData(TYPE_SARTURA, IN_PROGRESS); 
 
-                        pSartura->SetInCombatWithZone(); 
-                    } 
+                    pSartura->SetInCombatWithZone(); 
+                } 
     } 
-    
+
     return false;
 }
 
