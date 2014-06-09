@@ -60,7 +60,7 @@ ConfVersion=2013012201
 ################################################################################
 
 RealmID                      = 1
-DataDir                      = "${CMAKE_INSTALL_PREFIX}/share/${APPLICATION_NAME}"
+DataDir                      = "."
 LogsDir                      = ""
 LoginDatabaseInfo            = "127.0.0.1;3306;mangos;mangos;realmd"
 WorldDatabaseInfo            = "127.0.0.1;3306;mangos;mangos;mangos"
@@ -1500,7 +1500,7 @@ Network.KickOnBadPacket = 0
 #
 ################################################################################
 
-Console.Enable = 0
+Console.Enable = 1
 
 Ra.Enable      = 0
 Ra.IP          = 0.0.0.0
