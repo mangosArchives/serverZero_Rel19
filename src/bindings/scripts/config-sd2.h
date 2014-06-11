@@ -30,10 +30,6 @@
 #include "revision.h"
 #include "sd2_revision_nr.h"
 
-// Format is YYYYMMDDRR where RR is the change in the conf file
-// for that day.
-#define SD2_CONF_VERSION    2012112301
-
 #ifdef WIN32
   #define MANGOS_DLL_EXPORT extern "C" __declspec(dllexport)
 #elif defined( __GNUC__ )
@@ -57,10 +53,8 @@
   #else
     #define _FULLVERSION _VERSION " (Win32)"
   #endif
-  #define _SCRIPTDEV2_CONFIG  "scriptdev2.conf"
 #else
   #define _FULLVERSION _VERSION " (Unix)"
-  #define _SCRIPTDEV2_CONFIG  SYSCONFDIR"scriptdev2.conf"
 #endif
 
 #endif
