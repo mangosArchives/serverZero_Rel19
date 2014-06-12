@@ -2531,6 +2531,8 @@ void Player::SendInitialSpells()
     /* * * * * * * * * * * * * * * * *
      * *  END OF PACKET STRUCTURE  * *
      * * * * * * * * * * * * * * * * */
+	size_t countPos = data.wpos();
+	data << uint16(spellCount);                             // spell count placeholder
 
     /* For each spell the player knows */
     for (PlayerSpellMap::const_iterator itr = m_spells.begin(); itr != m_spells.end(); ++itr)
