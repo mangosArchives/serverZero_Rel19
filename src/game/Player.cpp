@@ -2520,45 +2520,54 @@ void Player::SendInitialSpells()
     time_t curTime = time(NULL);
     time_t infTime = curTime + infinityCooldownDelayCheck;
 
+    /* * * * * * * * * * * * * * * * *
+     * * START OF PACKET STRUCTURE * *
+     * * * * * * * * * * * * * * * * */
     uint16 spellCount = 0;
 
     WorldPacket data(SMSG_INITIAL_SPELLS, (1 + 2 + 4 * m_spells.size() + 2 + m_spellCooldowns.size() * (2 + 2 + 2 + 4 + 4)));
     data << uint8(0);
 
-    size_t countPos = data.wpos();
-    data << uint16(spellCount);                             // spell count placeholder
+    /* * * * * * * * * * * * * * * * *
+     * *  END OF PACKET STRUCTURE  * *
+     * * * * * * * * * * * * * * * * */
 
+    /* For each spell the player knows */
     for (PlayerSpellMap::const_iterator itr = m_spells.begin(); itr != m_spells.end(); ++itr)
     {
+        /* If the spell is marked as removed, don't send it */
         if (itr->second.state == PLAYERSPELL_REMOVED)
-            continue;
+            { continue; }
 
         if (!itr->second.active || itr->second.disabled)
-            continue;
+            { continue; }
 
+        /* Insert spell into vector for insertion into packet */
         data << uint16(itr->first);
         data << uint16(0);                                  // it's not slot id
 
+        /* Increase spell counter by 1 (sent in packet) */
         spellCount += 1;
     }
 
     data.put<uint16>(countPos, spellCount);                 // write real count value
 
-    // Correct way the spell cooldowns should be
+    /* For each spell the player has on cooldown */
     uint16 spellCooldowns = m_spellCooldowns.size();
     data << uint16(spellCooldowns);
     for (SpellCooldowns::const_iterator itr = m_spellCooldowns.begin(); itr != m_spellCooldowns.end(); ++itr)
     {
+        /* If the spell doesn't exist in the spellbook, just ignore it */
         SpellEntry const* sEntry = sSpellStore.LookupEntry(itr->first);
         if (!sEntry)
-            continue;
+            { continue; }
 
         data << uint16(itr->first);
 
         data << uint16(itr->second.itemid);                 // cast item id
         data << uint16(sEntry->Category);                   // spell category
 
-        // send infinity cooldown in special format
+        /* send infinity cooldown in special format */
         if (itr->second.end >= infTime)
         {
             data << uint32(1);                              // cooldown
