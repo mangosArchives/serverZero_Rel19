@@ -6279,7 +6279,9 @@ void Player::DuelComplete(DuelCompleteType type)
     WorldPacket data(SMSG_DUEL_COMPLETE, (1));
     data << (uint8)((type != DUEL_INTERRUPTED) ? 1 : 0);
     GetSession()->SendPacket(&data);
-    duel->opponent->GetSession()->SendPacket(&data);
+
+    if (duel->opponent->GetSession())
+        duel->opponent->GetSession()->SendPacket(&data);
 
     if (type != DUEL_INTERRUPTED)
     {
@@ -13249,6 +13251,14 @@ bool Player::LoadFromDB(ObjectGuid guid, SqlQueryHolder* holder)
     SetByteValue(UNIT_FIELD_BYTES_0, 2, gender);            // gender
 
     SetByteValue(UNIT_FIELD_BYTES_2, 1, UNIT_BYTE2_FLAG_UNK3 | UNIT_BYTE2_FLAG_UNK5);
+
+    // check if race/class combination is valid
+    PlayerInfo const* info = sObjectMgr.GetPlayerInfo(getRace(), getClass());
+    if (!info)
+    {
+        DEBUG_FILTER_LOG(LOG_FILTER_PLAYER_STATS, "Player (GUID: %u) has wrong race/class (%u/%u), can't be loaded.", guid, getRace(), getClass());
+        return false;
+    }
 
     SetUInt32Value(UNIT_FIELD_LEVEL, fields[6].GetUInt8());
     SetUInt32Value(PLAYER_XP, fields[7].GetUInt32());
