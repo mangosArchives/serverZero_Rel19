@@ -34,6 +34,7 @@
 #include "ObjectGuid.h"
 #include "AuctionHouseMgr.h"
 #include "Item.h"
+#include "Timer.h"
 
 struct ItemPrototype;
 struct AuctionEntry;
@@ -125,6 +126,7 @@ class WorldSessionFilter : public PacketFilter
 class MANGOS_DLL_SPEC WorldSession
 {
         friend class CharacterHandler;
+		friend class WardenMgr;
 
     public:
         WorldSession(uint32 id, WorldSocket* sock, AccountTypes sec, time_t mute_time, LocaleConstant locale);
@@ -287,7 +289,13 @@ class MANGOS_DLL_SPEC WorldSession
         void SendPlaySpellVisual(ObjectGuid guid, uint32 spellArtKit);
         void SendItemPageInfo(ItemPrototype* itemProto);
 
-    public:                                                 // opcodes handlers
+		// Warden
+		uint8 *GetWardenServerKey() { return &m_rc4ServerKey[0]; }
+        uint8 *GetWardenSeed() { return &m_wardenSeed[0]; }
+        uint8 *GetWardenTempClientKey() { return &m_WardenTmpClientKey[0]; }
+        void UpdateWardenTimer(uint32 diff) { m_WardenTimer.Update(diff); }
+    
+	public:                                                 // opcodes handlers
 
         void Handle_NULL(WorldPacket& recvPacket);          // not used
         void Handle_EarlyProccess(WorldPacket& recvPacket); // just mark packets processed in WorldSocket::OnRead
@@ -645,7 +653,11 @@ class MANGOS_DLL_SPEC WorldSession
         void HandleBattlefieldListOpcode(WorldPacket& recv_data);
         void HandleLeaveBattlefieldOpcode(WorldPacket& recv_data);
 
-        void HandleWardenDataOpcode(WorldPacket& recv_data);
+        // Warden
+		void HandleWardenDataOpcode(WorldPacket& recv_data);
+        void HandleWardenRegister();                        // for internal call
+        void HandleWardenUnregister();                      // for internal call
+		
         void HandleWorldTeleportOpcode(WorldPacket& recv_data);
         void HandleMinimapPingOpcode(WorldPacket& recv_data);
         void HandleRandomRollOpcode(WorldPacket& recv_data);
@@ -696,6 +708,15 @@ class MANGOS_DLL_SPEC WorldSession
         TutorialDataState m_tutorialState;
         int32 m_clientTimeDelay;
         ACE_Based::LockedQueue<WorldPacket*, ACE_Thread_Mutex> _recvQueue;
+
+        uint8 m_wardenStatus;
+        uint8 m_rc4ServerKey[0x102];
+        uint8 m_rc4ClientKey[0x102];
+        uint8 m_wardenSeed[16];
+        ShortIntervalTimer m_WardenTimer;
+        std::string m_WardenModule;
+        void *m_WardenClientChecks;
+        uint8 m_WardenTmpClientKey[0x102];
 };
 #endif
 /// @}

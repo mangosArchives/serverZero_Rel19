@@ -1544,3 +1544,38 @@ SOAP.Port      = 7878
 CharDelete.Method   = 0
 CharDelete.MinLevel = 0
 CharDelete.KeepDays = 30
+
+###################################################################################################################
+# WARDEN DAEMON - This daemon requires a Windows box to run. If you don't have any, let it disabled
+#
+#    Wardend.Enable
+#        Enable or disable warden functionnalities
+#        Default: 0  - Disabled, mangosd will neither use wardend, not generate any warden related traffic
+#                 1  - Enable, mangosd will connect to wardend and generate cheat ckecks for all sessions
+#
+#    Wardend.Ban
+#        Enable or disable banning accounts
+#                 0  - Disabled, mangosd will kick accounts failing a cheat-check
+#        Default: 1  - Enable, mangosd will ban any account failing a cheat-check for Wardend.BanLength configured
+#                      next line
+#
+#   Wardend.BanLength
+#        Length in days an account failing a cheat-check is banned
+#                 0 - Infinite ban
+#        Default: 1 - 1 day
+#
+#   Wardend.Address
+#        IP Address of the computer running the Win32 Warden Daemon
+#        Default: 127.0.0.1  - Assume you run the Warden Daemon on the same machine as Mangos Daemon and on Windows
+#
+#   Wardend.Port
+#        Port on which the Warden Daemon listens
+#        Default: 6555
+#
+###################################################################################################################
+
+Wardend.Enable = 0
+Wardend.Ban = 1
+Wardend.BanLength = 1
+Wardend.Address = "127.0.0.1"
+Wardend.Port = 6555

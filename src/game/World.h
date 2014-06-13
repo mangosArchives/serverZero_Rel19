@@ -177,7 +177,8 @@ enum eConfigUInt32Values
     CONFIG_UINT32_GUID_RESERVE_SIZE_CREATURE,
     CONFIG_UINT32_GUID_RESERVE_SIZE_GAMEOBJECT,
     CONFIG_UINT32_CREATURE_RESPAWN_AGGRO_DELAY,
-    CONFIG_UINT32_VALUE_COUNT
+    CONFIG_UINT32_WARDEN_BAN_TIME,
+	CONFIG_UINT32_VALUE_COUNT
 };
 
 /// Configuration elements
@@ -522,6 +523,7 @@ class World
         void KickAll();
         void KickAllLess(AccountTypes sec);
         BanReturn BanAccount(BanMode mode, std::string nameOrIP, uint32 duration_secs, std::string reason, std::string author);
+		BanReturn BanAccount(WorldSession *session, uint32 duration_secs, std::string reason, std::string author);
         bool RemoveBanAccount(BanMode mode, std::string nameOrIP);
 
         // for max speed access

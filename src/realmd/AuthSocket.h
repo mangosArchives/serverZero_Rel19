@@ -151,6 +151,7 @@ class AuthSocket: public BufferedSocket
 
         std::string _localizationName; /**< Since GetLocaleByName() is _NOT_ bijective, we have to store the locale as a string. Otherwise we can't differ between enUS and enGB, which is important for the patch system */
         uint16 _build; /**< TODO */
+		uint32 _os;
         AccountTypes _accountSecurityLevel; /**< TODO */
 
         ACE_HANDLE patch_; /**< TODO */

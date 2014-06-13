@@ -75,7 +75,7 @@ typedef struct AUTH_LOGON_CHALLENGE_C
     uint8   version3;
     uint16  build;
     uint8   platform[4];
-    uint8   os[4];
+    uint32  os;
     uint8   country[4];
     uint32  timezone_bias;
     uint32  ip;
@@ -360,7 +360,7 @@ bool AuthSocket::_HandleLogonChallenge()
     EndianConvert(*((uint32*)(&ch->gamename[0])));
     EndianConvert(ch->build);
     EndianConvert(*((uint32*)(&ch->platform[0])));
-    EndianConvert(*((uint32*)(&ch->os[0])));
+    EndianConvert(ch->os);
     EndianConvert(*((uint32*)(&ch->country[0])));
     EndianConvert(ch->timezone_bias);
     EndianConvert(ch->ip);
@@ -369,6 +369,7 @@ bool AuthSocket::_HandleLogonChallenge()
 
     _login = (const char*)ch->I;
     _build = ch->build;
+	_os = ch->os;
 
     ///- Normalize account name
     // utf8ToUpperOnlyLatin(_login); -- client already send account in expected form
@@ -682,7 +683,7 @@ bool AuthSocket::_HandleLogonProof()
         ///- Update the sessionkey, last_ip, last login time and reset number of failed logins in the account table for this account
         // No SQL injection (escaped user name) and IP address as received by socket
         const char* K_hex = K.AsHexStr();
-        LoginDatabase.PExecute("UPDATE account SET sessionkey = '%s', last_ip = '%s', last_login = NOW(), locale = '%u', failed_logins = 0 WHERE username = '%s'", K_hex, get_remote_address().c_str(), GetLocaleByName(_localizationName), _safelogin.c_str());
+        LoginDatabase.PExecute("UPDATE account SET sessionkey = '%s', last_ip = '%s', last_login = NOW(), locale = '%u', failed_logins = 0, os = %u WHERE username = '%s'", K_hex, get_remote_address().c_str(), GetLocaleByName(_localizationName), _os, _safelogin.c_str() );
         OPENSSL_free((void*)K_hex);
 
         ///- Finish SRP6 and send the final result to the client

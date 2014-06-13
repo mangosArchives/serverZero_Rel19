@@ -716,4 +716,11 @@ uint32 CreatePIDFile(const std::string& filename);
  * @param result
  */
 void hexEncodeByteArray(uint8* bytes, uint32 arrayLen, std::string& result);
+void hexDecodeString(const char *str, uint32 strlen, uint8* buffer);
+
+// Simple RC4 to work on 256+2 bytes keys
+void byteSwap(uint8 *a, uint8 *b);
+void rc4_init(uint8 *key_buffer, uint8 *base, uint32 base_length);
+void rc4_crypt(uint8 *key, uint8 *data, uint32 length);
+
 #endif

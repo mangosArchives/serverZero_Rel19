@@ -738,6 +738,7 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
         { security = SEC_ADMINISTRATOR; }
 
     K.SetHexStr(fields[2].GetString());
+	m_s = K;
 
     time_t mutetime = time_t (fields[7].GetUInt64());
 

@@ -69,6 +69,7 @@
 #include "AuctionHouseBot/AuctionHouseBot.h"
 #include "CharacterDatabaseCleaner.h"
 #include "CreatureLinkingMgr.h"
+#include "WardenMgr.h"
 
 INSTANTIATE_SINGLETON_1(World);
 
@@ -844,6 +845,9 @@ void World::LoadConfigSettings(bool reload)
     std::string ignoreMapIds = sConfig.GetStringDefault("mmap.ignoreMapIds", "");
     MMAP::MMapFactory::preventPathfindingOnMaps(ignoreMapIds.c_str());
     sLog.outString("WORLD: mmap pathfinding %sabled", getConfig(CONFIG_BOOL_MMAP_ENABLED) ? "en" : "dis");
+	
+	// Warden ban time
+    setConfig(CONFIG_UINT32_WARDEN_BAN_TIME, "Wardend.BanLength", 1);
 }
 
 /// Initialize the World
@@ -1310,6 +1314,21 @@ void World::SetInitialWorldSettings()
     sLog.outString("Starting Game Event system...");
     uint32 nextGameEvent = sGameEventMgr.Initialize();
     m_timers[WUPDATE_EVENTS].SetInterval(nextGameEvent);    // depend on next event
+	
+	if (sConfig.GetBoolDefault("wardend.Enable"))
+    {
+        sLog.outString("Starting Warden system...");
+        sWardenMgr.Initialize(sConfig.GetStringDefault("wardend.Address", "127.0.0.1").c_str(),
+            sConfig.GetIntDefault("wardend.Port", DEFAULT_WARDENSERVER_PORT),
+            sConfig.GetBoolDefault("wardend.Ban"));
+        m_timers[WUPDATE_WARDEN].SetInterval(1 * IN_MILLISECONDS);
+    }
+    else
+    {
+        sLog.outString("Warden system disabled, skipping");
+        sWardenMgr.SetDisabled();
+    }
+
 
     // Delete all characters which have been deleted X days before
     Player::DeleteOldCharacters();
@@ -1448,6 +1467,19 @@ void World::Update(uint32 diff)
     sMapMgr.Update(diff);
     sBattleGroundMgr.Update(diff);
     sOutdoorPvPMgr.Update(diff);
+	
+    ///- <li> Handle warden manager update
+    if (m_timers[WUPDATE_WARDEN].Passed())
+    {
+        ///- Update WardenTimer in all sessions
+        for (SessionMap::iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
+            itr->second->UpdateWardenTimer(m_timers[WUPDATE_WARDEN].GetCurrent());
+
+        ///- Then call the update method of WardenMgr Singleton
+        sWardenMgr.Update(m_timers[WUPDATE_WARDEN].GetCurrent());
+        m_timers[WUPDATE_WARDEN].SetCurrent(0);
+    }
+
 
     ///- Delete all characters which have been deleted X days before
     if (m_timers[WUPDATE_DELETECHARS].Passed())
@@ -1651,6 +1683,19 @@ void World::KickAllLess(AccountTypes sec)
     for (SessionMap::const_iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
         if (itr->second->GetSecurity() < sec)
             { itr->second->KickPlayer(); }
+}
+
+BanReturn World::BanAccount(WorldSession *session, uint32 duration_secs, std::string reason, std::string author)
+{
+    if (duration_secs)
+        LoginDatabase.PExecute("INSERT INTO account_banned VALUES ('%u', UNIX_TIMESTAMP(), UNIX_TIMESTAMP()+%u, '%s', '%s', '1')",
+            session->GetAccountId(), duration_secs, author.c_str(), reason.c_str());
+    else
+        LoginDatabase.PExecute("INSERT INTO account_banned VALUES ('%u', UNIX_TIMESTAMP(), 0, '%s', '%s', '1')",
+            session->GetAccountId(), author.c_str(), reason.c_str());
+
+    session->KickPlayer();
+    return BAN_SUCCESS;
 }
 
 /// Ban an account or ban an IP address, duration_secs if it is positive used, otherwise permban
