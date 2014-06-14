@@ -153,7 +153,7 @@ class RARunnable : public ACE_Based::Runnable
                 sLog.outError("MaNGOS RA can not bind to port %d on %s", raport, stringip.c_str());
             }
 
-            sLog.outString("Starting Remote access listner on port %d on %s", raport, stringip.c_str());
+            sLog.outString("Starting Remote access listener on port %d on %s", raport, stringip.c_str());
 
             while (!m_Reactor->reactor_event_loop_done())
             {
