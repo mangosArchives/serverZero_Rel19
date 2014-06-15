@@ -205,6 +205,9 @@ int Master::Run()
         return 1;
     }
 
+    ///- Set Realm to Offline, if crash happens. Only used once.
+    LoginDatabase.DirectPExecute("UPDATE realmlist SET realmflags = realmflags | %u WHERE id = '%u'", REALM_FLAG_OFFLINE, realmID);
+
     ///- Initialize the World
     sWorld.SetInitialWorldSettings();
 
