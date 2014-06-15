@@ -894,22 +894,17 @@ bool Creature::CanTrainAndResetTalentsOf(Player* pPlayer) const
 
 void Creature::PrepareBodyLootState()
 {
+    loot.clear();
+
     // if have normal loot then prepare it access
-    if (!lootForBody || !loot.isLooted())
+    if (!lootForBody)
     {
         // have normal loot
         if (GetCreatureInfo()->MaxLootGold > 0 || GetCreatureInfo()->LootId ||
             // ... or can have skinning after
             (GetCreatureInfo()->SkinningLootId && sWorld.getConfig(CONFIG_BOOL_CORPSE_EMPTY_LOOT_SHOW)))
         {
-            /* If we don't have the flag but we still have loot, set it to lootable */
-            if (!HasFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE))
-                { SetFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE); }
-            /* Removing the flag forces an update to be sent to clients
-             * Code in the update check (Object::BuildValuesUpdate) will set flag again if we still have loot
-             * This is a hackfix until I can figure out how to force MaNGOS to update, as it seems to ignore MarkForClientUpdate() */
-            else
-                { RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE); }
+            SetFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
             return;
         }
     }
@@ -924,7 +919,6 @@ void Creature::PrepareBodyLootState()
         return;
     }
 
-    loot.clear();
     RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
     RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_SKINNABLE);
 }

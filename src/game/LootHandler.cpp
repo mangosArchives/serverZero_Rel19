@@ -283,16 +283,9 @@ void WorldSession::HandleLootOpcode(WorldPacket& recv_data)
 
     // Check possible cheat
     if (!_player->IsAlive())
-        { return; }
-
-    /* Make sure player is allowed to loot before sending them loot data */
-    if (Creature* my_creature = _player->GetMap()->GetCreature(guid))
-        /* If the player is NOT allowed to loot */
-        if (!_player->isAllowedToLoot(my_creature))
-        {
-            _player->SendLootRelease(guid);
-            return;
-        }
+    {
+        return;
+    }
 
     GetPlayer()->SendLoot(guid, LOOT_CORPSE);
 }
@@ -474,20 +467,16 @@ void WorldSession::DoLootRelease(ObjectGuid lguid)
             loot = &pCreature->loot;
 
             // update next looter
-            // Old system (we no longer alter the master looter)
-            /*if(Group* group = pCreature->GetGroupLootRecipient())
+            if (Group* group = pCreature->GetGroupLootRecipient())
                 if (group->GetLooterGuid() == player->GetObjectGuid())
-                    group->UpdateLooterGuid(pCreature);*/
-
-            /* This sets the lootable flag again and updates the creature so others see the loot */
-            pCreature->PrepareBodyLootState();
+                    group->UpdateLooterGuid(pCreature);
 
             /* We've completely looted the creature, mark it as available for skinning */
             if (loot->isLooted() && !pCreature->IsAlive())
             {
-                /* Update creature */
+                /* Update Creature: for example skinning after normal loot */
+                pCreature->PrepareBodyLootState();
                 pCreature->AllLootRemovedFromCorpse();
-				loot->clear();
             }
             break;
         }
