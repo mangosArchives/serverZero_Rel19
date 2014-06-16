@@ -13267,7 +13267,8 @@ bool Player::LoadFromDB(ObjectGuid guid, SqlQueryHolder* holder)
     PlayerInfo const* info = sObjectMgr.GetPlayerInfo(getRace(), getClass());
     if (!info)
     {
-        DEBUG_FILTER_LOG(LOG_FILTER_PLAYER_STATS, "Player (GUID: %u) has wrong race/class (%u/%u), can't be loaded.", guid, getRace(), getClass());
+        DEBUG_FILTER_LOG(LOG_FILTER_PLAYER_STATS, "Player (GUID: %u) has wrong race/class (%u/%u), can't be loaded.",
+                         guid.GetCounter(), getRace(), getClass());
         return false;
     }
 
