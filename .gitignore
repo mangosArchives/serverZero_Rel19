@@ -109,10 +109,10 @@ ipch
 !/dep/recastnavigation/RecastDemo/Build/
 
 # Scripts library directory also needs exceptions
-/src/bindings/scripts/ScriptDev2__Win32_Debug/
-/src/bindings/scripts/ScriptDev2__Win32_Release/
-/src/bindings/scripts/ScriptDev2__x64_Debug/
-/src/bindings/scripts/ScriptDev2__x64_Release/
+/src/scripts/ScriptDev2__Win32_Debug/
+/src/scripts/ScriptDev2__Win32_Release/
+/src/scripts/ScriptDev2__x64_Debug/
+/src/scripts/ScriptDev2__x64_Release/
 
 /src/tools/Extractor_Binaries/*.exe
 
