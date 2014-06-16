@@ -296,6 +296,7 @@ set(sources_raid_k_ony
     scripts/kalimdor/onyxias_lair/boss_onyxia.cpp
     scripts/kalimdor/onyxias_lair/instance_onyxias_lair.cpp
     scripts/kalimdor/onyxias_lair/onyxias_lair.h
+    scripts/kalimdor/onyxias_lair/npc_onyxian_warder.cpp
 )
 
 set(sources_raid_k_raq

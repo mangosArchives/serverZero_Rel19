@@ -5,21 +5,21 @@
  * This package is an SSL implementation written
  * by Eric Young (eay@cryptsoft.com).
  * The implementation was written so as to conform with Netscapes SSL.
- * 
+ *
  * This library is free for commercial and non-commercial use as long as
  * the following conditions are aheared to.  The following conditions
  * apply to all code found in this distribution, be it the RC4, RSA,
  * lhash, DES, etc., code; not just the SSL code.  The SSL documentation
  * included with this distribution is covered by the same copyright terms
  * except that the holder is Tim Hudson (tjh@cryptsoft.com).
- * 
+ *
  * Copyright remains Eric Young's, and as such any Copyright notices in
  * the code are not to be removed.
  * If this package is used in a product, Eric Young should be given attribution
  * as the author of the parts of the library used.
  * This can be in the form of a textual message at program startup or
  * in documentation (online or textual) provided with the package.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -34,10 +34,10 @@
  *     Eric Young (eay@cryptsoft.com)"
  *    The word 'cryptographic' can be left out if the rouines from the library
  *    being used are not cryptographic related :-).
- * 4. If you include any Windows specific code (or a derivative thereof) from 
+ * 4. If you include any Windows specific code (or a derivative thereof) from
  *    the apps directory (application code) you must include an acknowledgement:
  *    "This product includes software written by Tim Hudson (tjh@cryptsoft.com)"
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -49,7 +49,7 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- * 
+ *
  * The licence and distribution terms for any publically available version or
  * derivative of this code cannot be changed.  i.e. this code cannot simply be
  * copied and put under another distribution licence
@@ -220,22 +220,22 @@ typedef struct asn1_object_st
 #define ASN1_STRING_FLAG_BITS_LEFT 0x08 /* Set if 0x07 has bits left value */
 /* This indicates that the ASN1_STRING is not a real value but just a place
  * holder for the location where indefinite length constructed data should
- * be inserted in the memory buffer 
+ * be inserted in the memory buffer
  */
-#define ASN1_STRING_FLAG_NDEF 0x010 
+#define ASN1_STRING_FLAG_NDEF 0x010
 
 /* This flag is used by the CMS code to indicate that a string is not
- * complete and is a place holder for content when it had all been 
+ * complete and is a place holder for content when it had all been
  * accessed. The flag will be reset when content has been written to it.
  */
 
-#define ASN1_STRING_FLAG_CONT 0x020 
+#define ASN1_STRING_FLAG_CONT 0x020
 /* This flag is used by ASN1 code to indicate an ASN1_STRING is an MSTRING
  * type.
  */
-#define ASN1_STRING_FLAG_MSTRING 0x040 
+#define ASN1_STRING_FLAG_MSTRING 0x040
 /* This is the base type that holds just about everything :-) */
-typedef struct asn1_string_st
+struct asn1_string_st
 	{
 	int length;
 	int type;
@@ -245,7 +245,7 @@ typedef struct asn1_string_st
 	 * input data has a non-zero 'unused bits' value, it will be
 	 * handled correctly */
 	long flags;
-	} ASN1_STRING;
+	};
 
 /* ASN1_ENCODING structure: this is used to save the received
  * encoding of an ASN1 type. This is useful to get round
@@ -293,7 +293,6 @@ DECLARE_STACK_OF(ASN1_STRING_TABLE)
  * see asn1t.h
  */
 typedef struct ASN1_TEMPLATE_st ASN1_TEMPLATE;
-typedef struct ASN1_ITEM_st ASN1_ITEM;
 typedef struct ASN1_TLC_st ASN1_TLC;
 /* This is just an opaque pointer */
 typedef struct ASN1_VALUE_st ASN1_VALUE;
@@ -381,7 +380,7 @@ TYPEDEF_D2I2D_OF(void);
  *      ...
  *      ASN1_ITEM_EXP *iptr;
  *      ...
- * } SOMETHING; 
+ * } SOMETHING;
  *
  * It would be initialised as e.g.:
  *
@@ -469,7 +468,7 @@ typedef const ASN1_ITEM * ASN1_ITEM_EXP(void);
  */
 
 /* If this is set we convert all character strings
- * to UTF8 first 
+ * to UTF8 first
  */
 
 #define ASN1_STRFLGS_UTF8_CONVERT	0x10
@@ -1072,10 +1071,10 @@ unsigned long ASN1_STRING_get_default_mask(void);
 int ASN1_mbstring_copy(ASN1_STRING **out, const unsigned char *in, int len,
 					int inform, unsigned long mask);
 int ASN1_mbstring_ncopy(ASN1_STRING **out, const unsigned char *in, int len,
-					int inform, unsigned long mask, 
+					int inform, unsigned long mask,
 					long minsize, long maxsize);
 
-ASN1_STRING *ASN1_STRING_set_by_NID(ASN1_STRING **out, 
+ASN1_STRING *ASN1_STRING_set_by_NID(ASN1_STRING **out,
 		const unsigned char *in, int inlen, int inform, int nid);
 ASN1_STRING_TABLE *ASN1_STRING_TABLE_get(int nid);
 int ASN1_STRING_TABLE_add(int, long, long, unsigned long, unsigned long);
@@ -1098,7 +1097,7 @@ ASN1_TYPE *ASN1_generate_v3(char *str, X509V3_CTX *cnf);
 /* ASN1 Print flags */
 
 /* Indicate missing OPTIONAL fields */
-#define ASN1_PCTX_FLAGS_SHOW_ABSENT		0x001	
+#define ASN1_PCTX_FLAGS_SHOW_ABSENT		0x001
 /* Mark start and end of SEQUENCE */
 #define ASN1_PCTX_FLAGS_SHOW_SEQUENCE		0x002
 /* Mark start and end of SEQUENCE/SET OF */
@@ -1194,6 +1193,7 @@ void ERR_load_ASN1_strings(void);
 #define ASN1_F_ASN1_ITEM_I2D_FP				 193
 #define ASN1_F_ASN1_ITEM_PACK				 198
 #define ASN1_F_ASN1_ITEM_SIGN				 195
+#define ASN1_F_ASN1_ITEM_SIGN_CTX			 220
 #define ASN1_F_ASN1_ITEM_UNPACK				 199
 #define ASN1_F_ASN1_ITEM_VERIFY				 197
 #define ASN1_F_ASN1_MBSTRING_NCOPY			 122
@@ -1266,6 +1266,7 @@ void ERR_load_ASN1_strings(void);
 #define ASN1_F_PKCS5_PBE2_SET_IV			 167
 #define ASN1_F_PKCS5_PBE_SET				 202
 #define ASN1_F_PKCS5_PBE_SET0_ALGOR			 215
+#define ASN1_F_PKCS5_PBKDF2_SET				 219
 #define ASN1_F_SMIME_READ_ASN1				 212
 #define ASN1_F_SMIME_TEXT				 213
 #define ASN1_F_X509_CINF_NEW				 168
@@ -1291,6 +1292,7 @@ void ERR_load_ASN1_strings(void);
 #define ASN1_R_BOOLEAN_IS_WRONG_LENGTH			 106
 #define ASN1_R_BUFFER_TOO_SMALL				 107
 #define ASN1_R_CIPHER_HAS_NO_OBJECT_IDENTIFIER		 108
+#define ASN1_R_CONTEXT_NOT_INITIALISED			 217
 #define ASN1_R_DATA_IS_WRONG				 109
 #define ASN1_R_DECODE_ERROR				 110
 #define ASN1_R_DECODING_ERROR				 111

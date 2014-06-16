@@ -372,7 +372,7 @@ namespace VMAP
             char chunk[8];
             if (!readChunk(tf, chunk, VMAP_MAGIC, 8))
                 { result = false; }
-            uint32 numSpawns;
+            uint32 numSpawns = 0;
             if (result && fread(&numSpawns, sizeof(uint32), 1, tf) != 1)
                 { result = false; }
             for (uint32 i = 0; i < numSpawns && result; ++i)

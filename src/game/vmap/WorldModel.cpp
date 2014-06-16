@@ -241,9 +241,14 @@ namespace VMAP
         size = liquid->iTilesX * liquid->iTilesY;
         liquid->iFlags = new uint8[size];
         if (result && fread(liquid->iFlags, sizeof(uint8), size, rf) != size) { result = false; }
-        if (!result)
-            { delete liquid; }
-        out = liquid;
+		if (!result)
+		{
+			delete liquid;
+		}
+		else
+		{
+			out = liquid;
+		}
         return result;
     }
 
@@ -311,7 +316,8 @@ namespace VMAP
     {
         char chunk[8];
         bool result = true;
-        uint32 chunkSize, count;
+		uint32 chunkSize = 0;
+		uint32 count =0;
         triangles.clear();
         vertices.clear();
         delete iLiquid;

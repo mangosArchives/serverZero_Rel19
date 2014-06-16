@@ -24,7 +24,7 @@
 
 #ifndef __REVISION_SQL_H__
 #define __REVISION_SQL_H__
-#define REVISION_DB_CHARACTERS "required_z1794_s1350_11716_09_characters_auction"
- #define REVISION_DB_MANGOS "required_z2514_mangos_spell_affect"
-#define REVISION_DB_REALMD "required_z2426_01_realmd_relations"
+#define REVISION_DB_CHARACTERS "required_19000_Release_019_Initial"
+ #define REVISION_DB_MANGOS "required_19000_Release_019_Initial"
+#define REVISION_DB_REALMD "required_20140607_Realm_Resync"
 #endif // __REVISION_SQL_H__
