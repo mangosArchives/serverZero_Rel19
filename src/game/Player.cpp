@@ -2523,16 +2523,16 @@ void Player::SendInitialSpells()
     /* * * * * * * * * * * * * * * * *
      * * START OF PACKET STRUCTURE * *
      * * * * * * * * * * * * * * * * */
-    uint8 unk1 = 0; // Unknown (always 0)
-    uint16 spell_count = 0; // Number of spells to send
+    uint16 spellCount = 0;
 
-    std::vector<spell_data> spells_to_send;
-    uint16 spell_cooldown_count = m_spellCooldowns.size();
-    std::vector<spell_cooldown_data> cooldowns_to_send;
+    WorldPacket data(SMSG_INITIAL_SPELLS, (1 + 2 + 4 * m_spells.size() + 2 + m_spellCooldowns.size() * (2 + 2 + 2 + 4 + 4)));
+    data << uint8(0);
 
     /* * * * * * * * * * * * * * * * *
      * *  END OF PACKET STRUCTURE  * *
      * * * * * * * * * * * * * * * * */
+	size_t countPos = data.wpos();
+	data << uint16(spellCount);                             // spell count placeholder
 
     /* For each spell the player knows */
     for (PlayerSpellMap::const_iterator itr = m_spells.begin(); itr != m_spells.end(); ++itr)
@@ -2545,16 +2545,18 @@ void Player::SendInitialSpells()
             { continue; }
 
         /* Insert spell into vector for insertion into packet */
-        spell_data spell;
-        spell.spell_id = uint16(itr->first);
-        spell.on_cooldown = 0; // This will be set to 0xeeee later if it is on cooldown
-        spells_to_send.push_back(spell);
+        data << uint16(itr->first);
+        data << uint16(0);                                  // it's not slot id
 
         /* Increase spell counter by 1 (sent in packet) */
-        spell_count += 1;
+        spellCount += 1;
     }
 
+    data.put<uint16>(countPos, spellCount);                 // write real count value
+
     /* For each spell the player has on cooldown */
+    uint16 spellCooldowns = m_spellCooldowns.size();
+    data << uint16(spellCooldowns);
     for (SpellCooldowns::const_iterator itr = m_spellCooldowns.begin(); itr != m_spellCooldowns.end(); ++itr)
     {
         /* If the spell doesn't exist in the spellbook, just ignore it */
@@ -2562,71 +2564,31 @@ void Player::SendInitialSpells()
         if (!sEntry)
             { continue; }
 
-        spell_cooldown_data cooldown;
-        cooldown.spell_id = uint16(itr->first);
-        cooldown.item_id = uint16(itr->second.itemid);
-        cooldown.spell_category = uint16(sEntry->Category);
+        data << uint16(itr->first);
 
-        /* if the spell is on an infinite cooldown, send it in a special form
-         * ... I think */
+        data << uint16(itr->second.itemid);                 // cast item id
+        data << uint16(sEntry->Category);                   // spell category
+
+        /* send infinity cooldown in special format */
         if (itr->second.end >= infTime)
         {
-            cooldown.spell_cd_ms = uint32(1);               // Cooldown
-            cooldown.cat_cd_ms = uint32(0x80000000);        // Category
+            data << uint32(1);                              // cooldown
+            data << uint32(0x80000000);                     // category cooldown
             continue;
         }
 
-        time_t cooldown_time = itr->second.end > curTime ? (itr->second.end - curTime) * IN_MILLISECONDS : 0;
+        time_t cooldown = itr->second.end > curTime ? (itr->second.end - curTime) * IN_MILLISECONDS : 0;
 
-        /* This code looks wrong...
-         * TODO: Research whether this is the correct way to send category cooldowns */
-        if (sEntry->Category)
+        if (sEntry->Category)                               // may be wrong, but anyway better than nothing...
         {
-            cooldown.spell_cd_ms = uint32(0);               // Spell CD in ms
-            cooldown.cat_cd_ms = uint32(cooldown_time);     // Category CD in ms
+            data << uint32(0);                              // cooldown
+            data << uint32(cooldown);                       // category cooldown
         }
         else
         {
-            cooldown.spell_cd_ms = uint32(cooldown_time);   // Cooldown time
-            cooldown.cat_cd_ms = uint32(0);                 // Cooldown category
+            data << uint32(cooldown);                       // cooldown
+            data << uint32(0);                              // category cooldown
         }
-        cooldowns_to_send.push_back(cooldown);
-    }
-
-    /* Set cooldown value to 0xeeee for all spells on cooldown */
-    for (int i = 0; i < spells_to_send.size(); ++i)
-        for (int i2 = 0; i2 < cooldowns_to_send.size(); ++i2)
-            if (spells_to_send[i].spell_id == cooldowns_to_send[i2].spell_id)
-                { spells_to_send[i].on_cooldown = 0xeeee; }
-
-    /* Finally, build the packet and write the data to it */
-    WorldPacket data(SMSG_INITIAL_SPELLS,
-                     (1 +                              // always 0
-                      2 +                             // Number of spells we are sending
-                      4 * m_spells.size() +           // 4 bytes per spell. 2 bytes for spell ID, 2 bytes are unknown (sent as 0)
-                      2 +                             // Number of spells on cooldown
-                      // Size data below is added together and multiplied by m_spellCooldowns.size()
-                      m_spellCooldowns.size() * (2 +  // ID of spell on cooldown
-                              2 + // Item ID of spell on cooldown
-                              2 + // Category of spell on cooldown
-                              4 + // Cooldown (time)
-                              4   // Cooldown (category)
-                                                )));
-    data << unk1;
-    data << spell_count;
-    for (int i = 0; i < spells_to_send.size(); ++i)
-    {
-        data << spells_to_send[i].spell_id;
-        data << spells_to_send[i].on_cooldown;
-    }
-    data << spell_cooldown_count;
-    for (int i = 0; i < cooldowns_to_send.size(); ++i)
-    {
-        data << cooldowns_to_send[i].spell_id;
-        data << cooldowns_to_send[i].item_id;
-        data << cooldowns_to_send[i].spell_category;
-        data << cooldowns_to_send[i].spell_cd_ms;
-        data << cooldowns_to_send[i].cat_cd_ms;
     }
 
     GetSession()->SendPacket(&data);
@@ -6328,7 +6290,9 @@ void Player::DuelComplete(DuelCompleteType type)
     WorldPacket data(SMSG_DUEL_COMPLETE, (1));
     data << (uint8)((type != DUEL_INTERRUPTED) ? 1 : 0);
     GetSession()->SendPacket(&data);
-    duel->opponent->GetSession()->SendPacket(&data);
+
+    if (duel->opponent->GetSession())
+        duel->opponent->GetSession()->SendPacket(&data);
 
     if (type != DUEL_INTERRUPTED)
     {
@@ -7394,12 +7358,6 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
         case LOOT_FISHINGHOLE:  loot_type = LOOT_FISHING;       break;
         default: break;
     }
-
-    /* Avoid "That is still being rolled for" bug
-     * This is a hackfix, but needs more work on loot system to fix properly */
-    for (int i = 0; i < loot->items.size(); ++i)
-        if (!loot->items[i].is_blocked && loot->items[i].is_underthreshold == false)
-            { loot->items[i].is_underthreshold = true; }
 
     WorldPacket data(SMSG_LOOT_RESPONSE, (9 + 50));         // we guess size
     data << ObjectGuid(guid);
@@ -13305,6 +13263,14 @@ bool Player::LoadFromDB(ObjectGuid guid, SqlQueryHolder* holder)
 
     SetByteValue(UNIT_FIELD_BYTES_2, 1, UNIT_BYTE2_FLAG_UNK3 | UNIT_BYTE2_FLAG_UNK5);
 
+    // check if race/class combination is valid
+    PlayerInfo const* info = sObjectMgr.GetPlayerInfo(getRace(), getClass());
+    if (!info)
+    {
+        DEBUG_FILTER_LOG(LOG_FILTER_PLAYER_STATS, "Player (GUID: %u) has wrong race/class (%u/%u), can't be loaded.", guid, getRace(), getClass());
+        return false;
+    }
+
     SetUInt32Value(UNIT_FIELD_LEVEL, fields[6].GetUInt8());
     SetUInt32Value(PLAYER_XP, fields[7].GetUInt32());
 
@@ -16241,7 +16207,7 @@ void Player::HandleStealthedUnitsDetection()
                 (*i)->SendCreateUpdateToPlayer(this);
                 m_clientGUIDs.insert(i_guid);
 
-                DEBUG_FILTER_LOG(LOG_FILTER_VISIBILITY_CHANGES, "%s is detected in stealth by player %u. Distance = %f", i_guid.GetString().c_str(), GetGUIDLow(), GetDistance(*i));
+                DEBUG_FILTER_LOG(LOG_FILTER_VISIBILITY_CHANGES, "UpdateVisibilityOf(TemplateV): %s is detected in stealth by player %u. Distance = %f", i_guid.GetString().c_str(), GetGUIDLow(), GetDistance(*i));
 
                 // target aura duration for caster show only if target exist at caster client
                 // send data at target visibility change (adding to client)

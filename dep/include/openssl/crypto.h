@@ -7,7 +7,7 @@
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
+ *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
@@ -58,21 +58,21 @@
  * This package is an SSL implementation written
  * by Eric Young (eay@cryptsoft.com).
  * The implementation was written so as to conform with Netscapes SSL.
- * 
+ *
  * This library is free for commercial and non-commercial use as long as
  * the following conditions are aheared to.  The following conditions
  * apply to all code found in this distribution, be it the RC4, RSA,
  * lhash, DES, etc., code; not just the SSL code.  The SSL documentation
  * included with this distribution is covered by the same copyright terms
  * except that the holder is Tim Hudson (tjh@cryptsoft.com).
- * 
+ *
  * Copyright remains Eric Young's, and as such any Copyright notices in
  * the code are not to be removed.
  * If this package is used in a product, Eric Young should be given attribution
  * as the author of the parts of the library used.
  * This can be in the form of a textual message at program startup or
  * in documentation (online or textual) provided with the package.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -87,10 +87,10 @@
  *     Eric Young (eay@cryptsoft.com)"
  *    The word 'cryptographic' can be left out if the rouines from the library
  *    being used are not cryptographic related :-).
- * 4. If you include any Windows specific code (or a derivative thereof) from 
+ * 4. If you include any Windows specific code (or a derivative thereof) from
  *    the apps directory (application code) you must include an acknowledgement:
  *    "This product includes software written by Tim Hudson (tjh@cryptsoft.com)"
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -102,7 +102,7 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- * 
+ *
  * The licence and distribution terms for any publically available version or
  * derivative of this code cannot be changed.  i.e. this code cannot simply be
  * copied and put under another distribution licence
@@ -110,7 +110,7 @@
  */
 /* ====================================================================
  * Copyright 2002 Sun Microsystems, Inc. ALL RIGHTS RESERVED.
- * ECDH support in OpenSSL originally developed by 
+ * ECDH support in OpenSSL originally developed by
  * SUN MICROSYSTEMS, INC., and contributed to the OpenSSL project.
  */
 
@@ -163,7 +163,7 @@ typedef int CRYPTO_EX_new(void *parent, void *ptr, CRYPTO_EX_DATA *ad,
 typedef void CRYPTO_EX_free(void *parent, void *ptr, CRYPTO_EX_DATA *ad,
 					int idx, long argl, void *argp);
 /* Called when we need to dup an object */
-typedef int CRYPTO_EX_dup(CRYPTO_EX_DATA *to, CRYPTO_EX_DATA *from, void *from_d, 
+typedef int CRYPTO_EX_dup(CRYPTO_EX_DATA *to, CRYPTO_EX_DATA *from, void *from_d,
 					int idx, long argl, void *argp);
 #endif
 
@@ -488,10 +488,10 @@ void CRYPTO_get_mem_debug_functions(void (**m)(void *,int,const char *,int,int),
 				    long (**go)(void));
 
 void *CRYPTO_malloc_locked(int num, const char *file, int line);
-void CRYPTO_free_locked(void *);
+void CRYPTO_free_locked(void *ptr);
 void *CRYPTO_malloc(int num, const char *file, int line);
 char *CRYPTO_strdup(const char *str, const char *file, int line);
-void CRYPTO_free(void *);
+void CRYPTO_free(void *ptr);
 void *CRYPTO_realloc(void *addr,int num, const char *file, int line);
 void *CRYPTO_realloc_clean(void *addr,int old_num,int num,const char *file,
 			   int line);
@@ -547,6 +547,40 @@ unsigned long *OPENSSL_ia32cap_loc(void);
 #define OPENSSL_ia32cap (*(OPENSSL_ia32cap_loc()))
 int OPENSSL_isservice(void);
 
+int FIPS_mode(void);
+int FIPS_mode_set(int r);
+
+void OPENSSL_init(void);
+
+#define fips_md_init(alg) fips_md_init_ctx(alg, alg)
+
+#ifdef OPENSSL_FIPS
+#define fips_md_init_ctx(alg, cx) \
+	int alg##_Init(cx##_CTX *c) \
+	{ \
+	if (FIPS_mode()) OpenSSLDie(__FILE__, __LINE__, \
+		"Low level API call to digest " #alg " forbidden in FIPS mode!"); \
+	return private_##alg##_Init(c); \
+	} \
+	int private_##alg##_Init(cx##_CTX *c)
+
+#define fips_cipher_abort(alg) \
+	if (FIPS_mode()) OpenSSLDie(__FILE__, __LINE__, \
+		"Low level API call to cipher " #alg " forbidden in FIPS mode!")
+
+#else
+#define fips_md_init_ctx(alg, cx) \
+	int alg##_Init(cx##_CTX *c)
+#define fips_cipher_abort(alg) while(0)
+#endif
+
+/* CRYPTO_memcmp returns zero iff the |len| bytes at |a| and |b| are equal. It
+ * takes an amount of time dependent on |len|, but independent of the contents
+ * of |a| and |b|. Unlike memcmp, it cannot be used to put elements into a
+ * defined order as the return value when a != b is undefined, other than to be
+ * non-zero. */
+int CRYPTO_memcmp(const void *a, const void *b, size_t len);
+
 /* BEGIN ERROR CODES */
 /* The following lines are auto generated by the script mkerr.pl. Any changes
  * made after this point may be overwritten when the script is next run.
@@ -562,11 +596,13 @@ void ERR_load_CRYPTO_strings(void);
 #define CRYPTO_F_CRYPTO_SET_EX_DATA			 102
 #define CRYPTO_F_DEF_ADD_INDEX				 104
 #define CRYPTO_F_DEF_GET_CLASS				 105
+#define CRYPTO_F_FIPS_MODE_SET				 109
 #define CRYPTO_F_INT_DUP_EX_DATA			 106
 #define CRYPTO_F_INT_FREE_EX_DATA			 107
 #define CRYPTO_F_INT_NEW_EX_DATA			 108
 
 /* Reason codes. */
+#define CRYPTO_R_FIPS_MODE_NOT_SUPPORTED		 101
 #define CRYPTO_R_NO_DYNLOCK_CREATE_CALLBACK		 100
 
 #ifdef  __cplusplus

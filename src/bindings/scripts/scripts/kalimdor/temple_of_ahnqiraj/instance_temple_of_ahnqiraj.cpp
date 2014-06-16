@@ -100,6 +100,7 @@ void instance_temple_of_ahnqiraj::OnCreatureCreate(Creature* pCreature)
             {
                 break;
             }
+        case NPC_SARTURA:
         case NPC_VEKLOR:
         case NPC_VEKNILASH:
         case NPC_MASTERS_EYE:
@@ -324,18 +325,32 @@ InstanceData* GetInstanceData_instance_temple_of_ahnqiraj(Map* pMap)
 
 bool AreaTrigger_at_temple_ahnqiraj(Player* pPlayer, AreaTriggerEntry const* pAt)
 {
+    if (pPlayer->isGameMaster() || !pPlayer->IsAlive())
+    {
+        return false;
+    }
+
     if (pAt->id == AREATRIGGER_TWIN_EMPERORS)
     {
-        if (pPlayer->isGameMaster() || !pPlayer->IsAlive())
-        {
-            return false;
-        }
 
         if (instance_temple_of_ahnqiraj* pInstance = (instance_temple_of_ahnqiraj*)pPlayer->GetInstanceData())
         {
             pInstance->DoHandleTempleAreaTrigger(pAt->id);
         }
     }
+
+    if (pAt->id == AREATRIGGER_SARTURA) 
+    { 
+ 
+        if (instance_temple_of_ahnqiraj* pInstance = (instance_temple_of_ahnqiraj*)pPlayer->GetInstanceData()) 
+           if (Creature* pSartura = pInstance->GetSingleCreatureFromStorage(NPC_SARTURA)) 
+                if (pSartura->IsAlive() && !pSartura->IsInCombat()) 
+                { 
+                    pInstance->SetData(TYPE_SARTURA, IN_PROGRESS); 
+
+                    pSartura->SetInCombatWithZone(); 
+                } 
+    } 
 
     return false;
 }

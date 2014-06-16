@@ -57,4 +57,8 @@
   <ItemGroup>
     <ResourceCompile Include="..\..\src\mangosd\mangosd.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\..\%40Mangos\Repos\0server\dep\lib\libmysql.lib" />
+    <Library Include="..\..\..\..\..\%40Mangos\Repos\0server\dep\lib\libeay32.lib" />
+  </ItemGroup>
 </Project>

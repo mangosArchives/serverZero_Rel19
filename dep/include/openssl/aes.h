@@ -7,7 +7,7 @@
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
+ *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
@@ -88,6 +88,11 @@ const char *AES_options(void);
 int AES_set_encrypt_key(const unsigned char *userKey, const int bits,
 	AES_KEY *key);
 int AES_set_decrypt_key(const unsigned char *userKey, const int bits,
+	AES_KEY *key);
+
+int private_AES_set_encrypt_key(const unsigned char *userKey, const int bits,
+	AES_KEY *key);
+int private_AES_set_decrypt_key(const unsigned char *userKey, const int bits,
 	AES_KEY *key);
 
 void AES_encrypt(const unsigned char *in, unsigned char *out,

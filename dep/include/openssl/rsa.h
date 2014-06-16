@@ -5,21 +5,21 @@
  * This package is an SSL implementation written
  * by Eric Young (eay@cryptsoft.com).
  * The implementation was written so as to conform with Netscapes SSL.
- * 
+ *
  * This library is free for commercial and non-commercial use as long as
  * the following conditions are aheared to.  The following conditions
  * apply to all code found in this distribution, be it the RC4, RSA,
  * lhash, DES, etc., code; not just the SSL code.  The SSL documentation
  * included with this distribution is covered by the same copyright terms
  * except that the holder is Tim Hudson (tjh@cryptsoft.com).
- * 
+ *
  * Copyright remains Eric Young's, and as such any Copyright notices in
  * the code are not to be removed.
  * If this package is used in a product, Eric Young should be given attribution
  * as the author of the parts of the library used.
  * This can be in the form of a textual message at program startup or
  * in documentation (online or textual) provided with the package.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -34,10 +34,10 @@
  *     Eric Young (eay@cryptsoft.com)"
  *    The word 'cryptographic' can be left out if the rouines from the library
  *    being used are not cryptographic related :-).
- * 4. If you include any Windows specific code (or a derivative thereof) from 
+ * 4. If you include any Windows specific code (or a derivative thereof) from
  *    the apps directory (application code) you must include an acknowledgement:
  *    "This product includes software written by Tim Hudson (tjh@cryptsoft.com)"
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -49,7 +49,7 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- * 
+ *
  * The licence and distribution terms for any publically available version or
  * derivative of this code cannot be changed.  i.e. this code cannot simply be
  * copied and put under another distribution licence
@@ -199,13 +199,13 @@ struct rsa_st
 #define RSA_FLAG_NO_CONSTTIME		0x0100 /* new with 0.9.8f; the built-in RSA
 						* implementation now uses constant time
 						* operations by default in private key operations,
-						* e.g., constant time modular exponentiation, 
-                                                * modular inverse without leaking branches, 
-                                                * division without leaking branches. This 
-                                                * flag disables these constant time 
-                                                * operations and results in faster RSA 
+						* e.g., constant time modular exponentiation,
+                                                * modular inverse without leaking branches,
+                                                * division without leaking branches. This
+                                                * flag disables these constant time
+                                                * operations and results in faster RSA
                                                 * private key operations.
-                                                */ 
+                                                */
 #ifndef OPENSSL_NO_DEPRECATED
 #define RSA_FLAG_NO_EXP_CONSTTIME RSA_FLAG_NO_CONSTTIME /* deprecated name for the flag*/
                                                 /* new with 0.9.7h; the built-in RSA
@@ -222,11 +222,21 @@ struct rsa_st
 	EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_RSA, -1, EVP_PKEY_CTRL_RSA_PADDING, \
 				pad, NULL)
 
+#define EVP_PKEY_CTX_get_rsa_padding(ctx, ppad) \
+	EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_RSA, -1, \
+				EVP_PKEY_CTRL_GET_RSA_PADDING, 0, ppad)
+
 #define EVP_PKEY_CTX_set_rsa_pss_saltlen(ctx, len) \
 	EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_RSA, \
 				(EVP_PKEY_OP_SIGN|EVP_PKEY_OP_VERIFY), \
 				EVP_PKEY_CTRL_RSA_PSS_SALTLEN, \
 				len, NULL)
+
+#define EVP_PKEY_CTX_get_rsa_pss_saltlen(ctx, plen) \
+	EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_RSA, \
+				(EVP_PKEY_OP_SIGN|EVP_PKEY_OP_VERIFY), \
+				EVP_PKEY_CTRL_GET_RSA_PSS_SALTLEN, \
+				0, plen)
 
 #define EVP_PKEY_CTX_set_rsa_keygen_bits(ctx, bits) \
 	EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_RSA, EVP_PKEY_OP_KEYGEN, \
@@ -236,11 +246,24 @@ struct rsa_st
 	EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_RSA, EVP_PKEY_OP_KEYGEN, \
 				EVP_PKEY_CTRL_RSA_KEYGEN_PUBEXP, 0, pubexp)
 
+#define	 EVP_PKEY_CTX_set_rsa_mgf1_md(ctx, md)	\
+		EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_RSA, EVP_PKEY_OP_TYPE_SIG,  \
+				EVP_PKEY_CTRL_RSA_MGF1_MD, 0, (void *)md)
+
+#define	 EVP_PKEY_CTX_get_rsa_mgf1_md(ctx, pmd)	\
+		EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_RSA, EVP_PKEY_OP_TYPE_SIG,  \
+				EVP_PKEY_CTRL_GET_RSA_MGF1_MD, 0, (void *)pmd)
+
 #define EVP_PKEY_CTRL_RSA_PADDING	(EVP_PKEY_ALG_CTRL + 1)
 #define EVP_PKEY_CTRL_RSA_PSS_SALTLEN	(EVP_PKEY_ALG_CTRL + 2)
 
 #define EVP_PKEY_CTRL_RSA_KEYGEN_BITS	(EVP_PKEY_ALG_CTRL + 3)
 #define EVP_PKEY_CTRL_RSA_KEYGEN_PUBEXP	(EVP_PKEY_ALG_CTRL + 4)
+#define EVP_PKEY_CTRL_RSA_MGF1_MD	(EVP_PKEY_ALG_CTRL + 5)
+
+#define EVP_PKEY_CTRL_GET_RSA_PADDING		(EVP_PKEY_ALG_CTRL + 6)
+#define EVP_PKEY_CTRL_GET_RSA_PSS_SALTLEN	(EVP_PKEY_ALG_CTRL + 7)
+#define EVP_PKEY_CTRL_GET_RSA_MGF1_MD		(EVP_PKEY_ALG_CTRL + 8)
 
 #define RSA_PKCS1_PADDING	1
 #define RSA_SSLV23_PADDING	2
@@ -257,7 +280,7 @@ struct rsa_st
 
 RSA *	RSA_new(void);
 RSA *	RSA_new_method(ENGINE *engine);
-int	RSA_size(const RSA *);
+int	RSA_size(const RSA *rsa);
 
 /* Deprecated version */
 #ifndef OPENSSL_NO_DEPRECATED
@@ -274,9 +297,9 @@ int	RSA_public_encrypt(int flen, const unsigned char *from,
 		unsigned char *to, RSA *rsa,int padding);
 int	RSA_private_encrypt(int flen, const unsigned char *from,
 		unsigned char *to, RSA *rsa,int padding);
-int	RSA_public_decrypt(int flen, const unsigned char *from, 
+int	RSA_public_decrypt(int flen, const unsigned char *from,
 		unsigned char *to, RSA *rsa,int padding);
-int	RSA_private_decrypt(int flen, const unsigned char *from, 
+int	RSA_private_decrypt(int flen, const unsigned char *from,
 		unsigned char *to, RSA *rsa,int padding);
 void	RSA_free (RSA *r);
 /* "up" the RSA object's reference count */
@@ -299,6 +322,16 @@ const RSA_METHOD *RSA_null_method(void);
 
 DECLARE_ASN1_ENCODE_FUNCTIONS_const(RSA, RSAPublicKey)
 DECLARE_ASN1_ENCODE_FUNCTIONS_const(RSA, RSAPrivateKey)
+
+typedef struct rsa_pss_params_st
+	{
+	X509_ALGOR *hashAlgorithm;
+	X509_ALGOR *maskGenAlgorithm;
+	ASN1_INTEGER *saltLength;
+	ASN1_INTEGER *trailerField;
+	} RSA_PSS_PARAMS;
+
+DECLARE_ASN1_FUNCTIONS(RSA_PSS_PARAMS)
 
 #ifndef OPENSSL_NO_FP_API
 int	RSA_print_fp(FILE *fp, const RSA *r,int offset);
@@ -380,6 +413,14 @@ int RSA_padding_add_PKCS1_PSS(RSA *rsa, unsigned char *EM,
 			const unsigned char *mHash,
 			const EVP_MD *Hash, int sLen);
 
+int RSA_verify_PKCS1_PSS_mgf1(RSA *rsa, const unsigned char *mHash,
+			const EVP_MD *Hash, const EVP_MD *mgf1Hash,
+			const unsigned char *EM, int sLen);
+
+int RSA_padding_add_PKCS1_PSS_mgf1(RSA *rsa, unsigned char *EM,
+			const unsigned char *mHash,
+			const EVP_MD *Hash, const EVP_MD *mgf1Hash, int sLen);
+
 int RSA_get_ex_new_index(long argl, void *argp, CRYPTO_EX_new *new_func,
 	CRYPTO_EX_dup *dup_func, CRYPTO_EX_free *free_func);
 int RSA_set_ex_data(RSA *r,int idx,void *arg);
@@ -387,6 +428,25 @@ void *RSA_get_ex_data(const RSA *r, int idx);
 
 RSA *RSAPublicKey_dup(RSA *rsa);
 RSA *RSAPrivateKey_dup(RSA *rsa);
+
+/* If this flag is set the RSA method is FIPS compliant and can be used
+ * in FIPS mode. This is set in the validated module method. If an
+ * application sets this flag in its own methods it is its responsibility
+ * to ensure the result is compliant.
+ */
+
+#define RSA_FLAG_FIPS_METHOD			0x0400
+
+/* If this flag is set the operations normally disabled in FIPS mode are
+ * permitted it is then the applications responsibility to ensure that the
+ * usage is compliant.
+ */
+
+#define RSA_FLAG_NON_FIPS_ALLOW			0x0400
+/* Application has decided PRNG is good enough to generate a key: don't
+ * check.
+ */
+#define RSA_FLAG_CHECKED			0x0800
 
 /* BEGIN ERROR CODES */
 /* The following lines are auto generated by the script mkerr.pl. Any changes
@@ -405,6 +465,7 @@ void ERR_load_RSA_strings(void);
 #define RSA_F_PKEY_RSA_CTRL				 143
 #define RSA_F_PKEY_RSA_CTRL_STR				 144
 #define RSA_F_PKEY_RSA_SIGN				 142
+#define RSA_F_PKEY_RSA_VERIFY				 154
 #define RSA_F_PKEY_RSA_VERIFYRECOVER			 141
 #define RSA_F_RSA_BUILTIN_KEYGEN			 129
 #define RSA_F_RSA_CHECK_KEY				 123
@@ -413,6 +474,8 @@ void ERR_load_RSA_strings(void);
 #define RSA_F_RSA_EAY_PUBLIC_DECRYPT			 103
 #define RSA_F_RSA_EAY_PUBLIC_ENCRYPT			 104
 #define RSA_F_RSA_GENERATE_KEY				 105
+#define RSA_F_RSA_GENERATE_KEY_EX			 155
+#define RSA_F_RSA_ITEM_VERIFY				 156
 #define RSA_F_RSA_MEMORY_LOCK				 130
 #define RSA_F_RSA_NEW_METHOD				 106
 #define RSA_F_RSA_NULL					 124
@@ -424,6 +487,7 @@ void ERR_load_RSA_strings(void);
 #define RSA_F_RSA_PADDING_ADD_NONE			 107
 #define RSA_F_RSA_PADDING_ADD_PKCS1_OAEP		 121
 #define RSA_F_RSA_PADDING_ADD_PKCS1_PSS			 125
+#define RSA_F_RSA_PADDING_ADD_PKCS1_PSS_MGF1		 148
 #define RSA_F_RSA_PADDING_ADD_PKCS1_TYPE_1		 108
 #define RSA_F_RSA_PADDING_ADD_PKCS1_TYPE_2		 109
 #define RSA_F_RSA_PADDING_ADD_SSLV23			 110
@@ -436,8 +500,12 @@ void ERR_load_RSA_strings(void);
 #define RSA_F_RSA_PADDING_CHECK_X931			 128
 #define RSA_F_RSA_PRINT					 115
 #define RSA_F_RSA_PRINT_FP				 116
+#define RSA_F_RSA_PRIVATE_DECRYPT			 150
+#define RSA_F_RSA_PRIVATE_ENCRYPT			 151
 #define RSA_F_RSA_PRIV_DECODE				 137
 #define RSA_F_RSA_PRIV_ENCODE				 138
+#define RSA_F_RSA_PUBLIC_DECRYPT			 152
+#define RSA_F_RSA_PUBLIC_ENCRYPT			 153
 #define RSA_F_RSA_PUB_DECODE				 139
 #define RSA_F_RSA_SETUP_BLINDING			 136
 #define RSA_F_RSA_SIGN					 117
@@ -445,6 +513,7 @@ void ERR_load_RSA_strings(void);
 #define RSA_F_RSA_VERIFY				 119
 #define RSA_F_RSA_VERIFY_ASN1_OCTET_STRING		 120
 #define RSA_F_RSA_VERIFY_PKCS1_PSS			 126
+#define RSA_F_RSA_VERIFY_PKCS1_PSS_MGF1			 149
 
 /* Reason codes. */
 #define RSA_R_ALGORITHM_MISMATCH			 100
@@ -470,19 +539,24 @@ void ERR_load_RSA_strings(void);
 #define RSA_R_INVALID_HEADER				 137
 #define RSA_R_INVALID_KEYBITS				 145
 #define RSA_R_INVALID_MESSAGE_LENGTH			 131
+#define RSA_R_INVALID_MGF1_MD				 156
 #define RSA_R_INVALID_PADDING				 138
 #define RSA_R_INVALID_PADDING_MODE			 141
+#define RSA_R_INVALID_PSS_PARAMETERS			 149
 #define RSA_R_INVALID_PSS_SALTLEN			 146
+#define RSA_R_INVALID_SALT_LENGTH			 150
 #define RSA_R_INVALID_TRAILER				 139
 #define RSA_R_INVALID_X931_DIGEST			 142
 #define RSA_R_IQMP_NOT_INVERSE_OF_Q			 126
 #define RSA_R_KEY_SIZE_TOO_SMALL			 120
 #define RSA_R_LAST_OCTET_INVALID			 134
 #define RSA_R_MODULUS_TOO_LARGE				 105
+#define RSA_R_NON_FIPS_RSA_METHOD			 157
 #define RSA_R_NO_PUBLIC_EXPONENT			 140
 #define RSA_R_NULL_BEFORE_BLOCK_MISSING			 113
 #define RSA_R_N_DOES_NOT_EQUAL_P_Q			 127
 #define RSA_R_OAEP_DECODING_ERROR			 121
+#define RSA_R_OPERATION_NOT_ALLOWED_IN_FIPS_MODE	 158
 #define RSA_R_OPERATION_NOT_SUPPORTED_FOR_THIS_KEYTYPE	 148
 #define RSA_R_PADDING_CHECK_FAILED			 114
 #define RSA_R_P_NOT_PRIME				 128
@@ -493,7 +567,12 @@ void ERR_load_RSA_strings(void);
 #define RSA_R_SSLV3_ROLLBACK_ATTACK			 115
 #define RSA_R_THE_ASN1_OBJECT_IDENTIFIER_IS_NOT_KNOWN_FOR_THIS_MD 116
 #define RSA_R_UNKNOWN_ALGORITHM_TYPE			 117
+#define RSA_R_UNKNOWN_MASK_DIGEST			 151
 #define RSA_R_UNKNOWN_PADDING_TYPE			 118
+#define RSA_R_UNKNOWN_PSS_DIGEST			 152
+#define RSA_R_UNSUPPORTED_MASK_ALGORITHM		 153
+#define RSA_R_UNSUPPORTED_MASK_PARAMETER		 154
+#define RSA_R_UNSUPPORTED_SIGNATURE_TYPE		 155
 #define RSA_R_VALUE_MISSING				 147
 #define RSA_R_WRONG_SIGNATURE_LENGTH			 119
 

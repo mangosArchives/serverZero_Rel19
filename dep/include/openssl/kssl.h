@@ -10,7 +10,7 @@
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
+ *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
@@ -171,6 +171,10 @@ krb5_error_code  kssl_validate_times(krb5_timestamp atime,
 krb5_error_code  kssl_check_authent(KSSL_CTX *kssl_ctx, krb5_data *authentp,
 			            krb5_timestamp *atimep, KSSL_ERR *kssl_err);
 unsigned char	*kssl_skip_confound(krb5_enctype enctype, unsigned char *authn);
+
+void SSL_set0_kssl_ctx(SSL *s, KSSL_CTX *kctx);
+KSSL_CTX * SSL_get0_kssl_ctx(SSL *s);
+char *kssl_ctx_get0_client_princ(KSSL_CTX *kctx);
 
 #ifdef  __cplusplus
 }
