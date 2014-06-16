@@ -60,4 +60,4 @@ add_subdirectory(tools)
 
 #-----------------------------------------------------------------------------
 # Build the mangos-zero script library
-add_subdirectory(bindings/scripts)
+#add_subdirectory(scripts)
