@@ -433,13 +433,9 @@ class HonorStanding
         float rpEarning;
 
         HonorStanding* GetInfo() { return this; };
-
-        // create the standing order
-        bool operator < (const HonorStanding& rhs)
-        {
-            return honorPoints > rhs.honorPoints;
-        }
 };
+
+bool operator < (const HonorStanding& lhs, const HonorStanding& rhs);
 
 typedef std::list<HonorStanding> HonorStandingList;
 
