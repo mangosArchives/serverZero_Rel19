@@ -841,7 +841,6 @@ bool AuthSocket::_HandleReconnectProof()
         ByteBuffer pkt;
         pkt << (uint8)  CMD_AUTH_RECONNECT_PROOF;
         pkt << (uint8)  0x00;
-        pkt << (uint16) 0x00;                               // 2 bytes zeros
         send((char const*)pkt.contents(), pkt.size());
 
         ///- Set _authed to true!
