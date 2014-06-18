@@ -796,7 +796,10 @@ namespace MMAP
                 case 13:    // test.wdt
                 case 25:    // ScottTest.wdt
                 case 29:    // Test.wdt
+				case 35:    // StornWind Crypt (Unused Instance)
+				case 37:    // Ashara.wdt (Unused Raid Area)
                 case 42:    // Colin.wdt
+				case 44:    // Monastry.wdt (Unused Old SM)
                 case 169:   // EmeraldDream.wdt (unused, and very large)
                 case 451:   // development.wdt
                     return true;
