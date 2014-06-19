@@ -4,7 +4,6 @@
 
 [MangosdConf]
 ConfVersion=2014060701
-the db but are rather marked as resolved, the log can be used to figure out if any GM is misbehaving or players being not so nice to each other. Also, small update to mangos.sql that should've come along in the last update. The revision nr should be correct now i hope.
 
 ################################################################################
 # CONNECTIONS AND DIRECTORIES
