@@ -3720,6 +3720,11 @@ TrainerSpellState Player::GetTrainerSpellState(TrainerSpell const* trainer_spell
  */
 void Player::DeleteFromDB(ObjectGuid playerguid, uint32 accountId, bool updateRealmChars, bool deleteFinally)
 {
+    //Make sure to delete unresolved tickets so they don't take up place in the open tickets list
+    CharacterDatabase.PExecute("DELETE FROM character_ticket "
+                               "WHERE resolved = 0 AND guid = %u",
+                               playerguid.GetCounter());
+    
     // for nonexistent account avoid update realm
     if (accountId == 0)
         { updateRealmChars = false; }
