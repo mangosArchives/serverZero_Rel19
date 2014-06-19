@@ -79,21 +79,21 @@ void WorldSession::HandleJoinChannelOpcode(WorldPacket& recvPacket)
 
         if (area && channel)
         {
-			snprintf(tmpStr, 255, channel->pattern[GetSessionDbcLocale()], area->area_name[GetSessionDbcLocale()]);
-
-			//With a format string
-			if (strcmp(tmpStr, channelName.c_str()) == 0
-				//Without one, used for ie: World Defense
-				|| strcmp(channel->pattern[0], channelName.c_str()) == 0)
-			{
-				channelId = channel->ChannelID;
-				break;
-			}
+            snprintf(tmpStr, 255, channel->pattern[GetSessionDbcLocale()], area->area_name[GetSessionDbcLocale()]);
+            //With a format string
+            if (strcmp(tmpStr, channelName.c_str()) == 0
+                //Without one, used for ie: World Defense
+                || strcmp(channel->pattern[0], channelName.c_str()) == 0)
+            {
+                channelId = channel->ChannelID;
+                break;
+            }
         }
     }
 
     if (ChannelMgr* cMgr = channelMgr(_player->GetTeam()))
-		if (Channel* chn = cMgr->GetJoinChannel(channelName, channelId)) // channel id seems to be useless but must be checked for LFG
+        //the channel id needs to be checkd for lfg (explanation?)
+        if (Channel* chn = cMgr->GetJoinChannel(channelName, channelId))
             chn->Join(_player, pass.c_str());
 }
 

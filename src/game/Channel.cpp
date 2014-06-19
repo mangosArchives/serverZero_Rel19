@@ -559,12 +559,14 @@ void Channel::Say(Player* player, const char* text, uint32 lang)
     if (!text)
         return;
 
+    uint32 sec = 0;
     ObjectGuid guid = player->GetObjectGuid();
 	Player* plr = sObjectMgr.GetPlayer(guid);
     bool speakInLocalDef = false;
     bool speakInWorldDef = false;
     if (plr)
     {
+        sec = plr->GetSession()->GetSecurity();
         if (plr->isGameMaster())
         {
             speakInLocalDef = true;
@@ -588,7 +590,9 @@ void Channel::Say(Player* player, const char* text, uint32 lang)
         return;
     }
 
-    if (m_players[guid].IsMuted())
+    else if (m_players[guid].IsMuted() ||
+             (GetChannelId() == CHANNEL_ID_LOCAL_DEFENSE && !speakInLocalDef) ||
+             (GetChannelId() == CHANNEL_ID_WORLD_DEFENSE && !speakInWorldDef))
     {
         WorldPacket data;
         MakeMuted(&data);
