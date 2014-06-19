@@ -15838,8 +15838,20 @@ void Player::LogWhisper(const std::string& text, ObjectGuid receiver)
     uint32 ticketId = 0;
     if (ticket)
         ticketId = ticket->GetId();
-
-    if ((loggingLevel == WHISPER_LOGGING_TICKETS && ticket)
+    
+    bool isSomeoneGM = false;
+    
+    //Find out if at least one of them is a GM for ticket logging
+    if (GetSession()->GetSecurity() >= SEC_GAMEMASTER)
+        isSomeoneGM = true;
+    else
+    {
+        Player* pRecvPlayer = sObjectMgr.GetPlayer(receiver);
+        if (pRecvPlayer && pRecvPlayer->GetSession()->GetSecurity() >= SEC_GAMEMASTER)
+            isSomeoneGM = true;
+    }
+    
+    if ((loggingLevel == WHISPER_LOGGING_TICKETS && ticket && isSomeoneGM)
         || loggingLevel == WHISPER_LOGGING_EVERYTHING)
         CharacterDatabase.PExecute("INSERT INTO character_whispers "
                                    "(to_guid, from_guid, message, regarding_ticket_id) "

@@ -1024,7 +1024,8 @@ enum MangosStrings
     LANG_COMMAND_TICKETCLOSED_NAME      = 1510,
     LANG_COMMAND_TICKETS_SYSTEM_ON      = 1511,
     LANG_COMMAND_TICKETS_SYSTEM_OFF     = 1512,
-    // Room for more Level 2              1513-1599 not used
+    LANG_COMMAND_TICKET_CANT_CLOSE      = 1513,
+    // Room for more Level 2              1514-1599 not used
 
     // Outdoor PvP
     LANG_OPVP_EP_CAPTURE_NPT_H          = 1600,
