@@ -159,6 +159,11 @@ class GMTicket
          */
         void Close() const;
         /** 
+         * This closes the ticket aswell, but this is called when the client itself closed it
+         * because they figured out the solution to their question
+         */
+        void CloseByClient() const;
+        /** 
          * This does the same thing as \ref GMTicket::Close but it also shows a survey window to the
          * \ref Player so that they can answer how well the GM behaved and such.
          * \todo Save the survey results in DB!

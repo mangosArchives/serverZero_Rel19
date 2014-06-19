@@ -95,6 +95,10 @@ void WorldSession::SendGMTicketStatusUpdate(GMTicketStatus statusCode)
 
 void WorldSession::HandleGMTicketDeleteTicketOpcode(WorldPacket& /*recv_data*/)
 {
+    //Some housekeeping, this could be cleaner
+    GMTicket *ticket = sTicketMgr.GetGMTicket(_player->GetObjectGuid());
+    if (ticket)
+        ticket->CloseByClient();
     sTicketMgr.Delete(GetPlayer()->GetObjectGuid());
 
     WorldPacket data(SMSG_GMTICKET_DELETETICKET, 4);
