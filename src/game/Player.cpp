@@ -6267,13 +6267,10 @@ void Player::CheckDuelDistance(time_t currTime)
     if (!duel)
         { return; }
 
-    GameObject* obj = GetMap()->GetGameObject(GetGuidValue(PLAYER_DUEL_ARBITER));
+    uint64 duelFlagGUID = GetUInt64Value(PLAYER_DUEL_ARBITER);
+    GameObject* obj = GetMap()->GetGameObject(duelFlagGUID);
     if (!obj)
-    {
-        // player not at duel start map
-        DuelComplete(DUEL_FLED);
-        return;
-    }
+        { return; }
 
     if (duel->outOfBound == 0)
     {
@@ -6316,18 +6313,44 @@ void Player::DuelComplete(DuelCompleteType type)
 
     if (type != DUEL_INTERRUPTED)
     {
-        data.Initialize(SMSG_DUEL_WINNER, (1 + 20));        // we guess size
-        data << (uint8)((type == DUEL_WON) ? 0 : 1);        // 0 = just won; 1 = fled
+        data.Initialize(SMSG_DUEL_WINNER, (1 + 20));          // we guess size
+        data << uint8(type == DUEL_WON ? 0 : 1);              // 0 = just won; 1 = fled
         data << duel->opponent->GetName();
         data << GetName();
         SendMessageToSet(&data, true);
     }
 
-    // Remove Duel Flag object
-    if (GameObject* obj = GetMap()->GetGameObject(GetGuidValue(PLAYER_DUEL_ARBITER)))
-        { duel->initiator->RemoveGameObject(obj, true); }
+    switch (type)
+    {
+        case DUEL_FLED:
+            // if initiator and opponent are on the same team
+            // or initiator and opponent are not PvP enabled, forcibly stop attacking
+            if (duel->initiator->GetTeam() == duel->opponent->GetTeam())
+            {
+                duel->initiator->AttackStop();
+                duel->opponent->AttackStop();
+            }
+            else
+            {
+                if (!duel->initiator->IsPvP())
+                    duel->initiator->AttackStop();
+                if (!duel->opponent->IsPvP())
+                    duel->opponent->AttackStop();
+            }
+        default:
+            break;
+    }
 
-    /* remove auras */
+
+    // Remove Duel Flag object
+    GameObject* obj = GetMap()->GetGameObject(GetUInt64Value(PLAYER_DUEL_ARBITER));
+    if (obj)
+    {
+        duel->initiator->RemoveGameObject(obj, true);
+    }
+
+    /* remove auras */ 
+    // TODO: Needs a simpler method
     std::vector<uint32> auras2remove;
     SpellAuraHolderMap const& vAuras = duel->opponent->GetSpellAuraHolderMap();
     for (SpellAuraHolderMap::const_iterator i = vAuras.begin(); i != vAuras.end(); ++i)
