@@ -610,7 +610,8 @@ enum RestType
 {
     REST_TYPE_NO                = 0,
     REST_TYPE_IN_TAVERN         = 1,
-    REST_TYPE_IN_CITY           = 2
+    REST_TYPE_IN_CITY           = 2,
+    REST_TYPE_IN_FACTION_AREA   = 3     // used with AREA_FLAG_REST_ZONE_*
 };
 
 enum DuelCompleteType
@@ -952,11 +953,18 @@ class MANGOS_DLL_SPEC Player : public Unit
 
         void SetDeathState(DeathState s) override;          // overwrite Unit::SetDeathState
 
+        void InnEnter(time_t time, uint32 mapid, float x, float y, float z);
+
         float GetRestBonus() const { return m_rest_bonus; }
         void SetRestBonus(float rest_bonus_new);
 
         RestType GetRestType() const { return rest_type; }
         void SetRestType(RestType n_r_type, uint32 areaTriggerId = 0);
+
+        uint32 GetInnPosMapId() const { return inn_pos_mapid; }
+        float GetInnPosX() const { return inn_pos_x; }
+        float GetInnPosY() const { return inn_pos_y; }
+        float GetInnPosZ() const { return inn_pos_z; }
 
         time_t GetTimeInnEnter() const { return time_inn_enter; }
         void UpdateInnerTime(time_t time) { time_inn_enter = time; }
@@ -2237,6 +2245,10 @@ class MANGOS_DLL_SPEC Player : public Unit
         //////////////////// Rest System/////////////////////
         time_t time_inn_enter;
         uint32 inn_trigger_id;
+        uint32 inn_pos_mapid;
+        float  inn_pos_x;
+        float  inn_pos_y;
+        float  inn_pos_z;
         float m_rest_bonus;
         RestType rest_type;
         //////////////////// Rest System/////////////////////
