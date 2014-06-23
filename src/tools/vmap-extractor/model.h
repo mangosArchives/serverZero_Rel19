@@ -50,7 +50,7 @@ class Model
 {
     public:
         ModelHeader header; /**< TODO */
-        ModelVertex* origVertices; /**< TODO */
+        ModelBoundingVertex* boundingVertices; /**< TODO */
         Vec3D* vertices; /**< TODO */
         uint16* indices; /**< TODO */
         size_t nIndices; /**< TODO */

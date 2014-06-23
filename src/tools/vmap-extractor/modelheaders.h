@@ -111,32 +111,9 @@ struct ModelHeader
 
 };
 
-/**
- * @brief
- *
- */
-struct ModelVertex
+struct ModelBoundingVertex
 {
     Vec3D pos; /**< TODO */
-    uint8 weights[4]; /**< TODO */
-    uint8 bones[4]; /**< TODO */
-    Vec3D normal; /**< TODO */
-    Vec2D texcoords; /**< TODO */
-    int unk1, unk2; /**< always 0,0 so this is probably unused */
-};
-
-/**
- * @brief
- *
- */
-struct ModelView
-{
-    uint32 nIndex, ofsIndex; /**< Vertices in this model (index into vertices[]) */
-    uint32 nTris, ofsTris;   /**< indices */
-    uint32 nProps, ofsProps; /**< additional vtx properties */
-    uint32 nSub, ofsSub;     /**< materials/renderops/submeshes */
-    uint32 nTex, ofsTex;     /**< material properties/textures */
-    int32 lod;               /**< LOD bias? */
 };
 
 #pragma pack(pop)
