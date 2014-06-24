@@ -282,6 +282,14 @@ void WorldSession::HandleAcceptTradeOpcode(WorldPacket& recvPacket)
         return;
     }
 
+    if (!_player->IsWithinDistInMap(trader, TRADE_DISTANCE, false))
+    {
+        SendTradeStatus(TRADE_STATUS_TARGET_TO_FAR);
+        my_trade->SetAccepted(false);
+        return;
+    }
+
+
     // not accept case incorrect money amount
     if (his_trade->GetMoney() > trader->GetMoney())
     {
@@ -613,7 +621,7 @@ void WorldSession::HandleInitiateTradeOpcode(WorldPacket& recvPacket)
         return;
     }
 
-    if (!pOther->IsWithinDistInMap(_player, 10.0f, false))
+    if (!pOther->IsWithinDistInMap(_player, TRADE_DISTANCE, false))
     {
         SendTradeStatus(TRADE_STATUS_TARGET_TO_FAR);
         return;
