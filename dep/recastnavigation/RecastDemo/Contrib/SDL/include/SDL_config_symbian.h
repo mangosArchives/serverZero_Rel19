@@ -83,17 +83,17 @@ typedef signed long long int64_t;
 typedef unsigned long long uint64_t;
 #endif
 
-#define SDL_AUDIO_DRIVER_EPOCAUDIO	1
+#define SDL_AUDIO_DRIVER_EPOCAUDIO    1
 
 
 /* Enable the stub cdrom driver (src/cdrom/dummy/\*.c) */
-#define SDL_CDROM_DISABLED	1
+#define SDL_CDROM_DISABLED    1
 
 /* Enable the stub joystick driver (src/joystick/dummy/\*.c) */
-#define SDL_JOYSTICK_DISABLED	1
+#define SDL_JOYSTICK_DISABLED    1
 
 /* Enable the stub shared object loader (src/loadso/dummy/\*.c) */
-#define SDL_LOADSO_DISABLED	1
+#define SDL_LOADSO_DISABLED    1
 
 #define SDL_THREAD_SYMBIAN 1
 
@@ -101,9 +101,9 @@ typedef unsigned long long uint64_t;
 
 #define SDL_VIDEO_OPENGL 0
 
-#define SDL_HAS_64BIT_TYPE	1
+#define SDL_HAS_64BIT_TYPE    1
 
-#define HAVE_LIBC	1
+#define HAVE_LIBC    1
 #define HAVE_STDIO_H 1
 #define STDC_HEADERS 1
 #define HAVE_STRING_H 1
@@ -138,8 +138,8 @@ typedef unsigned long long uint64_t;
 /*#define HAVE__STRICMP 1*/
 #define HAVE__STRNICMP 1
 #define HAVE_SSCANF 1
-#define HAVE_STDARG_H	1
-#define HAVE_STDDEF_H	1
+#define HAVE_STDARG_H    1
+#define HAVE_STDDEF_H    1
 
 
 

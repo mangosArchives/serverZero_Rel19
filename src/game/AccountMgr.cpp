@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.2.5a, 4.2.3 and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -51,7 +51,7 @@ AccountOpResult AccountMgr::CreateAccount(std::string username, std::string pass
 
     if (GetId(username))
     {
-        return AOR_NAME_ALREADY_EXIST;                       // username does already exist
+        { return AOR_NAME_ALREADY_EXIST; }                       // username does already exist
     }
 
     if (!LoginDatabase.PExecute("INSERT INTO account(username,sha_pass_hash,joindate) VALUES('%s','%s',NOW())", username.c_str(), CalculateShaPassHash(username, password).c_str()))

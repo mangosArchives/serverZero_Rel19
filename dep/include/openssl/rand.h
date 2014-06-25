@@ -79,14 +79,14 @@ extern "C" {
 /* typedef struct rand_meth_st RAND_METHOD; */
 
 struct rand_meth_st
-	{
-	void (*seed)(const void *buf, int num);
-	int (*bytes)(unsigned char *buf, int num);
-	void (*cleanup)(void);
-	void (*add)(const void *buf, int num, double entropy);
-	int (*pseudorand)(unsigned char *buf, int num);
-	int (*status)(void);
-	};
+    {
+    void (*seed)(const void *buf, int num);
+    int (*bytes)(unsigned char *buf, int num);
+    void (*cleanup)(void);
+    void (*add)(const void *buf, int num, double entropy);
+    int (*pseudorand)(unsigned char *buf, int num);
+    int (*status)(void);
+    };
 
 #ifdef BN_DEBUG
 extern int rand_predictable;
@@ -133,15 +133,15 @@ void ERR_load_RAND_strings(void);
 /* Error codes for the RAND functions. */
 
 /* Function codes. */
-#define RAND_F_RAND_GET_RAND_METHOD			 101
-#define RAND_F_RAND_INIT_FIPS				 102
-#define RAND_F_SSLEAY_RAND_BYTES			 100
+#define RAND_F_RAND_GET_RAND_METHOD             101
+#define RAND_F_RAND_INIT_FIPS                 102
+#define RAND_F_SSLEAY_RAND_BYTES             100
 
 /* Reason codes. */
-#define RAND_R_ERROR_INITIALISING_DRBG			 102
-#define RAND_R_ERROR_INSTANTIATING_DRBG			 103
-#define RAND_R_NO_FIPS_RANDOM_METHOD_SET		 101
-#define RAND_R_PRNG_NOT_SEEDED				 100
+#define RAND_R_ERROR_INITIALISING_DRBG             102
+#define RAND_R_ERROR_INSTANTIATING_DRBG             103
+#define RAND_R_NO_FIPS_RANDOM_METHOD_SET         101
+#define RAND_R_PRNG_NOT_SEEDED                 100
 
 #ifdef  __cplusplus
 }

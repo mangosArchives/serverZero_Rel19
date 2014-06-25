@@ -67,11 +67,11 @@
 typedef struct _pqueue *pqueue;
 
 typedef struct _pitem
-	{
-	unsigned char priority[8]; /* 64-bit value in big-endian encoding */
-	void *data;
-	struct _pitem *next;
-	} pitem;
+    {
+    unsigned char priority[8]; /* 64-bit value in big-endian encoding */
+    void *data;
+    struct _pitem *next;
+    } pitem;
 
 typedef struct _pitem *piterator;
 

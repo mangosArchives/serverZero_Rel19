@@ -98,22 +98,22 @@ Language Types (`language`)
 This is the race language that the text is native to. Below is the list of
 current language types that are allowed.
 
-ID  | Internal Name | Description
---- | ------------- | --------------------------------------------------------
-0   | UNIVERSAL     | Understood by *all* races.
-1   | ORCISH        | Understood *only* by Horde races.
-2   | DARNASSIAN    | Understood *only* by the Night Elf race.
-3   | TAURAHE       | Understood *only* by the Tauren race.
-6   | DWARVISH      | Understood *only* by the Dwarf race.
-7   | COMMON        | Understood *only* by Alliance races.
-8   | DEMONIC       | Understood *only* by the Demon race (Not Implemented).
-9   | TITAN         | This language was used by Sargeras to speak with other Titians (Not Implemented).
-10  | THALASSIAN    | Understood *only* by the Blood Elf race.
-11  | DRACONIC      | Understood *only* by the Dragon race.
-12  | KALIMAG       | Text will display as Kalimag (not readable by players, language of all elementals)
-13  | GNOMISH       | Understood *only* by the Gnome race.
-14  | TROLL         | Understood *only* by the Troll race.
-33  | GUTTERSPEAK   | Understood *only* by the Undead race.
+ID  | Internal Name  | Description
+--- | -------------- | --------------------------------------------------------
+0   | UNIVERSAL      | Understood by *all* races.
+1   | ORCISH         | Understood *only* by Horde races.
+2   | DARNASSIAN     | Understood *only* by the Night Elf race.
+3   | TAURAHE        | Understood *only* by the Tauren race.
+6   | DWARVISH       | Understood *only* by the Dwarf race.
+7   | COMMON         | Understood *only* by Alliance races.
+8   | DEMONIC        | Understood *only* by the Demon race (Not Implemented).
+9   | TITAN          | This language was used by Sargeras to speak with other Titians (Not Implemented).
+10  | THALASSIAN     | Understood *only* by the Blood Elf race.
+11  | DRACONIC       | Understood *only* by the Dragon race.
+12  | KALIMAG        | Text will display as Kalimag (not readable by players, language of all elementals)
+13  | GNOMISH        | Understood *only* by the Gnome race.
+14  | TROLL          | Understood *only* by the Troll race.
+33  | GUTTERSPEAK    | Understood *only* by the Undead race.
 
 Event Types
 ===========

@@ -73,7 +73,7 @@ extern "C" {
 /*
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * ! MD5_LONG has to be at least 32 bits wide. If it's wider, then !
- * ! MD5_LONG_LOG2 has to be defined along.			   !
+ * ! MD5_LONG_LOG2 has to be defined along.               !
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  */
 
@@ -87,23 +87,23 @@ extern "C" {
  * does it have on performance on none-T3E machines. I could declare
  * int, but at least on C90 sizeof(int) can be chosen at compile time.
  * So I've chosen long...
- *					<appro@fy.chalmers.se>
+ *                    <appro@fy.chalmers.se>
  */
 #else
 #define MD5_LONG unsigned int
 #endif
 
-#define MD5_CBLOCK	64
-#define MD5_LBLOCK	(MD5_CBLOCK/4)
+#define MD5_CBLOCK    64
+#define MD5_LBLOCK    (MD5_CBLOCK/4)
 #define MD5_DIGEST_LENGTH 16
 
 typedef struct MD5state_st
-	{
-	MD5_LONG A,B,C,D;
-	MD5_LONG Nl,Nh;
-	MD5_LONG data[MD5_LBLOCK];
-	unsigned int num;
-	} MD5_CTX;
+    {
+    MD5_LONG A,B,C,D;
+    MD5_LONG Nl,Nh;
+    MD5_LONG data[MD5_LBLOCK];
+    unsigned int num;
+    } MD5_CTX;
 
 #ifdef OPENSSL_FIPS
 int private_MD5_Init(MD5_CTX *c);

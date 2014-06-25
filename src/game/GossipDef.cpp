@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.2.5a, 4.2.3 and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -505,19 +505,6 @@ void PlayerMenu::SendQuestGiverQuestDetails(Quest const* pQuest, ObjectGuid guid
         data << pQuest->ReqCreatureOrGOCount[i];
     }
 
-    /*[-ZERO]
-    // rewarded honor points. Multiply with 10 to satisfy client
-    data << uint32(pQuest->GetRewSpell());                  // reward spell, this spell will display (icon) (casted if RewSpellCast==0)
-    data << uint32(pQuest->GetRewSpellCast());              // casted spell
-
-    data << uint32(QUEST_EMOTE_COUNT);
-
-    for (uint32 i = 0; i < QUEST_EMOTE_COUNT; ++i)
-    {
-        data << uint32(pQuest->DetailsEmote[i]);
-        data << uint32(pQuest->DetailsEmoteDelay[i]);       // DetailsEmoteDelay (in ms)
-    }
-    */
     GetMenuSession()->SendPacket(&data);
 
     DEBUG_LOG("WORLD: Sent SMSG_QUESTGIVER_QUEST_DETAILS - for %s of %s, questid = %u", GetMenuSession()->GetPlayer()->GetGuidStr().c_str(), guid.GetString().c_str(), pQuest->GetQuestId());
@@ -560,10 +547,10 @@ void PlayerMenu::SendQuestQueryResponse(Quest const* pQuest)
 
     data << uint32(pQuest->GetQuestId());                   // quest id
     data << uint32(pQuest->GetQuestMethod());               // Accepted values: 0, 1 or 2. 0==IsAutoComplete() (skip objectives/details)
-    data << uint32(pQuest->GetQuestLevel());                // may be 0, static data, in other cases must be used dynamic level: Player::GetQuestLevelForPlayer
+    data << uint32(pQuest->GetQuestLevel());                 // may be -1, static data, in other cases must be used dynamic level: Player::GetQuestLevelForPlayer (0 is not known, but assuming this is no longer valid for quest intended for client)
     data << uint32(pQuest->GetZoneOrSort());                // zone or sort to display in quest log
 
-    data << uint32(pQuest->GetType());
+    data << uint32(pQuest->GetType());                      // quest type
     //[-ZERO] data << uint32(pQuest->GetSuggestedPlayers());
 
     data << uint32(pQuest->GetRepObjectiveFaction());       // shown in quest log as part of quest objective
@@ -577,7 +564,7 @@ void PlayerMenu::SendQuestQueryResponse(Quest const* pQuest)
     if (pQuest->HasQuestFlag(QUEST_FLAGS_HIDDEN_REWARDS))
         { data << uint32(0); }                                  // Hide money rewarded
     else
-        { data << uint32(pQuest->GetRewOrReqMoney()); }
+        { data << uint32(pQuest->GetRewOrReqMoney()); }     // reward money (below max lvl)
 
     data << uint32(pQuest->GetRewMoneyMaxLevel());          // used in XP calculation at client
 

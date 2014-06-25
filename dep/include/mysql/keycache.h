@@ -96,38 +96,38 @@ typedef struct st_key_cache
   ulonglong param_age_threshold;  /* determines when hot block is downgraded  */
 
   /* Statistics variables. These are reset in reset_key_cache_counters(). */
-  ulong global_blocks_changed;	/* number of currently dirty blocks         */
+  ulong global_blocks_changed;    /* number of currently dirty blocks         */
   ulonglong global_cache_w_requests;/* number of write requests (write hits) */
   ulonglong global_cache_write;     /* number of writes from cache to files  */
   ulonglong global_cache_r_requests;/* number of read requests (read hits)   */
   ulonglong global_cache_read;      /* number of reads from files to cache   */
 
   int blocks;                   /* max number of blocks in the cache        */
-  my_bool in_init;		/* Set to 1 in MySQL during init/resize     */
+  my_bool in_init;        /* Set to 1 in MySQL during init/resize     */
 } KEY_CACHE;
 
 /* The default key cache */
 extern KEY_CACHE dflt_key_cache_var, *dflt_key_cache;
 
 extern int init_key_cache(KEY_CACHE *keycache, uint key_cache_block_size,
-			  size_t use_mem, uint division_limit,
-			  uint age_threshold);
+              size_t use_mem, uint division_limit,
+              uint age_threshold);
 extern int resize_key_cache(KEY_CACHE *keycache, uint key_cache_block_size,
-			    size_t use_mem, uint division_limit,
-			    uint age_threshold);
+                size_t use_mem, uint division_limit,
+                uint age_threshold);
 extern void change_key_cache_param(KEY_CACHE *keycache, uint division_limit,
-				   uint age_threshold);
+                   uint age_threshold);
 extern uchar *key_cache_read(KEY_CACHE *keycache,
                             File file, my_off_t filepos, int level,
                             uchar *buff, uint length,
-			    uint block_length,int return_buffer);
+                uint block_length,int return_buffer);
 extern int key_cache_insert(KEY_CACHE *keycache,
                             File file, my_off_t filepos, int level,
                             uchar *buff, uint length);
 extern int key_cache_write(KEY_CACHE *keycache,
                            File file, my_off_t filepos, int level,
                            uchar *buff, uint length,
-			   uint block_length,int force_write);
+               uint block_length,int force_write);
 extern int flush_key_blocks(KEY_CACHE *keycache,
                             int file, enum flush_type type);
 extern void end_key_cache(KEY_CACHE *keycache, my_bool cleanup);
@@ -137,9 +137,9 @@ extern my_bool multi_keycache_init(void);
 extern void multi_keycache_free(void);
 extern KEY_CACHE *multi_key_cache_search(uchar *key, uint length);
 extern my_bool multi_key_cache_set(const uchar *key, uint length,
-				   KEY_CACHE *key_cache);
+                   KEY_CACHE *key_cache);
 extern void multi_key_cache_change(KEY_CACHE *old_data,
-				   KEY_CACHE *new_data);
+                   KEY_CACHE *new_data);
 extern int reset_key_cache_counters(const char *name,
                                     KEY_CACHE *key_cache);
 C_MODE_END

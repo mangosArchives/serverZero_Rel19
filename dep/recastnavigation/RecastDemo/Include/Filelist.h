@@ -21,13 +21,13 @@
 
 struct FileList
 {
-	static const int MAX_FILES = 256;
-	
-	FileList();
-	~FileList();
-	
-	char* files[MAX_FILES];
-	int size;
+    static const int MAX_FILES = 256;
+    
+    FileList();
+    ~FileList();
+    
+    char* files[MAX_FILES];
+    int size;
 };
 
 void scanDirectory(const char* path, const char* ext, FileList& list);

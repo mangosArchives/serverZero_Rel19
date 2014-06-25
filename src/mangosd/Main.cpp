@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.2.5a, 4.2.3 and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -186,13 +186,13 @@ extern int main(int argc, char** argv)
 
     sLog.outString("%s [world-daemon]", _FULLVERSION(REVISION_DATE, REVISION_TIME, REVISION_NR, REVISION_ID));
     sLog.outString("<Ctrl-C> to stop.\n"
-                   "  __  __      _  _  ___  ___  ___                       \n"
-                   " |  \\/  |__ _| \\| |/ __|/ _ \\/ __|                      \n"                                         
-                   " | |\\/| / _` | .` | (_ | (_) \\__ \\                      \n"                                         
-                   " |_|  |_\\__,_|_|\\_|\\___|\\___/|___/                      \n"
-                   "                                        ____            \n"
-                   " For help and support please visit:    /_  /___ _ _ ___ \n" 
-                   " Website: https://getmangos.eu          / // -_) '_/ _ \\\n" 
+                   "  __  __      _  _  ___  ___  ___                         \n"
+                   " |  \\/  |__ _| \\| |/ __|/ _ \\/ __|        We Love      \n"
+                   " | |\\/| / _` | .` | (_ | (_) \\__ \\      Vanilla Wow    \n"                                         
+                   " |_|  |_\\__,_|_|\\_|\\___|\\___/|___/                    \n"
+                   "                                        ____              \n"
+                   " For help and support please visit:    /_  /___ _ _ ___   \n" 
+                   " Website: https://getmangos.eu          / // -_) '_/ _ \\ \n" 
                    "    Wiki: http://github.com/mangoswiki /___\\___|_| \\___/\n" 
                   );
     sLog.outString("Using configuration file %s.", cfg_file);

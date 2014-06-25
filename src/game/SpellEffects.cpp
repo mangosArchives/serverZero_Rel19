@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.2.5a, 4.2.3 and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -2759,7 +2759,7 @@ void Spell::EffectEnchantItemTmp(SpellEffectIndex eff_idx)
     else if (m_spellInfo->Id == 28891 && m_spellInfo->Id == 28898)
         { duration = 3600; }                                    // 1 hour
     // some fishing pole bonuses
-	else if (m_spellInfo->HasAttribute(SPELL_ATTR_HIDE_SPELL))
+    else if (m_spellInfo->HasAttribute(SPELL_ATTR_HIDE_SPELL))
         { duration = 600; }                                     // 10 mins
     // default case
     else

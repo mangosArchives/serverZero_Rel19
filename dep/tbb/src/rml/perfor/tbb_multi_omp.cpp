@@ -60,11 +60,11 @@ int max_omp_threads = Max_OMP_Threads;
 void help_message(char *prog_name) {
   fprintf(stderr, "\n%s usage:\n", prog_name);
   fprintf(stderr, 
-	  "  Parameters:\n"
-	  "    -t<num> : max # of threads TBB should use\n"
-	  "    -o<num> : max # of threads OMP should use\n"
-	  "\n  Help:\n"
-	  "    -h : print this help message\n");
+      "  Parameters:\n"
+      "    -t<num> : max # of threads TBB should use\n"
+      "    -o<num> : max # of threads OMP should use\n"
+      "\n  Help:\n"
+      "    -h : print this help message\n");
 }
 
 // Process command-line arguments
@@ -73,25 +73,25 @@ void process_args(int argc, char *argv[], int *max_tbb_t, int *max_omp_t) {
     if (argv[i][0] == '-') {
       switch (argv[i][1]) {
       case 't': // set max_tbb_threads
-	if (sscanf(&argv[i][2], "%d", max_tbb_t) != 1 || *max_tbb_t < 1) {
-	  fprintf(stderr, "%s Warning: argument of -t option unacceptable: %s\n", argv[0], &argv[i][2]);
-	  help_message(argv[0]);
-	}
-	break;
+    if (sscanf(&argv[i][2], "%d", max_tbb_t) != 1 || *max_tbb_t < 1) {
+      fprintf(stderr, "%s Warning: argument of -t option unacceptable: %s\n", argv[0], &argv[i][2]);
+      help_message(argv[0]);
+    }
+    break;
       case 'o': // set max_omp_threads
-	if (sscanf(&argv[i][2], "%d", max_omp_t) != 1 || *max_omp_t < 1) {
-	  fprintf(stderr, "%s Warning: argument of -o option unacceptable: %s\n", argv[0], &argv[i][2]);
-	  help_message(argv[0]);
-	}
-	break;
+    if (sscanf(&argv[i][2], "%d", max_omp_t) != 1 || *max_omp_t < 1) {
+      fprintf(stderr, "%s Warning: argument of -o option unacceptable: %s\n", argv[0], &argv[i][2]);
+      help_message(argv[0]);
+    }
+    break;
       case 'h': // print help message
-	help_message(argv[0]);
-	exit(0);
-	break;
+    help_message(argv[0]);
+    exit(0);
+    break;
       default:
-	fprintf(stderr, "%s: Warning: command-line option ignored: %s\n", argv[0], argv[i]);
-	help_message(argv[0]);
-	break;
+    fprintf(stderr, "%s: Warning: command-line option ignored: %s\n", argv[0], argv[i]);
+    help_message(argv[0]);
+    break;
       }
     } else {
       fprintf(stderr, "%s: Warning: command-line option ignored: %s\n", argv[0], argv[i]);
@@ -111,8 +111,8 @@ public:
     if (!isLeaf) {
       set_ref_count(65);
       for (int i=0; i<64; ++i) {
-	SimpleTask& st = *new(allocate_child()) SimpleTask(true, i);
-	spawn(st);
+    SimpleTask& st = *new(allocate_child()) SimpleTask(true, i);
+    spawn(st);
       }
       TotalThreadLevel.change_level(-1, tbb_outer);
       wait_for_all();
@@ -120,23 +120,23 @@ public:
     }
     else {
       if (myId%2 == 0) {
-	sleep(3);
-	TotalThreadLevel.change_level(-1, tbb_outer);
+    sleep(3);
+    TotalThreadLevel.change_level(-1, tbb_outer);
 #pragma omp parallel
-	{
-	  if (omp_get_thread_num() == 0) {
-	    TotalThreadLevel.change_level(omp_get_num_threads(), omp_inner);
-	  }
-	  printf("In OMP parallel region on TBB task with myId=0: thread %d of %d\n", 
-		 omp_get_thread_num(), omp_get_num_threads());
-	  if (omp_get_thread_num() == 0) {
-	    TotalThreadLevel.change_level(-omp_get_num_threads(), omp_inner);
-	  }
-	}
-	TotalThreadLevel.change_level(1, tbb_outer);
+    {
+      if (omp_get_thread_num() == 0) {
+        TotalThreadLevel.change_level(omp_get_num_threads(), omp_inner);
+      }
+      printf("In OMP parallel region on TBB task with myId=0: thread %d of %d\n", 
+         omp_get_thread_num(), omp_get_num_threads());
+      if (omp_get_thread_num() == 0) {
+        TotalThreadLevel.change_level(-omp_get_num_threads(), omp_inner);
+      }
+    }
+    TotalThreadLevel.change_level(1, tbb_outer);
       }
       else {
-	sleep(6);
+    sleep(6);
       }
     }
     TotalThreadLevel.change_level(-1, tbb_outer);
@@ -160,7 +160,7 @@ int main(int argc, char *argv[]) {
   TotalThreadLevel.change_level(1, tbb_outer);
   end = tick_count::now();
   printf("Simple Test of TBB (%d threads max) with OMP (%d threads max) inside took: %6.6f\n", 
-	 max_tbb_threads, max_omp_threads, (end-start).seconds());
+     max_tbb_threads, max_omp_threads, (end-start).seconds());
 
   TotalThreadLevel.change_level(-1, tbb_outer);
   TotalThreadLevel.dump();

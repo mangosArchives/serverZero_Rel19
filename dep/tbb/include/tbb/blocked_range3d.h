@@ -91,7 +91,7 @@ public:
             } else {
                 my_rows.my_begin = row_range_type::do_split(r.my_rows);
             }
-	} else {
+    } else {
             if ( my_pages.size()*double(my_cols.grainsize()) < my_cols.size()*double(my_pages.grainsize()) ) {
                 my_cols.my_begin = col_range_type::do_split(r.my_cols);
             } else {

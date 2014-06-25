@@ -130,7 +130,7 @@ void InitScriptLibrary()
     }
     else
     {
-		outstring_log("SD2: Using configuration file %s", _MANGOSD_CONFIG);
+        outstring_log("SD2: Using configuration file %s", _MANGOSD_CONFIG);
     }
 
     // Set SD2 Error Log File
@@ -143,7 +143,7 @@ void InitScriptLibrary()
     }
 
     // Check config file version
-	if (SD2Config.GetIntDefault("ConfVersion", 0) != _MANGOSDCONFVERSION)
+    if (SD2Config.GetIntDefault("ConfVersion", 0) != _MANGOSDCONFVERSION)
     {
         script_error_log("Configuration file version doesn't match expected version. Some config variables may be wrong or missing.");
     }

@@ -94,7 +94,7 @@ void ThreadLevelRecorder::change_level(int delta, client_t whichClient) {
   int tot_threads;
   tot_threads = tox+tix+oox+oix;
   sprintf(errStr, "ERROR: Number of threads (%d+%d+%d+%d=%d) in use exceeds maximum (%d).\n", 
-	  tox, tix, oox, oix, tot_threads, max_threads);
+      tox, tix, oox, oix, tot_threads, max_threads);
   if (tot_threads > max_threads) {
 #ifdef NO_BAIL_OUT
     if (!fail) {
@@ -120,7 +120,7 @@ void ThreadLevelRecorder::dump() {
   }
   for (unsigned i=0; i<limit; ++i) {
     fprintf(f,"%f\t%d\t%d\t%d\t%d\n",(array[i].time-array[0].time).seconds(), array[i].n_tbb_outer_thread,
-	    array[i].n_tbb_inner_thread, array[i].n_omp_outer_thread, array[i].n_omp_inner_thread);
+        array[i].n_tbb_inner_thread, array[i].n_omp_outer_thread, array[i].n_omp_inner_thread);
   }
   fclose(f);
   int tox=tbb_outer_level, tix=tbb_inner_level, oox=omp_outer_level, oix=omp_inner_level;

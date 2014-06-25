@@ -16,7 +16,7 @@
 #ifndef _list_h_
 #define _list_h_
 
-#ifdef	__cplusplus
+#ifdef    __cplusplus
 extern "C" {
 #endif
 
@@ -39,7 +39,7 @@ extern int list_walk(LIST *,list_walk_action action,unsigned char * argument);
 #define list_push(a,b) (a)=list_cons((b),(a))
 #define list_pop(A) {LIST *old=(A); (A)=list_delete(old,old); my_free(old); }
 
-#ifdef	__cplusplus
+#ifdef    __cplusplus
 }
 #endif
 #endif

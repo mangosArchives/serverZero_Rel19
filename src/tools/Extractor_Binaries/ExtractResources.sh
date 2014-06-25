@@ -31,15 +31,15 @@ USE_MMAPS_DELAY=""
 DisplayHeader()
 {
 	clear
-	echo "  __  __      _  _  ___  ___  ___            "
-	echo " |  \\/  |__ _| \\| |/ __|/ _ \\/ __|        "                                         
-	echo " | |\\/| / _\` | .\` | (_ | (_) \\__ \\      "                                         
-	echo " |_|  |_\\__,_|_|\\_|\\___|\\___/|___/       "
-	echo "                                        ____ "
-	echo " For help and support please visit:    /_  /___ _ _ ___ " 
-	echo " Website: https://getmangos.eu          / // -_) '_/ _ \\" 
-	echo "    Wiki: http://github.com/mangoswiki /___\\___|_| \\___/" 
-	echo "=========================================================="
+	echo "  __  __      _  _  ___  ___  ___      "
+	echo " |  \\/  |__ _| \\| |/ __|/ _ \\/ __|  "                                         
+	echo " | |\\/| / _\` | .\` | (_ | (_) \\__ \\"
+	echo " |_|  |_\\__,_|_|\\_|\\___|\\___/|___/ "
+	echo "                                       "
+	echo " For help and support please visit:    " 
+	echo " Website: https://getmangos.eu         "
+	echo "    Wiki: http://github.com/mangoswiki "
+	echo "======================================="
 
 }
 
@@ -114,17 +114,14 @@ then
 	## Obtain number ob processes
     DisplayHeader
     echo
-##	echo "How many CPUs should be used for extracting mmaps? (1-8)"
 	echo "How many CPUs should be used for extracting mmaps? (1-4)"
 	read line
 	echo
-##	if [ "$line" -ge "1" -a "$line" -le "8" ]
 	if [ "$line" -ge "1" -a "$line" -le "4" ]
 	then
 		NUM_CPU=$line
 	else
 		echo "Only number between 1 and 4 supported!"
-##		echo "Only number between 1 and 8 supported!"
 		exit 1
 	fi
 	## Extract MMaps delayed?

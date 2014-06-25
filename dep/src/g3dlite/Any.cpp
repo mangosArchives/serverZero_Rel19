@@ -1123,7 +1123,7 @@ void Any::readUntilCommaOrClose(TextInput& ti, Token& token) {
                 "Expected a comma or close paren");
         }
 
-	// Update checks
+    // Update checks
         atComma = isSeparator(token.string()[0]);
         atClose = (token.type() == Token::SYMBOL) && isClose(token.string()[0]);
     }

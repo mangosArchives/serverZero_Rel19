@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.2.5a, 4.2.3 and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -126,7 +126,7 @@ enum EventAI_ActionType
     ACTION_T_SUMMON_UNIQUE              = 47,               // CreatureId, Target, SpawnId
     ACTION_T_EMOTE_TARGET               = 48,               // EmoteId, TargetGuid
 
-    ACTION_T_END,
+    ACTION_T_END
 };
 
 enum Target
@@ -149,6 +149,8 @@ enum Target
     // Hostile players
     TARGET_T_HOSTILE_RANDOM_PLAYER          = 8,            // Just any random player on our threat list
     TARGET_T_HOSTILE_RANDOM_NOT_TOP_PLAYER  = 9,            // Any random player from threat list except top threat
+
+    TARGET_T_END
 };
 
 enum EventFlags
@@ -156,8 +158,8 @@ enum EventFlags
     EFLAG_REPEATABLE            = 0x01,                     // Event repeats
     EFLAG_RESERVED_1            = 0x02,
     EFLAG_RESERVED_2            = 0x04,
-    EFLAG_RESERVED_3            = 0x08,
-    EFLAG_RESERVED_4            = 0x10,
+    EFLAG_RESERVED_3            = 0x08,                     // Used in master for difficulty 2
+    EFLAG_RESERVED_4            = 0x10,                     // Used in master for difficulty 3
     EFLAG_RANDOM_ACTION         = 0x20,                     // Event only execute one from existed actions instead each action.
     EFLAG_RESERVED_6            = 0x40,
     EFLAG_DEBUG_ONLY            = 0x80,                     // Event only occurs in debug build

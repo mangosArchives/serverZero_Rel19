@@ -32,104 +32,104 @@
 #include "DetourDebugDraw.h"
 
 #ifdef WIN32
-#	define snprintf _snprintf
+#    define snprintf _snprintf
 #endif
 
 OffMeshConnectionTool::OffMeshConnectionTool() :
-	m_sample(0),
-	m_hitPosSet(0),
-	m_bidir(true),
-	m_oldFlags(0)
+    m_sample(0),
+    m_hitPosSet(0),
+    m_bidir(true),
+    m_oldFlags(0)
 {
 }
 
 OffMeshConnectionTool::~OffMeshConnectionTool()
 {
-	if (m_sample)
-	{
-		m_sample->setNavMeshDrawFlags(m_oldFlags);
-	}
+    if (m_sample)
+    {
+        m_sample->setNavMeshDrawFlags(m_oldFlags);
+    }
 }
 
 void OffMeshConnectionTool::init(Sample* sample)
 {
-	if (m_sample != sample)
-	{
-		m_sample = sample;
-		m_oldFlags = m_sample->getNavMeshDrawFlags();
-		m_sample->setNavMeshDrawFlags(m_oldFlags & ~DU_DRAWNAVMESH_OFFMESHCONS);
-	}
+    if (m_sample != sample)
+    {
+        m_sample = sample;
+        m_oldFlags = m_sample->getNavMeshDrawFlags();
+        m_sample->setNavMeshDrawFlags(m_oldFlags & ~DU_DRAWNAVMESH_OFFMESHCONS);
+    }
 }
 
 void OffMeshConnectionTool::reset()
 {
-	m_hitPosSet = false;
+    m_hitPosSet = false;
 }
 
 void OffMeshConnectionTool::handleMenu()
 {
-	if (imguiCheck("One Way", !m_bidir))
-		m_bidir = false;
-	if (imguiCheck("Bidirectional", m_bidir))
-		m_bidir = true;
+    if (imguiCheck("One Way", !m_bidir))
+        m_bidir = false;
+    if (imguiCheck("Bidirectional", m_bidir))
+        m_bidir = true;
 
-	if (!m_hitPosSet)
-	{
-		imguiValue("Click to set connection start.");
-	}
-	else
-	{
-		imguiValue("Click to set connection end.");
-	}
+    if (!m_hitPosSet)
+    {
+        imguiValue("Click to set connection start.");
+    }
+    else
+    {
+        imguiValue("Click to set connection end.");
+    }
 }
 
 void OffMeshConnectionTool::handleClick(const float* /*s*/, const float* p, bool shift)
 {
-	if (!m_sample) return;
-	InputGeom* geom = m_sample->getInputGeom();
-	if (!geom) return;
+    if (!m_sample) return;
+    InputGeom* geom = m_sample->getInputGeom();
+    if (!geom) return;
 
-	if (shift)
-	{
-		// Delete
-		// Find nearest link end-point
-		float nearestDist = FLT_MAX;
-		int nearestIndex = -1;
-		const float* verts = geom->getOffMeshConnectionVerts();
-		for (int i = 0; i < geom->getOffMeshConnectionCount()*2; ++i)
-		{
-			const float* v = &verts[i*3];
-			float d = rcVdistSqr(p, v);
-			if (d < nearestDist)
-			{
-				nearestDist = d;
-				nearestIndex = i/2; // Each link has two vertices.
-			}
-		}
-		// If end point close enough, delete it.
-		if (nearestIndex != -1 &&
-			sqrtf(nearestDist) < m_sample->getAgentRadius())
-		{
-			geom->deleteOffMeshConnection(nearestIndex);
-		}
-	}
-	else
-	{
-		// Create	
-		if (!m_hitPosSet)
-		{
-			rcVcopy(m_hitPos, p);
-			m_hitPosSet = true;
-		}
-		else
-		{
-			const unsigned char area = SAMPLE_POLYAREA_JUMP;
-			const unsigned short flags = SAMPLE_POLYFLAGS_JUMP; 
-			geom->addOffMeshConnection(m_hitPos, p, m_sample->getAgentRadius(), m_bidir ? 1 : 0, area, flags);
-			m_hitPosSet = false;
-		}
-	}
-	
+    if (shift)
+    {
+        // Delete
+        // Find nearest link end-point
+        float nearestDist = FLT_MAX;
+        int nearestIndex = -1;
+        const float* verts = geom->getOffMeshConnectionVerts();
+        for (int i = 0; i < geom->getOffMeshConnectionCount()*2; ++i)
+        {
+            const float* v = &verts[i*3];
+            float d = rcVdistSqr(p, v);
+            if (d < nearestDist)
+            {
+                nearestDist = d;
+                nearestIndex = i/2; // Each link has two vertices.
+            }
+        }
+        // If end point close enough, delete it.
+        if (nearestIndex != -1 &&
+            sqrtf(nearestDist) < m_sample->getAgentRadius())
+        {
+            geom->deleteOffMeshConnection(nearestIndex);
+        }
+    }
+    else
+    {
+        // Create    
+        if (!m_hitPosSet)
+        {
+            rcVcopy(m_hitPos, p);
+            m_hitPosSet = true;
+        }
+        else
+        {
+            const unsigned char area = SAMPLE_POLYAREA_JUMP;
+            const unsigned short flags = SAMPLE_POLYFLAGS_JUMP; 
+            geom->addOffMeshConnection(m_hitPos, p, m_sample->getAgentRadius(), m_bidir ? 1 : 0, area, flags);
+            m_hitPosSet = false;
+        }
+    }
+    
 }
 
 void OffMeshConnectionTool::handleToggle()
@@ -146,25 +146,25 @@ void OffMeshConnectionTool::handleUpdate(const float /*dt*/)
 
 void OffMeshConnectionTool::handleRender()
 {
-	DebugDrawGL dd;
-	const float s = m_sample->getAgentRadius();
-	
-	if (m_hitPosSet)
-		duDebugDrawCross(&dd, m_hitPos[0],m_hitPos[1]+0.1f,m_hitPos[2], s, duRGBA(0,0,0,128), 2.0f);
+    DebugDrawGL dd;
+    const float s = m_sample->getAgentRadius();
+    
+    if (m_hitPosSet)
+        duDebugDrawCross(&dd, m_hitPos[0],m_hitPos[1]+0.1f,m_hitPos[2], s, duRGBA(0,0,0,128), 2.0f);
 
-	InputGeom* geom = m_sample->getInputGeom();
-	if (geom)
-		geom->drawOffMeshConnections(&dd, true);
+    InputGeom* geom = m_sample->getInputGeom();
+    if (geom)
+        geom->drawOffMeshConnections(&dd, true);
 }
 
 void OffMeshConnectionTool::handleRenderOverlay(double* proj, double* model, int* view)
 {
-	GLdouble x, y, z;
-	
-	// Draw start and end point labels
-	if (m_hitPosSet && gluProject((GLdouble)m_hitPos[0], (GLdouble)m_hitPos[1], (GLdouble)m_hitPos[2],
-								model, proj, view, &x, &y, &z))
-	{
-		imguiDrawText((int)x, (int)(y-25), IMGUI_ALIGN_CENTER, "Start", imguiRGBA(0,0,0,220));
-	}
+    GLdouble x, y, z;
+    
+    // Draw start and end point labels
+    if (m_hitPosSet && gluProject((GLdouble)m_hitPos[0], (GLdouble)m_hitPos[1], (GLdouble)m_hitPos[2],
+                                model, proj, view, &x, &y, &z))
+    {
+        imguiDrawText((int)x, (int)(y-25), IMGUI_ALIGN_CENTER, "Start", imguiRGBA(0,0,0,220));
+    }
 }

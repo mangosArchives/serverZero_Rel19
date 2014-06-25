@@ -85,11 +85,11 @@ protected:
     };
 
     // internal members
-	//bool OpenFile;
+    //bool OpenFile;
     StatisticResults *CurrentKey;
     string Title;
     const char /**Name,*/ *ResultsFmt;
-	string Name;
+    string Name;
     //! Data
     typedef map<string, StatisticResults*> Statistics_t;
     Statistics_t Statistics;

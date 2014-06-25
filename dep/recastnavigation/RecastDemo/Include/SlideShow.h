@@ -23,31 +23,31 @@
 
 class SlideShow
 {
-	FileList m_files;
-	char m_path[256];
+    FileList m_files;
+    char m_path[256];
 
-	int m_width;
-	int m_height;
-	unsigned int m_texId;
+    int m_width;
+    int m_height;
+    unsigned int m_texId;
 
-	void purgeImage();
-	bool loadImage(const char* path);
+    void purgeImage();
+    bool loadImage(const char* path);
 
-	bool m_showSlides;
-	bool m_showCurSlide;
-	float m_slideAlpha;
-	int m_curSlide;
-	int m_nextSlide;
-	
+    bool m_showSlides;
+    bool m_showCurSlide;
+    float m_slideAlpha;
+    int m_curSlide;
+    int m_nextSlide;
+    
 public:
-	SlideShow();
-	~SlideShow();
+    SlideShow();
+    ~SlideShow();
 
-	bool init(const char* path);
-	void nextSlide();
-	void prevSlide();
-	void setSlide(int n);
-	void updateAndDraw(float dt, const float w, const float h);
+    bool init(const char* path);
+    void nextSlide();
+    void prevSlide();
+    void setSlide(int n);
+    void updateAndDraw(float dt, const float w, const float h);
 };
 
 #endif // SLIDESHOW_H

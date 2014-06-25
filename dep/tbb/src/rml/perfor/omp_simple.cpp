@@ -63,11 +63,11 @@ int max_omp_threads = Max_OMP_Threads;
 void help_message(char *prog_name) {
   fprintf(stderr, "\n%s usage:\n", prog_name);
   fprintf(stderr, 
-	  "  Parameters:\n"
-	  "    -t<num> : max # of threads TBB should use\n"
-	  "    -o<num> : max # of threads OMP should use\n"
-	  "\n  Help:\n"
-	  "    -h : print this help message\n");
+      "  Parameters:\n"
+      "    -t<num> : max # of threads TBB should use\n"
+      "    -o<num> : max # of threads OMP should use\n"
+      "\n  Help:\n"
+      "    -h : print this help message\n");
 }
 
 // Process command-line arguments
@@ -76,25 +76,25 @@ void process_args(int argc, char *argv[], int *max_tbb_t, int *max_omp_t) {
     if (argv[i][0] == '-') {
       switch (argv[i][1]) {
       case 't': // set max_tbb_threads
-	if (sscanf(&argv[i][2], "%d", max_tbb_t) != 1 || *max_tbb_t < 1) {
-	  fprintf(stderr, "%s Warning: argument of -t option unacceptable: %s\n", argv[0], &argv[i][2]);
-	  help_message(argv[0]);
-	}
-	break;
+    if (sscanf(&argv[i][2], "%d", max_tbb_t) != 1 || *max_tbb_t < 1) {
+      fprintf(stderr, "%s Warning: argument of -t option unacceptable: %s\n", argv[0], &argv[i][2]);
+      help_message(argv[0]);
+    }
+    break;
       case 'o': // set max_omp_threads
-	if (sscanf(&argv[i][2], "%d", max_omp_t) != 1 || *max_omp_t < 1) {
-	  fprintf(stderr, "%s Warning: argument of -o option unacceptable: %s\n", argv[0], &argv[i][2]);
-	  help_message(argv[0]);
-	}
-	break;
+    if (sscanf(&argv[i][2], "%d", max_omp_t) != 1 || *max_omp_t < 1) {
+      fprintf(stderr, "%s Warning: argument of -o option unacceptable: %s\n", argv[0], &argv[i][2]);
+      help_message(argv[0]);
+    }
+    break;
       case 'h': // print help message
-	help_message(argv[0]);
-	exit(0);
-	break;
+    help_message(argv[0]);
+    exit(0);
+    break;
       default:
-	fprintf(stderr, "%s: Warning: command-line option ignored: %s\n", argv[0], argv[i]);
-	help_message(argv[0]);
-	break;
+    fprintf(stderr, "%s: Warning: command-line option ignored: %s\n", argv[0], argv[i]);
+    help_message(argv[0]);
+    break;
       }
     } else {
       fprintf(stderr, "%s: Warning: command-line option ignored: %s\n", argv[0], argv[i]);
@@ -124,17 +124,17 @@ int main(int argc, char *argv[]) {
       TotalThreadLevel.change_level(-1, omp_outer);
 #endif
       parallel_for(blocked_range<size_t>(0, 1000), 
-		   [=](const blocked_range<size_t>& range) {
+           [=](const blocked_range<size_t>& range) {
 #ifdef LOG_THREADS
-	TotalThreadLevel.change_level(1, tbb_inner);
+    TotalThreadLevel.change_level(1, tbb_inner);
 #endif
 #pragma ivdep
-	for (size_t i=range.begin(); i!=range.end(); ++i) {
-	  if (i==range.begin())
-	    printf("TBB range starting at %d on OMP thread %d\n", (int)i, omp_thread);
-	}
+    for (size_t i=range.begin(); i!=range.end(); ++i) {
+      if (i==range.begin())
+        printf("TBB range starting at %d on OMP thread %d\n", (int)i, omp_thread);
+    }
 #ifdef LOG_THREADS
-	TotalThreadLevel.change_level(-1, tbb_inner);
+    TotalThreadLevel.change_level(-1, tbb_inner);
 #endif
       }, auto_partitioner());
 #ifdef LOG_THREADS
@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
   }
   end = tick_count::now();
   printf("Simple test of OMP (%d threads max) with TBB (%d threads max) inside took: %6.6f\n",
-	 max_omp_threads, max_tbb_threads, (end-start).seconds());
+     max_omp_threads, max_tbb_threads, (end-start).seconds());
 #ifdef LOG_THREADS
   TotalThreadLevel.dump();
 #endif

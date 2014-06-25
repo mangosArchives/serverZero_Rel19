@@ -154,7 +154,7 @@ bool InitializeITT() {
     // Check if we are running under a performance or correctness tool
     bool t_checker = GetBoolEnvironmentVariable("KMP_FOR_TCHECK");
     bool t_profiler = GetBoolEnvironmentVariable("KMP_FOR_TPROFILE");
-	__TBB_ASSERT(!(t_checker&&t_profiler), NULL);
+    __TBB_ASSERT(!(t_checker&&t_profiler), NULL);
     if ( t_checker || t_profiler ) {
         // Yes, we are in the tool mode. Try to load libittnotify library.
         result = dynamic_link( LIBITTNOTIFY_NAME, ITT_HandlerTable, ITT_HandlerTable_size, 4 );

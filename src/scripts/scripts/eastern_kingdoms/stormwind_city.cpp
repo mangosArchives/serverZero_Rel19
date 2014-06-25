@@ -53,19 +53,19 @@
 
 enum
 {
-	QUEST_THE_ATTACK	= 434
+    QUEST_THE_ATTACK    = 434
 };
 
 bool QuestAccept_npc_tyrion(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
 {
-	if (pQuest->GetQuestId() == QUEST_THE_ATTACK)
-	{
-		pCreature->GetMap()->MonsterYellToMap(pCreature->GetGUID(), -1000824, LANG_UNIVERSAL, pPlayer);
-// 		pCreature->SetFactionTemporary(FACTION_ENEMY, TEMPFACTION_RESTORE_RESPAWN | TEMPFACTION_RESTORE_COMBAT_STOP);
-// 		pCreature->AI()->AttackStart(pPlayer);
-	}
+    if (pQuest->GetQuestId() == QUEST_THE_ATTACK)
+    {
+        pCreature->GetMap()->MonsterYellToMap(pCreature->GetGUID(), -1000824, LANG_UNIVERSAL, pPlayer);
+//         pCreature->SetFactionTemporary(FACTION_ENEMY, TEMPFACTION_RESTORE_RESPAWN | TEMPFACTION_RESTORE_COMBAT_STOP);
+//         pCreature->AI()->AttackStart(pPlayer);
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -1160,142 +1160,142 @@ bool GossipSelect_npc_reginald_windsor(Player* pPlayer, Creature* pCreature, uin
 
 enum eTyrionSpybot
 {
-	SAY_QUEST_ACCEPT_ATTACK = -1000499,
-	SAY_TYRION_1 = -1000450,
-	SAY_SPYBOT_1 = -1000451,
-	SAY_GUARD_1 = -1000452,
-	SAY_SPYBOT_2 = -1000453,
-	SAY_SPYBOT_3 = -1000454,
-	SAY_LESCOVAR_1 = -1000455,
-	SAY_SPYBOT_4 = -1000456,
+    SAY_QUEST_ACCEPT_ATTACK = -1000499,
+    SAY_TYRION_1 = -1000450,
+    SAY_SPYBOT_1 = -1000451,
+    SAY_GUARD_1 = -1000452,
+    SAY_SPYBOT_2 = -1000453,
+    SAY_SPYBOT_3 = -1000454,
+    SAY_LESCOVAR_1 = -1000455,
+    SAY_SPYBOT_4 = -1000456,
 
-	NPC_PRIESTESS_TYRIONA = 7779,
-	NPC_LORD_GREGOR_LESCOVAR = 1754,
+    NPC_PRIESTESS_TYRIONA = 7779,
+    NPC_LORD_GREGOR_LESCOVAR = 1754,
 };
 
 struct MANGOS_DLL_DECL npc_tyrion_spybotAI : public npc_escortAI
 {
-	npc_tyrion_spybotAI(Creature* pCreature) : npc_escortAI(pCreature) {}
+    npc_tyrion_spybotAI(Creature* pCreature) : npc_escortAI(pCreature) {}
 
-	uint32 uiTimer;
-	uint32 uiPhase;
-	Creature* pTyrion;
-	Creature* pLescovar;
+    uint32 uiTimer;
+    uint32 uiPhase;
+    Creature* pTyrion;
+    Creature* pLescovar;
 
-	void Reset()
-	{
-		pLescovar = NULL;
-		pTyrion = NULL;
-		uiTimer = 0;
-		uiPhase = 0;
-	}
+    void Reset()
+    {
+        pLescovar = NULL;
+        pTyrion = NULL;
+        uiTimer = 0;
+        uiPhase = 0;
+    }
 
-	void WaypointReached(uint32 uiPointId)
-	{
-		switch (uiPointId)
-		{
-			case 1:
-				SetEscortPaused(true);
-				uiTimer = 2000;
-				uiPhase = 1;
-				break;
-			case 5:
-				SetEscortPaused(true);
-				DoScriptText(SAY_SPYBOT_1, m_creature);
-				uiTimer = 2000;
-				uiPhase = 5;
-				break;
-			case 17:
-				SetEscortPaused(true);
-				DoScriptText(SAY_SPYBOT_3, m_creature);
-				uiTimer = 3000;
-				uiPhase = 8;
-				break;
-		}
-	}
+    void WaypointReached(uint32 uiPointId)
+    {
+        switch (uiPointId)
+        {
+            case 1:
+                SetEscortPaused(true);
+                uiTimer = 2000;
+                uiPhase = 1;
+                break;
+            case 5:
+                SetEscortPaused(true);
+                DoScriptText(SAY_SPYBOT_1, m_creature);
+                uiTimer = 2000;
+                uiPhase = 5;
+                break;
+            case 17:
+                SetEscortPaused(true);
+                DoScriptText(SAY_SPYBOT_3, m_creature);
+                uiTimer = 3000;
+                uiPhase = 8;
+                break;
+        }
+    }
 
-	void UpdateAI(const uint32 uiDiff)
-	{
-		if (uiPhase)
-		{
-			if (uiTimer <= uiDiff)
-			{
-				switch (uiPhase)
-				{
-					case 1:
-						DoScriptText(SAY_QUEST_ACCEPT_ATTACK, m_creature);
-						uiTimer = 3000;
-						uiPhase = 2;
-						break;
-					case 2:
-						if (pTyrion)
-							DoScriptText(SAY_TYRION_1, pTyrion);
-						uiTimer = 3000;
-						uiPhase = 3;
-						break;
-					case 3:
-						m_creature->UpdateEntry(NPC_PRIESTESS_TYRIONA, ALLIANCE);
-						uiTimer = 2000;
-						uiPhase = 4;
-						break;
-					case 4:
-						SetEscortPaused(false);
-						uiPhase = 0;
-						uiTimer = 0;
-						break;
-					case 5:
-						/*if (Creature* pGuard = m_creature->FindNearestCreature(NPC_STORMWIND_ROYAL, 10.0f, true))
-						DoScriptText(SAY_GUARD_1, pGuard);*/
-						uiTimer = 3000;
-						uiPhase = 6;
-						break;
-					case 6:
-						DoScriptText(SAY_SPYBOT_2, m_creature);
-						uiTimer = 3000;
-						uiPhase = 7;
-						break;
-					case 7:
-						SetEscortPaused(false);
-						uiTimer = 0;
-						uiPhase = 0;
-						break;
-					case 8:
-						if (pLescovar)
-							DoScriptText(SAY_LESCOVAR_1, pLescovar);
-						uiTimer = 3000;
-						uiPhase = 9;
-						break;
-					case 9:
-						DoScriptText(SAY_SPYBOT_4, m_creature);
-						uiTimer = 3000;
-						uiPhase = 10;
-						break;
-					case 10:
-						if (pLescovar && pLescovar->IsAlive())
-						{
-							if (Player* pPlayer = GetPlayerForEscort())
-								static_cast<npc_escortAI*>(pLescovar->AI())->Start(false, pPlayer, 0, false, false);
-								//CAST_AI(npc_lord_gregor_lescovarAI, pLescovar->AI())->Start(false, false, pPlayer->GetGUID());
-								//CAST_AI(npc_lord_gregor_lescovarAI, pLescovar->AI())->SetMaxPlayerDistance(200.0f);
-						}
-						//m_creature->DisappearAndDie();
-						uiTimer = 0;
-						uiPhase = 0;
-						break;
-				}
-			}
-			else uiTimer -= uiDiff;
-		}
+    void UpdateAI(const uint32 uiDiff)
+    {
+        if (uiPhase)
+        {
+            if (uiTimer <= uiDiff)
+            {
+                switch (uiPhase)
+                {
+                    case 1:
+                        DoScriptText(SAY_QUEST_ACCEPT_ATTACK, m_creature);
+                        uiTimer = 3000;
+                        uiPhase = 2;
+                        break;
+                    case 2:
+                        if (pTyrion)
+                            DoScriptText(SAY_TYRION_1, pTyrion);
+                        uiTimer = 3000;
+                        uiPhase = 3;
+                        break;
+                    case 3:
+                        m_creature->UpdateEntry(NPC_PRIESTESS_TYRIONA, ALLIANCE);
+                        uiTimer = 2000;
+                        uiPhase = 4;
+                        break;
+                    case 4:
+                        SetEscortPaused(false);
+                        uiPhase = 0;
+                        uiTimer = 0;
+                        break;
+                    case 5:
+                        /*if (Creature* pGuard = m_creature->FindNearestCreature(NPC_STORMWIND_ROYAL, 10.0f, true))
+                        DoScriptText(SAY_GUARD_1, pGuard);*/
+                        uiTimer = 3000;
+                        uiPhase = 6;
+                        break;
+                    case 6:
+                        DoScriptText(SAY_SPYBOT_2, m_creature);
+                        uiTimer = 3000;
+                        uiPhase = 7;
+                        break;
+                    case 7:
+                        SetEscortPaused(false);
+                        uiTimer = 0;
+                        uiPhase = 0;
+                        break;
+                    case 8:
+                        if (pLescovar)
+                            DoScriptText(SAY_LESCOVAR_1, pLescovar);
+                        uiTimer = 3000;
+                        uiPhase = 9;
+                        break;
+                    case 9:
+                        DoScriptText(SAY_SPYBOT_4, m_creature);
+                        uiTimer = 3000;
+                        uiPhase = 10;
+                        break;
+                    case 10:
+                        if (pLescovar && pLescovar->IsAlive())
+                        {
+                            if (Player* pPlayer = GetPlayerForEscort())
+                                static_cast<npc_escortAI*>(pLescovar->AI())->Start(false, pPlayer, 0, false, false);
+                                //CAST_AI(npc_lord_gregor_lescovarAI, pLescovar->AI())->Start(false, false, pPlayer->GetGUID());
+                                //CAST_AI(npc_lord_gregor_lescovarAI, pLescovar->AI())->SetMaxPlayerDistance(200.0f);
+                        }
+                        //m_creature->DisappearAndDie();
+                        uiTimer = 0;
+                        uiPhase = 0;
+                        break;
+                }
+            }
+            else uiTimer -= uiDiff;
+        }
 
-		npc_escortAI::UpdateAI(uiDiff);
+        npc_escortAI::UpdateAI(uiDiff);
 
-		DoMeleeAttackIfReady();
-	}
+        DoMeleeAttackIfReady();
+    }
 };
 
 CreatureAI* GetAI_npc_tyrion_spybot(Creature* pCreature)
 {
-	return new npc_tyrion_spybotAI(pCreature);
+    return new npc_tyrion_spybotAI(pCreature);
 }
 
 void AddSC_stormwind_city()

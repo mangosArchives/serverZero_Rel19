@@ -124,7 +124,7 @@ public:
         tv.clear(); dv.clear();
         //__TBB_ASSERT(timers_vector_t::allocator_type::items_allocated == timers_vector_t::allocator_type::items_freed, NULL);
         //__TBB_ASSERT(values_vector_t::allocator_type::items_allocated == values_vector_t::allocator_type::items_freed, NULL);
-    	return *this;
+        return *this;
     }
 };
 
@@ -236,8 +236,8 @@ public:
 /* MAIN DRIVER                                                          */
 /************************************************************************/
 int main(int argc, char* argv[]) {
-	if(argc>1) Verbose = true;
-	if(argc>2) ExtraVerbose = true;
+    if(argc>1) Verbose = true;
+    if(argc>2) ExtraVerbose = true;
     MinThread = 0; MaxThread = 500000; // use in another meaning - test#:problem size
     ParseCommandLine( argc, argv );
 

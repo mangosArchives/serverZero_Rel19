@@ -20,18 +20,18 @@
 #ifndef _my_alloc_h
 #define _my_alloc_h
 
-#define ALLOC_MAX_BLOCK_TO_DROP			4096
-#define ALLOC_MAX_BLOCK_USAGE_BEFORE_DROP	10
+#define ALLOC_MAX_BLOCK_TO_DROP            4096
+#define ALLOC_MAX_BLOCK_USAGE_BEFORE_DROP    10
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 typedef struct st_used_mem
-{				   /* struct for once_alloc (block) */
-  struct st_used_mem *next;	   /* Next block in use */
-  unsigned int	left;		   /* memory left in block  */
-  unsigned int	size;		   /* size of block */
+{                   /* struct for once_alloc (block) */
+  struct st_used_mem *next;       /* Next block in use */
+  unsigned int    left;           /* memory left in block  */
+  unsigned int    size;           /* size of block */
 } USED_MEM;
 
 

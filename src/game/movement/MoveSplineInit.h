@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.2.5a, 4.2.3 and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -89,7 +89,7 @@ namespace Movement
              * @param destination
              * @param generatePath
              * @param forceDestination
-			 * @param maxPathRange 
+             * @param maxPathRange 
              */
             void MoveTo(const Vector3& destination, bool generatePath = false, bool forceDestination = false, float maxPathRange = 0.0f);
             /**
@@ -100,9 +100,9 @@ namespace Movement
              * @param z
              * @param generatePath
              * @param forceDestination
-			 * @param maxPathRange
+             * @param maxPathRange
              */
-			void MoveTo(float x, float y, float z, bool generatePath = false, bool forceDestination = false, float maxPathRange = 0.0f);
+            void MoveTo(float x, float y, float z, bool generatePath = false, bool forceDestination = false, float maxPathRange = 0.0f);
 
             /**
              * @brief Sets Id of fisrt point of the path
@@ -176,21 +176,21 @@ namespace Movement
         args.path.assign(controls.begin(), controls.end());
     }
 
-	inline void MoveSplineInit::MoveTo(float x, float y, float z, bool generatePath, bool forceDestination, float maxPathRange)
-	{
-		Vector3 v(x, y, z);
-		MoveTo(v, generatePath, forceDestination, maxPathRange);
-	}
+    inline void MoveSplineInit::MoveTo(float x, float y, float z, bool generatePath, bool forceDestination, float maxPathRange)
+    {
+        Vector3 v(x, y, z);
+        MoveTo(v, generatePath, forceDestination, maxPathRange);
+    }
 
     inline void MoveSplineInit::MoveTo(const Vector3& dest, bool generatePath, bool forceDestination, float maxPathRange)
     {
         if (generatePath)
         {
             PathFinder path(&unit);
-			if (maxPathRange > 0.0f)
-			{
-				path.setPathLengthLimit(maxPathRange);
-			}
+            if (maxPathRange > 0.0f)
+            {
+                path.setPathLengthLimit(maxPathRange);
+            }
             path.calculate(dest.x, dest.y, dest.z, forceDestination);
             MovebyPath(path.getPath());
         }

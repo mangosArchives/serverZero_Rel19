@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.2.5a, 4.2.3 and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -470,6 +470,7 @@ void AuctionBotConfig::setConfig(AuctionBotConfigBoolValues index, char const* f
     setConfig(index, m_AhBotCfg.GetBoolDefault(fieldname, defvalue));
 }
 
+// Get AuctionHousebot configuration file
 void AuctionBotConfig::GetConfigFromFile()
 {
     // Check config file version
@@ -1512,6 +1513,8 @@ void AuctionBotSeller::LoadSellerValues(AHB_Seller_Config& config)
     DEBUG_FILTER_LOG(LOG_FILTER_AHBOT_SELLER, "AHBot: YellowItems = %u", config.GetItemsAmountPerQuality(AUCTION_QUALITY_YELLOW));
 }
 
+// Set static of items on one AH faction.
+// Fill ItemInfos object with real content of AH.
 uint32 AuctionBotSeller::SetStat(AHB_Seller_Config& config)
 {
     std::vector<std::vector<uint32> > ItemsInAH(MAX_AUCTION_QUALITY, std::vector< uint32 > (MAX_ITEM_CLASS));
@@ -1560,6 +1563,7 @@ uint32 AuctionBotSeller::SetStat(AHB_Seller_Config& config)
     return count;
 }
 
+// getRandomArray is used to make available the possibility to add any of missed item in place of first one to last one.
 bool AuctionBotSeller::getRandomArray(AHB_Seller_Config& config, RandomArray& ra, const std::vector<std::vector<uint32> >& addedItem)
 {
     ra.clear();
@@ -1651,6 +1655,8 @@ void AuctionBotSeller::SetItemsAmountForQuality(AuctionQuality quality, uint32 v
         { LoadItemsQuantity(m_HouseConfig[i]); }
 }
 
+// Add new auction to one of the factions.
+// Faction and setting assossiated is defined passed argument ( config )
 void AuctionBotSeller::addNewAuctions(AHB_Seller_Config& config)
 {
     uint32 items;

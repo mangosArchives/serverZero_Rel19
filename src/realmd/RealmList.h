@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.2.5a, 4.2.3 and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -44,12 +44,6 @@ struct RealmBuildInfo
     int hotfix_version; /**< TODO */
 };
 
-/**
- * This is used to make a link between build number and actual wow version that
- * it belongs to. To get the connection between them, ie turn a build into a version
- * one would use \ref RealmList::BelongsToVersion the other way around is not available
- * as it does not make sense and isn't needed.
- */
 enum RealmVersion
 {
     REALM_VERSION_VANILLA = 0,
@@ -60,6 +54,12 @@ enum RealmVersion
     REALM_VERSION_COUNT   = 5
 };
 
+/**
+ * This is used to make a link between build number and actual wow version that
+ * it belongs to. To get the connection between them, ie turn a build into a version
+ * one would use \ref RealmList::BelongsToVersion the other way around is not available
+ * as it does not make sense and isn't needed.
+ */
 RealmBuildInfo const* FindBuildInfo(uint16 _build);
 
 /**
@@ -103,11 +103,29 @@ class RealmList
         typedef std::pair<RealmStlList::const_iterator, RealmStlList::const_iterator> RealmListIterators;
         typedef std::map<uint32, RealmVersion> RealmBuildVersionMap;
         
+        /**
+         * @brief
+         *
+         * @return RealmList
+         */
         static RealmList& Instance();
-        
+
+        /**
+         * @brief
+         *
+         */
         RealmList();
+        /**
+         * @brief
+         *
+         */
         ~RealmList() {};
-        
+
+        /**
+         * @brief
+         *
+         * @param updateInterval
+         */
         void Initialize(uint32 updateInterval);
         /** 
          * Initializes a map holding a link from build number to a version.

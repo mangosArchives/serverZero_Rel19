@@ -29,10 +29,10 @@
 /** @mainpage
  * Ability to control the collection during runtime. User API can be inserted into the user application.
  * Commands include:
-	- Pause/resume analysis
-	- Stop analysis and application, view results
-	- Cancel analysis and application without generating results
-	- Mark current time in results
+    - Pause/resume analysis
+    - Stop analysis and application, view results
+    - Cancel analysis and application without generating results
+    - Mark current time in results
  * The User API provides ability to control the collection, set marks at the execution of specific user code and
  * specify custom synchronization primitives implemented without standard system APIs. 
  * 
@@ -180,9 +180,9 @@ typedef void (__itt_error_notification_t)(__itt_error_code code, const char* msg
 
    __itt_JVM_EVENT_TYPE_SHUTDOWN = 2,           /*!< Shutdown. Program exiting. EventSpecificData NA*/      
    __itt_JVM_EVENT_TYPE_METHOD_LOAD_FINISHED=13,/*!< JIT profiling. Issued after method code jitted into memory but before code is executed
-												 *  event_data is an __itt_JIT_Method_Load */
+                                                 *  event_data is an __itt_JIT_Method_Load */
    __itt_JVM_EVENT_TYPE_METHOD_UNLOAD_START     /*!< JIT profiling. Issued before unload. Method code will no longer be executed, but code and info are still in memory.
-    											 *	The VTune profiler may capture method code only at this point. event_data is __itt_JIT_Method_Id */
+                                                 *    The VTune profiler may capture method code only at this point. event_data is __itt_JIT_Method_Id */
 
  } __itt_jit_jvm_event;
 
@@ -203,7 +203,7 @@ typedef enum ___itt_jit_environment_type
   */
 typedef struct ___itt_jit_method_id 
 {
-	/** @brief Id of the method (same as the one passed in the __itt_JIT_Method_Load struct */
+    /** @brief Id of the method (same as the one passed in the __itt_JIT_Method_Load struct */
     unsigned int       method_id;  
 
 } *__itt_pjit_method_id, __itt_jit_method_id;
@@ -213,9 +213,9 @@ typedef struct ___itt_jit_method_id
  */
 typedef struct ___itt_jit_line_number_info 
 {
-	/** @brief x86 Offset from the begining of the method */
+    /** @brief x86 Offset from the begining of the method */
     unsigned int        offset;    
-	/** @brief source line number from the begining of the source file. */
+    /** @brief source line number from the begining of the source file. */
     unsigned int        line_number;     
 
 } *__itt_pjit_line_number_info, __itt_jit_line_number_info;
@@ -224,30 +224,30 @@ typedef struct ___itt_jit_line_number_info
  */
 typedef struct ___itt_jit_method_load 
 {
-	/** @brief unique method ID - can be any unique value, (except 0 - 999) */
+    /** @brief unique method ID - can be any unique value, (except 0 - 999) */
     unsigned int        method_id;
     /** @brief method name (can be with or without the class and signature, in any case the class name will be added to it) */
     char*               method_name;
     /** @brief virtual address of that method  - This determines the method range for the iJVM_EVENT_TYPE_ENTER/LEAVE_METHOD_ADDR events */
-	void*               method_load_address;
+    void*               method_load_address;
     /** @brief Size in memory - Must be exact */
-	unsigned int        method_size;
+    unsigned int        method_size;
     /** @brief Line Table size in number of entries - Zero if none */
-	unsigned int        line_number_size;
+    unsigned int        line_number_size;
     /** @brief Pointer to the begining of the line numbers info array */
-	__itt_pjit_line_number_info line_number_table;
+    __itt_pjit_line_number_info line_number_table;
     /** @brief unique class ID */
-	unsigned int        class_id;
+    unsigned int        class_id;
     /** @brief class file name */
-	char*               class_file_name;
+    char*               class_file_name;
     /** @brief source file name */
-	char*               source_file_name;
+    char*               source_file_name;
     /** @brief bits supplied by the user for saving in the JIT file... */
-	void*               user_data;
+    void*               user_data;
     /** @brief the size of the user data buffer */
-	unsigned int        user_data_size;
+    unsigned int        user_data_size;
     /** @note no need to fill this field, it's filled by VTune */
-	__itt_jit_environment_type env;
+    __itt_jit_environment_type env;
 } *__itt_pjit_method_load, __itt_jit_method_load;
 
 /** 

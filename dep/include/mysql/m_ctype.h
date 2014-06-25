@@ -23,18 +23,18 @@
 #include <my_attribute.h>
 #include "my_global.h"                          /* uint16, uchar */
 
-#ifdef	__cplusplus
+#ifdef    __cplusplus
 extern "C" {
 #endif
 
-#define MY_CS_NAME_SIZE			32
-#define MY_CS_CTYPE_TABLE_SIZE		257
-#define MY_CS_TO_LOWER_TABLE_SIZE	256
-#define MY_CS_TO_UPPER_TABLE_SIZE	256
-#define MY_CS_SORT_ORDER_TABLE_SIZE	256
-#define MY_CS_TO_UNI_TABLE_SIZE		256
+#define MY_CS_NAME_SIZE            32
+#define MY_CS_CTYPE_TABLE_SIZE        257
+#define MY_CS_TO_LOWER_TABLE_SIZE    256
+#define MY_CS_TO_UPPER_TABLE_SIZE    256
+#define MY_CS_SORT_ORDER_TABLE_SIZE    256
+#define MY_CS_TO_UNI_TABLE_SIZE        256
 
-#define CHARSET_DIR	"charsets/"
+#define CHARSET_DIR    "charsets/"
 
 #define my_wc_t ulong
 
@@ -78,8 +78,8 @@ typedef struct uni_ctype_st
 extern MY_UNI_CTYPE my_uni_ctype[256];
 
 /* wm_wc and wc_mb return codes */
-#define MY_CS_ILSEQ	0     /* Wrong by sequence: wb_wc                   */
-#define MY_CS_ILUNI	0     /* Cannot encode Unicode to charset: wc_mb    */
+#define MY_CS_ILSEQ    0     /* Wrong by sequence: wb_wc                   */
+#define MY_CS_ILUNI    0     /* Cannot encode Unicode to charset: wc_mb    */
 #define MY_CS_TOOSMALL  -101  /* Need at least one byte:    wc_mb and mb_wc */
 #define MY_CS_TOOSMALL2 -102  /* Need at least two bytes:   wc_mb and mb_wc */
 #define MY_CS_TOOSMALL3 -103  /* Need at least three bytes: wc_mb and mb_wc */
@@ -90,22 +90,22 @@ extern MY_UNI_CTYPE my_uni_ctype[256];
 /* A helper macros for "need at least n bytes" */
 #define MY_CS_TOOSMALLN(n)    (-100-(n))
 
-#define MY_SEQ_INTTAIL	1
-#define MY_SEQ_SPACES	2
+#define MY_SEQ_INTTAIL    1
+#define MY_SEQ_SPACES    2
 
         /* My charsets_list flags */
 #define MY_CS_COMPILED  1      /* compiled-in sets               */
 #define MY_CS_CONFIG    2      /* sets that have a *.conf file   */
 #define MY_CS_INDEX     4      /* sets listed in the Index file  */
 #define MY_CS_LOADED    8      /* sets that are currently loaded */
-#define MY_CS_BINSORT	16     /* if binary sort order           */
-#define MY_CS_PRIMARY	32     /* if primary collation           */
-#define MY_CS_STRNXFRM	64     /* if strnxfrm is used for sort   */
-#define MY_CS_UNICODE	128    /* is a charset is BMP Unicode    */
-#define MY_CS_READY	256    /* if a charset is initialized    */
-#define MY_CS_AVAILABLE	512    /* If either compiled-in or loaded*/
-#define MY_CS_CSSORT	1024   /* if case sensitive sort order   */	
-#define MY_CS_HIDDEN	2048   /* don't display in SHOW          */	
+#define MY_CS_BINSORT    16     /* if binary sort order           */
+#define MY_CS_PRIMARY    32     /* if primary collation           */
+#define MY_CS_STRNXFRM    64     /* if strnxfrm is used for sort   */
+#define MY_CS_UNICODE    128    /* is a charset is BMP Unicode    */
+#define MY_CS_READY    256    /* if a charset is initialized    */
+#define MY_CS_AVAILABLE    512    /* If either compiled-in or loaded*/
+#define MY_CS_CSSORT    1024   /* if case sensitive sort order   */    
+#define MY_CS_HIDDEN    2048   /* don't display in SHOW          */    
 #define MY_CS_PUREASCII 4096   /* if a charset is pure ascii     */
 #define MY_CS_NONASCII  8192   /* if not ASCII-compatible        */
 #define MY_CS_UNICODE_SUPPLEMENT 16384 /* Non-BMP Unicode characters */
@@ -157,7 +157,7 @@ typedef struct my_collation_handler_st
   my_bool (*init)(struct charset_info_st *, void *(*alloc)(size_t));
   /* Collation routines */
   int     (*strnncoll)(struct charset_info_st *,
-		       const uchar *, size_t, const uchar *, size_t, my_bool);
+               const uchar *, size_t, const uchar *, size_t, my_bool);
   int     (*strnncollsp)(struct charset_info_st *,
                          const uchar *, size_t, const uchar *, size_t,
                          my_bool diff_if_only_endspace_difference);
@@ -165,13 +165,13 @@ typedef struct my_collation_handler_st
                          uchar *, size_t, const uchar *, size_t);
   size_t    (*strnxfrmlen)(struct charset_info_st *, size_t); 
   my_bool (*like_range)(struct charset_info_st *,
-			const char *s, size_t s_length,
-			pchar w_prefix, pchar w_one, pchar w_many, 
-			size_t res_length,
-			char *min_str, char *max_str,
-			size_t *min_len, size_t *max_len);
+            const char *s, size_t s_length,
+            pchar w_prefix, pchar w_one, pchar w_many, 
+            size_t res_length,
+            char *min_str, char *max_str,
+            size_t *min_len, size_t *max_len);
   int     (*wildcmp)(struct charset_info_st *,
-  		     const char *str,const char *str_end,
+               const char *str,const char *str_end,
                      const char *wildstr,const char *wildend,
                      int escape,int w_one, int w_many);
 
@@ -184,7 +184,7 @@ typedef struct my_collation_handler_st
   
   /* Hash calculation */
   void (*hash_sort)(struct charset_info_st *cs, const uchar *key, size_t len,
-		    ulong *nr1, ulong *nr2); 
+            ulong *nr1, ulong *nr2); 
   my_bool (*propagate)(struct charset_info_st *cs, const uchar *str, size_t len);
 } MY_COLLATION_HANDLER;
 
@@ -246,15 +246,15 @@ typedef struct my_charset_handler_st
   
   /* String-to-number conversion routines */
   long        (*strntol)(struct charset_info_st *, const char *s, size_t l,
-			 int base, char **e, int *err);
+             int base, char **e, int *err);
   ulong      (*strntoul)(struct charset_info_st *, const char *s, size_t l,
-			 int base, char **e, int *err);
+             int base, char **e, int *err);
   longlong   (*strntoll)(struct charset_info_st *, const char *s, size_t l,
-			 int base, char **e, int *err);
+             int base, char **e, int *err);
   ulonglong (*strntoull)(struct charset_info_st *, const char *s, size_t l,
-			 int base, char **e, int *err);
+             int base, char **e, int *err);
   double      (*strntod)(struct charset_info_st *, char *s, size_t l, char **e,
-			 int *err);
+             int *err);
   longlong    (*strtoll10)(struct charset_info_st *cs,
                            const char *nptr, char **endptr, int *error);
   ulonglong   (*strntoull10rnd)(struct charset_info_st *cs,
@@ -393,15 +393,15 @@ extern size_t my_strnxfrm_simple(CHARSET_INFO *, uchar *, size_t,
                                  const uchar *, size_t); 
 size_t  my_strnxfrmlen_simple(CHARSET_INFO *, size_t); 
 extern int  my_strnncoll_simple(CHARSET_INFO *, const uchar *, size_t,
-				const uchar *, size_t, my_bool);
+                const uchar *, size_t, my_bool);
 
 extern int  my_strnncollsp_simple(CHARSET_INFO *, const uchar *, size_t,
                                   const uchar *, size_t,
                                   my_bool diff_if_only_endspace_difference);
 
 extern void my_hash_sort_simple(CHARSET_INFO *cs,
-				const uchar *key, size_t len,
-				ulong *nr1, ulong *nr2); 
+                const uchar *key, size_t len,
+                ulong *nr1, ulong *nr2); 
 
 extern size_t my_lengthsp_8bit(CHARSET_INFO *cs, const char *ptr, size_t length);
 
@@ -436,13 +436,13 @@ size_t my_snprintf_8bit(struct charset_info_st *, char *to, size_t n,
 long       my_strntol_8bit(CHARSET_INFO *, const char *s, size_t l, int base,
                            char **e, int *err);
 ulong      my_strntoul_8bit(CHARSET_INFO *, const char *s, size_t l, int base,
-			    char **e, int *err);
+                char **e, int *err);
 longlong   my_strntoll_8bit(CHARSET_INFO *, const char *s, size_t l, int base,
-			    char **e, int *err);
+                char **e, int *err);
 ulonglong my_strntoull_8bit(CHARSET_INFO *, const char *s, size_t l, int base,
-			    char **e, int *err);
+                char **e, int *err);
 double      my_strntod_8bit(CHARSET_INFO *, char *s, size_t l,char **e,
-			    int *err);
+                int *err);
 size_t my_long10_to_str_8bit(CHARSET_INFO *, char *to, size_t l, int radix,
                              long int val);
 size_t my_longlong10_to_str_8bit(CHARSET_INFO *, char *to, size_t l, int radix,
@@ -464,19 +464,19 @@ void my_fill_8bit(CHARSET_INFO *cs, char* to, size_t l, int fill);
 
 /* For 8-bit character set */
 my_bool  my_like_range_simple(CHARSET_INFO *cs,
-			      const char *ptr, size_t ptr_length,
-			      pbool escape, pbool w_one, pbool w_many,
-			      size_t res_length,
-			      char *min_str, char *max_str,
-			      size_t *min_length, size_t *max_length);
+                  const char *ptr, size_t ptr_length,
+                  pbool escape, pbool w_one, pbool w_many,
+                  size_t res_length,
+                  char *min_str, char *max_str,
+                  size_t *min_length, size_t *max_length);
 
 /* For ASCII-based multi-byte character sets with mbminlen=1 */
 my_bool  my_like_range_mb(CHARSET_INFO *cs,
-			  const char *ptr, size_t ptr_length,
-			  pbool escape, pbool w_one, pbool w_many,
-			  size_t res_length,
-			  char *min_str, char *max_str,
-			  size_t *min_length, size_t *max_length);
+              const char *ptr, size_t ptr_length,
+              pbool escape, pbool w_one, pbool w_many,
+              size_t res_length,
+              char *min_str, char *max_str,
+              size_t *min_length, size_t *max_length);
 
 /* For other character sets, with arbitrary mbminlen and mbmaxlen numbers */
 my_bool  my_like_range_generic(CHARSET_INFO *cs,
@@ -487,14 +487,14 @@ my_bool  my_like_range_generic(CHARSET_INFO *cs,
                                size_t *min_length, size_t *max_length);
 
 int my_wildcmp_8bit(CHARSET_INFO *,
-		    const char *str,const char *str_end,
-		    const char *wildstr,const char *wildend,
-		    int escape, int w_one, int w_many);
+            const char *str,const char *str_end,
+            const char *wildstr,const char *wildend,
+            int escape, int w_one, int w_many);
 
 int my_wildcmp_bin(CHARSET_INFO *,
-		   const char *str,const char *str_end,
-		   const char *wildstr,const char *wildend,
-		   int escape, int w_one, int w_many);
+           const char *str,const char *str_end,
+           const char *wildstr,const char *wildend,
+           int escape, int w_one, int w_many);
 
 size_t my_numchars_8bit(CHARSET_INFO *, const char *b, const char *e);
 size_t my_numcells_8bit(CHARSET_INFO *, const char *b, const char *e);
@@ -522,9 +522,9 @@ extern size_t my_casedn_ujis(CHARSET_INFO *, char *src, size_t srclen,
 extern int my_strcasecmp_mb(CHARSET_INFO * cs,const char *, const char *);
 
 int my_wildcmp_mb(CHARSET_INFO *,
-		  const char *str,const char *str_end,
-		  const char *wildstr,const char *wildend,
-		  int escape, int w_one, int w_many);
+          const char *str,const char *str_end,
+          const char *wildstr,const char *wildend,
+          int escape, int w_one, int w_many);
 size_t my_numchars_mb(CHARSET_INFO *, const char *b, const char *e);
 size_t my_numcells_mb(CHARSET_INFO *, const char *b, const char *e);
 size_t my_charpos_mb(CHARSET_INFO *, const char *b, const char *e, size_t pos);
@@ -572,7 +572,7 @@ int my_wildcmp_unicode(CHARSET_INFO *cs,
                        MY_UNICASE_INFO **weights);
 
 extern my_bool my_parse_charset_xml(const char *bug, size_t len,
-				    int (*add)(CHARSET_INFO *cs));
+                    int (*add)(CHARSET_INFO *cs));
 extern char *my_strchr(CHARSET_INFO *cs, const char *str, const char *end,
                        pchar c);
 extern size_t my_strcspn(CHARSET_INFO *cs, const char *str, const char *end,
@@ -592,39 +592,39 @@ my_bool my_charset_is_ascii_compatible(CHARSET_INFO *cs);
 extern size_t my_vsnprintf_ex(CHARSET_INFO *cs, char *to, size_t n,
                               const char* fmt, va_list ap);
 
-#define	_MY_U	01	/* Upper case */
-#define	_MY_L	02	/* Lower case */
-#define	_MY_NMR	04	/* Numeral (digit) */
-#define	_MY_SPC	010	/* Spacing character */
-#define	_MY_PNT	020	/* Punctuation */
-#define	_MY_CTR	040	/* Control character */
-#define	_MY_B	0100	/* Blank */
-#define	_MY_X	0200	/* heXadecimal digit */
+#define    _MY_U    01    /* Upper case */
+#define    _MY_L    02    /* Lower case */
+#define    _MY_NMR    04    /* Numeral (digit) */
+#define    _MY_SPC    010    /* Spacing character */
+#define    _MY_PNT    020    /* Punctuation */
+#define    _MY_CTR    040    /* Control character */
+#define    _MY_B    0100    /* Blank */
+#define    _MY_X    0200    /* heXadecimal digit */
 
 
-#define	my_isascii(c)	(!((c) & ~0177))
-#define	my_toascii(c)	((c) & 0177)
-#define my_tocntrl(c)	((c) & 31)
-#define my_toprint(c)	((c) | 64)
-#define my_toupper(s,c)	(char) ((s)->to_upper[(uchar) (c)])
-#define my_tolower(s,c)	(char) ((s)->to_lower[(uchar) (c)])
-#define	my_isalpha(s, c)  (((s)->ctype+1)[(uchar) (c)] & (_MY_U | _MY_L))
-#define	my_isupper(s, c)  (((s)->ctype+1)[(uchar) (c)] & _MY_U)
-#define	my_islower(s, c)  (((s)->ctype+1)[(uchar) (c)] & _MY_L)
-#define	my_isdigit(s, c)  (((s)->ctype+1)[(uchar) (c)] & _MY_NMR)
-#define	my_isxdigit(s, c) (((s)->ctype+1)[(uchar) (c)] & _MY_X)
-#define	my_isalnum(s, c)  (((s)->ctype+1)[(uchar) (c)] & (_MY_U | _MY_L | _MY_NMR))
-#define	my_isspace(s, c)  (((s)->ctype+1)[(uchar) (c)] & _MY_SPC)
-#define	my_ispunct(s, c)  (((s)->ctype+1)[(uchar) (c)] & _MY_PNT)
-#define	my_isprint(s, c)  (((s)->ctype+1)[(uchar) (c)] & (_MY_PNT | _MY_U | _MY_L | _MY_NMR | _MY_B))
-#define	my_isgraph(s, c)  (((s)->ctype+1)[(uchar) (c)] & (_MY_PNT | _MY_U | _MY_L | _MY_NMR))
-#define	my_iscntrl(s, c)  (((s)->ctype+1)[(uchar) (c)] & _MY_CTR)
+#define    my_isascii(c)    (!((c) & ~0177))
+#define    my_toascii(c)    ((c) & 0177)
+#define my_tocntrl(c)    ((c) & 31)
+#define my_toprint(c)    ((c) | 64)
+#define my_toupper(s,c)    (char) ((s)->to_upper[(uchar) (c)])
+#define my_tolower(s,c)    (char) ((s)->to_lower[(uchar) (c)])
+#define    my_isalpha(s, c)  (((s)->ctype+1)[(uchar) (c)] & (_MY_U | _MY_L))
+#define    my_isupper(s, c)  (((s)->ctype+1)[(uchar) (c)] & _MY_U)
+#define    my_islower(s, c)  (((s)->ctype+1)[(uchar) (c)] & _MY_L)
+#define    my_isdigit(s, c)  (((s)->ctype+1)[(uchar) (c)] & _MY_NMR)
+#define    my_isxdigit(s, c) (((s)->ctype+1)[(uchar) (c)] & _MY_X)
+#define    my_isalnum(s, c)  (((s)->ctype+1)[(uchar) (c)] & (_MY_U | _MY_L | _MY_NMR))
+#define    my_isspace(s, c)  (((s)->ctype+1)[(uchar) (c)] & _MY_SPC)
+#define    my_ispunct(s, c)  (((s)->ctype+1)[(uchar) (c)] & _MY_PNT)
+#define    my_isprint(s, c)  (((s)->ctype+1)[(uchar) (c)] & (_MY_PNT | _MY_U | _MY_L | _MY_NMR | _MY_B))
+#define    my_isgraph(s, c)  (((s)->ctype+1)[(uchar) (c)] & (_MY_PNT | _MY_U | _MY_L | _MY_NMR))
+#define    my_iscntrl(s, c)  (((s)->ctype+1)[(uchar) (c)] & _MY_CTR)
 
 /* Some macros that should be cleaned up a little */
 #define my_isvar(s,c)                 (my_isalnum(s,c) || (c) == '_')
 #define my_isvar_start(s,c)           (my_isalpha(s,c) || (c) == '_')
 
-#define my_binary_compare(s)	      ((s)->state  & MY_CS_BINSORT)
+#define my_binary_compare(s)          ((s)->state  & MY_CS_BINSORT)
 #define use_strnxfrm(s)               ((s)->state  & MY_CS_STRNXFRM)
 #define my_strnxfrm(s, a, b, c, d)    ((s)->coll->strnxfrm((s), (a), (b), (c), (d)))
 #define my_strnncoll(s, a, b, c, d) ((s)->coll->strnncoll((s), (a), (b), (c), (d), 0))
@@ -659,7 +659,7 @@ extern size_t my_vsnprintf_ex(CHARSET_INFO *cs, char *to, size_t n,
 #include "t_ctype.h"
 #endif
 
-#ifdef	__cplusplus
+#ifdef    __cplusplus
 }
 #endif
 

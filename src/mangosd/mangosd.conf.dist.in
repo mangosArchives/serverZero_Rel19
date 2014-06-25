@@ -44,7 +44,8 @@ ConfVersion=2014060701
 #       ScriptDev2DatabaseConnections
 #		 Amount of connections to database which will be used for SELECT queries. Maximum 16 connections per database.
 #		 Please, note, for data consistency only one connection for each database is used for transactions and async SELECTs.
-#		 So formula to find out how many connections will be established: X = �_connections + 1
+#		 So formula to find out how many connections will be established:
+#                X = LoginDatabaseConnections + WorldDatabaseConnections + CharacterDatabaseConnections + 1
 #		 Default: 1 connection for SELECT statements
 #
 #    MaxPingTime

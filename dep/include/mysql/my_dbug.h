@@ -43,7 +43,7 @@ extern  my_bool _dbug_on_;
 extern  my_bool _db_keyword_(struct _db_code_state_ *, const char *, int);
 extern  int _db_explain_(struct _db_code_state_ *cs, char *buf, size_t len);
 extern  int _db_explain_init_(char *buf, size_t len);
-extern	int _db_is_pushed_(void);
+extern    int _db_is_pushed_(void);
 extern  void _db_setjmp_(void);
 extern  void _db_longjmp_(void);
 extern  void _db_process_(const char *name);
@@ -187,7 +187,7 @@ void debug_sync_point(const char* lock_name, uint lock_timeout);
 #define DBUG_SYNC_POINT(lock_name,lock_timeout)
 #endif /* EXTRA_DEBUG */
 
-#ifdef	__cplusplus
+#ifdef    __cplusplus
 }
 #endif
 

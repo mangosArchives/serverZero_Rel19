@@ -170,18 +170,18 @@ void* concurrent_vector_base::internal_push_back( size_type element_size, size_t
     void* array = s.array;
     if( !array ) {
         // FIXME - consider factoring this out and share with internal_grow_by
-	if( base==tmp ) {
-	    __TBB_ASSERT( !s.array, NULL );
+    if( base==tmp ) {
+        __TBB_ASSERT( !s.array, NULL );
             size_t n = segment_size(k_old);
-	    array = NFS_Allocate( n, element_size, NULL );
-	    ITT_NOTIFY( sync_releasing, &s.array );
-	    s.array = array;
-	} else {
-	    ITT_NOTIFY(sync_prepare, &s.array);
-	    spin_wait_while_eq( s.array, (void*)0 );
-	    ITT_NOTIFY(sync_acquired, &s.array);
-	    array = s.array;
-	}
+        array = NFS_Allocate( n, element_size, NULL );
+        ITT_NOTIFY( sync_releasing, &s.array );
+        s.array = array;
+    } else {
+        ITT_NOTIFY(sync_prepare, &s.array);
+        spin_wait_while_eq( s.array, (void*)0 );
+        ITT_NOTIFY(sync_acquired, &s.array);
+        array = s.array;
+    }
     }
     size_type j_begin = tmp-base;
     return (void*)((char*)array+element_size*j_begin);

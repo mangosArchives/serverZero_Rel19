@@ -58,23 +58,23 @@
 #include <openssl/e_os2.h>
 
 #ifdef NO_ASN1_TYPEDEFS
-#define ASN1_INTEGER		ASN1_STRING
-#define ASN1_ENUMERATED		ASN1_STRING
-#define ASN1_BIT_STRING		ASN1_STRING
-#define ASN1_OCTET_STRING	ASN1_STRING
-#define ASN1_PRINTABLESTRING	ASN1_STRING
-#define ASN1_T61STRING		ASN1_STRING
-#define ASN1_IA5STRING		ASN1_STRING
-#define ASN1_UTCTIME		ASN1_STRING
-#define ASN1_GENERALIZEDTIME	ASN1_STRING
-#define ASN1_TIME		ASN1_STRING
-#define ASN1_GENERALSTRING	ASN1_STRING
-#define ASN1_UNIVERSALSTRING	ASN1_STRING
-#define ASN1_BMPSTRING		ASN1_STRING
-#define ASN1_VISIBLESTRING	ASN1_STRING
-#define ASN1_UTF8STRING		ASN1_STRING
-#define ASN1_BOOLEAN		int
-#define ASN1_NULL		int
+#define ASN1_INTEGER        ASN1_STRING
+#define ASN1_ENUMERATED        ASN1_STRING
+#define ASN1_BIT_STRING        ASN1_STRING
+#define ASN1_OCTET_STRING    ASN1_STRING
+#define ASN1_PRINTABLESTRING    ASN1_STRING
+#define ASN1_T61STRING        ASN1_STRING
+#define ASN1_IA5STRING        ASN1_STRING
+#define ASN1_UTCTIME        ASN1_STRING
+#define ASN1_GENERALIZEDTIME    ASN1_STRING
+#define ASN1_TIME        ASN1_STRING
+#define ASN1_GENERALSTRING    ASN1_STRING
+#define ASN1_UNIVERSALSTRING    ASN1_STRING
+#define ASN1_BMPSTRING        ASN1_STRING
+#define ASN1_VISIBLESTRING    ASN1_STRING
+#define ASN1_UTF8STRING        ASN1_STRING
+#define ASN1_BOOLEAN        int
+#define ASN1_NULL        int
 #else
 typedef struct asn1_string_st ASN1_INTEGER;
 typedef struct asn1_string_st ASN1_ENUMERATED;
@@ -189,11 +189,11 @@ typedef struct NAME_CONSTRAINTS_st NAME_CONSTRAINTS;
 typedef struct crypto_ex_data_st CRYPTO_EX_DATA;
 /* Callback types for crypto.h */
 typedef int CRYPTO_EX_new(void *parent, void *ptr, CRYPTO_EX_DATA *ad,
-					int idx, long argl, void *argp);
+                    int idx, long argl, void *argp);
 typedef void CRYPTO_EX_free(void *parent, void *ptr, CRYPTO_EX_DATA *ad,
-					int idx, long argl, void *argp);
+                    int idx, long argl, void *argp);
 typedef int CRYPTO_EX_dup(CRYPTO_EX_DATA *to, CRYPTO_EX_DATA *from, void *from_d,
-					int idx, long argl, void *argp);
+                    int idx, long argl, void *argp);
 
 typedef struct ocsp_req_ctx_st OCSP_REQ_CTX;
 typedef struct ocsp_response_st OCSP_RESPONSE;
