@@ -360,6 +360,7 @@ void WorldSession::HandlePageTextQueryOpcode(WorldPacket& recv_data)
 
     uint32 pageID;
     recv_data >> pageID;
+    recv_data.read_skip<uint64>();                          // guid
 
     while (pageID)
     {
