@@ -48,15 +48,14 @@ echo .
 echo **********************
 echo **  OpenSSL DLL's   **
 echo **********************
-copy ..\..\dep\lib\libeay32.dll %2
-copy ..\..\dep\lib\ssleay32.dll %2
-copy ..\..\dep\lib\\libssl32.dll %2
+copy ..\%3\libeay32.dll %2
+copy ..\%3\ssleay32.dll %2
 
 echo .
 echo **********************
 echo **   MySQL DLL's    **
 echo **********************
-copy ..\..\dep\lib\libmysql.dll %2
+copy ..\%3\libmysql.dll %2
 
 echo .
 echo **********************

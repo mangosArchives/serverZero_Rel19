@@ -463,8 +463,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\dep\lib\libeay32.lib" />
-    <Library Include="..\..\dep\lib\libmysql.lib" />
+    <Library Include="..\..\dep\lib\$(Platform)\libeay32.lib" />
+    <Library Include="..\..\dep\lib\$(Platform)\libmysql.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
