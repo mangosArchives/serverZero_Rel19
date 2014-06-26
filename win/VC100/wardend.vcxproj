@@ -86,7 +86,8 @@
       </DataExecutionPrevention>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\ACE*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)
+      <Command>copy ..\..\src\wardend\wardend.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)
+copy ..\..\dep\lib\$(Platform)_$(Configuration)\ACE*.dll ..\..\bin\$(Platform)_$(Configuration)
 copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\tbb*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)
 copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\dbghelp*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)</Command>
     </PostBuildEvent>
@@ -137,7 +138,8 @@ copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\dbghelp*.dll ..\..\bin\$
       </DataExecutionPrevention>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\ACE*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)
+      <Command>copy ..\..\src\wardend\wardend.conf.dist.in ..\..\bin\$(Platform)_$(Configuration)
+copy ..\..\dep\lib\$(Platform)_$(Configuration)\ACE*.dll ..\..\bin\$(Platform)_$(Configuration)
 copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\tbb*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)
 copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\dbghelp*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)</Command>
     </PostBuildEvent>
