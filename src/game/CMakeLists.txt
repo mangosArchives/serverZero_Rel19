@@ -26,6 +26,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour
   ${CMAKE_SOURCE_DIR}/dep/recastnavigation/
   ${CMAKE_SOURCE_DIR}/dep/include
+  ${CMAKE_SOURCE_DIR}/dep/lualib
   ${CMAKE_SOURCE_DIR}/src/shared
   ${CMAKE_SOURCE_DIR}/src/framework
   ${CMAKE_BINARY_DIR}
@@ -51,6 +52,34 @@ set(SRC_GRP_BATTLEGROUND
     BattleGround/BattleGroundMgr.h
     BattleGround/BattleGroundWS.cpp
     BattleGround/BattleGroundWS.h
+)
+
+set(SRC_GRP_LUAENGINE
+    LuaEngine/AuraMethods.h
+    LuaEngine/CorpseMethods.h
+    LuaEngine/CreatureMethods.h
+    LuaEngine/GameObjectMethods.h
+    LuaEngine/GlobalMethods.h
+    LuaEngine/GroupMethods.h
+    LuaEngine/GuildMethods.h
+    LuaEngine/HookMgr.cpp
+    LuaEngine/HookMgr.h
+    LuaEngine/Includes.h
+    LuaEngine/ItemMethods.h
+    LuaEngine/LuaEngine.cpp
+    LuaEngine/LuaEngine.h
+    LuaEngine/LuaFunctions.cpp
+    LuaEngine/MapMethods.h
+    LuaEngine/ObjectMethods.h
+    LuaEngine/PlayerMethods.h
+    LuaEngine/QueryMethods.h
+    LuaEngine/QuestMethods.h
+    LuaEngine/SpellMethods.h
+    LuaEngine/UnitMethods.h
+    LuaEngine/VehicleMethods.h
+    LuaEngine/WeatherMethods.h
+    LuaEngine/WorldObjectMethods.h
+    LuaEngine/WorldPacketMethods.h
 )
 
 set(SRC_GRP_CHAT_COMMANDS
@@ -368,6 +397,7 @@ set(SRC_GRP_WORLD_HANDLERS
 set(LIBRARY_SRCS
     ${SRC_GRP_AHBOT}
     ${SRC_GRP_BATTLEGROUND}
+    ${SRC_GRP_LUAENGINE}
     ${SRC_GRP_CHAT_COMMANDS}
     ${SRC_GRP_MOTION_GEN}
     ${SRC_GRP_MOVEMENT}
@@ -390,6 +420,11 @@ source_group("AhBot"
 source_group("BattleGround"
   FILES
     ${SRC_GRP_BATTLEGROUND}
+)
+
+source_group("LuaEngine"
+  FILES
+    ${SRC_GRP_LUAENGINE}
 )
 
 source_group("Chat Commands"
@@ -453,6 +488,7 @@ add_library(${LIBRARY_NAME} STATIC
 target_link_libraries(${LIBRARY_NAME}
   shared
   detour
+  lualib
 )
 
 if(UNIX)
@@ -465,6 +501,7 @@ if(UNIX)
 endif()
 
 add_dependencies(${LIBRARY_NAME} revision.h)
+add_dependencies(${LIBRARY_NAME} lualib)
 if(NOT ACE_USE_EXTERNAL)
   add_dependencies(${LIBRARY_NAME} ACE_Project)
 endif()
@@ -485,3 +522,4 @@ if(PCH)
 endif()
 
 add_subdirectory(AuctionHouseBot)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/LuaEngine/extensions DESTINATION ${BIN_DIR}/lua_scripts/)

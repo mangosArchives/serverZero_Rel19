@@ -25,6 +25,7 @@ endif()
 add_subdirectory(recastnavigation)
 add_subdirectory(src)
 add_subdirectory(libmpq)
+add_subdirectory(lualib)
 
 # This is done to generate the config.h file for libmpq
 # Kind of a cludge..

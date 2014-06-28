@@ -35,6 +35,7 @@
 #include "ObjectAccessor.h"
 #include "ScriptMgr.h"
 #include "Group.h"
+#include "LuaEngine.h"
 
 void WorldSession::HandleQuestgiverStatusQueryOpcode(WorldPacket& recv_data)
 {
@@ -336,6 +337,9 @@ void WorldSession::HandleQuestLogRemoveQuest(WorldPacket& recv_data)
             }
 
             _player->SetQuestStatus(quest, QUEST_STATUS_NONE);
+
+            // Used by Eluna
+            sEluna->OnQuestAbandon(_player, quest);
         }
 
         _player->SetQuestSlot(slot, 0);
