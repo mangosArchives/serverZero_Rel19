@@ -2087,7 +2087,7 @@ bool ScriptMgr::OnQuestAccept(Player* pPlayer, GameObject* pGameObject, Quest co
 bool ScriptMgr::OnQuestAccept(Player* pPlayer, Item* pItem, Quest const* pQuest)
 {
     // Used by Eluna
-    if(sEluna->OnQuestAccept(pPlayer, pItem, pQuest))
+    if (sEluna->OnQuestAccept(pPlayer, pItem, pQuest))
         return true;
 
     return m_pOnItemQuestAccept != NULL && m_pOnItemQuestAccept(pPlayer, pItem, pQuest);
@@ -2143,7 +2143,7 @@ bool ScriptMgr::OnGameObjectUse(Player* pPlayer, GameObject* pGameObject)
 bool ScriptMgr::OnItemUse(Player* pPlayer, Item* pItem, SpellCastTargets const& targets)
 {
     // Used by Eluna
-    if(sEluna->OnUse(pPlayer, pItem, targets))
+    if (!sEluna->OnUse(pPlayer, pItem, targets))
         return true;
 
     return m_pOnItemUse != NULL && m_pOnItemUse(pPlayer, pItem, targets);
@@ -2152,7 +2152,7 @@ bool ScriptMgr::OnItemUse(Player* pPlayer, Item* pItem, SpellCastTargets const& 
 bool ScriptMgr::OnAreaTrigger(Player* pPlayer, AreaTriggerEntry const* atEntry)
 {
     // Used by Eluna
-    if(sEluna->OnAreaTrigger(pPlayer, atEntry))
+    if (sEluna->OnAreaTrigger(pPlayer, atEntry))
         return true;
 
     return m_pOnAreaTrigger != NULL && m_pOnAreaTrigger(pPlayer, atEntry);
@@ -2166,7 +2166,7 @@ bool ScriptMgr::OnProcessEvent(uint32 eventId, Object* pSource, Object* pTarget,
 bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex effIndex, Creature* pTarget, ObjectGuid originalCasterGuid)
 {
     // Used by Eluna
-    if(sEluna->OnDummyEffect(pCaster, spellId, effIndex, pTarget))
+    if (sEluna->OnDummyEffect(pCaster, spellId, effIndex, pTarget))
         return true;
 
     return m_pOnEffectDummyCreature != NULL && m_pOnEffectDummyCreature(pCaster, spellId, effIndex, pTarget, originalCasterGuid);
@@ -2175,7 +2175,7 @@ bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex ef
 bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex effIndex, GameObject* pTarget, ObjectGuid originalCasterGuid)
 {
     // Used by Eluna
-    if(sEluna->OnDummyEffect(pCaster, spellId, effIndex, pTarget))
+    if (sEluna->OnDummyEffect(pCaster, spellId, effIndex, pTarget))
         return true;
 
     return m_pOnEffectDummyGO != NULL && m_pOnEffectDummyGO(pCaster, spellId, effIndex, pTarget, originalCasterGuid);
@@ -2184,7 +2184,7 @@ bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex ef
 bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex effIndex, Item* pTarget, ObjectGuid originalCasterGuid)
 {
     // Used by Eluna
-    if(sEluna->OnDummyEffect(pCaster, spellId, effIndex, pTarget))
+    if (sEluna->OnDummyEffect(pCaster, spellId, effIndex, pTarget))
         return true;
 
     return m_pOnEffectDummyItem != NULL && m_pOnEffectDummyItem(pCaster, spellId, effIndex, pTarget, originalCasterGuid);
