@@ -241,6 +241,7 @@ enum LocaleConstant
 };
 
 #define MAX_LOCALE 8
+#define DEFAULT_LOCALE LOCALE_enUS
 
 /**
  * @brief
@@ -249,6 +250,8 @@ enum LocaleConstant
  * @return LocaleConstant
  */
 LocaleConstant GetLocaleByName(const std::string& name);
+
+typedef std::vector<std::string> StringVector;
 
 extern char const* localeNames[MAX_LOCALE]; /**< TODO */
 

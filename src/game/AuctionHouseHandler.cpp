@@ -35,6 +35,7 @@
 #include "Mail.h"
 #include "Util.h"
 #include "Chat.h"
+#include "LuaEngine.h"
 
 /** \addtogroup auctionhouse
  * @{
@@ -335,6 +336,9 @@ void WorldSession::HandleAuctionSellItem(WorldPacket& recv_data)
                itemGuid.GetString().c_str(), auctioneerGuid.GetString().c_str(), bid, buyout, etime, auctionHouseEntry->houseId);
 
     SendAuctionCommandResult(AH, AUCTION_STARTED, AUCTION_OK);
+
+    // Used by Eluna
+    sEluna->OnAdd(auctionHouse);
 }
 
 // this function is called when client bids or buys out auction
@@ -485,6 +489,8 @@ void WorldSession::HandleAuctionRemoveItem(WorldPacket& recv_data)
     CharacterDatabase.CommitTransaction();
     sAuctionMgr.RemoveAItem(auction->itemGuidLow);
     auctionHouse->RemoveAuction(auction->Id);
+    // Used by Eluna
+    sEluna->OnRemove(auctionHouse);
     delete auction;
 }
 

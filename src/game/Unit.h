@@ -1575,7 +1575,12 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see EUnitFields
          * \see GetUInt32Value
          */
+        bool HealthAbovePctHealed(int32 pct, uint32 heal) const { return uint64(GetHealth()) + uint64(heal) > CountPctFromMaxHealth(pct); }          
         uint32 GetMaxHealth() const { return GetUInt32Value(UNIT_FIELD_MAXHEALTH); }
+        bool IsFullHealth() const { return GetHealth() == GetMaxHealth(); }
+        bool HealthBelowPct(int32 pct) const { return GetHealth() < CountPctFromMaxHealth(pct); }
+        bool HealthBelowPctDamaged(int32 pct, uint32 damage) const { return int64(GetHealth()) - int64(damage) < int64(CountPctFromMaxHealth(pct)); }
+        bool HealthAbovePct(int32 pct) const { return GetHealth() > CountPctFromMaxHealth(pct); }
         /**
          * Gets the percent of the health. The formula: (GetHealth() * 100) / GetMaxHealth()
          * @return the current percent of the health
@@ -1583,6 +1588,8 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * \see GetMaxHealth
          */
         float GetHealthPercent() const { return (GetHealth() * 100.0f) / GetMaxHealth(); }
+        uint32 CountPctFromMaxHealth(int32 pct) const { return (GetMaxHealth() * static_cast<float>(pct) / 100.0f); }
+        uint32 CountPctFromCurHealth(int32 pct) const { return (GetHealth() * static_cast<float>(pct) / 100.0f); }  
         /**
          * Sets the health to the given value, it cant be higher than Unit::GetMaxHealth though
          * @param val the value to set the health to
@@ -2932,6 +2939,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return true if this \ref Unit is alive, false otherwise
          */
         bool IsAlive() const { return (m_deathState == ALIVE); };
+        bool isDying() const { return (m_deathState == JUST_DIED); }
         /**
          * Checks whether or not this \ref Unit is dead by checking the \ref Unit::m_deathState member
          * for the value \ref DeathState::DEAD or \ref DeathState::CORPSE
@@ -3375,6 +3383,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         void InterruptNonMeleeSpells(bool withDelayed, uint32 spellid = 0);
 
         Spell* GetCurrentSpell(CurrentSpellTypes spellType) const { return m_currentSpells[spellType]; }
+        Spell* GetCurrentSpell(uint32 spellType) const { return m_currentSpells[spellType]; }
         Spell* FindCurrentSpellBySpellId(uint32 spell_id) const;
 
         bool CheckAndIncreaseCastCounter();
