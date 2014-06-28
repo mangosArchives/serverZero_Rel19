@@ -34,6 +34,7 @@
 #include "Log.h"
 #include "ObjectMgr.h"
 #include "Util.h"
+#include "LuaEngine.h"
 
 /// Weather sound defines ( only for 1.12 )
 enum WeatherSounds

@@ -41,6 +41,7 @@
 #include "Util.h"
 #include "GridNotifiersImpl.h"
 #include "CellImpl.h"
+#include "LuaEngine.h"
 
 bool WorldSession::processChatmessageFurtherAfterSecurityChecks(std::string& msg, uint32 lang)
 {
@@ -491,7 +492,7 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recv_data)
                     if (!sEluna->OnChat(GetPlayer(), type, lang, msg, chn))
                         return;
 
-                    chn->Say(_player->GetObjectGuid(), msg.c_str(), lang); 
+                    chn->Say(_player, msg.c_str(), lang); 
                 }
             }
         } break;

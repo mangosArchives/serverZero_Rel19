@@ -60,6 +60,15 @@ AuctionHouseMgr::~AuctionHouseMgr()
         { delete itr->second; }
 }
 
+AuctionHouseObject::~AuctionHouseObject()
+{
+    Eluna::RemoveRef(this);
+
+    for (AuctionEntryMap::const_iterator itr = AuctionsMap.begin(); itr != AuctionsMap.end(); ++itr)
+        delete itr->second;
+}
+
+
 AuctionHouseObject* AuctionHouseMgr::GetAuctionsMap(AuctionHouseEntry const* house)
 {
     if (sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_INTERACTION_AUCTION))
@@ -73,6 +82,8 @@ AuctionHouseObject* AuctionHouseMgr::GetAuctionsMap(AuctionHouseEntry const* hou
         default:       return &mAuctions[AUCTION_HOUSE_NEUTRAL];
     }
 }
+
+
 
 uint32 AuctionHouseMgr::GetAuctionDeposit(AuctionHouseEntry const* entry, uint32 time, Item* pItem)
 {
@@ -536,15 +547,6 @@ AuctionHouseEntry const* AuctionHouseMgr::GetAuctionHouseEntry(Unit* unit)
 
     return sAuctionHouseStore.LookupEntry(houseid);
 }
-
-AuctionHouseObject::~AuctionHouseObject()
-{
-    Eluna::RemoveRef(this);
-
-    for (AuctionEntryMap::const_iterator itr = AuctionsMap.begin(); itr != AuctionsMap.end(); ++itr)
-        delete itr->second;
-}
-
 
 void AuctionHouseObject::Update()
 {
