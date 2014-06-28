@@ -93,6 +93,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScriptDev2", "..\src\script
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ACE_Wrappers", "VC100\ACE_vc10.vcxproj", "{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lualib", "VC120\lualib.vcxproj", "{EE2D5A7D-2E9B-43F0-A016-66C46D01AC6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_NoPCH|Win32 = Debug_NoPCH|Win32
