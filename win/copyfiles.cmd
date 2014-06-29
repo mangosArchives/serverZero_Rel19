@@ -60,5 +60,11 @@ copy ..\..\dep\lib\libmysql.dll %2
 
 echo .
 echo **********************
+echo * Eluna base Scripts *
+echo **********************
+XCOPY "..\..\src\game\LuaEngine\extensions" "%2\lua_scripts\extensions" /E /I /F /Y
+
+echo .
+echo **********************
 echo * Copy Step Complete *
 echo **********************
