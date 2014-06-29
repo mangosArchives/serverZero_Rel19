@@ -362,7 +362,11 @@
   <ItemGroup>
     <CustomBuild Include="..\..\src\shared\revision.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Extract revision</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd "$(SolutionDir)..\src\shared" "$(TargetDir)..\genrevision__$(Platform)_$(Configuration)\genrevision.exe" "..\.."</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">set FOLDER=$(SolutionDir)..\src\shared
+%FOLDER:~0,2%
+cd %FOLDER%
+"$(TargetDir)..\genrevision__$(Platform)_$(Configuration)\genrevision.exe" "..\.."
+</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)../.svn/entries;$(SolutionDir)../_svn/entries;$(SolutionDir)../.git/FETCH_HEAD;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">revision.h;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|X64'">Extract revision</Message>
@@ -371,29 +375,42 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(SolutionDir)../.svn/entries;$(SolutionDir)../_svn/entries;$(SolutionDir)../.git/FETCH_HEAD;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">revision.h;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Extract revision</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd "$(SolutionDir)..\src\shared"
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">set FOLDER=$(SolutionDir)..\src\shared
+%FOLDER:~0,2%
+cd %FOLDER%
 "$(TargetDir)..\genrevision__$(Platform)_$(Configuration)\genrevision.exe" "..\.."
 </Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)../.svn/entries;$(SolutionDir)../_svn/entries;$(SolutionDir)../.git/FETCH_HEAD;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">revision.h;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">Extract revision</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">cd "$(SolutionDir)..\src\shared"
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">set FOLDER=$(SolutionDir)..\src\shared
+%FOLDER:~0,2%
+cd %FOLDER%
 "$(TargetDir)..\genrevision__$(Platform)_$(Configuration)\genrevision.exe" "..\.."
 </Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(SolutionDir)../.svn/entries;$(SolutionDir)../_svn/entries;$(SolutionDir)../.git/FETCH_HEAD;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">revision.h;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">Extract revision</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">cd "$(SolutionDir)..\src\shared"
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">set FOLDER=$(SolutionDir)..\src\shared
+%FOLDER:~0,2%
+cd %FOLDER%
 "$(TargetDir)..\genrevision__$(Platform)_$(Configuration)\genrevision.exe" "..\.."
 </Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">$(SolutionDir)../.svn/entries;$(SolutionDir)../_svn/entries;$(SolutionDir)../.git/FETCH_HEAD;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">revision.h;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">Extract revision</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">cd "$(SolutionDir)..\src\shared"
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">set FOLDER=$(SolutionDir)..\src\shared
+%FOLDER:~0,2%
+cd %FOLDER%
 "$(TargetDir)..\genrevision__$(Platform)_$(Configuration)\genrevision.exe" "..\.."
 </Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">$(SolutionDir)../.svn/entries;$(SolutionDir)../_svn/entries;$(SolutionDir)../.git/FETCH_HEAD;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">revision.h;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'">set FOLDER=$(SolutionDir)..\src\shared
+%FOLDER:~0,2%
+cd %FOLDER% "
+$(TargetDir)..\genrevision__$(Platform)_$(Configuration)\genrevision.exe" "..\.."
+</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -405,19 +422,15 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|X64'">Performing Build SystemConfig.h</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">copy ..\..\src\shared\SystemConfig.h.in ..\..\src\shared\SystemConfig.h</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">..\..\src\shared\SystemConfig.h;%(Outputs)</Outputs>
-
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Performing Build SystemConfig.h</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">copy ..\..\src\shared\SystemConfig.h.in ..\..\src\shared\SystemConfig.h</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\src\shared\SystemConfig.h;%(Outputs)</Outputs>
-
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">Performing Build SystemConfig.h</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">copy ..\..\src\shared\SystemConfig.h.in ..\..\src\shared\SystemConfig.h</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">..\..\src\shared\SystemConfig.h;%(Outputs)</Outputs>
-
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">Performing Build SystemConfig.h</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">copy ..\..\src\shared\SystemConfig.h.in ..\..\src\shared\SystemConfig.h</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">..\..\src\shared\SystemConfig.h;%(Outputs)</Outputs>
-      
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">Performing Build SystemConfig.h</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">copy ..\..\src\shared\SystemConfig.h.in ..\..\src\shared\SystemConfig.h</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">..\..\src\shared\SystemConfig.h;%(Outputs)</Outputs>
