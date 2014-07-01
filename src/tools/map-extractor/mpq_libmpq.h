@@ -69,7 +69,7 @@ class MPQArchive
             libmpq__off_t size, transferred;
             libmpq__file_unpacked_size(mpq_a, filenum, &size);
 
-            char* buffer = new char[size];
+            char* buffer = new char[(int)size];
 
             libmpq__file_read(mpq_a, filenum, (unsigned char*)buffer, size, &transferred);
 
@@ -146,13 +146,13 @@ class MPQFile
          *
          * @return size_t
          */
-        size_t getSize() { return size; }
+        size_t getSize() { return (size_t)size; }
         /**
          * @brief
          *
          * @return size_t
          */
-        size_t getPos() { return pointer; }
+		size_t getPos() { return (size_t)pointer; }
         /**
          * @brief
          *
