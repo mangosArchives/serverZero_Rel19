@@ -27,5 +27,9 @@
 #define SC_SCRIPTLOADER_H
 
 void AddScripts();
+void AddEasternKingdomScripts();
+void AddKalimdorScripts();
+void AddWorldScripts();
+void AddBattlegroundScripts();
 
 #endif
