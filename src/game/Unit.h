@@ -606,7 +606,7 @@ enum MovementFlags
     MOVEFLAG_TB_PENDING_FORWARD     = 0x00080000,           /// (MOVEFLAG_PENDING_FORWARD)
     MOVEFLAG_TB_PENDING_BACKWARD    = 0x00100000,           /// (MOVEFLAG_PENDING_BACKWARD)
     MOVEFLAG_SWIMMING               = 0x00200000,           /// verified
-    MOVEFLAG_FLYING_PITCH_UP        = 0x00400000,           /// (half confirmed)(MOVEFLAG_PENDING_STR_RGHT)
+    MOVEFLAG_SPLINE_ENABLED         = 0x00400000,           /// (half confirmed)(MOVEFLAG_PENDING_STR_RGHT)
     MOVEFLAG_TB_MOVED               = 0x00800000,           /// (half confirmed) gets called when landing (MOVEFLAG_MOVED)
 
     // Byte 4 (Script Based Flags. Never reset, only turned on or off.)

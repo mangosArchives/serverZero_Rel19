@@ -251,6 +251,11 @@ void Object::BuildMovementUpdate(ByteBuffer* data, uint8 updateFlags) const
         {
             moveFlags |= MOVEFLAG_TAXI;
         }
+        float x, y, z;
+        if (m_objectTypeId == TYPEID_UNIT && ((Unit*)this)->GetMotionMaster()->GetDestination(x, y, z))
+        {
+            moveFlags |= MOVEFLAG_WALK_MODE | MOVEFLAG_MOVE_FORWARD | MOVEFLAG_SPLINE_ENABLED;
+        }
 
         *data << uint32(moveFlags);                         // movement flags
         *data << uint32(WorldTimer::getMSTime());           // time (in milliseconds)
@@ -280,10 +285,10 @@ void Object::BuildMovementUpdate(ByteBuffer* data, uint8 updateFlags) const
         }
         else
         {
-            *data << float(((WorldObject*)this)->GetPositionX());
-            *data << float(((WorldObject*)this)->GetPositionY());
-            *data << float(((WorldObject*)this)->GetPositionZ());
-            *data << float(((WorldObject*)this)->GetOrientation());
+            *data << ((WorldObject*)this)->GetPositionX();
+            *data << ((WorldObject*)this)->GetPositionY();
+            *data << ((WorldObject*)this)->GetPositionZ();
+            *data << ((WorldObject*)this)->GetOrientation();
         }
     }
 
@@ -293,7 +298,7 @@ void Object::BuildMovementUpdate(ByteBuffer* data, uint8 updateFlags) const
 
         *data << (float)0;
 
-        if (moveFlags & 0x2000)                             // update self
+        if (moveFlags & 0x02000)                            // update self MOVEFLAG_FALLING
         {
             *data << (float)0;
             *data << (float)1.0;
@@ -311,20 +316,9 @@ void Object::BuildMovementUpdate(ByteBuffer* data, uint8 updateFlags) const
 
         if (m_objectTypeId == TYPEID_UNIT)
         {
-            uint8 PosCount = 0;
-            if (moveFlags & 0x400000)
+            if (moveFlags & MOVEFLAG_SPLINE_ENABLED)        // 0x00400000
             {
-                *data << (uint32)0x0;
-                *data << (uint32)0x659;
-                *data << (uint32)0xB7B;
-                *data << (uint32)0xFDA0B4;
-                *data << (uint32)PosCount;
-                for (int i = 0; i < PosCount + 1; i++)
-                {
-                    *data << (float)0;                      // x
-                    *data << (float)0;                      // y
-                    *data << (float)0;                      // z
-                }
+                Movement::PacketBuilder::WriteCreate((*((Unit*)this)->movespline), *data);
             }
         }
     }
