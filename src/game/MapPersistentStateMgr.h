@@ -187,8 +187,8 @@ class DungeonPersistentState : public MapPersistentState
 
         InstanceTemplate const* GetTemplate() const;
 
-        uint8 GetPlayerCount() const { return m_playerList.size(); }
-        uint8 GetGroupCount() const { return m_groupList.size(); }
+        uint8 GetPlayerCount() const { return (uint8)m_playerList.size(); }
+        uint8 GetGroupCount() const { return (uint8)m_groupList.size(); }
 
         /* online players bound to the instance (perm/solo)
            does not include the members of the group unless they have permanent saves */
