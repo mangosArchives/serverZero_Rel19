@@ -40,11 +40,11 @@
 
 // Definition of ratio of check types (based on a long session of 1162 checks)
 // They are cumulative, meaning that I add the %age to the previous one
-#define WCHECK_PAGE1_RATIO  25.0f   // 36.5
-#define WCHECK_PAGE2_RATIO  50.0f   // 36.5
+#define WCHECK_PAGE_A_RATIO 25.0f   // 36.5
+#define WCHECK_PAGE_B_RATIO 50.0f   // 36.5
 #define WCHECK_MEMORY_RATIO 94.0f   // 21.0
 #define WCHECK_DRIVER_RATIO 97.4f   // 03.4
-#define WCHECK_FILE_RATIO   98.7f   // 01.3
+#define WCHECK_MPQ_RATIO    98.7f   // 01.3
 #define WCHECK_LUA_RATIO   100.0f   // 01.3
 
 // State machine for warden activity on one session
@@ -109,9 +109,11 @@ class WardenMgr
         struct MemoryCheckEntry
         {
             std::string String;
+            uint32 BaseOffset;
             uint32 Offset;
             uint8 Length;
             uint8 Result[20];
+            std::string Comment;
         };
         struct PageCheckEntry
         {
@@ -120,7 +122,7 @@ class WardenMgr
             uint32 Offset;
             uint8 Length;
         };
-        struct FileCheckEntry
+        struct MPQCheckEntry
         {
             std::string String;
             uint8 SHA[20];
@@ -147,7 +149,7 @@ class WardenMgr
             {
                 MemoryCheckEntry* mem;
                 PageCheckEntry* page;
-                FileCheckEntry* file;
+                MPQCheckEntry* file;
                 LuaCheckEntry* lua;
                 DriverCheckEntry* driver;
                 ModuleCheckEntry* module;
@@ -159,7 +161,7 @@ class WardenMgr
 
         typedef std::vector<MemoryCheckEntry> WardenMemoryChecks;
         typedef std::vector<PageCheckEntry> WardenPageChecks;
-        typedef std::vector<FileCheckEntry> WardenFileChecks;
+        typedef std::vector<MPQCheckEntry> WardenMPQChecks;
         typedef std::vector<LuaCheckEntry> WardenLuaChecks;
         typedef std::vector<DriverCheckEntry> WardenDriverChecks;
         //typedef std::vector<ModuleCheckEntry> WardenModulehecks;
@@ -195,8 +197,9 @@ class WardenMgr
         void ReactToCheatCheckResult(WorldSession* const session, bool result);
     private:
         MemoryCheckEntry *GetRandMemCheck();
-        PageCheckEntry *GetRandPageCheck();
-        FileCheckEntry *GetRandFileCheck();
+        MemoryCheckEntry *GetRandMemDynCheck();
+        PageCheckEntry *GetRandPageCheck(uint8 type);
+        MPQCheckEntry *GetRandMPQCheck();
         LuaCheckEntry *GetRandLuaCheck();
         DriverCheckEntry *GetRandDriverCheck();
 
@@ -215,15 +218,19 @@ class WardenMgr
         u_short                 m_WardendPort;
         WardendConnector        m_Connector;
         ShortIntervalTimer      m_PingTimer;
-
         WardenModuleMap         m_WardenModuleMap;
 
         WardenMemoryChecks      m_WardenMemoryChecks;
-        WardenPageChecks        m_WardenPageChecks;
-        WardenFileChecks        m_WardenFileChecks;
+        WardenMemoryChecks      m_WardenMemoryDynChecks;
+        WardenPageChecks        m_WardenPageChecksA;
+        WardenPageChecks        m_WardenPageChecksB;
+        WardenMPQChecks         m_WardenMPQChecks;
         WardenLuaChecks         m_WardenLuaChecks;
         WardenDriverChecks      m_WardenDriverChecks;
         //WardenModuleChecks    m_WardenModuleChecks;
+
+    private:
+        std::string string_format(const std::string fmt_str, ...);
 };
 
 #define sWardenMgr MaNGOS::Singleton<WardenMgr>::Instance()

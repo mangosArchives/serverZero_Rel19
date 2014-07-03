@@ -719,6 +719,7 @@ class MANGOS_DLL_SPEC WorldSession
         std::string m_WardenModule;
         void *m_WardenClientChecks;
         uint8 m_WardenTmpClientKey[0x102];
+        std::string m_BanRaison;
 };
 #endif
 /// @}

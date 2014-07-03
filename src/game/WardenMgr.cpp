@@ -50,6 +50,7 @@ void WardenMgr::Initialize(const char *addr, u_short port, bool IsBanning)
     m_WardendAddress = addr;
     m_WardendPort = port;
     m_Banning = IsBanning;
+
     if (!LoadFromDB())
     {
         sLog.outError("Warden disabled because there is no usable module or 1 table has no record");
@@ -233,12 +234,11 @@ bool WardenMgr::LoadFromDB()
     }
     // Now load the checks
     // 1) memory
-    result = WorldDatabase.Query("SELECT String,Offset,Length,Result FROM warden_check_memory");
+    result = WorldDatabase.Query("SELECT String,Offset,Length,Result,Comment FROM warden_check_memory");
     if (!result)
     {
         sLog.outString(">> Table warden_check_memory is empty!");
         sLog.outString();
-        return false;
     }
     else
     {
@@ -256,6 +256,7 @@ bool WardenMgr::LoadFromDB()
                 current.Offset  = fields[1].GetUInt32();
                 current.Length  = fields[2].GetUInt8();
                 std::string res = fields[3].GetCppString();
+                current.Comment = fields[4].GetCppString();
                 hexDecodeString(res.c_str(), res.length(), current.Result);
 
                 ++count;
@@ -263,30 +264,27 @@ bool WardenMgr::LoadFromDB()
             delete result;
             sLog.outString();
             sLog.outString(">> Loaded %u memory checks", count);
-            if (count == 0)
-                return false;
         }
     }
-    // 2) Page
-    result = WorldDatabase.Query("SELECT Seed,SHA,Offset,Length FROM warden_check_page");
+    // 2) Page_A
+    result = WorldDatabase.Query("SELECT Seed,SHA,Offset,Length FROM warden_check_page_a");
     if (!result)
     {
-        sLog.outString(">> Table warden_check_page is empty!");
+        sLog.outString(">> Table warden_check_page_a is empty!");
         sLog.outString();
-        return false;
     }
     else
     {
         uint32 count = 0;
         {
-            barGoLink bar((int)result->GetRowCount());
-            m_WardenPageChecks.resize((int)result->GetRowCount());
+            BarGoLink bar((int)result->GetRowCount());
+            m_WardenPageChecksA.resize((int)result->GetRowCount());
             do
             {
                 Field *fields = result->Fetch();
                 bar.step();
 
-                PageCheckEntry& current = m_WardenPageChecks[count];
+                PageCheckEntry& current = m_WardenPageChecksA[count];
                 current.Seed  = fields[0].GetUInt32();
                 std::string res = fields[1].GetCppString();
                 hexDecodeString(res.c_str(), 40, current.SHA);
@@ -298,30 +296,59 @@ bool WardenMgr::LoadFromDB()
             delete result;
             sLog.outString();
             sLog.outString(">> Loaded %u page checks", count);
-            if (count == 0)
-                return false;
         }
     }
-    // 3) File
-    result = WorldDatabase.Query("SELECT String,SHA FROM warden_check_file");
+    // 2 bis) Page_B
+    result = WorldDatabase.Query("SELECT Seed,SHA,Offset,Length FROM warden_check_page_b");
     if (!result)
     {
-        sLog.outString(">> Table warden_check_file is empty!");
+        sLog.outString(">> Table warden_check_page_b is empty!");
         sLog.outString();
-        return false;
     }
     else
     {
         uint32 count = 0;
         {
-            barGoLink bar((int)result->GetRowCount());
-            m_WardenFileChecks.resize((int)result->GetRowCount());
+            BarGoLink bar((int)result->GetRowCount());
+            m_WardenPageChecksB.resize((int)result->GetRowCount());
             do
             {
                 Field *fields = result->Fetch();
                 bar.step();
 
-                FileCheckEntry& current = m_WardenFileChecks[count];
+                PageCheckEntry& current = m_WardenPageChecksB[count];
+                current.Seed  = fields[0].GetUInt32();
+                std::string res = fields[1].GetCppString();
+                hexDecodeString(res.c_str(), 40, current.SHA);
+                current.Offset  = fields[2].GetUInt32();
+                current.Length  = fields[3].GetUInt8();
+
+                ++count;
+            } while(result->NextRow());
+            delete result;
+            sLog.outString();
+            sLog.outString(">> Loaded %u page checks", count);
+        }
+    }
+    // 3) File
+    result = WorldDatabase.Query("SELECT String,SHA FROM warden_check_mpq");
+    if (!result)
+    {
+        sLog.outString(">> Table warden_check_mpq is empty!");
+        sLog.outString();
+    }
+    else
+    {
+        uint32 count = 0;
+        {
+            BarGoLink bar((int)result->GetRowCount());
+            m_WardenMPQChecks.resize((int)result->GetRowCount());
+            do
+            {
+                Field *fields = result->Fetch();
+                bar.step();
+
+                MPQCheckEntry& current = m_WardenMPQChecks[count];
                 current.String  = fields[0].GetCppString();
                 std::string res = fields[1].GetCppString();
                 hexDecodeString(res.c_str(), 40, current.SHA);
@@ -331,8 +358,6 @@ bool WardenMgr::LoadFromDB()
             delete result;
             sLog.outString();
             sLog.outString(">> Loaded %u file checks", count);
-            if (count == 0)
-                return false;
         }
     }
     // 4) Lua
@@ -341,7 +366,6 @@ bool WardenMgr::LoadFromDB()
     {
         sLog.outString(">> Table warden_check_lua is empty!");
         sLog.outString();
-        return false;
     }
     else
     {
@@ -362,8 +386,6 @@ bool WardenMgr::LoadFromDB()
             delete result;
             sLog.outString();
             sLog.outString(">> Loaded %u lua checks", count);
-            if (count == 0)
-                return false;
         }
     }
     // 5) Driver
@@ -372,7 +394,6 @@ bool WardenMgr::LoadFromDB()
     {
         sLog.outString(">> Table warden_check_driver is empty!");
         sLog.outString();
-        return false;
     }
     else
     {
@@ -396,10 +417,42 @@ bool WardenMgr::LoadFromDB()
             delete result;
             sLog.outString();
             sLog.outString(">> Loaded %u driver checks", count);
-            if (count == 0)
-                return false;
         }
     }
+    // 2) dynamic memory
+    result = WorldDatabase.Query("SELECT String,Offset,Length,Result,Comment FROM warden_check_memory_dynamic");
+    if (!result)
+    {
+        sLog.outString(">> Table warden_check_memory_dynamic is empty!");
+        sLog.outString();
+    }
+    else
+    {
+        uint32 count = 0;
+        {
+            BarGoLink bar((int)result->GetRowCount());
+            m_WardenMemoryDynChecks.resize((int)result->GetRowCount());
+            do
+            {
+                Field *fields = result->Fetch();
+                bar.step();
+
+                MemoryCheckEntry& current = m_WardenMemoryDynChecks[count];
+                current.String  = fields[0].GetCppString();
+                current.BaseOffset = fields[1].GetUInt32();
+                current.Length  = fields[2].GetUInt8();
+                std::string res = fields[3].GetCppString();
+                current.Comment = fields[4].GetCppString();
+                hexDecodeString(res.c_str(), res.length(), current.Result);
+
+                ++count;
+            } while(result->NextRow());
+            delete result;
+            sLog.outString();
+            sLog.outString(">> Loaded %u memory checks", count);
+        }
+    }
+
     return true;
 }
 
@@ -567,7 +620,6 @@ void WardenMgr::SendModule(WorldSession* const session)
         offset = offset + len;
         remainLen = remainLen - len;
 
-        data.hexlike();
         data.crypt(&session->m_rc4ServerKey[0], &rc4_crypt);
         session->SendPacket(&data);
     }
@@ -580,7 +632,6 @@ void WardenMgr::SendSeedTransformRequest(WorldSession* const session)
     WorldPacket data( SMSG_WARDEN_DATA, 1+16 );
     data << uint8(WARDS_SEED);
     data.append(&session->m_wardenSeed[0], 16);
-    data.hexlike();
     data.crypt(&session->m_rc4ServerKey[0], &rc4_crypt);
     session->SendPacket(&data);
     session->m_wardenStatus = WARD_STATE_TRANSFORM_SEED;
@@ -645,6 +696,7 @@ void WardenMgr::LoadModuleAndGetKeys(WorldSession* const session)
     ByteBuffer pkt;
     pkt << uint8(MMSG_LOAD_MODULE);
     pkt << uint32(modLength - 0x100); // - 256 bytes certificate
+
     pkt << uint32(session->GetAccountId());
     pkt.append(m_tmpModule, modLength - 0x100);
 
@@ -655,148 +707,6 @@ void WardenMgr::LoadModuleAndGetKeys(WorldSession* const session)
     free(m_tmpModule);
 
     m_WardenProcessStream->send((char const*)pkt.contents(), pkt.size());
-}
-
-WardenMgr::MemoryCheckEntry *WardenMgr::GetRandMemCheck()
-{
-    return &m_WardenMemoryChecks[urand(0, m_WardenMemoryChecks.size()-1)];
-}
-WardenMgr::PageCheckEntry *WardenMgr::GetRandPageCheck()
-{
-    return &m_WardenPageChecks[urand(0, m_WardenPageChecks.size()-1)];
-}
-WardenMgr::FileCheckEntry *WardenMgr::GetRandFileCheck()
-{
-    return &m_WardenFileChecks[urand(0, m_WardenFileChecks.size()-1)];
-}
-WardenMgr::LuaCheckEntry *WardenMgr::GetRandLuaCheck()
-{
-    return &m_WardenLuaChecks[urand(0, m_WardenLuaChecks.size()-1)];
-}
-WardenMgr::DriverCheckEntry *WardenMgr::GetRandDriverCheck()
-{
-    return &m_WardenDriverChecks[urand(0, m_WardenDriverChecks.size()-1)];
-}
-
-void WardenMgr::SendCheatCheck(WorldSession* const session)
-{
-    DEBUG_LOG("Wardend::BuildCheatCheck(%u, *pkt)", session->GetAccountId());
-
-    std::string md5 = session->m_WardenModule;
-    if (!session->m_WardenClientChecks)
-    {
-        session->m_WardenClientChecks = new WardenClientCheckList;
-    }
-    // Type cast and get a shorter name
-    WardenClientCheckList* checkList = (WardenClientCheckList*)session->m_WardenClientChecks;
-
-    checkList->clear();
-    // Get the Seed 1st byte for the xoring
-    uint8 m_seed1 = session->m_wardenSeed[0];
-    DEBUG_LOG("Seed byte: 0x%02X, end byte: 0x%02X", m_seed1, m_WardenModuleMap[md5][WARD_CHECK_END]);
-
-    WorldPacket data( SMSG_WARDEN_DATA, 300 ); // Guess size
-    data << uint8(WARDS_CHEAT_CHECK);
-
-    // Rand a number of checks between 4 and 8 checks + the first time check + end packet
-    uint8 nbChecks = urand(4, 8);
-    checkList->resize(nbChecks);
-
-    for (uint8 i=0; i<nbChecks; ++i)
-    {
-        // We select one based on the ratio
-        float mRand = rand_chance_f();
-        if (mRand < WCHECK_PAGE2_RATIO)                 // size 29, no string both page1 and page2 tests
-        {
-            (*checkList)[i].check = urand(0,1)?WARD_CHECK_PAGE1:WARD_CHECK_PAGE2;
-            (*checkList)[i].page = GetRandPageCheck();
-        }
-        else if (mRand < WCHECK_MEMORY_RATIO)           // size 6, possible string
-        {
-            (*checkList)[i].check = WARD_CHECK_MEMORY;
-            (*checkList)[i].mem = GetRandMemCheck();
-            if ((*checkList)[i].mem->String.length())   // add 1 for the uint8 str length
-            {
-                data << uint8((*checkList)[i].mem->String.length());
-                data.append((*checkList)[i].mem->String.c_str() ,(*checkList)[i].mem->String.length());
-                DEBUG_LOG("Mem str %s, len %u", (*checkList)[i].mem->String.c_str(), (*checkList)[i].mem->String.length());
-            }
-        }
-        else if (mRand < WCHECK_DRIVER_RATIO)
-        {
-            (*checkList)[i].check = WARD_CHECK_DRIVER;  // size 25 + string
-            (*checkList)[i].driver = GetRandDriverCheck();
-            data << uint8((*checkList)[i].driver->String.length());
-            data.append((*checkList)[i].driver->String.c_str(), (*checkList)[i].driver->String.length());
-            DEBUG_LOG("Driver str %s, len %u", (*checkList)[i].driver->String.c_str(), (*checkList)[i].driver->String.length());
-        }
-        else if (mRand < WCHECK_FILE_RATIO)
-        {
-            (*checkList)[i].check = WARD_CHECK_FILE;    // size 1 + string
-            (*checkList)[i].file = GetRandFileCheck();
-            data << uint8((*checkList)[i].file->String.length());
-            data.append((*checkList)[i].file->String.c_str(), (*checkList)[i].file->String.length());
-            DEBUG_LOG("File str %s, len %u", (*checkList)[i].file->String.c_str(), (*checkList)[i].file->String.length());
-        }
-        else
-        {
-            (*checkList)[i].check = WARD_CHECK_LUA;     // size 1 + string
-            (*checkList)[i].lua = GetRandLuaCheck();
-            data << uint8((*checkList)[i].lua->String.length());
-            data.append((*checkList)[i].lua->String.c_str(), (*checkList)[i].lua->String.length());
-            DEBUG_LOG("Lua str %s, len %u", (*checkList)[i].lua->String.c_str(), (*checkList)[i].lua->String.length());
-        }
-    }
-    // strings terminator
-    data << uint8(0);
-    // We first add a timing check
-    data << uint8(m_WardenModuleMap[md5][WARD_CHECK_TIMING] ^ m_seed1);
-    // Finaly put the other checks
-    uint8 m_strIndex = 1;
-    DEBUG_LOG("Preparing %u checks", nbChecks);
-    for (uint8 i=0; i<nbChecks; ++i)
-    {
-        data << uint8(m_WardenModuleMap[md5][(*checkList)[i].check] ^ m_seed1);
-        switch ((*checkList)[i].check)
-        {
-            case WARD_CHECK_PAGE1:
-            case WARD_CHECK_PAGE2:
-                DEBUG_LOG("%u : %s", i, (*checkList)[i].check==WARD_CHECK_PAGE1?"WARD_CHECK_PAGE1":"WARD_CHECK_PAGE2");
-                data << uint32((*checkList)[i].page->Seed);
-                data.append(&(*checkList)[i].page->SHA[0], 20);
-                data << uint32((*checkList)[i].page->Offset);
-                data << uint8((*checkList)[i].page->Length);
-                break;
-            case WARD_CHECK_MEMORY:
-                DEBUG_LOG("%u : WARD_CHECK_MEMORY", i);
-                if ((*checkList)[i].mem->String.length())
-                    data << uint8(m_strIndex++);
-                else
-                    data << uint8(0);
-                data << uint32((*checkList)[i].mem->Offset);
-                data << uint8((*checkList)[i].mem->Length);
-                break;
-            case WARD_CHECK_DRIVER:
-                DEBUG_LOG("%u : WARD_CHECK_DRIVER", i);
-                data << uint32((*checkList)[i].driver->Seed);
-                data.append(&(*checkList)[i].driver->SHA[0], 20);
-                data << uint8(m_strIndex++);
-                break;
-            case WARD_CHECK_FILE:
-                DEBUG_LOG("%u : WARD_CHECK_FILE", i);
-                data << uint8(m_strIndex++);
-                break;
-            case WARD_CHECK_LUA:
-                DEBUG_LOG("%u : WARD_CHECK_LUA", i);
-                data << uint8(m_strIndex++);
-                break;
-        }
-    }
-    data << uint8(m_WardenModuleMap[md5][WARD_CHECK_END] ^ m_seed1);
-
-    data.hexlike();
-    data.crypt(&session->m_rc4ServerKey[0], &rc4_crypt);
-    session->SendPacket(&data);
 }
 
 void WardenMgr::Pong()
@@ -881,9 +791,9 @@ void WardenMgr::ChangeClientKey(WorldSession* const session)
 void WardenMgr::SendWardenData(WorldSession* const session)
 {
     DEBUG_LOG("WardenMgr::SendWardenData");
-    WorldPacket data(SMSG_WARDEN_DATA, 1 + 2+4+20 + 1 + 2+4+8 + 1 +2+4+8); // 42 // 57 // 3.3.5a init packet
-    data << uint8(WARDS_DATA);
+    WorldPacket data(SMSG_WARDEN_DATA, 1+2+4+20 + 1+2+4+8 + 1+2+4+8); // 57 // 1.12.1 init packet
     {
+        data << uint8(WARDS_DATA);
         data << uint16(20);
         uint8 buff[20] =
         {
@@ -896,8 +806,8 @@ void WardenMgr::SendWardenData(WorldSession* const session)
         data << uint32(BuildChecksum(buff, 20));
         data.append(buff, 20);
     }
-    data << uint8(WARDS_DATA);
     {
+        data << uint8(WARDS_DATA);
         data << uint16(8);
         uint8 buff[8] =
         {
@@ -908,9 +818,9 @@ void WardenMgr::SendWardenData(WorldSession* const session)
         data << uint32(BuildChecksum(buff, 8));
         data.append(buff, 8);
     }
-    // Computed part for timing checks (did not exist on Offy 3.3.5a)
-    data << uint8(WARDS_DATA);
+    // Timing checks
     {
+        data << uint8(WARDS_DATA);
         data << uint16(8);
         uint8 buff[8] =
         {
@@ -922,7 +832,6 @@ void WardenMgr::SendWardenData(WorldSession* const session)
         data.append(buff, 8);
     }
 
-    data.hexlike();
     data.crypt(&session->m_rc4ServerKey[0], &rc4_crypt);
     session->SendPacket(&data);
 }
@@ -949,6 +858,155 @@ bool WardenMgr::ValidateTSeed(WorldSession* const session, const uint8 *codedCli
     return true;
 }
 
+WardenMgr::MemoryCheckEntry *WardenMgr::GetRandMemCheck()
+{
+    return &m_WardenMemoryChecks[urand(0, m_WardenMemoryChecks.size()-1)];
+}
+WardenMgr::MemoryCheckEntry *WardenMgr::GetRandMemDynCheck()
+{
+    return &m_WardenMemoryDynChecks[urand(0, m_WardenMemoryDynChecks.size()-1)];
+}
+WardenMgr::PageCheckEntry *WardenMgr::GetRandPageCheck(uint8 type)
+{
+    if (type == WARD_CHECK_PAGE_A)
+        return &m_WardenPageChecksA[urand(0, m_WardenPageChecksA.size()-1)];
+    else
+        return &m_WardenPageChecksB[urand(0, m_WardenPageChecksB.size()-1)];
+}
+WardenMgr::MPQCheckEntry *WardenMgr::GetRandMPQCheck()
+{
+    return &m_WardenMPQChecks[urand(0, m_WardenMPQChecks.size()-1)];
+}
+WardenMgr::LuaCheckEntry *WardenMgr::GetRandLuaCheck()
+{
+    return &m_WardenLuaChecks[urand(0, m_WardenLuaChecks.size()-1)];
+}
+WardenMgr::DriverCheckEntry *WardenMgr::GetRandDriverCheck()
+{
+    return &m_WardenDriverChecks[urand(0, m_WardenDriverChecks.size()-1)];
+}
+
+void WardenMgr::SendCheatCheck(WorldSession* const session)
+{
+    DEBUG_LOG("Wardend::SendCheatCheck(%u, *pkt)", session->GetAccountId());
+
+    std::string md5 = session->m_WardenModule;
+    if (!session->m_WardenClientChecks)
+    {
+        session->m_WardenClientChecks = new WardenClientCheckList;
+    }
+    // Type cast and get a shorter name
+    WardenClientCheckList* checkList = (WardenClientCheckList*)session->m_WardenClientChecks;
+
+    checkList->clear();
+    // Get the Seed 1st byte for the xoring
+    uint8 m_seed1 = session->m_wardenSeed[0];
+    DEBUG_LOG("Seed byte: 0x%02X, end byte: 0x%02X", m_seed1, m_WardenModuleMap[md5][WARD_CHECK_END]);
+
+    WorldPacket data( SMSG_WARDEN_DATA, 300 ); // Guess size
+    data << uint8(WARDS_CHEAT_CHECK);
+
+    // Rand a number of checks between 4 and 8 checks + the first time check + end packet
+    uint8 nbChecks = 0; //urand(4, 8);
+    checkList->resize(nbChecks);
+
+    for (uint8 i=0; i<nbChecks; ++i)
+    {
+        // We select one based on the ratio
+        float mRand = 99.0f; //rand_chance_f();
+        if (mRand < WCHECK_PAGE_B_RATIO)                 // size 29, no string both page1 and page2 tests
+        {
+            (*checkList)[i].check = urand(0,1)?WARD_CHECK_PAGE_A:WARD_CHECK_PAGE_B;
+            (*checkList)[i].page = GetRandPageCheck((*checkList)[i].check);
+        }
+        else if (mRand < WCHECK_MEMORY_RATIO)           // size 6, possible string
+        {
+            (*checkList)[i].check = WARD_CHECK_MEMORY;
+            (*checkList)[i].mem = GetRandMemCheck();
+            if ((*checkList)[i].mem->String.length())   // add 1 for the uint8 str length
+            {
+                data << uint8((*checkList)[i].mem->String.length());
+                data.append((*checkList)[i].mem->String.c_str() ,(*checkList)[i].mem->String.length());
+                DEBUG_LOG("Mem str %s, len %u", (*checkList)[i].mem->String.c_str(), (*checkList)[i].mem->String.length());
+            }
+        }
+        else if (mRand < WCHECK_DRIVER_RATIO)
+        {
+            (*checkList)[i].check = WARD_CHECK_DRIVER;  // size 25 + string
+            (*checkList)[i].driver = GetRandDriverCheck();
+            data << uint8((*checkList)[i].driver->String.length());
+            data.append((*checkList)[i].driver->String.c_str(), (*checkList)[i].driver->String.length());
+            DEBUG_LOG("Driver str %s, len %u", (*checkList)[i].driver->String.c_str(), (*checkList)[i].driver->String.length());
+        }
+        else if (mRand < WCHECK_MPQ_RATIO)
+        {
+            (*checkList)[i].check = WARD_CHECK_MPQ;    // size 1 + string
+            (*checkList)[i].file = GetRandMPQCheck();
+            data << uint8((*checkList)[i].file->String.length());
+            data.append((*checkList)[i].file->String.c_str(), (*checkList)[i].file->String.length());
+            DEBUG_LOG("File str %s, len %u", (*checkList)[i].file->String.c_str(), (*checkList)[i].file->String.length());
+        }
+        else
+        {
+            (*checkList)[i].check = WARD_CHECK_LUA;     // size 1 + string
+            (*checkList)[i].lua = GetRandLuaCheck();
+            data << uint8((*checkList)[i].lua->String.length());
+            data.append((*checkList)[i].lua->String.c_str(), (*checkList)[i].lua->String.length());
+            DEBUG_LOG("Lua str %s, len %u", (*checkList)[i].lua->String.c_str(), (*checkList)[i].lua->String.length());
+        }
+    }
+    // Strings terminator
+    data << uint8(0);
+    // We first add a timing check
+    data << uint8(m_WardenModuleMap[md5][WARD_CHECK_TIMING] ^ m_seed1);
+    // Finaly put the other checks
+    uint8 m_strIndex = 1;
+    DEBUG_LOG("Preparing %u checks", nbChecks);
+    for (uint8 i=0; i<nbChecks; ++i)
+    {
+        data << uint8(m_WardenModuleMap[md5][(*checkList)[i].check] ^ m_seed1);
+        switch ((*checkList)[i].check)
+        {
+            case WARD_CHECK_PAGE_A:
+            case WARD_CHECK_PAGE_B:
+                DEBUG_LOG("%u : %s", i, (*checkList)[i].check==WARD_CHECK_PAGE_A?"WARD_CHECK_PAGE_A":"WARD_CHECK_PAGE_B");
+                data << uint32((*checkList)[i].page->Seed);
+                data.append(&(*checkList)[i].page->SHA[0], 20);
+                data << uint32((*checkList)[i].page->Offset);
+                data << uint8((*checkList)[i].page->Length);
+                break;
+            case WARD_CHECK_MEMORY:
+                DEBUG_LOG("%u : WARD_CHECK_MEMORY", i);
+                if ((*checkList)[i].mem->String.length())
+                    data << uint8(m_strIndex++);
+                else
+                    data << uint8(0);
+                data << uint32((*checkList)[i].mem->Offset);
+                data << uint8((*checkList)[i].mem->Length);
+                break;
+            case WARD_CHECK_DRIVER:
+                DEBUG_LOG("%u : WARD_CHECK_DRIVER", i);
+                data << uint32((*checkList)[i].driver->Seed);
+                data.append(&(*checkList)[i].driver->SHA[0], 20);
+                data << uint8(m_strIndex++);
+                break;
+            case WARD_CHECK_MPQ:
+                DEBUG_LOG("%u : WARD_CHECK_FILE", i);
+                data << uint8(m_strIndex++);
+                break;
+            case WARD_CHECK_LUA:
+                DEBUG_LOG("%u : WARD_CHECK_LUA", i);
+                data << uint8(m_strIndex++);
+                break;
+        }
+    }
+    data << uint8(m_WardenModuleMap[md5][WARD_CHECK_END] ^ m_seed1);
+
+    data.hexlike();
+    data.crypt(&session->m_rc4ServerKey[0], &rc4_crypt);
+    session->SendPacket(&data);
+}
+
 bool WardenMgr::ValidateCheatCheckResult(WorldSession* const session, WorldPacket& clientPacket)
 {
     uint32 accountId = session->GetAccountId();
@@ -965,18 +1023,25 @@ bool WardenMgr::ValidateCheatCheckResult(WorldSession* const session, WorldPacke
         ReactToCheatCheckResult(session, false);
         return false;
     }
-
     if (pktLen==0)
+    {
+        DEBUG_LOG("Packet is 0 length");
+        session->m_BanRaison = "Warden error packet";
         return false;
+    }
 
+    bool localCheck = true;
     // parse the timing check always sent
     DEBUG_LOG("TimeCheck");
     uint8 res;
-    uint32 ticks;
+    uint32 clientTicks;
     clientPacket >> res; // should be 1
-    clientPacket >> ticks;
-    // Need to compare ticks based on last one using server ticks diff since
-    DEBUG_LOG("Time unk 0x%08X", ticks);
+    if (res == 0)
+    {
+        session->m_BanRaison = "Timing check returned an error";
+        DEBUG_LOG("  Timing check returned 0 result");
+        localCheck = false;
+    }
     pktLen = pktLen - 5;
 
     WardenClientCheckList* checkList = (WardenClientCheckList*)session->m_WardenClientChecks;
@@ -985,30 +1050,20 @@ bool WardenMgr::ValidateCheatCheckResult(WorldSession* const session, WorldPacke
 
     for (uint8 i=0; i<checkList->size(); ++i)
     {
-        bool localCheck = true;
         switch ((*checkList)[i].check)
         {
-            case WARD_CHECK_TIMING:
-            {
-                DEBUG_LOG("TimeCheck");
-                uint8 res;
-                uint32 ticks;
-                clientPacket >> res; // should be 1
-                clientPacket >> ticks;
-                // Need to compare ticks based on last one using server ticks diff since
-                DEBUG_LOG("Time unk 0x%08X", ticks);
-                pktLen = pktLen - 5;
-                break;
-            }
+            // case WARD_CHECK_TIMING: already managed and we don't experct more than one
             case WARD_CHECK_MEMORY:
             {
+                bool currentCheckValid = true;
                 DEBUG_LOG("MemCheck");
                 uint8 res;
                 clientPacket >> res; // should be 0
                 if (res)
                 {
                     localCheck = false;
-                    BASIC_LOG("Kicking account %u for failed check, MEM at Offset 0x%04X, lentgh %u could not be read by client", accountId, (*checkList)[i].mem->Offset, (*checkList)[i].mem->Length);
+                    currentCheckValid = false;
+                    BASIC_LOG("  Kicking account %u for failed check, MEM at Offset 0x%04X, lentgh %u could not be read by client", accountId, (*checkList)[i].mem->Offset, (*checkList)[i].mem->Length);
                 }
                 else
                 {
@@ -1017,28 +1072,33 @@ bool WardenMgr::ValidateCheatCheckResult(WorldSession* const session, WorldPacke
                         clientPacket >> memContent[pos];
                     if (memcmp(&memContent[0], &(*checkList)[i].mem->Result[0], (*checkList)[i].mem->Length))
                     {
-                        localCheck = false;
-                        std::string strContent, strContent2;
+                        //localCheck = false;
+                        std::string strContent, strContent2, strContent3;
                         hexEncodeByteArray(memContent, (*checkList)[i].mem->Length, strContent);
                         hexEncodeByteArray((*checkList)[i].mem->Result, (*checkList)[i].mem->Length, strContent2);
-                        BASIC_LOG("Kicking account %u for failed check, MEM Offset 0x%04X length %u has content '%s' instead of '%s'",
+                        strContent3 = (*checkList)[i].mem->Comment.size() ? string_format(" (%s)", (*checkList)[i].mem->Comment.c_str()) : "";
+                        session->m_BanRaison = string_format("Failed MEM check Offset 0x%04X length %u content '%s' instead of '%s'%s", 
+                            (*checkList)[i].mem->Offset, (*checkList)[i].mem->Length, strContent.c_str(), strContent2.c_str(), strContent3.c_str());
+                        BASIC_LOG("  Kicking account %u for failed check, MEM Offset 0x%04X length %u has content '%s' instead of '%s'",
                             accountId, (*checkList)[i].mem->Offset, (*checkList)[i].mem->Length, strContent.c_str(), strContent2.c_str());
                     }
                     pktLen = pktLen - (1 + (*checkList)[i].mem->Length);
                 }
-                DEBUG_LOG("Mem %s",localCheck?"Ok":"Failed");
+                DEBUG_LOG("  Mem %s",currentCheckValid?"Ok":"Failed");
                 break;
             }
-            case WARD_CHECK_FILE:
+            case WARD_CHECK_MPQ:
             {
                 DEBUG_LOG("MPQCheck");
+                bool currentCheckValid = true;
                 uint8 res;
                 uint8 resSHA1[20];
                 clientPacket >> res; // should be 0
                 if (res)
                 {
+                    currentCheckValid = false;
                     localCheck = false;
-                    BASIC_LOG("Kicking account %u for failed check, MPQ '%s' not found by client", accountId, (*checkList)[i].file->String.c_str());
+                    BASIC_LOG("  Kicking account %u for failed check, MPQ '%s' not found by client", accountId, (*checkList)[i].file->String.c_str());
                     pktLen = pktLen - 1;
                 }
                 else
@@ -1047,23 +1107,31 @@ bool WardenMgr::ValidateCheatCheckResult(WorldSession* const session, WorldPacke
                         clientPacket >> resSHA1[pos];
                     if (res || memcmp(resSHA1, (*checkList)[i].file->SHA, 20))
                     {
+                        currentCheckValid = false;
                         localCheck = false;
                         std::string strResSHA1, strReqSHA1;
                         hexEncodeByteArray(resSHA1, 20, strResSHA1);
                         hexEncodeByteArray((*checkList)[i].file->SHA, 20, strReqSHA1);
-                        BASIC_LOG("Kicking account %u for failed check, MPQ '%s' SHA1 is '%s' instead of '%s'", accountId, (*checkList)[i].file->String.c_str(), strResSHA1.c_str(), strReqSHA1.c_str());
+                        session->m_BanRaison = string_format("Failed MPQ check '%s' SHA1 is '%s' instead of '%s'", (*checkList)[i].file->String.c_str(), strResSHA1.c_str(), strReqSHA1.c_str());
+                        BASIC_LOG("  Kicking account %u for failed check, MPQ '%s' SHA1 is '%s' instead of '%s'", accountId, (*checkList)[i].file->String.c_str(), strResSHA1.c_str(), strReqSHA1.c_str());
                     }
                     pktLen = pktLen - 21;
                 }
-                DEBUG_LOG("MPQ %s",localCheck?"Ok":"Failed");
+                DEBUG_LOG("  MPQ %s",currentCheckValid?"Ok":"Failed");
                 break;
             }
             case WARD_CHECK_LUA:
             {
                 DEBUG_LOG("LUACheck");
+                bool currentCheckValid = true;
                 uint8 res;
                 uint8 foundLuaLen;
                 clientPacket >> res; // should be 0
+                if (res == 1)
+                {
+                    DEBUG_LOG("  LUA check Ok");
+                    continue;
+                }
                 clientPacket >> foundLuaLen; // should be 0
                 uint8 *luaStr;
                 if (foundLuaLen > 0)
@@ -1074,37 +1142,48 @@ bool WardenMgr::ValidateCheatCheckResult(WorldSession* const session, WorldPacke
                         clientPacket >> luaStr[pos];
                     }
                     luaStr[foundLuaLen] = 0;
-                    BASIC_LOG("Kicking account %u for failed check, Lua '%s' found as '%s'", accountId, (*checkList)[i].lua->String.c_str(), (char*)luaStr);
+                    session->m_BanRaison = string_format("Failed Lua check for '%s', '%s' found instead", (*checkList)[i].lua->String.c_str(), (char*)luaStr);
+                    BASIC_LOG("  Kicking account %u for failed check, Lua '%s' found as '%s'", accountId, (*checkList)[i].lua->String.c_str(), (char*)luaStr);
                     localCheck = false;
+                    currentCheckValid = false;
                     free(luaStr);
                 }
-                DEBUG_LOG("Lua %s",localCheck?"Ok":"Failed");
+                DEBUG_LOG("  Lua %s",currentCheckValid?"Ok":"Failed");
                 pktLen = pktLen - 2;
                 break;
             }
-            case WARD_CHECK_PAGE1:
-            case WARD_CHECK_PAGE2:
+            case WARD_CHECK_PAGE_A:
+            case WARD_CHECK_PAGE_B:
             case WARD_CHECK_DRIVER:
             {
                 DEBUG_LOG("PageCheck or DriverCheck");
+                bool currentCheckValid = true;
                 uint8 res;
                 clientPacket >> res; // should be 0xE9
                 if (res != 0xE9)
                 {
                     if ((*checkList)[i].check == WARD_CHECK_DRIVER)
-                        BASIC_LOG("Kicking account %u for failed driver check '%s'", accountId ,(*checkList)[i].driver->String.c_str());
+                    {
+                        session->m_BanRaison = string_format("Failed driver check '%s'", (*checkList)[i].driver->String.c_str());
+                        BASIC_LOG("  Kicking account %u for failed driver check '%s'", accountId ,(*checkList)[i].driver->String.c_str());
+                    }
                     else
-                        BASIC_LOG("Kicking account %u for failed page check Offset 0x%08X, length %u", accountId, (*checkList)[i].page->Offset, (*checkList)[i].page->Length);
+                    {
+                        session->m_BanRaison = string_format("Failed page check offset 0x%04X, length %u", (*checkList)[i].page->Offset, (*checkList)[i].page->Length);
+                        BASIC_LOG("  Kicking account %u for failed page check Offset 0x%08X, length %u", accountId, (*checkList)[i].page->Offset, (*checkList)[i].page->Length);
+                    }
                     localCheck = false;
+                    currentCheckValid = false;
                 }
-                DEBUG_LOG("Page or Driver %s",localCheck?"Ok":"Failed");
+                DEBUG_LOG("  Page or Driver %s",currentCheckValid?"Ok":"Failed");
                 pktLen = pktLen - 1;
                 break;
             }
             default:
                 DEBUG_LOG("Other!!");
                 // Finish skiping the rest of the packet and return failed checks
-                BASIC_LOG("Wrong packet for account %u or problem to parse it, I had to clean %u bytes", accountId, clientPacket.size() - clientPacket.rpos());
+                session->m_BanRaison = string_format("Invalid Warden packet , %u bytes could not be parsed", clientPacket.size() - clientPacket.rpos());
+                BASIC_LOG("  Wrong packet for account %u or problem to parse it, I had to clean %u bytes", accountId, clientPacket.size() - clientPacket.rpos());
                 clientPacket.read_skip(clientPacket.size() - clientPacket.rpos());
                 return false;
         }
@@ -1119,18 +1198,40 @@ void WardenMgr::ReactToCheatCheckResult(WorldSession* const session, bool result
     if (result)
     {
         session->m_wardenStatus = WARD_STATE_CHEAT_CHECK_IN;
-        const uint32 shortTime = urand(15, 25);                 // from 15 to 25 seconds
+        const uint32 shortTime = urand(25, 35);                 // from 25 to 35 seconds
         session->m_WardenTimer.SetInterval(shortTime * IN_MILLISECONDS);
         DEBUG_LOG("Timer set to %u seconds", shortTime);
         session->m_WardenTimer.SetCurrent(0);                   // Full time choosen
     }
     else
     {
+        if (session->_player)
+            session->_player->SaveToDB();
         if (m_Banning)
-            sWorld.BanAccount(session, sWorld.getConfig(CONFIG_UINT32_WARDEN_BAN_TIME) * 24 * HOUR, "Cheating software usage", "Warden System");
+            sWorld.BanAccount(session, sWorld.getConfig(CONFIG_UINT32_WARDEN_BAN_TIME) * 24 * HOUR, session->m_BanRaison.c_str(), "Warden System");
         else
             session->KickPlayer();
     }
+}
+
+// String format fonction, not related to Warden but useful
+std::string WardenMgr::string_format(const std::string fmt_str, ...) {
+    int final_n, n = ((int)fmt_str.size()) * 2; /* reserve 2 times as much as the length of the fmt_str */
+    std::string str;
+    std::unique_ptr<char[]> formatted;
+    va_list ap;
+    while(1) {
+        formatted.reset(new char[n]); /* wrap the plain char array into the unique_ptr */
+        strcpy(&formatted[0], fmt_str.c_str());
+        va_start(ap, fmt_str);
+        final_n = vsnprintf(&formatted[0], n, fmt_str.c_str(), ap);
+        va_end(ap);
+        if (final_n < 0 || final_n >= n)
+            n += abs(final_n - n + 1);
+        else
+            break;
+    }
+    return std::string(formatted.get());
 }
 
 /////////////////////////////
@@ -1152,14 +1253,15 @@ void WorldSession::HandleWardenDataOpcode(WorldPacket& recv_data)
 {
     if (sWardenMgr.IsEnabled())
     {
+        DETAIL_LOG("WARDEN: Receiver opcode CMSG_WARDEN_DATA");
         recv_data.crypt(m_rc4ClientKey, &rc4_crypt);
         uint8 warden_opcode;
         recv_data >> warden_opcode;
-        recv_data.hexlike();
+        //recv_data.hexlike();
         switch(warden_opcode)
         {
             case WARDC_MODULE_LOAD_FAILED:
-                DEBUG_LOG("Received the reply load failed");
+                DETAIL_LOG("WARDEN: sub-opcode WARDC_MODULE_LOAD_FAILED");
                 // We have to send the module
                 if (m_wardenStatus == WARD_STATE_LOAD_FAILED)
                 {
@@ -1174,7 +1276,7 @@ void WorldSession::HandleWardenDataOpcode(WorldPacket& recv_data)
                 }
                 break;
             case WARDC_MODULE_LOADED:
-                DEBUG_LOG("Received the reply module loaded");
+                DETAIL_LOG("WARDEN: sub-opcode WARDC_MODULE_LOADED");
                 // We go next step: Send a seed
                 sWardenMgr.SendSeedAndComputeKeys(this);
                 m_WardenTimer.SetInterval(5 * IN_MILLISECONDS);
@@ -1182,13 +1284,13 @@ void WorldSession::HandleWardenDataOpcode(WorldPacket& recv_data)
                 break;
             case WARDC_CHEAT_CHECK_RESULT:
             {
-                DEBUG_LOG("Received the cheat-check result");
+                DETAIL_LOG("WARDEN: sub-opcode WARDC_CHEAT_CHECK_RESULT");
                 bool result = sWardenMgr.ValidateCheatCheckResult(this, recv_data);
                 sWardenMgr.ReactToCheatCheckResult(this, result);   // This sets the timer if needed
                 break;
             }
             case WARDC_TRANSFORMED_SEED:
-                DEBUG_LOG("Received the transformed seed");
+                DETAIL_LOG("WARDEN: sub-opcode WARDC_TRANSFORMED_SEED");
                 // Let's validate this data
                 if (sWardenMgr.ValidateTSeed(this, recv_data.contents()+recv_data.rpos()))
                 {
@@ -1201,7 +1303,7 @@ void WorldSession::HandleWardenDataOpcode(WorldPacket& recv_data)
                 recv_data.read_skip(20);
                 break;
             default:
-                DEBUG_LOG("Problem with packet");
+                error_log("Problem with WARDEN packet");
         }
     }
     else
