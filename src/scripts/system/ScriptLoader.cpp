@@ -256,6 +256,7 @@ void AddSC_instance_dire_maul();
 void AddSC_boss_noxxion();                           // maraudon
 void AddSC_boss_onyxia();                            // onyxias_lair
 void AddSC_instance_onyxias_lair();
+void AddSC_npc_onyxian_warder();
 void AddSC_razorfen_downs();                         // razorfen_downs
 void AddSC_instance_razorfen_kraul();                // razorfen_kraul
 void AddSC_razorfen_kraul();
@@ -313,6 +314,7 @@ void AddKalimdorScripts()
     AddSC_boss_noxxion();                                   // maraudon
     AddSC_boss_onyxia();                                    // onyxias_lair
     AddSC_instance_onyxias_lair();
+    AddSC_npc_onyxian_warder();
     AddSC_razorfen_downs();                                 // razorfen_downs
     AddSC_instance_razorfen_kraul();                        // razorfen_kraul
     AddSC_razorfen_kraul();
