@@ -156,8 +156,8 @@ enum Target
 enum EventFlags
 {
     EFLAG_REPEATABLE            = 0x01,                     // Event repeats
-    EFLAG_RESERVED_1            = 0x02,
-    EFLAG_RESERVED_2            = 0x04,
+    EFLAG_NORMAL                = 0x02,                     // Event only occurs in Normal instance difficulty
+    EFLAG_HEROIC                = 0x04,                     // Event only occurs in Heroic instance difficulty
     EFLAG_RESERVED_3            = 0x08,                     // Used in master for difficulty 2
     EFLAG_RESERVED_4            = 0x10,                     // Used in master for difficulty 3
     EFLAG_RANDOM_ACTION         = 0x20,                     // Event only execute one from existed actions instead each action.

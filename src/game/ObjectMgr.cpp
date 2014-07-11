@@ -5084,15 +5084,15 @@ void ObjectMgr::LoadAreaTriggerTeleports()
 
         AreaTrigger at;
 
-        at.requiredLevel      = fields[1].GetUInt8();
-        at.requiredItem       = fields[2].GetUInt32();
-        at.requiredItem2      = fields[3].GetUInt32();
-        at.requiredQuest      = fields[4].GetUInt32();
-        at.target_mapId       = fields[5].GetUInt32();
-        at.target_X           = fields[6].GetFloat();
-        at.target_Y           = fields[7].GetFloat();
-        at.target_Z           = fields[8].GetFloat();
-        at.target_Orientation = fields[9].GetFloat();
+        at.requiredLevel        = fields[1].GetUInt8();
+        at.requiredItem         = fields[2].GetUInt32();
+        at.requiredItem2        = fields[3].GetUInt32();
+        at.requiredQuest        = fields[4].GetUInt32();
+        at.target_mapId         = fields[5].GetUInt32();
+        at.target_X             = fields[6].GetFloat();
+        at.target_Y             = fields[7].GetFloat();
+        at.target_Z             = fields[8].GetFloat();
+        at.target_Orientation   = fields[9].GetFloat();
 
         AreaTriggerEntry const* atEntry = sAreaTriggerStore.LookupEntry(Trigger_ID);
         if (!atEntry)

@@ -337,7 +337,7 @@ enum ConditionType
     CONDITION_RESERVED_4            = 34,                   // reserved for 3.x and later
     CONDITION_GENDER                = 35,                   // 0=male, 1=female, 2=none (see enum Gender)
     CONDITION_DEAD_OR_AWAY          = 36,                   // value1: 0=player dead, 1=player is dead (with group dead), 2=player in instance are dead, 3=creature is dead
-    // value2: if != 0 only consider players in range of this value
+                                                            // value2: if != 0 only consider players in range of this value
 };
 
 enum ConditionSource                                        // From where was the condition called?
@@ -733,9 +733,9 @@ class ObjectMgr
         uint32 GenerateStaticCreatureLowGuid() { if (m_StaticCreatureGuids.GetNextAfterMaxUsed() >= m_FirstTemporaryCreatureGuid) { return 0; } return m_StaticCreatureGuids.Generate(); }
         uint32 GenerateStaticGameObjectLowGuid() { if (m_StaticGameObjectGuids.GetNextAfterMaxUsed() >= m_FirstTemporaryGameObjectGuid) { return 0; } return m_StaticGameObjectGuids.Generate(); }
 
-        uint32 GeneratePlayerLowGuid() { return m_CharGuids.Generate(); }
-        uint32 GenerateItemLowGuid() { return m_ItemGuids.Generate(); }
-        uint32 GenerateCorpseLowGuid() { return m_CorpseGuids.Generate(); }
+        uint32 GeneratePlayerLowGuid()   { return m_CharGuids.Generate();     }
+        uint32 GenerateItemLowGuid()     { return m_ItemGuids.Generate();     }
+        uint32 GenerateCorpseLowGuid()   { return m_CorpseGuids.Generate();   }
 
         uint32 GenerateAuctionID() { return m_AuctionIds.Generate(); }
         uint32 GenerateGuildId() { return m_GuildIds.Generate(); }

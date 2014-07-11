@@ -215,7 +215,7 @@ class MailDraft
         MailDraft(std::string subject, uint32 itemTextId = 0)
             : m_mailTemplateId(0), m_mailTemplateItemsNeed(false), m_subject(subject), m_bodyId(itemTextId), m_money(0), m_COD(0) {}
         /**
-         * Creates a new MailDraft object using subject and contect texts.
+         * Creates a new MailDraft object using subject and content texts.
          *
          * @param subject The subject of the mail.
          * @param itemText The text of the body of the mail.

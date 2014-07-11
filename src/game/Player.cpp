@@ -13847,7 +13847,7 @@ bool Player::LoadFromDB(ObjectGuid guid, SqlQueryHolder* holder)
     return true;
 }
 
-bool Player::isTappedByMeOrMyGroup(Creature* creature)
+bool Player::IsTappedByMeOrMyGroup(Creature* creature)
 {
     /* Nobody tapped the monster (solo kill by another NPC) */
     if (!creature->HasFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_TAPPED))

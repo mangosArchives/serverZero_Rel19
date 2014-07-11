@@ -212,6 +212,7 @@ ObjectWorldLoader::Visit(CorpseMapType& m)
     CellPair cell_pair(x, y);
     uint32 cell_id = (cell_pair.y_coord * TOTAL_NUMBER_OF_CELLS_PER_MAP) + cell_pair.x_coord;
 
+    // corpses are always added to spawn mode 0 and they are spawned by their instance id
     CellObjectGuids const& cell_guids = sObjectMgr.GetCellObjectGuids(i_map->GetId(), cell_id);
     GridType& grid = (*i_map->getNGrid(i_cell.GridX(), i_cell.GridY()))(i_cell.CellX(), i_cell.CellY());
     LoadHelper(cell_guids.corpses, cell_pair, m, i_corpses, i_map, grid);

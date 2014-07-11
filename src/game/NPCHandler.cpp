@@ -126,7 +126,7 @@ static void SendTrainerSpellHelper(WorldPacket& data, TrainerSpell const* tSpell
 
     SpellChainNode const* chain_node = sSpellMgr.GetSpellChainNode(triggerSpell);
 
-    data << uint32(tSpell->spell);
+    data << uint32(tSpell->spell);                      // learned spell (or cast-spell in profession case)
     data << uint8(state == TRAINER_SPELL_GREEN_DISABLED ? TRAINER_SPELL_GREEN : state);
     data << uint32(floor(tSpell->spellCost * fDiscountMod));
 

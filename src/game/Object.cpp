@@ -449,7 +449,7 @@ void Object::BuildValuesUpdate(uint8 updatetype, ByteBuffer* data, UpdateMask* u
                             { send_value = send_value & ~UNIT_DYNFLAG_LOOTABLE; }
 
                     /* If we are allowed to loot it and mob is tapped by us, destroy the tapped flag */
-                    bool is_tapped = target->isTappedByMeOrMyGroup((Creature*)this);
+                    bool is_tapped = target->IsTappedByMeOrMyGroup((Creature*)this);
 
                     /* If the creature has tapped flag but is tapped by us, remove the flag */
                     if (send_value & UNIT_DYNFLAG_TAPPED && is_tapped)
