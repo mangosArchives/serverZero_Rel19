@@ -1,5 +1,8 @@
 /**
- * This code is part of MaNGOS. Contributor & Copyright details are in AUTHORS/THANKS.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
+ *
+ * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,6 +17,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * World of Warcraft, and all World of Warcraft or Warcraft art, images,
+ * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
 #include <fstream>
@@ -52,9 +58,9 @@ void extractDataFromSvn(FILE* EntriesFile, bool url, RawData& data)
     fgets(buf, 200, EntriesFile); sscanf(buf, "%10sT%8s", data.date_str, data.time_str);
 
     if (url)
-        sprintf(data.rev_str, "%s at %s", num_str, repo_str);
+        { sprintf(data.rev_str, "%s at %s", num_str, repo_str); }
     else
-        strcpy(data.rev_str, num_str);
+        { strcpy(data.rev_str, num_str); }
 }
 
 void extractDataFromGit(FILE* EntriesFile, std::string path, bool url, RawData& data)
@@ -111,13 +117,13 @@ void extractDataFromGit(FILE* EntriesFile, std::string path, bool url, RawData& 
 
         // can generate nice link
         if (res)
-            sprintf(data.rev_str, "http://%s/%s/%s/commit/%s", host_str, acc_str, repo_str, hash_str);
+            { sprintf(data.rev_str, "http://%s/%s/%s/commit/%s", host_str, acc_str, repo_str, hash_str); }
         // unknonw URL format, use as-is
         else
-            sprintf(data.rev_str, "%s at %s", hash_str, url_str);
+            { sprintf(data.rev_str, "%s at %s", hash_str, url_str); }
     }
     else
-        strcpy(data.rev_str, hash_str);
+        { strcpy(data.rev_str, hash_str); }
 
     time_t rev_time = 0;
     // extracting date/time
@@ -131,10 +137,10 @@ void extractDataFromGit(FILE* EntriesFile, std::string path, bool url, RawData& 
             int unix_time = 0;
             int res2 = sscanf(buf, "%s %s %s %s %i", buf2, new_hash, buf2, buf2, &unix_time);
             if (res2 != 5)
-                continue;
+                { continue; }
 
             if (strcmp(hash_str, new_hash))
-                continue;
+                { continue; }
 
             rev_time = unix_time;
             break;
@@ -171,7 +177,7 @@ bool extractDataFromSvn(std::string filename, bool url, RawData& data)
 {
     FILE* EntriesFile = fopen(filename.c_str(), "r");
     if (!EntriesFile)
-        return false;
+        { return false; }
 
     extractDataFromSvn(EntriesFile, url, data);
     fclose(EntriesFile);
@@ -182,7 +188,7 @@ bool extractDataFromGit(std::string filename, std::string path, bool url, RawDat
 {
     FILE* EntriesFile = fopen(filename.c_str(), "r");
     if (!EntriesFile)
-        return false;
+        { return false; }
 
     extractDataFromGit(EntriesFile, path, url, data);
     fclose(EntriesFile);
@@ -217,13 +223,13 @@ int main(int argc, char** argv)
     for (int k = 1; k <= argc; ++k)
     {
         if (!argv[k] || !*argv[k])
-            break;
+            { break; }
 
         if (argv[k][0] != '-')
         {
             path = argv[k];
             if (path.size() > 0 && (path[path.size() - 1] != '/' || path[path.size() - 1] != '\\'))
-                path += '/';
+                { path += '/'; }
             break;
         }
 
@@ -244,7 +250,7 @@ int main(int argc, char** argv)
             case 'o':
                 // read next argument as target file, if not available return error
                 if (++k == argc)
-                    return 1;
+                    { return 1; }
                 outfile = argv[k];
                 continue;
             default:
@@ -266,10 +272,10 @@ int main(int argc, char** argv)
             /// SVN data
             res = extractDataFromSvn(path + ".svn/entries", use_url, data);
             if (!res)
-                res = extractDataFromSvn(path + "_svn/entries", use_url, data);
+                { res = extractDataFromSvn(path + "_svn/entries", use_url, data); }
             // GIT data
             if (!res)
-                res = extractDataFromGit(path + ".git/FETCH_HEAD", path, use_url, data);
+                { res = extractDataFromGit(path + ".git/FETCH_HEAD", path, use_url, data); }
         }
         else
         {
@@ -277,15 +283,15 @@ int main(int argc, char** argv)
             res = extractDataFromGit(path + ".git/FETCH_HEAD", path, use_url, data);
             /// SVN data
             if (!res)
-                res = extractDataFromSvn(path + ".svn/entries", use_url, data);
+                { res = extractDataFromSvn(path + ".svn/entries", use_url, data); }
             if (!res)
-                res = extractDataFromSvn(path + "_svn/entries", use_url, data);
+                { res = extractDataFromSvn(path + "_svn/entries", use_url, data); }
         }
 
         if (res)
-            newData = generateHeader(data.rev_str, data.date_str, data.time_str);
+            { newData = generateHeader(data.rev_str, data.date_str, data.time_str); }
         else
-            newData = generateHeader("*", "*", "*");
+            { newData = generateHeader("*", "*", "*"); }
     }
 
     /// get existed header data for compare
@@ -297,7 +303,7 @@ int main(int argc, char** argv)
         {
             int c = fgetc(HeaderFile);
             if (c < 0)
-                break;
+                { break; }
             oldData += (char)c;
         }
 
@@ -313,7 +319,7 @@ int main(int argc, char** argv)
             fclose(OutputFile);
         }
         else
-            return 1;
+            { return 1; }
     }
 
     return 0;
