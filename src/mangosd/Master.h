@@ -26,8 +26,8 @@
 /// @{
 /// \file
 
-#ifndef _MASTER_H
-#define _MASTER_H
+#ifndef MANGOS_H_MASTER
+#define MANGOS_H_MASTER
 
 #include "Common.h"
 #include "Policies/Singleton.h"

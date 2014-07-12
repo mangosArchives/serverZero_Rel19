@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef _MAP_BUILDER_H
-#define _MAP_BUILDER_H
+#ifndef MANGOS_H_MAP_BUILDER
+#define MANGOS_H_MAP_BUILDER
 
 #include <vector>
 #include <set>

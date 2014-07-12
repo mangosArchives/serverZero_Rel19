@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef _INTERMEDIATE_VALUES_H
-#define _INTERMEDIATE_VALUES_H
+#ifndef MANGOS_H_INTERMEDIATE_VALUES
+#define MANGOS_H_INTERMEDIATE_VALUES
 
 #include <Recast.h>
 #include <DetourNavMesh.h>

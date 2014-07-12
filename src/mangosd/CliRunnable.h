@@ -26,8 +26,8 @@
 /// @{
 /// \file
 
-#ifndef __CLIRUNNABLE_H
-#define __CLIRUNNABLE_H
+#ifndef MANGOS_H_CLIRUNNABLE
+#define MANGOS_H_CLIRUNNABLE
 
 #include "Common.h"
 #include "Threading.h"

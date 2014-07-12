@@ -26,8 +26,8 @@
 /// @{
 /// \file
 
-#ifndef _AUTHSOCKET_H
-#define _AUTHSOCKET_H
+#ifndef MANGOS_H_AUTHSOCKET
+#define MANGOS_H_AUTHSOCKET
 
 #include "Common.h"
 #include "Auth/BigNumber.h"

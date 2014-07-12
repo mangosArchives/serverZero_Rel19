@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef _MMAP_MANGOS_MAP_H
-#define _MMAP_MANGOS_MAP_H
+#ifndef MANGOS_H_MMAP_MANGOS_MAP
+#define MANGOS_H_MMAP_MANGOS_MAP
 
 // following is copied from src/game/GridMap.h (too many useless includes there to use original file)
 namespace MaNGOS

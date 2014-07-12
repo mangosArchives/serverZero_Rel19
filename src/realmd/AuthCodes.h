@@ -26,8 +26,8 @@
     \ingroup realmd
 */
 
-#ifndef _AUTHCODES_H
-#define _AUTHCODES_H
+#ifndef MANGOS_H_AUTHCODES
+#define MANGOS_H_AUTHCODES
 
 /**
  * @brief

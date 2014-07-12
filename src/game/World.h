@@ -26,8 +26,8 @@
 /// @{
 /// \file
 
-#ifndef __WORLD_H
-#define __WORLD_H
+#ifndef MANGOS_H_WORLD
+#define MANGOS_H_WORLD
 
 #include "Common.h"
 #include "Timer.h"

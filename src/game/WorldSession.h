@@ -26,8 +26,8 @@
 /// @{
 /// \file
 
-#ifndef __WORLDSESSION_H
-#define __WORLDSESSION_H
+#ifndef MANGOS_H_WORLDSESSION
+#define MANGOS_H_WORLDSESSION
 
 #include "Common.h"
 #include "SharedDefines.h"

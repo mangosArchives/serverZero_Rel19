@@ -27,8 +27,8 @@
  * @{
  * \file
  */
-#ifndef __UNIT_H
-#define __UNIT_H
+#ifndef MANGOS_H_UNIT
+#define MANGOS_H_UNIT
 
 #include "Common.h"
 #include "Object.h"
