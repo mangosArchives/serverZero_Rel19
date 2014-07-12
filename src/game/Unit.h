@@ -2939,7 +2939,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @return true if this \ref Unit is alive, false otherwise
          */
         bool IsAlive() const { return (m_deathState == ALIVE); };
-        bool isDying() const { return (m_deathState == JUST_DIED); }
+        bool IsDying() const { return (m_deathState == JUST_DIED); }
         /**
          * Checks whether or not this \ref Unit is dead by checking the \ref Unit::m_deathState member
          * for the value \ref DeathState::DEAD or \ref DeathState::CORPSE
