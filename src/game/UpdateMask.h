@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef __UPDATEMASK_H
-#define __UPDATEMASK_H
+#ifndef MANGOS_H_UPDATEMASK
+#define MANGOS_H_UPDATEMASK
 
 #include "UpdateFields.h"
 #include "Errors.h"

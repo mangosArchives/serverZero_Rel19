@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef __REVISION_SQL_H__
-#define __REVISION_SQL_H__
+#ifndef MANGOS_H_REVISION_SQL
+#define MANGOS_H_REVISION_SQL
 #define REVISION_DB_CHARACTERS "required_19002_02_character_whispers"
  #define REVISION_DB_MANGOS "required_19003_02_mangos_command"
 #define REVISION_DB_REALMD "required_20140607_Realm_Resync"

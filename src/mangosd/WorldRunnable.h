@@ -26,8 +26,8 @@
 /// @{
 /// \file
 
-#ifndef __WORLDRUNNABLE_H
-#define __WORLDRUNNABLE_H
+#ifndef MANGOS_H_WORLDRUNNABLE
+#define MANGOS_H_WORLDRUNNABLE
 
 #include "Common.h"
 #include "Threading.h"

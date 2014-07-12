@@ -28,8 +28,8 @@
  * \author Derex <derex101@gmail.com>
  */
 
-#ifndef _WORLDSOCKET_H
-#define _WORLDSOCKET_H
+#ifndef MANGOS_H_WORLDSOCKET
+#define MANGOS_H_WORLDSOCKET
 
 #include <ace/Basic_Types.h>
 #include <ace/Synch_Traits.h>

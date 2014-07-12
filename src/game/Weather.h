@@ -26,8 +26,8 @@
 /// @{
 /// \file
 
-#ifndef __WEATHER_H
-#define __WEATHER_H
+#ifndef MANGOS_H_WEATHER
+#define MANGOS_H_WEATHER
 
 #include "Common.h"
 #include "SharedDefines.h"

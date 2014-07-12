@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef __SPELL_H
-#define __SPELL_H
+#ifndef MANGOS_H_SPELL
+#define MANGOS_H_SPELL
 
 #include "Common.h"
 #include "GridDefines.h"

@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef _OBJECT_H
-#define _OBJECT_H
+#ifndef MANGOS_H_OBJECT
+#define MANGOS_H_OBJECT
 
 #include "Common.h"
 #include "ByteBuffer.h"

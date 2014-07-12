@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef _AUTH_BIGNUMBER_H
-#define _AUTH_BIGNUMBER_H
+#ifndef MANGOS_H_AUTH_BIGNUMBER
+#define MANGOS_H_AUTH_BIGNUMBER
 
 #include "Common.h"
 

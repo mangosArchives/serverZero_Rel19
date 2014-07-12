@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef _MMAP_COMMON_H
-#define _MMAP_COMMON_H
+#ifndef MANGOS_H_MMAP_COMMON
+#define MANGOS_H_MMAP_COMMON
 
 // stop warning spam from ACE includes
 #ifdef WIN32

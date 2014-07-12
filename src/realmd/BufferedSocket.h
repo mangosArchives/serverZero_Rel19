@@ -26,8 +26,8 @@
   \ingroup realmd
   */
 
-#ifndef _BUFFEREDSOCKET_H_
-#define _BUFFEREDSOCKET_H_
+#ifndef MANGOS_H_BUFFEREDSOCKET
+#define MANGOS_H_BUFFEREDSOCKET
 
 #include <ace/Basic_Types.h>
 #include <ace/Synch_Traits.h>

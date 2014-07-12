@@ -26,8 +26,8 @@
   \ingroup realmd
   */
 
-#ifndef _PATCHHANDLER_H_
-#define _PATCHHANDLER_H_
+#ifndef MANGOS_H_PATCHHANDLER
+#define MANGOS_H_PATCHHANDLER
 
 #include <ace/Basic_Types.h>
 #include <ace/Synch_Traits.h>

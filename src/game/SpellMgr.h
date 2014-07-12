@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef _SPELLMGR_H
-#define _SPELLMGR_H
+#ifndef MANGOS_H_SPELLMGR
+#define MANGOS_H_SPELLMGR
 
 // For static or at-server-startup loaded spell data
 // For more high level function for sSpellStore data

@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef _SCRIPTMGR_H
-#define _SCRIPTMGR_H
+#ifndef MANGOS_H_SCRIPTMGR
+#define MANGOS_H_SCRIPTMGR
 
 #include "Common.h"
 #include "Policies/Singleton.h"
