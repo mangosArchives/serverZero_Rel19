@@ -296,7 +296,7 @@ set(GENREV_SRC
 )
 
 add_executable(genrev
-  "${GENREV_SRC}"
+  ${GENREV_SRC}
 )
 
 get_target_property(GENERATE_EXE genrev LOCATION)
