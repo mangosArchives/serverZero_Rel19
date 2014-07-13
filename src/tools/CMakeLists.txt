@@ -17,12 +17,14 @@
 #
 
 #Used by vmap-assembler and mmap-generator
-include_directories(${CMAKE_SOURCE_DIR}/src/shared)
-include_directories(${CMAKE_SOURCE_DIR}/src/game/vmap/)
-include_directories(${CMAKE_SOURCE_DIR}/dep/include/g3dlite/)
-include_directories(${CMAKE_SOURCE_DIR}/dep/ACE_wrappers/)
-include_directories(${CMAKE_SOURCE_DIR}/objdir/dep/ACE_wrappers)
-include_directories(${CMAKE_SOURCE_DIR}/src/framework/)
+include_directories(
+    "${CMAKE_SOURCE_DIR}/src/shared"
+    "${CMAKE_SOURCE_DIR}/src/game/vmap/"
+    "${CMAKE_SOURCE_DIR}/dep/include/g3dlite/"
+    "${CMAKE_SOURCE_DIR}/dep/ACE_wrappers/"
+    "${CMAKE_SOURCE_DIR}/objdir/dep/ACE_wrappers"
+    "${CMAKE_SOURCE_DIR}/src/framework/"
+)
 
 add_definitions(-DMMAP_GENERATOR -DNO_CORE_FUNCS)
 

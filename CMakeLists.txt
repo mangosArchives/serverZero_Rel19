@@ -23,8 +23,8 @@ project(MaNGOS)
 set(MANGOS_VERSION 0.19)
 
 set(CMAKE_MODULE_PATH
-  ${CMAKE_MODULE_PATH}
-  ${CMAKE_SOURCE_DIR}/cmake
+  "${CMAKE_MODULE_PATH}"
+  "${CMAKE_SOURCE_DIR}/cmake"
 )
 
 # define all options here
@@ -124,8 +124,8 @@ else()
 endif()
 
 # For Unix systems set the rpath so that libraries are found
-set(CMAKE_INSTALL_RPATH ${LIBS_DIR})
-set(CMAKE_INSTALL_NAME_DIR ${LIBS_DIR})
+set(CMAKE_INSTALL_RPATH "${LIBS_DIR}")
+set(CMAKE_INSTALL_NAME_DIR "${LIBS_DIR}")
 # Run out of build tree
 set(CMAKE_BUILD_WITH_INSTALL_RPATH OFF)
 
@@ -152,12 +152,12 @@ endif()
 
 # Win32 delivered packages
 if(WIN32)
-  set(MYSQL_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/dep/include/mysql)
-  set(MYSQL_LIBRARY ${CMAKE_SOURCE_DIR}/dep/lib/libmySQL.lib)
-  set(MYSQL_DEBUG_LIBRARY ${CMAKE_SOURCE_DIR}/dep/lib/libmySQL.lib)
-  set(OPENSSL_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/dep/include/openssl)
-  set(OPENSSL_LIBRARIES ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libeay32.lib)
-  set(OPENSSL_DEBUG_LIBRARIES ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libeay32.lib)
+  set(MYSQL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/dep/include/mysql")
+  set(MYSQL_LIBRARY "${CMAKE_SOURCE_DIR}/dep/lib/libmySQL.lib")
+  set(MYSQL_DEBUG_LIBRARY "${CMAKE_SOURCE_DIR}/dep/lib/libmySQL.lib")
+  set(OPENSSL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/dep/include/openssl")
+  set(OPENSSL_LIBRARIES "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libeay32.lib")
+  set(OPENSSL_DEBUG_LIBRARIES "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libeay32.lib")
   # zlib is build
 endif()
 
@@ -237,8 +237,8 @@ else()
 endif()
 
 if(DEBUG)
-  message(STATUS "Build in debug-mode   : Yes")
   set(CMAKE_BUILD_TYPE Debug)
+  message(STATUS "Build in debug-mode   : Yes")
 else()
   set(CMAKE_BUILD_TYPE Release)
   message(STATUS "Build in debug-mode   : No  (default)")
@@ -287,7 +287,7 @@ endif()
 
 set(CMAKE_SKIP_BUILD_RPATH FALSE)
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-set(CMAKE_INSTALL_RPATH ${LIBS_DIR})
+set(CMAKE_INSTALL_RPATH "${LIBS_DIR}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # Generate revision-extractor
@@ -296,7 +296,7 @@ set(GENREV_SRC
 )
 
 add_executable(genrev
-  ${GENREV_SRC}
+  "${GENREV_SRC}"
 )
 
 get_target_property(GENERATE_EXE genrev LOCATION)
@@ -309,15 +309,15 @@ add_custom_target("revision.h" ALL
 if(WIN32)
   install(
     FILES
-      ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libeay32.dll
-      ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libmySQL.dll
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libeay32.dll"
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libmySQL.dll"
     DESTINATION ${LIBS_DIR}
     CONFIGURATIONS Release
   )
   install(
     FILES
-      ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libeay32.dll
-      ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libmySQL.dll
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libeay32.dll"
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libmySQL.dll"
     DESTINATION ${LIBS_DIR}
     CONFIGURATIONS Debug
   )
@@ -325,13 +325,13 @@ if(WIN32)
     # Copy dll's Windows needs
     install(
       FILES
-        ${CMAKE_SOURCE_DIR}/dep/lib/win32_release/dbghelp.dll
+        "${CMAKE_SOURCE_DIR}/dep/lib/win32_release/dbghelp.dll"
       DESTINATION ${LIBS_DIR}
       CONFIGURATIONS Release
     )
     install(
       FILES
-        ${CMAKE_SOURCE_DIR}/dep/lib/win32_debug/dbghelp.dll
+        "${CMAKE_SOURCE_DIR}/dep/lib/win32_debug/dbghelp.dll"
       DESTINATION ${LIBS_DIR}
       CONFIGURATIONS Debug
     )
@@ -346,7 +346,7 @@ if(XCODE)
   endif()
 endif()
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake" "${CMAKE_CURRENT_BINARY_DIR}/config.h")
 
 add_subdirectory(dep)
 
