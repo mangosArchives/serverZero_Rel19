@@ -40,20 +40,20 @@ if(WIN32)
 endif()
 
 include_directories(
-  ${CMAKE_SOURCE_DIR}/src/shared
-  ${CMAKE_SOURCE_DIR}/dep/include/gsoap
-  ${CMAKE_SOURCE_DIR}/src/framework
-  ${CMAKE_SOURCE_DIR}/src/game
-  ${CMAKE_BINARY_DIR}
-  ${CMAKE_BINARY_DIR}/src/shared
-  ${ACE_INCLUDE_DIR}
-  ${OPENSSL_INCLUDE_DIR}
+  "${CMAKE_SOURCE_DIR}/src/shared"
+  "${CMAKE_SOURCE_DIR}/dep/include/gsoap"
+  "${CMAKE_SOURCE_DIR}/src/framework"
+  "${CMAKE_SOURCE_DIR}/src/game"
+  "${CMAKE_BINARY_DIR}"
+  "${CMAKE_BINARY_DIR}/src/shared"
+  "${ACE_INCLUDE_DIR}"
+  "${OPENSSL_INCLUDE_DIR}"
 )
 
 if(POSTGRESQL)
-  include_directories(${PGSQL_INCLUDE_DIR})
+  include_directories("${PGSQL_INCLUDE_DIR}")
 else()
-  include_directories(${MYSQL_INCLUDE_DIR})
+  include_directories("${MYSQL_INCLUDE_DIR}")
 endif()
 
 add_executable(${EXECUTABLE_NAME}
@@ -111,10 +111,10 @@ set_target_properties(${EXECUTABLE_NAME} PROPERTIES LINK_FLAGS
   "${EXECUTABLE_LINK_FLAGS}"
 )
 
-install(TARGETS ${EXECUTABLE_NAME} DESTINATION ${BIN_DIR})
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mangosd.conf.dist.in ${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist DESTINATION ${CONF_DIR})
+install(TARGETS ${EXECUTABLE_NAME} DESTINATION "${BIN_DIR}")
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mangosd.conf.dist.in" "${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist")
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist" DESTINATION "${CONF_DIR}")
 
 if(WIN32 AND MSVC)
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/\${BUILD_TYPE}/${EXECUTABLE_NAME}.pdb DESTINATION ${BIN_DIR} CONFIGURATIONS Debug)
+  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/\${BUILD_TYPE}/${EXECUTABLE_NAME}.pdb" DESTINATION "${BIN_DIR}" CONFIGURATIONS Debug)
 endif()

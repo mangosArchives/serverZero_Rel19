@@ -32,17 +32,17 @@ if(WIN32 AND MSVC)
 endif()
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_SOURCE_DIR}/src/shared
-    ${CMAKE_SOURCE_DIR}/src/game
-    ${CMAKE_SOURCE_DIR}/src/game/vmap
-    ${CMAKE_SOURCE_DIR}/dep/include/g3dlite
-    ${CMAKE_SOURCE_DIR}/dep/ACE_wrappers
-    ${CMAKE_BINARY_DIR}/dep/ACE_wrappers
-    ${CMAKE_SOURCE_DIR}/src/framework
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Include
-    ${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Include
-    ${CMAKE_SOURCE_DIR}/dep/src/zlib
+    "${CMAKE_SOURCE_DIR}/src"
+    "${CMAKE_SOURCE_DIR}/src/shared"
+    "${CMAKE_SOURCE_DIR}/src/game"
+    "${CMAKE_SOURCE_DIR}/src/game/vmap"
+    "${CMAKE_SOURCE_DIR}/dep/include/g3dlite"
+    "${CMAKE_SOURCE_DIR}/dep/ACE_wrappers"
+    "${CMAKE_BINARY_DIR}/dep/ACE_wrappers"
+    "${CMAKE_SOURCE_DIR}/src/framework"
+    "${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Include"
+    "${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Include"
+    "${CMAKE_SOURCE_DIR}/dep/src/zlib"
 )
 
 set(SOURCES
@@ -57,4 +57,4 @@ add_executable(${EXECUTABLE_NAME} ${SOURCES})
 
 target_link_libraries(${EXECUTABLE_NAME} g3dlite vmap detour recast zlib shared)
 
-install(TARGETS ${EXECUTABLE_NAME} DESTINATION ${BIN_DIR}/${TOOLS_DIR})
+install(TARGETS ${EXECUTABLE_NAME} DESTINATION "${BIN_DIR}/${TOOLS_DIR}")

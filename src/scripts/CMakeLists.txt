@@ -173,7 +173,7 @@ set(sources_instance_ek_scholo
 # revision.h: FORCE
 #   $(top_builddir)/src/tools/genrevision/genrevision $(srcdir)
 
-file(GLOB_RECURSE mangosscript_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp *.h)
+file(GLOB_RECURSE mangosscript_SRCS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *.cpp *.h)
 
 source_group("Other"
   REGULAR_EXPRESSION .*
@@ -390,20 +390,20 @@ mangos_source_group(${mangosscript_LIB_SRCS})
 # mangos_source_group_topic(${sources_raid_k_taq} "Raids\\Temple of AhnQiraj")
 
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/base
-  ${CMAKE_CURRENT_SOURCE_DIR}/include
-  ${CMAKE_SOURCE_DIR}/src/shared
-  ${CMAKE_SOURCE_DIR}/src/framework
-  ${CMAKE_SOURCE_DIR}/src/game
-  ${CMAKE_SOURCE_DIR}/dep/include
-  ${CMAKE_BINARY_DIR}
-  ${ACE_INCLUDE_DIR}
-  ${MYSQL_INCLUDE_DIR}
+  "${CMAKE_CURRENT_SOURCE_DIR}/base"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include"
+  "${CMAKE_SOURCE_DIR}/src/shared"
+  "${CMAKE_SOURCE_DIR}/src/framework"
+  "${CMAKE_SOURCE_DIR}/src/game"
+  "${CMAKE_SOURCE_DIR}/dep/include"
+  "${CMAKE_BINARY_DIR}"
+  "${ACE_INCLUDE_DIR}"
+  "${MYSQL_INCLUDE_DIR}"
 )
 
 if(PCH)
   include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}
+    "${CMAKE_CURRENT_BINARY_DIR}"
   )
 endif()
 
@@ -481,14 +481,14 @@ if(PCH)
     if(MSVC)
       set(mangosscript_pch "${CMAKE_CURRENT_SOURCE_DIR}/include/precompiled.cpp")
     endif()
-    add_native_precompiled_header(mangosscript ${CMAKE_CURRENT_SOURCE_DIR}/include/precompiled.h)
+    add_native_precompiled_header(mangosscript "${CMAKE_CURRENT_SOURCE_DIR}/include/precompiled.h")
   elseif(CMAKE_COMPILER_IS_GNUCXX)
-    add_precompiled_header(mangosscript ${CMAKE_CURRENT_SOURCE_DIR}/include/precompiled.h)
+    add_precompiled_header(mangosscript "${CMAKE_CURRENT_SOURCE_DIR}/include/precompiled.h")
   endif()
 endif()
 
 # LIBRARY = dyld / so, RUNTIME = dll
 install(TARGETS mangosscript
-  LIBRARY DESTINATION ${LIBS_DIR}
-  RUNTIME DESTINATION ${LIBS_DIR}
+  LIBRARY DESTINATION "${LIBS_DIR}"
+  RUNTIME DESTINATION "${LIBS_DIR}"
 )
