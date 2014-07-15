@@ -42,7 +42,6 @@ add_subdirectory(framework)
 # Build the mangos-zero shared library
 add_subdirectory(shared)
 
-
 #-----------------------------------------------------------------------------
 # Build the mangos-zero game library
 add_subdirectory(game)
@@ -56,8 +55,10 @@ add_subdirectory(realmd)
 add_subdirectory(mangosd)
 
 #-----------------------------------------------------------------------------
-# Should have a check for if we're building tools aswell here
-add_subdirectory(tools)
+# If we want the tools for map/vmap/mmap extraction
+if(BUILD_TOOLS)
+    add_subdirectory(tools)
+endif()
 
 #-----------------------------------------------------------------------------
 # Build the mangos-zero script library

@@ -28,10 +28,11 @@ set(CMAKE_MODULE_PATH
 )
 
 # define all options here
-option(DEBUG                "Debug mode"                            OFF)
-option(USE_STD_MALLOC       "Use standard malloc instead of TBB"    ON)
-option(ACE_USE_EXTERNAL     "Use external ACE"                      OFF)
-option(POSTGRESQL           "Use PostgreSQL"                        OFF)
+option(DEBUG                "Debug mode"                             OFF)
+option(USE_STD_MALLOC       "Use standard malloc instead of TBB"     ON)
+option(ACE_USE_EXTERNAL     "Use external ACE"                       OFF)
+option(POSTGRESQL           "Use PostgreSQL"                         OFF)
+option(BUILD_TOOLS          "Build tools (map/vmap/mmap extractors)" OFF)
 
 if(PCHSupport_FOUND AND WIN32) # TODO: why only enable it on windows by default?
   option(PCH                "Use precompiled headers"               ON)
@@ -42,7 +43,6 @@ endif()
 #option(CLI                  "With CLI"                              ON)
 #option(RA                   "With Remote Access"                    OFF)
 #option(SQL                  "Copy SQL files"                        OFF)
-#option(TOOLS                "Build tools"                           OFF)
 
 # Output description of this script
 message("")
@@ -54,6 +54,7 @@ message(
     DEBUG                   Debug mode
     USE_STD_MALLOC          Use standard malloc instead of TBB
     ACE_USE_EXTERNAL        Use external ACE
+    BUILD_TOOLS             Build map/vmap/mmap extractors
   To set an option simply type -D<OPTION>=<VALUE> after 'cmake <srcs>'.
   Also, you can specify the generator with -G. see 'cmake --help' for more details
   For example: cmake .. -DDEBUG=1 -DCMAKE_INSTALL_PREFIX=/opt/mangos"
@@ -223,6 +224,12 @@ message(STATUS "Install server to     : ${CMAKE_INSTALL_PREFIX}")
 #   message(STATUS "* Build with RA         : No  (default)")
 # endif(RA)
 
+if(BUILD_TOOLS)
+  message(STATUS "Build tools           : Yes")
+else()
+  message(STATUS "Build tools           : No (default)")
+endif()
+
 if(PCH AND NOT PCHSupport_FOUND)
   set(PCH 0 CACHE BOOL
     "Use precompiled headers"
@@ -269,12 +276,6 @@ endif()
 #   message(STATUS "Install SQL-files     : Yes")
 # else()
 #   message(STATUS "Install SQL-files     : No  (default)")
-# endif()
-
-# if(TOOLS)
-#   message(STATUS "Build map/vmap tools  : Yes")
-# else()
-#   message(STATUS "Build map/vmap tools  : No  (default)")
 # endif()
 
 # Some small tweaks for Visual Studio 7 and above.
