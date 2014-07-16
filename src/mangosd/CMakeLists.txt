@@ -19,8 +19,6 @@ set(EXECUTABLE_NAME mangosd)
 set(EXECUTABLE_SRCS
     CliRunnable.cpp
     CliRunnable.h
-    MaNGOSsoap.cpp
-    MaNGOSsoap.h
     Main.cpp
     Master.cpp
     Master.h
@@ -28,27 +26,37 @@ set(EXECUTABLE_SRCS
     RASocket.h
     WorldRunnable.cpp
     WorldRunnable.h
-    soapC.cpp
-    soapH.h
-    soapServer.cpp
-    soapStub.h
-   )
+)
+
+if(SOAP)
+    LIST(APPEND EXECUTABLE_SRCS
+        MaNGOSsoap.cpp
+        MaNGOSsoap.h
+        soapC.cpp
+        soapH.h
+        soapServer.cpp
+        soapStub.h
+    )
+endif()
 
 if(WIN32)
-  # add resource file to windows build
-  set(EXECUTABLE_SRCS ${EXECUTABLE_SRCS} mangosd.rc)
+    # add resource file to windows build
+    set(EXECUTABLE_SRCS ${EXECUTABLE_SRCS} mangosd.rc)
 endif()
 
 include_directories(
-  "${CMAKE_SOURCE_DIR}/src/shared"
-  "${CMAKE_SOURCE_DIR}/dep/include/gsoap"
-  "${CMAKE_SOURCE_DIR}/src/framework"
-  "${CMAKE_SOURCE_DIR}/src/game"
-  "${CMAKE_BINARY_DIR}"
-  "${CMAKE_BINARY_DIR}/src/shared"
-  "${ACE_INCLUDE_DIR}"
-  "${OPENSSL_INCLUDE_DIR}"
+    "${CMAKE_SOURCE_DIR}/src/shared"
+    "${CMAKE_SOURCE_DIR}/src/framework"
+    "${CMAKE_SOURCE_DIR}/src/game"
+    "${CMAKE_BINARY_DIR}"
+    "${CMAKE_BINARY_DIR}/src/shared"
+    "${ACE_INCLUDE_DIR}"
+    "${OPENSSL_INCLUDE_DIR}"
 )
+
+if(SOAP)
+    include_directories("${CMAKE_SOURCE_DIR}/dep/include/gsoap")
+endif()
 
 if(POSTGRESQL)
   include_directories("${PGSQL_INCLUDE_DIR}")
@@ -62,18 +70,23 @@ add_executable(${EXECUTABLE_NAME}
 
 add_dependencies(${EXECUTABLE_NAME} revision.h)
 if(NOT ACE_USE_EXTERNAL)
-  add_dependencies(${EXECUTABLE_NAME} ACE_Project)
-# add_dependencies(${EXECUTABLE_NAME} ace)
+    add_dependencies(${EXECUTABLE_NAME} ACE_Project)
+    #add_dependencies(${EXECUTABLE_NAME} ace)
 endif()
 
 target_link_libraries(${EXECUTABLE_NAME}
-  game
-  shared
-  framework
-  g3dlite
-  gsoap
-  ${ACE_LIBRARIES}
+    game
+    shared
+    framework
+    g3dlite
+    ${ACE_LIBRARIES}
 )
+
+if(SOAP)
+    target_link_libraries(${EXECUTABLE_NAME}
+        gsoap
+    )
+endif()
 
 if(WIN32)
   target_link_libraries(${EXECUTABLE_NAME}

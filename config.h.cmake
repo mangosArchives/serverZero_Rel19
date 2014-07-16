@@ -29,6 +29,8 @@
 
 #cmakedefine USE_MULTI_THREAD_MAP
 
+#cmakedefine ENABLE_SOAP
+
 #define VERSION "${MANGOS_VERSION}"
 
 #endif /* HAVE_CONFIG_H */
