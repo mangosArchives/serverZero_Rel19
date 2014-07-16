@@ -32,6 +32,7 @@ option(DEBUG                "Debug mode"                            OFF)
 option(USE_STD_MALLOC       "Use standard malloc instead of TBB"    ON)
 option(ACE_USE_EXTERNAL     "Use external ACE"                      OFF)
 option(POSTGRESQL           "Use PostgreSQL"                        OFF)
+option(SOAP                 "Enable SOAP (used for remote access)"  OFF)
 
 if(PCHSupport_FOUND AND WIN32) # TODO: why only enable it on windows by default?
   option(PCH                "Use precompiled headers"               ON)
@@ -54,6 +55,7 @@ message(
     DEBUG                   Debug mode
     USE_STD_MALLOC          Use standard malloc instead of TBB
     ACE_USE_EXTERNAL        Use external ACE
+    SOAP                    Enable use of SOAP, used for remote access and API's
   To set an option simply type -D<OPTION>=<VALUE> after 'cmake <srcs>'.
   Also, you can specify the generator with -G. see 'cmake --help' for more details
   For example: cmake .. -DDEBUG=1 -DCMAKE_INSTALL_PREFIX=/opt/mangos"
@@ -344,6 +346,13 @@ if(XCODE)
   else()
     set(CMAKE_OSX_ARCHITECTURES x86_64)
   endif()
+endif()
+
+# This is used by config.h.cmake
+if (SOAP)
+  set(ENABLE_SOAP ON)
+else()
+  set(ENABLE_SOAP OFF)
 endif()
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake" "${CMAKE_CURRENT_BINARY_DIR}/config.h")

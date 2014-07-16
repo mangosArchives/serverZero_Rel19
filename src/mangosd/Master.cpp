@@ -307,7 +307,12 @@ int Master::Run()
         runnable->setListenArguments(sConfig.GetStringDefault("SOAP.IP", "127.0.0.1"), sConfig.GetIntDefault("SOAP.Port", 7878));
         soap_thread = new ACE_Based::Thread(runnable);
     }
-#endif
+#else /* ENABLE_SOAP */
+    if (sConfig.GetBoolDefault("SOAP.Enabled", false))
+    {
+        sLog.outError("SOAP is enabled but wasn't included during compilation, not activating it.");
+    }
+#endif /* ENABLE_SOAP */
 
     ///- Start up freeze catcher thread
     ACE_Based::Thread* freeze_thread = NULL;
