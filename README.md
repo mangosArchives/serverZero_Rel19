@@ -2,6 +2,7 @@
 [![](/icons/FORUM.gif)](https://www.getmangos.eu/forum.php)
 [![](/icons/WIKI.gif)](http://github.com/mangoswiki/wiki/wiki)
 [![](/icons/TOOLS.gif)](http://github.com/mangostools)
+[![](/icons/TRACKER.gif)](https://www.getmangos.eu/project.php)
 [![Build status](https://travis-ci.org/mangoszero/server.png)][16]
 
 MangosZero 
