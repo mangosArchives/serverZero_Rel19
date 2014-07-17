@@ -207,9 +207,9 @@
     <ClCompile Include="..\..\src\game\WardenMgr.cpp">
       <Filter>World/Handlers</Filter>
     </ClCompile>
-	<ClCompile Include="..\..\src\game\WaypointManager.cpp">
+    <ClCompile Include="..\..\src\game\WaypointManager.cpp">
       <Filter>World/Handlers</Filter>
-    </ClCompile>	
+    </ClCompile>
     <ClCompile Include="..\..\src\game\Weather.cpp">
       <Filter>World/Handlers</Filter>
     </ClCompile>
@@ -602,7 +602,7 @@
     <ClInclude Include="..\..\src\game\UpdateData.h">
       <Filter>World/Handlers</Filter>
     </ClInclude>
-	<ClInclude Include="..\..\src\game\WardenMgr.h">
+    <ClInclude Include="..\..\src\game\WardenMgr.h">
       <Filter>World/Handlers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\game\WaypointManager.h">

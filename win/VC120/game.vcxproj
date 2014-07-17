@@ -484,7 +484,7 @@
     <ClCompile Include="..\..\src\game\Transports.cpp" />
     <ClCompile Include="..\..\src\game\Unit.cpp" />
     <ClCompile Include="..\..\src\game\UpdateData.cpp" />
-	<ClCompile Include="..\..\src\game\WardenMgr.cpp" />
+    <ClCompile Include="..\..\src\game\WardenMgr.cpp" />
     <ClCompile Include="..\..\src\game\WaypointManager.cpp" />
     <ClCompile Include="..\..\src\game\WaypointMovementGenerator.cpp" />
     <ClCompile Include="..\..\src\game\Weather.cpp" />
@@ -655,7 +655,7 @@
     <ClInclude Include="..\..\src\game\UpdateData.h" />
     <ClInclude Include="..\..\src\game\UpdateFields.h" />
     <ClInclude Include="..\..\src\game\UpdateMask.h" />
-	<ClInclude Include="..\..\src\game\WardenMgr.h" />
+    <ClInclude Include="..\..\src\game\WardenMgr.h" />
     <ClInclude Include="..\..\src\game\WaypointManager.h" />
     <ClInclude Include="..\..\src\game\WaypointMovementGenerator.h" />
     <ClInclude Include="..\..\src\game\Weather.h" />
