@@ -66,7 +66,7 @@
 #pragma pack(push,1)
 #define PACK_STRUCT
 #else
-#error "pack_begin.h may not be included twice!"
+//#error "pack_begin.h may not be included twice!"
 /* we assume GNU here */
 #define PACK_STRUCT __attribute__((packed))
 #endif
