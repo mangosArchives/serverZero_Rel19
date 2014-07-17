@@ -25,7 +25,8 @@
 #endif
 
 #ifdef _MSC_VER
-    #pragma pack(pop)
+#error "We should not be using these now"
+#pragma pack(pop)
 #endif
 
 #undef PACK_STRUCT

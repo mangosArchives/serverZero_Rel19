@@ -25,9 +25,11 @@
 #endif
 
 #ifdef _MSC_VER
+    #error "We should not be using these now"
     #pragma pack(push,1)
     #define PACK_STRUCT
 #else
+    #error "We should not be using these now"
     /* we assume GNU here */
     #define PACK_STRUCT __attribute__((packed))
 #endif
