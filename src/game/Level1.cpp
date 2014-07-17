@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -160,32 +160,43 @@ bool ChatHandler::HandleGMCommand(char* args)
     if (!*args)
     {
         if (m_session->GetPlayer()->isGameMaster())
-            { m_session->SendNotification(LANG_GM_ON); }
+        { 
+            m_session->SendNotification(LANG_GM_ON); 
+        }
         else
-            { m_session->SendNotification(LANG_GM_OFF); }
+        {
+            m_session->SendNotification(LANG_GM_OFF);
+        }
         return true;
     }
 
-    bool value;
-    if (!ExtractOnOff(&args, value))
-    {
-        SendSysMessage(LANG_USE_BOL);
-        SetSentErrorMessage(true);
-        return false;
-    }
+    std::string argstr = (char*)args;
 
-    if (value)
+    if (argstr == "on")
     {
         m_session->GetPlayer()->SetGameMaster(true);
         m_session->SendNotification(LANG_GM_ON);
+#ifdef _DEBUG_VMAPS
+        VMAP::IVMapManager *vMapManager = VMAP::VMapFactory::createOrGetVMapManager();
+        vMapManager->processCommand("stoplog");
+#endif
+        return true;
     }
-    else
+
+    if (argstr == "off")
     {
         m_session->GetPlayer()->SetGameMaster(false);
         m_session->SendNotification(LANG_GM_OFF);
+#ifdef _DEBUG_VMAPS
+        VMAP::IVMapManager *vMapManager = VMAP::VMapFactory::createOrGetVMapManager();
+        vMapManager->processCommand("startlog");
+#endif
+        return true;
     }
 
-    return true;
+    SendSysMessage(LANG_USE_BOL);
+    SetSentErrorMessage(true);
+    return false;
 }
 
 // Enables or disables hiding of the staff badge

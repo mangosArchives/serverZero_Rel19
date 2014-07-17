@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef __MANGOS_LANGUAGE_H
-#define __MANGOS_LANGUAGE_H
+#ifndef MANGOS_H_MANGOS_LANGUAGE
+#define MANGOS_H_MANGOS_LANGUAGE
 
 enum MangosStrings
 {
@@ -1021,7 +1021,11 @@ enum MangosStrings
     LANG_NPC_EVENTAI_MOVE               = 1507,
     LANG_NPC_EVENTAI_COMBAT             = 1508,
     LANG_POOL_ENTRY_LOWER_MAX_POOL      = 1509,
-    // Room for more Level 2              1510-1599 not used
+    LANG_COMMAND_TICKETCLOSED_NAME      = 1510,
+    LANG_COMMAND_TICKETS_SYSTEM_ON      = 1511,
+    LANG_COMMAND_TICKETS_SYSTEM_OFF     = 1512,
+    LANG_COMMAND_TICKET_CANT_CLOSE      = 1513,
+    // Room for more Level 2              1514-1599 not used
 
     // Outdoor PvP
     LANG_OPVP_EP_CAPTURE_NPT_H          = 1600,

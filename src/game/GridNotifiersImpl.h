@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -292,6 +292,71 @@ void MaNGOS::WorldObjectSearcher<Check>::Visit(DynamicObjectMapType& m)
         { return; }
 
     for (DynamicObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    {
+        if (i_check(itr->getSource()))
+        {
+            i_object = itr->getSource();
+            return;
+        }
+    }
+}
+
+template<class Check>
+void MaNGOS::WorldObjectLastSearcher<Check>::Visit(GameObjectMapType& m)
+{
+    for (GameObjectMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
+    {
+        if (i_check(itr->getSource()))
+        {
+            i_object = itr->getSource();
+            return;
+        }
+    }
+}
+
+template<class Check>
+void MaNGOS::WorldObjectLastSearcher<Check>::Visit(PlayerMapType& m)
+{
+    for (PlayerMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
+    {
+        if (i_check(itr->getSource()))
+        {
+            i_object = itr->getSource();
+            return;
+        }
+    }
+}
+
+template<class Check>
+void MaNGOS::WorldObjectLastSearcher<Check>::Visit(CreatureMapType& m)
+{
+    for (CreatureMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
+    {
+        if (i_check(itr->getSource()))
+        {
+            i_object = itr->getSource();
+            return;
+        }
+    }
+}
+
+template<class Check>
+void MaNGOS::WorldObjectLastSearcher<Check>::Visit(CorpseMapType& m)
+{
+    for (CorpseMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
+    {
+        if (i_check(itr->getSource()))
+        {
+            i_object = itr->getSource();
+            return;
+        }
+    }
+}
+
+template<class Check>
+void MaNGOS::WorldObjectLastSearcher<Check>::Visit(DynamicObjectMapType& m)
+{
+    for (DynamicObjectMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
     {
         if (i_check(itr->getSource()))
         {

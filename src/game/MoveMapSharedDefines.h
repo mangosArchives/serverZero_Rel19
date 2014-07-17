@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -22,14 +22,14 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef _MOVE_MAP_SHARED_DEFINES_H
-#define _MOVE_MAP_SHARED_DEFINES_H
+#ifndef MANGOS_H_MOVE_MAP_SHARED_DEFINES
+#define MANGOS_H_MOVE_MAP_SHARED_DEFINES
 
 #include "../recastnavigation/Detour/Include/DetourNavMesh.h"
 #include "Platform/Define.h"
 
 #define MMAP_MAGIC 0x4d4d4150   // 'MMAP'
-#define MMAP_VERSION 3
+#define MMAP_VERSION 4
 
 struct MmapTileHeader
 {

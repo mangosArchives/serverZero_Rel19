@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -28,8 +28,8 @@
  *  \author Derex <derex101@gmail.com>
  */
 
-#ifndef __WORLDSOCKETMGR_H
-#define __WORLDSOCKETMGR_H
+#ifndef MANGOS_H_WORLDSOCKETMGR
+#define MANGOS_H_WORLDSOCKETMGR
 
 #include <ace/Basic_Types.h>
 #include <ace/Singleton.h>

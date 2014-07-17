@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -41,6 +41,8 @@
 #include "Spell.h"
 #include "GuildMgr.h"
 #include "Chat.h"
+#include "Item.h"
+#include "LuaEngine.h"
 
 enum StableResultCode
 {
@@ -124,7 +126,7 @@ static void SendTrainerSpellHelper(WorldPacket& data, TrainerSpell const* tSpell
 
     SpellChainNode const* chain_node = sSpellMgr.GetSpellChainNode(triggerSpell);
 
-    data << uint32(tSpell->spell);
+    data << uint32(tSpell->spell);                      // learned spell (or cast-spell in profession case)
     data << uint8(state == TRAINER_SPELL_GREEN_DISABLED ? TRAINER_SPELL_GREEN : state);
     data << uint32(floor(tSpell->spellCost * fDiscountMod));
 
@@ -403,6 +405,29 @@ void WorldSession::HandleGossipSelectOptionOpcode(WorldPacket& recv_data)
 
         if (!sScriptMgr.OnGossipSelect(_player, pGo, sender, action, code.empty() ? NULL : code.c_str()))
             { _player->OnGossipSelect(pGo, gossipListId); }
+    }
+    else if (guid.IsItem())
+    {
+        Item* item = GetPlayer()->GetItemByGuid(guid);
+        if (!item)
+        {
+            DEBUG_LOG("WORLD: HandleGossipSelectOptionOpcode - %s not found or you can't interact with it.", guid.GetString().c_str());
+            return;
+        }
+
+        // Used by Eluna
+        sEluna->HandleGossipSelectOption(GetPlayer(), item, GetPlayer()->PlayerTalkClass->GossipOptionSender(gossipListId), GetPlayer()->PlayerTalkClass->GossipOptionAction(gossipListId), code);
+    }
+    else if (guid.IsPlayer())
+    {
+        if (GetPlayer()->GetGUIDLow() != guid)
+        {
+            DEBUG_LOG("WORLD: HandleGossipSelectOptionOpcode - %s not found or you can't interact with it.", guid.GetString().c_str());
+            return;
+        }
+
+        // Used by Eluna
+        sEluna->HandleGossipSelectOption(GetPlayer(), GetPlayer()->PlayerTalkClass->GetGossipMenu().GetMenuId(), GetPlayer()->PlayerTalkClass->GossipOptionSender(gossipListId), GetPlayer()->PlayerTalkClass->GossipOptionAction(gossipListId), code);
     }
 }
 

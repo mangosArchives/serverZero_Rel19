@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -26,8 +26,8 @@
 /// @{
 /// \file
 
-#ifndef __WEATHER_H
-#define __WEATHER_H
+#ifndef MANGOS_H_WEATHER
+#define MANGOS_H_WEATHER
 
 #include "Common.h"
 #include "SharedDefines.h"
@@ -58,7 +58,7 @@ class Weather
 {
     public:
         Weather(uint32 zone, WeatherZoneChances const* weatherChances);
-        ~Weather() { };
+        ~Weather();
         bool ReGenerate();
         bool UpdateWeather();
         void SendWeatherUpdateToPlayer(Player* player);

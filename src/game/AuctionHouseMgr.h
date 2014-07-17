@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -35,8 +35,8 @@
  */
 
 
-#ifndef _AUCTION_HOUSE_MGR_H
-#define _AUCTION_HOUSE_MGR_H
+#ifndef MANGOS_H_AUCTION_HOUSE_MGR
+#define MANGOS_H_AUCTION_HOUSE_MGR
 
 #include "Common.h"
 #include "SharedDefines.h"
@@ -112,11 +112,11 @@ class AuctionHouseObject
 {
     public:
         AuctionHouseObject() {}
-        ~AuctionHouseObject()
-        {
-            for (AuctionEntryMap::const_iterator itr = AuctionsMap.begin(); itr != AuctionsMap.end(); ++itr)
-                { delete itr->second; }
-        }
+        ~AuctionHouseObject();
+        //{
+        //    for (AuctionEntryMap::const_iterator itr = AuctionsMap.begin(); itr != AuctionsMap.end(); ++itr)
+        //        { delete itr->second; }
+        //}
 
         typedef std::map<uint32, AuctionEntry*> AuctionEntryMap;
         typedef std::pair<AuctionEntryMap::const_iterator, AuctionEntryMap::const_iterator> AuctionEntryMapBounds;

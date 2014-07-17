@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -132,80 +132,32 @@ struct friend_
 /* Called by WorldSession::HandlePlayerLogin */
 void PlayerSocial::SendFriendList()
 {
-    /* Make sure the player ID is actually valid */
     Player* plr = sObjectMgr.GetPlayer(ObjectGuid(HIGHGUID_PLAYER, m_playerLowGuid));
-
-    /* The ID is NOT valid, so just return */
     if (!plr)
-    {
         return;
-    }
 
-    uint32 packet_size = 0;
-
-    /* * * * * * * * * * * * * * * * *
-     * * START OF PACKET STRUCTURE * *
-     * * * * * * * * * * * * * * * * */
-
-    /* Returns the number of friends on the player's social map */
     uint32 size = GetNumberOfSocialsWithFlag(SOCIAL_FLAG_FRIEND);
-    std::vector<friend_> friends_to_send;
-    /* * * * * * * * * * * * * * * * *
-     * *  END OF PACKET STRUCTURE  * *
-     * * * * * * * * * * * * * * * * */
 
-    /* for each person on the player's social map */
+    WorldPacket data(SMSG_FRIEND_LIST, (1 + size * 25)); // just can guess size
+    data << uint8(size);                                   // friends count
+
     for (PlayerSocialMap::iterator itr = m_playerSocialMap.begin(); itr != m_playerSocialMap.end(); ++itr)
     {
-        /* If the person is a friend */
-        if (itr->second.Flags & SOCIAL_FLAG_FRIEND)
+        if (itr->second.Flags & SOCIAL_FLAG_FRIEND)         // if IsFriend()
         {
-            /* Get information about them and store it in itr */
             sSocialMgr.GetFriendInfo(plr, itr->first, itr->second);
 
-            friend_ my_friend;
-
-            my_friend.guid = ObjectGuid(HIGHGUID_PLAYER, itr->first); // GUID
-            my_friend.status = uint8(itr->second.Status);             // Status (Offline, Online, AFK, DND)
-
-            /* used to calculate packet size */
-            packet_size += 9;
-
-            /* If friend is online, we have more data to send */
-            if (itr->second.Status != FRIEND_STATUS_OFFLINE)
+            data << ObjectGuid(HIGHGUID_PLAYER, itr->first);// player guid
+            data << uint8(itr->second.Status);              // online/offline/etc?
+            if (itr->second.Status)                         // if online
             {
-                /* we have more data to send */
-                packet_size += 12;
-                my_friend.area   = uint32(itr->second.Area);  // Player area
-                my_friend.level  = uint32(itr->second.Level); // Player level
-                my_friend.class_ = uint32(itr->second.Class); // Player class
+                data << uint32(itr->second.Area);           // player area
+                data << uint32(itr->second.Level);          // player level
+                data << uint32(itr->second.Class);          // player class
             }
-
-            /* Queue up packet */
-            friends_to_send.push_back(my_friend);
         }
     }
 
-    WorldPacket data(SMSG_FRIEND_LIST, (1 +            // Number of friends
-                                        packet_size)); // 9 bytes if offline, 21 if online
-    // uint64 guid
-    // uint8 isOnline
-    // uint32 area
-    // uint32 level
-    // uint32 class
-
-    data << uint8(size);                                   // friends count
-    for (int i = 0; i < friends_to_send.size(); ++i)
-    {
-        data << friends_to_send[i].guid;
-        data << friends_to_send[i].status;
-        if (friends_to_send[i].status != FRIEND_STATUS_OFFLINE)
-        {
-            data << friends_to_send[i].area;
-            data << friends_to_send[i].level;
-            data << friends_to_send[i].class_;
-        }
-    }
     plr->GetSession()->SendPacket(&data);
     DEBUG_LOG("WORLD: Sent SMSG_FRIEND_LIST");
 }

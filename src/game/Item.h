@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -142,9 +142,9 @@ enum SellResult
 // -1 from client enchantment slot number
 enum EnchantmentSlot
 {
-    PERM_ENCHANTMENT_SLOT       = 0,
-    TEMP_ENCHANTMENT_SLOT       = 1,
-    MAX_INSPECTED_ENCHANTMENT_SLOT = 2,
+    PERM_ENCHANTMENT_SLOT           = 0,
+    TEMP_ENCHANTMENT_SLOT           = 1,
+    MAX_INSPECTED_ENCHANTMENT_SLOT  = 2,
 
     PROP_ENCHANTMENT_SLOT_0     = 3,                        // used with RandomSuffix
     PROP_ENCHANTMENT_SLOT_1     = 4,                        // used with RandomSuffix
@@ -240,6 +240,7 @@ class MANGOS_DLL_SPEC Item : public Object
         Item* CloneItem(uint32 count, Player const* player = NULL) const;
 
         Item();
+        ~Item();
 
         virtual bool Create(uint32 guidlow, uint32 itemid, Player const* owner);
 
@@ -259,7 +260,12 @@ class MANGOS_DLL_SPEC Item : public Object
         void DeleteFromInventoryDB();
         void LoadLootFromDB(Field* fields);
 
+        Bag* ToBag() { if (IsBag()) return reinterpret_cast<Bag*>(this); else return NULL; }
+        const Bag* ToBag() const { if (IsBag()) return reinterpret_cast<const Bag*>(this); else return NULL; }
+
+        bool IsLocked() const { return !HasFlag(ITEM_FIELD_FLAGS, ITEM_DYNFLAG_UNLOCKED); }
         bool IsBag() const { return GetProto()->InventoryType == INVTYPE_BAG; }
+        bool IsNotEmptyBag() const;
         bool IsBroken() const { return GetUInt32Value(ITEM_FIELD_MAXDURABILITY) > 0 && GetUInt32Value(ITEM_FIELD_DURABILITY) == 0; }
         bool CanBeTraded() const;
         void SetInTrade(bool b = true) { mb_in_trade = b; }
@@ -331,6 +337,8 @@ class MANGOS_DLL_SPEC Item : public Object
         bool HasInvolvedQuest(uint32 /*quest_id*/) const override { return false; }
         bool IsPotion() const { return GetProto()->IsPotion(); }
         bool IsConjuredConsumable() const { return GetProto()->IsConjuredConsumable(); }
+        bool IsWeaponVellum() const { return GetProto()->IsWeaponVellum(); }
+        bool IsArmorVellum() const { return GetProto()->IsArmorVellum(); }
 
         void AddToClientUpdateList() override;
         void RemoveFromClientUpdateList() override;

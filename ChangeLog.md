@@ -3,7 +3,7 @@ MaNGOS Zero Changelog
 This change log references the relevant changes (bug and security fixes) done
 in recent versions.
 
-0.19 (2014-06-01) - Ludas Legacy
+0.19 (2014-07-09) - Ludas Legacy
 --------------------------------
 Major changes for this build which require your attention when upgrading include:
 
@@ -13,6 +13,7 @@ Many Thanks to all the groups and individuals who contributed to this release.
   version was unwieldy for a majority of windows users and some devs !.
 * In the win folder there is a new solution "BuildEverything" which does just that.
   It builds the Core, Extraction Tools and Scripts library.
+* From this release Eluna scripting has been added. Many thanks to the Eluna Team
 
 * Add a configurable delay between when a creature respawns 
 * Add clang to the compiler list.

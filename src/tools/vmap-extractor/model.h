@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -50,7 +50,7 @@ class Model
 {
     public:
         ModelHeader header; /**< TODO */
-        ModelVertex* origVertices; /**< TODO */
+        ModelBoundingVertex* boundingVertices; /**< TODO */
         Vec3D* vertices; /**< TODO */
         uint16* indices; /**< TODO */
         size_t nIndices; /**< TODO */

@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -26,8 +26,8 @@
 /// @{
 /// \file
 
-#ifndef __WORLDSESSION_H
-#define __WORLDSESSION_H
+#ifndef MANGOS_H_WORLDSESSION
+#define MANGOS_H_WORLDSESSION
 
 #include "Common.h"
 #include "SharedDefines.h"
@@ -144,6 +144,7 @@ class MANGOS_DLL_SPEC WorldSession
         void SendNotification(int32 string_id, ...);
         void SendPetNameInvalid(uint32 error, const std::string& name);
         void SendPartyResult(PartyOperation operation, const std::string& member, PartyResult res);
+        void SendGuildInvite(Player* player, bool alreadyInGuild = false);
         void SendAreaTriggerMessage(const char* Text, ...) ATTR_PRINTF(2, 3);
         void SendTransferAborted(uint32 mapid, uint8 reason, uint8 arg = 0);
         void SendQueryTimeResponse();
@@ -354,14 +355,15 @@ class MANGOS_DLL_SPEC WorldSession
         void HandleLogoutRequestOpcode(WorldPacket& recvPacket);
         void HandlePlayerLogoutOpcode(WorldPacket& recvPacket);
         void HandleLogoutCancelOpcode(WorldPacket& recvPacket);
+        
         void HandleGMTicketGetTicketOpcode(WorldPacket& recvPacket);
         void HandleGMTicketCreateOpcode(WorldPacket& recvPacket);
         void HandleGMTicketSystemStatusOpcode(WorldPacket& recvPacket);
-
+        void SendGMTicketStatusUpdate(GMTicketStatus statusCode);
         void HandleGMTicketDeleteTicketOpcode(WorldPacket& recvPacket);
         void HandleGMTicketUpdateTextOpcode(WorldPacket& recvPacket);
 
-        void HandleGMSurveySubmitOpcode(WorldPacket& recvPacket);
+        void HandleGMTicketSurveySubmitOpcode(WorldPacket& recvPacket);
 
         void HandleTogglePvP(WorldPacket& recvPacket);
 

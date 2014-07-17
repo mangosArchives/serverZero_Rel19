@@ -44,7 +44,8 @@ ConfVersion=2014060701
 #       ScriptDev2DatabaseConnections
 #		 Amount of connections to database which will be used for SELECT queries. Maximum 16 connections per database.
 #		 Please, note, for data consistency only one connection for each database is used for transactions and async SELECTs.
-#		 So formula to find out how many connections will be established: X = �_connections + 1
+#		 So formula to find out how many connections will be established:
+#                X = LoginDatabaseConnections + WorldDatabaseConnections + CharacterDatabaseConnections + 1
 #		 Default: 1 connection for SELECT statements
 #
 #    MaxPingTime
@@ -67,7 +68,7 @@ LogsDir                      = ""
 LoginDatabaseInfo            = "127.0.0.1;3306;mangos;mangos;realmd"
 WorldDatabaseInfo            = "127.0.0.1;3306;mangos;mangos;mangos"
 CharacterDatabaseInfo        = "127.0.0.1;3306;mangos;mangos;characters"
-ScriptDev2DatabaseInfo       = "127.0.0.1;3306;mangos;mangos;scriptdev2"
+ScriptDev2DatabaseInfo       = "127.0.0.1;3306;mangos;mangos;mangos"
 LoginDatabaseConnections     = 1
 WorldDatabaseConnections     = 1
 CharacterDatabaseConnections = 1
@@ -293,6 +294,12 @@ CleanCharacterDB                  = 1
 #        Default: 0 - include in log if log level permit
 #                 1 - not include with any log level
 #
+#    LogWhispers
+#        Log whispers between players to database, character.character_whispers
+#                 0 - Don't log anything
+#        Default: 1 - Only log GM tickets responses and the following conversation until closing the ticket
+#                 2 - Log all whispers
+#
 #    WorldLogFile
 #        Packet logging file for the worldserver
 #        Default: ""          - no log file created
@@ -306,6 +313,10 @@ CleanCharacterDB                  = 1
 #    DBErrorLogFile
 #        Log file of DB errors detected at server run
 #        Default: "DBErrors.log"
+#
+#    ElunaErrorLogFile
+#        Log file of Eluna errors detected at server run
+#        Default: "ElunaErrors.log"
 #
 #    EventAIErrorLogFile
 #        Log file of EventAI errors detected at server run
@@ -381,9 +392,11 @@ LogFilter_PlayerStats       = 0
 LogFilter_Damage            = 0
 LogFilter_Combat            = 0
 LogFilter_SpellCast         = 0
+LogWhispers                 = 1
 WorldLogFile                = "world-packets.log"
 WorldLogTimestamp           = 0
 DBErrorLogFile              = "world-database.log"
+ElunaErrorLogFile 			= "ElunaErrors.log"
 EventAIErrorLogFile         = "world-eventai.log"
 CharLogFile                 = "world-characters.log"
 CharLogTimestamp            = 0
@@ -1579,3 +1592,19 @@ Wardend.Ban = 1
 Wardend.BanLength = 1
 Wardend.Address = "127.0.0.1"
 Wardend.Port = 6555
+
+###################################################################################################################
+# ELUNA SETTINGS
+#
+#    Eluna.Enabled
+#        Enable Enabled Eluna LuaEngine
+#        Default: 1 (Enabled)
+#                 0 (Disabled)
+#
+#    Eluna.ScriptPath
+#        Default: "lua_scripts"
+#
+###################################################################################################################
+
+Eluna.Enabled = 1
+Eluna.ScriptPath = ""

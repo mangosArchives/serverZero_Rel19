@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -145,6 +145,10 @@ class Log : public MaNGOS::Singleton<Log, MaNGOS::ClassLevelLockable<Log, ACE_Th
                 { fclose(dberLogfile); }
             dberLogfile = NULL;
 
+            if (elunaErrLogfile != NULL)
+                fclose(elunaErrLogfile);
+            elunaErrLogfile = NULL;
+
             if (eventAiErLogfile != NULL)
                 { fclose(eventAiErLogfile); }
             eventAiErLogfile = NULL;
@@ -233,6 +237,18 @@ class Log : public MaNGOS::Singleton<Log, MaNGOS::ClassLevelLockable<Log, ACE_Th
          * @param str...
          */
         void outChar(const char* str, ...)        ATTR_PRINTF(2, 3);
+        /**
+         * @brief any log level
+         *
+         * @param str...
+         */
+        void outErrorEluna();
+        /**
+         * @brief any log level
+         *
+         * @param str...
+         */
+        void outErrorEluna(const char* str, ...)        ATTR_PRINTF(2, 3);
         /**
          * @brief any log level
          *
@@ -401,6 +417,7 @@ class Log : public MaNGOS::Singleton<Log, MaNGOS::ClassLevelLockable<Log, ACE_Th
         FILE* gmLogfile; /**< TODO */
         FILE* charLogfile; /**< TODO */
         FILE* dberLogfile; /**< TODO */
+        FILE* elunaErrLogfile; /**< TODO */
         FILE* eventAiErLogfile; /**< TODO */
         FILE* scriptErrLogFile; /**< TODO */
         FILE* worldLogfile; /**< TODO */

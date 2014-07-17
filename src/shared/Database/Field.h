@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -107,6 +107,8 @@ class Field
          * @return bool
          */
         bool GetBool() const { return mValue ? atoi(mValue) > 0 : false; }
+        double GetDouble() const { return mValue ? static_cast<double>(atof(mValue)) : 0.0f; }
+        int8 GetInt8() const { return mValue ? static_cast<int8>(atol(mValue)) : int8(0); }
         /**
          * @brief
          *
@@ -147,6 +149,15 @@ class Field
             uint64 value = 0;
             if (!mValue || sscanf(mValue, UI64FMTD, &value) == -1)
                 { return 0; }
+
+            return value;
+        }
+
+        uint64 GetInt64() const
+        {
+            int64 value = 0;
+            if (!mValue || sscanf(mValue, SI64FMTD, &value) == -1)
+                return 0;
 
             return value;
         }

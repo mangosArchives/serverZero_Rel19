@@ -28,6 +28,21 @@ USE_MMAPS="0"
 USE_MMAPS_OFFMESH="0"
 USE_MMAPS_DELAY=""
 
+DisplayHeader()
+{
+	clear
+	echo "  __  __      _  _  ___  ___  ___      "
+	echo " |  \\/  |__ _| \\| |/ __|/ _ \\/ __|  "                                         
+	echo " | |\\/| / _\` | .\` | (_ | (_) \\__ \\"
+	echo " |_|  |_\\__,_|_|\\_|\\___|\\___/|___/ "
+	echo "                                       "
+	echo " For help and support please visit:    " 
+	echo " Website: https://getmangos.eu         "
+	echo "    Wiki: http://github.com/mangoswiki "
+	echo "======================================="
+
+}
+
 if [ "$1" = "a" ]
 then
 	## extract all
@@ -37,9 +52,12 @@ then
 	USE_MMAPS_DELAY="no"
 else
 	## do some questioning!
-	echo
-	echo "Welcome to helper script to extract required data for MaNGOS!"
-	echo "Should all data (dbc, maps, vmaps and mmaps be extracted? (y/n)- Selecting n will give you the option to pick each step"
+    DisplayHeader
+	echo "  Welcome to the MaNGOS Zero Extraction helper script !"
+    echo "=========================================================="	
+    echo
+	echo "Should all data (dbc, maps, vmaps and mmaps be extracted ?"
+	echo "(Selecting n will give you the option to pick each step) (y/n):"
 	read line
 	if [ "$line" = "y" ]
 	then
@@ -48,24 +66,30 @@ else
 		USE_VMAPS="1"
 		USE_MMAPS="1"
 	else
+        DisplayHeader
 		echo
-		echo "Should dbc and maps be extracted? (y/n)"
+		echo "Should dbc and maps be extracted? (y/n):"
 		read line
 		if [ "$line" = "y" ]; then USE_AD="1"; fi
 
+        DisplayHeader
 		echo
-		echo "Should vmaps be extracted? (y/n)"
+		echo "Should vmaps be extracted? (y/n):"
 		read line
 		if [ "$line" = "y" ]; then USE_VMAPS="1"; fi
 
+        DisplayHeader
 		echo
-		echo "Should mmaps be extracted? (y/n)"
-		echo "WARNING! This will take several hours! (you can later tell to start delayed)"
+		echo "WARNING! Extracting mmaps will take several hours!"
+		echo "(you can later tell the extractor to delay starting)"
+		echo
+		echo "Should mmaps be extracted? (y/n):"
 		read line
 		if [ "$line" = "y" ]
 		then
 			USE_MMAPS="1";
 		else
+			echo
 			echo "Only reextract offmesh tiles for mmaps?"
 			read line
 			if [ "$line" = "y" ]
@@ -88,6 +112,8 @@ fi
 if [ "$USE_MMAPS" = "1" ]
 then
 	## Obtain number ob processes
+    DisplayHeader
+    echo
 	echo "How many CPUs should be used for extracting mmaps? (1-4)"
 	read line
 	echo
@@ -100,10 +126,15 @@ then
 	fi
 	## Extract MMaps delayed?
 	if [ "$USE_MMAPS_DELAY" != "no" ]; then
+        DisplayHeader
+        echo
 		echo "MMap extraction can be started delayed"
-		echo "If you do _not_ want MMap Extraction to start delayed, just press return"
-		echo "Else enter number followed by s for seconds, m for minutes, h for hours"
+		echo
+		echo "If you *do not* want MMap Extraction to start delayed, just press return"
+		echo
+		echo "Otherwise enter a number followed by s for seconds, m for minutes, h for hours"
 		echo "Example: \"3h\" - will start mmap extraction in 3 hours"
+		echo
 		read -p"MMap Extraction Delay (leave blank for direct extraction): " USE_MMAPS_DELAY
 		echo
 	else
@@ -112,14 +143,21 @@ then
 fi
 
 ## Give some status
-echo "Current Settings: Extract DBCs/maps: $USE_AD, Extract vmaps: $USE_VMAPS, Extract mmaps: $USE_MMAPS on $NUM_CPU processes"
+DisplayHeader
+echo
+echo "Current Extraction Settings: DBCs/maps: $USE_AD"
+echo "                                 vmaps: $USE_VMAPS"
+echo "                                 mmaps: $USE_MMAPS using $NUM_CPU processes"
 if [ "$USE_MMAPS_DELAY" != "" ]; then
-	echo "MMap Extraction will be started delayed by $USE_MMAPS_DELAY"
+	echo
+	echo "MMap Extraction will be started delayed by: $USE_MMAPS_DELAY"
 fi
 echo
 if [ "$1" != "a" ]
 then
-	echo "If you don't like this settings, interrupt with CTRL+C"
+	echo "If you don't like these settings, interrupt with CTRL+C"
+	echo
+	echo "Press any key to proceed"
 	read line
 fi
 
@@ -184,3 +222,4 @@ then
 	fi
 	sh MoveMapGen.sh $NUM_CPU $LOG_FILE $DETAIL_LOG_FILE
 fi
+

@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef _PLAYER_H
-#define _PLAYER_H
+#ifndef MANGOS_H_PLAYER
+#define MANGOS_H_PLAYER
 
 #include "Common.h"
 #include "ItemPrototype.h"
@@ -44,6 +44,7 @@
 #include "DBCStores.h"
 #include "SharedDefines.h"
 #include "Chat.h"
+#include "GMTicketMgr.h"
 
 #include<string>
 #include<vector>
@@ -609,7 +610,8 @@ enum RestType
 {
     REST_TYPE_NO                = 0,
     REST_TYPE_IN_TAVERN         = 1,
-    REST_TYPE_IN_CITY           = 2
+    REST_TYPE_IN_CITY           = 2,
+    REST_TYPE_IN_FACTION_AREA   = 3     // used with AREA_FLAG_REST_ZONE_*
 };
 
 enum DuelCompleteType
@@ -886,6 +888,7 @@ class MANGOS_DLL_SPEC Player : public Unit
 
         bool IsInWater() const override { return m_isInWater; }
         bool IsUnderWater() const override;
+        bool IsFalling() { return GetPositionZ() < m_lastFallZ; }
 
         void SendInitialPacketsBeforeAddToMap();
         void SendInitialPacketsAfterAddToMap();
@@ -951,11 +954,18 @@ class MANGOS_DLL_SPEC Player : public Unit
 
         void SetDeathState(DeathState s) override;          // overwrite Unit::SetDeathState
 
+        void InnEnter(time_t time, uint32 mapid, float x, float y, float z);
+
         float GetRestBonus() const { return m_rest_bonus; }
         void SetRestBonus(float rest_bonus_new);
 
         RestType GetRestType() const { return rest_type; }
         void SetRestType(RestType n_r_type, uint32 areaTriggerId = 0);
+
+        uint32 GetInnPosMapId() const { return inn_pos_mapid; }
+        float GetInnPosX() const { return inn_pos_x; }
+        float GetInnPosY() const { return inn_pos_y; }
+        float GetInnPosZ() const { return inn_pos_z; }
 
         time_t GetTimeInnEnter() const { return time_inn_enter; }
         void UpdateInnerTime(time_t time) { time_inn_enter = time; }
@@ -970,6 +980,18 @@ class MANGOS_DLL_SPEC Player : public Unit
         void Say(const std::string& text, const uint32 language);
         void Yell(const std::string& text, const uint32 language);
         void TextEmote(const std::string& text);
+        /** 
+         * This will log a whisper depending on the setting LogWhispers in mangosd.conf, for a list
+         * of available levels please see \ref WhisperLoggingLevels. The logging is done to database
+         * in the table characters.character_whispers and includes to/from, text and when the whisper
+         * was sent.
+         * 
+         * @param text the text that was sent
+         * @param receiver guid of the receiver of the message
+         * \see WhisperLoggingLevels
+         * \see eConfigUInt32Values::CONFIG_UINT32_LOG_WHISPERS
+         */
+        void LogWhisper(const std::string& text, ObjectGuid receiver);
         void Whisper(const std::string& text, const uint32 language, ObjectGuid receiver);
 
         /*********************************************************/
@@ -981,6 +1003,7 @@ class MANGOS_DLL_SPEC Player : public Unit
         uint8 FindEquipSlot(ItemPrototype const* proto, uint32 slot, bool swap) const;
         uint32 GetItemCount(uint32 item, bool inBankAlso = false, Item* skipItem = NULL) const;
         Item* GetItemByGuid(ObjectGuid guid) const;
+        Item* GetItemByEntry(uint32 item) const;            // only for special cases
         Item* GetItemByPos(uint16 pos) const;
         Item* GetItemByPos(uint8 bag, uint8 slot) const;
         Item* GetWeaponForAttack(WeaponAttackType attackType) const { return GetWeaponForAttack(attackType, false, false); }
@@ -1282,13 +1305,8 @@ class MANGOS_DLL_SPEC Player : public Unit
         void setWeaponChangeTimer(uint32 time) {m_weaponChangeTimer = time;}
 
         uint32 GetMoney() const { return GetUInt32Value(PLAYER_FIELD_COINAGE); }
-        void ModifyMoney(int32 d)
-        {
-            if (d < 0)
-                { SetMoney(GetMoney() > uint32(-d) ? GetMoney() + d : 0); }
-            else
-                { SetMoney(GetMoney() < uint32(MAX_MONEY_AMOUNT - d) ? GetMoney() + d : MAX_MONEY_AMOUNT); }
-        }
+        void ModifyMoney(int32 d);
+
         void SetMoney(uint32 value)
         {
             SetUInt32Value(PLAYER_FIELD_COINAGE, value);
@@ -1376,7 +1394,7 @@ class MANGOS_DLL_SPEC Player : public Unit
         void learnSpellHighRank(uint32 spellid);
 
         uint32 GetFreeTalentPoints() const { return GetUInt32Value(PLAYER_CHARACTER_POINTS1); }
-        void SetFreeTalentPoints(uint32 points) { SetUInt32Value(PLAYER_CHARACTER_POINTS1, points); }
+        void SetFreeTalentPoints(uint32 points);
         void UpdateFreeTalentPoints(bool resetIfNeed = true);
         bool resetTalents(bool no_cost = false);
         uint32 resetTalentsCost() const;
@@ -1641,6 +1659,7 @@ class MANGOS_DLL_SPEC Player : public Unit
 
         static Team TeamForRace(uint8 race);
         Team GetTeam() const { return m_team; }
+        TeamId GetTeamId() const { return m_team == ALLIANCE ? TEAM_ALLIANCE : TEAM_HORDE; }
         static uint32 getFactionForRace(uint8 race);
         void setFactionForRace(uint8 race);
 
@@ -2049,7 +2068,7 @@ class MANGOS_DLL_SPEC Player : public Unit
         GridReference<Player>& GetGridRef() { return m_gridRef; }
         MapReference& GetMapRef() { return m_mapRef; }
 
-        bool isTappedByMeOrMyGroup(Creature* creature);
+        bool IsTappedByMeOrMyGroup(Creature* creature);
         bool isAllowedToLoot(Creature* creature);
 
     protected:
@@ -2224,6 +2243,10 @@ class MANGOS_DLL_SPEC Player : public Unit
         //////////////////// Rest System/////////////////////
         time_t time_inn_enter;
         uint32 inn_trigger_id;
+        uint32 inn_pos_mapid;
+        float  inn_pos_x;
+        float  inn_pos_y;
+        float  inn_pos_z;
         float m_rest_bonus;
         RestType rest_type;
         //////////////////// Rest System/////////////////////

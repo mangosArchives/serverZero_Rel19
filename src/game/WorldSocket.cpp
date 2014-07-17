@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -50,6 +50,7 @@
 #include "WorldSocketMgr.h"
 #include "Log.h"
 #include "DBCStores.h"
+#include "LuaEngine.h"
 
 #if defined( __GNUC__ )
 #pragma pack(1)
@@ -136,15 +137,20 @@ const std::string& WorldSocket::GetRemoteAddress(void) const
     return m_Address;
 }
 
-int WorldSocket::SendPacket(const WorldPacket& pct)
+int WorldSocket::SendPacket(const WorldPacket& pkt)
 {
     ACE_GUARD_RETURN(LockType, Guard, m_OutBufferLock, -1);
 
     if (closing_)
         { return -1; }
 
+    WorldPacket pct = pkt;
+
     // Dump outgoing packet.
     sLog.outWorldPacketDump(uint32(get_handle()), pct.GetOpcode(), pct.GetOpcodeName(), &pct, false);
+
+    if (!sEluna->OnPacketSend(m_Session, pct))
+        return 0;
 
     if (iSendPacket(pct) == -1)
     {
@@ -579,10 +585,13 @@ int WorldSocket::ProcessIncoming(WorldPacket* new_pct)
                     return -1;
                 }
 
+                if (!sEluna->OnPacketReceive(m_Session, *new_pct))
+                    return 0;
                 return HandleAuthSession(*new_pct);
             case CMSG_KEEP_ALIVE:
                 DEBUG_LOG("CMSG_KEEP_ALIVE ,size: " SIZEFMTD " ", new_pct->size());
 
+                sEluna->OnPacketReceive(m_Session, *new_pct);
                 return 0;
             default:
             {

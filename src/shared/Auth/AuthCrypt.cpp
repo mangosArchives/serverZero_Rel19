@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -71,17 +71,6 @@ void AuthCrypt::SetKey(uint8* key, size_t len)
     std::copy(key, key + len, _key.begin());
 }
 
-
-/*[-ZERO]
-void AuthCrypt::SetKey(BigNumber *bn)
-{
-    uint8 *key = new uint8[SHA_DIGEST_LENGTH];
-    GenerateKey(key, bn);
-    _key.resize(SHA_DIGEST_LENGTH);
-    std::copy(key, key + SHA_DIGEST_LENGTH, _key.begin());
-    delete[] key;
-}
-*/
 
 AuthCrypt::~AuthCrypt()
 {

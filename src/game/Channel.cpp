@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -105,8 +105,8 @@ void Channel::Join(Player* player, const char* password)
     pinfo.flags = MEMBER_FLAG_NONE;
 
     MakeYouJoined(&data);
-	SendToOne(&data, guid);
-	JoinNotify(guid);
+    SendToOne(&data, guid);
+    JoinNotify(guid);
 
     // if no owner first logged will become
     if (!IsConstant() && !m_ownerGuid)
@@ -151,7 +151,7 @@ void Channel::Leave(Player* player, bool send)
         SendToAll(&data);
     }
 
-		LeaveNotify(guid);
+        LeaveNotify(guid);
 
     if (changeowner)
     {
@@ -508,14 +508,14 @@ void Channel::Announce(Player* player)
     m_announce = !m_announce;
 
     WorldPacket data;
-	if (m_announce)
-	{
-		MakeAnnouncementsOn(&data, guid);
-	}
-	else
-	{
-		MakeAnnouncementsOff(&data, guid);
-	}
+    if (m_announce)
+    {
+        MakeAnnouncementsOn(&data, guid);
+    }
+    else
+    {
+        MakeAnnouncementsOff(&data, guid);
+    }
     SendToAll(&data);
 }
 
@@ -543,14 +543,14 @@ void Channel::Moderate(Player* player)
     m_moderate = !m_moderate;
 
     WorldPacket data;
-	if (m_moderate)
-	{
-		MakeModerationOn(&data, guid);
-	}
-	else
-	{
-		MakeModerationOff(&data, guid);
-	}
+    if (m_moderate)
+    {
+        MakeModerationOn(&data, guid);
+    }
+    else
+    {
+        MakeModerationOff(&data, guid);
+    }
     SendToAll(&data);
 }
 
@@ -559,8 +559,29 @@ void Channel::Say(Player* player, const char* text, uint32 lang)
     if (!text)
         return;
 
+    uint32 sec = 0;
     ObjectGuid guid = player->GetObjectGuid();
-
+    Player* plr = sObjectMgr.GetPlayer(guid);
+    bool speakInLocalDef = false;
+    bool speakInWorldDef = false;
+    if (plr)
+    {
+        sec = plr->GetSession()->GetSecurity();
+        if (plr->isGameMaster())
+        {
+            speakInLocalDef = true;
+            speakInWorldDef = true;
+        }
+        
+        HonorRankInfo honorInfo = plr->GetHonorRankInfo();
+        //We can speak in local defense if we're above this rank (see .h file)
+        if (honorInfo.rank >= SPEAK_IN_LOCALDEFENSE_RANK)
+            speakInLocalDef = true;
+        // Are we not allowed to speak in WorldDefense at all?
+        // if (honorInfo.rank >= SPEAK_IN_WORLDDEFENSE_RANK)
+        //     speakInWorldDef = true;
+    }
+    
     if (!IsOn(guid))
     {
         WorldPacket data;
@@ -569,7 +590,9 @@ void Channel::Say(Player* player, const char* text, uint32 lang)
         return;
     }
 
-    if (m_players[guid].IsMuted())
+    else if (m_players[guid].IsMuted() ||
+             (GetChannelId() == CHANNEL_ID_LOCAL_DEFENSE && !speakInLocalDef) ||
+             (GetChannelId() == CHANNEL_ID_WORLD_DEFENSE && !speakInWorldDef))
     {
         WorldPacket data;
         MakeMuted(&data);
@@ -683,16 +706,16 @@ void Channel::SetOwner(ObjectGuid guid, bool exclaim)
 
 void Channel::SendToAll(WorldPacket* data, ObjectGuid guid)
 {
-	for (PlayerList::const_iterator i = m_players.begin(); i != m_players.end(); ++i)
-	{
-		if (Player* plr = sObjectMgr.GetPlayer(i->first))
-		{
-			if (!guid || !plr->GetSocial()->HasIgnore(guid))
-			{
-				plr->GetSession()->SendPacket(data);
-			}
-		}
-	}
+    for (PlayerList::const_iterator i = m_players.begin(); i != m_players.end(); ++i)
+    {
+        if (Player* plr = sObjectMgr.GetPlayer(i->first))
+        {
+            if (!guid || !plr->GetSocial()->HasIgnore(guid))
+            {
+                plr->GetSession()->SendPacket(data);
+            }
+        }
+    }
 }
 
 void Channel::SendToOne(WorldPacket* data, ObjectGuid who)
@@ -912,7 +935,6 @@ void Channel::MakeThrottled(WorldPacket* data)
 
 void Channel::JoinNotify(ObjectGuid guid)
 {
-
     // [-ZERO] Feature doesn't exist in 1.x.
 }
 

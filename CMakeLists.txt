@@ -23,16 +23,16 @@ project(MaNGOS)
 set(MANGOS_VERSION 0.19)
 
 set(CMAKE_MODULE_PATH
-  ${CMAKE_MODULE_PATH}
-  ${CMAKE_SOURCE_DIR}/cmake
+  "${CMAKE_MODULE_PATH}"
+  "${CMAKE_SOURCE_DIR}/cmake"
 )
 
 # define all options here
-option(DEBUG                "Debug mode"                            OFF)
-option(TBB_USE_EXTERNAL     "Use external TBB"                      OFF)
-option(USE_STD_MALLOC       "Use standard malloc instead of TBB"    OFF)
-option(ACE_USE_EXTERNAL     "Use external ACE"                      OFF)
-option(POSTGRESQL           "Use PostgreSQL"                        OFF)
+option(DEBUG                "Debug mode"                             OFF)
+option(USE_STD_MALLOC       "Use standard malloc instead of TBB"     ON)
+option(ACE_USE_EXTERNAL     "Use external ACE"                       OFF)
+option(POSTGRESQL           "Use PostgreSQL"                         OFF)
+option(BUILD_TOOLS          "Build tools (map/vmap/mmap extractors)" OFF)
 
 if(PCHSupport_FOUND AND WIN32) # TODO: why only enable it on windows by default?
   option(PCH                "Use precompiled headers"               ON)
@@ -43,7 +43,6 @@ endif()
 #option(CLI                  "With CLI"                              ON)
 #option(RA                   "With Remote Access"                    OFF)
 #option(SQL                  "Copy SQL files"                        OFF)
-#option(TOOLS                "Build tools"                           OFF)
 
 # Output description of this script
 message("")
@@ -53,9 +52,10 @@ message(
     CMAKE_INSTALL_PREFIX    Path where the server should be installed to
     PCH                     Use precompiled headers
     DEBUG                   Debug mode
-    TBB_USE_EXTERNAL        Use external TBB
     USE_STD_MALLOC          Use standard malloc instead of TBB
     ACE_USE_EXTERNAL        Use external ACE
+    BUILD_TOOLS             Build map/vmap/mmap extractors
+
   To set an option simply type -D<OPTION>=<VALUE> after 'cmake <srcs>'.
   Also, you can specify the generator with -G. see 'cmake --help' for more details
   For example: cmake .. -DDEBUG=1 -DCMAKE_INSTALL_PREFIX=/opt/mangos"
@@ -126,8 +126,8 @@ else()
 endif()
 
 # For Unix systems set the rpath so that libraries are found
-set(CMAKE_INSTALL_RPATH ${LIBS_DIR})
-set(CMAKE_INSTALL_NAME_DIR ${LIBS_DIR})
+set(CMAKE_INSTALL_RPATH "${LIBS_DIR}")
+set(CMAKE_INSTALL_NAME_DIR "${LIBS_DIR}")
 # Run out of build tree
 set(CMAKE_BUILD_WITH_INSTALL_RPATH OFF)
 
@@ -152,33 +152,14 @@ else()
   include(cmake/ImportACE.cmake)
 endif()
 
-if(NOT USE_STD_MALLOC)
-  unset(TBB_INCLUDE_DIR CACHE)
-  unset(TBB_LIBRARIES CACHE)
-  unset(TBB_LIBRARIES_DIR CACHE)
-  unset(TBB_INCLUDE_DIR)
-  unset(TBB_LIBRARIES)
-  unset(TBB_LIBRARIES_DIR)
-  if(TBB_USE_EXTERNAL)
-    find_package(TBB)
-    if(NOT TBB_FOUND)
-      message(FATAL_ERROR
-        "This project requires TBB installed when TBB_USE_EXTERNAL is set. Please download the TBB Stable Release from http://www.threadingbuildingblocks.org/ and install it. If this script didn't find TBB and it was correctly installed please set TBB_ROOT to the correct path."
-      )
-    endif()
-  else()
-    include(cmake/ImportTBB.cmake)
-  endif()
-endif()
-
 # Win32 delivered packages
 if(WIN32)
-  set(MYSQL_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/dep/include/mysql)
-  set(MYSQL_LIBRARY ${CMAKE_SOURCE_DIR}/dep/lib/libmySQL.lib)
-  set(MYSQL_DEBUG_LIBRARY ${CMAKE_SOURCE_DIR}/dep/lib/libmySQL.lib)
-  set(OPENSSL_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/dep/include/openssl)
-  set(OPENSSL_LIBRARIES ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libeay32.lib)
-  set(OPENSSL_DEBUG_LIBRARIES ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libeay32.lib)
+  set(MYSQL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/dep/include/mysql")
+  set(MYSQL_LIBRARY "${CMAKE_SOURCE_DIR}/dep/lib/libmySQL.lib")
+  set(MYSQL_DEBUG_LIBRARY "${CMAKE_SOURCE_DIR}/dep/lib/libmySQL.lib")
+  set(OPENSSL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/dep/include/openssl")
+  set(OPENSSL_LIBRARIES "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libeay32.lib")
+  set(OPENSSL_DEBUG_LIBRARIES "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libeay32.lib")
   # zlib is build
 endif()
 
@@ -244,6 +225,12 @@ message(STATUS "Install server to     : ${CMAKE_INSTALL_PREFIX}")
 #   message(STATUS "* Build with RA         : No  (default)")
 # endif(RA)
 
+if(BUILD_TOOLS)
+  message(STATUS "Build tools           : Yes")
+else()
+  message(STATUS "Build tools           : No (default)")
+endif()
+
 if(PCH AND NOT PCHSupport_FOUND)
   set(PCH 0 CACHE BOOL
     "Use precompiled headers"
@@ -258,8 +245,8 @@ else()
 endif()
 
 if(DEBUG)
-  message(STATUS "Build in debug-mode   : Yes")
   set(CMAKE_BUILD_TYPE Debug)
+  message(STATUS "Build in debug-mode   : Yes")
 else()
   set(CMAKE_BUILD_TYPE Release)
   message(STATUS "Build in debug-mode   : No  (default)")
@@ -292,12 +279,6 @@ endif()
 #   message(STATUS "Install SQL-files     : No  (default)")
 # endif()
 
-# if(TOOLS)
-#   message(STATUS "Build map/vmap tools  : Yes")
-# else()
-#   message(STATUS "Build map/vmap tools  : No  (default)")
-# endif()
-
 # Some small tweaks for Visual Studio 7 and above.
 if(MSVC)
   # Mark 32 bit executables large address aware so they can use > 2GB address space
@@ -308,7 +289,7 @@ endif()
 
 set(CMAKE_SKIP_BUILD_RPATH FALSE)
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-set(CMAKE_INSTALL_RPATH ${LIBS_DIR})
+set(CMAKE_INSTALL_RPATH "${LIBS_DIR}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # Generate revision-extractor
@@ -330,15 +311,15 @@ add_custom_target("revision.h" ALL
 if(WIN32)
   install(
     FILES
-      ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libeay32.dll
-      ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libmySQL.dll
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libeay32.dll"
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libmySQL.dll"
     DESTINATION ${LIBS_DIR}
     CONFIGURATIONS Release
   )
   install(
     FILES
-      ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libeay32.dll
-      ${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libmySQL.dll
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libeay32.dll"
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libmySQL.dll"
     DESTINATION ${LIBS_DIR}
     CONFIGURATIONS Debug
   )
@@ -346,13 +327,13 @@ if(WIN32)
     # Copy dll's Windows needs
     install(
       FILES
-        ${CMAKE_SOURCE_DIR}/dep/lib/win32_release/dbghelp.dll
+        "${CMAKE_SOURCE_DIR}/dep/lib/win32_release/dbghelp.dll"
       DESTINATION ${LIBS_DIR}
       CONFIGURATIONS Release
     )
     install(
       FILES
-        ${CMAKE_SOURCE_DIR}/dep/lib/win32_debug/dbghelp.dll
+        "${CMAKE_SOURCE_DIR}/dep/lib/win32_debug/dbghelp.dll"
       DESTINATION ${LIBS_DIR}
       CONFIGURATIONS Debug
     )
@@ -367,7 +348,14 @@ if(XCODE)
   endif()
 endif()
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+# This is used by config.h.cmake
+if (SOAP)
+  set(ENABLE_SOAP ON)
+else()
+  set(ENABLE_SOAP OFF)
+endif()
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake" "${CMAKE_CURRENT_BINARY_DIR}/config.h")
 
 add_subdirectory(dep)
 
@@ -377,6 +365,7 @@ set(DEFINITIONS
   HAVE_CONFIG_H
   VERSION="${MANGOS_VERSION}"
   SYSCONFDIR="${CONF_DIR}/"
+  MANGOS
 )
 
 if(POSTGRESQL)

@@ -100,7 +100,7 @@
 #endif
 
 #define SEED_BLOCK_SIZE 16
-#define SEED_KEY_LENGTH	16
+#define SEED_KEY_LENGTH    16
 
 
 #ifdef  __cplusplus

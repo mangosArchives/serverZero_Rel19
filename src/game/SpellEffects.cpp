@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -56,6 +56,7 @@
 #include "Util.h"
 #include "TemporarySummon.h"
 #include "ScriptMgr.h"
+#include "LuaEngine.h"
 
 pEffect SpellEffects[TOTAL_SPELL_EFFECTS] =
 {
@@ -2183,6 +2184,11 @@ void Spell::EffectSummon(SpellEffectIndex eff_idx)
         { ((Creature*)m_caster)->AI()->JustSummoned((Creature*)spawnCreature); }
     if (m_originalCaster && m_originalCaster != m_caster && m_originalCaster->GetTypeId() == TYPEID_UNIT && ((Creature*)m_originalCaster)->AI())
         { ((Creature*)m_originalCaster)->AI()->JustSummoned((Creature*)spawnCreature); }
+    if (Unit* summoner = m_caster->ToUnit())
+        sEluna->OnSummoned(spawnCreature, summoner);
+    else if (m_originalCaster)
+        if (Unit* summoner = m_originalCaster->ToUnit())
+            sEluna->OnSummoned(spawnCreature, summoner);
 }
 
 void Spell::EffectLearnSpell(SpellEffectIndex eff_idx)
@@ -2510,6 +2516,9 @@ void Spell::EffectSummonWild(SpellEffectIndex eff_idx)
             // Notify original caster if not done already
             if (m_originalCaster && m_originalCaster != m_caster && m_originalCaster->GetTypeId() == TYPEID_UNIT && ((Creature*)m_originalCaster)->AI())
                 { ((Creature*)m_originalCaster)->AI()->JustSummoned(summon); }
+            if (m_originalCaster)
+                if (Unit* summoner = m_originalCaster->ToUnit())
+                    sEluna->OnSummoned(summon, summoner);
         }
     }
 }
@@ -2622,6 +2631,11 @@ void Spell::EffectSummonGuardian(SpellEffectIndex eff_idx)
             { ((Creature*)m_caster)->AI()->JustSummoned(spawnCreature); }
         if (m_originalCaster && m_originalCaster != m_caster && m_originalCaster->GetTypeId() == TYPEID_UNIT && ((Creature*)m_originalCaster)->AI())
             { ((Creature*)m_originalCaster)->AI()->JustSummoned(spawnCreature); }
+        if (Unit* summoner = m_caster->ToUnit())
+            sEluna->OnSummoned(spawnCreature, summoner);
+        if (m_originalCaster)
+            if (Unit* summoner = m_originalCaster->ToUnit())
+                sEluna->OnSummoned(spawnCreature, summoner);
     }
 }
 
@@ -2759,7 +2773,7 @@ void Spell::EffectEnchantItemTmp(SpellEffectIndex eff_idx)
     else if (m_spellInfo->Id == 28891 && m_spellInfo->Id == 28898)
         { duration = 3600; }                                    // 1 hour
     // some fishing pole bonuses
-	else if (m_spellInfo->HasAttribute(SPELL_ATTR_HIDE_SPELL))
+    else if (m_spellInfo->HasAttribute(SPELL_ATTR_HIDE_SPELL))
         { duration = 600; }                                     // 10 mins
     // default case
     else
@@ -3831,6 +3845,9 @@ void Spell::EffectDuel(SpellEffectIndex eff_idx)
 
     caster->SetGuidValue(PLAYER_DUEL_ARBITER, pGameObj->GetObjectGuid());
     target->SetGuidValue(PLAYER_DUEL_ARBITER, pGameObj->GetObjectGuid());
+
+    // Used by Eluna
+    sEluna->OnDuelRequest(target, caster);
 }
 
 void Spell::EffectStuck(SpellEffectIndex /*eff_idx*/)
@@ -4099,6 +4116,8 @@ void Spell::EffectSummonPossessed(SpellEffectIndex eff_idx)
     // Notify Summoner
     if (m_originalCaster && m_originalCaster != m_caster && m_originalCaster->GetTypeId() == TYPEID_UNIT && ((Creature*)m_originalCaster)->AI())
         { ((Creature*)m_originalCaster)->AI()->JustSummoned(spawnCreature); }
+    if (Unit* summoner = m_originalCaster->ToUnit())
+        sEluna->OnSummoned(spawnCreature, summoner);
 }
 
 void Spell::EffectEnchantHeldItem(SpellEffectIndex eff_idx)
@@ -4551,6 +4570,11 @@ void Spell::EffectSummonCritter(SpellEffectIndex eff_idx)
         { ((Creature*)m_caster)->AI()->JustSummoned(critter); }
     if (m_originalCaster && m_originalCaster != m_caster && m_originalCaster->GetTypeId() == TYPEID_UNIT && ((Creature*)m_originalCaster)->AI())
         { ((Creature*)m_originalCaster)->AI()->JustSummoned(critter); }
+    if (Unit* summoner = m_caster->ToUnit())
+        sEluna->OnSummoned(critter, summoner);
+    if (m_originalCaster)
+        if (Unit* summoner = m_originalCaster->ToUnit())
+            sEluna->OnSummoned(critter, summoner);
 }
 
 void Spell::EffectKnockBack(SpellEffectIndex eff_idx)

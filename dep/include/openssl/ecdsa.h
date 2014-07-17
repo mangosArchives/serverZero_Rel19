@@ -76,10 +76,10 @@ extern "C" {
 #endif
 
 typedef struct ECDSA_SIG_st
-	{
-	BIGNUM *r;
-	BIGNUM *s;
-	} ECDSA_SIG;
+    {
+    BIGNUM *r;
+    BIGNUM *s;
+    } ECDSA_SIG;
 
 /** Allocates and initialize a ECDSA_SIG structure
  *  \return pointer to a ECDSA_SIG structure or NULL if an error occurred
@@ -89,7 +89,7 @@ ECDSA_SIG *ECDSA_SIG_new(void);
 /** frees a ECDSA_SIG structure
  *  \param  sig  pointer to the ECDSA_SIG structure
  */
-void	  ECDSA_SIG_free(ECDSA_SIG *sig);
+void      ECDSA_SIG_free(ECDSA_SIG *sig);
 
 /** DER encode content of ECDSA_SIG object (note: this function modifies *pp
  *  (*pp += length of the DER encoded signature)).
@@ -97,7 +97,7 @@ void	  ECDSA_SIG_free(ECDSA_SIG *sig);
  *  \param  pp   pointer to a unsigned char pointer for the output or NULL
  *  \return the length of the DER encoded ECDSA_SIG object or 0
  */
-int	  i2d_ECDSA_SIG(const ECDSA_SIG *sig, unsigned char **pp);
+int      i2d_ECDSA_SIG(const ECDSA_SIG *sig, unsigned char **pp);
 
 /** Decodes a DER encoded ECDSA signature (note: this function changes *pp
  *  (*pp += len)).
@@ -128,7 +128,7 @@ ECDSA_SIG *ECDSA_do_sign(const unsigned char *dgst,int dgst_len,EC_KEY *eckey);
  *  \return pointer to a ECDSA_SIG structure or NULL if an error occurred
  */
 ECDSA_SIG *ECDSA_do_sign_ex(const unsigned char *dgst, int dgstlen,
-		const BIGNUM *kinv, const BIGNUM *rp, EC_KEY *eckey);
+        const BIGNUM *kinv, const BIGNUM *rp, EC_KEY *eckey);
 
 /** Verifies that the supplied signature is a valid ECDSA
  *  signature of the supplied hash value using the supplied public key.
@@ -139,15 +139,15 @@ ECDSA_SIG *ECDSA_do_sign_ex(const unsigned char *dgst, int dgstlen,
  *  \return 1 if the signature is valid, 0 if the signature is invalid
  *          and -1 on error
  */
-int	  ECDSA_do_verify(const unsigned char *dgst, int dgst_len,
-		const ECDSA_SIG *sig, EC_KEY* eckey);
+int      ECDSA_do_verify(const unsigned char *dgst, int dgst_len,
+        const ECDSA_SIG *sig, EC_KEY* eckey);
 
 const ECDSA_METHOD *ECDSA_OpenSSL(void);
 
 /** Sets the default ECDSA method
  *  \param  meth  new default ECDSA_METHOD
  */
-void	  ECDSA_set_default_method(const ECDSA_METHOD *meth);
+void      ECDSA_set_default_method(const ECDSA_METHOD *meth);
 
 /** Returns the default ECDSA method
  *  \return pointer to ECDSA_METHOD structure containing the default method
@@ -159,13 +159,13 @@ const ECDSA_METHOD *ECDSA_get_default_method(void);
  *  \param  meth   new method
  *  \return 1 on success and 0 otherwise
  */
-int 	  ECDSA_set_method(EC_KEY *eckey, const ECDSA_METHOD *meth);
+int       ECDSA_set_method(EC_KEY *eckey, const ECDSA_METHOD *meth);
 
 /** Returns the maximum length of the DER encoded signature
  *  \param  eckey  EC_KEY object
  *  \return numbers of bytes required for the DER encoded signature
  */
-int	  ECDSA_size(const EC_KEY *eckey);
+int      ECDSA_size(const EC_KEY *eckey);
 
 /** Precompute parts of the signing operation
  *  \param  eckey  EC_KEY object containing a private EC key
@@ -174,8 +174,8 @@ int	  ECDSA_size(const EC_KEY *eckey);
  *  \param  rp     BIGNUM pointer for x coordinate of k * generator
  *  \return 1 on success and 0 otherwise
  */
-int 	  ECDSA_sign_setup(EC_KEY *eckey, BN_CTX *ctx, BIGNUM **kinv,
-		BIGNUM **rp);
+int       ECDSA_sign_setup(EC_KEY *eckey, BN_CTX *ctx, BIGNUM **kinv,
+        BIGNUM **rp);
 
 /** Computes ECDSA signature of a given hash value using the supplied
  *  private key (note: sig must point to ECDSA_size(eckey) bytes of memory).
@@ -187,8 +187,8 @@ int 	  ECDSA_sign_setup(EC_KEY *eckey, BN_CTX *ctx, BIGNUM **kinv,
  *  \param  eckey    EC_KEY object containing a private EC key
  *  \return 1 on success and 0 otherwise
  */
-int	  ECDSA_sign(int type, const unsigned char *dgst, int dgstlen,
-		unsigned char *sig, unsigned int *siglen, EC_KEY *eckey);
+int      ECDSA_sign(int type, const unsigned char *dgst, int dgstlen,
+        unsigned char *sig, unsigned int *siglen, EC_KEY *eckey);
 
 
 /** Computes ECDSA signature of a given hash value using the supplied
@@ -204,9 +204,9 @@ int	  ECDSA_sign(int type, const unsigned char *dgst, int dgstlen,
  *  \param  eckey    EC_KEY object containing a private EC key
  *  \return 1 on success and 0 otherwise
  */
-int	  ECDSA_sign_ex(int type, const unsigned char *dgst, int dgstlen,
-		unsigned char *sig, unsigned int *siglen, const BIGNUM *kinv,
-		const BIGNUM *rp, EC_KEY *eckey);
+int      ECDSA_sign_ex(int type, const unsigned char *dgst, int dgstlen,
+        unsigned char *sig, unsigned int *siglen, const BIGNUM *kinv,
+        const BIGNUM *rp, EC_KEY *eckey);
 
 /** Verifies that the given signature is valid ECDSA signature
  *  of the supplied hash value using the specified public key.
@@ -219,14 +219,14 @@ int	  ECDSA_sign_ex(int type, const unsigned char *dgst, int dgstlen,
  *  \return 1 if the signature is valid, 0 if the signature is invalid
  *          and -1 on error
  */
-int 	  ECDSA_verify(int type, const unsigned char *dgst, int dgstlen,
-		const unsigned char *sig, int siglen, EC_KEY *eckey);
+int       ECDSA_verify(int type, const unsigned char *dgst, int dgstlen,
+        const unsigned char *sig, int siglen, EC_KEY *eckey);
 
 /* the standard ex_data functions */
-int 	  ECDSA_get_ex_new_index(long argl, void *argp, CRYPTO_EX_new
-		*new_func, CRYPTO_EX_dup *dup_func, CRYPTO_EX_free *free_func);
-int 	  ECDSA_set_ex_data(EC_KEY *d, int idx, void *arg);
-void 	  *ECDSA_get_ex_data(EC_KEY *d, int idx);
+int       ECDSA_get_ex_new_index(long argl, void *argp, CRYPTO_EX_new
+        *new_func, CRYPTO_EX_dup *dup_func, CRYPTO_EX_free *free_func);
+int       ECDSA_set_ex_data(EC_KEY *d, int idx, void *arg);
+void       *ECDSA_get_ex_data(EC_KEY *d, int idx);
 
 
 /* BEGIN ERROR CODES */
@@ -238,21 +238,21 @@ void ERR_load_ECDSA_strings(void);
 /* Error codes for the ECDSA functions. */
 
 /* Function codes. */
-#define ECDSA_F_ECDSA_CHECK				 104
-#define ECDSA_F_ECDSA_DATA_NEW_METHOD			 100
-#define ECDSA_F_ECDSA_DO_SIGN				 101
-#define ECDSA_F_ECDSA_DO_VERIFY				 102
-#define ECDSA_F_ECDSA_SIGN_SETUP			 103
+#define ECDSA_F_ECDSA_CHECK                 104
+#define ECDSA_F_ECDSA_DATA_NEW_METHOD             100
+#define ECDSA_F_ECDSA_DO_SIGN                 101
+#define ECDSA_F_ECDSA_DO_VERIFY                 102
+#define ECDSA_F_ECDSA_SIGN_SETUP             103
 
 /* Reason codes. */
-#define ECDSA_R_BAD_SIGNATURE				 100
-#define ECDSA_R_DATA_TOO_LARGE_FOR_KEY_SIZE		 101
-#define ECDSA_R_ERR_EC_LIB				 102
-#define ECDSA_R_MISSING_PARAMETERS			 103
-#define ECDSA_R_NEED_NEW_SETUP_VALUES			 106
-#define ECDSA_R_NON_FIPS_METHOD				 107
-#define ECDSA_R_RANDOM_NUMBER_GENERATION_FAILED		 104
-#define ECDSA_R_SIGNATURE_MALLOC_FAILED			 105
+#define ECDSA_R_BAD_SIGNATURE                 100
+#define ECDSA_R_DATA_TOO_LARGE_FOR_KEY_SIZE         101
+#define ECDSA_R_ERR_EC_LIB                 102
+#define ECDSA_R_MISSING_PARAMETERS             103
+#define ECDSA_R_NEED_NEW_SETUP_VALUES             106
+#define ECDSA_R_NON_FIPS_METHOD                 107
+#define ECDSA_R_RANDOM_NUMBER_GENERATION_FAILED         104
+#define ECDSA_R_SIGNATURE_MALLOC_FAILED             105
 
 #ifdef  __cplusplus
 }

@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -241,6 +241,7 @@ enum LocaleConstant
 };
 
 #define MAX_LOCALE 8
+#define DEFAULT_LOCALE LOCALE_enUS
 
 /**
  * @brief
@@ -249,6 +250,8 @@ enum LocaleConstant
  * @return LocaleConstant
  */
 LocaleConstant GetLocaleByName(const std::string& name);
+
+typedef std::vector<std::string> StringVector;
 
 extern char const* localeNames[MAX_LOCALE]; /**< TODO */
 

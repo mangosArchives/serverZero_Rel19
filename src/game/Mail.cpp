@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -311,15 +311,31 @@ void MailDraft::SendMailTo(MailReceiver const& receiver, MailSender const& sende
 
     // expire time if COD 3 days, if no COD 30 days, if auction sale pending 1 hour
     uint32 expire_delay;
-    // auction mail without any items and money (auction sale note) pending 1 hour
+
+    // auction mail without any items and money
     if (sender.GetMailMessageType() == MAIL_AUCTION && m_items.empty() && !m_money)
-        { expire_delay = HOUR; }
+    {
+        expire_delay = HOUR;
+    }
     // mail from battlemaster (rewardmarks) should last only one day
     else if (sender.GetMailMessageType() == MAIL_CREATURE && sBattleGroundMgr.GetBattleMasterBG(sender.GetSenderId()) != BATTLEGROUND_TYPE_NONE)
-        { expire_delay = DAY; }
-    // default case: expire time if COD 3 days, if no COD 30 days
+    {
+        expire_delay = DAY;
+    }
+    // TODO: GameMaster expire timer (90 Days)
     else
-        { expire_delay = (m_COD > 0) ? 3 * DAY : 30 * DAY; }
+    {
+        if (m_COD)
+        {
+            // COD Mail Expire Timer
+            expire_delay = 3 * DAY;
+        }
+        else
+        {
+            // Normal Mail Expire Timer
+            expire_delay = 30 * DAY;
+        }
+    }
 
     time_t expire_time = deliver_time + expire_delay;
 

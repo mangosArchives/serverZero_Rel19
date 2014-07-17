@@ -63,7 +63,7 @@
 /* Macros to make switching between C and C++ mode easier */
 #ifdef __cplusplus
 #define C_MODE_START    extern "C" {
-#define C_MODE_END	}
+#define C_MODE_END    }
 #else
 #define C_MODE_START
 #define C_MODE_END
@@ -196,8 +196,8 @@
 #define __builtin_expect(x, expected_value) (x)
 #endif
 
-#define likely(x)	__builtin_expect((x),1)
-#define unlikely(x)	__builtin_expect((x),0)
+#define likely(x)    __builtin_expect((x),1)
+#define unlikely(x)    __builtin_expect((x),0)
 
 /* Fix problem with S_ISLNK() on Linux */
 #if defined(TARGET_OS_LINUX) || defined(__GLIBC__)
@@ -218,7 +218,7 @@
 #undef HAVE_SYS_UN_H
 #endif
 
-#define __EXTENSIONS__ 1	/* We want some extension */
+#define __EXTENSIONS__ 1    /* We want some extension */
 #ifndef __STDC_EXT__
 #define __STDC_EXT__ 1          /* To get large file support on hpux */
 #endif
@@ -261,28 +261,28 @@
 #endif
 
 #if !defined(SCO)
-#define _REENTRANT	1	/* Some thread libraries require this */
+#define _REENTRANT    1    /* Some thread libraries require this */
 #endif
 #if !defined(_THREAD_SAFE) && !defined(_AIX)
 #define _THREAD_SAFE            /* Required for OSF1 */
 #endif
 #if defined(HPUX10) || defined(HPUX11)
-C_MODE_START			/* HPUX needs this, signal.h bug */
+C_MODE_START            /* HPUX needs this, signal.h bug */
 #include <pthread.h>
 C_MODE_END
 #else
-#include <pthread.h>		/* AIX must have this included first */
+#include <pthread.h>        /* AIX must have this included first */
 #endif
 #if !defined(SCO) && !defined(_REENTRANT)
-#define _REENTRANT	1	/* Threads requires reentrant code */
+#define _REENTRANT    1    /* Threads requires reentrant code */
 #endif
 #endif /* !defined(__WIN__) */
 
 /* Go around some bugs in different OS and compilers */
-#ifdef _AIX			/* By soren@t.dk */
+#ifdef _AIX            /* By soren@t.dk */
 #define _H_STRINGS
 #define _SYS_STREAM_H
-/* #define _AIX32_CURSES */	/* XXX: this breaks AIX 4.3.3 (others?). */
+/* #define _AIX32_CURSES */    /* XXX: this breaks AIX 4.3.3 (others?). */
 #define ulonglong2double(A) my_ulonglong2double(A)
 #define my_off_t2double(A)  my_ulonglong2double(A)
 C_MODE_START
@@ -290,7 +290,7 @@ inline double my_ulonglong2double(unsigned long long A) { return (double A); }
 C_MODE_END
 #endif /* _AIX */
 
-#ifdef HAVE_BROKEN_SNPRINTF	/* HPUX 10.20 don't have this defined */
+#ifdef HAVE_BROKEN_SNPRINTF    /* HPUX 10.20 don't have this defined */
 #undef HAVE_SNPRINTF
 #endif
 #ifdef HAVE_BROKEN_PREAD
@@ -302,7 +302,7 @@ C_MODE_END
 #undef HAVE_PWRITE
 #endif
 
-#ifdef UNDEF_HAVE_INITGROUPS			/* For AIX 4.3 */
+#ifdef UNDEF_HAVE_INITGROUPS            /* For AIX 4.3 */
 #undef HAVE_INITGROUPS
 #endif
 
@@ -316,7 +316,7 @@ C_MODE_END
 #define lint
 #endif
 #if SIZEOF_LONG_LONG > 4 && !defined(_LONG_LONG)
-#define _LONG_LONG 1		/* For AIX string library */
+#define _LONG_LONG 1        /* For AIX string library */
 #endif
 
 #ifndef stdin
@@ -348,7 +348,7 @@ C_MODE_END
 #include <fcntl.h>
 #endif
 #ifdef HAVE_SYS_TIMEB_H
-#include <sys/timeb.h>				/* Avoid warnings on SCO */
+#include <sys/timeb.h>                /* Avoid warnings on SCO */
 #endif
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>
@@ -371,7 +371,7 @@ C_MODE_END
 #include <alloca.h>
 #endif
 
-#include <errno.h>				/* Recommended by debian */
+#include <errno.h>                /* Recommended by debian */
 /* We need the following to go around a problem with openssl on solaris */
 #if defined(HAVE_CRYPT_H)
 #include <crypt.h>
@@ -403,7 +403,7 @@ C_MODE_END
 #endif
 
 #if defined(_HPUX_SOURCE) && defined(HAVE_SYS_STREAM_H)
-#include <sys/stream.h>		/* HPUX 10.20 defines ulong here. UGLY !!! */
+#include <sys/stream.h>        /* HPUX 10.20 defines ulong here. UGLY !!! */
 #define HAVE_ULONG
 #endif
 #if defined(HPUX10) && defined(_LARGEFILE64_SOURCE)
@@ -416,8 +416,8 @@ C_MODE_END
 extern "C" int madvise(void *addr, size_t len, int behav);
 #endif
 
-#define QUOTE_ARG(x)		#x	/* Quote argument (before cpp) */
-#define STRINGIFY_ARG(x) QUOTE_ARG(x)	/* Quote argument, after cpp */
+#define QUOTE_ARG(x)        #x    /* Quote argument (before cpp) */
+#define STRINGIFY_ARG(x) QUOTE_ARG(x)    /* Quote argument, after cpp */
 
 /* Paranoid settings. Define I_AM_PARANOID if you are paranoid */
 #ifdef I_AM_PARANOID
@@ -475,7 +475,7 @@ typedef unsigned short ushort;
 #endif
 
 #define swap_variables(t, a, b) { t dummy; dummy= a; a= b; b= dummy; }
-#define test(a)		((a) ? 1 : 0)
+#define test(a)        ((a) ? 1 : 0)
 #define set_if_bigger(a,b)  do { if ((a) < (b)) (a)=(b); } while(0)
 #define set_if_smaller(a,b) do { if ((a) > (b)) (a)=(b); } while(0)
 #define test_all_bits(a,b) (((a) & (b)) == (b))
@@ -483,8 +483,8 @@ typedef unsigned short ushort;
 
 /* Define some general constants */
 #ifndef TRUE
-#define TRUE		(1)	/* Logical true */
-#define FALSE		(0)	/* Logical false */
+#define TRUE        (1)    /* Logical true */
+#define FALSE        (0)    /* Logical false */
 #endif
 
 #include <my_compiler.h>
@@ -515,36 +515,36 @@ C_MODE_END
 
 /* Some types that is different between systems */
 
-typedef int	File;		/* File descriptor */
+typedef int    File;        /* File descriptor */
 #ifdef _WIN32
 typedef SOCKET my_socket;
 #else
-typedef int	my_socket;	/* File descriptor for sockets */
+typedef int    my_socket;    /* File descriptor for sockets */
 #define INVALID_SOCKET -1
 #endif
 /* Type for fuctions that handles signals */
 #define sig_handler RETSIGTYPE
 C_MODE_START
-typedef void	(*sig_return)();/* Returns type from signal */
+typedef void    (*sig_return)();/* Returns type from signal */
 C_MODE_END
 #if defined(__GNUC__) && !defined(_lint)
-typedef char	pchar;		/* Mixed prototypes can take char */
-typedef char	puchar;		/* Mixed prototypes can take char */
-typedef char	pbool;		/* Mixed prototypes can take char */
-typedef short	pshort;		/* Mixed prototypes can take short int */
-typedef float	pfloat;		/* Mixed prototypes can take float */
+typedef char    pchar;        /* Mixed prototypes can take char */
+typedef char    puchar;        /* Mixed prototypes can take char */
+typedef char    pbool;        /* Mixed prototypes can take char */
+typedef short    pshort;        /* Mixed prototypes can take short int */
+typedef float    pfloat;        /* Mixed prototypes can take float */
 #else
-typedef int	pchar;		/* Mixed prototypes can't take char */
-typedef uint	puchar;		/* Mixed prototypes can't take char */
-typedef int	pbool;		/* Mixed prototypes can't take char */
-typedef int	pshort;		/* Mixed prototypes can't take short int */
-typedef double	pfloat;		/* Mixed prototypes can't take float */
+typedef int    pchar;        /* Mixed prototypes can't take char */
+typedef uint    puchar;        /* Mixed prototypes can't take char */
+typedef int    pbool;        /* Mixed prototypes can't take char */
+typedef int    pshort;        /* Mixed prototypes can't take short int */
+typedef double    pfloat;        /* Mixed prototypes can't take float */
 #endif
 C_MODE_START
-typedef int	(*qsort_cmp)(const void *,const void *);
-typedef int	(*qsort_cmp2)(void*, const void *,const void *);
+typedef int    (*qsort_cmp)(const void *,const void *);
+typedef int    (*qsort_cmp2)(void*, const void *,const void *);
 C_MODE_END
-#define qsort_t RETQSORTTYPE	/* Broken GCC cant handle typedef !!!! */
+#define qsort_t RETQSORTTYPE    /* Broken GCC cant handle typedef !!!! */
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
@@ -556,25 +556,25 @@ typedef SOCKET_SIZE_TYPE size_socket;
 
 /* file create flags */
 
-#ifndef O_SHARE			/* Probably not windows */
-#define O_SHARE		0	/* Flag to my_open for shared files */
+#ifndef O_SHARE            /* Probably not windows */
+#define O_SHARE        0    /* Flag to my_open for shared files */
 #ifndef O_BINARY
-#define O_BINARY	0	/* Flag to my_open for binary files */
+#define O_BINARY    0    /* Flag to my_open for binary files */
 #endif
 #ifndef FILE_BINARY
-#define FILE_BINARY	O_BINARY /* Flag to my_fopen for binary streams */
+#define FILE_BINARY    O_BINARY /* Flag to my_fopen for binary streams */
 #endif
 #ifdef HAVE_FCNTL
 #define HAVE_FCNTL_LOCK
-#define F_TO_EOF	0L	/* Param to lockf() to lock rest of file */
+#define F_TO_EOF    0L    /* Param to lockf() to lock rest of file */
 #endif
 #endif /* O_SHARE */
 
 #ifndef O_TEMPORARY
-#define O_TEMPORARY	0
+#define O_TEMPORARY    0
 #endif
 #ifndef O_SHORT_LIVED
-#define O_SHORT_LIVED	0
+#define O_SHORT_LIVED    0
 #endif
 #ifndef O_NOFOLLOW
 #define O_NOFOLLOW      0
@@ -590,32 +590,32 @@ typedef SOCKET_SIZE_TYPE size_socket;
 
 
 /* General constants */
-#define FN_LEN		256	/* Max file name len */
-#define FN_HEADLEN	253	/* Max length of filepart of file name */
-#define FN_EXTLEN	20	/* Max length of extension (part of FN_LEN) */
-#define FN_REFLEN	512	/* Max length of full path-name */
-#define FN_EXTCHAR	'.'
-#define FN_HOMELIB	'~'	/* ~/ is used as abbrev for home dir */
-#define FN_CURLIB	'.'	/* ./ is used as abbrev for current dir */
-#define FN_PARENTDIR	".."	/* Parent directory; Must be a string */
+#define FN_LEN        256    /* Max file name len */
+#define FN_HEADLEN    253    /* Max length of filepart of file name */
+#define FN_EXTLEN    20    /* Max length of extension (part of FN_LEN) */
+#define FN_REFLEN    512    /* Max length of full path-name */
+#define FN_EXTCHAR    '.'
+#define FN_HOMELIB    '~'    /* ~/ is used as abbrev for home dir */
+#define FN_CURLIB    '.'    /* ./ is used as abbrev for current dir */
+#define FN_PARENTDIR    ".."    /* Parent directory; Must be a string */
 
 #ifdef _WIN32
-#define FN_LIBCHAR	'\\'
-#define FN_LIBCHAR2	'/'
+#define FN_LIBCHAR    '\\'
+#define FN_LIBCHAR2    '/'
 #define FN_DIRSEP       "/\\"               /* Valid directory separators */
 #define FN_EXEEXT   ".exe"
 #define FN_SOEXT    ".dll"
-#define FN_ROOTDIR	"\\"
-#define FN_DEVCHAR	':'
-#define FN_NETWORK_DRIVES	/* Uses \\ to indicate network drives */
-#define FN_NO_CASE_SENCE	/* Files are not case-sensitive */
+#define FN_ROOTDIR    "\\"
+#define FN_DEVCHAR    ':'
+#define FN_NETWORK_DRIVES    /* Uses \\ to indicate network drives */
+#define FN_NO_CASE_SENCE    /* Files are not case-sensitive */
 #else
-#define FN_LIBCHAR	'/'
-#define FN_LIBCHAR2	'/'
+#define FN_LIBCHAR    '/'
+#define FN_LIBCHAR2    '/'
 #define FN_DIRSEP       "/"     /* Valid directory separators */
 #define FN_EXEEXT   ""
 #define FN_SOEXT    ".so"
-#define FN_ROOTDIR	"/"
+#define FN_ROOTDIR    "/"
 #endif
 
 /* 
@@ -653,7 +653,7 @@ typedef SOCKET_SIZE_TYPE size_socket;
 #endif
 
 #ifndef OS_FILE_LIMIT
-#define OS_FILE_LIMIT	UINT_MAX
+#define OS_FILE_LIMIT    UINT_MAX
 #endif
 
 /*
@@ -661,34 +661,34 @@ typedef SOCKET_SIZE_TYPE size_socket;
   smaller what the disk page size. This influences the speed of the
   isam btree library. eg to big to slow.
 */
-#define IO_SIZE			4096
+#define IO_SIZE            4096
 /*
   How much overhead does malloc have. The code often allocates
   something like 1024-MALLOC_OVERHEAD bytes
 */
 #define MALLOC_OVERHEAD 8
 
-	/* get memory in huncs */
-#define ONCE_ALLOC_INIT		(uint) (4096-MALLOC_OVERHEAD)
-	/* Typical record cash */
-#define RECORD_CACHE_SIZE	(uint) (64*1024-MALLOC_OVERHEAD)
-	/* Typical key cash */
-#define KEY_CACHE_SIZE		(uint) (8*1024*1024)
-	/* Default size of a key cache block  */
-#define KEY_CACHE_BLOCK_SIZE	(uint) 1024
+    /* get memory in huncs */
+#define ONCE_ALLOC_INIT        (uint) (4096-MALLOC_OVERHEAD)
+    /* Typical record cash */
+#define RECORD_CACHE_SIZE    (uint) (64*1024-MALLOC_OVERHEAD)
+    /* Typical key cash */
+#define KEY_CACHE_SIZE        (uint) (8*1024*1024)
+    /* Default size of a key cache block  */
+#define KEY_CACHE_BLOCK_SIZE    (uint) 1024
 
 
-	/* Some things that this system doesn't have */
+    /* Some things that this system doesn't have */
 
 #ifdef _WIN32
-#define NO_DIR_LIBRARY		/* Not standard dir-library */
+#define NO_DIR_LIBRARY        /* Not standard dir-library */
 #endif
 
 /* Some defines of functions for portability */
 
-#undef remove		/* Crashes MySQL on SCO 5.0.0 */
+#undef remove        /* Crashes MySQL on SCO 5.0.0 */
 #ifndef __WIN__
-#define closesocket(A)	close(A)
+#define closesocket(A)    close(A)
 #endif
 
 #if (_MSC_VER)
@@ -747,8 +747,8 @@ inline unsigned long long my_double2ulonglong(double d)
 */
 
 #if defined(HAVE_LONG_LONG) && !defined(LONGLONG_MIN)
-#define LONGLONG_MIN	((long long) 0x8000000000000000LL)
-#define LONGLONG_MAX	((long long) 0x7FFFFFFFFFFFFFFFLL)
+#define LONGLONG_MIN    ((long long) 0x8000000000000000LL)
+#define LONGLONG_MAX    ((long long) 0x7FFFFFFFFFFFFFFFLL)
 #endif
 
 #if defined(HAVE_LONG_LONG) && !defined(ULONGLONG_MAX)
@@ -777,12 +777,12 @@ inline unsigned long long my_double2ulonglong(double d)
 
 /* From limits.h instead */
 #ifndef DBL_MIN
-#define DBL_MIN		4.94065645841246544e-324
-#define FLT_MIN		((float)1.40129846432481707e-45)
+#define DBL_MIN        4.94065645841246544e-324
+#define FLT_MIN        ((float)1.40129846432481707e-45)
 #endif
 #ifndef DBL_MAX
-#define DBL_MAX		1.79769313486231470e+308
-#define FLT_MAX		((float)3.40282346638528860e+38)
+#define DBL_MAX        1.79769313486231470e+308
+#define FLT_MAX        ((float)3.40282346638528860e+38)
 #endif
 #ifndef SIZE_T_MAX
 #define SIZE_T_MAX      (~((size_t) 0))
@@ -833,13 +833,13 @@ static inline double my_isinf(double x)
   adressable obj.
 */
 #if SIZEOF_CHARP == 4
-typedef long		my_ptrdiff_t;
+typedef long        my_ptrdiff_t;
 #else
-typedef long long	my_ptrdiff_t;
+typedef long long    my_ptrdiff_t;
 #endif
 
-#define MY_ALIGN(A,L)	(((A) + (L) - 1) & ~((L) - 1))
-#define ALIGN_SIZE(A)	MY_ALIGN((A),sizeof(double))
+#define MY_ALIGN(A,L)    (((A) + (L) - 1) & ~((L) - 1))
+#define ALIGN_SIZE(A)    MY_ALIGN((A),sizeof(double))
 /* Size to make adressable obj. */
 #define ADD_TO_PTR(ptr,size,type) (type) ((uchar*) (ptr)+size)
 #define PTR_BYTE_DIFF(A,B) (my_ptrdiff_t) ((uchar*) (A) - (uchar*) (B))
@@ -859,7 +859,7 @@ typedef long long	my_ptrdiff_t;
 #define my_offsetof(TYPE, MEMBER) \
         ((size_t)((char *)&(((TYPE *)0x10)->MEMBER) - (char*)0x10))
 
-#define NullS		(char *) 0
+#define NullS        (char *) 0
 
 #ifdef STDCALL
 #undef STDCALL
@@ -874,7 +874,7 @@ typedef long long	my_ptrdiff_t;
 /* Typdefs for easyier portability */
 
 #ifndef HAVE_UCHAR
-typedef unsigned char	uchar;	/* Short for unsigned char */
+typedef unsigned char    uchar;    /* Short for unsigned char */
 #endif
 
 #ifndef HAVE_INT8
@@ -908,7 +908,7 @@ typedef unsigned long uint32;
 #endif
 
 #if !defined(HAVE_ULONG) && !defined(__USE_MISC)
-typedef unsigned long	ulong;		  /* Short for unsigned long */
+typedef unsigned long    ulong;          /* Short for unsigned long */
 #endif
 #ifndef longlong_defined
 /* 
@@ -918,10 +918,10 @@ typedef unsigned long	ulong;		  /* Short for unsigned long */
 */
 #if defined(HAVE_LONG_LONG) && SIZEOF_LONG_LONG == 8
 typedef unsigned long long int ulonglong; /* ulong or unsigned long long */
-typedef long long int	longlong;
+typedef long long int    longlong;
 #else
-typedef unsigned long	ulonglong;	  /* ulong or unsigned long long */
-typedef long		longlong;
+typedef unsigned long    ulonglong;      /* ulong or unsigned long long */
+typedef long        longlong;
 #endif
 #endif
 #ifndef HAVE_INT64
@@ -962,7 +962,7 @@ typedef ulonglong my_off_t;
 typedef unsigned long my_off_t;
 #endif
 #endif /*_WIN32*/
-#define MY_FILEPOS_ERROR	(~(my_off_t) 0)
+#define MY_FILEPOS_ERROR    (~(my_off_t) 0)
 
 /*
   TODO Convert these to use Bitmap class.
@@ -971,31 +971,31 @@ typedef ulonglong table_map;          /* Used for table bits in join */
 typedef ulong nesting_map;  /* Used for flags of nesting constructs */
 
 #if defined(__WIN__)
-#define socket_errno	WSAGetLastError()
-#define SOCKET_EINTR	WSAEINTR
-#define SOCKET_EAGAIN	WSAEINPROGRESS
+#define socket_errno    WSAGetLastError()
+#define SOCKET_EINTR    WSAEINTR
+#define SOCKET_EAGAIN    WSAEINPROGRESS
 #define SOCKET_ETIMEDOUT WSAETIMEDOUT
 #define SOCKET_EWOULDBLOCK WSAEWOULDBLOCK
 #define SOCKET_EADDRINUSE WSAEADDRINUSE
-#define SOCKET_ENFILE	ENFILE
-#define SOCKET_EMFILE	EMFILE
+#define SOCKET_ENFILE    ENFILE
+#define SOCKET_EMFILE    EMFILE
 #else /* Unix */
-#define socket_errno	errno
-#define closesocket(A)	close(A)
-#define SOCKET_EINTR	EINTR
-#define SOCKET_EAGAIN	EAGAIN
+#define socket_errno    errno
+#define closesocket(A)    close(A)
+#define SOCKET_EINTR    EINTR
+#define SOCKET_EAGAIN    EAGAIN
 #define SOCKET_ETIMEDOUT SOCKET_EINTR
 #define SOCKET_EWOULDBLOCK EWOULDBLOCK
 #define SOCKET_EADDRINUSE EADDRINUSE
-#define SOCKET_ENFILE	ENFILE
-#define SOCKET_EMFILE	EMFILE
+#define SOCKET_ENFILE    ENFILE
+#define SOCKET_EMFILE    EMFILE
 #endif
 
-typedef int		myf;	/* Type of MyFlags in my_funcs */
-typedef char		my_bool; /* Small bool */
+typedef int        myf;    /* Type of MyFlags in my_funcs */
+typedef char        my_bool; /* Small bool */
 
 /* Macros for converting *constants* to the right type */
-#define MYF(v)		(myf) (v)
+#define MYF(v)        (myf) (v)
 
 #ifndef LL
 #ifdef HAVE_LONG_LONG
@@ -1041,8 +1041,8 @@ typedef char		my_bool; /* Small bool */
 /* Some helper macros */
 #define YESNO(X) ((X) ? "yes" : "no")
 
-#define MY_HOW_OFTEN_TO_ALARM	2	/* How often we want info on screen */
-#define MY_HOW_OFTEN_TO_WRITE	1000	/* How often we want info on screen */
+#define MY_HOW_OFTEN_TO_ALARM    2    /* How often we want info on screen */
+#define MY_HOW_OFTEN_TO_WRITE    1000    /* How often we want info on screen */
 
 
 
@@ -1053,21 +1053,21 @@ typedef char		my_bool; /* Small bool */
 
 /* Optimized store functions for Intel x86 */
 #if defined(__i386__) || defined(_WIN32)
-#define sint2korr(A)	(*((int16 *) (A)))
-#define sint3korr(A)	((int32) ((((uchar) (A)[2]) & 128) ? \
-				  (((uint32) 255L << 24) | \
-				   (((uint32) (uchar) (A)[2]) << 16) |\
-				   (((uint32) (uchar) (A)[1]) << 8) | \
-				   ((uint32) (uchar) (A)[0])) : \
-				  (((uint32) (uchar) (A)[2]) << 16) |\
-				  (((uint32) (uchar) (A)[1]) << 8) | \
-				  ((uint32) (uchar) (A)[0])))
-#define sint4korr(A)	(*((long *) (A)))
-#define uint2korr(A)	(*((uint16 *) (A)))
+#define sint2korr(A)    (*((int16 *) (A)))
+#define sint3korr(A)    ((int32) ((((uchar) (A)[2]) & 128) ? \
+                  (((uint32) 255L << 24) | \
+                   (((uint32) (uchar) (A)[2]) << 16) |\
+                   (((uint32) (uchar) (A)[1]) << 8) | \
+                   ((uint32) (uchar) (A)[0])) : \
+                  (((uint32) (uchar) (A)[2]) << 16) |\
+                  (((uint32) (uchar) (A)[1]) << 8) | \
+                  ((uint32) (uchar) (A)[0])))
+#define sint4korr(A)    (*((long *) (A)))
+#define uint2korr(A)    (*((uint16 *) (A)))
 #if defined(HAVE_purify) && !defined(_WIN32)
-#define uint3korr(A)	(uint32) (((uint32) ((uchar) (A)[0])) +\
-				  (((uint32) ((uchar) (A)[1])) << 8) +\
-				  (((uint32) ((uchar) (A)[2])) << 16))
+#define uint3korr(A)    (uint32) (((uint32) ((uchar) (A)[0])) +\
+                  (((uint32) ((uchar) (A)[1])) << 8) +\
+                  (((uint32) ((uchar) (A)[2])) << 16))
 #else
 /*
    ATTENTION !
@@ -1075,27 +1075,27 @@ typedef char		my_bool; /* Small bool */
     Please, note, uint3korr reads 4 bytes (not 3) !
     It means, that you have to provide enough allocated space !
 */
-#define uint3korr(A)	(long) (*((unsigned int *) (A)) & 0xFFFFFF)
+#define uint3korr(A)    (long) (*((unsigned int *) (A)) & 0xFFFFFF)
 #endif /* HAVE_purify && !_WIN32 */
-#define uint4korr(A)	(*((uint32 *) (A)))
-#define uint5korr(A)	((ulonglong)(((uint32) ((uchar) (A)[0])) +\
-				    (((uint32) ((uchar) (A)[1])) << 8) +\
-				    (((uint32) ((uchar) (A)[2])) << 16) +\
-				    (((uint32) ((uchar) (A)[3])) << 24)) +\
-				    (((ulonglong) ((uchar) (A)[4])) << 32))
-#define uint6korr(A)	((ulonglong)(((uint32)    ((uchar) (A)[0]))          + \
+#define uint4korr(A)    (*((uint32 *) (A)))
+#define uint5korr(A)    ((ulonglong)(((uint32) ((uchar) (A)[0])) +\
+                    (((uint32) ((uchar) (A)[1])) << 8) +\
+                    (((uint32) ((uchar) (A)[2])) << 16) +\
+                    (((uint32) ((uchar) (A)[3])) << 24)) +\
+                    (((ulonglong) ((uchar) (A)[4])) << 32))
+#define uint6korr(A)    ((ulonglong)(((uint32)    ((uchar) (A)[0]))          + \
                                      (((uint32)    ((uchar) (A)[1])) << 8)   + \
                                      (((uint32)    ((uchar) (A)[2])) << 16)  + \
                                      (((uint32)    ((uchar) (A)[3])) << 24)) + \
                          (((ulonglong) ((uchar) (A)[4])) << 32) +       \
                          (((ulonglong) ((uchar) (A)[5])) << 40))
-#define uint8korr(A)	(*((ulonglong *) (A)))
-#define sint8korr(A)	(*((longlong *) (A)))
-#define int2store(T,A)	*((uint16*) (T))= (uint16) (A)
+#define uint8korr(A)    (*((ulonglong *) (A)))
+#define sint8korr(A)    (*((longlong *) (A)))
+#define int2store(T,A)    *((uint16*) (T))= (uint16) (A)
 #define int3store(T,A)  do { *(T)=  (uchar) ((A));\
                             *(T+1)=(uchar) (((uint) (A) >> 8));\
                             *(T+2)=(uchar) (((A) >> 16)); } while (0)
-#define int4store(T,A)	*((long *) (T))= (long) (A)
+#define int4store(T,A)    *((long *) (T))= (long) (A)
 #define int5store(T,A)  do { *(T)= (uchar)((A));\
                              *((T)+1)=(uchar) (((A) >> 8));\
                              *((T)+2)=(uchar) (((A) >> 16));\
@@ -1107,19 +1107,19 @@ typedef char		my_bool; /* Small bool */
                              *((T)+3)=(uchar) (((A) >> 24)); \
                              *((T)+4)=(uchar) (((A) >> 32)); \
                              *((T)+5)=(uchar) (((A) >> 40)); } while(0)
-#define int8store(T,A)	*((ulonglong *) (T))= (ulonglong) (A)
+#define int8store(T,A)    *((ulonglong *) (T))= (ulonglong) (A)
 
 typedef union {
   double v;
   long m[2];
 } doubleget_union;
-#define doubleget(V,M)	\
+#define doubleget(V,M)    \
 do { doubleget_union _tmp; \
      _tmp.m[0] = *((long*)(M)); \
      _tmp.m[1] = *(((long*) (M))+1); \
      (V) = _tmp.v; } while(0)
 #define doublestore(T,V) do { *((long *) T) = ((doubleget_union *)&V)->m[0]; \
-			     *(((long *) T)+1) = ((doubleget_union *)&V)->m[1]; \
+                 *(((long *) T)+1) = ((doubleget_union *)&V)->m[1]; \
                          } while (0)
 #define float4get(V,M)   do { *((float *) &(V)) = *((float*) (M)); } while(0)
 #define float8get(V,M)   doubleget((V),(M))
@@ -1133,50 +1133,50 @@ do { doubleget_union _tmp; \
   We're here if it's not a IA-32 architecture (Win32 and UNIX IA-32 defines
   were done before)
 */
-#define sint2korr(A)	(int16) (((int16) ((uchar) (A)[0])) +\
-				 ((int16) ((int16) (A)[1]) << 8))
-#define sint3korr(A)	((int32) ((((uchar) (A)[2]) & 128) ? \
-				  (((uint32) 255L << 24) | \
-				   (((uint32) (uchar) (A)[2]) << 16) |\
-				   (((uint32) (uchar) (A)[1]) << 8) | \
-				   ((uint32) (uchar) (A)[0])) : \
-				  (((uint32) (uchar) (A)[2]) << 16) |\
-				  (((uint32) (uchar) (A)[1]) << 8) | \
-				  ((uint32) (uchar) (A)[0])))
-#define sint4korr(A)	(int32) (((int32) ((uchar) (A)[0])) +\
-				(((int32) ((uchar) (A)[1]) << 8)) +\
-				(((int32) ((uchar) (A)[2]) << 16)) +\
-				(((int32) ((int16) (A)[3]) << 24)))
-#define sint8korr(A)	(longlong) uint8korr(A)
-#define uint2korr(A)	(uint16) (((uint16) ((uchar) (A)[0])) +\
-				  ((uint16) ((uchar) (A)[1]) << 8))
-#define uint3korr(A)	(uint32) (((uint32) ((uchar) (A)[0])) +\
-				  (((uint32) ((uchar) (A)[1])) << 8) +\
-				  (((uint32) ((uchar) (A)[2])) << 16))
-#define uint4korr(A)	(uint32) (((uint32) ((uchar) (A)[0])) +\
-				  (((uint32) ((uchar) (A)[1])) << 8) +\
-				  (((uint32) ((uchar) (A)[2])) << 16) +\
-				  (((uint32) ((uchar) (A)[3])) << 24))
-#define uint5korr(A)	((ulonglong)(((uint32) ((uchar) (A)[0])) +\
-				    (((uint32) ((uchar) (A)[1])) << 8) +\
-				    (((uint32) ((uchar) (A)[2])) << 16) +\
-				    (((uint32) ((uchar) (A)[3])) << 24)) +\
-				    (((ulonglong) ((uchar) (A)[4])) << 32))
-#define uint6korr(A)	((ulonglong)(((uint32)    ((uchar) (A)[0]))          + \
+#define sint2korr(A)    (int16) (((int16) ((uchar) (A)[0])) +\
+                 ((int16) ((int16) (A)[1]) << 8))
+#define sint3korr(A)    ((int32) ((((uchar) (A)[2]) & 128) ? \
+                  (((uint32) 255L << 24) | \
+                   (((uint32) (uchar) (A)[2]) << 16) |\
+                   (((uint32) (uchar) (A)[1]) << 8) | \
+                   ((uint32) (uchar) (A)[0])) : \
+                  (((uint32) (uchar) (A)[2]) << 16) |\
+                  (((uint32) (uchar) (A)[1]) << 8) | \
+                  ((uint32) (uchar) (A)[0])))
+#define sint4korr(A)    (int32) (((int32) ((uchar) (A)[0])) +\
+                (((int32) ((uchar) (A)[1]) << 8)) +\
+                (((int32) ((uchar) (A)[2]) << 16)) +\
+                (((int32) ((int16) (A)[3]) << 24)))
+#define sint8korr(A)    (longlong) uint8korr(A)
+#define uint2korr(A)    (uint16) (((uint16) ((uchar) (A)[0])) +\
+                  ((uint16) ((uchar) (A)[1]) << 8))
+#define uint3korr(A)    (uint32) (((uint32) ((uchar) (A)[0])) +\
+                  (((uint32) ((uchar) (A)[1])) << 8) +\
+                  (((uint32) ((uchar) (A)[2])) << 16))
+#define uint4korr(A)    (uint32) (((uint32) ((uchar) (A)[0])) +\
+                  (((uint32) ((uchar) (A)[1])) << 8) +\
+                  (((uint32) ((uchar) (A)[2])) << 16) +\
+                  (((uint32) ((uchar) (A)[3])) << 24))
+#define uint5korr(A)    ((ulonglong)(((uint32) ((uchar) (A)[0])) +\
+                    (((uint32) ((uchar) (A)[1])) << 8) +\
+                    (((uint32) ((uchar) (A)[2])) << 16) +\
+                    (((uint32) ((uchar) (A)[3])) << 24)) +\
+                    (((ulonglong) ((uchar) (A)[4])) << 32))
+#define uint6korr(A)    ((ulonglong)(((uint32)    ((uchar) (A)[0]))          + \
                                      (((uint32)    ((uchar) (A)[1])) << 8)   + \
                                      (((uint32)    ((uchar) (A)[2])) << 16)  + \
                                      (((uint32)    ((uchar) (A)[3])) << 24)) + \
                          (((ulonglong) ((uchar) (A)[4])) << 32) +       \
                          (((ulonglong) ((uchar) (A)[5])) << 40))
-#define uint8korr(A)	((ulonglong)(((uint32) ((uchar) (A)[0])) +\
-				    (((uint32) ((uchar) (A)[1])) << 8) +\
-				    (((uint32) ((uchar) (A)[2])) << 16) +\
-				    (((uint32) ((uchar) (A)[3])) << 24)) +\
-			(((ulonglong) (((uint32) ((uchar) (A)[4])) +\
-				    (((uint32) ((uchar) (A)[5])) << 8) +\
-				    (((uint32) ((uchar) (A)[6])) << 16) +\
-				    (((uint32) ((uchar) (A)[7])) << 24))) <<\
-				    32))
+#define uint8korr(A)    ((ulonglong)(((uint32) ((uchar) (A)[0])) +\
+                    (((uint32) ((uchar) (A)[1])) << 8) +\
+                    (((uint32) ((uchar) (A)[2])) << 16) +\
+                    (((uint32) ((uchar) (A)[3])) << 24)) +\
+            (((ulonglong) (((uint32) ((uchar) (A)[4])) +\
+                    (((uint32) ((uchar) (A)[5])) << 8) +\
+                    (((uint32) ((uchar) (A)[6])) << 16) +\
+                    (((uint32) ((uchar) (A)[7])) << 24))) <<\
+                    32))
 #define int2store(T,A)       do { uint def_temp= (uint) (A) ;\
                                   *((uchar*) (T))=  (uchar)(def_temp); \
                                    *((uchar*) (T)+1)=(uchar)((def_temp >> 8)); \
@@ -1195,7 +1195,7 @@ do { doubleget_union _tmp; \
                                   *(((char *)(T))+2)= (char)(((A) >> 16)); \
                                   *(((char *)(T))+3)= (char)(((A) >> 24)); \
                                   *(((char *)(T))+4)= (char)(((A) >> 32)); \
-		                } while(0)
+                        } while(0)
 #define int6store(T,A)       do { *((char *)(T))=     (char)((A)); \
                                   *(((char *)(T))+1)= (char)(((A) >> 8)); \
                                   *(((char *)(T))+2)= (char)(((A) >> 16)); \
@@ -1274,9 +1274,9 @@ do { doubleget_union _tmp; \
   from unaligned memory location.
 */
 #define int4net(A)        (int32) (((uint32) ((uchar) (A)[3]))        |\
-				  (((uint32) ((uchar) (A)[2])) << 8)  |\
-				  (((uint32) ((uchar) (A)[1])) << 16) |\
-				  (((uint32) ((uchar) (A)[0])) << 24))
+                  (((uint32) ((uchar) (A)[2])) << 8)  |\
+                  (((uint32) ((uchar) (A)[1])) << 16) |\
+                  (((uint32) ((uchar) (A)[0])) << 24))
 /*
   Define-funktions for reading and storing in machine format from/to
   short/long to/from some place in memory V should be a (not
@@ -1311,25 +1311,25 @@ do { doubleget_union _tmp; \
 
 #define floatget(V,M)    memcpy(&V, (M), sizeof(float))
 #define floatstore(T,V)  memcpy((T), (void*) (&V), sizeof(float))
-#define doubleget(V,M)	 memcpy(&V, (M), sizeof(double))
+#define doubleget(V,M)     memcpy(&V, (M), sizeof(double))
 #define doublestore(T,V) memcpy((T), (void *) &V, sizeof(double))
 #define longlongget(V,M) memcpy(&V, (M), sizeof(ulonglong))
 #define longlongstore(T,V) memcpy((T), &V, sizeof(ulonglong))
 
 #else
 
-#define ushortget(V,M)	do { V = uint2korr(M); } while(0)
-#define shortget(V,M)	do { V = sint2korr(M); } while(0)
-#define longget(V,M)	do { V = sint4korr(M); } while(0)
+#define ushortget(V,M)    do { V = uint2korr(M); } while(0)
+#define shortget(V,M)    do { V = sint2korr(M); } while(0)
+#define longget(V,M)    do { V = sint4korr(M); } while(0)
 #define ulongget(V,M)   do { V = uint4korr(M); } while(0)
 #define shortstore(T,V) int2store(T,V)
-#define longstore(T,V)	int4store(T,V)
+#define longstore(T,V)    int4store(T,V)
 #ifndef floatstore
 #define floatstore(T,V)  memcpy((T), (void *) (&V), sizeof(float))
 #define floatget(V,M)    memcpy(&V, (M), sizeof(float))
 #endif
 #ifndef doubleget
-#define doubleget(V,M)	 memcpy(&V, (M), sizeof(double))
+#define doubleget(V,M)     memcpy(&V, (M), sizeof(double))
 #define doublestore(T,V) memcpy((T), (void *) &V, sizeof(double))
 #endif /* doubleget */
 #define longlongget(V,M) memcpy(&V, (M), sizeof(ulonglong))
@@ -1406,8 +1406,8 @@ do { doubleget_union _tmp; \
 
 /* Define some useful general macros (should be done after all headers). */
 #if !defined(max)
-#define max(a, b)	((a) > (b) ? (a) : (b))
-#define min(a, b)	((a) < (b) ? (a) : (b))
+#define max(a, b)    ((a) > (b) ? (a) : (b))
+#define min(a, b)    ((a) < (b) ? (a) : (b))
 #endif  
 
 /*
@@ -1497,7 +1497,7 @@ static inline double rint(double x)
 /* TODO HF add #undef HAVE_VIO if we don't want client in embedded library */
 
 #undef HAVE_OPENSSL
-#undef HAVE_SMEM				/* No shared memory */
+#undef HAVE_SMEM                /* No shared memory */
 
 #endif /* EMBEDDED_LIBRARY */
 

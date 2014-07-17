@@ -29,60 +29,60 @@
 
 class CrowdTool : public SampleTool
 {
-	Sample* m_sample;
-	unsigned char m_oldFlags;
-	
-	float m_targetPos[3];
-	dtPolyRef m_targetRef;
-	
-	bool m_expandDebugDraw;
-	bool m_showLabels;
-	bool m_showCorners;
-	bool m_showTargets;
-	bool m_showCollisionSegments;
-	bool m_showPath;
-	bool m_showVO;
-	bool m_showOpt;
-	bool m_showGrid;
-	bool m_showNodes;
-	bool m_showPerfGraph;
-	
-	bool m_expandOptions;
-	bool m_anticipateTurns;
-	bool m_optimizeVis;
-	bool m_optimizeTopo;
-	bool m_useVO;
-	bool m_drunkMove;
-	
-	bool m_run;
-	
-	CrowdManager m_crowd;
-		
-	ValueHistory m_crowdTotalTime;
-	ValueHistory m_crowdRvoTime;
-	ValueHistory m_crowdSampleCount;
-	
-	enum ToolMode
-	{
-		TOOLMODE_CREATE,
-		TOOLMODE_MOVE_TARGET,
-	};
-	ToolMode m_mode;
-	
+    Sample* m_sample;
+    unsigned char m_oldFlags;
+    
+    float m_targetPos[3];
+    dtPolyRef m_targetRef;
+    
+    bool m_expandDebugDraw;
+    bool m_showLabels;
+    bool m_showCorners;
+    bool m_showTargets;
+    bool m_showCollisionSegments;
+    bool m_showPath;
+    bool m_showVO;
+    bool m_showOpt;
+    bool m_showGrid;
+    bool m_showNodes;
+    bool m_showPerfGraph;
+    
+    bool m_expandOptions;
+    bool m_anticipateTurns;
+    bool m_optimizeVis;
+    bool m_optimizeTopo;
+    bool m_useVO;
+    bool m_drunkMove;
+    
+    bool m_run;
+    
+    CrowdManager m_crowd;
+        
+    ValueHistory m_crowdTotalTime;
+    ValueHistory m_crowdRvoTime;
+    ValueHistory m_crowdSampleCount;
+    
+    enum ToolMode
+    {
+        TOOLMODE_CREATE,
+        TOOLMODE_MOVE_TARGET,
+    };
+    ToolMode m_mode;
+    
 public:
-	CrowdTool();
-	~CrowdTool();
-	
-	virtual int type() { return TOOL_CROWD; }
-	virtual void init(Sample* sample);
-	virtual void reset();
-	virtual void handleMenu();
-	virtual void handleClick(const float* s, const float* p, bool shift);
-	virtual void handleToggle();
-	virtual void handleStep();
-	virtual void handleUpdate(const float dt);
-	virtual void handleRender();
-	virtual void handleRenderOverlay(double* proj, double* model, int* view);
+    CrowdTool();
+    ~CrowdTool();
+    
+    virtual int type() { return TOOL_CROWD; }
+    virtual void init(Sample* sample);
+    virtual void reset();
+    virtual void handleMenu();
+    virtual void handleClick(const float* s, const float* p, bool shift);
+    virtual void handleToggle();
+    virtual void handleStep();
+    virtual void handleUpdate(const float dt);
+    virtual void handleRender();
+    virtual void handleRenderOverlay(double* proj, double* model, int* view);
 };
 
 #endif // CROWDTOOL_H

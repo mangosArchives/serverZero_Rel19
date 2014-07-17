@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -648,7 +648,7 @@ struct SpellEntry
         int32     EquippedItemClass;                        // 58 (value)
         int32     EquippedItemSubClassMask;                 // 59 (mask)
         int32     EquippedItemInventoryTypeMask;            // 60 (mask)
-        uint32    Effect[MAX_EFFECT_INDEX];                 // 61-63
+        uint32    Effect[MAX_EFFECT_INDEX];                 ///< 61-63 TODO DOCUMENT
         int32     EffectDieSides[MAX_EFFECT_INDEX];         // 64-66
         uint32    EffectBaseDice[MAX_EFFECT_INDEX];         // 67-69
         float     EffectDicePerLevel[MAX_EFFECT_INDEX];     // 70-72

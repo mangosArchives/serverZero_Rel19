@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef _OBJECTMGR_H
-#define _OBJECTMGR_H
+#ifndef MANGOS_H_OBJECTMGR
+#define MANGOS_H_OBJECTMGR
 
 #include "Common.h"
 #include "Log.h"
@@ -337,7 +337,7 @@ enum ConditionType
     CONDITION_RESERVED_4            = 34,                   // reserved for 3.x and later
     CONDITION_GENDER                = 35,                   // 0=male, 1=female, 2=none (see enum Gender)
     CONDITION_DEAD_OR_AWAY          = 36,                   // value1: 0=player dead, 1=player is dead (with group dead), 2=player in instance are dead, 3=creature is dead
-    // value2: if != 0 only consider players in range of this value
+                                                            // value2: if != 0 only consider players in range of this value
 };
 
 enum ConditionSource                                        // From where was the condition called?
@@ -433,13 +433,9 @@ class HonorStanding
         float rpEarning;
 
         HonorStanding* GetInfo() { return this; };
-
-        // create the standing order
-        bool operator < (const HonorStanding& rhs)
-        {
-            return honorPoints > rhs.honorPoints;
-        }
 };
+
+bool operator < (const HonorStanding& lhs, const HonorStanding& rhs);
 
 typedef std::list<HonorStanding> HonorStandingList;
 
@@ -737,9 +733,9 @@ class ObjectMgr
         uint32 GenerateStaticCreatureLowGuid() { if (m_StaticCreatureGuids.GetNextAfterMaxUsed() >= m_FirstTemporaryCreatureGuid) { return 0; } return m_StaticCreatureGuids.Generate(); }
         uint32 GenerateStaticGameObjectLowGuid() { if (m_StaticGameObjectGuids.GetNextAfterMaxUsed() >= m_FirstTemporaryGameObjectGuid) { return 0; } return m_StaticGameObjectGuids.Generate(); }
 
-        uint32 GeneratePlayerLowGuid() { return m_CharGuids.Generate(); }
-        uint32 GenerateItemLowGuid() { return m_ItemGuids.Generate(); }
-        uint32 GenerateCorpseLowGuid() { return m_CorpseGuids.Generate(); }
+        uint32 GeneratePlayerLowGuid()   { return m_CharGuids.Generate();     }
+        uint32 GenerateItemLowGuid()     { return m_ItemGuids.Generate();     }
+        uint32 GenerateCorpseLowGuid()   { return m_CorpseGuids.Generate();   }
 
         uint32 GenerateAuctionID() { return m_AuctionIds.Generate(); }
         uint32 GenerateGuildId() { return m_GuildIds.Generate(); }
@@ -991,6 +987,13 @@ class ObjectMgr
         void AddVendorItem(uint32 entry, uint32 item, uint32 maxcount, uint32 incrtime);
         bool RemoveVendorItem(uint32 entry, uint32 item);
         bool IsVendorItemValid(bool isTemplate, char const* tableName, uint32 vendor_entry, uint32 item, uint32 maxcount, uint32 ptime, uint16 conditionId, Player* pl = NULL, std::set<uint32>* skip_vendors = NULL) const;
+
+        static void AddLocaleString(std::string const& s, LocaleConstant locale, StringVector& data);
+        static inline void GetLocaleString(const StringVector& data, int loc_idx, std::string& value)
+        {
+            if (data.size() > size_t(loc_idx) && !data[loc_idx].empty())
+                value = data[loc_idx];
+        }
 
         int GetOrNewIndexForLocale(LocaleConstant loc);
 

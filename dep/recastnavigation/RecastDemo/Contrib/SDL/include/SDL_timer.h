@@ -37,10 +37,10 @@ extern "C" {
 #endif
 
 /** This is the OS scheduler timeslice, in milliseconds */
-#define SDL_TIMESLICE		10
+#define SDL_TIMESLICE        10
 
 /** This is the maximum resolution of the SDL timer on all platforms */
-#define TIMER_RESOLUTION	10	/**< Experimentally determined */
+#define TIMER_RESOLUTION    10    /**< Experimentally determined */
 
 /**
  * Get the number of milliseconds since the SDL library initialization.

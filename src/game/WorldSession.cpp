@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -44,6 +44,7 @@
 #include "BattleGround/BattleGroundMgr.h"
 #include "MapManager.h"
 #include "SocialMgr.h"
+#include "LuaEngine.h"
 
 // select opcodes appropriate for processing in Map::Update context for current session state
 static bool MapSessionFilterHelper(WorldSession* session, OpcodeHandler const& opHandle)
@@ -476,6 +477,9 @@ void WorldSession::LogoutPlayer(bool Save)
         sSocialMgr.SendFriendStatus(_player, FRIEND_OFFLINE, _player->GetObjectGuid(), true);
         sSocialMgr.RemovePlayerSocial(_player->GetGUIDLow());
 
+        ///- Used by Eluna
+        sEluna->OnLogout(_player);
+
         ///- Remove the player from the world
         // the player may not be in the world when logging out
         // e.g if he got disconnected during a transfer to another map
@@ -618,9 +622,10 @@ void WorldSession::SendAuthWaitQue(uint32 position)
     }
     else
     {
-        WorldPacket packet(SMSG_AUTH_RESPONSE, 1 + 4);
+        WorldPacket packet(SMSG_AUTH_RESPONSE, 6);
         packet << uint8(AUTH_WAIT_QUEUE);
         packet << uint32(position);
+        packet << uint8(0);                                 // unk
         SendPacket(&packet);
     }
 }
@@ -708,6 +713,9 @@ void WorldSession::SendTransferAborted(uint32 mapid, uint8 reason, uint8 arg)
 
 void WorldSession::ExecuteOpcode(OpcodeHandler const& opHandle, WorldPacket* packet)
 {
+    if (!sEluna->OnPacketReceive(this, *packet))
+        return;
+
     // need prevent do internal far teleports in handlers because some handlers do lot steps
     // or call code that can do far teleports in some conditions unexpectedly for generic way work code
     if (_player)

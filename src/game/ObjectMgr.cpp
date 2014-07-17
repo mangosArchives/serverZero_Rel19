@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -121,6 +121,12 @@ T IdGenerator<T>::Generate()
 template uint32 IdGenerator<uint32>::Generate();
 template uint64 IdGenerator<uint64>::Generate();
 
+// create the standing order
+bool operator < (const HonorStanding& lhs, const HonorStanding& rhs)
+{
+    return lhs.honorPoints > rhs.honorPoints;
+}
+
 ObjectMgr::ObjectMgr() :
     m_AuctionIds("Auction ids"),
     m_GuildIds("Guild ids"),
@@ -171,6 +177,17 @@ Group* ObjectMgr::GetGroupById(uint32 id) const
         { return itr->second; }
 
     return NULL;
+}
+
+void ObjectMgr::AddLocaleString(std::string const& s, LocaleConstant locale, StringVector& data)
+{
+    if (!s.empty())
+    {
+        if (data.size() <= size_t(locale))
+            data.resize(locale + 1);
+
+        data[locale] = s;
+    }
 }
 
 void ObjectMgr::LoadCreatureLocales()
@@ -496,7 +513,7 @@ void ObjectMgr::LoadCreatureTemplates()
         {
             if (!GetCreatureClassLvlStats(level, cInfo->UnitClass))
             {
-                sLog.outErrorDb("Creature (Entry: %u), level(%u) has no data in `creature_template_classlevelstats`", cInfo->Entry, level);
+                sLog.outErrorDb("Creature (Entry: %u), Class(%u), level(%u) has no data in `creature_template_classlevelstats`", cInfo->Entry, cInfo->UnitClass, level);
                 break;
             }
         }
@@ -713,7 +730,7 @@ void ObjectMgr::LoadCreatureItemTemplates()
 
         if (!eqInfo)
             { continue; }
-		        
+                
             EquipmentInfoItem const* itemProto = GetEquipmentInfoItem(eqInfo->entry);
 
             if (itemProto->InventoryType != INVTYPE_WEAPON &&
@@ -5067,15 +5084,15 @@ void ObjectMgr::LoadAreaTriggerTeleports()
 
         AreaTrigger at;
 
-        at.requiredLevel      = fields[1].GetUInt8();
-        at.requiredItem       = fields[2].GetUInt32();
-        at.requiredItem2      = fields[3].GetUInt32();
-        at.requiredQuest      = fields[4].GetUInt32();
-        at.target_mapId       = fields[5].GetUInt32();
-        at.target_X           = fields[6].GetFloat();
-        at.target_Y           = fields[7].GetFloat();
-        at.target_Z           = fields[8].GetFloat();
-        at.target_Orientation = fields[9].GetFloat();
+        at.requiredLevel        = fields[1].GetUInt8();
+        at.requiredItem         = fields[2].GetUInt32();
+        at.requiredItem2        = fields[3].GetUInt32();
+        at.requiredQuest        = fields[4].GetUInt32();
+        at.target_mapId         = fields[5].GetUInt32();
+        at.target_X             = fields[6].GetFloat();
+        at.target_Y             = fields[7].GetFloat();
+        at.target_Z             = fields[8].GetFloat();
+        at.target_Orientation   = fields[9].GetFloat();
 
         AreaTriggerEntry const* atEntry = sAreaTriggerStore.LookupEntry(Trigger_ID);
         if (!atEntry)
@@ -6190,7 +6207,7 @@ void ObjectMgr::LoadWeatherZoneChances()
 {
     uint32 count = 0;
 
-    //                                                0     1                   2                   3                    4                   5                   6                    7                 8                 9                  10                  11                  12
+    //                                                0     1                   2                   3                    4                   5                   6                    7                 8                 9                  10                  11                  12                  13
     QueryResult* result = WorldDatabase.Query("SELECT zone, spring_rain_chance, spring_snow_chance, spring_storm_chance, summer_rain_chance, summer_snow_chance, summer_storm_chance, fall_rain_chance, fall_snow_chance, fall_storm_chance, winter_rain_chance, winter_snow_chance, winter_storm_chance FROM game_weather");
 
     if (!result)

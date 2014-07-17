@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -127,19 +127,19 @@ class MANGOS_DLL_SPEC ObjectGuid
 
         uint32 GetMaxCounter() const { return GetMaxCounter(GetHigh()); }
 
-        bool IsEmpty()         const { return m_guid == 0; }
-        bool IsCreature()      const { return GetHigh() == HIGHGUID_UNIT; }
-        bool IsPet()           const { return GetHigh() == HIGHGUID_PET; }
-        bool IsCreatureOrPet() const { return IsCreature() || IsPet(); }
-        bool IsAnyTypeCreature() const { return IsCreature() || IsPet(); }
-        bool IsPlayer()        const { return !IsEmpty() && GetHigh() == HIGHGUID_PLAYER; }
-        bool IsUnit()          const { return IsAnyTypeCreature() || IsPlayer(); }
-        bool IsItem()          const { return GetHigh() == HIGHGUID_ITEM; }
-        bool IsGameObject()    const { return GetHigh() == HIGHGUID_GAMEOBJECT; }
-        bool IsDynamicObject() const { return GetHigh() == HIGHGUID_DYNAMICOBJECT; }
-        bool IsCorpse()        const { return GetHigh() == HIGHGUID_CORPSE; }
-        bool IsTransport()     const { return GetHigh() == HIGHGUID_TRANSPORT; }
-        bool IsMOTransport()   const { return GetHigh() == HIGHGUID_MO_TRANSPORT; }
+        bool IsEmpty()             const { return m_guid == 0;                                }
+        bool IsCreature()          const { return GetHigh() == HIGHGUID_UNIT;                 }
+        bool IsPet()               const { return GetHigh() == HIGHGUID_PET;                  }
+        bool IsCreatureOrPet()     const { return IsCreature() || IsPet();                    }
+        bool IsAnyTypeCreature()   const { return IsCreature() || IsPet();                    } // wrapper to master branch
+        bool IsPlayer()            const { return !IsEmpty() && GetHigh() == HIGHGUID_PLAYER; }
+        bool IsUnit()              const { return IsAnyTypeCreature() || IsPlayer();          }
+        bool IsItem()              const { return GetHigh() == HIGHGUID_ITEM;                 }
+        bool IsGameObject()        const { return GetHigh() == HIGHGUID_GAMEOBJECT;           }
+        bool IsDynamicObject()     const { return GetHigh() == HIGHGUID_DYNAMICOBJECT;        }
+        bool IsCorpse()            const { return GetHigh() == HIGHGUID_CORPSE;               }
+        bool IsTransport()         const { return GetHigh() == HIGHGUID_TRANSPORT;            }
+        bool IsMOTransport()       const { return GetHigh() == HIGHGUID_MO_TRANSPORT;         }
 
         static TypeID GetTypeId(HighGuid high)
         {

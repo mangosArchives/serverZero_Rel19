@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -32,6 +32,7 @@
 #include "DBCStores.h"
 #include "CreatureAI.h"
 #include "InstanceData.h"
+#include "LuaEngine.h"
 
 Totem::Totem() : Creature(CREATURE_SUBTYPE_TOTEM)
 {
@@ -99,6 +100,7 @@ void Totem::Summon(Unit* owner)
 
     if (owner->GetTypeId() == TYPEID_UNIT && ((Creature*)owner)->AI())
         { ((Creature*)owner)->AI()->JustSummoned((Creature*)this); }
+    sEluna->OnSummoned(this, owner);
 
     // there are some totems, which exist just for their visual appeareance
     if (!GetSpell())

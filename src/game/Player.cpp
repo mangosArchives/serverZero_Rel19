@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -66,6 +66,7 @@
 #include "Mail.h"
 #include "DBCStores.h"
 #include "SQLStorages.h"
+#include "LuaEngine.h"
 
 #include <cmath>
 
@@ -527,6 +528,8 @@ Player::Player(WorldSession* session): Unit(), m_mover(this), m_camera(this), m_
 
 Player::~Player()
 {
+    Eluna::RemoveRef(this);
+
     CleanupsBeforeDelete();
 
     // it must be unloaded already in PlayerLogout and accessed only for loggined player
@@ -1233,6 +1236,8 @@ void Player::Update(uint32 update_diff, uint32 p_time)
         if (update_diff >= m_nextSave)
         {
             // m_nextSave reseted in SaveToDB call
+            // Used by Eluna
+            sEluna->OnSave(this);
             SaveToDB();
             DETAIL_LOG("Player '%s' (GUID: %u) saved", GetName(), GetGUIDLow());
         }
@@ -2227,6 +2232,9 @@ void Player::GiveXP(uint32 xp, Unit* victim)
 
     uint32 level = getLevel();
 
+    // Used by Eluna
+    sEluna->OnGiveXP(this, xp, victim);
+
     // XP to money conversion processed in Player::RewardQuest
     if (level >= sWorld.getConfig(CONFIG_UINT32_MAX_PLAYER_LEVEL))
         { return; }
@@ -2258,6 +2266,7 @@ void Player::GiveXP(uint32 xp, Unit* victim)
 // Current player experience not update (must be update by caller)
 void Player::GiveLevel(uint32 level)
 {
+    uint8 oldLevel = getLevel();
     if (level == getLevel())
         { return; }
 
@@ -2315,6 +2324,16 @@ void Player::GiveLevel(uint32 level)
     // update level to hunter/summon pet
     if (Pet* pet = GetPet())
         { pet->SynchronizeLevelWithOwner(); }
+
+    // Used by Eluna
+    sEluna->OnLevelChanged(this, oldLevel);
+}
+
+void Player::SetFreeTalentPoints(uint32 points)
+{
+    // Used by Eluna
+    sEluna->OnFreeTalentPointsChanged(this, points);
+    SetUInt32Value(PLAYER_CHARACTER_POINTS1, points);
 }
 
 void Player::UpdateFreeTalentPoints(bool resetIfNeed)
@@ -2531,8 +2550,8 @@ void Player::SendInitialSpells()
     /* * * * * * * * * * * * * * * * *
      * *  END OF PACKET STRUCTURE  * *
      * * * * * * * * * * * * * * * * */
-	size_t countPos = data.wpos();
-	data << uint16(spellCount);                             // spell count placeholder
+    size_t countPos = data.wpos();
+    data << uint16(spellCount);                             // spell count placeholder
 
     /* For each spell the player knows */
     for (PlayerSpellMap::const_iterator itr = m_spells.begin(); itr != m_spells.end(); ++itr)
@@ -3377,6 +3396,9 @@ uint32 Player::resetTalentsCost() const
 
 bool Player::resetTalents(bool no_cost)
 {
+    // Used by Eluna
+    sEluna->OnTalentsReset(this, no_cost);
+
     // not need after this call
     if (HasAtLoginFlag(AT_LOGIN_RESET_TALENTS))
         { RemoveAtLoginFlag(AT_LOGIN_RESET_TALENTS, true); }
@@ -3720,6 +3742,11 @@ TrainerSpellState Player::GetTrainerSpellState(TrainerSpell const* trainer_spell
  */
 void Player::DeleteFromDB(ObjectGuid playerguid, uint32 accountId, bool updateRealmChars, bool deleteFinally)
 {
+    //Make sure to delete unresolved tickets so they don't take up place in the open tickets list
+    CharacterDatabase.PExecute("DELETE FROM character_ticket "
+                               "WHERE resolved = 0 AND guid = %u",
+                               playerguid.GetCounter());
+    
     // for nonexistent account avoid update realm
     if (accountId == 0)
         { updateRealmChars = false; }
@@ -4065,6 +4092,8 @@ void Player::ResurrectPlayer(float restore_percent, bool applySickness)
     m_camera.UpdateVisibilityForOwner();
     // update visibility of player for nearby cameras
     UpdateObjectVisibility();
+
+    sEluna->OnResurrect(this);
 
     if (!applySickness)
         { return; }
@@ -5433,9 +5462,6 @@ bool Player::SetPosition(float x, float y, float z, float orientation, bool tele
         // group update
         if (GetGroup() && (old_x != x || old_y != y))
             { SetGroupUpdateFlag(GROUP_UPDATE_FLAG_POSITION); }
-
-        if (GetTrader() && !IsWithinDistInMap(GetTrader(), INTERACTION_DISTANCE))
-            { GetSession()->SendCancelTrade(); }   // will close both side trade windows
     }
 
     if (m_positionStatusUpdateTimer)                        // Update position's state only on interval
@@ -5712,6 +5738,9 @@ void Player::RewardReputation(Unit* pVictim, float rate)
 {
     if (!pVictim || pVictim->GetTypeId() == TYPEID_PLAYER)
         { return; }
+
+    if (((Creature*)pVictim)->IsReputationGainDisabled())
+        return;
 
     ReputationOnKillEntry const* Rep = sObjectMgr.GetReputationOnKillEntry(((Creature*)pVictim)->GetEntry());
 
@@ -6181,6 +6210,9 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea)
         }
     }
 
+    // Used by Eluna
+    sEluna->OnUpdateZone(this, newZone, newArea);
+
     m_zoneUpdateId    = newZone;
     m_zoneUpdateTimer = ZONE_UPDATE_INTERVAL;
 
@@ -6217,11 +6249,26 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea)
             { pvpInfo.endTimer = time(0); }                     // start toggle-off
     }
 
-    if (zone->flags & AREA_FLAG_CAPITAL)                    // in capital city
-        { SetRestType(REST_TYPE_IN_CITY); }
-    else if (HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_RESTING) && GetRestType() != REST_TYPE_IN_TAVERN)
-        // resting and not in tavern (leave city then); tavern leave handled in CheckAreaExploreAndOutdoor
-        { SetRestType(REST_TYPE_NO); }
+    if (HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_RESTING))
+    {
+        // Still inside a tavern or has recently left
+        if (GetRestType() == REST_TYPE_IN_TAVERN)
+        {
+            // Remove rest state if we have recently left a tavern. (1 feet from door way)
+            if (GetMapId() != GetInnPosMapId() || GetDistance(GetInnPosX(), GetInnPosY(), GetInnPosZ()) > 1.0f)
+            {
+                RemoveFlag(PLAYER_FLAGS, PLAYER_FLAGS_RESTING);
+                SetRestType(REST_TYPE_NO);
+            }
+        }
+        // handled in UpdateArea
+        else if (GetRestType() != REST_TYPE_IN_FACTION_AREA)
+        {
+            // Recently left a capital city
+            RemoveFlag(PLAYER_FLAGS, PLAYER_FLAGS_RESTING);
+            SetRestType(REST_TYPE_NO);
+        }
+    }
 
     // remove items with area/map limitations (delete only for alive player to allow back in ghost mode)
     // if player resurrected at teleport this will be applied in resurrect code
@@ -6247,13 +6294,10 @@ void Player::CheckDuelDistance(time_t currTime)
     if (!duel)
         { return; }
 
-    GameObject* obj = GetMap()->GetGameObject(GetGuidValue(PLAYER_DUEL_ARBITER));
+    uint64 duelFlagGUID = GetUInt64Value(PLAYER_DUEL_ARBITER);
+    GameObject* obj = GetMap()->GetGameObject(duelFlagGUID);
     if (!obj)
-    {
-        // player not at duel start map
-        DuelComplete(DUEL_FLED);
-        return;
-    }
+        { return; }
 
     if (duel->outOfBound == 0)
     {
@@ -6296,18 +6340,46 @@ void Player::DuelComplete(DuelCompleteType type)
 
     if (type != DUEL_INTERRUPTED)
     {
-        data.Initialize(SMSG_DUEL_WINNER, (1 + 20));        // we guess size
-        data << (uint8)((type == DUEL_WON) ? 0 : 1);        // 0 = just won; 1 = fled
+        data.Initialize(SMSG_DUEL_WINNER, (1 + 20));          // we guess size
+        data << uint8(type == DUEL_WON ? 0 : 1);              // 0 = just won; 1 = fled
         data << duel->opponent->GetName();
         data << GetName();
         SendMessageToSet(&data, true);
     }
 
-    // Remove Duel Flag object
-    if (GameObject* obj = GetMap()->GetGameObject(GetGuidValue(PLAYER_DUEL_ARBITER)))
-        { duel->initiator->RemoveGameObject(obj, true); }
+    switch (type)
+    {
+        case DUEL_FLED:
+            // if initiator and opponent are on the same team
+            // or initiator and opponent are not PvP enabled, forcibly stop attacking
+            if (duel->initiator->GetTeam() == duel->opponent->GetTeam())
+            {
+                duel->initiator->AttackStop();
+                duel->opponent->AttackStop();
+            }
+            else
+            {
+                if (!duel->initiator->IsPvP())
+                    duel->initiator->AttackStop();
+                if (!duel->opponent->IsPvP())
+                    duel->opponent->AttackStop();
+            }
+        default:
+            break;
+    }
 
-    /* remove auras */
+    // Used by Eluna
+    sEluna->OnDuelEnd(duel->opponent, this, type);
+
+    // Remove Duel Flag object
+    GameObject* obj = GetMap()->GetGameObject(GetUInt64Value(PLAYER_DUEL_ARBITER));
+    if (obj)
+    {
+        duel->initiator->RemoveGameObject(obj, true);
+    }
+
+    /* remove auras */ 
+    // TODO: Needs a simpler method
     std::vector<uint32> auras2remove;
     SpellAuraHolderMap const& vAuras = duel->opponent->GetSpellAuraHolderMap();
     for (SpellAuraHolderMap::const_iterator i = vAuras.begin(); i != vAuras.end(); ++i)
@@ -7794,6 +7866,21 @@ uint32 Player::GetItemCount(uint32 item, bool inBankAlso, Item* skipItem) const
     }
 
     return count;
+}
+
+Item* Player::GetItemByEntry(uint32 item) const
+{
+     for (int i = EQUIPMENT_SLOT_START; i < INVENTORY_SLOT_ITEM_END; ++i)
+        if (Item* pItem = GetItemByPos(INVENTORY_SLOT_BAG_0, i))
+            if (pItem->GetEntry() == item)
+                return pItem;
+
+    for (int i = INVENTORY_SLOT_BAG_START; i < INVENTORY_SLOT_BAG_END; ++i)
+        if (Bag* pBag = (Bag*)GetItemByPos(INVENTORY_SLOT_BAG_0, i))
+            if (Item* itemPtr = pBag->GetItemByEntry(item))
+                return itemPtr;
+
+    return NULL;
 }
 
 Item* Player::GetItemByGuid(ObjectGuid guid) const
@@ -9659,8 +9746,13 @@ Item* Player::EquipItem(uint16 pos, Item* pItem, bool update)
 
         ApplyEquipCooldown(pItem2);
 
+        // Used by Eluna
+        sEluna->OnEquip(this, pItem2, bag, slot);
+
         return pItem2;
     }
+    // Used by Eluna
+    sEluna->OnEquip(this, pItem, bag, slot);
 
     return pItem;
 }
@@ -9860,6 +9952,7 @@ void Player::DestroyItem(uint8 bag, uint8 slot, bool update)
         RemoveItemDurations(pItem);
 
         ItemRemovedQuestCheck(pItem->GetEntry(), pItem->GetCount());
+        sEluna->OnRemove(this, pItem);
 
         if (bag == INVENTORY_SLOT_BAG_0)
         {
@@ -13018,8 +13111,10 @@ void Player::SendQuestCompleteEvent(uint32 quest_id)
     }
 }
 
-void Player::SendQuestReward(Quest const* pQuest, uint32 XP, Object* /*questGiver*/)
+void Player::SendQuestReward(Quest const* pQuest, uint32 XP, Object* questGiver)
 {
+    Player* pPlayer = m_session->GetPlayer();
+
     uint32 questid = pQuest->GetQuestId();
     DEBUG_LOG("WORLD: Sent SMSG_QUESTGIVER_QUEST_COMPLETE quest = %u", questid);
     WorldPacket data(SMSG_QUESTGIVER_QUEST_COMPLETE, (4 + 4 + 4 + 4 + 4 + pQuest->GetRewItemsCount() * 8));
@@ -13046,6 +13141,14 @@ void Player::SendQuestReward(Quest const* pQuest, uint32 XP, Object* /*questGive
             { data << uint32(0) << uint32(0); }
     }
     GetSession()->SendPacket(&data);
+
+    // Used by Eluna
+    if (Creature* pCreature = questGiver->ToCreature())
+        sEluna->OnQuestComplete(pPlayer, pCreature, pQuest);
+
+    // Used by Eluna
+    if (GameObject* pGameObject = questGiver->ToGameObject())
+        sEluna->OnQuestComplete(pPlayer, pGameObject, pQuest);
 }
 
 void Player::SendQuestFailed(uint32 quest_id)
@@ -13267,7 +13370,8 @@ bool Player::LoadFromDB(ObjectGuid guid, SqlQueryHolder* holder)
     PlayerInfo const* info = sObjectMgr.GetPlayerInfo(getRace(), getClass());
     if (!info)
     {
-        DEBUG_FILTER_LOG(LOG_FILTER_PLAYER_STATS, "Player (GUID: %u) has wrong race/class (%u/%u), can't be loaded.", guid, getRace(), getClass());
+        DEBUG_FILTER_LOG(LOG_FILTER_PLAYER_STATS, "Player (GUID: %u) has wrong race/class (%u/%u), can't be loaded.",
+                         guid.GetCounter(), getRace(), getClass());
         return false;
     }
 
@@ -13319,7 +13423,6 @@ bool Player::LoadFromDB(ObjectGuid guid, SqlQueryHolder* holder)
     // load home bind and check in same time class/race pair, it used later for restore broken positions
     if (!_LoadHomeBind(holder->GetResult(PLAYER_LOGIN_QUERY_LOADHOMEBIND)))
     {
-        delete result;
         return false;
     }
 
@@ -13744,7 +13847,7 @@ bool Player::LoadFromDB(ObjectGuid guid, SqlQueryHolder* holder)
     return true;
 }
 
-bool Player::isTappedByMeOrMyGroup(Creature* creature)
+bool Player::IsTappedByMeOrMyGroup(Creature* creature)
 {
     /* Nobody tapped the monster (solo kill by another NPC) */
     if (!creature->HasFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_TAPPED))
@@ -14613,6 +14716,8 @@ InstancePlayerBind* Player::BindToInstance(DungeonPersistentState* state, bool p
         if (!load)
             DEBUG_LOG("Player::BindToInstance: %s(%d) is now bound to map %d, instance %d",
                       GetName(), GetGUIDLow(), state->GetMapId(), state->GetInstanceId());
+        // Used by Eluna
+        sEluna->OnBindToInstance(this, (Difficulty)0, state->GetMapId(), permanent);
         return &bind;
     }
     else
@@ -15754,6 +15859,9 @@ void Player::UpdateDuelFlag(time_t currTime)
     if (!duel || duel->startTimer == 0 || currTime < duel->startTimer + 3)
         { return; }
 
+    // Used by Eluna
+    sEluna->OnDuelStart(this, duel->opponent);
+
     SetUInt32Value(PLAYER_DUEL_TEAM, 1);
     duel->opponent->SetUInt32Value(PLAYER_DUEL_TEAM, 2);
 
@@ -15783,6 +15891,8 @@ Pet* Player::GetMiniPet() const
     return GetMap()->GetPet(m_miniPetGuid);
 }
 
+
+
 void Player::Say(const std::string& text, const uint32 language)
 {
     WorldPacket data;
@@ -15804,6 +15914,44 @@ void Player::TextEmote(const std::string& text)
     SendMessageToSetInRange(&data, sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_TEXTEMOTE), true, !sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_INTERACTION_CHAT));
 }
 
+void Player::LogWhisper(const std::string& text, ObjectGuid receiver) 
+{
+    WhisperLoggingLevels loggingLevel = WhisperLoggingLevels(sWorld.getConfig(CONFIG_UINT32_LOG_WHISPERS));
+
+    if (loggingLevel == WHISPER_LOGGING_NONE)
+        return;
+    
+    //Try to find ticket by either this player or the receiver
+    GMTicket* ticket = sTicketMgr.GetGMTicket(GetObjectGuid());
+    if (!ticket)
+        ticket = sTicketMgr.GetGMTicket(receiver);
+    
+    uint32 ticketId = 0;
+    if (ticket)
+        ticketId = ticket->GetId();
+    
+    bool isSomeoneGM = false;
+    
+    //Find out if at least one of them is a GM for ticket logging
+    if (GetSession()->GetSecurity() >= SEC_GAMEMASTER)
+        isSomeoneGM = true;
+    else
+    {
+        Player* pRecvPlayer = sObjectMgr.GetPlayer(receiver);
+        if (pRecvPlayer && pRecvPlayer->GetSession()->GetSecurity() >= SEC_GAMEMASTER)
+            isSomeoneGM = true;
+    }
+    
+    if ((loggingLevel == WHISPER_LOGGING_TICKETS && ticket && isSomeoneGM)
+        || loggingLevel == WHISPER_LOGGING_EVERYTHING)
+        CharacterDatabase.PExecute("INSERT INTO character_whispers "
+                                   "(to_guid, from_guid, message, regarding_ticket_id) "
+                                   "VALUES "
+                                   "(%u,      %u,        '%s',    %d)",
+                                   receiver.GetCounter(), GetObjectGuid().GetCounter(),
+                                   text.c_str(), ticketId);
+}
+
 void Player::Whisper(const std::string& text, uint32 language, ObjectGuid receiver)
 {
     if (language != LANG_ADDON)                             // if not addon data
@@ -15820,6 +15968,7 @@ void Player::Whisper(const std::string& text, uint32 language, ObjectGuid receiv
     {
         data.clear();
         ChatHandler::BuildChatPacket(data, CHAT_MSG_WHISPER_INFORM, text.c_str(), Language(language), CHAT_TAG_NONE, rPlayer->GetObjectGuid());
+        LogWhisper(text, receiver);
         GetSession()->SendPacket(&data);
     }
 
@@ -17394,6 +17543,11 @@ void Player::ApplyEquipCooldown(Item* pItem)
         if (spellData.SpellTrigger != ITEM_SPELLTRIGGER_ON_USE)
             { continue; }
 
+        //! Don't replace longer cooldowns by equip cooldown if we have any.
+        SpellCooldowns::iterator itr = m_spellCooldowns.find(spellData.SpellId);
+        if (itr != m_spellCooldowns.end() && itr->second.itemid == pItem->GetEntry() && itr->second.end > time(NULL) + 30)
+            { break; }
+
         AddSpellCooldown(spellData.SpellId, pItem->GetEntry(), time(NULL) + 30);
 
         WorldPacket data(SMSG_ITEM_COOLDOWN, 12);
@@ -18878,6 +19032,18 @@ void Player::_SaveBGData()
     }
 
     m_bgData.m_needSave = false;
+}
+
+void Player::ModifyMoney(int32 d)
+{
+    // Used by Eluna
+    sEluna->OnMoneyChanged(this, d);
+
+    if (d < 0)
+        SetMoney(GetMoney() > uint32(-d) ? GetMoney() + d : 0);
+    else
+        SetMoney(GetMoney() < uint32(MAX_MONEY_AMOUNT - d) ? GetMoney() + d : MAX_MONEY_AMOUNT);
+
 }
 
 void Player::RemoveAtLoginFlag(AtLoginFlags f, bool in_db_also /*= false*/)

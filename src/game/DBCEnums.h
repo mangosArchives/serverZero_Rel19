@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -74,12 +74,12 @@ enum FactionMasks
     // if none flags set then non-aggressive creature
 };
 
-enum MapTypes
+enum MapTypes                                               // Lua_IsInInstance
 {
-    MAP_COMMON          = 0,
-    MAP_INSTANCE        = 1,
-    MAP_RAID            = 2,
-    MAP_BATTLEGROUND    = 3,
+    MAP_COMMON          = 0,                                // none
+    MAP_INSTANCE        = 1,                                // party
+    MAP_RAID            = 2,                                // raid
+    MAP_BATTLEGROUND    = 3,                                // pvp
 };
 
 enum AbilytyLearnType
@@ -131,14 +131,16 @@ enum SpellCastTargetFlags
 };
 
 /**
- * Used in \ref Unit::HasAura for example, also used in \ref Spell::m_currentBasePoints
- * \todo Properly document the use of these indexes
+ * Used in \ref Unit::HasAura for example, also used in \ref Spell::m_currentBasePoints. These
+ * reference the three effects a \ref Spell can have which do different things, for instance it
+ * can be applying a \ref Aura. For a reference see QSW which you can get at
+ * https://bitbucket.org/sidsukana/qsw
  */
 enum SpellEffectIndex
 {
-    EFFECT_INDEX_0     = 0,
-    EFFECT_INDEX_1     = 1,
-    EFFECT_INDEX_2     = 2
+    EFFECT_INDEX_0     = 0, ///< The first spell effect
+    EFFECT_INDEX_1     = 1, ///< The second spell effect
+    EFFECT_INDEX_2     = 2  ///< The third spell effect
 };
 
 #define MAX_EFFECT_INDEX 3

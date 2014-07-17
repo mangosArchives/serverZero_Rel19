@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -47,6 +47,7 @@
 #include "OutdoorPvP/OutdoorPvP.h"
 #include "Pet.h"
 #include "SocialMgr.h"
+#include "LuaEngine.h"
 
 void WorldSession::HandleRepopRequestOpcode(WorldPacket& recv_data)
 {
@@ -67,6 +68,9 @@ void WorldSession::HandleRepopRequestOpcode(WorldPacket& recv_data)
         DEBUG_LOG("HandleRepopRequestOpcode: got request after player %s(%d) was killed and before he was updated", GetPlayer()->GetName(), GetPlayer()->GetGUIDLow());
         GetPlayer()->KillPlayer();
     }
+
+    // Used by Eluna
+    sEluna->OnRepop(GetPlayer());
 
     // this is spirit release confirm?
     GetPlayer()->RemovePet(PET_SAVE_REAGENTS);
@@ -271,16 +275,26 @@ void WorldSession::HandleLogoutRequestOpcode(WorldPacket& /*recv_data*/)
     if (ObjectGuid lootGuid = GetPlayer()->GetLootGuid())
         { DoLootRelease(lootGuid); }
 
-    // Can not logout if...
-    if (GetPlayer()->IsInCombat() ||                        //...is in combat
-        GetPlayer()->duel         ||                    //...is in Duel
-        //...is jumping ...is falling
-        GetPlayer()->m_movementInfo.HasMovementFlag(MovementFlags(MOVEFLAG_FALLING | MOVEFLAG_FALLING_FAR)))
+    uint8 reason = 0;
+
+    if (GetPlayer()->IsInCombat())
     {
-        WorldPacket data(SMSG_LOGOUT_RESPONSE, (2 + 4)) ;
-        data << (uint8)0xC;
+        reason = 1;
+    }
+    else if (GetPlayer()->m_movementInfo.HasMovementFlag(MovementFlags(MOVEFLAG_FALLING | MOVEFLAG_FALLING_FAR)))
+    {
+        reason = 3;                                         // is jumping or falling
+    }
+    else if (GetPlayer()->duel || GetPlayer()->HasAura(9454)) // is dueling or frozen by GM via freeze command
+    {
+        reason = 2;                                         // FIXME - Need the correct value
+    }
+    
+    if (reason)
+    {
+        WorldPacket data(SMSG_LOGOUT_RESPONSE, 1+4);
+        data << uint8(reason);
         data << uint32(0);
-        data << uint8(0);
         SendPacket(&data);
         LogoutRequest(0);
         return;
@@ -290,6 +304,10 @@ void WorldSession::HandleLogoutRequestOpcode(WorldPacket& /*recv_data*/)
     if (GetPlayer()->HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_RESTING) || GetPlayer()->IsTaxiFlying() ||
         GetSecurity() >= (AccountTypes)sWorld.getConfig(CONFIG_UINT32_INSTANT_LOGOUT))
     {
+        WorldPacket data(SMSG_LOGOUT_RESPONSE, 1+4);
+        data << uint8(0);
+        data << uint32(16777216);
+        SendPacket(&data);
         LogoutPlayer(true);
         return;
     }
@@ -305,9 +323,9 @@ void WorldSession::HandleLogoutRequestOpcode(WorldPacket& /*recv_data*/)
         GetPlayer()->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_STUNNED);
     }
 
-    WorldPacket data(SMSG_LOGOUT_RESPONSE, 5);
-    data << uint32(0);
+    WorldPacket data(SMSG_LOGOUT_RESPONSE, 1 + 4);
     data << uint8(0);
+    data << uint32(0);
     SendPacket(&data);
     LogoutRequest(time(NULL));
 }
@@ -848,37 +866,21 @@ void WorldSession::HandleMoveTimeSkippedOpcode(WorldPacket& recv_data)
     /*  WorldSession::Update( WorldTimer::getMSTime() );*/
     DEBUG_LOG("WORLD: Received opcode CMSG_MOVE_TIME_SKIPPED");
 
-    uint64 guid;
-    uint32 time_dif;
-    uint8 buf[16];
-    WorldPacket data(MSG_MOVE_TIME_SKIPPED, 16);
-
-    recv_data >> guid;
-    recv_data >> time_dif;
-
-    // ignore updates not for us
-    if (_player == NULL || guid != _player->GetGUID())
-    {
-        return;
-    }
-
-    // send to other players
-    data << _player->GetPackGUID();
-    data << time_dif;
-    _player->SendMessageToSet(&data, false);
+    recv_data >> Unused<uint64>();
+    recv_data >> Unused<uint32>();
 
     /*
-        ObjectGuid guid;
-        uint32 time_skipped;
-        recv_data >> guid;
-        recv_data >> time_skipped;
-        DEBUG_LOG("WORLD: Received opcode CMSG_MOVE_TIME_SKIPPED");
+    ObjectGuid guid;
+    uint32 time_skipped;
+    recv_data >> guid;
+    recv_data >> time_skipped;
+    DEBUG_LOG("WORLD: Received opcode CMSG_MOVE_TIME_SKIPPED");
 
-        /// TODO
-        must be need use in mangos
-        We substract server Lags to move time ( AntiLags )
-        for exmaple
-        GetPlayer()->ModifyLastMoveTime( -int32(time_skipped) );
+    /// TODO
+    must be need use in mangos
+    We substract server Lags to move time ( AntiLags )
+    for exmaple
+    GetPlayer()->ModifyLastMoveTime( -int32(time_skipped) );
     */
 }
 

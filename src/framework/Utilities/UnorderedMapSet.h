@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -96,6 +96,11 @@ HASH_NAMESPACE_END
 #  define HASH_NAMESPACE_END }
 using std::hash_map;
 using std::hash_set;
+#elif COMPILER == COMPILER_CLANG && defined(__FreeBSD__)
+#  define UNORDERED_MAP std::unordered_map
+#  define UNORDERED_SET std::unordered_set
+#  define HASH_NAMESPACE_START namespace std { namespace __1 {
+#  define HASH_NAMESPACE_END } }
 #elif COMPILER == COMPILER_CLANG
 #  define UNORDERED_MAP std::tr1::unordered_map
 #  define UNORDERED_SET std::tr1::unordered_set

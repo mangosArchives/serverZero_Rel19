@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef _OBJECT_H
-#define _OBJECT_H
+#ifndef MANGOS_H_OBJECT
+#define MANGOS_H_OBJECT
 
 #include "Common.h"
 #include "ByteBuffer.h"
@@ -38,10 +38,11 @@
 #define CONTACT_DISTANCE            0.5f
 #define INTERACTION_DISTANCE        5.0f
 #define ATTACK_DISTANCE             5.0f
-#define MAX_VISIBILITY_DISTANCE     333.0f      // max distance for visible object show, limited in 333 yards
-#define DEFAULT_VISIBILITY_DISTANCE 90.0f       // default visible distance, 90 yards on continents
-#define DEFAULT_VISIBILITY_INSTANCE 120.0f      // default visible distance in instances, 120 yards
-#define DEFAULT_VISIBILITY_BG       180.0f      // default visible distance in BG, 180 yards
+#define TRADE_DISTANCE              11.11f                  // max distance for trading            
+#define MAX_VISIBILITY_DISTANCE     333.0f                  // max distance for visible object show, limited in 333 yards
+#define DEFAULT_VISIBILITY_DISTANCE 90.0f                   // default visible distance, 90 yards on continents
+#define DEFAULT_VISIBILITY_INSTANCE 120.0f                  // default visible distance in instances, 120 yards
+#define DEFAULT_VISIBILITY_BG       180.0f                  // default visible distance in BG, 180 yards
 
 #define DEFAULT_WORLD_OBJECT_SIZE   0.388999998569489f      // currently used (correctly?) for any non Unit world objects. This is actually the bounding_radius, like player/creature from creature_model_data
 #define DEFAULT_OBJECT_SCALE        1.0f                    // non-Tauren player/item scale as default, npc/go from database, pets from dbc
@@ -68,6 +69,7 @@ class WorldPacket;
 class UpdateData;
 class WorldSession;
 class Creature;
+class GameObject;
 class Player;
 class Unit;
 class Group;
@@ -218,8 +220,27 @@ class MANGOS_DLL_SPEC Object
 
         ObjectGuid const& GetGuidValue(uint16 index) const { return *reinterpret_cast<ObjectGuid const*>(&GetUInt64Value(index)); }
 
+        Player* ToPlayer() { if (GetTypeId() == TYPEID_PLAYER) return reinterpret_cast<Player*>(this); else return NULL; }
+        Player const* ToPlayer() const { if (GetTypeId() == TYPEID_PLAYER) return reinterpret_cast<Player const*>(this); else return NULL; }
+
+        Creature* ToCreature() { if (GetTypeId() == TYPEID_UNIT) return reinterpret_cast<Creature*>(this); else return NULL; }
+        Creature const* ToCreature() const { if (GetTypeId() == TYPEID_UNIT) return reinterpret_cast<Creature const*>(this); else return NULL; }
+
+        Unit* ToUnit() { if (isType(TYPEMASK_UNIT)) return reinterpret_cast<Unit*>(this); else return NULL; }
+        Unit const* ToUnit() const { if (isType(TYPEMASK_UNIT)) return reinterpret_cast<Unit const*>(this); else return NULL; }
+
+        GameObject* ToGameObject() { if (GetTypeId() == TYPEID_GAMEOBJECT) return reinterpret_cast<GameObject*>(this); else return NULL; }
+        GameObject const* ToGameObject() const { if (GetTypeId() == TYPEID_GAMEOBJECT) return reinterpret_cast<GameObject const*>(this); else return NULL; }
+
+        Corpse* ToCorpse() { if (GetTypeId() == TYPEID_CORPSE) return reinterpret_cast<Corpse*>(this); else return NULL; }
+        Corpse const* ToCorpse() const { if (GetTypeId() == TYPEID_CORPSE) return reinterpret_cast<Corpse const*>(this); else return NULL; }
+
+        DynamicObject* ToDynObject() { if (GetTypeId() == TYPEID_DYNAMICOBJECT) return reinterpret_cast<DynamicObject*>(this); else return NULL; }
+        DynamicObject const* ToDynObject() const { if (GetTypeId() == TYPEID_DYNAMICOBJECT) return reinterpret_cast<DynamicObject const*>(this); else return NULL; }
+
         void SetInt32Value(uint16 index,        int32  value);
         void SetUInt32Value(uint16 index,       uint32  value);
+        void UpdateUInt32Value(uint16 index,    uint32  value);
         void SetUInt64Value(uint16 index, const uint64& value);
         void SetFloatValue(uint16 index,       float   value);
         void SetByteValue(uint16 index, uint8 offset, uint8 value);
@@ -449,7 +470,7 @@ class MANGOS_DLL_SPEC WorldObject : public Object
                 WorldObject* const m_obj;
         };
 
-        virtual ~WorldObject() {}
+        virtual ~WorldObject();
 
         virtual void Update(uint32 /*update_diff*/, uint32 /*time_diff*/) {}
 
@@ -604,6 +625,7 @@ class MANGOS_DLL_SPEC WorldObject : public Object
         void BuildUpdateData(UpdateDataMapType&) override;
 
         Creature* SummonCreature(uint32 id, float x, float y, float z, float ang, TempSummonType spwtype, uint32 despwtime, bool asActiveObject = false);
+        GameObject* SummonGameObject(uint32 id, float x, float y, float z, float angle, uint32 despwtime);
 
         bool isActiveObject() const { return m_isActiveObject || m_viewPoint.hasViewers(); }
         void SetActiveObjectState(bool active);

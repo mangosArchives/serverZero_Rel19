@@ -71,8 +71,8 @@ CREATE TABLE `creature_template` (
   `GossipMenuId` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `EquipmentTemplateId` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `Civilian` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `AIName` char(64) NOT NULL DEFAULT '',
-  `ScriptName` char(64) NOT NULL DEFAULT '',
+  `AIName` char(64) DEFAULT '',
+  `ScriptName` char(64) DEFAULT '',
   PRIMARY KEY (`entry`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='Creature System';
 

@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -49,6 +49,7 @@
 #include "movement/packet_builder.h"
 #include "CreatureLinkingMgr.h"
 #include "Chat.h"
+#include "LuaEngine.h"
 
 Object::Object()
 {
@@ -64,6 +65,8 @@ Object::Object()
 
 Object::~Object()
 {
+    Eluna::RemoveRef(this);
+
     if (IsInWorld())
     {
         ///- Do NOT call RemoveFromWorld here, if the object is a player it will crash
@@ -446,7 +449,7 @@ void Object::BuildValuesUpdate(uint8 updatetype, ByteBuffer* data, UpdateMask* u
                             { send_value = send_value & ~UNIT_DYNFLAG_LOOTABLE; }
 
                     /* If we are allowed to loot it and mob is tapped by us, destroy the tapped flag */
-                    bool is_tapped = target->isTappedByMeOrMyGroup((Creature*)this);
+                    bool is_tapped = target->IsTappedByMeOrMyGroup((Creature*)this);
 
                     /* If the creature has tapped flag but is tapped by us, remove the flag */
                     if (send_value & UNIT_DYNFLAG_TAPPED && is_tapped)
@@ -583,6 +586,14 @@ void Object::SetUInt32Value(uint16 index, uint32 value)
         m_changedValues[index] = true;
         MarkForClientUpdate();
     }
+}
+
+void Object::UpdateUInt32Value(uint16 index, uint32 value)
+{
+    MANGOS_ASSERT(index < m_valuesCount || PrintIndexError(index, true));
+
+    m_uint32Values[index] = value;
+    m_changedValues[index] = true;
 }
 
 void Object::SetUInt64Value(uint16 index, const uint64& value)
@@ -906,6 +917,11 @@ WorldObject::WorldObject() :
     m_mapId(0), m_InstanceId(0),
     m_isActiveObject(false)
 {
+}
+
+WorldObject::~WorldObject()
+{
+    Eluna::RemoveRef(this);
 }
 
 void WorldObject::CleanupsBeforeDelete()
@@ -1539,12 +1555,37 @@ Creature* WorldObject::SummonCreature(uint32 id, float x, float y, float z, floa
     if (GetTypeId() == TYPEID_UNIT && ((Creature*)this)->AI())
         { ((Creature*)this)->AI()->JustSummoned(pCreature); }
 
+    if (Unit* summoner = ToUnit())
+        sEluna->OnSummoned(pCreature, summoner);
+
     // Creature Linking, Initial load is handled like respawn
     if (pCreature->IsLinkingEventTrigger())
         { GetMap()->GetCreatureLinkingHolder()->DoCreatureLinkingEvent(LINKING_EVENT_RESPAWN, pCreature); }
 
     // return the creature therewith the summoner has access to it
     return pCreature;
+}
+
+GameObject* WorldObject::SummonGameObject(uint32 id, float x, float y, float z, float angle, uint32 despwtime)
+{
+    GameObject* pGameObj = new GameObject;
+
+    Map *map = GetMap();
+
+    if (!map)
+        return NULL;
+
+    if (!pGameObj->Create(map->GenerateLocalLowGuid(HIGHGUID_GAMEOBJECT), id, map, x, y, z, angle))
+    {
+        delete pGameObj;
+        return NULL;
+    }
+
+    pGameObj->SetRespawnTime(despwtime/IN_MILLISECONDS);
+
+    map->Add(pGameObj);
+
+    return pGameObj;
 }
 
 // how much space should be left in front of/ behind a mob that already uses a space

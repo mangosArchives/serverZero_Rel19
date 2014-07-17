@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.2.5a, 4.2.3 and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -26,7 +26,7 @@
 #define MANGOS_SYSTEMCONFIG_H
 
 #ifndef _PACKAGENAME
-#define _PACKAGENAME "mangos-zero"
+#define _PACKAGENAME "MaNGOS Zero"
 #endif
 
 #include "Platform/Define.h"
@@ -47,11 +47,9 @@
 #ifndef _REALMDCONFVERSION
 # define _REALMDCONFVERSION 2010062001
 #endif
+
 #ifndef _WARDENDCONFVERSION
 # define _WARDENDCONFVERSION 2010111901
-#endif
-#ifndef _MODSCONFVERSION
-# define _MODSCONFVERSION 2010062001
 #endif
 
 #if MANGOS_ENDIAN == MANGOS_BIGENDIAN
@@ -84,7 +82,7 @@
 # define _MANGOSD_CONFIG  SYSCONFDIR"mangosd.conf"
 # define _REALMD_CONFIG   SYSCONFDIR"realmd.conf"
 # define _WARDEND_CONFIG  SYSCONFDIR"wardend.conf"
-# define _MODS_CONFIG     SYSCONFDIR"mods.conf"
+
 # define _AUCTIONHOUSEBOT_CONFIG   SYSCONFDIR"ahbot.conf"
 #else
 # if defined  (__FreeBSD__)
@@ -104,7 +102,6 @@
 # endif
 # define _MANGOSD_CONFIG  SYSCONFDIR"mangosd.conf"
 # define _REALMD_CONFIG  SYSCONFDIR"realmd.conf"
-# define _MODS_CONFIG  SYSCONFDIR"mods.conf"
 # define _AUCTIONHOUSEBOT_CONFIG   SYSCONFDIR"ahbot.conf"
 #endif
 

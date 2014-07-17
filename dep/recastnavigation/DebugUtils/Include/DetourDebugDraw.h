@@ -24,8 +24,8 @@
 
 enum DrawNavMeshFlags
 {
-	DU_DRAWNAVMESH_OFFMESHCONS = 0x01,
-	DU_DRAWNAVMESH_CLOSEDLIST = 0x02,
+    DU_DRAWNAVMESH_OFFMESHCONS = 0x01,
+    DU_DRAWNAVMESH_CLOSEDLIST = 0x02,
 };
 
 void duDebugDrawNavMesh(struct duDebugDraw* dd, const dtNavMesh& mesh, unsigned char flags);

@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -90,7 +90,7 @@ MPQFile::MPQFile(const char* filename):
             buffer = 0;
             return;
         }
-        buffer = new char[size];
+        buffer = new char[(int)size];
 
         //libmpq_file_getdata
         libmpq__file_read(mpq_a, filenum, (unsigned char*)buffer, size, &transferred);
@@ -106,10 +106,10 @@ size_t MPQFile::read(void* dest, size_t bytes)
 {
     if (eof) { return 0; }
 
-    size_t rpos = pointer + bytes;
+	size_t rpos = (size_t)(pointer + bytes);
     if (rpos > size)
     {
-        bytes = size - pointer;
+        bytes = (size_t)(size - pointer);
         eof = true;
     }
 

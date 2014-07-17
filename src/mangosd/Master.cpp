@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -153,7 +153,7 @@ class RARunnable : public ACE_Based::Runnable
                 sLog.outError("MaNGOS RA can not bind to port %d on %s", raport, stringip.c_str());
             }
 
-            sLog.outString("Starting Remote access listner on port %d on %s", raport, stringip.c_str());
+            sLog.outString("Starting Remote access listener on port %d on %s", raport, stringip.c_str());
 
             while (!m_Reactor->reactor_event_loop_done())
             {
@@ -204,6 +204,9 @@ int Master::Run()
         Log::WaitBeforeContinueIfNeed();
         return 1;
     }
+
+    ///- Set Realm to Offline, if crash happens. Only used once.
+    LoginDatabase.DirectPExecute("UPDATE realmlist SET realmflags = realmflags | %u WHERE id = '%u'", REALM_FLAG_OFFLINE, realmID);
 
     ///- Initialize the World
     sWorld.SetInitialWorldSettings();
@@ -304,7 +307,12 @@ int Master::Run()
         runnable->setListenArguments(sConfig.GetStringDefault("SOAP.IP", "127.0.0.1"), sConfig.GetIntDefault("SOAP.Port", 7878));
         soap_thread = new ACE_Based::Thread(runnable);
     }
-#endif
+#else /* ENABLE_SOAP */
+    if (sConfig.GetBoolDefault("SOAP.Enabled", false))
+    {
+        sLog.outError("SOAP is enabled but wasn't included during compilation, not activating it.");
+    }
+#endif /* ENABLE_SOAP */
 
     ///- Start up freeze catcher thread
     ACE_Based::Thread* freeze_thread = NULL;

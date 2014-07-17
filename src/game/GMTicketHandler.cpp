@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -82,10 +82,23 @@ void WorldSession::HandleGMTicketUpdateTextOpcode(WorldPacket& recv_data)
         { ticket->SetText(ticketText.c_str()); }
     else
         { sLog.outError("Ticket update: Player %s (GUID: %u) doesn't have active ticket", GetPlayer()->GetName(), GetPlayer()->GetGUIDLow()); }
+    
+}
+
+//A statusCode of 3 would mean that the client should show the survey now
+void WorldSession::SendGMTicketStatusUpdate(GMTicketStatus statusCode)
+{
+    WorldPacket data(SMSG_GM_TICKET_STATUS_UPDATE, 4);
+    data << uint32(statusCode);
+    SendPacket(&data);
 }
 
 void WorldSession::HandleGMTicketDeleteTicketOpcode(WorldPacket& /*recv_data*/)
 {
+    //Some housekeeping, this could be cleaner
+    GMTicket *ticket = sTicketMgr.GetGMTicket(_player->GetObjectGuid());
+    if (ticket)
+        ticket->CloseByClient();
     sTicketMgr.Delete(GetPlayer()->GetObjectGuid());
 
     WorldPacket data(SMSG_GMTICKET_DELETETICKET, 4);
@@ -138,39 +151,19 @@ void WorldSession::HandleGMTicketCreateOpcode(WorldPacket& recv_data)
 void WorldSession::HandleGMTicketSystemStatusOpcode(WorldPacket& /*recv_data*/)
 {
     WorldPacket data(SMSG_GMTICKET_SYSTEMSTATUS, 4);
-    data << uint32(1);                                      // we can also disable ticket system by sending 0 value
-
+    //Handled by using .ticket system_on/off
+    data << uint32(sTicketMgr.WillAcceptTickets() ? 1 : 0);
     SendPacket(&data);
 }
 
-void WorldSession::HandleGMSurveySubmitOpcode(WorldPacket& recv_data)
+void WorldSession::HandleGMTicketSurveySubmitOpcode(WorldPacket& recv_data)
 {
-    // GM survey is shown after SMSG_GM_TICKET_STATUS_UPDATE with status = 3
-    uint32 x;
-    recv_data >> x;                                         // answer range? (6 = 0-5?)
-    DEBUG_LOG("SURVEY: X = %u", x);
-
-    uint8 result[10];
-    memset(result, 0, sizeof(result));
-    for (int i = 0; i < 10; ++i)
-    {
-        uint32 questionID;
-        recv_data >> questionID;                            // GMSurveyQuestions.dbc
-        if (!questionID)
-            { break; }
-
-        uint8 value;
-        std::string unk_text;
-        recv_data >> value;                                 // answer
-        recv_data >> unk_text;                              // always empty?
-
-        result[i] = value;
-        DEBUG_LOG("SURVEY: ID %u, value %u, text %s", questionID, value, unk_text.c_str());
-    }
-
-    std::string comment;
-    recv_data >> comment;                                   // addional comment
-    DEBUG_LOG("SURVEY: comment %s", comment.c_str());
-
-    // TODO: chart this data in some way
+    // This will be sent after SMSG_GM_TICKET_STATUS_UPDATE with the status = 3
+    GMTicket* ticket = sTicketMgr.GetGMTicket(GetPlayer()->GetObjectGuid());
+    if (!ticket)
+        //Should we send GM_TICKET_STATUS_CLOSE here aswell?
+        return;
+    
+    ticket->SaveSurveyData(recv_data);
+    //Here something needs to be done to inform the client that the ticket is closed
 }

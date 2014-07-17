@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -111,32 +111,9 @@ struct ModelHeader
 
 };
 
-/**
- * @brief
- *
- */
-struct ModelVertex
+struct ModelBoundingVertex
 {
     Vec3D pos; /**< TODO */
-    uint8 weights[4]; /**< TODO */
-    uint8 bones[4]; /**< TODO */
-    Vec3D normal; /**< TODO */
-    Vec2D texcoords; /**< TODO */
-    int unk1, unk2; /**< always 0,0 so this is probably unused */
-};
-
-/**
- * @brief
- *
- */
-struct ModelView
-{
-    uint32 nIndex, ofsIndex; /**< Vertices in this model (index into vertices[]) */
-    uint32 nTris, ofsTris;   /**< indices */
-    uint32 nProps, ofsProps; /**< additional vtx properties */
-    uint32 nSub, ofsSub;     /**< materials/renderops/submeshes */
-    uint32 nTex, ofsTex;     /**< material properties/textures */
-    int32 lod;               /**< LOD bias? */
 };
 
 #pragma pack(pop)

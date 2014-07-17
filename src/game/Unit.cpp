@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -57,6 +57,7 @@
 #include "movement/MoveSplineInit.h"
 #include "movement/MoveSpline.h"
 #include "CreatureLinkingMgr.h"
+#include "LuaEngine.h"
 
 #include <math.h>
 #include <stdarg.h>
@@ -278,6 +279,8 @@ Unit::Unit() :
 
 Unit::~Unit()
 {
+    Eluna::RemoveRef(this);
+
     // set current spells as deletable
     for (uint32 i = 0; i < CURRENT_MAX_SPELL; ++i)
     {
@@ -754,6 +757,13 @@ uint32 Unit::DealDamage(Unit* pVictim, uint32 damage, CleanDamage const* cleanDa
         if (GetTypeId() == TYPEID_UNIT && ((Creature*)this)->AI())
             { ((Creature*)this)->AI()->KilledUnit(pVictim); }
 
+        if (Creature* killer = ToCreature())
+        {
+            // Used by Eluna
+            if (Player* killed = pVictim->ToPlayer())
+                sEluna->OnPlayerKilledByCreature(killer, killed);
+        }
+
         // Call AI OwnerKilledUnit (for any current summoned minipet/guardian/protector)
         PetOwnerKilledUnit(pVictim);
 
@@ -808,6 +818,9 @@ uint32 Unit::DealDamage(Unit* pVictim, uint32 damage, CleanDamage const* cleanDa
                     if (OutdoorPvP* outdoorPvP = sOutdoorPvPMgr.GetScript(playerVictim->GetCachedZoneId()))
                         { outdoorPvP->HandlePlayerKill(player_tap, playerVictim); }
                 }
+
+                // Used by Eluna
+                sEluna->OnPVPKill(player_tap, playerVictim);
             }
         }
         else                                                // Killed creature
@@ -1044,7 +1057,12 @@ void Unit::JustKilledCreature(Creature* victim, Player* responsiblePlayer)
 
     if (responsiblePlayer)                                  // killedby Player, inform BG
         if (BattleGround* bg = responsiblePlayer->GetBattleGround())
-            { bg->HandleKillUnit(victim, responsiblePlayer); }
+        {
+            bg->HandleKillUnit(victim, responsiblePlayer);
+
+            // Used by Eluna
+            sEluna->OnCreatureKill(responsiblePlayer, victim);
+        }
 
     // Notify the outdoor pvp script
     if (OutdoorPvP* outdoorPvP = sOutdoorPvPMgr.GetScript(responsiblePlayer ? responsiblePlayer->GetCachedZoneId() : GetZoneId()))
@@ -3830,50 +3848,6 @@ void Unit::RemoveAuraHolderDueToSpellByDispel(uint32 spellId, uint32 stackAmount
     RemoveAuraHolderFromStack(spellId, stackAmount, casterGuid, AURA_REMOVE_BY_DISPEL);
 }
 
-void Unit::RemoveAurasDueToSpellBySteal(uint32 spellId, ObjectGuid casterGuid, Unit* stealer)
-{
-    SpellAuraHolder* holder = GetSpellAuraHolder(spellId, casterGuid);
-    SpellEntry const* spellProto = sSpellStore.LookupEntry(spellId);
-    SpellAuraHolder* new_holder = CreateSpellAuraHolder(spellProto, stealer, this);
-
-    // set its duration and maximum duration
-    // max duration 2 minutes (in msecs)
-    int32 dur = holder->GetAuraDuration();
-    int32 max_dur = 2 * MINUTE * IN_MILLISECONDS;
-    int32 new_max_dur = max_dur > dur ? dur : max_dur;
-    new_holder->SetAuraMaxDuration(new_max_dur);
-    new_holder->SetAuraDuration(new_max_dur);
-
-    for (int32 i = 0; i < MAX_EFFECT_INDEX; ++i)
-    {
-        Aura* aur = holder->GetAuraByEffectIndex(SpellEffectIndex(i));
-
-        if (!aur)
-            { continue; }
-
-        int32 basePoints = aur->GetBasePoints();
-        // construct the new aura for the attacker - will never return NULL, it's just a wrapper for
-        // some different constructors
-        Aura* new_aur = CreateAura(aur->GetSpellProto(), aur->GetEffIndex(), &basePoints, new_holder, stealer, this);
-
-        // set periodic to do at least one tick (for case when original aura has been at last tick preparing)
-        int32 periodic = aur->GetModifier()->periodictime;
-        new_aur->GetModifier()->periodictime = periodic < new_max_dur ? periodic : new_max_dur;
-
-        // add the new aura to stealer
-        new_holder->AddAura(new_aur, new_aur->GetEffIndex());
-    }
-
-    if (holder->ModStackAmount(-1))
-        // Remove aura as dispel
-        { RemoveSpellAuraHolder(holder, AURA_REMOVE_BY_DISPEL); }
-
-    // strange but intended behaviour: Stolen single target auras won't be treated as single targeted
-    new_holder->SetTrackedAuraType(TRACK_AURA_TYPE_NOT_TRACKED);
-
-    stealer->AddSpellAuraHolder(new_holder);
-}
-
 void Unit::RemoveAurasDueToSpellByCancel(uint32 spellId)
 {
     SpellAuraHolderBounds spair = GetSpellAuraHolderBounds(spellId);
@@ -6372,6 +6346,9 @@ void Unit::SetInCombatState(bool PvP, Unit* enemy)
     if (PvP)
         { m_CombatTimer = 5000; }
 
+    if (IsInCombat())
+        return;
+
     bool creatureNotInCombat = GetTypeId() == TYPEID_UNIT && !HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IN_COMBAT);
 
     SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IN_COMBAT);
@@ -6405,6 +6382,10 @@ void Unit::SetInCombatState(bool PvP, Unit* enemy)
         if (m_isCreatureLinkingTrigger)
             { GetMap()->GetCreatureLinkingHolder()->DoCreatureLinkingEvent(LINKING_EVENT_AGGRO, pCreature, enemy); }
     }
+
+    // Used by Eluna
+    if (GetTypeId() == TYPEID_PLAYER)
+        sEluna->OnPlayerEnterCombat(ToPlayer(), enemy);
 }
 
 void Unit::ClearInCombat()
@@ -6414,6 +6395,10 @@ void Unit::ClearInCombat()
 
     if (IsCharmed() || (GetTypeId() != TYPEID_PLAYER && ((Creature*)this)->IsPet()))
         { RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PET_IN_COMBAT); }
+
+    // Used by Eluna
+    if (GetTypeId() == TYPEID_PLAYER)
+        sEluna->OnPlayerLeaveCombat(ToPlayer());
 
     // Player's state will be cleared in Player::UpdateContestedPvP
     if (GetTypeId() == TYPEID_UNIT)
@@ -7227,7 +7212,7 @@ bool Unit::SelectHostileTarget()
 
     if (target)
     {
-        if (!hasUnitState(UNIT_STAT_STUNNED | UNIT_STAT_DIED))
+        if (!hasUnitState(UNIT_STAT_CAN_NOT_REACT_OR_LOST_CONTROL))
         {
             SetInFront(target);
             if (oldTarget != target)

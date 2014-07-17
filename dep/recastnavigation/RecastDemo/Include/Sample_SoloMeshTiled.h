@@ -27,97 +27,97 @@
 class Sample_SoloMeshTiled : public Sample
 {
 protected:
-	struct Tile
-	{
-		inline Tile() : chf(0), solid(0), cset(0), pmesh(0), dmesh(0), buildTime(0) {}
-		inline ~Tile()
-		{
-			rcFreeCompactHeightfield(chf);
-			rcFreeContourSet(cset);
-			rcFreeHeightField(solid);
-			rcFreePolyMesh(pmesh);
-			rcFreePolyMeshDetail(dmesh);
-		}
-		int x, y;
-		rcCompactHeightfield* chf;
-		rcHeightfield* solid;
-		rcContourSet* cset;
-		rcPolyMesh* pmesh;
-		rcPolyMeshDetail* dmesh;
-		int buildTime;
-	};
-	
-	struct TileSet
-	{
-		inline TileSet() : width(0), height(0), tiles(0) {}
-		inline ~TileSet() { delete [] tiles; }
-		int width, height;
-		float bmin[3], bmax[3];
-		float cs, ch;
-		Tile* tiles;
-	};
-	
-	bool m_measurePerTileTimings;
-	bool m_keepInterResults;
-	float m_tileSize;
-	float m_totalBuildTimeMs;
-	
-	rcPolyMesh* m_pmesh;
-	rcPolyMeshDetail* m_dmesh;
-	rcConfig m_cfg;	
-	TileSet* m_tileSet;
+    struct Tile
+    {
+        inline Tile() : chf(0), solid(0), cset(0), pmesh(0), dmesh(0), buildTime(0) {}
+        inline ~Tile()
+        {
+            rcFreeCompactHeightfield(chf);
+            rcFreeContourSet(cset);
+            rcFreeHeightField(solid);
+            rcFreePolyMesh(pmesh);
+            rcFreePolyMeshDetail(dmesh);
+        }
+        int x, y;
+        rcCompactHeightfield* chf;
+        rcHeightfield* solid;
+        rcContourSet* cset;
+        rcPolyMesh* pmesh;
+        rcPolyMeshDetail* dmesh;
+        int buildTime;
+    };
+    
+    struct TileSet
+    {
+        inline TileSet() : width(0), height(0), tiles(0) {}
+        inline ~TileSet() { delete [] tiles; }
+        int width, height;
+        float bmin[3], bmax[3];
+        float cs, ch;
+        Tile* tiles;
+    };
+    
+    bool m_measurePerTileTimings;
+    bool m_keepInterResults;
+    float m_tileSize;
+    float m_totalBuildTimeMs;
+    
+    rcPolyMesh* m_pmesh;
+    rcPolyMeshDetail* m_dmesh;
+    rcConfig m_cfg;    
+    TileSet* m_tileSet;
 
-	static const int MAX_STAT_BUCKETS = 1000;
-	int m_statPolysPerTile[MAX_STAT_BUCKETS];
-	int m_statPolysPerTileSamples;
-	int m_statTimePerTile[MAX_STAT_BUCKETS];
-	int m_statTimePerTileSamples;
-	
-	int m_highLightedTileX, m_highLightedTileY;
-	
-	enum DrawMode
-	{
-		DRAWMODE_NAVMESH,
-		DRAWMODE_NAVMESH_TRANS,
-		DRAWMODE_NAVMESH_BVTREE,
-		DRAWMODE_NAVMESH_NODES,
-		DRAWMODE_NAVMESH_INVIS,
-		DRAWMODE_MESH,
-		DRAWMODE_VOXELS,
-		DRAWMODE_VOXELS_WALKABLE,
-		DRAWMODE_COMPACT,
-		DRAWMODE_COMPACT_DISTANCE,
-		DRAWMODE_COMPACT_REGIONS,
-		DRAWMODE_REGION_CONNECTIONS,
-		DRAWMODE_RAW_CONTOURS,
-		DRAWMODE_BOTH_CONTOURS,
-		DRAWMODE_CONTOURS,
-		DRAWMODE_POLYMESH,
-		DRAWMODE_POLYMESH_DETAIL,
-		MAX_DRAWMODE
-	};
-	
-	DrawMode m_drawMode;
-	
-	void cleanup();
-	bool canDrawTile(int x, int y);
-	
+    static const int MAX_STAT_BUCKETS = 1000;
+    int m_statPolysPerTile[MAX_STAT_BUCKETS];
+    int m_statPolysPerTileSamples;
+    int m_statTimePerTile[MAX_STAT_BUCKETS];
+    int m_statTimePerTileSamples;
+    
+    int m_highLightedTileX, m_highLightedTileY;
+    
+    enum DrawMode
+    {
+        DRAWMODE_NAVMESH,
+        DRAWMODE_NAVMESH_TRANS,
+        DRAWMODE_NAVMESH_BVTREE,
+        DRAWMODE_NAVMESH_NODES,
+        DRAWMODE_NAVMESH_INVIS,
+        DRAWMODE_MESH,
+        DRAWMODE_VOXELS,
+        DRAWMODE_VOXELS_WALKABLE,
+        DRAWMODE_COMPACT,
+        DRAWMODE_COMPACT_DISTANCE,
+        DRAWMODE_COMPACT_REGIONS,
+        DRAWMODE_REGION_CONNECTIONS,
+        DRAWMODE_RAW_CONTOURS,
+        DRAWMODE_BOTH_CONTOURS,
+        DRAWMODE_CONTOURS,
+        DRAWMODE_POLYMESH,
+        DRAWMODE_POLYMESH_DETAIL,
+        MAX_DRAWMODE
+    };
+    
+    DrawMode m_drawMode;
+    
+    void cleanup();
+    bool canDrawTile(int x, int y);
+    
 public:
-	Sample_SoloMeshTiled();
-	virtual ~Sample_SoloMeshTiled();
-	
-	virtual void handleSettings();
-	virtual void handleTools();
-	virtual void handleDebugMode();
-	
-	virtual void handleRender();
-	virtual void handleRenderOverlay(double* proj, double* model, int* view);
-	virtual void handleMeshChanged(class InputGeom* geom);
-	virtual bool handleBuild();
-	
-	void setHighlightedTile(const float* pos);
-	inline int getHilightedTileX() const { return m_highLightedTileX; }
-	inline int getHilightedTileY() const { return m_highLightedTileY; }
+    Sample_SoloMeshTiled();
+    virtual ~Sample_SoloMeshTiled();
+    
+    virtual void handleSettings();
+    virtual void handleTools();
+    virtual void handleDebugMode();
+    
+    virtual void handleRender();
+    virtual void handleRenderOverlay(double* proj, double* model, int* view);
+    virtual void handleMeshChanged(class InputGeom* geom);
+    virtual bool handleBuild();
+    
+    void setHighlightedTile(const float* pos);
+    inline int getHilightedTileX() const { return m_highLightedTileX; }
+    inline int getHilightedTileY() const { return m_highLightedTileY; }
 };
 
 

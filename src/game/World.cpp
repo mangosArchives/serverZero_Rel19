@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -70,6 +70,7 @@
 #include "CharacterDatabaseCleaner.h"
 #include "CreatureLinkingMgr.h"
 #include "WardenMgr.h"
+#include "LuaEngine.h"
 
 INSTANTIATE_SINGLETON_1(World);
 
@@ -151,6 +152,7 @@ void World::CleanupsBeforeStop()
     KickAll();                                       // save and kick all players
     UpdateSessions(1);                               // real players unload required UpdateSessions call
     sBattleGroundMgr.DeleteAllBattleGrounds();       // unload battleground templates before different singletons destroyed
+    Eluna::Uninitialize();
 }
 
 /// Find a player in a specified zone
@@ -731,6 +733,8 @@ void World::LoadConfigSettings(bool reload)
     setConfig(CONFIG_UINT32_TIMERBAR_FIRE_GMLEVEL,    "TimerBar.Fire.GMLevel", SEC_CONSOLE);
     setConfig(CONFIG_UINT32_TIMERBAR_FIRE_MAX,        "TimerBar.Fire.Max", 1);
 
+    setConfig(CONFIG_UINT32_LOG_WHISPERS,             "LogWhispers", 1);
+    
     setConfig(CONFIG_BOOL_PET_UNSUMMON_AT_MOUNT,      "PetUnsummonAtMount", false);
 
     m_relocation_ai_notify_delay = sConfig.GetIntDefault("Visibility.AIRelocationNotifyDelay", 1000u);
@@ -848,6 +852,7 @@ void World::LoadConfigSettings(bool reload)
 	
 	// Warden ban time
     setConfig(CONFIG_UINT32_WARDEN_BAN_TIME, "Wardend.BanLength", 1);
+    setConfig(CONFIG_BOOL_ELUNA_ENABLED, "Eluna.Enabled", true);
 }
 
 /// Initialize the World
@@ -1248,6 +1253,10 @@ void World::SetInitialWorldSettings()
             break;
     }
 
+    ///- Initialize Lua Engine
+    sLog.outString("Initialize Eluna Lua Engine...");
+    Eluna::Initialize();
+
     ///- Initialize game time and timers
     sLog.outString("DEBUG:: Initialize game time and timers");
     m_gameTime = time(NULL);
@@ -1480,6 +1489,9 @@ void World::Update(uint32 diff)
         m_timers[WUPDATE_WARDEN].SetCurrent(0);
     }
 
+
+    ///- Used by Eluna
+    sEluna->OnWorldUpdate(diff);
 
     ///- Delete all characters which have been deleted X days before
     if (m_timers[WUPDATE_DELETECHARS].Passed())

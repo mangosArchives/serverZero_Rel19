@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -37,6 +37,7 @@
 #include "World.h"
 #include "Util.h"
 #include "DBCStores.h"
+#include "LuaEngine.h"
 
 void WorldSession::HandleAutostoreLootItemOpcode(WorldPacket& recv_data)
 {
@@ -267,6 +268,9 @@ void WorldSession::HandleLootMoneyOpcode(WorldPacket& /*recv_data*/)
         else
             { player->ModifyMoney(pLoot->gold); }
 
+        // Used by Eluna
+        sEluna->OnLootMoney(player, pLoot->gold);
+
         pLoot->gold = 0;
 
         if (pItem)
@@ -283,16 +287,9 @@ void WorldSession::HandleLootOpcode(WorldPacket& recv_data)
 
     // Check possible cheat
     if (!_player->IsAlive())
-        { return; }
-
-    /* Make sure player is allowed to loot before sending them loot data */
-    if (Creature* my_creature = _player->GetMap()->GetCreature(guid))
-        /* If the player is NOT allowed to loot */
-        if (!_player->isAllowedToLoot(my_creature))
-        {
-            _player->SendLootRelease(guid);
-            return;
-        }
+    {
+        return;
+    }
 
     GetPlayer()->SendLoot(guid, LOOT_CORPSE);
 }
@@ -474,20 +471,16 @@ void WorldSession::DoLootRelease(ObjectGuid lguid)
             loot = &pCreature->loot;
 
             // update next looter
-            // Old system (we no longer alter the master looter)
-            /*if(Group* group = pCreature->GetGroupLootRecipient())
+            if (Group* group = pCreature->GetGroupLootRecipient())
                 if (group->GetLooterGuid() == player->GetObjectGuid())
-                    group->UpdateLooterGuid(pCreature);*/
-
-            /* This sets the lootable flag again and updates the creature so others see the loot */
-            pCreature->PrepareBodyLootState();
+                    group->UpdateLooterGuid(pCreature);
 
             /* We've completely looted the creature, mark it as available for skinning */
             if (loot->isLooted() && !pCreature->IsAlive())
             {
-                /* Update creature */
+                /* Update Creature: for example skinning after normal loot */
+                pCreature->PrepareBodyLootState();
                 pCreature->AllLootRemovedFromCorpse();
-				loot->clear();
             }
             break;
         }
@@ -568,6 +561,9 @@ void WorldSession::HandleLootMasterGiveOpcode(WorldPacket& recv_data)
     // now move item from loot to target inventory
     Item* newitem = target->StoreNewItem(dest, item.itemid, true, item.randomPropertyId);
     target->SendNewItem(newitem, uint32(item.count), false, false, true);
+
+    // Used by Eluna
+    sEluna->OnLootItem(target, newitem, item.count, lootguid);
 
     // mark as looted
     item.count = 0;

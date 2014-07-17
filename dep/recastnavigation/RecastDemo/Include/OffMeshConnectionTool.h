@@ -25,26 +25,26 @@
 
 class OffMeshConnectionTool : public SampleTool
 {
-	Sample* m_sample;
-	float m_hitPos[3];
-	bool m_hitPosSet;
-	bool m_bidir;
-	unsigned char m_oldFlags;
-	
+    Sample* m_sample;
+    float m_hitPos[3];
+    bool m_hitPosSet;
+    bool m_bidir;
+    unsigned char m_oldFlags;
+    
 public:
-	OffMeshConnectionTool();
-	~OffMeshConnectionTool();
-	
-	virtual int type() { return TOOL_OFFMESH_CONNECTION; }
-	virtual void init(Sample* sample);
-	virtual void reset();
-	virtual void handleMenu();
-	virtual void handleClick(const float* s, const float* p, bool shift);
-	virtual void handleToggle();
-	virtual void handleStep();
-	virtual void handleUpdate(const float dt);
-	virtual void handleRender();
-	virtual void handleRenderOverlay(double* proj, double* model, int* view);
+    OffMeshConnectionTool();
+    ~OffMeshConnectionTool();
+    
+    virtual int type() { return TOOL_OFFMESH_CONNECTION; }
+    virtual void init(Sample* sample);
+    virtual void reset();
+    virtual void handleMenu();
+    virtual void handleClick(const float* s, const float* p, bool shift);
+    virtual void handleToggle();
+    virtual void handleStep();
+    virtual void handleUpdate(const float dt);
+    virtual void handleRender();
+    virtual void handleRenderOverlay(double* proj, double* model, int* view);
 };
 
 #endif // OFFMESHCONNECTIONTOOL_H

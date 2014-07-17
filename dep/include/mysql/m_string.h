@@ -25,7 +25,7 @@
 #include "my_global.h"                          /* HAVE_* */
 
 #ifndef __USE_GNU
-#define __USE_GNU				/* We want to use stpcpy */
+#define __USE_GNU                /* We want to use stpcpy */
 #endif
 #if defined(HAVE_STRINGS_H)
 #include <strings.h>
@@ -48,11 +48,11 @@
 #endif
 
 #if !defined(HAVE_MEMCPY) && !defined(HAVE_MEMMOVE)
-# define memcpy(d, s, n)	bcopy ((s), (d), (n))
-# define memset(A,C,B)		bfill((A),(B),(C))
-# define memmove(d, s, n)	bmove ((d), (s), (n))
+# define memcpy(d, s, n)    bcopy ((s), (d), (n))
+# define memset(A,C,B)        bfill((A),(B),(C))
+# define memmove(d, s, n)    bmove ((d), (s), (n))
 #elif defined(HAVE_MEMMOVE)
-# define bmove(d, s, n)		memmove((d), (s), (n))
+# define bmove(d, s, n)        memmove((d), (s), (n))
 #endif
 
 /* Unixware 7 */
@@ -82,7 +82,7 @@ extern void (*my_str_free)(void *);
 #elif defined(HAVE_STPCPY)
 #define strmov(A,B) stpcpy((A),(B))
 #ifndef stpcpy
-extern char *stpcpy(char *, const char *);	/* For AIX with gcc 2.95.3 */
+extern char *stpcpy(char *, const char *);    /* For AIX with gcc 2.95.3 */
 #endif
 #endif
 
@@ -95,26 +95,26 @@ extern char _dig_vec_lower[];
 #define strmake_overlapp(A,B,C) strmake(A,B,C)
 #endif
 
-	/* Prototypes for string functions */
+    /* Prototypes for string functions */
 
-extern	void bmove_upp(uchar *dst,const uchar *src,size_t len);
-extern	void bchange(uchar *dst,size_t old_len,const uchar *src,
-		     size_t new_len,size_t tot_len);
-extern	void strappend(char *s,size_t len,pchar fill);
-extern	char *strend(const char *s);
+extern    void bmove_upp(uchar *dst,const uchar *src,size_t len);
+extern    void bchange(uchar *dst,size_t old_len,const uchar *src,
+             size_t new_len,size_t tot_len);
+extern    void strappend(char *s,size_t len,pchar fill);
+extern    char *strend(const char *s);
 extern  char *strcend(const char *, pchar);
-extern	char *strfill(char * s,size_t len,pchar fill);
-extern	char *strmake(char *dst,const char *src,size_t length);
+extern    char *strfill(char * s,size_t len,pchar fill);
+extern    char *strmake(char *dst,const char *src,size_t length);
 
 #ifndef strmov
-extern	char *strmov(char *dst,const char *src);
+extern    char *strmov(char *dst,const char *src);
 #else
-extern	char *strmov_overlapp(char *dst,const char *src);
+extern    char *strmov_overlapp(char *dst,const char *src);
 #endif
-extern	char *strnmov(char *dst, const char *src, size_t n);
-extern	char *strcont(const char *src, const char *set);
-extern	char *strxmov(char *dst, const char *src, ...);
-extern	char *strxnmov(char *dst, size_t len, const char *src, ...);
+extern    char *strnmov(char *dst, const char *src, size_t n);
+extern    char *strcont(const char *src, const char *set);
+extern    char *strxmov(char *dst, const char *src, ...);
+extern    char *strxnmov(char *dst, size_t len, const char *src, ...);
 
 /* Prototypes of normal stringfunctions (with may ours) */
 #ifndef HAVE_STRNLEN
@@ -171,7 +171,7 @@ extern ulong strtoul(const char *str, char **ptr, int base);
 extern char *int2str(long val, char *dst, int radix, int upcase);
 extern char *int10_to_str(long val,char *dst,int radix);
 extern char *str2int(const char *src,int radix,long lower,long upper,
-			 long *val);
+             long *val);
 longlong my_strtoll10(const char *nptr, char **endptr, int *error);
 #if SIZEOF_LONG == SIZEOF_LONG_LONG
 #define ll2str(A,B,C,D) int2str((A),(B),(C),(D))

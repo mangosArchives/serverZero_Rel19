@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -2033,10 +2033,9 @@ bool ChatHandler::HandleNpcUnFollowCommand(char* /*args*/)
         return false;
     }
 
-    if (creature->GetMotionMaster()->empty() ||
-        creature->GetMotionMaster()->GetCurrentMovementGeneratorType() != FOLLOW_MOTION_TYPE)
+    if (creature->GetMotionMaster()->GetCurrentMovementGeneratorType() != FOLLOW_MOTION_TYPE)
     {
-        PSendSysMessage(LANG_CREATURE_NOT_FOLLOW_YOU);
+        PSendSysMessage(LANG_CREATURE_NOT_FOLLOW_YOU, creature->GetName());
         SetSentErrorMessage(true);
         return false;
     }
@@ -2441,6 +2440,20 @@ bool ChatHandler::HandleTicketCommand(char* args)
         return true;
     }
 
+    if (strncmp(px, "system_on", 10) == 0)
+    {
+        sTicketMgr.SetAcceptTickets(true);
+        SendSysMessage(LANG_COMMAND_TICKETS_SYSTEM_ON);
+        return true;
+    }
+    
+    if (strncmp(px, "system_off", 11) == 0)
+    {
+        sTicketMgr.SetAcceptTickets(false);
+        SendSysMessage(LANG_COMMAND_TICKETS_SYSTEM_OFF);
+        return true;
+    }
+    
     // ticket on
     if (strncmp(px, "on", 3) == 0)
     {
@@ -2471,8 +2484,72 @@ bool ChatHandler::HandleTicketCommand(char* args)
         return true;
     }
 
+    //TODO: Break both of these out into extract functions
+    // ticket close, can show them a gm-survey
+    if (strncmp(px, "close", 6) == 0 || strncmp(px, "close_survey", 13) == 0)
+    {
+        GMTicket* ticket = NULL;
+
+        uint32 num;
+        if (ExtractUInt32(&args, num))
+        {
+            if (num == 0)
+                return false;
+
+            ticket = sTicketMgr.GetGMTicketByOrderPos(num - 1);
+
+            if (!ticket)
+            {
+                PSendSysMessage(LANG_COMMAND_TICKETNOTEXIST, num);
+                SetSentErrorMessage(true);
+                return false;
+            }
+        }
+        else
+        {
+            ObjectGuid target_guid;
+            std::string target_name;
+            if (!ExtractPlayerTarget(&args, NULL, &target_guid, &target_name))
+                return false;
+
+            // ticket respond $char_name
+            ticket = sTicketMgr.GetGMTicket(target_guid);
+
+            if (!ticket)
+            {
+                PSendSysMessage(LANG_COMMAND_TICKETNOTEXIST_NAME, target_name.c_str());
+                SetSentErrorMessage(true);
+                return false;
+            }
+        }
+        
+        if (strncmp(px, "close_survey", 13) == 0)
+            ticket->CloseWithSurvey();
+        else
+            ticket->Close();
+        
+        //This needs to be before we delete the ticket
+        Player* pPlayer = sObjectMgr.GetPlayer(ticket->GetPlayerGuid());
+
+        //For now we can't close tickets for offline players, TODO
+        if (!pPlayer)
+        {
+            SendSysMessage(LANG_COMMAND_TICKET_CANT_CLOSE);
+            return false;
+        }
+        
+        //This logic feels misplaced, but you can't have it in GMTicket?
+        sTicketMgr.Delete(ticket->GetPlayerGuid());
+        ticket = NULL;
+        
+        PSendSysMessage(LANG_COMMAND_TICKETCLOSED_NAME, pPlayer->GetName());
+        
+        return true;
+    }
+    
     // ticket respond
-    if (strncmp(px, "respond", 8) == 0)
+    if (strncmp(px, "respond", 8) == 0 || strncmp(px, "response", 9) == 0
+        || strncmp(px, "whisper", 8) == 0)
     {
         GMTicket* ticket = NULL;
 
@@ -2510,15 +2587,19 @@ bool ChatHandler::HandleTicketCommand(char* args)
                 return false;
             }
         }
-
+        
         // no response text?
         if (!*args)
             { return false; }
-
         ticket->SetResponseText(args);
-
+        
         if (Player* pl = sObjectMgr.GetPlayer(ticket->GetPlayerGuid()))
-            { pl->GetSession()->SendGMTicketGetTicket(0x06, ticket); }
+        {
+            pl->GetSession()->SendGMTicketGetTicket(0x06, ticket);
+            //How should we error here?
+            if (m_session)
+                m_session->GetPlayer()->Whisper(args, LANG_UNIVERSAL, pl->GetObjectGuid());
+        }
 
         return true;
     }

@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -50,7 +50,7 @@ void RandomMovementGenerator<Creature>::_setRandomLocation(Creature& creature)
     const float angle = rand_norm_f() * (M_PI_F * 2.0f);
     const float range = rand_norm_f() * i_radius;
 
-	const float maxPathRange = range * 1.5f;
+    const float maxPathRange = range * 1.5f;
 
     float destX = i_x + range * cos(angle);
     float destY = i_y + range * sin(angle);
@@ -60,7 +60,7 @@ void RandomMovementGenerator<Creature>::_setRandomLocation(Creature& creature)
     creature.addUnitState(UNIT_STAT_ROAMING_MOVE);
 
     Movement::MoveSplineInit init(creature);
-	init.MoveTo(destX, destY, destZ, true, false, maxPathRange);
+    init.MoveTo(destX, destY, destZ, true, false, maxPathRange);
     init.SetWalk(true);
     init.Launch();
 

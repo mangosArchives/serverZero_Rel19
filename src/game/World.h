@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -26,8 +26,8 @@
 /// @{
 /// \file
 
-#ifndef __WORLD_H
-#define __WORLD_H
+#ifndef MANGOS_H_WORLD
+#define MANGOS_H_WORLD
 
 #include "Common.h"
 #include "Timer.h"
@@ -178,7 +178,8 @@ enum eConfigUInt32Values
     CONFIG_UINT32_GUID_RESERVE_SIZE_GAMEOBJECT,
     CONFIG_UINT32_CREATURE_RESPAWN_AGGRO_DELAY,
     CONFIG_UINT32_WARDEN_BAN_TIME,
-	CONFIG_UINT32_VALUE_COUNT
+    CONFIG_UINT32_VALUE_COUNT,
+    CONFIG_UINT32_LOG_WHISPERS
 };
 
 /// Configuration elements
@@ -315,6 +316,7 @@ enum eConfigBoolValues
     CONFIG_BOOL_VMAP_INDOOR_CHECK,
     CONFIG_BOOL_PET_UNSUMMON_AT_MOUNT,
     CONFIG_BOOL_MMAP_ENABLED,
+    CONFIG_BOOL_ELUNA_ENABLED,
     CONFIG_BOOL_PLAYER_COMMANDS,
     CONFIG_BOOL_VALUE_COUNT
 };
@@ -391,6 +393,9 @@ struct CliCommandHolder
 };
 
 /// The World
+
+typedef UNORDERED_MAP<uint32, WorldSession*> SessionMap;
+
 class World
 {
     public:
@@ -406,6 +411,7 @@ class World
         bool RemoveSession(uint32 id);
         /// Get the number of current active sessions
         void UpdateMaxSessionCounters();
+        const SessionMap& GetAllSessions() const { return m_sessions; }
         uint32 GetActiveAndQueuedSessionCount() const { return m_sessions.size(); }
         uint32 GetActiveSessionCount() const { return m_sessions.size() - m_QueuedSessions.size(); }
         uint32 GetQueuedSessionCount() const { return m_QueuedSessions.size(); }
@@ -594,7 +600,6 @@ class World
 
         typedef UNORDERED_MAP<uint32, Weather*> WeatherMap;
         WeatherMap m_weathers;
-        typedef UNORDERED_MAP<uint32, WorldSession*> SessionMap;
         SessionMap m_sessions;
         uint32 m_maxActiveSessionCount;
         uint32 m_maxQueuedSessionCount;

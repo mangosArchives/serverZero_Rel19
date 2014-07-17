@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -39,6 +39,7 @@
 #include "WorldPacket.h"
 #include "WorldSession.h"
 #include "Mail.h"
+#include "LuaEngine.h"
 
 #include "Policies/Singleton.h"
 
@@ -59,6 +60,15 @@ AuctionHouseMgr::~AuctionHouseMgr()
         { delete itr->second; }
 }
 
+AuctionHouseObject::~AuctionHouseObject()
+{
+    Eluna::RemoveRef(this);
+
+    for (AuctionEntryMap::const_iterator itr = AuctionsMap.begin(); itr != AuctionsMap.end(); ++itr)
+        delete itr->second;
+}
+
+
 AuctionHouseObject* AuctionHouseMgr::GetAuctionsMap(AuctionHouseEntry const* house)
 {
     if (sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_INTERACTION_AUCTION))
@@ -72,6 +82,8 @@ AuctionHouseObject* AuctionHouseMgr::GetAuctionsMap(AuctionHouseEntry const* hou
         default:       return &mAuctions[AUCTION_HOUSE_NEUTRAL];
     }
 }
+
+
 
 uint32 AuctionHouseMgr::GetAuctionDeposit(AuctionHouseEntry const* entry, uint32 time, Item* pItem)
 {

@@ -18,15 +18,15 @@
 
 #define SQL_COMMON_INCLUDED
 
-#ifdef	__cplusplus
+#ifdef    __cplusplus
 extern "C" {
 #endif
 
 #include <mysql.h>
 
-extern const char	*unknown_sqlstate;
-extern const char	*cant_connect_sqlstate;
-extern const char	*not_error_sqlstate;
+extern const char    *unknown_sqlstate;
+extern const char    *cant_connect_sqlstate;
+extern const char    *not_error_sqlstate;
 
 struct st_mysql_options_extention {
   char *plugin_dir;
@@ -38,18 +38,18 @@ typedef struct st_mysql_methods
 {
   my_bool (*read_query_result)(MYSQL *mysql);
   my_bool (*advanced_command)(MYSQL *mysql,
-			      enum enum_server_command command,
-			      const unsigned char *header,
-			      unsigned long header_length,
-			      const unsigned char *arg,
-			      unsigned long arg_length,
-			      my_bool skip_check,
+                  enum enum_server_command command,
+                  const unsigned char *header,
+                  unsigned long header_length,
+                  const unsigned char *arg,
+                  unsigned long arg_length,
+                  my_bool skip_check,
                               MYSQL_STMT *stmt);
   MYSQL_DATA *(*read_rows)(MYSQL *mysql,MYSQL_FIELD *mysql_fields,
-			   unsigned int fields);
+               unsigned int fields);
   MYSQL_RES * (*use_result)(MYSQL *mysql);
   void (*fetch_lengths)(unsigned long *to, 
-			MYSQL_ROW column, unsigned int field_count);
+            MYSQL_ROW column, unsigned int field_count);
   void (*flush_use_result)(MYSQL *mysql, my_bool flush_all_results);
   int (*read_change_user_result)(MYSQL *mysql);
 #if !defined(MYSQL_SERVER) || defined(EMBEDDED_LIBRARY)
@@ -81,11 +81,11 @@ void free_old_query(MYSQL *mysql);
 void end_server(MYSQL *mysql);
 my_bool mysql_reconnect(MYSQL *mysql);
 void mysql_read_default_options(struct st_mysql_options *options,
-				const char *filename,const char *group);
+                const char *filename,const char *group);
 my_bool
 cli_advanced_command(MYSQL *mysql, enum enum_server_command command,
-		     const unsigned char *header, ulong header_length,
-		     const unsigned char *arg, ulong arg_length,
+             const unsigned char *header, ulong header_length,
+             const unsigned char *arg, ulong arg_length,
                      my_bool skip_check, MYSQL_STMT *stmt);
 unsigned long cli_safe_read(MYSQL *mysql);
 void net_clear_error(NET *net);
@@ -107,7 +107,7 @@ struct st_mysql_client_plugin;
 extern struct st_mysql_client_plugin *mysql_client_builtins[];
 extern my_bool libmysql_cleartext_plugin_enabled;
 
-#ifdef	__cplusplus
+#ifdef    __cplusplus
 }
 #endif
 

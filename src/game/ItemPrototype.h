@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -22,8 +22,8 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef _ITEMPROTOTYPE_H
-#define _ITEMPROTOTYPE_H
+#ifndef MANGOS_H_ITEMPROTOTYPE
+#define MANGOS_H_ITEMPROTOTYPE
 
 #include "Common.h"
 
@@ -457,7 +457,7 @@ struct ItemPrototype
     uint32 MaxDurability;
     uint32 Area;                                            // id from AreaTable.dbc
     uint32 Map;                                             // id from Map.dbc
-    uint32 BagFamily;
+    uint32 BagFamily;                                       // bit mask (1 << id from ItemBagFamily.dbc)
     uint32 ScriptId;
     uint32 DisenchantID;
     uint32 FoodType;
@@ -491,6 +491,9 @@ struct ItemPrototype
 
     bool IsPotion() const { return Class == ITEM_CLASS_CONSUMABLE && SubClass == ITEM_SUBCLASS_POTION; }
     bool IsConjuredConsumable() const { return Class == ITEM_CLASS_CONSUMABLE && (Flags & ITEM_FLAG_CONJURED); }
+
+    bool IsWeaponVellum() const { return Class == ITEM_CLASS_TRADE_GOODS; }
+    bool IsArmorVellum() const { return Class == ITEM_CLASS_TRADE_GOODS; }
 };
 
 // GCC have alternative #pragma pack() syntax and old gcc version not support pack(pop), also any gcc version not support it at some platform

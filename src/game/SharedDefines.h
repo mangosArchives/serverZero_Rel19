@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -27,6 +27,9 @@
 
 #include "Platform/Define.h"
 #include <cassert>
+
+#define MANGOS
+#define CLASSIC
 
 enum Gender
 {
@@ -151,6 +154,8 @@ enum Powers
     POWER_FOCUS                         = 2,         ///< Used by hunters after Cataclysm (4.x)
     POWER_ENERGY                        = 3,         ///< Used by rouges to do their spells
     POWER_HAPPINESS                     = 4,         ///< Hunters pet's happiness affect their damage
+    MAX_POWERS                          = 5,
+    POWER_ALL                           = 127,          // default for class? - need check for TBC
     POWER_HEALTH                        = 0xFFFFFFFE ///< Health, everyone has this (-2 as signed value)
 };
 
@@ -508,6 +513,13 @@ enum Language
 
 #define LANGUAGES_COUNT   15
 
+enum TeamId
+{
+    TEAM_ALLIANCE = 0,
+    TEAM_HORDE,
+    TEAM_NEUTRAL
+};
+
 // In fact !=0 values is alliance/horde root faction ids
 enum Team
 {
@@ -518,6 +530,10 @@ enum Team
     ALLIANCE            = 469,
 };
 
+/**
+ * This are the different things that a spell can have as it's spell effect, see
+ * \ref SpellEntry::Effect for where in the DBC this is stored. Also see \ref HowSpellsWork
+ */
 enum SpellEffects
 {
     SPELL_EFFECT_NONE                      = 0,
@@ -858,20 +874,22 @@ enum Mechanics
 #define FIRST_MECHANIC          1
 #define MAX_MECHANIC            31
 
+///Mask defining \ref Mechanics mask which is immune to root and snare
 #define IMMUNE_TO_ROOT_AND_SNARE_MASK ( \
                                         (1<<(MECHANIC_ROOT-1))|(1<<(MECHANIC_SNARE-1)))
 
 #define IMMUNE_TO_ROOT_AND_STUN_MASK ( \
                                        (1<<(MECHANIC_ROOT-1))|(1<<(MECHANIC_STUN-1)))
 
-// Daze and all croud control spells except polymorph are not removed
+/// Daze and all crowd control spells except polymorph are not removed
 #define MECHANIC_NOT_REMOVED_BY_SHAPESHIFT ( \
         (1<<(MECHANIC_CHARM -1))|(1<<(MECHANIC_DISORIENTED-1))|(1<<(MECHANIC_FEAR  -1))| \
         (1<<(MECHANIC_PACIFY-1))|(1<<(MECHANIC_STUN       -1))|(1<<(MECHANIC_FREEZE-1))| \
         (1<<(MECHANIC_BANISH-1))|(1<<(MECHANIC_SHACKLE    -1))|(1<<(MECHANIC_HORROR-1))| \
         (1<<(MECHANIC_TURN  -1))|(1<<(MECHANIC_DAZE       -1))|(1<<(MECHANIC_SAPPED-1)))
 
-// Spell dispell type
+/// Different types of \ref Spell s that can be dispelled and what the reason for the dispel is.
+/// Also coupled with \ref Aura s as \ref Spell s have \ref Aura s.
 enum DispelType
 {
     DISPEL_NONE         = 0,
@@ -2456,7 +2474,12 @@ enum PetTameFailureReason
     PETTAME_UNKNOWNERROR            = 12
 };
 
-// Stored in SummonProperties.dbc with slot+1 values
+/**
+ * These are the different totem types that are available.
+ * Stored in SummonProperties.dbc with slot+1 values
+ * \see Totem
+ * \see Unit::GetTotemGuid
+ */
 enum TotemSlot
 {
     TOTEM_SLOT_FIRE   = 0,
@@ -2552,5 +2575,52 @@ enum TrackedAuraType
 
 // Max creature level (included some bosses and elite)
 #define DEFAULT_MAX_CREATURE_LEVEL 65
+
+/**
+ * Some statuses that can be sent with the \ref OpcodesList::SMSG_GM_TICKET_STATUS_UPDATE opcode
+ * to change what the client is currently showing about your open ticket.
+ * \see WorldSession::SendGMTicketStatusUpdate
+ */
+enum GMTicketStatus
+{
+    /**
+     * This code is used when the client closed the ticket itself and we shouldn't send an update
+     * message to it */
+    GM_TICKET_STATUS_DO_NOTHING = -1,
+    /** Should close the window in the top right corner telling you that you have a
+     * ticket open */
+    GM_TICKET_STATUS_CLOSE = 2,
+    /** Should close the window telling you you have an open ticket and query you for
+     * answers on a survey, how good did the GM perform?
+     * \see GMTicket::SaveSurveyData
+     */
+    GM_TICKET_STATUS_SURVEY = 3
+};
+
+/**
+ * This denotes the different levels of whisper logging that can be active via configuration, the
+ * string for this in the config file is LogWhispers, the config enum is
+ * \ref eConfigUInt32Values::CONFIG_UINT32_LOG_WHISPERS and the default value is 1, ie: we only
+ * log whispers related to tickets.
+ * 
+ * The database table that everything is logged to is character.character_whispers
+ * \see Player::LogWhisper
+ */
+enum WhisperLoggingLevels
+{
+    /**
+     * When this is the level used no logging of whispers at all is done
+     */
+    WHISPER_LOGGING_NONE = 0,
+    /**
+     * When this level is used we log everything related to GM-tickets, ie: when a GM first whispers
+     * the holder of a ticket until that ticket is closed
+     */
+    WHISPER_LOGGING_TICKETS = 1,
+    /**
+     * This will log all whispers made between players, GM-tickets included
+     */
+    WHISPER_LOGGING_EVERYTHING = 2
+};
 
 #endif

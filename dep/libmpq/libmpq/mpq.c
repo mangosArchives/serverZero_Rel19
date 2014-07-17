@@ -168,7 +168,7 @@ int32_t libmpq__archive_open(mpq_archive_s **mpq_archive, const char *mpq_filena
 	(*mpq_archive)->block_size = 512 << (*mpq_archive)->mpq_header.block_size;
 
 	/* store archive offset and size for later use. */
-	(*mpq_archive)->archive_offset = archive_offset;
+	(*mpq_archive)->archive_offset = (off_t)archive_offset;
 
 	/* check if we process new mpq archive version. */
 	if ((*mpq_archive)->mpq_header.version == LIBMPQ_ARCHIVE_VERSION_TWO) {
@@ -948,7 +948,7 @@ int32_t libmpq__block_read(mpq_archive_s *mpq_archive, uint32_t file_number, uin
 	if (compressed == 1) {
 
 		/* decompress block. */
-		if ((tb = libmpq__decompress_block(in_buf, in_size, out_buf, out_size, LIBMPQ_FLAG_COMPRESS_MULTI)) < 0) {
+		if ((tb = libmpq__decompress_block(in_buf, in_size, out_buf, (uint32_t)out_size, LIBMPQ_FLAG_COMPRESS_MULTI)) < 0) {
 
 			/* free temporary buffer. */
 			free(in_buf);
@@ -965,7 +965,7 @@ int32_t libmpq__block_read(mpq_archive_s *mpq_archive, uint32_t file_number, uin
 	if (imploded == 1) {
 
 		/* explode block. */
-		if ((tb = libmpq__decompress_block(in_buf, in_size, out_buf, out_size, LIBMPQ_FLAG_COMPRESS_PKZIP)) < 0) {
+		if ((tb = libmpq__decompress_block(in_buf, in_size, out_buf, (uint32_t)out_size, LIBMPQ_FLAG_COMPRESS_PKZIP)) < 0) {
 
 			/* free temporary buffer. */
 			free(in_buf);
@@ -979,7 +979,7 @@ int32_t libmpq__block_read(mpq_archive_s *mpq_archive, uint32_t file_number, uin
 	if (compressed == 0 && imploded == 0) {
 
 		/* copy block. */
-		if ((tb = libmpq__decompress_block(in_buf, in_size, out_buf, out_size, LIBMPQ_FLAG_COMPRESS_NONE)) < 0) {
+		if ((tb = libmpq__decompress_block(in_buf, in_size, out_buf, (uint32_t)out_size, LIBMPQ_FLAG_COMPRESS_NONE)) < 0) {
 
 			/* free temporary buffer. */
 			free(in_buf);

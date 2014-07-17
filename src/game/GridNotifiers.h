@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -211,6 +211,23 @@ namespace MaNGOS
         void Visit(PlayerMapType& m);
         void Visit(CreatureMapType& m);
         void Visit(CorpseMapType& m);
+        void Visit(DynamicObjectMapType& m);
+
+        template<class NOT_INTERESTED> void Visit(GridRefManager<NOT_INTERESTED>&) {}
+    };
+
+    template<class Check>
+    struct MANGOS_DLL_DECL WorldObjectLastSearcher
+    {
+        WorldObject*& i_object;
+        Check& i_check;
+
+        WorldObjectLastSearcher(WorldObject* & result, Check& check) : i_object(result), i_check(check) {}
+
+        void Visit(PlayerMapType& m);
+        void Visit(CreatureMapType& m);
+        void Visit(CorpseMapType& m);
+        void Visit(GameObjectMapType& m);
         void Visit(DynamicObjectMapType& m);
 
         template<class NOT_INTERESTED> void Visit(GridRefManager<NOT_INTERESTED>&) {}

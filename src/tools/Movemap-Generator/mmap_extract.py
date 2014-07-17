@@ -22,8 +22,10 @@ import os, sys, threading, time, subprocess
 from multiprocessing import cpu_count
 from collections import deque
 
-mapList = deque([0,1,13,25,30,33,34,35,36,37,42,43,44,47,48,70,90,109,129,169,189,209,229,230,249,269,289,309,329,349,369,
-    389,409,429,449,450,451,469,489,509,529,531,533])
+mapList = deque([0,1, # Continents
+    269,309,533,509,30,469, # big maps
+    209,329,531,33,289,529,36,489,47, # medium maps
+    230,429,48,90,229,349,369,449,450,40,34,43,70,109,129,189,249,389,409]) # small maps
 
 class workerThread(threading.Thread):
     def __init__(self, mapID):
@@ -38,12 +40,15 @@ class workerThread(threading.Thread):
             stInfo.dwFlags |= 0x00000001
             stInfo.wShowWindow = 7
             cFlags = subprocess.CREATE_NEW_CONSOLE
-            binName = "MoveMapGen.exe"
+            binName = "movemap-generator.exe"
         else:
             stInfo = None
             cFlags = 0
             binName = "./MoveMapGen"
-        retcode = subprocess.call([binName, "%u" % (self.mapID),"--silent"], startupinfo=stInfo, creationflags=cFlags)
+        if self.mapID == 0:
+            retcode = subprocess.call([binName, "%u" % (self.mapID), "--silent",  "--offMeshInput", "offmesh.txt"], startupinfo=stInfo, creationflags=cFlags)
+        else:
+            retcode = subprocess.call([binName, "%u" % (self.mapID), "--silent"], startupinfo=stInfo, creationflags=cFlags)
         print "-- %s" % (name)
 
 if __name__ == "__main__":
@@ -54,4 +59,4 @@ if __name__ == "__main__":
     while (len(mapList) > 0):
         if (threading.active_count() <= cpu):
             workerThread(mapList.popleft()).start()
-        time.sleep(0.1)
+        time.sleep(0.2)

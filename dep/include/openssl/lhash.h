@@ -77,13 +77,13 @@ extern "C" {
 #endif
 
 typedef struct lhash_node_st
-	{
-	void *data;
-	struct lhash_node_st *next;
+    {
+    void *data;
+    struct lhash_node_st *next;
 #ifndef OPENSSL_NO_HASH_COMP
-	unsigned long hash;
+    unsigned long hash;
 #endif
-	} LHASH_NODE;
+    } LHASH_NODE;
 
 typedef int (*LHASH_COMP_FN_TYPE)(const void *, const void *);
 typedef unsigned long (*LHASH_HASH_FN_TYPE)(const void *);
@@ -99,78 +99,78 @@ typedef void (*LHASH_DOALL_ARG_FN_TYPE)(void *, void *);
 
 /* First: "hash" functions */
 #define DECLARE_LHASH_HASH_FN(name, o_type) \
-	unsigned long name##_LHASH_HASH(const void *);
+    unsigned long name##_LHASH_HASH(const void *);
 #define IMPLEMENT_LHASH_HASH_FN(name, o_type) \
-	unsigned long name##_LHASH_HASH(const void *arg) { \
-		const o_type *a = arg; \
-		return name##_hash(a); }
+    unsigned long name##_LHASH_HASH(const void *arg) { \
+        const o_type *a = arg; \
+        return name##_hash(a); }
 #define LHASH_HASH_FN(name) name##_LHASH_HASH
 
 /* Second: "compare" functions */
 #define DECLARE_LHASH_COMP_FN(name, o_type) \
-	int name##_LHASH_COMP(const void *, const void *);
+    int name##_LHASH_COMP(const void *, const void *);
 #define IMPLEMENT_LHASH_COMP_FN(name, o_type) \
-	int name##_LHASH_COMP(const void *arg1, const void *arg2) { \
-		const o_type *a = arg1;		    \
-		const o_type *b = arg2; \
-		return name##_cmp(a,b); }
+    int name##_LHASH_COMP(const void *arg1, const void *arg2) { \
+        const o_type *a = arg1;            \
+        const o_type *b = arg2; \
+        return name##_cmp(a,b); }
 #define LHASH_COMP_FN(name) name##_LHASH_COMP
 
 /* Third: "doall" functions */
 #define DECLARE_LHASH_DOALL_FN(name, o_type) \
-	void name##_LHASH_DOALL(void *);
+    void name##_LHASH_DOALL(void *);
 #define IMPLEMENT_LHASH_DOALL_FN(name, o_type) \
-	void name##_LHASH_DOALL(void *arg) { \
-		o_type *a = arg; \
-		name##_doall(a); }
+    void name##_LHASH_DOALL(void *arg) { \
+        o_type *a = arg; \
+        name##_doall(a); }
 #define LHASH_DOALL_FN(name) name##_LHASH_DOALL
 
 /* Fourth: "doall_arg" functions */
 #define DECLARE_LHASH_DOALL_ARG_FN(name, o_type, a_type) \
-	void name##_LHASH_DOALL_ARG(void *, void *);
+    void name##_LHASH_DOALL_ARG(void *, void *);
 #define IMPLEMENT_LHASH_DOALL_ARG_FN(name, o_type, a_type) \
-	void name##_LHASH_DOALL_ARG(void *arg1, void *arg2) { \
-		o_type *a = arg1; \
-		a_type *b = arg2; \
-		name##_doall_arg(a, b); }
+    void name##_LHASH_DOALL_ARG(void *arg1, void *arg2) { \
+        o_type *a = arg1; \
+        a_type *b = arg2; \
+        name##_doall_arg(a, b); }
 #define LHASH_DOALL_ARG_FN(name) name##_LHASH_DOALL_ARG
 
 typedef struct lhash_st
-	{
-	LHASH_NODE **b;
-	LHASH_COMP_FN_TYPE comp;
-	LHASH_HASH_FN_TYPE hash;
-	unsigned int num_nodes;
-	unsigned int num_alloc_nodes;
-	unsigned int p;
-	unsigned int pmax;
-	unsigned long up_load; /* load times 256 */
-	unsigned long down_load; /* load times 256 */
-	unsigned long num_items;
+    {
+    LHASH_NODE **b;
+    LHASH_COMP_FN_TYPE comp;
+    LHASH_HASH_FN_TYPE hash;
+    unsigned int num_nodes;
+    unsigned int num_alloc_nodes;
+    unsigned int p;
+    unsigned int pmax;
+    unsigned long up_load; /* load times 256 */
+    unsigned long down_load; /* load times 256 */
+    unsigned long num_items;
 
-	unsigned long num_expands;
-	unsigned long num_expand_reallocs;
-	unsigned long num_contracts;
-	unsigned long num_contract_reallocs;
-	unsigned long num_hash_calls;
-	unsigned long num_comp_calls;
-	unsigned long num_insert;
-	unsigned long num_replace;
-	unsigned long num_delete;
-	unsigned long num_no_delete;
-	unsigned long num_retrieve;
-	unsigned long num_retrieve_miss;
-	unsigned long num_hash_comps;
+    unsigned long num_expands;
+    unsigned long num_expand_reallocs;
+    unsigned long num_contracts;
+    unsigned long num_contract_reallocs;
+    unsigned long num_hash_calls;
+    unsigned long num_comp_calls;
+    unsigned long num_insert;
+    unsigned long num_replace;
+    unsigned long num_delete;
+    unsigned long num_no_delete;
+    unsigned long num_retrieve;
+    unsigned long num_retrieve_miss;
+    unsigned long num_hash_comps;
 
-	int error;
-	} _LHASH;	/* Do not use _LHASH directly, use LHASH_OF
-			 * and friends */
+    int error;
+    } _LHASH;    /* Do not use _LHASH directly, use LHASH_OF
+             * and friends */
 
-#define LH_LOAD_MULT	256
+#define LH_LOAD_MULT    256
 
 /* Indicates a malloc() error in the last call, this is only bad
  * in lh_insert(). */
-#define lh_error(lh)	((lh)->error)
+#define lh_error(lh)    ((lh)->error)
 
 _LHASH *lh_new(LHASH_HASH_FN_TYPE h, LHASH_COMP_FN_TYPE c);
 void lh_free(_LHASH *lh);
@@ -210,13 +210,13 @@ void lh_node_usage_stats_bio(const _LHASH *lh, BIO *out);
   lh_error(CHECKED_LHASH_OF(type,lh))
 #define LHM_lh_insert(type, lh, inst) \
   ((type *)lh_insert(CHECKED_LHASH_OF(type, lh), \
-		     CHECKED_PTR_OF(type, inst)))
+             CHECKED_PTR_OF(type, inst)))
 #define LHM_lh_retrieve(type, lh, inst) \
   ((type *)lh_retrieve(CHECKED_LHASH_OF(type, lh), \
-		       CHECKED_PTR_OF(type, inst)))
+               CHECKED_PTR_OF(type, inst)))
 #define LHM_lh_delete(type, lh, inst) \
-  ((type *)lh_delete(CHECKED_LHASH_OF(type, lh),			\
-		     CHECKED_PTR_OF(type, inst)))
+  ((type *)lh_delete(CHECKED_LHASH_OF(type, lh),            \
+             CHECKED_PTR_OF(type, inst)))
 #define LHM_lh_doall(type, lh,fn) lh_doall(CHECKED_LHASH_OF(type, lh), fn)
 #define LHM_lh_doall_arg(type, lh, fn, arg_type, arg) \
   lh_doall_arg(CHECKED_LHASH_OF(type, lh), fn, CHECKED_PTR_OF(arg_type, arg))

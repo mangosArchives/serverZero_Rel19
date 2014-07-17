@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -920,6 +920,7 @@ void MapPersistentStateManager::LoadCreatureRespawnTimes()
 
     //
     QueryResult* result = CharacterDatabase.Query("SELECT guid, respawntime, map, instance, resettime FROM creature_respawn LEFT JOIN instance ON instance = id");
+    
     if (!result)
     {
         BarGoLink bar(1);
@@ -949,19 +950,8 @@ void MapPersistentStateManager::LoadCreatureRespawnTimes()
             { continue; }
 
         MapEntry const* mapEntry = sMapStore.LookupEntry(data->mapid);
-        if (!mapEntry)
+        if (!mapEntry || (instanceId && (mapId != data->mapid || mapEntry->Instanceable())))
             { continue; }
-
-        if (instanceId)                                     // In instance - mapId must be data->mapid and mapEntry must be Instanceable
-        {
-            if (mapId != data->mapid || !mapEntry->Instanceable())
-                { continue; }
-        }
-        else                                                // Not in instance, mapEntry must not be Instanceable
-        {
-            if (mapEntry->Instanceable())
-                { continue; }
-        }
 
         MapPersistentState* state = AddPersistentState(mapEntry, instanceId, resetTime, mapEntry->IsDungeon(), true);
         if (!state)
@@ -1018,19 +1008,8 @@ void MapPersistentStateManager::LoadGameobjectRespawnTimes()
             { continue; }
 
         MapEntry const* mapEntry = sMapStore.LookupEntry(data->mapid);
-        if (!mapEntry)
+        if (!mapEntry || (instanceId && (mapId != data->mapid || mapEntry->Instanceable())))
             { continue; }
-
-        if (instanceId)                                     // In instance - mapId must be data->mapid and mapEntry must be Instanceable
-        {
-            if (mapId != data->mapid || !mapEntry->Instanceable())
-                { continue; }
-        }
-        else                                                // Not in instance, mapEntry must not be Instanceable
-        {
-            if (mapEntry->Instanceable())
-                { continue; }
-        }
 
         MapPersistentState* state = AddPersistentState(mapEntry, instanceId, resetTime, mapEntry->IsDungeon(), true);
         if (!state)

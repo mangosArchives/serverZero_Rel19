@@ -90,20 +90,20 @@ extern "C" {
 #define SHA_LONG unsigned int
 #endif
 
-#define SHA_LBLOCK	16
-#define SHA_CBLOCK	(SHA_LBLOCK*4)	/* SHA treats input data as a
-					 * contiguous array of 32 bit
-					 * wide big-endian values. */
+#define SHA_LBLOCK    16
+#define SHA_CBLOCK    (SHA_LBLOCK*4)    /* SHA treats input data as a
+                     * contiguous array of 32 bit
+                     * wide big-endian values. */
 #define SHA_LAST_BLOCK  (SHA_CBLOCK-8)
 #define SHA_DIGEST_LENGTH 20
 
 typedef struct SHAstate_st
-	{
-	SHA_LONG h0,h1,h2,h3,h4;
-	SHA_LONG Nl,Nh;
-	SHA_LONG data[SHA_LBLOCK];
-	unsigned int num;
-	} SHA_CTX;
+    {
+    SHA_LONG h0,h1,h2,h3,h4;
+    SHA_LONG Nl,Nh;
+    SHA_LONG data[SHA_LBLOCK];
+    unsigned int num;
+    } SHA_CTX;
 
 #ifndef OPENSSL_NO_SHA0
 #ifdef OPENSSL_FIPS
@@ -126,19 +126,19 @@ unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md);
 void SHA1_Transform(SHA_CTX *c, const unsigned char *data);
 #endif
 
-#define SHA256_CBLOCK	(SHA_LBLOCK*4)	/* SHA-256 treats input data as a
-					 * contiguous array of 32 bit
-					 * wide big-endian values. */
-#define SHA224_DIGEST_LENGTH	28
-#define SHA256_DIGEST_LENGTH	32
+#define SHA256_CBLOCK    (SHA_LBLOCK*4)    /* SHA-256 treats input data as a
+                     * contiguous array of 32 bit
+                     * wide big-endian values. */
+#define SHA224_DIGEST_LENGTH    28
+#define SHA256_DIGEST_LENGTH    32
 
 typedef struct SHA256state_st
-	{
-	SHA_LONG h[8];
-	SHA_LONG Nl,Nh;
-	SHA_LONG data[SHA_LBLOCK];
-	unsigned int num,md_len;
-	} SHA256_CTX;
+    {
+    SHA_LONG h[8];
+    SHA_LONG Nl,Nh;
+    SHA_LONG data[SHA_LBLOCK];
+    unsigned int num,md_len;
+    } SHA256_CTX;
 
 #ifndef OPENSSL_NO_SHA256
 #ifdef OPENSSL_FIPS
@@ -156,8 +156,8 @@ unsigned char *SHA256(const unsigned char *d, size_t n,unsigned char *md);
 void SHA256_Transform(SHA256_CTX *c, const unsigned char *data);
 #endif
 
-#define SHA384_DIGEST_LENGTH	48
-#define SHA512_DIGEST_LENGTH	64
+#define SHA384_DIGEST_LENGTH    48
+#define SHA512_DIGEST_LENGTH    64
 
 #ifndef OPENSSL_NO_SHA512
 /*
@@ -165,9 +165,9 @@ void SHA256_Transform(SHA256_CTX *c, const unsigned char *data);
  * being exactly 64-bit wide. See Implementation Notes in sha512.c
  * for further details.
  */
-#define SHA512_CBLOCK	(SHA_LBLOCK*8)	/* SHA-512 treats input data as a
-					 * contiguous array of 64 bit
-					 * wide big-endian values. */
+#define SHA512_CBLOCK    (SHA_LBLOCK*8)    /* SHA-512 treats input data as a
+                     * contiguous array of 64 bit
+                     * wide big-endian values. */
 #if (defined(_WIN32) || defined(_WIN64)) && !defined(__MINGW32__)
 #define SHA_LONG64 unsigned __int64
 #define U64(C)     C##UI64
@@ -180,15 +180,15 @@ void SHA256_Transform(SHA256_CTX *c, const unsigned char *data);
 #endif
 
 typedef struct SHA512state_st
-	{
-	SHA_LONG64 h[8];
-	SHA_LONG64 Nl,Nh;
-	union {
-		SHA_LONG64	d[SHA_LBLOCK];
-		unsigned char	p[SHA512_CBLOCK];
-	} u;
-	unsigned int num,md_len;
-	} SHA512_CTX;
+    {
+    SHA_LONG64 h[8];
+    SHA_LONG64 Nl,Nh;
+    union {
+        SHA_LONG64    d[SHA_LBLOCK];
+        unsigned char    p[SHA512_CBLOCK];
+    } u;
+    unsigned int num,md_len;
+    } SHA512_CTX;
 #endif
 
 #ifndef OPENSSL_NO_SHA512

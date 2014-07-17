@@ -14,10 +14,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-if(NOT (TBB_USE_EXTERNAL OR USE_STD_MALLOC OR USE_FASTMM_MALLOC))
-  add_subdirectory(tbb)
-endif()
-
 if(NOT ACE_USE_EXTERNAL)
   add_subdirectory(ACE_wrappers)
 endif()
@@ -25,6 +21,7 @@ endif()
 add_subdirectory(recastnavigation)
 add_subdirectory(src)
 add_subdirectory(libmpq)
+add_subdirectory(lualib)
 
 # This is done to generate the config.h file for libmpq
 # Kind of a cludge..

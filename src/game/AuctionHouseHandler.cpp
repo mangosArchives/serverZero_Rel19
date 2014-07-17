@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -35,6 +35,7 @@
 #include "Mail.h"
 #include "Util.h"
 #include "Chat.h"
+#include "LuaEngine.h"
 
 /** \addtogroup auctionhouse
  * @{
@@ -335,6 +336,9 @@ void WorldSession::HandleAuctionSellItem(WorldPacket& recv_data)
                itemGuid.GetString().c_str(), auctioneerGuid.GetString().c_str(), bid, buyout, etime, auctionHouseEntry->houseId);
 
     SendAuctionCommandResult(AH, AUCTION_STARTED, AUCTION_OK);
+
+    // Used by Eluna
+    sEluna->OnAdd(auctionHouse);
 }
 
 // this function is called when client bids or buys out auction
@@ -485,6 +489,8 @@ void WorldSession::HandleAuctionRemoveItem(WorldPacket& recv_data)
     CharacterDatabase.CommitTransaction();
     sAuctionMgr.RemoveAItem(auction->itemGuidLow);
     auctionHouse->RemoveAuction(auction->Id);
+    // Used by Eluna
+    sEluna->OnRemove(auctionHouse);
     delete auction;
 }
 

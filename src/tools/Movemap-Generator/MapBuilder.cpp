@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -164,10 +164,10 @@ namespace MMAP
         minX = INT_MIN;
         minY = INT_MIN;
 
-		float bmin[3] = { 0 };
-		float bmax[3] = { 0 };
-		float lmin[3] = { 0 };
-		float lmax[3] = { 0 };
+        float bmin[3] = { 0 };
+        float bmax[3] = { 0 };
+        float lmin[3] = { 0 };
+        float lmax[3] = { 0 };
         MeshData meshData;
 
         // make sure we process maps which don't have tiles
@@ -796,7 +796,10 @@ namespace MMAP
                 case 13:    // test.wdt
                 case 25:    // ScottTest.wdt
                 case 29:    // Test.wdt
+                case 35:    // StornWind Crypt (Unused Instance)
+                case 37:    // Ashara.wdt (Unused Raid Area)
                 case 42:    // Colin.wdt
+                case 44:    // Monastry.wdt (Unused Old SM)
                 case 169:   // EmeraldDream.wdt (unused, and very large)
                 case 451:   // development.wdt
                     return true;

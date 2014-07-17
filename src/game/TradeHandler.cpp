@@ -1,6 +1,6 @@
 /**
- * mangos-zero is a full featured server for World of Warcraft in its vanilla
- * version, supporting clients for patch 1.12.x.
+ * MaNGOS is a full featured server for World of Warcraft, supporting
+ * the following clients: 1.12.x, 2.4.3, 3.3.5a, 4.3.4a and 5.4.8
  *
  * Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
  *
@@ -281,6 +281,14 @@ void WorldSession::HandleAcceptTradeOpcode(WorldPacket& recvPacket)
         my_trade->SetAccepted(false, true);
         return;
     }
+
+    if (!_player->IsWithinDistInMap(trader, TRADE_DISTANCE, false))
+    {
+        SendTradeStatus(TRADE_STATUS_TARGET_TO_FAR);
+        my_trade->SetAccepted(false);
+        return;
+    }
+
 
     // not accept case incorrect money amount
     if (his_trade->GetMoney() > trader->GetMoney())
@@ -613,7 +621,7 @@ void WorldSession::HandleInitiateTradeOpcode(WorldPacket& recvPacket)
         return;
     }
 
-    if (!pOther->IsWithinDistInMap(_player, 10.0f, false))
+    if (!pOther->IsWithinDistInMap(_player, TRADE_DISTANCE, false))
     {
         SendTradeStatus(TRADE_STATUS_TARGET_TO_FAR);
         return;

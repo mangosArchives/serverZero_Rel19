@@ -1,5 +1,5 @@
-# mangos-zero is a full featured server for World of Warcraft in its vanilla
-# version, supporting clients for patch 1.12.x.
+# MaNGOS is a full featured server for World of Warcraft, supporting
+# the following clients: 1.12.x, 2.4.3, 3.2.5a, 4.2.3 and 5.4.8
 #
 # Copyright (C) 2005-2014  MaNGOS project <http://getmangos.eu>
 #
@@ -27,10 +27,10 @@
 # Needs to link against mangos_worldd.lib
 if(WIN32)
   link_directories(
-    ${CMAKE_BINARY_DIR}/src/mangosd/${CMAKE_CFG_INTDIR}
+    "${CMAKE_BINARY_DIR}/src/mangosd/${CMAKE_CFG_INTDIR}"
   )
   include_directories(
-    ${CMAKE_SOURCE_DIR}/dep/include # For Win32
+    "${CMAKE_SOURCE_DIR}/dep/include"
   )
 endif()
 
@@ -41,7 +41,6 @@ add_subdirectory(framework)
 #-----------------------------------------------------------------------------
 # Build the mangos-zero shared library
 add_subdirectory(shared)
-
 
 #-----------------------------------------------------------------------------
 # Build the mangos-zero game library
@@ -55,9 +54,12 @@ add_subdirectory(realmd)
 # Build the mangos-zero world server
 add_subdirectory(mangosd)
 
-# Should have a check for if we're building tools aswell here
-add_subdirectory(tools)
+#-----------------------------------------------------------------------------
+# If we want the tools for map/vmap/mmap extraction
+if(BUILD_TOOLS)
+    add_subdirectory(tools)
+endif()
 
 #-----------------------------------------------------------------------------
 # Build the mangos-zero script library
-#add_subdirectory(scripts)
+add_subdirectory(scripts)

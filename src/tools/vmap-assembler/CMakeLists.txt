@@ -23,18 +23,21 @@ project (MANGOS_VMAP_ASSEMB_IO)
 set(EXECUTABLE_NAME "vmap-assembler")
 
 # comment next line to disable debug mode
+#TODO: These should be general, not with the -D part for windows to work too?
 add_definitions("-DIOMAP_DEBUG")
 add_definitions("-DNO_CORE_FUNCS")
 
-include_directories(${CMAKE_SOURCE_DIR}/src/shared)
-include_directories(${CMAKE_SOURCE_DIR}/src/game/vmap/)
-include_directories(${CMAKE_SOURCE_DIR}/dep/include/g3dlite/)
-include_directories(${CMAKE_SOURCE_DIR}/dep/ACE_wrappers/)
-include_directories(${CMAKE_BINARY_DIR}/dep/ACE_wrappers)
-include_directories(${CMAKE_SOURCE_DIR}/src/framework/)
+include_directories(
+    "${CMAKE_SOURCE_DIR}/src/shared"
+    "${CMAKE_SOURCE_DIR}/src/game/vmap/"
+    "${CMAKE_SOURCE_DIR}/dep/include/g3dlite/"
+    "${CMAKE_SOURCE_DIR}/dep/ACE_wrappers/"
+    "${CMAKE_BINARY_DIR}/dep/ACE_wrappers"
+    "${CMAKE_SOURCE_DIR}/src/framework/"
+)
 
 add_executable(${EXECUTABLE_NAME} vmap_assembler.cpp)
 
 target_link_libraries(${EXECUTABLE_NAME} vmap g3dlite z)
 
-install(TARGETS ${EXECUTABLE_NAME} DESTINATION ${BIN_DIR}/${TOOLS_DIR})
+install(TARGETS ${EXECUTABLE_NAME} DESTINATION "${BIN_DIR}/${TOOLS_DIR}")
