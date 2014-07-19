@@ -513,7 +513,7 @@ void ObjectMgr::LoadCreatureTemplates()
         {
             if (!GetCreatureClassLvlStats(level, cInfo->UnitClass))
             {
-                sLog.outErrorDb("Creature (Entry: %u), Class(%u), level(%u) has no data in `creature_template_classlevelstats`", cInfo->Entry, cInfo->UnitClass, level);
+                sLog.outErrorDb("#Creature (Entry: %u), Class(%u), level(%u) has no data in `creature_template_classlevelstats`", cInfo->Entry, cInfo->UnitClass, level);
                 break;
             }
         }
@@ -819,7 +819,7 @@ CreatureClassLvlStats const* ObjectMgr::GetCreatureClassLvlStats(uint32 level, u
 {
     CreatureClassLvlStats const* cCLS = &m_creatureClassLvlStats[level][classToIndex[unitClass]];
 
-    if (cCLS->BaseHealth != 0 && cCLS->BaseDamage > 0.1f)
+    if (cCLS->BaseHealth != 0 && cCLS->BaseDamage > 0.01f)
         return cCLS;
 
     return NULL;
