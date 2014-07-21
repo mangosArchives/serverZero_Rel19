@@ -1680,7 +1680,7 @@ class MANGOS_DLL_SPEC Player : public Unit
             return p == this || (GetGroup() != NULL && GetGroup() == p->GetGroup());
         }
         void UninviteFromGroup();
-        static void RemoveFromGroup(Group* group, ObjectGuid guid);
+        static void RemoveFromGroup(Group* group, ObjectGuid guid, uint8 removeMethod = GROUP_LEAVE);
         void RemoveFromGroup() { RemoveFromGroup(GetGroup(), GetObjectGuid()); }
         void SendUpdateToOutOfRangeGroupMembers();
 

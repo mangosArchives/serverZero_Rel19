@@ -36,8 +36,9 @@
 #include "World.h"
 #include "Group.h"
 #include "LFGHandler.h"
+#include "LFGMgr.h"
 
-void WorldSession::HandleMeetingStoneJoinOpcode(WorldPacket & recv_data)
+void WorldSession::HandleMeetingStoneJoinOpcode(WorldPacket& recv_data)
 {
     ObjectGuid guid;
 
@@ -67,39 +68,67 @@ void WorldSession::HandleMeetingStoneJoinOpcode(WorldPacket & recv_data)
         {
             SendMeetingstoneFailed(MEETINGSTONE_FAIL_PARTYLEADER);
 
-            obj->Use(_player);
             return;
         }
 
         if (grp->isRaidGroup())
         {
             SendMeetingstoneFailed(MEETINGSTONE_FAIL_RAID_GROUP);
-
-            obj->Use(_player);
             return;
         }
 
         if (grp->IsFull())
         {
             SendMeetingstoneFailed(MEETINGSTONE_FAIL_FULL_GROUP);
-
-            obj->Use(_player);
             return;
         }
     }
 
 
-    GameObjectInfo const *gInfo = ObjectMgr::GetGameObjectInfo(obj->GetEntry());
+   GameObjectInfo const* gInfo = ObjectMgr::GetGameObjectInfo(obj->GetEntry());
 
-    SendMeetingstoneSetqueue(gInfo->meetingstone.areaID, MEETINGSTONE_STATUS_JOINED_QUEUE);
-    obj->Use(_player);
+   sLFGMgr.AddToQueue(_player, gInfo->meetingstone.areaID);
 }
 
-void WorldSession::HandleMeetingStoneLeaveOpcode(WorldPacket & recv_data)
+void WorldSession::HandleMeetingStoneLeaveOpcode(WorldPacket& recv_data)
 {
     DEBUG_LOG("WORLD: Recvd CMSG_MEETINGSTONE_LEAVE");
+    if(Group *grp = _player->GetGroup())
+    {
+        if(grp->IsLeader(_player->GetObjectGuid()) && grp->isInLFG())
+        {
+            sLFGMgr.RemoveGroupFromQueue(grp->GetId());
+        }
+        else
+        {
+            SendMeetingstoneSetqueue(0, MEETINGSTONE_STATUS_NONE);
+        }
+    }
+    else
+    {
+        sLFGMgr.RemovePlayerFromQueue(_player->GetObjectGuid());
+    }
+}
 
-    SendMeetingstoneSetqueue(0, MEETINGSTONE_STATUS_NONE);
+void WorldSession::HandleMeetingStoneInfoOpcode(WorldPacket & /*recv_data*/)
+{
+    DEBUG_LOG("WORLD: Received CMSG_MEETING_STONE_INFO");
+
+    if(Group *grp = _player->GetGroup())
+    {
+        if(grp->isInLFG())
+        {
+            SendMeetingstoneSetqueue(grp->GetLFGAreaId(), MEETINGSTONE_STATUS_JOINED_QUEUE);
+        }
+        else
+        {
+            SendMeetingstoneSetqueue(0, MEETINGSTONE_STATUS_NONE);
+        }
+    }
+    else
+    {
+        sLFGMgr.RestoreOfflinePlayer(_player->GetObjectGuid());
+    }
 }
 
 void WorldSession::SendMeetingstoneFailed(uint8 status)

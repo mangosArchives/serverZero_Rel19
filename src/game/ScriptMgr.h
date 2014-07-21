@@ -103,7 +103,7 @@ enum ScriptCommand                                          // resSource, resTar
     // dataint=diff to change a waittime of current Waypoint Movement
     SCRIPT_COMMAND_PAUSE_WAYPOINTS          = 32,           // resSource = Creature
                                                             // datalong = 0: unpause waypoint 1: pause waypoint
-    SCRIPT_COMMAND_RESERVED_1               = 33,           // reserved for 3.x and later
+    SCRIPT_COMMAND_JOIN_LFG                 = 33,           // datalong = zoneId;
     SCRIPT_COMMAND_TERMINATE_COND           = 34,           // datalong = condition_id, datalong2 = if != 0 then quest_id of quest that will be failed for player's group if the script is terminated
     // data_flags & SCRIPT_FLAG_COMMAND_ADDITIONAL terminate when condition is false ELSE terminate when condition is true
     SCRIPT_COMMAND_SEND_AI_EVENT_AROUND     = 35,           // resSource = Creature, resTarget = Unit, datalong = AIEventType, datalong2 = radius
@@ -318,6 +318,11 @@ struct ScriptInfo
             uint32 doPause;                                 // datalong
             uint32 empty;
         } pauseWaypoint;
+
+        struct                                              // SCRIPT_COMMAND_JOIN_LFG (33)
+        {
+            uint32 areaId;                                  // datalong
+        } joinLfg;
 
         struct                                              // SCRIPT_COMMAND_TERMINATE_COND (34)
         {

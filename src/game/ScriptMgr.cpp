@@ -37,6 +37,8 @@
 #include "BattleGround/BattleGround.h"
 #include "OutdoorPvP/OutdoorPvP.h"
 #include "WaypointMovementGenerator.h"
+#include "LFGMgr.h"
+
 #ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
 #endif /* ENABLE_ELUNA */
@@ -666,7 +668,7 @@ void ScriptMgr::LoadScripts(ScriptMapMapName& scripts, const char* tablename)
             }
             case SCRIPT_COMMAND_PAUSE_WAYPOINTS:            // 32
                 break;
-            case SCRIPT_COMMAND_RESERVED_1:                 // 33
+            case SCRIPT_COMMAND_JOIN_LFG:                   // 33
                 break;
             case SCRIPT_COMMAND_TERMINATE_COND:             // 34
             {
@@ -1756,9 +1758,14 @@ bool ScriptAction::HandleScriptStep()
                 { ((Creature*)pSource)->clearUnitState(UNIT_STAT_WAYPOINT_PAUSED); }
             break;
         }
-        case SCRIPT_COMMAND_RESERVED_1:                     // 33
+        case SCRIPT_COMMAND_JOIN_LFG:                       // 33
         {
-            sLog.outError(" DB-SCRIPTS: Process table `%s` id %u, command %u not supported.", m_table, m_script->id, m_script->command);
+            Player* pPlayer = GetPlayerTargetOrSourceAndLog(pSource, pTarget);
+            if (!pPlayer)
+                break;
+
+            sLFGMgr.AddToQueue(pPlayer, m_script->joinLfg.areaId);
+
             break;
         }
         case SCRIPT_COMMAND_TERMINATE_COND:                 // 34

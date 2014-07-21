@@ -2226,11 +2226,11 @@ void Player::UninviteFromGroup()
     }
 }
 
-void Player::RemoveFromGroup(Group* group, ObjectGuid guid)
+void Player::RemoveFromGroup(Group* group, ObjectGuid guid, uint8 removeMethod)
 {
     if (group)
     {
-        if (group->RemoveMember(guid, 0) <= 1)
+        if (group->RemoveMember(guid, removeMethod) <= 1)
         {
             // group->Disband(); already disbanded in RemoveMember
             sObjectMgr.RemoveGroup(group);

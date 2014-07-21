@@ -22,17 +22,18 @@
  * and lore are copyrighted by Blizzard Entertainment, Inc.
  */
 
-#ifndef LFGHANDLER_H
-#define LFGHANDLER_H
+
+#ifndef MANGOSSERVER_LFGHANDLER_H
+#define MANGOSSERVER_LFGHANDLER_H
 
 enum MeetingstoneQueueStatus
 {
-    MEETINGSTONE_STATUS_NONE                                = 0,
+    MEETINGSTONE_STATUS_LEAVE_QUEUE                         = 0,
     MEETINGSTONE_STATUS_JOINED_QUEUE                        = 1,
     MEETINGSTONE_STATUS_PARTY_MEMBER_LEFT_LFG               = 2,
     MEETINGSTONE_STATUS_PARTY_MEMBER_REMOVED_PARTY_REMOVED  = 3,
     MEETINGSTONE_STATUS_LOOKING_FOR_NEW_PARTY_IN_QUEUE      = 4,
-    MEETINGSTONE_STATUS_NONE_UNK                            = 5
+    MEETINGSTONE_STATUS_NONE                                = 5
 };
 
 enum MeetingstoneFailedStatus

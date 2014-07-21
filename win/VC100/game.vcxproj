@@ -406,6 +406,7 @@
     <ClCompile Include="..\..\src\game\Level2.cpp" />
     <ClCompile Include="..\..\src\game\Level3.cpp" />
     <ClCompile Include="..\..\src\game\LFGHandler.cpp" />
+    <ClCompile Include="..\..\src\game\LFGMgr.cpp" />
     <ClCompile Include="..\..\src\game\LootHandler.cpp" />
     <ClCompile Include="..\..\src\game\LootMgr.cpp" />
     <ClCompile Include="..\..\src\game\LuaEngine\ElunaEventMgr.cpp" />
@@ -563,6 +564,7 @@
     <ClInclude Include="..\..\src\game\ItemPrototype.h" />
     <ClInclude Include="..\..\src\game\Language.h" />
     <ClInclude Include="..\..\src\game\LFGHandler.h" />
+    <ClInclude Include="..\..\src\game\LFGMgr.h" />
     <ClInclude Include="..\..\src\game\LootMgr.h" />
     <ClInclude Include="..\..\src\game\LuaEngine\AuraMethods.h" />
     <ClInclude Include="..\..\src\game\LuaEngine\BattleGroundMethods.h" />

@@ -157,6 +157,14 @@ set(SRC_GRP_OBJECT
     ItemEnchantmentMgr.cpp
     ItemEnchantmentMgr.h
     ItemPrototype.h
+    ItemHandler.cpp
+    LFGHandler.cpp
+    LFGMgr.cpp
+    Level0.cpp
+    Level1.cpp
+    Level2.cpp
+    Level3.cpp
+    LootHandler.cpp
     LootMgr.cpp
     LootMgr.h
     Mail.cpp
@@ -326,6 +334,12 @@ set(SRC_GRP_WORLD_HANDLERS
     LFGHandler.h
     LootHandler.cpp
     Mail.cpp
+    ItemEnchantmentMgr.h
+    Item.h
+    ItemPrototype.h
+    LFGMgr.h
+    Language.h
+    LootMgr.h
     Mail.h
     MailHandler.cpp
     Map.cpp

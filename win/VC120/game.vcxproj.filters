@@ -484,6 +484,9 @@
     <ClCompile Include="..\..\src\game\LFGHandler.cpp">
       <Filter>World/Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\game\LFGMgr.cpp">
+      <Filter>World/Handlers</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\game\LuaEngine\ElunaEventMgr.cpp">
       <Filter>LuaEngine</Filter>
     </ClCompile>
@@ -858,6 +861,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\game\Camera.h">
       <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\game\LFGMgr.h">
+      <Filter>World/Handlers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\game\MoveMap.h">
       <Filter>World/Handlers</Filter>

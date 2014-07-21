@@ -719,11 +719,11 @@ void Opcodes::BuildOpcodeList()
     /*0x292*/  StoreOpcode(CMSG_MEETINGSTONE_JOIN,            "CMSG_MEETINGSTONE_JOIN",           STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleMeetingStoneJoinOpcode);
     /*0x293*/  StoreOpcode(CMSG_MEETINGSTONE_LEAVE,           "CMSG_MEETINGSTONE_LEAVE",          STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleMeetingStoneLeaveOpcode);
     /*0x294*/  StoreOpcode(CMSG_MEETINGSTONE_CHEAT,           "CMSG_MEETINGSTONE_CHEAT",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
-    /*[-ZERO] Need check /*0x295*/  StoreOpcode(SMSG_MEETINGSTONE_SETQUEUE,        "SMSG_MEETINGSTONE_SETQUEUE",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
-    /*[-ZERO] Need check /*0x296*/  StoreOpcode(CMSG_MEETINGSTONE_INFO,            "CMSG_MEETINGSTONE_INFO",           STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleMeetingStoneInfoOpcode);
-    /*[-ZERO] Need check /*0x297*/  StoreOpcode(SMSG_MEETINGSTONE_COMPLETE,        "SMSG_MEETINGSTONE_COMPLETE",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
-    /*[-ZERO] Need check /*0x298*/  StoreOpcode(SMSG_MEETINGSTONE_IN_PROGRESS,     "SMSG_MEETINGSTONE_IN_PROGRESS",    STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
-    /*[-ZERO] Need check /*0x299*/  StoreOpcode(SMSG_MEETINGSTONE_MEMBER_ADDED,    "SMSG_MEETINGSTONE_MEMBER_ADDED",   STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*0x295*/  StoreOpcode(SMSG_MEETINGSTONE_SETQUEUE,        "SMSG_MEETINGSTONE_SETQUEUE",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*0x296*/  StoreOpcode(CMSG_MEETINGSTONE_INFO,            "CMSG_MEETINGSTONE_INFO",           STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleMeetingStoneInfoOpcode);
+    /*0x297*/  StoreOpcode(SMSG_MEETINGSTONE_COMPLETE,        "SMSG_MEETINGSTONE_COMPLETE",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*0x298*/  StoreOpcode(SMSG_MEETINGSTONE_IN_PROGRESS,     "SMSG_MEETINGSTONE_IN_PROGRESS",    STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*0x299*/  StoreOpcode(SMSG_MEETINGSTONE_MEMBER_ADDED,    "SMSG_MEETINGSTONE_MEMBER_ADDED",   STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
     /*0x29A*/  StoreOpcode(CMSG_GMTICKETSYSTEM_TOGGLE,        "CMSG_GMTICKETSYSTEM_TOGGLE",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
     /*[-ZERO] Need check /*0x29B*/  StoreOpcode(CMSG_CANCEL_GROWTH_AURA,           "CMSG_CANCEL_GROWTH_AURA",          STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleCancelGrowthAuraOpcode);
     /*[-ZERO] Need check /*0x29C*/  StoreOpcode(SMSG_CANCEL_AUTO_REPEAT,           "SMSG_CANCEL_AUTO_REPEAT",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
@@ -757,7 +757,7 @@ void Opcodes::BuildOpcodeList()
     /*[-ZERO] Need check /*0x2B8*/  StoreOpcode(SMSG_AREA_TRIGGER_MESSAGE,         "SMSG_AREA_TRIGGER_MESSAGE",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
     /*[-ZERO] Need check /*0x2B9*/  StoreOpcode(CMSG_TOGGLE_HELM,                  "CMSG_TOGGLE_HELM",                 STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleShowingHelmOpcode);
     /*[-ZERO] Need check /*0x2BA*/  StoreOpcode(CMSG_TOGGLE_CLOAK,                 "CMSG_TOGGLE_CLOAK",                STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleShowingCloakOpcode);
-    /*[-ZERO] Need check /*0x2BB*/  StoreOpcode(SMSG_MEETINGSTONE_JOINFAILED,      "SMSG_MEETINGSTONE_JOINFAILED",     STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*0x2BB*/  StoreOpcode(SMSG_MEETINGSTONE_JOINFAILED,      "SMSG_MEETINGSTONE_JOINFAILED",     STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
     /*[-ZERO] Need check /*0x2BC*/  StoreOpcode(SMSG_PLAYER_SKINNED,               "SMSG_PLAYER_SKINNED",              STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
     /*[-ZERO] Need check /*0x2BD*/  StoreOpcode(SMSG_DURABILITY_DAMAGE_DEATH,      "SMSG_DURABILITY_DAMAGE_DEATH",     STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
     /*0x2BE*/  StoreOpcode(CMSG_SET_EXPLORATION,              "CMSG_SET_EXPLORATION",             STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
