@@ -33,8 +33,8 @@ option(USE_STD_MALLOC       "Use standard malloc instead of TBB"     ON)
 option(ACE_USE_EXTERNAL     "Use external ACE"                       OFF)
 option(POSTGRESQL           "Use PostgreSQL"                         OFF)
 option(BUILD_TOOLS          "Build tools (map/vmap/mmap extractors)" OFF)
-option(SCRIPT_LIB_ELUNA     "Use Eluna as the scripting engine"      OFF)
-option(SCRIPT_LIB_SD2       "Use ScriptDev2 as the scripting engine" OFF)
+option(SCRIPT_LIB_ELUNA     "Use Eluna as the scripting engine"      ON)
+option(SCRIPT_LIB_SD2       "Use ScriptDev2 as the scripting engine" ON)
 
 if(PCHSupport_FOUND AND WIN32) # TODO: why only enable it on windows by default?
   option(PCH                "Use precompiled headers"               ON)
