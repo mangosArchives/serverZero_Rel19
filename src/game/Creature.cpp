@@ -170,7 +170,9 @@ Creature::Creature(CreatureSubtype subtype) : Unit(),
 
 Creature::~Creature()
 {
+#ifdef ENABLE_ELUNA
     Eluna::RemoveRef(this);
+#endif /* ENABLE_ELUNA */
 
     CleanupsBeforeDelete();
 
@@ -182,8 +184,10 @@ Creature::~Creature()
 
 void Creature::AddToWorld()
 {
+#ifdef ENABLE_ELUNA
     if (!IsInWorld())
         sEluna->OnAddToWorld(this);
+#endif /* ENABLE_ELUNA */
 
     ///- Register the creature for guid lookup
     if (!IsInWorld() && GetObjectGuid().GetHigh() == HIGHGUID_UNIT)
@@ -194,8 +198,10 @@ void Creature::AddToWorld()
 
 void Creature::RemoveFromWorld()
 {
+#ifdef ENABLE_ELUNA
     if (IsInWorld())
         sEluna->OnRemoveFromWorld(this);
+#endif /* ENABLE_ELUNA */
 
     ///- Remove the creature from the accessor
     if (IsInWorld() && GetObjectGuid().GetHigh() == HIGHGUID_UNIT)

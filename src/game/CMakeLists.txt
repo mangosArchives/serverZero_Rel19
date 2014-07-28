@@ -26,7 +26,6 @@ include_directories(
   "${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour"
   "${CMAKE_SOURCE_DIR}/dep/recastnavigation/"
   "${CMAKE_SOURCE_DIR}/dep/include"
-  "${CMAKE_SOURCE_DIR}/dep/lualib"
   "${CMAKE_SOURCE_DIR}/src/shared"
   "${CMAKE_SOURCE_DIR}/src/framework"
   "${CMAKE_SOURCE_DIR}/src/game/LuaEngine"
@@ -35,6 +34,10 @@ include_directories(
   "${MYSQL_INCLUDE_DIR}"
   "${ACE_INCLUDE_DIR}"
 )
+
+if(SCRIPT_LIB_ELUNA)
+    include_directories("${CMAKE_SOURCE_DIR}/dep/lualib")
+endif()
 
 set(SRC_GRP_AHBOT
     AuctionHouseBot/AuctionHouseBot.cpp
@@ -55,10 +58,12 @@ set(SRC_GRP_BATTLEGROUND
     BattleGround/BattleGroundWS.h
 )
 
-file(GLOB SRC_FILES_LUAENGINE LuaEngine/*.cpp LuaEngine/*.h)
-set(SRC_GRP_LUAENGINE
-    ${SRC_FILES_LUAENGINE}
-)
+if (SCRIPT_LIB_ELUNA)
+    file(GLOB SRC_FILES_LUAENGINE LuaEngine/*.cpp LuaEngine/*.h)
+    set(SRC_GRP_LUAENGINE
+        ${SRC_FILES_LUAENGINE}
+    )
+endif()
 
 set(SRC_GRP_CHAT_COMMANDS
     debugcmds.cpp
@@ -375,7 +380,6 @@ set(SRC_GRP_WORLD_HANDLERS
 set(LIBRARY_SRCS
     ${SRC_GRP_AHBOT}
     ${SRC_GRP_BATTLEGROUND}
-    ${SRC_GRP_LUAENGINE}
     ${SRC_GRP_CHAT_COMMANDS}
     ${SRC_GRP_MOTION_GEN}
     ${SRC_GRP_MOVEMENT}
@@ -390,6 +394,10 @@ set(LIBRARY_SRCS
     pchdef.h
 )
 
+if(SCRIPT_LIB_ELUNA)
+    list(APPEND LIBRARY_SRCS ${SRC_GRP_LUAENGINE})
+endif()
+
 source_group("AhBot"
   FILES
     ${SRC_GRP_AHBOT}
@@ -400,10 +408,12 @@ source_group("BattleGround"
     ${SRC_GRP_BATTLEGROUND}
 )
 
-source_group("LuaEngine"
-  FILES
-    ${SRC_GRP_LUAENGINE}
-)
+if(SCRIPT_LIB_ELUNA)
+    source_group("LuaEngine"
+      FILES
+        ${SRC_GRP_LUAENGINE}
+    )
+endif()
 
 source_group("Chat Commands"
   FILES
@@ -466,8 +476,11 @@ add_library(${LIBRARY_NAME} STATIC
 target_link_libraries(${LIBRARY_NAME}
   shared
   detour
-  lualib
 )
+
+if(SCRIPT_LIB_ELUNA)
+    target_link_libraries(${LIBRARY_NAME} lualib)
+endif()
 
 if(UNIX)
   # Both systems don't have libdl and don't need them
@@ -479,9 +492,12 @@ if(UNIX)
 endif()
 
 add_dependencies(${LIBRARY_NAME} revision.h)
-add_dependencies(${LIBRARY_NAME} lualib)
+if(SCRIPT_LIB_ELUNA)
+    add_dependencies(${LIBRARY_NAME} lualib)
+endif()
+
 if(NOT ACE_USE_EXTERNAL)
-  add_dependencies(${LIBRARY_NAME} ACE_Project)
+    add_dependencies(${LIBRARY_NAME} ACE_Project)
 endif()
 
 # Generate precompiled header
@@ -500,4 +516,6 @@ if(PCH)
 endif()
 
 add_subdirectory(AuctionHouseBot)
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/LuaEngine/extensions DESTINATION ${BIN_DIR}/lua_scripts/)
+if(SCRIPT_LIB_ELUNA)
+    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/LuaEngine/extensions DESTINATION ${BIN_DIR}/lua_scripts/)
+endif()

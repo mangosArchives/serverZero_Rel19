@@ -69,7 +69,9 @@
 #include "AuctionHouseBot/AuctionHouseBot.h"
 #include "CharacterDatabaseCleaner.h"
 #include "CreatureLinkingMgr.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 INSTANTIATE_SINGLETON_1(World);
 
@@ -151,7 +153,9 @@ void World::CleanupsBeforeStop()
     KickAll();                                       // save and kick all players
     UpdateSessions(1);                               // real players unload required UpdateSessions call
     sBattleGroundMgr.DeleteAllBattleGrounds();       // unload battleground templates before different singletons destroyed
+#ifdef ENABLE_ELUNA
     Eluna::Uninitialize();
+#endif /* ENABLE_ELUNA */
 }
 
 /// Find a player in a specified zone
@@ -1250,9 +1254,16 @@ void World::SetInitialWorldSettings()
             break;
     }
 
+#ifdef ENABLE_ELUNA
     ///- Initialize Lua Engine
     sLog.outString("Initialize Eluna Lua Engine...");
     Eluna::Initialize();
+#else /* ENABLE_ELUNA */
+    if (sConfig.GetBoolDefault("Eluna.Enabled", false))
+    {
+        sLog.outError("Eluna is enabled but wasn't included during compilation, not activating it.");
+    }
+#endif /* ENABLE_ELUNA */
 
     ///- Initialize game time and timers
     sLog.outString("DEBUG:: Initialize game time and timers");
@@ -1460,7 +1471,9 @@ void World::Update(uint32 diff)
     sOutdoorPvPMgr.Update(diff);
 
     ///- Used by Eluna
+#ifdef ENABLE_ELUNA
     sEluna->OnWorldUpdate(diff);
+#endif /* ENABLE_ELUNA */
 
     ///- Delete all characters which have been deleted X days before
     if (m_timers[WUPDATE_DELETECHARS].Passed())

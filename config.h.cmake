@@ -31,6 +31,10 @@
 
 #cmakedefine ENABLE_SOAP
 
+#cmakedefine ENABLE_ELUNA
+
+#cmakedefine ENABLE_SD2
+
 #define VERSION "${MANGOS_VERSION}"
 
 #endif /* HAVE_CONFIG_H */

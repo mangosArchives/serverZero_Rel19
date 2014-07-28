@@ -145,9 +145,11 @@ class Log : public MaNGOS::Singleton<Log, MaNGOS::ClassLevelLockable<Log, ACE_Th
                 { fclose(dberLogfile); }
             dberLogfile = NULL;
 
+#ifdef ENABLE_ELUNA
             if (elunaErrLogfile != NULL)
                 fclose(elunaErrLogfile);
             elunaErrLogfile = NULL;
+#endif /* ENABLE_ELUNA */
 
             if (eventAiErLogfile != NULL)
                 { fclose(eventAiErLogfile); }
@@ -417,7 +419,9 @@ class Log : public MaNGOS::Singleton<Log, MaNGOS::ClassLevelLockable<Log, ACE_Th
         FILE* gmLogfile; /**< TODO */
         FILE* charLogfile; /**< TODO */
         FILE* dberLogfile; /**< TODO */
+#ifdef ENABLE_ELUNA
         FILE* elunaErrLogfile; /**< TODO */
+#endif /* ENABLE_ELUNA */
         FILE* eventAiErLogfile; /**< TODO */
         FILE* scriptErrLogFile; /**< TODO */
         FILE* worldLogfile; /**< TODO */

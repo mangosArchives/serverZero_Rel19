@@ -57,7 +57,9 @@
 #include "movement/MoveSplineInit.h"
 #include "movement/MoveSpline.h"
 #include "CreatureLinkingMgr.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 #include <math.h>
 #include <stdarg.h>
@@ -279,7 +281,9 @@ Unit::Unit() :
 
 Unit::~Unit()
 {
+#ifdef ENABLE_ELUNA
     Eluna::RemoveRef(this);
+#endif /* ENABLE_ELUNA */
 
     // set current spells as deletable
     for (uint32 i = 0; i < CURRENT_MAX_SPELL; ++i)
@@ -760,8 +764,10 @@ uint32 Unit::DealDamage(Unit* pVictim, uint32 damage, CleanDamage const* cleanDa
         if (Creature* killer = ToCreature())
         {
             // Used by Eluna
+#ifdef ENABLE_ELUNA
             if (Player* killed = pVictim->ToPlayer())
                 sEluna->OnPlayerKilledByCreature(killer, killed);
+#endif /* ENABLE_ELUNA */
         }
 
         // Call AI OwnerKilledUnit (for any current summoned minipet/guardian/protector)
@@ -820,7 +826,9 @@ uint32 Unit::DealDamage(Unit* pVictim, uint32 damage, CleanDamage const* cleanDa
                 }
 
                 // Used by Eluna
+#ifdef ENABLE_ELUNA
                 sEluna->OnPVPKill(player_tap, playerVictim);
+#endif /* ENABLE_ELUNA */
             }
         }
         else                                                // Killed creature
@@ -1061,7 +1069,9 @@ void Unit::JustKilledCreature(Creature* victim, Player* responsiblePlayer)
             bg->HandleKillUnit(victim, responsiblePlayer);
 
             // Used by Eluna
+#ifdef ENABLE_ELUNA
             sEluna->OnCreatureKill(responsiblePlayer, victim);
+#endif /* ENABLE_ELUNA */
         }
 
     // Notify the outdoor pvp script
@@ -6384,8 +6394,10 @@ void Unit::SetInCombatState(bool PvP, Unit* enemy)
     }
 
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (GetTypeId() == TYPEID_PLAYER)
         sEluna->OnPlayerEnterCombat(ToPlayer(), enemy);
+#endif /* ENABLE_ELUNA */
 }
 
 void Unit::ClearInCombat()
@@ -6397,8 +6409,10 @@ void Unit::ClearInCombat()
         { RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PET_IN_COMBAT); }
 
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (GetTypeId() == TYPEID_PLAYER)
         sEluna->OnPlayerLeaveCombat(ToPlayer());
+#endif /* ENABLE_ELUNA */
 
     // Player's state will be cleared in Player::UpdateContestedPvP
     if (GetTypeId() == TYPEID_UNIT)
