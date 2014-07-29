@@ -3,6 +3,14 @@ MaNGOS Zero Changelog
 This change log references the relevant changes (bug and security fixes) done
 in recent versions.
 
+0.20 (2014-08-01) - New Beginnings
+----------------------------------
+* Some of the dependant file groups have been made into submodules
+* 
+* TODO: Pull in change log
+
+Many Thanks to all the groups and individuals who contributed to this release.
+
 0.19 (2014-07-09) - Ludas Legacy
 --------------------------------
 Major changes for this build which require your attention when upgrading include:

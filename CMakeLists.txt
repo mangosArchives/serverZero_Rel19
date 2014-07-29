@@ -20,7 +20,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 project(MaNGOS)
-set(MANGOS_VERSION 0.19)
+set(MANGOS_VERSION 0.20)
 
 set(CMAKE_MODULE_PATH
   "${CMAKE_MODULE_PATH}"
