@@ -48,7 +48,9 @@
 #include "vmap/GameObjectModel.h"
 #include "CreatureAISelector.h"
 #include "SQLStorages.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 GameObject::GameObject() : WorldObject(),
     loot(this),
@@ -77,15 +79,19 @@ GameObject::GameObject() : WorldObject(),
 
 GameObject::~GameObject()
 {
+#ifdef ENABLE_ELUNA
     Eluna::RemoveRef(this);
+#endif /* ENABLE_ELUNA */
 
     delete m_model;
 }
 
 void GameObject::AddToWorld()
 {
+#ifdef ENABLE_ELUNA
     if (!IsInWorld())
         sEluna->OnAddToWorld(this);
+#endif /* ENABLE_ELUNA */
 
     ///- Register the gameobject for guid lookup
     if (!IsInWorld())
@@ -105,7 +111,9 @@ void GameObject::RemoveFromWorld()
     ///- Remove the gameobject from the accessor
     if (IsInWorld())
     {
+#ifdef ENABLE_ELUNA
         sEluna->OnRemoveFromWorld(this);
+#endif /* ENABLE_ELUNA */
 
         // Notify the outdoor pvp script
         if (OutdoorPvP* outdoorPvP = sOutdoorPvPMgr.GetScript(GetZoneId()))
@@ -204,7 +212,9 @@ bool GameObject::Create(uint32 guidlow, uint32 name_id, Map* map, float x, float
     }
 
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     sEluna->OnSpawn(this);
+#endif /* ENABLE_ELUNA */
 
     // Notify the battleground or outdoor pvp script
     if (map->IsBattleGround())
@@ -231,7 +241,9 @@ void GameObject::Update(uint32 update_diff, uint32 p_time)
 
     m_Events.Update(p_time);
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     sEluna->UpdateAI(this, p_time);
+#endif /* ENABLE_ELUNA */
 
     switch (m_lootState)
     {
@@ -1769,14 +1781,18 @@ bool GameObject::IsFriendlyTo(Unit const* unit) const
 void GameObject::SetLootState(LootState state)
 {
     m_lootState = state;
+#ifdef ENABLE_ELUNA
     sEluna->OnLootStateChanged(this, state);
+#endif /* ENABLE_ELUNA */
     UpdateCollisionState();
 }
 
 void GameObject::SetGoState(GOState state)
 {
     SetByteValue(GAMEOBJECT_STATE, 0, state);
+#ifdef ENABLE_ELUNA
     sEluna->OnGameObjectStateChanged(this, state);
+#endif /* ENABLE_ELUNA */
     UpdateCollisionState();
 }
 

@@ -51,7 +51,9 @@
 #include "Util.h"
 #include "Chat.h"
 #include "SQLStorages.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 extern pEffect SpellEffects[TOTAL_SPELL_EFFECTS];
 
@@ -353,7 +355,9 @@ Spell::Spell(Unit* caster, SpellEntry const* info, bool triggered, ObjectGuid or
 
 Spell::~Spell()
 {
+#ifdef ENABLE_ELUNA
     Eluna::RemoveRef(this);
+#endif /* ENABLE_ELUNA */
 }
 
 template<typename T>
@@ -2746,8 +2750,10 @@ void Spell::cast(bool skipCheck)
     m_targets.updateTradeSlotItem();
 
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (m_caster->GetTypeId() == TYPEID_PLAYER)
         sEluna->OnSpellCast(m_caster->ToPlayer(), this, skipCheck);
+#endif /* ENABLE_ELUNA */
 
     FillTargetMap();
 

@@ -37,7 +37,9 @@
 #include "BattleGround/BattleGround.h"
 #include "OutdoorPvP/OutdoorPvP.h"
 #include "WaypointMovementGenerator.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 #include "revision_nr.h"
 
@@ -1991,8 +1993,10 @@ char const* ScriptMgr::GetScriptLibraryVersion() const
 CreatureAI* ScriptMgr::GetCreatureAI(Creature* pCreature)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (CreatureAI* luaAI = sEluna->GetAI(pCreature))
         return luaAI;
+#endif /* ENABLE_ELUNA */
 
     if (!m_pGetCreatureAI)
         { return NULL; }
@@ -2011,8 +2015,10 @@ InstanceData* ScriptMgr::CreateInstanceData(Map* pMap)
 bool ScriptMgr::OnGossipHello(Player* pPlayer, Creature* pCreature)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (sEluna->OnGossipHello(pPlayer, pCreature))
         return true;
+#endif /* ENABLE_ELUNA */
 
     return m_pOnGossipHello != NULL && m_pOnGossipHello(pPlayer, pCreature);
 }
@@ -2020,8 +2026,10 @@ bool ScriptMgr::OnGossipHello(Player* pPlayer, Creature* pCreature)
 bool ScriptMgr::OnGossipHello(Player* pPlayer, GameObject* pGameObject)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (sEluna->OnGossipHello(pPlayer, pGameObject))
         return true;
+#endif /* ENABLE_ELUNA */
 
     return m_pOnGOGossipHello != NULL && m_pOnGOGossipHello(pPlayer, pGameObject);
 }
@@ -2031,14 +2039,18 @@ bool ScriptMgr::OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 send
     if (code)
     {
         // Used by Eluna
+#ifdef ENABLE_ELUNA
         if (sEluna->OnGossipSelectCode(pPlayer, pCreature, sender, action, code))
             return true;
+#endif /* ENABLE_ELUNA */
     }
     else
     {
         // Used by Eluna
+#ifdef ENABLE_ELUNA
         if (sEluna->OnGossipSelect(pPlayer, pCreature, sender, action))
             return true;
+#endif /* ENABLE_ELUNA */
     }
 
     if (code)
@@ -2052,13 +2064,17 @@ bool ScriptMgr::OnGossipSelect(Player* pPlayer, GameObject* pGameObject, uint32 
     if (code)
     {
         // Used by Eluna
+#ifdef ENABLE_ELUNA
         if (sEluna->OnGossipSelectCode(pPlayer, pGameObject, sender, action, code))
             return true;
+#endif /* ENABLE_ELUNA */
     }
     else
         // Used by Eluna
+#ifdef ENABLE_ELUNA
         if (sEluna->OnGossipSelect(pPlayer, pGameObject, sender, action))
             return true;
+#endif /* ENABLE_ELUNA */
 
     if (code)
         { return m_pOnGOGossipSelectWithCode != NULL && m_pOnGOGossipSelectWithCode(pPlayer, pGameObject, sender, action, code); }
@@ -2069,8 +2085,10 @@ bool ScriptMgr::OnGossipSelect(Player* pPlayer, GameObject* pGameObject, uint32 
 bool ScriptMgr::OnQuestAccept(Player* pPlayer, Creature* pCreature, Quest const* pQuest)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (sEluna->OnQuestAccept(pPlayer, pCreature, pQuest))
         return true;
+#endif /* ENABLE_ELUNA */
 
     return m_pOnQuestAccept != NULL && m_pOnQuestAccept(pPlayer, pCreature, pQuest);
 }
@@ -2078,8 +2096,10 @@ bool ScriptMgr::OnQuestAccept(Player* pPlayer, Creature* pCreature, Quest const*
 bool ScriptMgr::OnQuestAccept(Player* pPlayer, GameObject* pGameObject, Quest const* pQuest)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (sEluna->OnQuestAccept(pPlayer, pGameObject, pQuest))
         return true;
+#endif /* ENABLE_ELUNA */
 
     return m_pOnGOQuestAccept != NULL && m_pOnGOQuestAccept(pPlayer, pGameObject, pQuest);
 }
@@ -2087,8 +2107,10 @@ bool ScriptMgr::OnQuestAccept(Player* pPlayer, GameObject* pGameObject, Quest co
 bool ScriptMgr::OnQuestAccept(Player* pPlayer, Item* pItem, Quest const* pQuest)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (sEluna->OnQuestAccept(pPlayer, pItem, pQuest))
         return true;
+#endif /* ENABLE_ELUNA */
 
     return m_pOnItemQuestAccept != NULL && m_pOnItemQuestAccept(pPlayer, pItem, pQuest);
 }
@@ -2096,8 +2118,10 @@ bool ScriptMgr::OnQuestAccept(Player* pPlayer, Item* pItem, Quest const* pQuest)
 bool ScriptMgr::OnQuestRewarded(Player* pPlayer, Creature* pCreature, Quest const* pQuest)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (sEluna->OnQuestReward(pPlayer, pCreature, pQuest))
         return true;
+#endif /* ENABLE_ELUNA */
 
     return m_pOnQuestRewarded != NULL && m_pOnQuestRewarded(pPlayer, pCreature, pQuest);
 }
@@ -2105,8 +2129,10 @@ bool ScriptMgr::OnQuestRewarded(Player* pPlayer, Creature* pCreature, Quest cons
 bool ScriptMgr::OnQuestRewarded(Player* pPlayer, GameObject* pGameObject, Quest const* pQuest)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (sEluna->OnQuestReward(pPlayer, pGameObject, pQuest))
         return true;
+#endif /* ENABLE_ELUNA */
 
     return m_pOnGOQuestRewarded != NULL && m_pOnGOQuestRewarded(pPlayer, pGameObject, pQuest);
 }
@@ -2114,8 +2140,10 @@ bool ScriptMgr::OnQuestRewarded(Player* pPlayer, GameObject* pGameObject, Quest 
 uint32 ScriptMgr::GetDialogStatus(Player* pPlayer, Creature* pCreature)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (uint32 dialogId = sEluna->GetDialogStatus(pPlayer, pCreature))
         return dialogId;
+#endif /* ENABLE_ELUNA */
 
     if (!m_pGetNPCDialogStatus)
         { return DIALOG_STATUS_UNDEFINED; }
@@ -2126,8 +2154,10 @@ uint32 ScriptMgr::GetDialogStatus(Player* pPlayer, Creature* pCreature)
 uint32 ScriptMgr::GetDialogStatus(Player* pPlayer, GameObject* pGameObject)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (uint32 dialogId = sEluna->GetDialogStatus(pPlayer, pGameObject))
         return dialogId;
+#endif /* ENABLE_ELUNA */
 
     if (!m_pGetGODialogStatus)
         { return DIALOG_STATUS_UNDEFINED; }
@@ -2143,8 +2173,10 @@ bool ScriptMgr::OnGameObjectUse(Player* pPlayer, GameObject* pGameObject)
 bool ScriptMgr::OnItemUse(Player* pPlayer, Item* pItem, SpellCastTargets const& targets)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (!sEluna->OnUse(pPlayer, pItem, targets))
         return true;
+#endif /* ENABLE_ELUNA */
 
     return m_pOnItemUse != NULL && m_pOnItemUse(pPlayer, pItem, targets);
 }
@@ -2152,8 +2184,10 @@ bool ScriptMgr::OnItemUse(Player* pPlayer, Item* pItem, SpellCastTargets const& 
 bool ScriptMgr::OnAreaTrigger(Player* pPlayer, AreaTriggerEntry const* atEntry)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (sEluna->OnAreaTrigger(pPlayer, atEntry))
         return true;
+#endif /* ENABLE_ELUNA */
 
     return m_pOnAreaTrigger != NULL && m_pOnAreaTrigger(pPlayer, atEntry);
 }
@@ -2166,8 +2200,10 @@ bool ScriptMgr::OnProcessEvent(uint32 eventId, Object* pSource, Object* pTarget,
 bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex effIndex, Creature* pTarget, ObjectGuid originalCasterGuid)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (sEluna->OnDummyEffect(pCaster, spellId, effIndex, pTarget))
         return true;
+#endif /* ENABLE_ELUNA */
 
     return m_pOnEffectDummyCreature != NULL && m_pOnEffectDummyCreature(pCaster, spellId, effIndex, pTarget, originalCasterGuid);
 }
@@ -2175,8 +2211,10 @@ bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex ef
 bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex effIndex, GameObject* pTarget, ObjectGuid originalCasterGuid)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (sEluna->OnDummyEffect(pCaster, spellId, effIndex, pTarget))
         return true;
+#endif /* ENABLE_ELUNA */
 
     return m_pOnEffectDummyGO != NULL && m_pOnEffectDummyGO(pCaster, spellId, effIndex, pTarget, originalCasterGuid);
 }
@@ -2184,8 +2222,10 @@ bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex ef
 bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex effIndex, Item* pTarget, ObjectGuid originalCasterGuid)
 {
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (sEluna->OnDummyEffect(pCaster, spellId, effIndex, pTarget))
         return true;
+#endif /* ENABLE_ELUNA */
 
     return m_pOnEffectDummyItem != NULL && m_pOnEffectDummyItem(pCaster, spellId, effIndex, pTarget, originalCasterGuid);
 }

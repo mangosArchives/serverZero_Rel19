@@ -33,6 +33,8 @@ option(USE_STD_MALLOC       "Use standard malloc instead of TBB"     ON)
 option(ACE_USE_EXTERNAL     "Use external ACE"                       OFF)
 option(POSTGRESQL           "Use PostgreSQL"                         OFF)
 option(BUILD_TOOLS          "Build tools (map/vmap/mmap extractors)" OFF)
+option(SCRIPT_LIB_ELUNA     "Use Eluna as the scripting engine"      ON)
+option(SCRIPT_LIB_SD2       "Use ScriptDev2 as the scripting engine" ON)
 
 if(PCHSupport_FOUND AND WIN32) # TODO: why only enable it on windows by default?
   option(PCH                "Use precompiled headers"               ON)
@@ -49,12 +51,16 @@ message("")
 message(
   "This script builds the MaNGOS server.
   Options that can be used in order to configure the process:
+   General:
     CMAKE_INSTALL_PREFIX    Path where the server should be installed to
     PCH                     Use precompiled headers
     DEBUG                   Debug mode
     USE_STD_MALLOC          Use standard malloc instead of TBB
     ACE_USE_EXTERNAL        Use external ACE
     BUILD_TOOLS             Build map/vmap/mmap extractors
+   Scripting engines:
+    SCRIPT_LIB_ELUNA        Compile with support for Eluna scripts
+    SCRIPT_LIB_SD2          Compile with support for ScriptDev2 scripts
 
   To set an option simply type -D<OPTION>=<VALUE> after 'cmake <srcs>'.
   Also, you can specify the generator with -G. see 'cmake --help' for more details
@@ -353,6 +359,17 @@ if (SOAP)
   set(ENABLE_SOAP ON)
 else()
   set(ENABLE_SOAP OFF)
+endif()
+
+set(ENABLE_ELUNA OFF)
+set(ENABLE_SD2 OFF)
+
+if (SCRIPT_LIB_ELUNA)
+   set(ENABLE_ELUNA ON)
+endif()
+
+if (SCRIPT_LIB_SD2)
+   set(ENABLE_SD2 ON)
 endif()
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake" "${CMAKE_CURRENT_BINARY_DIR}/config.h")
