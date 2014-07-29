@@ -28,6 +28,9 @@
 #include "Platform/Define.h"
 #include <cassert>
 
+#ifndef MANGOS
+#define MANGOS
+#endif /* MANGOS */
 #define CLASSIC
 
 enum Gender
