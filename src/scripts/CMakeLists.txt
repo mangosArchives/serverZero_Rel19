@@ -397,6 +397,7 @@ include_directories(
   "${CMAKE_SOURCE_DIR}/src/game"
   "${CMAKE_SOURCE_DIR}/dep/include"
   "${CMAKE_BINARY_DIR}"
+  "${CMAKE_BINARY_DIR}/src/shared"
   "${ACE_INCLUDE_DIR}"
   "${MYSQL_INCLUDE_DIR}"
 )

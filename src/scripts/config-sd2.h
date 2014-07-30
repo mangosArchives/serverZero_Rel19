@@ -49,12 +49,12 @@
 
 #if PLATFORM == PLATFORM_WINDOWS
   #ifdef _WIN64
-    #define _FULLVERSION _VERSION " (Win64)"
+    #define MANGOS_FULLVERSION _VERSION " (Win64)"
   #else
-    #define _FULLVERSION _VERSION " (Win32)"
+    #define MANGOS_FULLVERSION _VERSION " (Win32)"
   #endif
 #else
-  #define _FULLVERSION _VERSION " (Unix)"
+  #define MANGOS_FULLVERSION _VERSION " (Unix)"
 #endif
 
 #endif
