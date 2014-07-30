@@ -20,7 +20,9 @@
 cmake_minimum_required(VERSION 2.8)
 # Until CMake 3.0 is the standard
 # And a solution to set_directory_properties is found.
-cmake_policy(SET CMP0043 OLD)
+if(POLICY CMP0043)
+    cmake_policy(SET CMP0043 OLD)
+endif()
 
 project(MaNGOS)
 set(MANGOS_VERSION 0.20)
