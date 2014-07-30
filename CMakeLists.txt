@@ -35,6 +35,7 @@ option(POSTGRESQL           "Use PostgreSQL"                         OFF)
 option(BUILD_TOOLS          "Build tools (map/vmap/mmap extractors)" OFF)
 option(SCRIPT_LIB_ELUNA     "Use Eluna as the scripting engine"      ON)
 option(SCRIPT_LIB_SD2       "Use ScriptDev2 as the scripting engine" ON)
+option(SOAP                 "Enable access via SOAP or not"          OFF)
 
 if(PCHSupport_FOUND AND WIN32) # TODO: why only enable it on windows by default?
   option(PCH                "Use precompiled headers"               ON)
@@ -58,6 +59,7 @@ message(
     USE_STD_MALLOC          Use standard malloc instead of TBB
     ACE_USE_EXTERNAL        Use external ACE
     BUILD_TOOLS             Build map/vmap/mmap extractors
+    SOAP                    Enable remote access via SOAP
    Scripting engines:
     SCRIPT_LIB_ELUNA        Compile with support for Eluna scripts
     SCRIPT_LIB_SD2          Compile with support for ScriptDev2 scripts
@@ -230,6 +232,24 @@ message(STATUS "Install server to     : ${CMAKE_INSTALL_PREFIX}")
 # else(RA)
 #   message(STATUS "* Build with RA         : No  (default)")
 # endif(RA)
+
+if(SOAP)
+  message(STATUS "Support for SOAP      : Yes")
+else()
+  message(STATUS "Support for SOAP      : No (default)")
+endif()
+
+if(SCRIPT_LIB_ELUNA)
+  message(STATUS "Script engine Eluna   : Yes (default)")
+else()
+  message(STATUS "Script engine Eluna   : No")
+endif()
+
+if(SCRIPT_LIB_SD2)
+  message(STATUS "Script engine SD2     : Yes (default)")
+else()
+  message(STATUS "Script engine SD2     : No")
+endif()
 
 if(BUILD_TOOLS)
   message(STATUS "Build tools           : Yes")
