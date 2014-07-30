@@ -91,6 +91,7 @@ ScriptMgr::ScriptMgr() :
 
 ScriptMgr::~ScriptMgr()
 {
+    UnloadScriptLibrary();
 }
 
 // /////////////////////////////////////////////////////////
