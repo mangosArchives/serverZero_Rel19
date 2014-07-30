@@ -18,6 +18,11 @@
 
 # CMake policies
 cmake_minimum_required(VERSION 2.8)
+# Until CMake 3.0 is the standard
+# And a solution to set_directory_properties is found.
+if(POLICY CMP0043)
+    cmake_policy(SET CMP0043 OLD)
+endif()
 
 project(MaNGOS)
 set(MANGOS_VERSION 0.20)
@@ -307,9 +312,8 @@ add_executable(genrev
   ${GENREV_SRC}
 )
 
-get_target_property(GENERATE_EXE genrev LOCATION)
 add_custom_target("revision.h" ALL
-  COMMAND ${GENERATE_EXE} ${CMAKE_SOURCE_DIR}
+  COMMAND $<TARGET_FILE:genrev> ${CMAKE_SOURCE_DIR}
   WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
   DEPENDS genrev
 )
@@ -403,6 +407,8 @@ if(USE_STD_MALLOC)
 endif()
 
 set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "${DEFINITIONS}")
+#Something like this is what i've imagined with the new generator expressions in cmake 3.0 / lfx
+#set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "$<$<CONFIG:Release>:"${DEFINITIONS} ${DEFINITIONS_RELEASE}">$<$<CONFIG:Debug>:"${DEFINITIONS} ${DEFINITIONS_DEBUG}">")
 set_directory_properties(PROPERTIES COMPILE_DEFINITIONS_RELEASE "${DEFINITIONS_RELEASE}")
 set_directory_properties(PROPERTIES COMPILE_DEFINITIONS_DEBUG "${DEFINITIONS_DEBUG}")
 
