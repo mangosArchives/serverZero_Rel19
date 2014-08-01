@@ -29,6 +29,7 @@
 #include "Platform/CompilerDefs.h"
 #include "revision.h"
 #include "sd2_revision_nr.h"
+#include "SystemConfig.h"
 
 #ifdef WIN32
   #define MANGOS_DLL_EXPORT extern "C" __declspec(dllexport)
@@ -38,23 +39,8 @@
   #define MANGOS_DLL_EXPORT extern "C" export
 #endif
 
-#ifndef _VERSION
-  #define _VERSION "Revision [" SD2_REVISION_NR "] (" REVISION_ID ") " REVISION_DATE " " REVISION_TIME
-#endif
-
-// The path to config files
-#ifndef SYSCONFDIR
-  #define SYSCONFDIR ""
-#endif
-
-#if PLATFORM == PLATFORM_WINDOWS
-  #ifdef _WIN64
-    #define _FULLVERSION _VERSION " (Win64)"
-  #else
-    #define _FULLVERSION _VERSION " (Win32)"
-  #endif
-#else
-  #define _FULLVERSION _VERSION " (Unix)"
+#ifndef SCRIPTDEV2_VERSION
+  #define SCRIPTDEV2_VERSION "Revision [" SD2_REVISION_NR "] (" REVISION_ID ") " REVISION_DATE " " REVISION_TIME
 #endif
 
 #endif
