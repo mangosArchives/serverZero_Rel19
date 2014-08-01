@@ -1237,6 +1237,7 @@ void World::SetInitialWorldSettings()
     sLog.outString("Loading CreatureEventAI Scripts...");
     sEventAIMgr.LoadCreatureEventAI_Scripts();
 
+#ifdef ENABLE_SD2
     sLog.outString("Initializing Scripts...");
     switch (sScriptMgr.LoadScriptLibrary(MANGOS_SCRIPT_NAME))
     {
@@ -1253,6 +1254,9 @@ void World::SetInitialWorldSettings()
             sLog.outError("Scripting library build for old mangosd revision. You need rebuild it.");
             break;
     }
+#else /* ENABLE_SD2 */
+    sLog.outError("SD2 is enabled but wasn't included during compilation, not activating it.");
+#endif /* ENABLE_SD2 */
 
 #ifdef ENABLE_ELUNA
     ///- Initialize Lua Engine
