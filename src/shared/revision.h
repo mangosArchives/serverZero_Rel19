@@ -1,5 +1,5 @@
-#ifndef MANGOS_H_REVISION
-#define MANGOS_H_REVISION
+#ifndef __REVISION_H__
+#define __REVISION_H__
  #define REVISION_ID "*"
  #define REVISION_DATE "*"
  #define REVISION_TIME "*"
