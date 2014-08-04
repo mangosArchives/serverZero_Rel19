@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `db_version`;
 CREATE TABLE `db_version` (
   `version` varchar(120) NOT NULL DEFAULT '',
   `creature_ai_version` varchar(120) DEFAULT NULL,
-  `required_19003_02_mangos_command` bit(1) DEFAULT NULL,
+  `required_20002_creature_template_power` bit(1) DEFAULT NULL,
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='Used DB version notes';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1327,7 +1327,7 @@ CREATE TABLE `creature_template` (
   `Family` tinyint(4) NOT NULL DEFAULT '0',
   `CreatureType` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `InhabitType` tinyint(3) unsigned NOT NULL DEFAULT '3',
-  `RegenerateHealth` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `RegenerateStats` tinyint(3) unsigned NOT NULL DEFAULT '3',
   `RacialLeader` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `NpcFlags` int(10) unsigned NOT NULL DEFAULT '0',
   `UnitFlags` int(10) unsigned NOT NULL DEFAULT '0',
@@ -1339,7 +1339,7 @@ CREATE TABLE `creature_template` (
   `UnitClass` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `Rank` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `HealthMultiplier` float NOT NULL DEFAULT '1',
-  `ManaMultiplier` float NOT NULL DEFAULT '1',
+  `PowerMultiplier` float NOT NULL DEFAULT '1',
   `DamageMultiplier` float NOT NULL DEFAULT '1',
   `DamageVariance` float NOT NULL DEFAULT '1',
   `ArmorMultiplier` float NOT NULL DEFAULT '1',
