@@ -875,6 +875,13 @@ void CreatureEventAIMgr::LoadCreatureEventAI_Scripts()
                         if (m_CreatureEventAI_Summon_Map.find(action.summon_unique.spawnId) == m_CreatureEventAI_Summon_Map.end())
                             { sLog.outErrorEventAI("Event %u Action %u summons missing CreatureEventAI_Summon %u", i, j + 1, action.summon_unique.spawnId); }
                         break;
+                    case ACTION_T_CHANGE_MOVEMENT:
+                        if (action.changeMovement.movementType >= MAX_DB_MOTION_TYPE)
+                        {
+                            sLog.outErrorEventAI("Event %u Action %u uses invalid movement type %u (must be smaller than %u)", i, j + 1, action.changeMovement.movementType, MAX_DB_MOTION_TYPE);
+                            continue;
+                        }
+                        break;
 
                     default:
                         sLog.outErrorEventAI("Event %u Action %u have currently not checked at load action type (%u). Need check code update?", i, j + 1, temp.action[j].type);
