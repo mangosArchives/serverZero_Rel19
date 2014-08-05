@@ -466,13 +466,6 @@ namespace Movement
                 while (i < index_hi)
                 {
                     new_length = cacher(*this, i);
-                    //length overflowed, assign to max positive value
-                    if (new_length < 0)
-                        { new_length = std::numeric_limits<length_type>::max(); }
-
-                    if (new_length < 0)         // length overflowed, assign to max positive value (stop case only?)
-                        new_length = std::numeric_limits<length_type>::max();
-
                     lengths[++i] = new_length;
 
                     MANGOS_ASSERT(prev_length <= new_length);
