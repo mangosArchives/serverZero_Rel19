@@ -1155,6 +1155,9 @@ class SpellMgr
         void LoadSpellAreas();
         void LoadFacingCasterFlags();
 
+		// Edit DBC data spells at startup
+		void ModDBCSpellAttributes();
+
     private:
         SpellChainMap      mSpellChains;
         SpellChainMapNext  mSpellChainsNext;
