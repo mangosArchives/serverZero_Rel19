@@ -211,7 +211,10 @@ For all ACTION_T_RANDOM Actions, When a Particular Param is selected for the Eve
 44 | ACTION_T_CHANCED_TEXT                | Chance, -TextId1, -TextId2    | Displays by Chance (1..100) the specified -TextId. When -TextId2 is specified, the selection will be randomized. Text types are defined, along with other options for the text, in a table below. Param2 and Param3 needs to be negative.
 45 | ACTION_T_THROW_AI_EVENT              | EventType, Radius             | Throws an AIEvent of type (Param1) to nearby friendly Npcs in range of (Param2)
 46 | ACTION_T_SET_THROW_MASK              | EventTypeMask                 | Marks for which AIEvents the npc will throw AIEvents on its own.
-47 | ACTION_T_SUMMON_UNIQUE               | CreatureID, Target, SummonID  | Only summons a creature when not already spawned (Param1) to attack target (Param2) at location specified by EventAI_Summons (Param3). Preventing multiple spawns of unique creatures.
+47 | ACTION_T_SET_STAND_STATE             | StandState                    | Set the unit stand state (Param1) of the current creature.
+48 | ACTION_T_CHANGE_MOVEMENT             | MovementType, WanderDistance  | Change the unit movement type (Param1). If the movement type is Random Movement (1), the WanderDistance (Param2) must be provided.
+49 | ACTION_T_SUMMON_UNIQUE               | CreatureID, Target, SummonID  | Only summons a creature when not already spawned (Param1) to attack target (Param2) at location specified by EventAI_Summons (Param3). Preventing multiple spawns of unique creatures.
+50 | ACTION_T_EMOTE_TARGET                | EmoteId, TargetGuid           |
 
 Event Types: Expanded and Detailed Information
 ----------------------------------------------
