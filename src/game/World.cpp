@@ -1163,6 +1163,9 @@ void World::SetInitialWorldSettings()
     sLog.outString();
     sWaypointMgr.Load();
 
+	sLog.outString("Modifying in-memory dbc spell attributes...");
+	sSpellMgr.ModDBCSpellAttributes();
+
     ///- Loading localization data
     sLog.outString("Loading Localization strings...");
     sObjectMgr.LoadCreatureLocales();                       // must be after CreatureInfo loading
