@@ -867,6 +867,13 @@ void CreatureEventAIMgr::LoadCreatureEventAI_Scripts()
                             continue;
                         }
                         break;
+                    case ACTION_T_SET_STAND_STATE:
+                        if (action.setStandState.standState >= MAX_UNIT_STAND_STATE)
+                        {
+                            sLog.outErrorEventAI("Event %u Action %u uses invalid unit stand state %u (must be smaller than %u)", i, j + 1, action.setStandState.standState, MAX_UNIT_STAND_STATE);
+                            continue;
+                        }
+                        break;
 
                     case ACTION_T_SUMMON_UNIQUE:                                          //47
                         if (!sCreatureStorage.LookupEntry<CreatureInfo>(action.summon_unique.creatureId))
