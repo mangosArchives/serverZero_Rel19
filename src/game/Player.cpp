@@ -1777,6 +1777,14 @@ void Player::AddToWorld()
         if (m_items[i])
             { m_items[i]->AddToWorld(); }
     }
+
+	// Notifies player about his group status while adding him into the world
+	// Restricted to players having a group in raid mode
+	if (GetTransport() && GetGroup() && GetGroup()->isRaidGroup())
+	{
+		SetGroupUpdateFlag(GROUP_UPDATE_FULL);
+		GetGroup()->SendUpdateToPlayer(this);
+	}
 }
 
 void Player::RemoveFromWorld()
@@ -1788,6 +1796,17 @@ void Player::RemoveFromWorld()
         UnsummonAllTotems();
         RemoveMiniPet();
     }
+
+	// Notifies the client that he has left the raid group.
+	// Only valid when the player is on the transport.
+	if (GetTransport() && GetGroup() && GetGroup()->isRaidGroup())
+	{			
+		WorldPacket data;
+		// For client, sending an empty group list is enough to be ungroup.
+		data.Initialize(SMSG_GROUP_LIST, 24);
+        data << uint64(0) << uint64(0) << uint64(0);
+        m_session->SendPacket(&data);
+	}
 
     for (int i = PLAYER_SLOT_START; i < PLAYER_SLOT_END; ++i)
     {

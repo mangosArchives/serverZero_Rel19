@@ -448,6 +448,66 @@ void Group::Disband(bool hideDestroy)
     m_leaderName = "";
 }
 
+/**
+ * \fn void Group::SendUpdateToPlayer(Player * player)
+ * \brief This method notifies the player of his group status.
+ *
+ * \param pPlayer Pointer to the player towards the update needs to be sent.
+ *
+*/
+void Group::SendUpdateToPlayer(Player* pPlayer)
+{
+	if (!pPlayer || !pPlayer->GetSession() || !pPlayer->IsInWorld() || pPlayer->GetGroup() != this)
+		{ return; }
+
+	if (pPlayer->GetGroupUpdateFlag() == GROUP_UPDATE_FLAG_NONE)
+        { return; }
+
+
+	uint8 subGroup;
+	// looking for player's subgroup
+	for (member_citerator citr = m_memberSlots.begin(); citr != m_memberSlots.end(); ++citr)
+	{
+		if(citr->guid == pPlayer->GetObjectGuid())
+			{ subGroup=citr->group; }
+	}
+
+	// guess size
+    WorldPacket data(SMSG_GROUP_LIST, (1 + 1 + 1 + 4 + GetMembersCount() * 20) + 8 + 1 + 8 + 1);
+    data << (uint8)m_groupType;                         // group type
+	data << (uint8)(subGroup | (IsAssistant(pPlayer->GetGUID()) ? 0x80 : 0)); // own flags (groupid | (assistant?0x80:0))
+
+    data << uint32(GetMembersCount() - 1);
+    for (member_citerator citr = m_memberSlots.begin(); citr != m_memberSlots.end(); ++citr)
+    {
+		if(citr->guid == pPlayer->GetObjectGuid())
+			continue;
+
+        Player* member = sObjectMgr.GetPlayer(citr->guid);
+        uint8 onlineState = (member) ? MEMBER_STATUS_ONLINE : MEMBER_STATUS_OFFLINE;
+        onlineState = onlineState | ((isBGGroup()) ? MEMBER_STATUS_PVP : 0);
+
+        data << citr->name;
+        data << citr->guid;
+        // online-state
+        data << uint8(sObjectMgr.GetPlayer(citr->guid) ? 1 : 0);
+        data << (uint8)(citr->group | (citr->assistant ? 0x80 : 0));
+    }
+
+    data << m_leaderGuid;                               // leader guid
+    if (GetMembersCount() - 1)
+    {
+		data << uint8(m_lootMethod);                    // loot method
+        if (m_lootMethod == MASTER_LOOT)
+			{ data << m_looterGuid; }                           // looter guid
+        else
+            { data << uint64(0); }
+        data << uint8(m_lootThreshold);                 // loot threshold
+    }
+
+    pPlayer->GetSession()->SendPacket(&data);
+}
+
 /*********************************************************/
 /***                   LOOT SYSTEM                     ***/
 /*********************************************************/
