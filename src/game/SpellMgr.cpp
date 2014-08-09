@@ -1420,7 +1420,7 @@ void SpellMgr::LoadSpellBonuses()
     mSpellBonusMap.clear();                             // need for reload case
     uint32 count = 0;
     //                                                0      1             2          3
-    QueryResult* result = WorldDatabase.Query("SELECT entry, direct_bonus, dot_bonus, ap_bonus, ap_dot_bonus FROM spell_bonus_data");
+    QueryResult* result = WorldDatabase.Query("SELECT entry, direct_bonus, one_hand_direct_bonus, two_hand_direct_bonus, dot_bonus, ap_bonus, ap_dot_bonus FROM spell_bonus_data");
     if (!result)
     {
         BarGoLink bar(1);
@@ -1456,9 +1456,11 @@ void SpellMgr::LoadSpellBonuses()
         SpellBonusEntry sbe;
 
         sbe.direct_damage = fields[1].GetFloat();
-        sbe.dot_damage    = fields[2].GetFloat();
-        sbe.ap_bonus      = fields[3].GetFloat();
-        sbe.ap_dot_bonus   = fields[4].GetFloat();
+		sbe.one_hand_direct_damage = fields[2].GetFloat();
+		sbe.two_hand_direct_damage = fields[3].GetFloat();
+        sbe.dot_damage    = fields[4].GetFloat();
+        sbe.ap_bonus      = fields[5].GetFloat();
+        sbe.ap_dot_bonus   = fields[6].GetFloat();
 
         bool need_dot = false;
         bool need_direct = false;

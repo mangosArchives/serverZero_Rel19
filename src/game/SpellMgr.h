@@ -640,10 +640,12 @@ struct SpellProcEventEntry
 
 struct SpellBonusEntry
 {
-    float  direct_damage;
-    float  dot_damage;
-    float  ap_bonus;
-    float  ap_dot_bonus;
+    float  direct_damage;                                   // Direct Damage Spell Bonus Coeff
+	float  one_hand_direct_damage;							// Direct Damage Spell Bonus Coeff while one-handed weapon equiped
+	float  two_hand_direct_damage;							// Direct Damage Spell Bonus Coeff while two-handed weapon equiped
+    float  dot_damage;										// Dot Damage Spell Bonus Coeff
+    float  ap_bonus;										// ??
+    float  ap_dot_bonus;									// ??
 };
 
 typedef UNORDERED_MAP<uint32, SpellProcEventEntry> SpellProcEventMap;

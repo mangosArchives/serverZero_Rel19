@@ -5397,6 +5397,28 @@ int32 Unit::SpellBonusWithCoeffs(SpellEntry const* spellProto, int32 total, int3
     {
         coeff = damagetype == DOT ? bonus->dot_damage : bonus->direct_damage;
 
+		// Special check for bonus damage applying on spells depending on the equiped weapon.
+		// bonus->xxx_hand_direct_damage has always priority on the direct_damage.
+		if (GetTypeId() == TYPEID_PLAYER && damagetype == SPELL_DIRECT_DAMAGE)
+		{
+			Item* item = ((Player*)this)->GetItemByPos(INVENTORY_SLOT_BAG_0, EQUIPMENT_SLOT_MAINHAND);
+
+			if (item)
+			{
+				switch (item->GetProto()->InventoryType)
+				{
+					case INVTYPE_2HWEAPON:
+						coeff = (bonus->two_hand_direct_damage ? bonus->two_hand_direct_damage : bonus->direct_damage);
+						break;
+					case INVTYPE_WEAPON:
+					case INVTYPE_WEAPONMAINHAND:
+					case INVTYPE_WEAPONOFFHAND:
+						coeff = (bonus->one_hand_direct_damage ? bonus->one_hand_direct_damage : bonus->direct_damage);
+						break;
+				}
+			}
+		}
+
         // apply ap bonus at done part calculation only (it flat total mod so common with taken)
         if (donePart && (bonus->ap_bonus || bonus->ap_dot_bonus))
         {
