@@ -74,7 +74,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\src\;..\..\dep\recastnavigation\Detour\Include\;..\..\dep\recastnavigation\Recast\Include\;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework\;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;DEBUG;MMAP_GENERATOR;NO_CORE_FUNCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;DEBUG;MMAP_GENERATOR;NO_CORE_FUNCS;DT_POLYREF64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -95,7 +95,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\src\;..\..\dep\recastnavigation\Detour\Include\;..\..\dep\recastnavigation\Recast\Include\;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework\;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;DEBUG;MMAP_GENERATOR;NO_CORE_FUNCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;DEBUG;MMAP_GENERATOR;NO_CORE_FUNCS;DT_POLYREF64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -117,7 +117,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\..\src\;..\..\dep\recastnavigation\Detour\Include\;..\..\dep\recastnavigation\Recast\Include\;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework\;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>WIN32;NDEBUG;MMAP_GENERATOR;_CRT_SECURE_NO_WARNINGS;NO_CORE_FUNCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;MMAP_GENERATOR;_CRT_SECURE_NO_WARNINGS;NO_CORE_FUNCS;DT_POLYREF64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
@@ -135,7 +135,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\..\src\;..\..\dep\recastnavigation\Detour\Include\;..\..\dep\recastnavigation\Recast\Include\;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework\;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>WIN32;NDEBUG;MMAP_GENERATOR;_CRT_SECURE_NO_WARNINGS;NO_CORE_FUNCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;MMAP_GENERATOR;_CRT_SECURE_NO_WARNINGS;NO_CORE_FUNCS;DT_POLYREF64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
