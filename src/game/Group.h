@@ -293,6 +293,7 @@ class MANGOS_DLL_SPEC Group
 
         void SendTargetIconList(WorldSession* session);
         void SendUpdate();
+		void SendUpdateToPlayer(Player* pPlayer);
         void UpdatePlayerOutOfRange(Player* pPlayer);
         // ignore: GUID of player that will be ignored
         void BroadcastPacket(WorldPacket* packet, bool ignorePlayersInBGRaid, int group = -1, ObjectGuid ignore = ObjectGuid());
