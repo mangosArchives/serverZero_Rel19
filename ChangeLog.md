@@ -3,13 +3,52 @@ MaNGOS Zero Changelog
 This change log references the relevant changes (bug and security fixes) done
 in recent versions.
 
-0.20 (2014-08-01) - New Beginnings
+0.20 (2014-08-20) - New Beginnings
 ----------------------------------
-* Some of the dependant file groups have been made into submodules
-* 
-* TODO: Pull in change log
-
 Many Thanks to all the groups and individuals who contributed to this release.
+
+* Some of the dependant file groups have been made into submodules
+* i.e. all the dependant libraries (dep folder) and realmd
+
+* Add check for session being NULL so that we don't crash from client disconnect
+* Add missing trap id for SendGameObjectCustomAnim call [c2494]			
+* Add new Regen Health / Power flags and rename database fields
+* Add the ability to specify in the configuration file the cost of mounts
+* Added a new DB helper script			
+* Adding support of one-hand/two-hand custom spell bonus coeff in the c 			
+* Allow sending custom eventAI events to all units in range [c2491] 			
+* Better value to check distance between owner and pet.
+* Check that policy exists before setting to old			
+* Cleanup and rework power type setting [z2500] 			
+* Duel Range is too small - Minor update 			
+* Fix crash when database version doesn't match. 			
+* Fix creature change z position when speed change. [c2486] 			
+* Fix creature not stopping in some conditions. [z2485] 			
+* Fix Mighty Rage Potion and Elixir of giants 			
+* Fix Movement Visual Error 			
+* Fix one warning and suppress a few when using cmake 3.0			
+* Fix scripts inclusion in win build after recent changes. 
+* Fix soap being an actual option, show status of engines as well			
+* Fix some more reserved identifiers			
+* Fix spell 9712 [z2498] 			
+* Fix up broken backport			
+* Fixing bug with Warrior Execute 			
+* Icons overload general review and code cleaning (refactoring) 			
+* Implement ACTION_T_CHANGE_MOVEMENT for EventAI [c2496] 			
+* Implement condition CREATURE_IN_RANGE [c2492] 			
+* Implement CreatureLinking Flag DESPAWN_ON_DESPAWN [z2499] 			
+* Implement generic power handling for Creatures and Pets [c2488]			
+* Implement SCRIPT_COMMAND_SEND_AI_EVENT_AROUND for dbscripts en 			
+* Implement SMSG_INVALIDATE_PLAYER [c2483] 			
+* Initialize power type and power type values for creatures [c2489] 			
+* Make Eluna optional when compiling			
+* Make SD2 optional and fix a bug in config.h.cmake			
+* Reapply [c2485] with correction for classic.	
+* Removal of internal Realmd and added submodule			
+* Removing local deps and added submodule			
+* Simple fix for Stealth is removed on fall damage problem	
+* Updated recast references.
+* Workaround for the wow-error client raised once a player on transport 			
 
 0.19 (2014-07-09) - Ludas Legacy
 --------------------------------
