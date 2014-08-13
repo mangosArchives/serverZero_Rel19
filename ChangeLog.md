@@ -15,7 +15,6 @@ Many Thanks to all the groups and individuals who contributed to this release.
 * Add new Regen Health / Power flags and rename database fields
 * Add the ability to specify in the configuration file the cost of mounts
 * Added a new DB helper script			
-* Adding support of one-hand/two-hand custom spell bonus coeff in the c 			
 * Allow sending custom eventAI events to all units in range [c2491] 			
 * Better value to check distance between owner and pet.
 * Check that policy exists before setting to old			
