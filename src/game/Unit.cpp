@@ -114,7 +114,7 @@ void MovementInfo::Read(ByteBuffer& data)
         data >> fallTime;
     }
 
-    if (HasMovementFlag(MOVEFLAG_FALLING) || HasMovementFlag(MOVEFLAG_REDIRECTED))
+    if (HasMovementFlag(MOVEFLAG_FALLING) || HasMovementFlag(MOVEFLAG_REDIRECTED) && data.size() != 28)
     {
         data >> jump.velocity;
         data >> jump.sinAngle;
@@ -154,7 +154,7 @@ void MovementInfo::Write(ByteBuffer& data) const
         data << fallTime;
     }
 
-    if (HasMovementFlag(MOVEFLAG_FALLING) || HasMovementFlag(MOVEFLAG_REDIRECTED))
+    if (HasMovementFlag(MOVEFLAG_FALLING) || HasMovementFlag(MOVEFLAG_REDIRECTED) && data.size() != 28)
     {
         data << jump.velocity;
         data << jump.sinAngle;
