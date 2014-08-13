@@ -1845,11 +1845,13 @@ void SpellMgr::ModDBCSpellAttributes()
 
 	// Hardcoded list for modified spell.
 	std::list<uint32> list_spell_id;
+	uint32 spell_id;
 
 	list_spell_id.push_back(20647);
 
-	for (uint32 spell_id : list_spell_id)
+	for (std::list<uint32>::iterator it = list_spell_id.begin(); it != list_spell_id.end(); ++it)
 	{
+		spell_id = *it;
 		spellInfo = (SpellEntry*)GetSpellStore()->LookupEntry(spell_id);
         if (!spellInfo)
             continue;
