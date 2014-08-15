@@ -7,7 +7,7 @@ ADD COLUMN `one_hand_direct_bonus` FLOAT NOT NULL DEFAULT 0 AFTER `direct_bonus`
 ADD COLUMN `two_hand_direct_bonus` FLOAT NOT NULL DEFAULT 0 AFTER `one_hand_direct_bonus`,
 ADD COLUMN `direct_bonus_done` FLOAT NOT NULL DEFAULT 0 AFTER `two_hand_direct_bonus`,
 ADD COLUMN `one_hand_direct_bonus_done` FLOAT NOT NULL DEFAULT 0 AFTER `direct_bonus_done`,
-ADD COLUMN `one_hand_direct_bonus_done` FLOAT NOT NULL DEFAULT 0 AFTER `one_hand_direct_bonus_done`,
+ADD COLUMN `two_hand_direct_bonus_done` FLOAT NOT NULL DEFAULT 0 AFTER `one_hand_direct_bonus_done`,
 ADD COLUMN `direct_bonus_taken` FLOAT NOT NULL DEFAULT 0 AFTER `two_hand_direct_bonus_done`,
 ADD COLUMN `one_hand_direct_bonus_taken` FLOAT NOT NULL DEFAULT 0 AFTER `direct_bonus_taken`,
 ADD COLUMN `two_hand_direct_bonus_taken` FLOAT NOT NULL DEFAULT 0 AFTER `one_hand_direct_bonus_taken`;
