@@ -1219,7 +1219,7 @@ void Unit::CastCustomSpell(Unit* Victim, uint32 spellId, int32 const* bp0, int32
         return;
     }
 
-    CastCustomSpell(Victim, spellInfo, bp0, bp1, bp2, triggered, castItem, triggeredByAura, originalCaster, triggeredBy);
+	CastCustomSpell(Victim, spellInfo, bp0, bp1, bp2, triggered, castItem, triggeredByAura, originalCaster, triggeredBy);
 }
 
 void Unit::CastCustomSpell(Unit* Victim, SpellEntry const* spellInfo, int32 const* bp0, int32 const* bp1, int32 const* bp2, bool triggered, Item* castItem, Aura* triggeredByAura, ObjectGuid originalCaster, SpellEntry const* triggeredBy)
@@ -1362,8 +1362,8 @@ void Unit::CalculateSpellDamage(SpellNonMeleeDamage* damageInfo, int32 damage, S
         case SPELL_DAMAGE_CLASS_MELEE:
         {
             // Calculate damage bonus
-            damage = MeleeDamageBonusDone(pVictim, damage, attackType, spellInfo, SPELL_DIRECT_DAMAGE);
-            damage = pVictim->MeleeDamageBonusTaken(this, damage, attackType, spellInfo, SPELL_DIRECT_DAMAGE);
+			damage = MeleeDamageBonusDone(pVictim, damage, attackType, spellInfo, SPELL_DIRECT_DAMAGE);
+			damage = pVictim->MeleeDamageBonusTaken(this, damage, attackType, spellInfo, SPELL_DIRECT_DAMAGE);
 
             // if crit add critical bonus
             if (crit)
@@ -2411,7 +2411,7 @@ float Unit::CalculateLevelPenalty(SpellEntry const* spellProto) const
     float LvlPenalty = 0.0f;
 
     if (spellLevel < 20)
-        { LvlPenalty = 20.0f - spellLevel * 3.75f; }
+        { LvlPenalty = (20.0f - spellLevel) * 3.75f; }
 
     return (100.0f - LvlPenalty) / 100.0f;
 }
@@ -2616,6 +2616,11 @@ SpellMissInfo Unit::MagicSpellHitResult(Unit* pVictim, SpellEntry const* spell)
         { return SPELL_MISS_NONE; }
 
     SpellSchoolMask schoolMask = GetSpellSchoolMask(spell);
+
+	// Holy spell resist didn't exist in 1.12.
+	if (schoolMask == SPELL_SCHOOL_MASK_HOLY)
+		{ return SPELL_MISS_NONE; }
+
     // PvP - PvE spell misschances per leveldif > 2
     int32 lchance = pVictim->GetTypeId() == TYPEID_PLAYER ? 7 : 11;
     int32 leveldif = int32(pVictim->GetLevelForTarget(this)) - int32(GetLevelForTarget(pVictim));
@@ -5393,21 +5398,113 @@ void Unit::EnergizeBySpell(Unit* pVictim, uint32 SpellID, uint32 Damage, Powers 
     pVictim->ModifyPower(powertype, Damage);
 }
 
-int32 Unit::SpellBonusWithCoeffs(SpellEntry const* spellProto, int32 total, int32 benefit, int32 ap_benefit,  DamageEffectType damagetype, bool donePart)
+/**
+ * \fn int32 Unit::SpellBonusWithCoeffs(Unit* pCaster, SpellEntry const* spellProto, int32 total, int32 benefit, int32 ap_benefit,  DamageEffectType damagetype, bool donePart)
+ * \brief This method is calculating the total amount of damage done including spell power.
+ *
+ * If benefit is 0, this function won't do anything. If pCaster isn't player, the default coefficient 1.0 will be used.
+ * The spell_bonus_data table of the database is used here to define custom spell coefficients based on damage type.
+ *
+ * The spell bonus coefficient are always chosen by this priority: 
+ * For Donepart : weapon_done > direct_done > direct
+ * For Takenpart : weapon_taken > direct_taken > direct
+ *
+ * \param pCaster Pointer to the player casting the spell.
+ * \param spellProto Constant Pointer to the spell actually caster.
+ * \param total int32 represents the already calculated damage for the caster spell without spell power bonuses.
+ * \param benefit int32 represents the total amount of spell power bonuses.
+ * \param ap_benefit int32 -- TO BE DOCUMENTED
+ * \param damagetype DamageEffectType represents the type of damage (DIRECT or DOT) -- See DamageEffectType enum.
+ * \param donePart bool represents whether the damage are issued from ...Done methods or from ...Taken methods.
+ *
+ * \return int32 Total amount of damage including spell power bonuses.
+ */
+int32 Unit::SpellBonusWithCoeffs(Unit* pCaster, SpellEntry const* spellProto, int32 total, int32 benefit, int32 ap_benefit,  DamageEffectType damagetype, bool donePart)
 {
-    // Distribute Damage over multiple effects, reduce by AoE
-    float coeff = 1.0f;
-
-    // Not apply this to creature casted spells
-    if (GetTypeId() == TYPEID_UNIT && !((Creature*)this)->IsPet())
+	// Just don't waste time into this function if there's no benefit.
+    if (!benefit)
+		{ return total; }
+	
+	// Distribute Damage over multiple effects, reduce by AoE
+     float coeff = 1.0f;
+ 
+     // Not apply this to creature casted spells
+	if (pCaster->GetTypeId() == TYPEID_UNIT && !((Creature*)this)->IsPet())
         { coeff = 1.0f; }
     // Check for table values
     else if (SpellBonusEntry const* bonus = sSpellMgr.GetSpellBonusData(spellProto->Id))
     {
-        coeff = damagetype == DOT ? bonus->dot_damage : bonus->direct_damage;
+
+		switch (damagetype)
+		{
+			case DOT:
+				coeff = bonus->dot_damage;
+				break;
+			case SPELL_DIRECT_DAMAGE:
+				// Special check for bonus damage applying on spells depending on the equiped weapon.
+				if (pCaster->GetTypeId() == TYPEID_PLAYER && damagetype == SPELL_DIRECT_DAMAGE)
+				{
+					Item* item = ((Player*)pCaster)->GetItemByPos(INVENTORY_SLOT_BAG_0, EQUIPMENT_SLOT_MAINHAND);
+
+					if(donePart)
+					{
+						if (item)
+						{
+							switch (item->GetProto()->InventoryType)
+							{
+								case INVTYPE_2HWEAPON:
+									coeff = (bonus->two_hand_direct_damage_done ? bonus->two_hand_direct_damage_done : 
+										( bonus->two_hand_direct_damage ? bonus->two_hand_direct_damage : bonus->direct_damage_done ));
+									break;
+								case INVTYPE_WEAPON:
+								case INVTYPE_WEAPONMAINHAND:
+								case INVTYPE_WEAPONOFFHAND:
+									coeff = (bonus->one_hand_direct_damage_done ? bonus->one_hand_direct_damage_done : 
+										( bonus->one_hand_direct_damage ? bonus->one_hand_direct_damage : bonus->direct_damage_done ));
+								break;
+							}
+
+							// None of the priority fields have been populated in DB.
+							if(!coeff)
+							{
+								coeff = bonus->direct_damage;
+							}
+						} else {
+							coeff = (bonus->direct_damage_done ? bonus->direct_damage_done : bonus->direct_damage);
+						}
+					}
+					else
+					{
+						if (item)
+						{
+							switch (item->GetProto()->InventoryType)
+							{
+								case INVTYPE_2HWEAPON:
+									coeff = (bonus->two_hand_direct_damage_taken ? bonus->two_hand_direct_damage_taken : 
+										( bonus->two_hand_direct_damage ? bonus->two_hand_direct_damage : bonus->direct_damage_taken ));
+									break;
+								case INVTYPE_WEAPON:
+								case INVTYPE_WEAPONMAINHAND:
+								case INVTYPE_WEAPONOFFHAND:
+									coeff = (bonus->one_hand_direct_damage_taken ? bonus->one_hand_direct_damage_taken : 
+										( bonus->one_hand_direct_damage ? bonus->one_hand_direct_damage : bonus->direct_damage_taken ));
+									break;
+							}
+								// None of the priority fields have been populated in DB.
+								if(!coeff)
+								{
+									coeff = bonus->direct_damage;
+								}
+						} else {
+							coeff = (bonus->direct_damage_taken ? bonus->direct_damage_taken : bonus->direct_damage);
+						}
+					}
+				break;
+				}
+		}
 
         // apply ap bonus at done part calculation only (it flat total mod so common with taken)
-        if (donePart && (bonus->ap_bonus || bonus->ap_dot_bonus))
+		if (donePart && (bonus->ap_bonus || bonus->ap_dot_bonus))
         {
             float ap_bonus = damagetype == DOT ? bonus->ap_dot_bonus : bonus->ap_bonus;
 
@@ -5415,25 +5512,23 @@ int32 Unit::SpellBonusWithCoeffs(SpellEntry const* spellProto, int32 total, int3
         }
     }
     // Default calculation
-    else if (benefit)
+    else 
         { coeff = CalculateDefaultCoefficient(spellProto, damagetype); }
 
-    if (benefit)
-    {
-        float LvlPenalty = CalculateLevelPenalty(spellProto);
-
-        // Spellmod SpellDamage
-        if (Player* modOwner = GetSpellModOwner())
-        {
-            coeff *= 100.0f;
-            modOwner->ApplySpellMod(spellProto->Id, SPELLMOD_SPELL_BONUS_DAMAGE, coeff);
-            coeff /= 100.0f;
-        }
+	float LvlPenalty = CalculateLevelPenalty(spellProto);
 
         total += int32(benefit * coeff * LvlPenalty);
-    }
+    // Spellmod SpellDamage
+    if (Player* modOwner = GetSpellModOwner())
+    {
+		coeff *= 100.0f;
+        modOwner->ApplySpellMod(spellProto->Id, SPELLMOD_SPELL_BONUS_DAMAGE, coeff);
+        coeff /= 100.0f;
+     }
+ 
+    total += int32(benefit * coeff * LvlPenalty);
 
-    return total;
+     return total;
 };
 
 /**
@@ -5518,7 +5613,7 @@ uint32 Unit::SpellDamageBonusDone(Unit* pVictim, SpellEntry const* spellProto, u
         { DoneAdvertisedBenefit += ((Pet*)this)->GetBonusDamage(); }
 
     // apply ap bonus and benefit affected by spell power implicit coeffs and spell level penalties
-    DoneTotal = SpellBonusWithCoeffs(spellProto, DoneTotal, DoneAdvertisedBenefit, 0, damagetype, true);
+    DoneTotal = SpellBonusWithCoeffs(this, spellProto, DoneTotal, DoneAdvertisedBenefit, 0, damagetype, true);
 
     float tmpDamage = (int32(pdamage) + DoneTotal * int32(stack)) * DoneTotalMod;
     // apply spellmod to Done damage (flat and pct)
@@ -5550,7 +5645,7 @@ uint32 Unit::SpellDamageBonusTaken(Unit* pCaster, SpellEntry const* spellProto, 
     int32 TakenAdvertisedBenefit = SpellBaseDamageBonusTaken(GetSpellSchoolMask(spellProto));
 
     // apply benefit affected by spell power implicit coeffs and spell level penalties
-    TakenTotal = SpellBonusWithCoeffs(spellProto, TakenTotal, TakenAdvertisedBenefit, 0, damagetype, false);
+    TakenTotal = SpellBonusWithCoeffs(pCaster, spellProto, TakenTotal, TakenAdvertisedBenefit, 0, damagetype, false);
 
     float tmpDamage = (int32(pdamage) + TakenTotal * int32(stack)) * TakenTotalMod;
 
@@ -5794,7 +5889,7 @@ uint32 Unit::SpellHealingBonusDone(Unit* pVictim, SpellEntry const* spellProto, 
     int32 DoneAdvertisedBenefit  = SpellBaseHealingBonusDone(GetSpellSchoolMask(spellProto));
 
     // apply ap bonus and benefit affected by spell power implicit coeffs and spell level penalties
-    DoneTotal = SpellBonusWithCoeffs(spellProto, DoneTotal, DoneAdvertisedBenefit, 0, damagetype, true);
+    DoneTotal = SpellBonusWithCoeffs(this, spellProto, DoneTotal, DoneAdvertisedBenefit, 0, damagetype, true);
 
     // use float as more appropriate for negative values and percent applying
     float heal = (healamount + DoneTotal * int32(stack)) * DoneTotalMod;
@@ -5809,7 +5904,7 @@ uint32 Unit::SpellHealingBonusDone(Unit* pVictim, SpellEntry const* spellProto, 
  * Calculates target part of healing spell bonuses,
  * will be called on each tick for periodic damage over time auras
  */
-uint32 Unit::SpellHealingBonusTaken(Unit* /*pCaster*/, SpellEntry const* spellProto, int32 healamount, DamageEffectType damagetype, uint32 stack)
+uint32 Unit::SpellHealingBonusTaken(Unit* pCaster, SpellEntry const* spellProto, int32 healamount, DamageEffectType damagetype, uint32 stack)
 {
     float  TakenTotalMod = 1.0f;
 
@@ -5855,7 +5950,7 @@ uint32 Unit::SpellHealingBonusTaken(Unit* /*pCaster*/, SpellEntry const* spellPr
     }
 
     // apply benefit affected by spell power implicit coeffs and spell level penalties
-    TakenTotal = SpellBonusWithCoeffs(spellProto, TakenTotal, TakenAdvertisedBenefit, 0, damagetype, false);
+    TakenTotal = SpellBonusWithCoeffs(pCaster, spellProto, TakenTotal, TakenAdvertisedBenefit, 0, damagetype, false);
 
     // Taken mods
     // Healing Wave cast
@@ -6004,8 +6099,15 @@ bool Unit::IsImmuneToSpellEffect(SpellEntry const* spellInfo, SpellEffectIndex i
  */
 uint32 Unit::MeleeDamageBonusDone(Unit* pVictim, uint32 pdamage, WeaponAttackType attType, SpellEntry const* spellProto, DamageEffectType damagetype, uint32 stack)
 {
-    if (!pVictim || pdamage == 0)
+	if (!pVictim)
         { return pdamage; }
+
+	if (pdamage == 0)
+		{ return pdamage; }
+
+	// Paladin Holy Spells such as seal of righteousness, seal of command or judgement of command are all calculated in other functions.
+	if (spellProto && GetSpellSchoolMask(spellProto) == SPELL_SCHOOL_MASK_HOLY && GetTypeId() == TYPEID_PLAYER)
+		{ return pdamage; }
 
     // differentiate for weapon damage based spells
     bool isWeaponDamageBasedSpell = !(spellProto && (damagetype == DOT || IsSpellHaveEffect(spellProto, SPELL_EFFECT_SCHOOL_DAMAGE)));
@@ -6064,7 +6166,6 @@ uint32 Unit::MeleeDamageBonusDone(Unit* pVictim, uint32 pdamage, WeaponAttackTyp
         for (AuraList::const_iterator i = mModDamagePercentDone.begin(); i != mModDamagePercentDone.end(); ++i)
         {
             if ((*i)->GetModifier()->m_miscvalue & schoolMask &&                         // schoolmask has to fit with the intrinsic spell school
-                (*i)->GetModifier()->m_miscvalue & GetMeleeDamageSchoolMask() &&         // AND schoolmask has to fit with weapon damage school (essential for non-physical spells)
                 (((*i)->GetSpellProto()->EquippedItemClass == -1) ||                     // general, weapon independent
                  (pWeapon && pWeapon->IsFitToSpellRequirements((*i)->GetSpellProto()))))  // OR used weapon fits aura requirements
             {
@@ -6094,7 +6195,7 @@ uint32 Unit::MeleeDamageBonusDone(Unit* pVictim, uint32 pdamage, WeaponAttackTyp
     if (!isWeaponDamageBasedSpell)
     {
         // apply ap bonus and benefit affected by spell power implicit coeffs and spell level penalties
-        DoneTotal = SpellBonusWithCoeffs(spellProto, DoneTotal, DoneFlat, APbonus, damagetype, true);
+        DoneTotal = SpellBonusWithCoeffs(this, spellProto, DoneTotal, DoneFlat, APbonus, damagetype, true);
     }
     // weapon damage based spells
     else if (APbonus || DoneFlat)
@@ -6144,6 +6245,10 @@ uint32 Unit::MeleeDamageBonusTaken(Unit* pCaster, uint32 pdamage, WeaponAttackTy
     if (pdamage == 0)
         { return pdamage; }
 
+	// Paladin Holy Spells such as seal of righteousness, seal of command or judgement of command are all calculated in other functions.
+	if (spellProto && GetSpellSchoolMask(spellProto) == SPELL_SCHOOL_MASK_HOLY && pCaster->GetTypeId() == TYPEID_PLAYER)
+		{ return pdamage; }
+
     // differentiate for weapon damage based spells
     bool isWeaponDamageBasedSpell = !(spellProto && (damagetype == DOT || IsSpellHaveEffect(spellProto, SPELL_EFFECT_SCHOOL_DAMAGE)));
     uint32 schoolMask       = spellProto ? GetSpellSchoolMask(spellProto) : uint32(GetMeleeDamageSchoolMask());
@@ -6181,7 +6286,7 @@ uint32 Unit::MeleeDamageBonusTaken(Unit* pCaster, uint32 pdamage, WeaponAttackTy
     if (!isWeaponDamageBasedSpell)
     {
         // apply benefit affected by spell power implicit coeffs and spell level penalties
-        TakenFlat = SpellBonusWithCoeffs(spellProto, 0, TakenFlat, 0, damagetype, false);
+        TakenFlat = SpellBonusWithCoeffs(pCaster, spellProto, 0, TakenFlat, 0, damagetype, false);
     }
 
     float tmpDamage = float(int32(pdamage) + TakenFlat * int32(stack)) * TakenPercent;

@@ -1419,8 +1419,11 @@ void SpellMgr::LoadSpellBonuses()
 {
     mSpellBonusMap.clear();                             // need for reload case
     uint32 count = 0;
-    //                                                0      1             2          3
-    QueryResult* result = WorldDatabase.Query("SELECT entry, direct_bonus, dot_bonus, ap_bonus, ap_dot_bonus FROM spell_bonus_data");
+    
+    QueryResult* result = WorldDatabase.Query("SELECT entry, direct_bonus, one_hand_direct_bonus, two_hand_direct_bonus, \
+		direct_bonus_done, one_hand_direct_bonus_done, two_hand_direct_bonus_done, \
+		direct_bonus_taken, one_hand_direct_bonus_taken, two_hand_direct_bonus_taken, \
+		dot_bonus, ap_bonus, ap_dot_bonus FROM spell_bonus_data");
     if (!result)
     {
         BarGoLink bar(1);
@@ -1455,10 +1458,18 @@ void SpellMgr::LoadSpellBonuses()
 
         SpellBonusEntry sbe;
 
-        sbe.direct_damage = fields[1].GetFloat();
-        sbe.dot_damage    = fields[2].GetFloat();
-        sbe.ap_bonus      = fields[3].GetFloat();
-        sbe.ap_dot_bonus   = fields[4].GetFloat();
+		sbe.direct_damage = fields[1].GetFloat();
+        sbe.one_hand_direct_damage = fields[2].GetFloat();
+		sbe.two_hand_direct_damage = fields[3].GetFloat();
+		sbe.direct_damage_done = fields[4].GetFloat();
+		sbe.one_hand_direct_damage_done = fields[5].GetFloat();
+		sbe.two_hand_direct_damage_done = fields[6].GetFloat();
+		sbe.direct_damage_taken = fields[7].GetFloat();
+		sbe.one_hand_direct_damage_taken = fields[7].GetFloat();
+		sbe.two_hand_direct_damage_taken = fields[8].GetFloat();
+        sbe.dot_damage    = fields[9].GetFloat();
+        sbe.ap_bonus      = fields[10].GetFloat();
+        sbe.ap_dot_bonus   = fields[11].GetFloat();
 
         bool need_dot = false;
         bool need_direct = false;
@@ -1503,6 +1514,24 @@ void SpellMgr::LoadSpellBonuses()
             direct_diff = std::abs(sbe.direct_damage - direct_calc);
         }
 
+		// Check if direct_bonus_done is needed in `spell_bonus_data`
+		float direct_done_calc = 0.0f;
+		float direct_done_diff = 1000.0f;
+		if(sbe.direct_damage_done)
+		{
+			direct_done_calc = CalculateDefaultCoefficient(spell, SPELL_DIRECT_DAMAGE);
+			direct_done_diff = std::abs(sbe.direct_damage_done - direct_done_calc);
+		}
+
+		// Check if direct_bonus_taken is needed in `spell_bonus_data`
+		float direct_taken_calc = 0.0f;
+		float direct_taken_diff = 1000.0f;
+		if(sbe.direct_damage_taken)
+		{
+			direct_taken_calc = CalculateDefaultCoefficient(spell, SPELL_DIRECT_DAMAGE);
+			direct_taken_diff = std::abs(sbe.direct_damage_taken - direct_taken_calc);
+		}
+
         // Check if dot_bonus is needed in `spell_bonus_data`
         float dot_calc = 0.0f;
         float dot_diff = 1000.0f;                           // for have big diff if no DB field value
@@ -1512,6 +1541,7 @@ void SpellMgr::LoadSpellBonuses()
             dot_diff = std::abs(sbe.dot_damage - dot_calc);
         }
 
+		// direct bonus
         if (direct_diff < 0.02f && !need_dot && !sbe.ap_bonus && !sbe.ap_dot_bonus)
             sLog.outErrorDb("`spell_bonus_data` entry for spell %u `direct_bonus` not needed (data from table: %f, calculated %f, difference of %f) and `dot_bonus` also not used",
                             entry, sbe.direct_damage, direct_calc, direct_diff);
@@ -1530,7 +1560,35 @@ void SpellMgr::LoadSpellBonuses()
         else if (!need_dot && sbe.dot_damage)
             { sLog.outErrorDb("`spell_bonus_data` entry for spell %u `dot_bonus` not used (spell not have periodic affects)", entry); }
 
-        if (!need_direct && sbe.ap_bonus)
+		// direct bonus done
+		if (direct_done_diff < 0.02f && !need_dot && !sbe.ap_bonus && !sbe.ap_dot_bonus)
+            sLog.outErrorDb("`spell_bonus_data` entry for spell %u `direct_bonus` not needed (data from table: %f, calculated %f, difference of %f) and `dot_bonus` also not used",
+							entry, sbe.direct_damage_done, direct_done_calc, direct_done_diff);
+        else if (direct_done_diff < 0.02f && dot_diff < 0.02f && !sbe.ap_bonus && !sbe.ap_dot_bonus)
+        {
+            sLog.outErrorDb("`spell_bonus_data` entry for spell %u `direct_bonus` not needed (data from table: %f, calculated %f, difference of %f) and ",
+                            entry, sbe.direct_damage_done, direct_done_calc, direct_done_diff);
+            sLog.outErrorDb("                                  ... `dot_bonus` not needed (data from table: %f, calculated %f, difference of %f)",
+                            sbe.dot_damage, dot_calc, dot_diff);
+        }
+        else if (!need_direct && sbe.direct_damage_done)
+            { sLog.outErrorDb("`spell_bonus_data` entry for spell %u `direct_bonus` not used (spell not have non-periodic affects)", entry); }
+
+		// direct bonus taken
+		if (direct_taken_diff < 0.02f && !need_dot && !sbe.ap_bonus && !sbe.ap_dot_bonus)
+            sLog.outErrorDb("`spell_bonus_data` entry for spell %u `direct_bonus` not needed (data from table: %f, calculated %f, difference of %f) and `dot_bonus` also not used",
+                            entry, sbe.direct_damage_taken, direct_taken_calc, direct_taken_diff);
+        else if (direct_taken_diff < 0.02f && dot_diff < 0.02f && !sbe.ap_bonus && !sbe.ap_dot_bonus)
+        {
+            sLog.outErrorDb("`spell_bonus_data` entry for spell %u `direct_bonus` not needed (data from table: %f, calculated %f, difference of %f) and ",
+                            entry, sbe.direct_damage_taken, direct_taken_calc, direct_taken_diff);
+            sLog.outErrorDb("                                  ... `dot_bonus` not needed (data from table: %f, calculated %f, difference of %f)",
+                            sbe.dot_damage, dot_calc, dot_diff);
+        }
+        else if (!need_direct && sbe.direct_damage_taken)
+            { sLog.outErrorDb("`spell_bonus_data` entry for spell %u `direct_bonus` not used (spell not have non-periodic affects)", entry); }
+
+		if (!need_direct && sbe.ap_bonus)
             { sLog.outErrorDb("`spell_bonus_data` entry for spell %u `ap_bonus` not used (spell not have non-periodic affects)", entry); }
         else if (!need_dot && sbe.ap_dot_bonus)
             { sLog.outErrorDb("`spell_bonus_data` entry for spell %u `ap_dot_bonus` not used (spell not have periodic affects)", entry); }
