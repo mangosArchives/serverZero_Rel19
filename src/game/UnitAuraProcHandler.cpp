@@ -627,7 +627,8 @@ SpellAuraProcResult Unit::HandleDummyAuraProc(Unit* pVictim, uint32 damage, Aura
                         { return SPELL_AURA_PROC_FAILED; }
 
                     // heal amount
-                    basepoints[0] = triggerAmount * damage / 100;                    pVictim->CastCustomSpell(pVictim, 15290, &basepoints[0], NULL, NULL, true, castItem, triggeredByAura);                    return SPELL_AURA_PROC_OK;                                // no hidden cooldown
+                    basepoints[0] = triggerAmount * damage / 100;                    
+					pVictim->CastCustomSpell(pVictim, 15290, &basepoints[0], NULL, NULL, true, castItem, triggeredByAura);                    return SPELL_AURA_PROC_OK;                                // no hidden cooldown
                 }
                 // Oracle Healing Bonus ("Garments of the Oracle" set)
                 case 26169:
@@ -712,22 +713,16 @@ SpellAuraProcResult Unit::HandleDummyAuraProc(Unit* pVictim, uint32 damage, Aura
                 Item* item = ((Player*)this)->GetItemByPos(INVENTORY_SLOT_BAG_0, EQUIPMENT_SLOT_MAINHAND);
                 float speed = (item ? item->GetProto()->Delay : BASE_ATTACK_TIME) / 1000.0f;
 
-                float damageBasePoints;
-                if (item && item->GetProto()->InventoryType == INVTYPE_2HWEAPON)
-                    // two hand weapon
-                    { damageBasePoints = 1.20f * triggerAmount * 1.2f * 1.03f * speed / 100.0f + 1; }
-                else
-                    // one hand weapon/no weapon
-                    { damageBasePoints = 0.85f * ceil(triggerAmount * 1.2f * 1.03f * speed / 100.0f) - 1; }
+                int damagePoint;
 
-                int32 damagePoint = int32(damageBasePoints + 0.03f * (GetWeaponDamageRange(BASE_ATTACK, MINDAMAGE) + GetWeaponDamageRange(BASE_ATTACK, MAXDAMAGE)) / 2.0f) + 1;
+				// In the description, we can find the divider of the base points for min/max effects.
+				int min=triggerAmount/87;
+				int max=triggerAmount/25;
 
-                // apply damage bonuses manually
-                if (damagePoint >= 0)
-                {
-                    damagePoint = SpellDamageBonusDone(pVictim, dummySpell, damagePoint, SPELL_DIRECT_DAMAGE);
-                    damagePoint = pVictim->SpellDamageBonusTaken(this, dummySpell, damagePoint, SPELL_DIRECT_DAMAGE);
-                }
+				damagePoint = (speed<=1.5?min:(speed>=4.0?max:min+(((max-min)/2.5f)*(speed-1.5))));
+
+				damagePoint = SpellDamageBonusDone(pVictim, dummySpell, damagePoint, SPELL_DIRECT_DAMAGE);
+                damagePoint = pVictim->SpellDamageBonusTaken(this, dummySpell, damagePoint, SPELL_DIRECT_DAMAGE);
 
                 CastCustomSpell(pVictim, spellId, &damagePoint, NULL, NULL, true, NULL, triggeredByAura);
                 return SPELL_AURA_PROC_OK;                  // no hidden cooldown
