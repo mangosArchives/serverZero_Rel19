@@ -45,8 +45,10 @@ INSERT INTO scripted_areatrigger VALUES
 (1740,'at_scent_larkorwi');
 DELETE FROM scripted_areatrigger WHERE entry=1966;
 INSERT INTO scripted_areatrigger VALUES (1966,'at_murkdeep');
-DELETE FROM scripted_areatrigger WHERE entry=4047;
-INSERT INTO scripted_areatrigger VALUES (4047,'at_temple_ahnqiraj');
+DELETE FROM scripted_areatrigger WHERE entry IN (4047,4052);
+INSERT INTO scripted_areatrigger VALUES
+(4047,'at_temple_ahnqiraj'),
+(4052,'at_temple_ahnqiraj');
 
 
 /* BATTLEGROUNDS */
@@ -254,9 +256,12 @@ UPDATE creature_template SET ScriptName='npc_kitten' WHERE entry=9937;
 UPDATE creature_template SET ScriptName='npc_corrupt_saber' WHERE entry=10042;
 UPDATE creature_template SET ScriptName='npc_niby_the_almighty' WHERE entry=14469;
 UPDATE creature_template SET ScriptName='npc_kroshius' WHERE entry=14467;
+UPDATE creature_template SET ScriptName='npc_captured_arkonarin' WHERE entry=11016;
+UPDATE creature_template SET ScriptName='npc_arei' WHERE entry=9598;
 
 /* FERALAS */
 UPDATE creature_template SET ScriptName='npc_oox22fe' WHERE entry=7807;
+UPDATE creature_template SET ScriptName='npc_shay_leafrunner' WHERE entry=7774;
 UPDATE gameobject_template SET ScriptName='go_gordunni_trap' WHERE entry=144050;
 
 /* GNOMEREGAN */
@@ -524,6 +529,9 @@ UPDATE creature_template SET ScriptName='npc_disciple_of_naralex' WHERE entry=36
 
 /* WESTERN PLAGUELANDS */
 UPDATE creature_template SET ScriptName='npc_the_scourge_cauldron' WHERE entry=11152;
+UPDATE creature_template SET ScriptName='npc_taelan_fordring' WHERE entry=1842;
+UPDATE creature_template SET ScriptName='npc_isillien' WHERE entry=1840;
+UPDATE creature_template SET ScriptName='npc_tirion_fordring' WHERE entry=12126;
 
 /* WESTFALL */
 UPDATE creature_template SET ScriptName='npc_daphne_stilwell' WHERE entry=6182;
