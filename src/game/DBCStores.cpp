@@ -643,6 +643,49 @@ ChatChannelsEntry const* GetChannelEntryFor(uint32 channel_id)
 
 
 
+ChatChannelsEntry const* GetChannelEntryFor(const std::string& name)
+{
+    // not sorted, numbering index from 0
+    for (uint32 i = 0; i < sChatChannelsStore.GetNumRows(); ++i)
+    {
+        ChatChannelsEntry const* ch = sChatChannelsStore.LookupEntry(i);
+        if (ch)
+        {
+            // need to remove %s from entryName if it exists before we match
+            std::string entryName(ch->pattern[0]);
+            std::size_t removeString = entryName.find("%s");
+
+            if (removeString != std::string::npos)
+                entryName.replace(removeString, 2, "");
+
+            if (name.find(entryName) != std::string::npos)
+                return ch;
+        }
+    }
+    return NULL;
+}
+
+/*[-ZERO]
+bool IsTotemCategoryCompatiableWith(uint32 itemTotemCategoryId, uint32 requiredTotemCategoryId)
+{
+    if(requiredTotemCategoryId==0)
+        return true;
+    if(itemTotemCategoryId==0)
+        return false;
+
+    TotemCategoryEntry const* itemEntry = sTotemCategoryStore.LookupEntry(itemTotemCategoryId);
+    if(!itemEntry)
+        return false;
+    TotemCategoryEntry const* reqEntry = sTotemCategoryStore.LookupEntry(requiredTotemCategoryId);
+    if(!reqEntry)
+        return false;
+
+    if(itemEntry->categoryType!=reqEntry->categoryType)
+        return false;
+
+    return (itemEntry->categoryMask & reqEntry->categoryMask)==reqEntry->categoryMask;
+}
+*/
 bool Zone2MapCoordinates(float& x, float& y, uint32 zone)
 {
     WorldMapAreaEntry const* maEntry = sWorldMapAreaStore.LookupEntry(zone);

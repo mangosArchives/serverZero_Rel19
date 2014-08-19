@@ -93,7 +93,7 @@ void WorldSession::HandleJoinChannelOpcode(WorldPacket& recvPacket)
 
     if (ChannelMgr* cMgr = channelMgr(_player->GetTeam()))
         //the channel id needs to be checkd for lfg (explanation?)
-        if (Channel* chn = cMgr->GetJoinChannel(channelName, channelId))
+        if (Channel* chn = cMgr->GetJoinChannel(channelName))
             chn->Join(_player, pass.c_str());
 }
 

@@ -53,6 +53,7 @@ MANGOS_DLL_SPEC AreaTableEntry const* GetAreaEntryByAreaFlagAndMap(uint32 area_f
 uint32 GetVirtualMapForMapAndZone(uint32 mapid, uint32 zoneId);
 
 ChatChannelsEntry const* GetChannelEntryFor(uint32 channel_id);
+ChatChannelsEntry const* GetChannelEntryFor(const std::string& name);
 
 
 bool Zone2MapCoordinates(float& x, float& y, uint32 zone);
