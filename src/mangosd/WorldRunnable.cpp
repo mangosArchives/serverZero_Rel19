@@ -93,4 +93,10 @@ void WorldRunnable::run()
     sWorldSocketMgr->StopNetwork();
 
     sMapMgr.UnloadAll();                                    // unload all grids (including locked in memory)
+
+#ifdef ENABLE_ELUNA
+    // Eluna must be unloaded after Maps, since ~Map calls sEluna->OnDestroy,
+    //   and must be unloaded before the DB, since it can access the DB.
+    Eluna::Uninitialize();
+#endif /* ENABLE_ELUNA */
 }
