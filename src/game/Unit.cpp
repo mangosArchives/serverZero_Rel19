@@ -5513,7 +5513,6 @@ int32 Unit::SpellBonusWithCoeffs(Unit* pCaster, SpellEntry const* spellProto, in
 
 	float LvlPenalty = CalculateLevelPenalty(spellProto);
 
-        total += int32(benefit * coeff * LvlPenalty);
     // Spellmod SpellDamage
     if (Player* modOwner = GetSpellModOwner())
     {
