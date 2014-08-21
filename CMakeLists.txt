@@ -402,6 +402,9 @@ add_subdirectory(dep)
 
 # Add definitions for all build types
 # Don't place this above 'dep' subdirectory! Because of defines build will crash.
+
+set(DEFINITIONS ${DEFINITIONS} DT_POLYREF64)
+
 set(DEFINITIONS
   HAVE_CONFIG_H
   VERSION="${MANGOS_VERSION}"
