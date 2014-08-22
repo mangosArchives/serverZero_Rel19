@@ -36,6 +36,10 @@
 
 #include "Database/DatabaseEnv.h"
 
+#ifdef ENABLE_ELUNA 
+#include "LuaEngine.h" 
+#endif /* ENABLE_ELUNA */ 
+
 #define WORLD_SLEEP_CONST 50
 
 #ifdef WIN32
