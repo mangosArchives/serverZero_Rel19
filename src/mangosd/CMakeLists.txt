@@ -39,6 +39,13 @@ if(SOAP)
     )
 endif()
 
+if(SCRIPT_LIB_ELUNA)
+    file(GLOB SRC_FILES_LUAENGINE ${CMAKE_SOURCE_DIR}/src/game/LuaEngine/*.cpp ${CMAKE_SOURCE_DIR}/src/game/LuaEngine/*.h)
+    LIST(APPEND EXECUTABLE_SRCS
+        ${SRC_FILES_LUAENGINE}
+    )
+endif()
+
 if(WIN32)
     # add resource file to windows build
     set(EXECUTABLE_SRCS ${EXECUTABLE_SRCS} mangosd.rc)
@@ -53,6 +60,13 @@ include_directories(
     "${ACE_INCLUDE_DIR}"
     "${OPENSSL_INCLUDE_DIR}"
 )
+
+if(SCRIPT_LIB_ELUNA)
+    include_directories(
+        "${CMAKE_SOURCE_DIR}/dep/lualib"
+        "${CMAKE_SOURCE_DIR}/src/game/LuaEngine"
+    )
+endif()
 
 if(SOAP)
     include_directories("${CMAKE_SOURCE_DIR}/dep/include/gsoap")
@@ -81,6 +95,10 @@ target_link_libraries(${EXECUTABLE_NAME}
     g3dlite
     ${ACE_LIBRARIES}
 )
+
+if(SCRIPT_LIB_ELUNA)
+    add_dependencies(${EXECUTABLE_NAME} lualib)
+endif()
 
 if(SOAP)
     target_link_libraries(${EXECUTABLE_NAME}
