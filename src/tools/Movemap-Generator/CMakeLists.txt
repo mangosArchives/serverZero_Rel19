@@ -31,6 +31,9 @@ if(WIN32 AND MSVC)
     add_definitions(-DNO_vsnprintf)
 endif()
 
+# For 64bit definitions in Detour
+add_definitions(-DDT_POLYREF64)
+
 include_directories(
     "${CMAKE_SOURCE_DIR}/src"
     "${CMAKE_SOURCE_DIR}/src/shared"
