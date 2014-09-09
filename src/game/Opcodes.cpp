@@ -719,11 +719,11 @@ void Opcodes::BuildOpcodeList()
     /*0x292*/  StoreOpcode(CMSG_MEETINGSTONE_JOIN,            "CMSG_MEETINGSTONE_JOIN",           STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleMeetingStoneJoinOpcode);
     /*0x293*/  StoreOpcode(CMSG_MEETINGSTONE_LEAVE,           "CMSG_MEETINGSTONE_LEAVE",          STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleMeetingStoneLeaveOpcode);
     /*0x294*/  StoreOpcode(CMSG_MEETINGSTONE_CHEAT,           "CMSG_MEETINGSTONE_CHEAT",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
-    /*[-ZERO] Need check /*0x295*/  StoreOpcode(SMSG_MEETINGSTONE_SETQUEUE,        "SMSG_MEETINGSTONE_SETQUEUE",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
-    /*[-ZERO] Need check /*0x296*/  StoreOpcode(CMSG_MEETINGSTONE_INFO,            "CMSG_MEETINGSTONE_INFO",           STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleMeetingStoneInfoOpcode);
-    /*[-ZERO] Need check /*0x297*/  StoreOpcode(SMSG_MEETINGSTONE_COMPLETE,        "SMSG_MEETINGSTONE_COMPLETE",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
-    /*[-ZERO] Need check /*0x298*/  StoreOpcode(SMSG_MEETINGSTONE_IN_PROGRESS,     "SMSG_MEETINGSTONE_IN_PROGRESS",    STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
-    /*[-ZERO] Need check /*0x299*/  StoreOpcode(SMSG_MEETINGSTONE_MEMBER_ADDED,    "SMSG_MEETINGSTONE_MEMBER_ADDED",   STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*0x295*/  StoreOpcode(SMSG_MEETINGSTONE_SETQUEUE,        "SMSG_MEETINGSTONE_SETQUEUE",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*0x296*/  StoreOpcode(CMSG_MEETINGSTONE_INFO,            "CMSG_MEETINGSTONE_INFO",           STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleMeetingStoneInfoOpcode);
+    /*0x297*/  StoreOpcode(SMSG_MEETINGSTONE_COMPLETE,        "SMSG_MEETINGSTONE_COMPLETE",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*0x298*/  StoreOpcode(SMSG_MEETINGSTONE_IN_PROGRESS,     "SMSG_MEETINGSTONE_IN_PROGRESS",    STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*0x299*/  StoreOpcode(SMSG_MEETINGSTONE_MEMBER_ADDED,    "SMSG_MEETINGSTONE_MEMBER_ADDED",   STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
     /*0x29A*/  StoreOpcode(CMSG_GMTICKETSYSTEM_TOGGLE,        "CMSG_GMTICKETSYSTEM_TOGGLE",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
     /*[-ZERO] Need check /*0x29B*/  StoreOpcode(CMSG_CANCEL_GROWTH_AURA,           "CMSG_CANCEL_GROWTH_AURA",          STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleCancelGrowthAuraOpcode);
     /*[-ZERO] Need check /*0x29C*/  StoreOpcode(SMSG_CANCEL_AUTO_REPEAT,           "SMSG_CANCEL_AUTO_REPEAT",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
@@ -757,7 +757,7 @@ void Opcodes::BuildOpcodeList()
     /*[-ZERO] Need check /*0x2B8*/  StoreOpcode(SMSG_AREA_TRIGGER_MESSAGE,         "SMSG_AREA_TRIGGER_MESSAGE",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
     /*[-ZERO] Need check /*0x2B9*/  StoreOpcode(CMSG_TOGGLE_HELM,                  "CMSG_TOGGLE_HELM",                 STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleShowingHelmOpcode);
     /*[-ZERO] Need check /*0x2BA*/  StoreOpcode(CMSG_TOGGLE_CLOAK,                 "CMSG_TOGGLE_CLOAK",                STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleShowingCloakOpcode);
-    /*[-ZERO] Need check /*0x2BB*/  StoreOpcode(SMSG_MEETINGSTONE_JOINFAILED,      "SMSG_MEETINGSTONE_JOINFAILED",     STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*0x2BB*/  StoreOpcode(SMSG_MEETINGSTONE_JOINFAILED,      "SMSG_MEETINGSTONE_JOINFAILED",     STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
     /*[-ZERO] Need check /*0x2BC*/  StoreOpcode(SMSG_PLAYER_SKINNED,               "SMSG_PLAYER_SKINNED",              STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
     /*[-ZERO] Need check /*0x2BD*/  StoreOpcode(SMSG_DURABILITY_DAMAGE_DEATH,      "SMSG_DURABILITY_DAMAGE_DEATH",     STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
     /*0x2BE*/  StoreOpcode(CMSG_SET_EXPLORATION,              "CMSG_SET_EXPLORATION",             STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
@@ -892,77 +892,77 @@ void Opcodes::BuildOpcodeList()
     /*0x342*/  StoreOpcode(MSG_MOVE_STOP_SWIM_CHEAT,          "MSG_MOVE_STOP_SWIM_CHEAT",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
 
     // [-ZERO] Last existed in 1.12.1 opcode, maybe some renumbering from other side
-    StoreOpcode(CMSG_CANCEL_MOUNT_AURA,            "CMSG_CANCEL_MOUNT_AURA",           STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleCancelMountAuraOpcode);     /// 0x375: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_CANCEL_TEMP_ENCHANTMENT,      "CMSG_CANCEL_TEMP_ENCHANTMENT",     STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleCancelTempEnchantmentOpcode);       /// 0x379: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_SET_TAXI_BENCHMARK_MODE,      "CMSG_SET_TAXI_BENCHMARK_MODE",     STATUS_AUTHED,    PROCESS_THREADUNSAFE, &WorldSession::HandleSetTaxiBenchmarkOpcode);        /// 0x389: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_MOVE_CHNG_TRANSPORT,          "CMSG_MOVE_CHNG_TRANSPORT",         STATUS_LOGGEDIN,  PROCESS_THREADSAFE,   &WorldSession::HandleMovementOpcodes);       /// 0x38D: @TODO need to check usage in vanilla WoW
-    StoreOpcode(MSG_PARTY_ASSIGNMENT,              "MSG_PARTY_ASSIGNMENT",             STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandlePartyAssignmentOpcode);     /// 0x38E: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_OFFER_PETITION_ERROR,         "SMSG_OFFER_PETITION_ERROR",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x38F: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_RESET_FAILED_NOTIFY,          "SMSG_RESET_FAILED_NOTIFY",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x396: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_REAL_GROUP_UPDATE,            "SMSG_REAL_GROUP_UPDATE",           STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x397: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_INIT_EXTRA_AURA_INFO,         "SMSG_INIT_EXTRA_AURA_INFO",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3A3: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_SET_EXTRA_AURA_INFO,          "SMSG_SET_EXTRA_AURA_INFO",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3A4: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_SET_EXTRA_AURA_INFO_NEED_UPDATE,   "SMSG_SET_EXTRA_AURA_INFO_NEED_UPDATE",    STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3A5: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_SPELL_CHANCE_PROC_LOG,        "SMSG_SPELL_CHANCE_PROC_LOG",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3AA: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_MOVE_SET_RUN_SPEED,           "CMSG_MOVE_SET_RUN_SPEED",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x3AB: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_DISMOUNT,                     "SMSG_DISMOUNT",                    STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3AC: @TODO need to check usage in vanilla WoW
-    StoreOpcode(MSG_RAID_READY_CHECK_CONFIRM,      "MSG_RAID_READY_CHECK_CONFIRM",     STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x3AE: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_CLEAR_TARGET,                 "SMSG_CLEAR_TARGET",                STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3BE: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_BOT_DETECTED,                 "CMSG_BOT_DETECTED",                STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x3BF: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_KICK_REASON,                  "SMSG_KICK_REASON",                 STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3C4: @TODO need to check usage in vanilla WoW
-    StoreOpcode(MSG_RAID_READY_CHECK_FINISHED,     "MSG_RAID_READY_CHECK_FINISHED",    STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleRaidReadyCheckFinishedOpcode);      /// 0x3C5: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_TARGET_CAST,                  "CMSG_TARGET_CAST",                 STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x3CF: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_TARGET_SCRIPT_CAST,           "CMSG_TARGET_SCRIPT_CAST",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x3D0: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_CHANNEL_DISPLAY_LIST,         "CMSG_CHANNEL_DISPLAY_LIST",        STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleChannelDisplayListQueryOpcode);     /// 0x3D1: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_GET_CHANNEL_MEMBER_COUNT,     "CMSG_GET_CHANNEL_MEMBER_COUNT",    STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleGetChannelMemberCountOpcode);       /// 0x3D3: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_CHANNEL_MEMBER_COUNT,         "SMSG_CHANNEL_MEMBER_COUNT",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3D4: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_DEBUG_LIST_TARGETS,           "CMSG_DEBUG_LIST_TARGETS",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x3D7: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_DEBUG_LIST_TARGETS,           "SMSG_DEBUG_LIST_TARGETS",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3D8: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_PARTY_SILENCE,                "CMSG_PARTY_SILENCE",               STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x3DC: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_PARTY_UNSILENCE,              "CMSG_PARTY_UNSILENCE",             STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x3DD: @TODO need to check usage in vanilla WoW
-    StoreOpcode(MSG_NOTIFY_PARTY_SQUELCH,          "MSG_NOTIFY_PARTY_SQUELCH",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x3DE: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_COMSAT_RECONNECT_TRY,         "SMSG_COMSAT_RECONNECT_TRY",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3DF: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_COMSAT_DISCONNECT,            "SMSG_COMSAT_DISCONNECT",           STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3E0: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_COMSAT_CONNECT_FAIL,          "SMSG_COMSAT_CONNECT_FAIL",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3E1: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_SET_CHANNEL_WATCH,            "CMSG_SET_CHANNEL_WATCH",           STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleSetChannelWatchOpcode);     /// 0x3EE: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_USERLIST_ADD,                 "SMSG_USERLIST_ADD",                STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3EF: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_USERLIST_REMOVE,              "SMSG_USERLIST_REMOVE",             STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3F0: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_USERLIST_UPDATE,              "SMSG_USERLIST_UPDATE",             STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3F1: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_CLEAR_CHANNEL_WATCH,          "CMSG_CLEAR_CHANNEL_WATCH",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x3F2: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_GOGOGO_OBSOLETE,              "SMSG_GOGOGO_OBSOLETE",             STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3F4: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_ECHO_PARTY_SQUELCH,           "SMSG_ECHO_PARTY_SQUELCH",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3F5: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_SPELLCLICK,                   "CMSG_SPELLCLICK",                  STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x3F7: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_LOOT_LIST,                    "SMSG_LOOT_LIST",                   STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x3F8: @TODO need to check usage in vanilla WoW
-    StoreOpcode(MSG_GUILD_EVENT_LOG_QUERY,         "MSG_GUILD_EVENT_LOG_QUERY",        STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleGuildEventLogQueryOpcode);      /// 0x3FE: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_MAELSTROM_RENAME_GUILD,       "CMSG_MAELSTROM_RENAME_GUILD",      STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x3FF: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_GET_MIRRORIMAGE_DATA,         "CMSG_GET_MIRRORIMAGE_DATA",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x400: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_MIRRORIMAGE_DATA,             "SMSG_MIRRORIMAGE_DATA",            STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x401: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_FORCE_DISPLAY_UPDATE,         "SMSG_FORCE_DISPLAY_UPDATE",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x402: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_SPELL_CHANCE_RESIST_PUSHBACK, "SMSG_SPELL_CHANCE_RESIST_PUSHBACK", STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);      /// 0x403: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_IGNORE_DIMINISHING_RETURNS_CHEAT,  "CMSG_IGNORE_DIMINISHING_RETURNS_CHEAT",   STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x404: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_IGNORE_DIMINISHING_RETURNS_CHEAT,  "SMSG_IGNORE_DIMINISHING_RETURNS_CHEAT",   STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x405: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_KEEP_ALIVE,                   "CMSG_KEEP_ALIVE",                  STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_EarlyProccess);        /// 0x406: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_RAID_READY_CHECK_ERROR,       "SMSG_RAID_READY_CHECK_ERROR",      STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x407: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_OPT_OUT_OF_LOOT,              "CMSG_OPT_OUT_OF_LOOT",             STATUS_AUTHED,    PROCESS_THREADUNSAFE, &WorldSession::HandleOptOutOfLootOpcode);        /// 0x408: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_SET_GRANTABLE_LEVELS,         "CMSG_SET_GRANTABLE_LEVELS",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x40B: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_GRANT_LEVEL,                  "CMSG_GRANT_LEVEL",                 STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x40C: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_DECLINE_CHANNEL_INVITE,       "CMSG_DECLINE_CHANNEL_INVITE",      STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x40F: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_GROUPACTION_THROTTLED,        "CMSG_GROUPACTION_THROTTLED",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x410: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_OVERRIDE_LIGHT,               "SMSG_OVERRIDE_LIGHT",              STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x411: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_TOTEM_CREATED,                "SMSG_TOTEM_CREATED",               STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x412: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_TOTEM_DESTROYED,              "CMSG_TOTEM_DESTROYED",             STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleTotemDestroyed);        /// 0x413: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_EXPIRE_RAID_INSTANCE,         "CMSG_EXPIRE_RAID_INSTANCE",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x414: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_NO_SPELL_VARIANCE,            "CMSG_NO_SPELL_VARIANCE",           STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x415: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_QUESTGIVER_STATUS_MULTIPLE_QUERY,  "CMSG_QUESTGIVER_STATUS_MULTIPLE_QUERY",   STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleQuestgiverStatusMultipleQuery);     /// 0x416: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_QUESTGIVER_STATUS_MULTIPLE,   "SMSG_QUESTGIVER_STATUS_MULTIPLE",  STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x417: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_QUERY_SERVER_BUCK_DATA,       "CMSG_QUERY_SERVER_BUCK_DATA",      STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x41A: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_CLEAR_SERVER_BUCK_DATA,       "CMSG_CLEAR_SERVER_BUCK_DATA",      STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x41B: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_SERVER_BUCK_DATA,             "SMSG_SERVER_BUCK_DATA",            STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x41C: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_SEND_UNLEARN_SPELLS,          "SMSG_SEND_UNLEARN_SPELLS",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x41D: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_PROPOSE_LEVEL_GRANT,          "SMSG_PROPOSE_LEVEL_GRANT",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x41E: @TODO need to check usage in vanilla WoW
-    StoreOpcode(CMSG_ACCEPT_LEVEL_GRANT,           "CMSG_ACCEPT_LEVEL_GRANT",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);     /// 0x41F: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_REFER_A_FRIEND_FAILURE,       "SMSG_REFER_A_FRIEND_FAILURE",      STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x420: @TODO need to check usage in vanilla WoW
-    StoreOpcode(SMSG_SUMMON_CANCEL,                "SMSG_SUMMON_CANCEL",               STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);       /// 0x423: @TODO need to check usage in vanilla WoW
+    /*[-ZERO] Need check /*0x375*/  StoreOpcode(CMSG_CANCEL_MOUNT_AURA,            "CMSG_CANCEL_MOUNT_AURA",           STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleCancelMountAuraOpcode);
+    /*[-ZERO] Need check /*0x379*/  StoreOpcode(CMSG_CANCEL_TEMP_ENCHANTMENT,      "CMSG_CANCEL_TEMP_ENCHANTMENT",     STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleCancelTempEnchantmentOpcode);
+    /*[-ZERO] Need check /*0x389*/  StoreOpcode(CMSG_SET_TAXI_BENCHMARK_MODE,      "CMSG_SET_TAXI_BENCHMARK_MODE",     STATUS_AUTHED,    PROCESS_THREADUNSAFE, &WorldSession::HandleSetTaxiBenchmarkOpcode);
+    /*[-ZERO] Need check /*0x38D*/  StoreOpcode(CMSG_MOVE_CHNG_TRANSPORT,          "CMSG_MOVE_CHNG_TRANSPORT",         STATUS_LOGGEDIN,  PROCESS_THREADSAFE,   &WorldSession::HandleMovementOpcodes);
+    /*[-ZERO] Need check /*0x38E*/  StoreOpcode(MSG_PARTY_ASSIGNMENT,              "MSG_PARTY_ASSIGNMENT",             STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandlePartyAssignmentOpcode);
+    /*[-ZERO] Need check /*0x38F*/  StoreOpcode(SMSG_OFFER_PETITION_ERROR,         "SMSG_OFFER_PETITION_ERROR",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x396*/  StoreOpcode(SMSG_RESET_FAILED_NOTIFY,          "SMSG_RESET_FAILED_NOTIFY",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x397*/  StoreOpcode(SMSG_REAL_GROUP_UPDATE,            "SMSG_REAL_GROUP_UPDATE",           STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3A3*/  StoreOpcode(SMSG_INIT_EXTRA_AURA_INFO,         "SMSG_INIT_EXTRA_AURA_INFO",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3A4*/  StoreOpcode(SMSG_SET_EXTRA_AURA_INFO,          "SMSG_SET_EXTRA_AURA_INFO",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3A5*/  StoreOpcode(SMSG_SET_EXTRA_AURA_INFO_NEED_UPDATE,   "SMSG_SET_EXTRA_AURA_INFO_NEED_UPDATE",    STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3AA*/  StoreOpcode(SMSG_SPELL_CHANCE_PROC_LOG,        "SMSG_SPELL_CHANCE_PROC_LOG",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3AB*/  StoreOpcode(CMSG_MOVE_SET_RUN_SPEED,           "CMSG_MOVE_SET_RUN_SPEED",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x3AC*/  StoreOpcode(SMSG_DISMOUNT,                     "SMSG_DISMOUNT",                    STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3AE*/  StoreOpcode(MSG_RAID_READY_CHECK_CONFIRM,      "MSG_RAID_READY_CHECK_CONFIRM",     STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x3BE*/  StoreOpcode(SMSG_CLEAR_TARGET,                 "SMSG_CLEAR_TARGET",                STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3BF*/  StoreOpcode(CMSG_BOT_DETECTED,                 "CMSG_BOT_DETECTED",                STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x3C4*/  StoreOpcode(SMSG_KICK_REASON,                  "SMSG_KICK_REASON",                 STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3C5*/  StoreOpcode(MSG_RAID_READY_CHECK_FINISHED,     "MSG_RAID_READY_CHECK_FINISHED",    STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleRaidReadyCheckFinishedOpcode);
+    /*[-ZERO] Need check /*0x3CF*/  StoreOpcode(CMSG_TARGET_CAST,                  "CMSG_TARGET_CAST",                 STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x3D0*/  StoreOpcode(CMSG_TARGET_SCRIPT_CAST,           "CMSG_TARGET_SCRIPT_CAST",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x3D1*/  StoreOpcode(CMSG_CHANNEL_DISPLAY_LIST,         "CMSG_CHANNEL_DISPLAY_LIST",        STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleChannelDisplayListQueryOpcode);
+    /*[-ZERO] Need check /*0x3D3*/  StoreOpcode(CMSG_GET_CHANNEL_MEMBER_COUNT,     "CMSG_GET_CHANNEL_MEMBER_COUNT",    STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleGetChannelMemberCountOpcode);
+    /*[-ZERO] Need check /*0x3D4*/  StoreOpcode(SMSG_CHANNEL_MEMBER_COUNT,         "SMSG_CHANNEL_MEMBER_COUNT",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3D7*/  StoreOpcode(CMSG_DEBUG_LIST_TARGETS,           "CMSG_DEBUG_LIST_TARGETS",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x3D8*/  StoreOpcode(SMSG_DEBUG_LIST_TARGETS,           "SMSG_DEBUG_LIST_TARGETS",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3DC*/  StoreOpcode(CMSG_PARTY_SILENCE,                "CMSG_PARTY_SILENCE",               STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x3DD*/  StoreOpcode(CMSG_PARTY_UNSILENCE,              "CMSG_PARTY_UNSILENCE",             STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x3DE*/  StoreOpcode(MSG_NOTIFY_PARTY_SQUELCH,          "MSG_NOTIFY_PARTY_SQUELCH",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x3DF*/  StoreOpcode(SMSG_COMSAT_RECONNECT_TRY,         "SMSG_COMSAT_RECONNECT_TRY",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3E0*/  StoreOpcode(SMSG_COMSAT_DISCONNECT,            "SMSG_COMSAT_DISCONNECT",           STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3E1*/  StoreOpcode(SMSG_COMSAT_CONNECT_FAIL,          "SMSG_COMSAT_CONNECT_FAIL",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3EE*/  StoreOpcode(CMSG_SET_CHANNEL_WATCH,            "CMSG_SET_CHANNEL_WATCH",           STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleSetChannelWatchOpcode);
+    /*[-ZERO] Need check /*0x3EF*/  StoreOpcode(SMSG_USERLIST_ADD,                 "SMSG_USERLIST_ADD",                STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3F0*/  StoreOpcode(SMSG_USERLIST_REMOVE,              "SMSG_USERLIST_REMOVE",             STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3F1*/  StoreOpcode(SMSG_USERLIST_UPDATE,              "SMSG_USERLIST_UPDATE",             STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3F2*/  StoreOpcode(CMSG_CLEAR_CHANNEL_WATCH,          "CMSG_CLEAR_CHANNEL_WATCH",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x3F4*/  StoreOpcode(SMSG_GOGOGO_OBSOLETE,              "SMSG_GOGOGO_OBSOLETE",             STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3F5*/  StoreOpcode(SMSG_ECHO_PARTY_SQUELCH,           "SMSG_ECHO_PARTY_SQUELCH",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3F7*/  StoreOpcode(CMSG_SPELLCLICK,                   "CMSG_SPELLCLICK",                  STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x3F8*/  StoreOpcode(SMSG_LOOT_LIST,                    "SMSG_LOOT_LIST",                   STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x3FE*/  StoreOpcode(MSG_GUILD_EVENT_LOG_QUERY,         "MSG_GUILD_EVENT_LOG_QUERY",        STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleGuildEventLogQueryOpcode);
+    /*[-ZERO] Need check /*0x3FF*/  StoreOpcode(CMSG_MAELSTROM_RENAME_GUILD,       "CMSG_MAELSTROM_RENAME_GUILD",      STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x400*/  StoreOpcode(CMSG_GET_MIRRORIMAGE_DATA,         "CMSG_GET_MIRRORIMAGE_DATA",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x401*/  StoreOpcode(SMSG_MIRRORIMAGE_DATA,             "SMSG_MIRRORIMAGE_DATA",            STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x402*/  StoreOpcode(SMSG_FORCE_DISPLAY_UPDATE,         "SMSG_FORCE_DISPLAY_UPDATE",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x403*/  StoreOpcode(SMSG_SPELL_CHANCE_RESIST_PUSHBACK, "SMSG_SPELL_CHANCE_RESIST_PUSHBACK", STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x404*/  StoreOpcode(CMSG_IGNORE_DIMINISHING_RETURNS_CHEAT,  "CMSG_IGNORE_DIMINISHING_RETURNS_CHEAT",   STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x405*/  StoreOpcode(SMSG_IGNORE_DIMINISHING_RETURNS_CHEAT,  "SMSG_IGNORE_DIMINISHING_RETURNS_CHEAT",   STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x406*/  StoreOpcode(CMSG_KEEP_ALIVE,                   "CMSG_KEEP_ALIVE",                  STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_EarlyProccess);
+    /*[-ZERO] Need check /*0x407*/  StoreOpcode(SMSG_RAID_READY_CHECK_ERROR,       "SMSG_RAID_READY_CHECK_ERROR",      STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x408*/  StoreOpcode(CMSG_OPT_OUT_OF_LOOT,              "CMSG_OPT_OUT_OF_LOOT",             STATUS_AUTHED,    PROCESS_THREADUNSAFE, &WorldSession::HandleOptOutOfLootOpcode);
+    /*[-ZERO] Need check /*0x40B*/  StoreOpcode(CMSG_SET_GRANTABLE_LEVELS,         "CMSG_SET_GRANTABLE_LEVELS",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x40C*/  StoreOpcode(CMSG_GRANT_LEVEL,                  "CMSG_GRANT_LEVEL",                 STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x40F*/  StoreOpcode(CMSG_DECLINE_CHANNEL_INVITE,       "CMSG_DECLINE_CHANNEL_INVITE",      STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x410*/  StoreOpcode(CMSG_GROUPACTION_THROTTLED,        "CMSG_GROUPACTION_THROTTLED",       STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x411*/  StoreOpcode(SMSG_OVERRIDE_LIGHT,               "SMSG_OVERRIDE_LIGHT",              STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x412*/  StoreOpcode(SMSG_TOTEM_CREATED,                "SMSG_TOTEM_CREATED",               STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x413*/  StoreOpcode(CMSG_TOTEM_DESTROYED,              "CMSG_TOTEM_DESTROYED",             STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleTotemDestroyed);
+    /*[-ZERO] Need check /*0x414*/  StoreOpcode(CMSG_EXPIRE_RAID_INSTANCE,         "CMSG_EXPIRE_RAID_INSTANCE",        STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x415*/  StoreOpcode(CMSG_NO_SPELL_VARIANCE,            "CMSG_NO_SPELL_VARIANCE",           STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x416*/  StoreOpcode(CMSG_QUESTGIVER_STATUS_MULTIPLE_QUERY,  "CMSG_QUESTGIVER_STATUS_MULTIPLE_QUERY",   STATUS_LOGGEDIN,  PROCESS_THREADUNSAFE, &WorldSession::HandleQuestgiverStatusMultipleQuery);
+    /*[-ZERO] Need check /*0x417*/  StoreOpcode(SMSG_QUESTGIVER_STATUS_MULTIPLE,   "SMSG_QUESTGIVER_STATUS_MULTIPLE",  STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x41A*/  StoreOpcode(CMSG_QUERY_SERVER_BUCK_DATA,       "CMSG_QUERY_SERVER_BUCK_DATA",      STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x41B*/  StoreOpcode(CMSG_CLEAR_SERVER_BUCK_DATA,       "CMSG_CLEAR_SERVER_BUCK_DATA",      STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x41C*/  StoreOpcode(SMSG_SERVER_BUCK_DATA,             "SMSG_SERVER_BUCK_DATA",            STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x41D*/  StoreOpcode(SMSG_SEND_UNLEARN_SPELLS,          "SMSG_SEND_UNLEARN_SPELLS",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x41E*/  StoreOpcode(SMSG_PROPOSE_LEVEL_GRANT,          "SMSG_PROPOSE_LEVEL_GRANT",         STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x41F*/  StoreOpcode(CMSG_ACCEPT_LEVEL_GRANT,           "CMSG_ACCEPT_LEVEL_GRANT",          STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_NULL);
+    /*[-ZERO] Need check /*0x420*/  StoreOpcode(SMSG_REFER_A_FRIEND_FAILURE,       "SMSG_REFER_A_FRIEND_FAILURE",      STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
+    /*[-ZERO] Need check /*0x423*/  StoreOpcode(SMSG_SUMMON_CANCEL,                "SMSG_SUMMON_CANCEL",               STATUS_NEVER,     PROCESS_INPLACE,      &WorldSession::Handle_ServerSide);
 
     return;
 }
