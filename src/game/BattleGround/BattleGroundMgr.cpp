@@ -38,6 +38,9 @@
 #include "WorldPacket.h"
 #include "Language.h"
 #include "GameEventMgr.h"
+#ifdef ENABLE_ELUNA
+#include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 #include "Policies/Singleton.h"
 
@@ -1133,6 +1136,10 @@ uint32 BattleGroundMgr::CreateBattleGround(BattleGroundTypeId bgTypeId, uint32 M
 
     // add bg to update list
     AddBattleGround(bg->GetInstanceID(), bg->GetTypeID(), bg);
+    
+#ifdef ENABLE_ELUNA
+    sEluna->OnBGCreate(bg, bgTypeId, bg->GetInstanceID());
+#endif /* ENABLE_ELUNA */
 
     // return some not-null value, bgTypeId is good enough for me
     return bgTypeId;
