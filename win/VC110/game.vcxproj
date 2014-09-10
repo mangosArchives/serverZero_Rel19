@@ -571,6 +571,7 @@
     <ClInclude Include="..\..\src\game\LFGHandler.h" />
     <ClInclude Include="..\..\src\game\LootMgr.h" />
     <ClInclude Include="..\..\src\game\LuaEngine\AuraMethods.h" />
+    <ClInclude Include="..\..\src\game\LuaEngine\BattleGroundMethods.h" />
     <ClInclude Include="..\..\src\game\LuaEngine\CorpseMethods.h" />
     <ClInclude Include="..\..\src\game\LuaEngine\CreatureMethods.h" />
     <ClInclude Include="..\..\src\game\LuaEngine\ElunaBinding.h" />
