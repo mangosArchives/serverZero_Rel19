@@ -187,7 +187,10 @@ typedef std::pair<QuestRelationsMap::const_iterator, QuestRelationsMap::const_it
 
 struct PetLevelInfo
 {
-    PetLevelInfo() : health(0), mana(0) { for (int i = 0; i < MAX_STATS; ++i) { stats[i] = 0; } }
+    PetLevelInfo() : health(0), mana(0)
+    {
+        for (int i = 0; i < MAX_STATS; ++i) stats[i] = 0;
+    }
 
     uint16 stats[MAX_STATS];
     uint16 health;
@@ -365,7 +368,10 @@ class PlayerCondition
             : m_entry(_entry), m_condition(ConditionType(_condition)), m_value1(_value1), m_value2(_value2) {}
 
         // Checks correctness of values
-        bool IsValid() const { return IsValid(m_entry, m_condition, m_value1, m_value2); }
+        bool IsValid() const
+        {
+            return IsValid(m_entry, m_condition, m_value1, m_value2);
+        }
         static bool IsValid(uint16 entry, ConditionType condition, uint32 value1, uint32 value2);
 
         static bool CanBeUsedWithoutPlayer(uint16 entry);
@@ -433,7 +439,10 @@ class HonorStanding
         uint32 guid;
         float rpEarning;
 
-        HonorStanding* GetInfo() { return this; };
+        HonorStanding* GetInfo()
+        {
+            return this;
+        };
 };
 
 bool operator < (const HonorStanding& lhs, const HonorStanding& rhs);
@@ -447,11 +456,17 @@ class IdGenerator
         explicit IdGenerator(char const* _name) : m_name(_name), m_nextGuid(1) {}
 
     public:                                                 // modifiers
-        void Set(T val) { m_nextGuid = val; }
+        void Set(T val)
+        {
+            m_nextGuid = val;
+        }
         T Generate();
 
     public:                                                 // accessors
-        T GetNextAfterMaxUsed() const { return m_nextGuid; }
+        T GetNextAfterMaxUsed() const
+        {
+            return m_nextGuid;
+        }
 
     private:                                                // fields
         char const* m_name;
@@ -529,7 +544,10 @@ class ObjectMgr
             QuestMap::const_iterator itr = mQuestTemplates.find(quest_id);
             return itr != mQuestTemplates.end() ? itr->second : NULL;
         }
-        QuestMap const& GetQuestTemplates() const { return mQuestTemplates; }
+        QuestMap const& GetQuestTemplates() const
+        {
+            return mQuestTemplates;
+        }
 
         uint32 GetQuestForAreaTrigger(uint32 Trigger_ID) const
         {
@@ -639,7 +657,10 @@ class ObjectMgr
         void LoadCreatureInvolvedRelations();
 
         bool LoadMangosStrings(DatabaseType& db, char const* table, int32 min_value, int32 max_value, bool extra_content);
-        bool LoadMangosStrings() { return LoadMangosStrings(WorldDatabase, "mangos_string", MIN_MANGOS_STRING_ID, MAX_MANGOS_STRING_ID, false); }
+        bool LoadMangosStrings()
+        {
+            return LoadMangosStrings(WorldDatabase, "mangos_string", MIN_MANGOS_STRING_ID, MAX_MANGOS_STRING_ID, false);
+        }
         void LoadPetCreateSpells();
         void LoadCreatureLocales();
         void LoadCreatureTemplates();
@@ -697,14 +718,23 @@ class ObjectMgr
         void LoadGossipMenus();
 
         void LoadVendorTemplates();
-        void LoadVendors() { LoadVendors("npc_vendor", false); }
+        void LoadVendors()
+        {
+            LoadVendors("npc_vendor", false);
+        }
         void LoadTrainerTemplates();
-        void LoadTrainers() { LoadTrainers("npc_trainer", false); }
+        void LoadTrainers()
+        {
+            LoadTrainers("npc_trainer", false);
+        }
 
         std::string GeneratePetName(uint32 entry);
         uint32 GetBaseXP(uint32 level) const;
         uint32 GetXPForLevel(uint32 level) const;
-        uint32 GetXPForPetLevel(uint32 level) const { return GetXPForLevel(level) / 4; }
+        uint32 GetXPForPetLevel(uint32 level) const
+        {
+            return GetXPForLevel(level) / 4;
+        }
 
         int32 GetFishingBaseSkillLevel(uint32 entry) const
         {
@@ -727,26 +757,72 @@ class ObjectMgr
         void SetHighestGuids();
 
         // used for set initial guid counter for map local guids
-        uint32 GetFirstTemporaryCreatureLowGuid() const { return m_FirstTemporaryCreatureGuid; }
-        uint32 GetFirstTemporaryGameObjectLowGuid() const { return m_FirstTemporaryGameObjectGuid; }
+        uint32 GetFirstTemporaryCreatureLowGuid() const
+        {
+            return m_FirstTemporaryCreatureGuid;
+        }
+        uint32 GetFirstTemporaryGameObjectLowGuid() const
+        {
+            return m_FirstTemporaryGameObjectGuid;
+        }
 
         // used in .npc add/.gobject add commands for adding static spawns
-        uint32 GenerateStaticCreatureLowGuid() { if (m_StaticCreatureGuids.GetNextAfterMaxUsed() >= m_FirstTemporaryCreatureGuid) { return 0; } return m_StaticCreatureGuids.Generate(); }
-        uint32 GenerateStaticGameObjectLowGuid() { if (m_StaticGameObjectGuids.GetNextAfterMaxUsed() >= m_FirstTemporaryGameObjectGuid) { return 0; } return m_StaticGameObjectGuids.Generate(); }
+        uint32 GenerateStaticCreatureLowGuid()
+        {
+            if (m_StaticCreatureGuids.GetNextAfterMaxUsed() >= m_FirstTemporaryCreatureGuid)
+            { return 0; } 
+            return m_StaticCreatureGuids.Generate();
+        }
+        uint32 GenerateStaticGameObjectLowGuid()
+        {
+            if (m_StaticGameObjectGuids.GetNextAfterMaxUsed() >= m_FirstTemporaryGameObjectGuid)
+            { return 0; } 
+            return m_StaticGameObjectGuids.Generate();
+        }
 
-        uint32 GeneratePlayerLowGuid()   { return m_CharGuids.Generate();     }
-        uint32 GenerateItemLowGuid()     { return m_ItemGuids.Generate();     }
-        uint32 GenerateCorpseLowGuid()   { return m_CorpseGuids.Generate();   }
+        uint32 GeneratePlayerLowGuid()
+        {
+            return m_CharGuids.Generate();
+        }
+        uint32 GenerateItemLowGuid()
+        {
+            return m_ItemGuids.Generate();
+        }
+        uint32 GenerateCorpseLowGuid()
+        {
+            return m_CorpseGuids.Generate();
+        }
 
-        uint32 GenerateAuctionID() { return m_AuctionIds.Generate(); }
-        uint32 GenerateGuildId() { return m_GuildIds.Generate(); }
-        uint32 GenerateGroupId() { return m_GroupIds.Generate(); }
-        uint32 GenerateItemTextID() { return m_ItemGuids.Generate(); }
-        uint32 GenerateMailID() { return m_MailIds.Generate(); }
-        uint32 GeneratePetNumber() { return m_PetNumbers.Generate(); }
+        uint32 GenerateAuctionID()
+        {
+            return m_AuctionIds.Generate();
+        }
+        uint32 GenerateGuildId()
+        {
+            return m_GuildIds.Generate();
+        }
+        uint32 GenerateGroupId()
+        {
+            return m_GroupIds.Generate();
+        }
+        uint32 GenerateItemTextID()
+        {
+            return m_ItemGuids.Generate();
+        }
+        uint32 GenerateMailID()
+        {
+            return m_MailIds.Generate();
+        }
+        uint32 GeneratePetNumber()
+        {
+            return m_PetNumbers.Generate();
+        }
 
         uint32 CreateItemText(std::string text);
-        void AddItemText(uint32 itemTextId, std::string text) { mItemTexts[itemTextId] = text; }
+        void AddItemText(uint32 itemTextId, std::string text)
+        {
+            mItemTexts[itemTextId] = text;
+        }
         std::string GetItemText(uint32 id)
         {
             ItemTextMap::const_iterator itr = mItemTexts.find(id);
@@ -778,7 +854,10 @@ class ObjectMgr
             return dataPair ? &dataPair->second : NULL;
         }
 
-        CreatureData& NewOrExistCreatureData(uint32 guid) { return mCreatureDataMap[guid]; }
+        CreatureData& NewOrExistCreatureData(uint32 guid)
+        {
+            return mCreatureDataMap[guid];
+        }
         void DeleteCreatureData(uint32 guid);
 
         template<typename Worker>
@@ -868,7 +947,10 @@ class ObjectMgr
             return dataPair ? &dataPair->second : NULL;
         }
 
-        GameObjectData& NewGOData(uint32 guid) { return mGameObjectDataMap[guid]; }
+        GameObjectData& NewGOData(uint32 guid)
+        {
+            return mGameObjectDataMap[guid];
+        }
         void DeleteGOData(uint32 guid);
 
         template<typename Worker>
@@ -936,7 +1018,10 @@ class ObjectMgr
         }
 
         GameTele const* GetGameTele(const std::string& name) const;
-        GameTeleMap const& GetGameTeleMap() const { return m_GameTeleMap; }
+        GameTeleMap const& GetGameTeleMap() const
+        {
+            return m_GameTeleMap;
+        }
         bool AddGameTele(GameTele& data);
         bool DeleteGameTele(const std::string& name);
 
@@ -1038,7 +1123,10 @@ class ObjectMgr
             return m_GOQuestInvolvedRelations.equal_range(entry);
         }
 
-        QuestRelationsMap& GetCreatureQuestRelationsMap() { return m_CreatureQuestRelations; }
+        QuestRelationsMap& GetCreatureQuestRelationsMap()
+        {
+            return m_CreatureQuestRelations;
+        }
 
         /**
         * \brief: Data returned is used to compute health, mana, armor, damage of creatures. May be NULL.

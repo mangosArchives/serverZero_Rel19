@@ -61,7 +61,7 @@ void WorldSession::HandleMeetingStoneJoinOpcode(WorldPacket & recv_data)
         return;
     }
 
-    if (Group *grp = _player->GetGroup())
+    if (Group* grp = _player->GetGroup())
     {
         if (!grp->IsLeader(_player->GetGUID()))
         {
@@ -87,6 +87,7 @@ void WorldSession::HandleMeetingStoneJoinOpcode(WorldPacket & recv_data)
             return;
         }
     }
+
 
     GameObjectInfo const *gInfo = ObjectMgr::GetGameObjectInfo(obj->GetEntry());
 
