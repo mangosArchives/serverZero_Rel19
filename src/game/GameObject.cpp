@@ -142,10 +142,6 @@ void GameObject::RemoveFromWorld()
 
 void GameObject::CleanupsBeforeDelete()
 {
-    if (m_uint32Values)
-    {
-        m_Events.KillAllEvents(false);
-    }
     WorldObject::CleanupsBeforeDelete();
 }
 
@@ -239,10 +235,9 @@ void GameObject::Update(uint32 update_diff, uint32 p_time)
         return;
     }
 
-    m_Events.Update(p_time);
     // Used by Eluna
 #ifdef ENABLE_ELUNA
-    sEluna->UpdateAI(this, p_time);
+    sEluna->UpdateAI(this, update_diff);
 #endif /* ENABLE_ELUNA */
 
     switch (m_lootState)
