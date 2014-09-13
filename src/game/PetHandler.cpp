@@ -95,6 +95,8 @@ void WorldSession::HandlePetAction(WorldPacket& recv_data)
                     pet->GetMotionMaster()->Clear(false);
                     pet->GetMotionMaster()->MoveIdle();
                     charmInfo->SetCommandState(COMMAND_STAY);
+                    if (pet->getVictim())
+                        { pet->AttackStop(); }
                     break;
                 case COMMAND_FOLLOW:                        // spellid=1792  // FOLLOW
                     pet->AttackStop();
