@@ -31,7 +31,6 @@
 #include "UpdateData.h"
 #include "ObjectGuid.h"
 #include "Camera.h"
-#include "ElunaEventMgr.h"
 
 #include <set>
 #include <string>
@@ -78,6 +77,9 @@ class Map;
 class UpdateMask;
 class InstanceData;
 class TerrainInfo;
+#ifdef ENABLE_ELUNA
+class ElunaEventProcessor;
+#endif /* ENABLE_ELUNA */
 struct MangosStringLocale;
 
 typedef UNORDERED_MAP<Player*, UpdateData> UpdateDataMapType;
@@ -475,7 +477,7 @@ class MANGOS_DLL_SPEC WorldObject : public Object
 
         virtual ~WorldObject();
 
-        virtual void Update(uint32 update_diff, uint32 /*time_diff*/) { elunaEvents.Update(update_diff); }
+        virtual void Update(uint32 update_diff, uint32 /*time_diff*/);
 
         void _Create(uint32 guidlow, HighGuid guidhigh);
 
@@ -638,9 +640,11 @@ class MANGOS_DLL_SPEC WorldObject : public Object
         // ASSERT print helper
         bool PrintCoordinatesError(float x, float y, float z, char const* descr) const;
 
-        virtual void StartGroupLoot(Group* /*group*/, uint32 /*timer*/) {}
+        virtual void StartGroupLoot(Group* /*group*/, uint32 /*timer*/) { }
 
-        ElunaEventProcessor elunaEvents;
+#ifdef ENABLE_ELUNA
+        ElunaEventProcessor* const elunaEvents;
+#endif /* ENABLE_ELUNA */
 
     protected:
         explicit WorldObject();
