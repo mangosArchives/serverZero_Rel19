@@ -35,7 +35,7 @@
 #include "SocialMgr.h"
 #include "Util.h"
 
-/* differeces from off:
+/* differences from off:
     -you can uninvite yourself - is is useful
     -you can accept invitation even if leader went offline
 */

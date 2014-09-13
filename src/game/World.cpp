@@ -1581,7 +1581,12 @@ namespace MaNGOS
                     { do_helper(data_list, (char*)text); }
             }
         private:
-            char* lineFromMessage(char*& pos) { char* start = strtok(pos, "\n"); pos = NULL; return start; }
+            char* lineFromMessage(char*& pos)
+            {
+                char* start = strtok(pos, "\n");
+                pos = NULL;
+                return start;
+            }
             void do_helper(WorldPacketList& data_list, char* text)
             {
                 char* pos = text;
