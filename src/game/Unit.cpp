@@ -59,6 +59,7 @@
 #include "CreatureLinkingMgr.h"
 #ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#include "ElunaEventMgr.h"
 #endif /* ENABLE_ELUNA */
 
 #include <math.h>
@@ -321,7 +322,9 @@ void Unit::Update(uint32 update_diff, uint32 p_time)
     }else
     m_AurasCheck -= p_time;*/
 
-    elunaEvents.Update(update_diff);
+#ifdef ENABLE_ELUNA
+    elunaEvents->Update(update_diff);
+#endif /* ENABLE_ELUNA */
 
     // WARNING! Order of execution here is important, do not change.
     // Spells must be processed with event system BEFORE they go to _UpdateSpells.
