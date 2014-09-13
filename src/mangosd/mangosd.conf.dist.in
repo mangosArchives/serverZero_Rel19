@@ -1246,6 +1246,15 @@ Visibility.AIRelocationNotifyDelay = 1000
 #        Mining Rates (Mining.Amount changes minimum/maximum usetimes of a deposit,
 #        Mining.Next changes chance to have next use of a deposit)
 #
+#    Rate.Mining.Rare
+#        Spawn percentage of rare mineral nodes
+#    Autopooling.Mining.Enable
+#        Increases server startup can be disabled for testing purposes when fast server restart is demanded
+#        0 = Disabled (default)
+#        1 = Enabled
+#    Rate.Mining.Autopooling
+#        Percentage of spawned mining nodes per zone
+#
 #    Rate.Talent
 #        Talent Point rates
 #        Default: 1
@@ -1374,6 +1383,9 @@ Auction.Deposit.Min               = 0
 Rate.Honor                        = 1
 Rate.Mining.Amount                = 1
 Rate.Mining.Next                  = 1
+Rate.Mining.Rare                  = 20
+Autopooling.Mining.Enable         = 0
+Rate.Mining.Autopooling           = 90
 Rate.Talent                       = 1
 Rate.Reputation.Gain              = 1
 Rate.Reputation.LowLevel.Kill     = 0.2

@@ -108,6 +108,15 @@ void Object::_Create(uint32 guidlow, uint32 entry, HighGuid guidhigh)
     m_PackGUID.Set(guid);
 }
 
+void Object::_ReCreate(uint32 entry)
+{
+    if (!m_uint32Values)
+        { _InitValues(); }
+
+    SetUInt32Value(OBJECT_FIELD_TYPE, m_objectType);
+    SetUInt32Value(OBJECT_FIELD_ENTRY, entry);
+}
+
 void Object::SetObjectScale(float newScale)
 {
     SetFloatValue(OBJECT_FIELD_SCALE_X, newScale);
