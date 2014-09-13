@@ -1032,6 +1032,118 @@ void PoolManager::LoadFromDB()
             }
         }
     }
+    if (sWorld.getConfig(CONFIG_BOOL_AUTOPOOLING_MINING_ENABLE))
+    {
+
+        // autocreate mining pools
+        mPoolTemplate.resize(max_pool_id + 3486 + 533);  //values are hardcoded for max zoneID and max MapID it would be better to read max IDs from the .dbc files
+        mPoolCreatureGroups.resize(max_pool_id + 3486 + 533);
+        mPoolGameobjectGroups.resize(max_pool_id + 3486 + 533);
+        mPoolPoolGroups.resize(max_pool_id + 3486 + 533);
+
+        uint32 max_autopool_entry = (max_pool_id + 3486 + 533);
+        for (uint16 pool_entry = max_pool_id + 1; pool_entry < max_autopool_entry; ++pool_entry)
+        {
+                PoolTemplateData& pPoolTemplate = mPoolTemplate[pool_entry];
+                pPoolTemplate.MaxLimit = 0;
+                pPoolTemplate.description = "autopool" ;
+                pPoolTemplate.AutoSpawn = true;          // will update and later data loading
+        }
+
+        count = 0;
+
+        //                                                0               1   2    3           4              5
+        result = WorldDatabase.Query("SELECT gameobject.guid, gameobject.id, map, position_x, position_y, position_z,"
+                                                       //   6                          7
+                              "pool_gameobject.pool_entry, pool_gameobject_template.pool_entry "
+                              "FROM gameobject "
+                              "LEFT OUTER JOIN pool_gameobject ON gameobject.guid = pool_gameobject.guid "
+                              "LEFT OUTER JOIN pool_gameobject_template ON gameobject.id = pool_gameobject_template.id");
+
+        if (!result)
+        {
+            BarGoLink bar3(1);
+
+            bar3.step();
+
+            sLog.outString();
+            sLog.outErrorDb(">> Loaded 0 gameobjects. DB table `gameobject` is empty.");
+            return;
+        }
+
+        BarGoLink bar3(result->GetRowCount());
+
+        do
+        {
+            Field* fields = result->Fetch();
+            bar3.step();
+
+            uint32 guid         = fields[ 0].GetUInt32();
+            uint32 entry        = fields[ 1].GetUInt32();
+            uint32 map          = fields[ 2].GetUInt32();
+            float posX          = fields[ 3].GetFloat();
+            float posY          = fields[ 4].GetFloat();
+            float posZ          = fields[ 5].GetFloat();
+
+            int16 GuidPoolId    = fields[6].GetInt16();
+            int16 EntryPoolId   = fields[7].GetInt16();
+
+            if (GuidPoolId != 0 || EntryPoolId != 0) // if not this is in the pool system already
+                { continue; }
+
+            GameObjectInfo const* goinfo = ObjectMgr::GetGameObjectInfo(entry);
+            if (goinfo->type != GAMEOBJECT_TYPE_CHEST)
+                { continue; }
+
+            if (goinfo->chest.minSuccessOpens != 0 && goinfo->chest.maxSuccessOpens > goinfo->chest.minSuccessOpens) //in this case it is a mineral vein
+            {
+            uint32 zone_id;
+            uint16 pool_id;
+            if (map == 0 || map == 1)
+            {
+                zone_id = sTerrainMgr.LoadTerrain(map)->GetZoneId(posX, posY, posZ);
+                pool_id = zone_id + max_pool_id;
+            }
+            else
+            {
+                zone_id = map;
+                pool_id = zone_id + max_pool_id + 3486; //3486 zero value for maxzoneID
+            }
+
+            PoolTemplateData* pPoolTemplate = &mPoolTemplate[pool_id];
+
+            PoolObject plObject = PoolObject(guid, 0);
+            PoolGroup<GameObject>& gogroup = mPoolGameobjectGroups[pool_id];
+            gogroup.SetPoolId(pool_id);
+            gogroup.AddEntry(plObject, 0);
+            SearchPair p(guid, pool_id);
+            mGameobjectSearchMap.insert(p);
+        
+            if (!mapChecker.CheckAndRemember(map, pool_id, "pool_gameobject", "gameobject guid"))
+                { continue; }        
+
+            ++count;
+
+            //sLog.outErrorDb("UPDATE gameobject SET zone_id=%u, area_id=%u WHERE guid=%u;", zoneId, areaId, guid);
+
+            }
+        }
+        while (result->NextRow());
+
+        for (uint16 pool_entry = max_pool_id + 1; pool_entry < max_autopool_entry; ++pool_entry)
+        {
+            uint32 poolsize;
+            PoolTemplateData& pPoolTemplate = mPoolTemplate[pool_entry];
+            PoolGroup<GameObject>& gogroup = mPoolGameobjectGroups[pool_entry];
+            poolsize = gogroup.size();
+            pPoolTemplate.MaxLimit = (poolsize  * CONFIG_UINT32_RATE_MINING_AUTOPOOLING) / 100;
+        }
+
+        delete result;
+
+        sLog.outString();
+        sLog.outString(">> Loaded %u mining nodes", count);
+        }
 }
 
 // The initialize method will spawn all pools not in an event and not in another pool

@@ -77,6 +77,9 @@ class Map;
 class UpdateMask;
 class InstanceData;
 class TerrainInfo;
+#ifdef ENABLE_ELUNA
+class ElunaEventProcessor;
+#endif /* ENABLE_ELUNA */
 struct MangosStringLocale;
 
 typedef UNORDERED_MAP<Player*, UpdateData> UpdateDataMapType;
@@ -150,6 +153,7 @@ class MANGOS_DLL_SPEC Object
         uint32 GetGUIDLow() const { return GetObjectGuid().GetCounter(); }
         PackedGuid const& GetPackGUID() const { return m_PackGUID; }
         std::string GetGuidStr() const { return GetObjectGuid().GetString(); }
+        uint32 GetRealEntry() const { return GetObjectGuid().GetEntry(); } //returns the db entry needed for mineral spawn system
 
         uint32 GetEntry() const { return GetUInt32Value(OBJECT_FIELD_ENTRY); }
         void SetEntry(uint32 entry) { SetUInt32Value(OBJECT_FIELD_ENTRY, entry); }
@@ -393,6 +397,7 @@ class MANGOS_DLL_SPEC Object
 
         virtual bool HasQuest(uint32 /* quest_id */) const { return false; }
         virtual bool HasInvolvedQuest(uint32 /* quest_id */) const { return false; }
+        void _ReCreate(uint32 entry);
 
     protected:
         Object();
@@ -472,7 +477,7 @@ class MANGOS_DLL_SPEC WorldObject : public Object
 
         virtual ~WorldObject();
 
-        virtual void Update(uint32 /*update_diff*/, uint32 /*time_diff*/) {}
+        virtual void Update(uint32 update_diff, uint32 /*time_diff*/);
 
         void _Create(uint32 guidlow, HighGuid guidhigh);
 
@@ -635,7 +640,11 @@ class MANGOS_DLL_SPEC WorldObject : public Object
         // ASSERT print helper
         bool PrintCoordinatesError(float x, float y, float z, char const* descr) const;
 
-        virtual void StartGroupLoot(Group* /*group*/, uint32 /*timer*/) {}
+        virtual void StartGroupLoot(Group* /*group*/, uint32 /*timer*/) { }
+
+#ifdef ENABLE_ELUNA
+        ElunaEventProcessor* const elunaEvents;
+#endif /* ENABLE_ELUNA */
 
     protected:
         explicit WorldObject();

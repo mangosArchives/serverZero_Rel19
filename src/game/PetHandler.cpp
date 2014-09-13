@@ -91,11 +91,12 @@ void WorldSession::HandlePetAction(WorldPacket& recv_data)
             switch (spellid)
             {
                 case COMMAND_STAY:                          // flat=1792  // STAY
-                    pet->clearUnitState(UNIT_STAT_MOVING);
                     pet->StopMoving();
                     pet->GetMotionMaster()->Clear(false);
                     pet->GetMotionMaster()->MoveIdle();
                     charmInfo->SetCommandState(COMMAND_STAY);
+                    if (pet->getVictim())
+                        { pet->AttackStop(); }
                     break;
                 case COMMAND_FOLLOW:                        // spellid=1792  // FOLLOW
                     pet->AttackStop();

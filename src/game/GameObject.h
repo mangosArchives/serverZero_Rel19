@@ -637,6 +637,9 @@ class MANGOS_DLL_SPEC GameObject : public WorldObject
 
         void Use(Unit* user);
 
+        void RollIfMineralVein();
+        uint32 RollMineralVein(uint32 entry);
+
         LootState getLootState() const { return m_lootState; }
         void SetLootState(LootState s);
 
@@ -697,9 +700,6 @@ class MANGOS_DLL_SPEC GameObject : public WorldObject
         GridReference<GameObject>& GetGridRef() { return m_gridRef; }
 
         GameObjectModel* m_model;
-
-        // Event handler
-        EventProcessor m_Events;
 
     protected:
         uint32      m_spellId;

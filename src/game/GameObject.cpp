@@ -142,10 +142,6 @@ void GameObject::RemoveFromWorld()
 
 void GameObject::CleanupsBeforeDelete()
 {
-    if (m_uint32Values)
-    {
-        m_Events.KillAllEvents(false);
-    }
     WorldObject::CleanupsBeforeDelete();
 }
 
@@ -209,6 +205,9 @@ bool GameObject::Create(uint32 guidlow, uint32 name_id, Map* map, float x, float
         case GAMEOBJECT_TYPE_FISHINGNODE:
             m_lootState = GO_NOT_READY;                     // Initialize Traps and Fishingnode delayed in ::Update
             break;
+        case GAMEOBJECT_TYPE_CHEST:
+            RollIfMineralVein();
+            break;
     }
 
     // Used by Eluna
@@ -239,10 +238,9 @@ void GameObject::Update(uint32 update_diff, uint32 p_time)
         return;
     }
 
-    m_Events.Update(p_time);
     // Used by Eluna
 #ifdef ENABLE_ELUNA
-    sEluna->UpdateAI(this, p_time);
+    sEluna->UpdateAI(this, update_diff);
 #endif /* ENABLE_ELUNA */
 
     switch (m_lootState)
@@ -544,6 +542,9 @@ void GameObject::Update(uint32 update_diff, uint32 p_time)
             // can be not in world at pool despawn
             if (IsInWorld())
                 { UpdateObjectVisibility(); }
+
+            if (GetGoType() == GAMEOBJECT_TYPE_CHEST)
+                { RollIfMineralVein(); }
 
             break;
         }
@@ -1776,6 +1777,80 @@ bool GameObject::IsFriendlyTo(Unit const* unit) const
 
     // common faction based case (GvC,GvP)
     return tester_faction->IsFriendlyTo(*target_faction);
+}
+
+void GameObject::RollIfMineralVein()
+{
+    GameObjectInfo const* goinfo = ObjectMgr::GetGameObjectInfo(GetEntry());
+    if (goinfo->chest.minSuccessOpens != 0 && goinfo->chest.maxSuccessOpens > goinfo->chest.minSuccessOpens) //in this case it is a mineral vein
+    {
+        uint32 entrynew;
+        entrynew = RollMineralVein(GetRealEntry());
+
+        uint32 guid = GetObjectGuid();
+
+        GameObjectInfo const* goinfonew = ObjectMgr::GetGameObjectInfo(entrynew);
+        m_goInfo = goinfonew;
+
+        SetDisplayId(goinfonew->displayId);
+
+        Object::_ReCreate(entrynew);
+    }
+}
+
+uint32 GameObject::RollMineralVein(uint32 entry)      //Maybe incedicite bloodstone and indurium have alternate spawns?
+{
+    uint32 entrynew;
+    switch (entry)
+    {
+        case 1732: // Tin can spawn Silver
+            if (urand (0, 100) < sWorld.getConfig(CONFIG_UINT32_RATE_MINING_RARE))
+                entrynew = 1733;
+                break;
+        case 1735: // Iron can spawn Gold
+            if (urand (0, 100) < sWorld.getConfig(CONFIG_UINT32_RATE_MINING_RARE))
+                entrynew = 1734;
+                break;
+        case 73939: // Ooze covered iron can spawn ooze covered gold
+            if (urand (0, 100) < sWorld.getConfig(CONFIG_UINT32_RATE_MINING_RARE))
+                entrynew = 73941;
+                break;
+        case 2040: // Mithril can spawn Truesilver
+            if (urand (0, 100) < sWorld.getConfig(CONFIG_UINT32_RATE_MINING_RARE))
+            {
+                entrynew = 2047; 
+                if ((GetZoneId() == 46) || (GetZoneId() == 51)) // roll for darkiron spawn in burning steppes and searing gorge
+                    {
+                        if (urand (0,3) < 1)
+                            entrynew = 165658;
+                    }
+             }
+                break;
+        case 123310: // Ooze covered mithril can spawn ooze covered truesilver
+            if (urand (0, 100) < sWorld.getConfig(CONFIG_UINT32_RATE_MINING_RARE))
+                entrynew = 123309;
+                break;
+        case 324: // small thorium Vein can spawn Truesilver
+            if (urand (0, 100) < sWorld.getConfig(CONFIG_UINT32_RATE_MINING_RARE))
+                entrynew = 2047;
+                break;
+        case 123848: // ooze covered thorium Vein can spawn ooze covered truesilver
+            if (urand (0, 100) < sWorld.getConfig(CONFIG_UINT32_RATE_MINING_RARE))
+                entrynew = 123309;
+                break;
+        case 175404: // Rich thorium Vein can spawn truesilver
+            if (urand (0, 100) < sWorld.getConfig(CONFIG_UINT32_RATE_MINING_RARE))
+                entrynew = 2047;
+                break;
+        case 177388: // ooze covered Rich thorium Vein can spawn ooze covered truesilver
+            if (urand (0, 100) < sWorld.getConfig(CONFIG_UINT32_RATE_MINING_RARE))
+                entrynew = 123309;
+                break;
+
+        default: //default case for copper or not listet special veins
+            entrynew = entry;
+    }   
+        return entrynew;
 }
 
 void GameObject::SetLootState(LootState state)
