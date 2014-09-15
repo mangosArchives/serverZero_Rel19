@@ -270,7 +270,7 @@ BattleGround::BattleGround()
 BattleGround::~BattleGround()
 {
 #ifdef ENABLE_ELUNA
-    sEluna->OnBGDestroy(this, GetTypeID(), GetInstanceID());
+    // sEluna->OnBGDestroy(this, GetTypeID(), GetInstanceID());
 #endif /* ENABLE_ELUNA */
 
     // remove objects and creatures
