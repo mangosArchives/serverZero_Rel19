@@ -863,7 +863,6 @@ void World::LoadConfigSettings(bool reload)
 
     setConfig(CONFIG_BOOL_ELUNA_ENABLED, "Eluna.Enabled", true);
 
-    ///- Used by Eluna
 #ifdef ENABLE_ELUNA
     if (reload)
         sEluna->OnConfigLoad(reload);
@@ -952,6 +951,17 @@ void World::SetInitialWorldSettings()
     ///- Init highest guids before any guid using table loading to prevent using not initialized guids in some code.
     sObjectMgr.SetHighestGuids();                           // must be after packing instances
     sLog.outString();
+
+#ifdef ENABLE_ELUNA
+    ///- Initialize Lua Engine
+    sLog.outString("Initialize Eluna Lua Engine...");
+    Eluna::Initialize();
+#else /* ENABLE_ELUNA */
+    if (sConfig.GetBoolDefault("Eluna.Enabled", false))
+    {
+        sLog.outError("Eluna is enabled but wasn't included during compilation, not activating it.");
+    }
+#endif /* ENABLE_ELUNA */
 
     sLog.outString("Loading Page Texts...");
     sObjectMgr.LoadPageTexts();
@@ -1275,18 +1285,6 @@ void World::SetInitialWorldSettings()
     sLog.outError("SD2 is enabled but wasn't included during compilation, not activating it.");
 #endif /* ENABLE_SD2 */
 
-#ifdef ENABLE_ELUNA
-    ///- Initialize Lua Engine
-    sLog.outString("Initialize Eluna Lua Engine...");
-    Eluna::Initialize();
-    sEluna->OnConfigLoad(false); // Must be done after Eluna is initialized.
-#else /* ENABLE_ELUNA */
-    if (sConfig.GetBoolDefault("Eluna.Enabled", false))
-    {
-        sLog.outError("Eluna is enabled but wasn't included during compilation, not activating it.");
-    }
-#endif /* ENABLE_ELUNA */
-
     ///- Initialize game time and timers
     sLog.outString("DEBUG:: Initialize game time and timers");
     m_gameTime = time(NULL);
@@ -1359,6 +1357,13 @@ void World::SetInitialWorldSettings()
 
     sLog.outString("Initialize AuctionHouseBot...");
     sAuctionBot.Initialize();
+
+#ifdef ENABLE_ELUNA
+    ///- Run eluna scripts.
+    // in multithread foreach: run scripts
+    sEluna->RunScripts();
+    sEluna->OnConfigLoad(false); // Must be done after Eluna is initialized and scripts have run.
+#endif
 
     sLog.outString("WORLD: World initialized");
 
