@@ -12174,9 +12174,23 @@ void Player::RewardQuest(Quest const* pQuest, uint32 reward, Object* questGiver,
     switch (questGiver->GetTypeId())
     {
         case TYPEID_UNIT:
+#ifdef ENABLE_ELUNA
+            if (sEluna->OnQuestReward(this, (Creature*)questGiver, pQuest, reward))
+            {
+                handled = true;
+                break;
+            }
+#endif /* ENABLE_ELUNA */
             handled = sScriptMgr.OnQuestRewarded(this, (Creature*)questGiver, pQuest);
             break;
         case TYPEID_GAMEOBJECT:
+#ifdef ENABLE_ELUNA
+            if (sEluna->OnQuestReward(this, (GameObject*)questGiver, pQuest, reward))
+            {
+                handled = true;
+                break;
+            }
+#endif /* ENABLE_ELUNA */
             handled = sScriptMgr.OnQuestRewarded(this, (GameObject*)questGiver, pQuest);
             break;
     }
@@ -13193,16 +13207,6 @@ void Player::SendQuestReward(Quest const* pQuest, uint32 XP, Object* questGiver)
             { data << uint32(0) << uint32(0); }
     }
     GetSession()->SendPacket(&data);
-
-    // Used by Eluna
-#ifdef ENABLE_ELUNA
-    if (Creature* pCreature = questGiver->ToCreature())
-        sEluna->OnQuestComplete(pPlayer, pCreature, pQuest);
-
-    // Used by Eluna
-    if (GameObject* pGameObject = questGiver->ToGameObject())
-        sEluna->OnQuestComplete(pPlayer, pGameObject, pQuest);
-#endif /* ENABLE_ELUNA */
 }
 
 void Player::SendQuestFailed(uint32 quest_id)
