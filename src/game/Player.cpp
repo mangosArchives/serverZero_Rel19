@@ -13960,77 +13960,93 @@ bool Player::isAllowedToLoot(Creature* creature)
                 { return false; } // We're not in a group, probably cheater
 
             /* We're in a group, get the loot type */
-            if (LootMethod loot_type = plr_group->GetLootMethod())
+			switch (plr_group->GetLootMethod())
             {
-                switch (loot_type)
-                {
-                        /* Free for all, let everyone loot it */
-                    case FREE_FOR_ALL:
-                        return true;
+				/* Free for all, let everyone loot it */
+                case FREE_FOR_ALL:
+					return true;
 
-                        /* Returns true for master looter, otherwise falls through to checks below */
-                    case MASTER_LOOT:
-                        /* Validate the group's looter's ObjectGuid against our own */
-                        if (plr_group->GetLooterGuid() == GetObjectGuid())
-                            { return true; }
+                /* Returns true for master looter, otherwise falls through to checks below */
+                case MASTER_LOOT:
+					/* Validate the group's looter's ObjectGuid against our own */
+                    return (plr_group->GetLooterGuid() == GetObjectGuid());
 
-                        /* These 3 systems all use the same kind of check to display loot,
-                           which is what we're doing here. Threshold checks are done elsewhere. */
-                    case GROUP_LOOT:
-                    case ROUND_ROBIN:
-                    case NEED_BEFORE_GREED:
-                        /* This is set to true after the looter (chosen below) has closed their loot window
-                         * If this is true, allow everyone else in the group to loot the corpse */
-                        if (creature->hasBeenLootedOnce)
-                            { return true; }
-                        /* If the assigned looter's GUID is equal to ours */
-                        else if (creature->assignedLooter == GetGUIDLow())
-                            { return true; }
-                        /* If the creature already has an assigned looter and that looter isn't us */
-                        else if (creature->assignedLooter != 0)
-                            { return false; }
+                /* These 3 systems all use the same kind of check to display loot,
+					which is what we're doing here. Threshold checks are done elsewhere. */
+                case GROUP_LOOT:
+                case ROUND_ROBIN:
+                case NEED_BEFORE_GREED:
+				{
+					uint32 loot_id = creature->GetCreatureInfo()->LootId;
 
-                        /* If we've reached here, there is only one exclusive, undecided looter */
+					/* Checking there's some loot defined. */
+					bool hasLoot = loot_id;
+					/* Checking if the creature may drop any quest loot for us. */
+					bool hasSharedLoot = LootTemplates_Creature.HaveSharedQuestLootForPlayer(loot_id, this);
+					/* Checking if there's any starting quest item available for this player. */
+					bool hasStartingQuestLoot = LootTemplates_Creature.HaveStartingQuestLootForPlayer(loot_id,  this);
 
-                        /* This is the player that will be given permission to loot */
-                        Player* final_looter = recipient;
+					/* If the player has joined the group after the creature has been killed, doesn't show up. */
+					if(creature->GetKilledTime() < plr_group->GetMemberSlotJoinedTime(GetObjectGuid()))
+						{ return false; }
+					/* If there's no loot, we return false. */
+					else if(!hasLoot)
+						{ return false; }
+					/* This is set to true after the looter (chosen below) has closed their loot window
+                    * If this is true, allow everyone else in the group to loot the corpse */
+                    else if (creature->hasBeenLootedOnce)
+						{ return true; }
+                    /* If the assigned looter's GUID is equal to ours */
+					else if (creature->assignedLooter == GetGUIDLow())
+						{ return true; }
+                    /* If the creature already has an assigned looter and that looter isn't us */					
+					else if (creature->assignedLooter != 0 && !hasSharedLoot && !hasStartingQuestLoot)
+						{ return false; }
 
-                        /* Iterate through the valid party members */
-                        Group::MemberSlotList slots = plr_group->GetMemberSlots();
-                        for (Group::MemberSlotList::iterator itr = slots.begin(); itr != slots.end(); ++itr)
+                    /* If we've reached here, there is only one exclusive, undecided looter */
+
+                    /* This is the player that will be given permission to loot */
+                    Player* final_looter = recipient;
+					
+					/* Iterate through the valid party members */
+					Group::MemberSlotList slots = plr_group->GetMemberSlots();
+					
+					for (Group::MemberSlotList::iterator itr = slots.begin(); itr != slots.end(); ++itr)
+                    {
+						/* Get the player data */
+                        if (Player* grp_plr = sObjectMgr.GetPlayer(itr->guid))
                         {
-                            /* Get the player data */
-                            if (Player* grp_plr = sObjectMgr.GetPlayer(itr->guid))
-                            {
-                                /* Player is disconnected */
-                                if (!grp_plr->IsInWorld())
-                                    { continue; }
+							/* Player is disconnected */
+                            if (!grp_plr->IsInWorld())
+								{ continue; }
 
-                                /* Check if the last time the player looted is less than the current final looter
-                                 * If the value is lower, it means it happened longer ago */
-                                if (final_looter->lastTimeLooted > grp_plr->lastTimeLooted)
-                                    { final_looter = grp_plr; }
-                            }
+							/* Player is too far from the creature. */
+							if(!grp_plr->IsWithinDist(creature, sWorld.getConfig(CONFIG_FLOAT_GROUP_XP_DISTANCE), false))
+								{ continue; }
+
+                            /* Check if the last time the player looted is less than the current final looter
+                             * If the value is lower, it means it happened longer ago */
+                            if (final_looter->lastTimeLooted > grp_plr->lastTimeLooted)
+								{ final_looter = grp_plr; }
                         }
+					}
 
-                        /* We have our looter, update their loot time */
-                        final_looter->lastTimeLooted = time(NULL);
-
-                        /* Update the creature with the looter that has been assigned to them */
-                        creature->assignedLooter = final_looter->GetGUIDLow();
-
-                        /* Finally, return if we are the assigned looter */
-                        uint32 flguid = final_looter->GetGUIDLow();
-                        uint32 myguid = GetGUIDLow();
-                        bool is_same = (flguid == myguid);
-                        return is_same;
-
-                        break;
-                        /* End of switch statement */
-                }
-            }
-            else
-                { return false; } // Something went wrong, avoid crash
+                    /* We have our looter, update their loot time */
+                    final_looter->lastTimeLooted = time(NULL);
+					
+					/* Update the creature with the looter that has been assigned to them */
+					creature->assignedLooter = final_looter->GetGUIDLow();
+					final_looter->GetGroup()->SetLooterGuid(final_looter->GetGUID());
+					
+					/* Finally, return if we are the assigned looter */
+					return (final_looter->GetGUIDLow() == GetGUIDLow() || hasSharedLoot || hasStartingQuestLoot);
+                    /* End of switch statement */
+				}
+				default:
+					// Something went wrong, avoid crash
+					
+					return false;
+			}
         }
         /* We're not in a group, check to make sure we're the recipient (prevent cheaters) */
         else if (recipient == this)

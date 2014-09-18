@@ -154,6 +154,7 @@ Creature::Creature(CreatureSubtype subtype) : Unit(),
     hasBeenLootedOnce = false;
     assignedLooter = 0;
 
+	m_killedTime = 0;
     m_regenTimer = 200;
     m_valuesCount = UNIT_END;
 
@@ -231,6 +232,16 @@ void Creature::RemoveCorpse()
     StopGroupLoot();
 
     loot.clear();
+
+	/* Loot data */
+	m_killedTime = 0;
+    hasBeenLootedOnce = false;
+    assignedLooter = 0;
+	m_lootGroupRecipientId = 0;
+	m_lootRecipientGuid.Clear();
+
+	RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_TAPPED);
+
     uint32 respawnDelay = 0;
 
     if (AI())
@@ -1049,7 +1060,6 @@ void Creature::SetLootRecipient(Unit* unit)
     {
         m_lootRecipientGuid.Clear();
         m_lootGroupRecipientId = 0;
-        RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_TAPPED);
         return;
     }
 
@@ -1064,7 +1074,7 @@ void Creature::SetLootRecipient(Unit* unit)
     if (Group* group = player->GetGroup())
         { m_lootGroupRecipientId = group->GetId(); }
 
-    SetFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_TAPPED);
+	SetFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_TAPPED);
 }
 
 void Creature::SaveToDB()
@@ -1623,9 +1633,8 @@ void Creature::SetDeathState(DeathState s)
 
         SetMeleeDamageSchool(SpellSchools(GetCreatureInfo()->DamageSchool));
 
-        // Dynamic flags may be adjusted by spells. Clear them
-        // first and let spell from *addon apply where needed.
-        SetUInt32Value(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_NONE);
+        // Dynamic flags must be set on Tapped by default.
+		SetUInt32Value(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_NONE);
         LoadCreatureAddon(true);
 
         // Flags after LoadCreatureAddon. Any spell in *addon
