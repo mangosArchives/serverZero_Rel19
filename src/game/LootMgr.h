@@ -162,6 +162,24 @@ class LootStore
         bool HaveQuestLootFor(uint32 loot_id) const;
         bool HaveQuestLootForPlayer(uint32 loot_id, Player* player) const;
 
+		/**
+		* function which indicates whether there's at least one shared quest item dropped for a given player
+		*
+		* \param loot_id uint32 indicating the loot template id.
+		* \param player Player const* to the player that needs to get loot or not.
+		* \return bool if there's at least one Shared Quest Loot available.
+		*/
+		bool HaveSharedQuestLootForPlayer(uint32 loot_id, Player* player) const;
+
+		/**
+		* function which indicates whether there's at least one starting quest item dropped for a given player
+		*
+		* \param loot_id uint32 indicating the loot template id.
+		* \param player Player const* to the player that needs to get loot or not.
+		* \return bool if there's at least one Starting Quest Loot available.
+		*/
+		bool HaveStartingQuestLootForPlayer(uint32 loot_id, Player* player) const;
+
         LootTemplate const* GetLootFor(uint32 loot_id) const;
 
         char const* GetName() const { return m_name; }
@@ -192,6 +210,26 @@ class LootTemplate
         bool HasQuestDrop(LootTemplateMap const& store, uint8 GroupId = 0) const;
         // True if template includes at least 1 quest drop for an active quest of the player
         bool HasQuestDropForPlayer(LootTemplateMap const& store, Player const* player, uint8 GroupId = 0) const;
+
+		/**
+		* function which indicates whether there's at least one shared quest item dropped for a given player
+		*
+		* \param store LootTemplateMap const& which provides the source store of items drop.
+		* \param player Player const* to the player that needs to get loot or not.
+		* \param GroupId uint8 indicates the GroupId for the given LootTemplate (see database).
+		* \return bool if there's at least one Shared Quest Loot available.
+		*/
+		bool HasSharedQuestDropForPlayer(LootTemplateMap const& store, Player const* player, uint8 GroupId = 0) const;
+
+		/**
+		* function which indicates whether there's at least one starting quest item dropped for a given player
+		*
+		* \param store LootTemplateMap const& which provides the source store of items drop.
+		* \param player Player const* to the player that needs to get loot or not.
+		* \param GroupId uint8 indicates the GroupId for the given LootTemplate (see database).
+		* \return bool if there's at least one starting Quest Loot available.
+		*/
+		bool HasStartingQuestDropForPlayer(LootTemplateMap const& store, Player const* player, uint8 GroupId = 0) const;
 
         // Checks integrity of the template
         void Verify(LootStore const& store, uint32 Id) const;

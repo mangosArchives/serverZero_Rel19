@@ -164,12 +164,22 @@ struct InstanceGroupBind
 class MANGOS_DLL_SPEC Group
 {
     public:
+		/**
+		* Struct MemberSlot
+		* Represent a member of a group with some of its caracteristics
+		*/
         struct MemberSlot
         {
+			/* GUID of the player. */
             ObjectGuid  guid;
+			/* Name of the player. */
             std::string name;
+			/* Group of the player. */
             uint8       group;
+			/* Indicates whether the player is assistant. */
             bool        assistant;
+			/* The time when the player has joined the group. */
+			time_t		joinTime;
         };
         typedef std::list<MemberSlot> MemberSlotList;
         typedef MemberSlotList::const_iterator member_citerator;
@@ -303,6 +313,24 @@ class MANGOS_DLL_SPEC Group
         {
             return m_memberSlots.size();
         }
+		/**
+		* Returns the joined time of a member if it exist.
+		* \param guid GUID of the player to look for.
+		* \return time_t representing the joined time for that player or NULL if it doesn't exist.
+		*/
+		time_t const& GetMemberSlotJoinedTime(ObjectGuid guid)
+		{
+			member_citerator mslot = _getMemberCSlot(guid);
+			if(mslot == m_memberSlots.end())
+				{ return NULL; }
+
+			return mslot->joinTime;
+		}
+
+        MemberSlotList const& GetMemberSlots() const { return m_memberSlots; }
+        GroupReference* GetFirstMember() { return m_memberMgr.getFirst(); }
+        GroupReference const* GetFirstMember() const { return m_memberMgr.getFirst(); }
+        uint32 GetMembersCount() const { return m_memberSlots.size(); }
         void GetDataForXPAtKill(Unit const* victim, uint32& count, uint32& sum_level, Player*& member_with_max_level, Player*& not_gray_member_with_max_level, Player* additional = NULL);
         uint8 GetMemberGroup(ObjectGuid guid) const
         {

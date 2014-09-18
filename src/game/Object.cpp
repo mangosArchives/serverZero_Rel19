@@ -462,9 +462,6 @@ void Object::BuildValuesUpdate(uint8 updatetype, ByteBuffer* data, UpdateMask* u
                     /* If the creature has tapped flag but is tapped by us, remove the flag */
                     if (send_value & UNIT_DYNFLAG_TAPPED && is_tapped)
                         { send_value = send_value & ~UNIT_DYNFLAG_TAPPED; }
-                    /* If creature does not have tapped flag but is not tapped by us, set the flag */
-                    else if (!(send_value & UNIT_DYNFLAG_TAPPED) && !is_tapped)
-                        { send_value = send_value | UNIT_DYNFLAG_TAPPED; }
 
                     *data << send_value;
                 }
@@ -713,6 +710,14 @@ void Object::ApplyModPositiveFloatValue(uint16 index, float  val, bool apply)
     if (cur < 0)
         { cur = 0; }
     SetFloatValue(index, cur);
+}
+
+void Object::MarkFlagUpdateForClient(uint16 index)
+{
+	MANGOS_ASSERT(index < m_valuesCount || PrintIndexError(index, true));
+
+	m_changedValues[index] = true;
+	MarkForClientUpdate();
 }
 
 void Object::SetFlag(uint16 index, uint32 newFlag)

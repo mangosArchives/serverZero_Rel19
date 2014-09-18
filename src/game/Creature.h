@@ -635,18 +635,58 @@ class MANGOS_DLL_SPEC Creature : public Unit
         virtual void DeleteFromDB();                        // overwrited in Pet
         static void DeleteFromDB(uint32 lowguid, CreatureData const* data);
 
+		/// Represent the loots available on the creature.
         Loot loot;
+
+		/// Indicates whether the creature has has been pickpocked.
         bool lootForPickPocketed;
+
+		/// Indicates whether the creature has been checked.
         bool lootForBody;
+
+		/// Indicates whether the creature has been skinned.
         bool lootForSkin;
 
+		/**
+		* Method preparing the creature for the loot state. Based on the previous loot state, the loot ID provided in the database and the creature's type,
+		* this method updates the state of the creature for loots.
+		*
+		* At the end of this method, the creature loot state may be:
+		* Lootable: UNIT_DYNFLAG_LOOTABLE
+		* Skinnable: UNIT_FLAG_SKINNABLE
+		* Not lootable: No flag
+		*/
         void PrepareBodyLootState();
+
+		/**
+		* function returning the GUID of the loot recipient (a player GUID).
+		*
+		* \return ObjectGuid Player GUID.
+		*/
         ObjectGuid GetLootRecipientGuid() const { return m_lootRecipientGuid; }
+
+		/**
+		* function returning the group recipient ID.
+		*
+		* \return uint32 Group ID.
+		*/
         uint32 GetLootGroupRecipientId() const { return m_lootGroupRecipientId; }
         Player* GetLootRecipient() const;                   // use group cases as prefered
         Group* GetGroupLootRecipient() const;
         bool IsTappedBy(Player const* player) const;
-        bool HasLootRecipient() const { return m_lootGroupRecipientId || m_lootRecipientGuid; }
+
+		/**
+		* function indicating whether the whether the creature has a looter recipient defined (either a group ID, either a player GUID).
+		*
+		* \return boolean true if the creature has a recipient defined, false otherwise.
+		*/
+		bool HasLootRecipient() const { return m_lootGroupRecipientId || m_lootRecipientGuid; }
+
+		/**
+		* function indicating whether the recipient is a group.
+		* 
+		* \return boolean true if the creature's recipient is a group, false otherwise.
+		*/
         bool IsGroupLootRecipient() const { return m_lootGroupRecipientId; }
         void SetLootRecipient(Unit* unit);
         void AllLootRemovedFromCorpse();
@@ -694,6 +734,16 @@ class MANGOS_DLL_SPEC Creature : public Unit
 
         uint32 GetRespawnDelay() const { return m_respawnDelay; }
         void SetRespawnDelay(uint32 delay) { m_respawnDelay = delay; }
+
+		/**
+		* Returns the time when the creature has been killed.
+		*/
+		time_t const& GetKilledTime() const { return m_killedTime; }
+
+		/**
+		* Set the time when the creature has been killed.
+		*/
+		void SetKilledTime(time_t time) { m_killedTime = time; }
 
         float GetRespawnRadius() const { return m_respawnradius; }
         void SetRespawnRadius(float dist) { m_respawnradius = dist; }
@@ -773,6 +823,8 @@ class MANGOS_DLL_SPEC Creature : public Unit
         uint32 m_corpseDelay;                               // (secs) delay between death and corpse disappearance
         uint32 m_aggroDelay;                                // (msecs)delay between respawn and aggro due to movement
         float m_respawnradius;
+
+		time_t m_killedTime;								// Exact time of the death.
 
         CreatureSubtype m_subtype;                          // set in Creatures subclasses for fast it detect without dynamic_cast use
         void RegeneratePower();
