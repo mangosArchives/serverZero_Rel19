@@ -297,22 +297,6 @@ class MANGOS_DLL_SPEC Group
 
         bool SameSubGroup(Player const* member1, Player const* member2) const;
 
-        MemberSlotList const& GetMemberSlots() const
-        {
-            return m_memberSlots;
-        }
-        GroupReference* GetFirstMember()
-        {
-            return m_memberMgr.getFirst();
-        }
-        GroupReference const* GetFirstMember() const
-        {
-            return m_memberMgr.getFirst();
-        }
-        uint32 GetMembersCount() const
-        {
-            return m_memberSlots.size();
-        }
 		/**
 		* Returns the joined time of a member if it exist.
 		* \param guid GUID of the player to look for.
