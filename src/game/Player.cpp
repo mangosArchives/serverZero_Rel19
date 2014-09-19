@@ -7428,17 +7428,29 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
                     {
                         if (group == GetGroup())
                         {
-                            if (group->GetLootMethod() == FREE_FOR_ALL)
-                                { permission = ALL_PERMISSION; }
-                            else if (group->GetLooterGuid() == GetObjectGuid())
-                            {
-                                if (group->GetLootMethod() == MASTER_LOOT)
-                                    { permission = MASTER_PERMISSION; }
-                                else
-                                    { permission = ALL_PERMISSION; }
-                            }
-                            else
-                                { permission = GROUP_PERMISSION; }
+							switch(group->GetLootMethod())
+							{
+								case FREE_FOR_ALL:
+								case ROUND_ROBIN:
+									permission = ALL_PERMISSION;
+									break;
+								case MASTER_LOOT:
+									if(group->GetLooterGuid() == GetObjectGuid())
+										{ permission = MASTER_PERMISSION; } 
+									else 
+										{ permission = (creature->hasBeenLootedOnce ? ALL_PERMISSION : GROUP_PERMISSION); }
+									break;
+								case GROUP_LOOT:
+								case NEED_BEFORE_GREED:
+									permission = GROUP_PERMISSION;
+									
+									if(loot->IsWinner(this))
+									{
+										permission = OWNER_PERMISSION;
+									}
+
+									break;
+							}
                         }
                         else
                             { permission = NONE_PERMISSION; }
@@ -13959,17 +13971,17 @@ bool Player::isAllowedToLoot(Creature* creature)
             else
                 { return false; } // We're not in a group, probably cheater
 
+			/* If the player has joined the group after the creature has been killed, doesn't show up. */
+			if(creature->GetKilledTime() < plr_group->GetMemberSlotJoinedTime(GetObjectGuid()))
+				{ return false; }
+
             /* We're in a group, get the loot type */
 			switch (plr_group->GetLootMethod())
             {
-				/* Free for all, let everyone loot it */
+				/* Free for all or Master Loot let everyone loot it */
+                case MASTER_LOOT:
                 case FREE_FOR_ALL:
 					return true;
-
-                /* Returns true for master looter, otherwise falls through to checks below */
-                case MASTER_LOOT:
-					/* Validate the group's looter's ObjectGuid against our own */
-                    return (plr_group->GetLooterGuid() == GetObjectGuid());
 
                 /* These 3 systems all use the same kind of check to display loot,
 					which is what we're doing here. Threshold checks are done elsewhere. */
@@ -13986,11 +13998,8 @@ bool Player::isAllowedToLoot(Creature* creature)
 					/* Checking if there's any starting quest item available for this player. */
 					bool hasStartingQuestLoot = LootTemplates_Creature.HaveStartingQuestLootForPlayer(loot_id,  this);
 
-					/* If the player has joined the group after the creature has been killed, doesn't show up. */
-					if(creature->GetKilledTime() < plr_group->GetMemberSlotJoinedTime(GetObjectGuid()))
-						{ return false; }
 					/* If there's no loot, we return false. */
-					else if(!hasLoot)
+					if(!hasLoot)
 						{ return false; }
 					/* This is set to true after the looter (chosen below) has closed their loot window
                     * If this is true, allow everyone else in the group to loot the corpse */

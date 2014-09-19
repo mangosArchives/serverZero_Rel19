@@ -4649,11 +4649,11 @@ bool ChatHandler::HandleServerShutDownCommand(char* args)
             return false;
         }
 
-        sWorld.ShutdownServ(time, SHUTDOWN_MASK_IDLE, exitCode);
+		sWorld.ShutdownServ(time, SHUTDOWN_MASK_STOP, exitCode);
     }
     else
     {
-        sWorld.ShutdownServ(time, SHUTDOWN_MASK_IDLE, SHUTDOWN_EXIT_CODE);
+        sWorld.ShutdownServ(time, SHUTDOWN_MASK_STOP, SHUTDOWN_EXIT_CODE);
     }
 
     return true;
@@ -4739,11 +4739,11 @@ bool ChatHandler::HandleServerIdleRestartCommand(char* args)
             return false;
         }
 
-        sWorld.ShutdownServ(time, 0, exitCode);
+		sWorld.ShutdownServ(time, SHUTDOWN_MASK_IDLE, exitCode);
     }
     else
     {
-        sWorld.ShutdownServ(time, 0, SHUTDOWN_EXIT_CODE);
+        sWorld.ShutdownServ(time, SHUTDOWN_MASK_IDLE, SHUTDOWN_EXIT_CODE);
     }
 
     return true;
@@ -4783,11 +4783,11 @@ bool ChatHandler::HandleServerIdleShutDownCommand(char* args)
             return false;
         }
 
-        sWorld.ShutdownServ(time, SHUTDOWN_MASK_RESTART, exitCode);
+		sWorld.ShutdownServ(time, SHUTDOWN_MASK_IDLE, exitCode);
     }
     else
     {
-        sWorld.ShutdownServ(time, SHUTDOWN_MASK_RESTART, RESTART_EXIT_CODE);
+        sWorld.ShutdownServ(time, SHUTDOWN_MASK_IDLE, RESTART_EXIT_CODE);
     }
 
     return true;
