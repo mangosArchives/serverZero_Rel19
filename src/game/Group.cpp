@@ -959,6 +959,23 @@ void Group::CountTheRoll(Rolls::iterator& rollI)
     delete roll;
 }
 
+bool Group::IsRollDoneForItem(Creature * pCreature, const LootItem * pItem)
+{
+	if(RollId.empty())
+		{ return true; }
+
+	Roll * roll;
+
+	for(Rolls::iterator i = RollId.begin(); i != RollId.end(); i++)
+	{
+		roll = *i;
+		if(roll->lootedTargetGUID == pCreature->GetObjectGuid() && roll->itemid == pItem->itemid)
+			{ return false; }
+	}
+
+	return true;
+}
+
 void Group::SetTargetIcon(uint8 id, ObjectGuid targetGuid)
 {
     if (id >= TARGET_ICON_COUNT)

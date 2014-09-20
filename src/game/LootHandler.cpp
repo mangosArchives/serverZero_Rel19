@@ -126,6 +126,34 @@ void WorldSession::HandleAutostoreLootItemOpcode(WorldPacket& recv_data)
         return;
     }
 
+	Group * group = player->GetGroup();
+
+	/* Checking group conditions to be sure the player has the permissions to loot. */
+	if(group)
+	{
+		Creature * pCreature = player->GetMap()->GetCreature(lguid);
+		switch(group->GetLootMethod())
+		{
+			case GROUP_LOOT:
+			case NEED_BEFORE_GREED:
+			{
+				if(item->winner && item->winner != player->GetObjectGuid() && !item->is_underthreshold && group->IsRollDoneForItem(pCreature, item))
+				{
+					player->SendEquipError(EQUIP_ERR_LOOT_CANT_LOOT_THAT_NOW, NULL, NULL, item->itemid);
+					return;
+				}
+			}
+			case MASTER_LOOT:
+			{
+				if((item->winner && item->winner != player->GetObjectGuid()) || (!item->winner && !item->is_underthreshold))
+				{
+					player->SendEquipError(EQUIP_ERR_LOOT_CANT_LOOT_THAT_NOW, NULL, NULL, item->itemid);
+					return;
+				}
+			}
+		}
+	}
+
     // questitems use the blocked field for other purposes
     if (!qitem && item->is_blocked)
     {
@@ -559,10 +587,10 @@ void WorldSession::HandleLootMasterGiveOpcode(WorldPacket& recv_data)
     InventoryResult msg = target->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, item.itemid, item.count);
     if (msg != EQUIP_ERR_OK)
     {
+		// Assign winner to the item, avoiding other member picks it up.
+		item.winner = target->GetObjectGuid();
         target->SendEquipError(msg, NULL, NULL, item.itemid);
-
-        // send duplicate of error massage to master looter
-        _player->SendEquipError(msg, NULL, NULL, item.itemid);
+		
         return;
     }
 
