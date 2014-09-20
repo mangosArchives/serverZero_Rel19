@@ -66,14 +66,15 @@ class QueryResultMysql : public QueryResult
          */
         bool NextRow() override;
 
-    private:
         /**
          * @brief
          *
-         * @param mysqlType
-         * @return Field::DataTypes
+         * @param type
+         * @return Field::SimpleDataTypes
          */
-        enum Field::DataTypes ConvertNativeType(enum_field_types mysqlType) const;
+        static Field::SimpleDataTypes GetSimpleType(enum_field_types type);
+
+    private:
         /**
          * @brief
          *

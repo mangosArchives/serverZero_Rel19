@@ -26,6 +26,11 @@
 #define FIELD_H
 
 #include "Common.h"
+#ifdef WIN32
+#include <mysql/mysql.h>
+#else
+#include <mysql.h>
+#endif
 
 /**
  * @brief
@@ -39,7 +44,7 @@ class Field
          * @brief
          *
          */
-        enum DataTypes
+        enum SimpleDataTypes
         {
             DB_TYPE_UNKNOWN = 0x00,
             DB_TYPE_STRING  = 0x01,
@@ -52,14 +57,14 @@ class Field
          * @brief
          *
          */
-        Field() : mValue(NULL), mType(DB_TYPE_UNKNOWN) {}
+        Field() : mValue(NULL), mType(MYSQL_TYPE_NULL) {}
         /**
          * @brief
          *
          * @param value
          * @param type
          */
-        Field(const char* value, enum DataTypes type) : mValue(value), mType(type) {}
+        Field(const char* value, enum_field_types type) : mValue(value), mType(type) {}
 
         /**
          * @brief
@@ -70,9 +75,9 @@ class Field
         /**
          * @brief
          *
-         * @return DataTypes
+         * @return enum_field_type
          */
-        enum DataTypes GetType() const { return mType; }
+        enum enum_field_types GetType() const { return mType; }
         /**
          * @brief
          *
@@ -167,7 +172,7 @@ class Field
          *
          * @param type
          */
-        void SetType(enum DataTypes type) { mType = type; }
+        void SetType(enum enum_field_types type) { mType = type; }
 
         /**
          * @brief no need for memory allocations to store resultset field strings
@@ -194,6 +199,6 @@ class Field
         Field& operator=(Field const&);
 
         const char* mValue; /**< TODO */
-        enum DataTypes mType; /**< TODO */
+        enum_field_types mType; /**< TODO */
 };
 #endif
