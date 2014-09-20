@@ -61,7 +61,8 @@ enum ServerMessageType
 enum ShutdownMask
 {
     SHUTDOWN_MASK_RESTART = 1,
-    SHUTDOWN_MASK_IDLE    = 2,
+	SHUTDOWN_MASK_STOP    = 2,
+    SHUTDOWN_MASK_IDLE    = 4,
 };
 
 enum ShutdownExitCode

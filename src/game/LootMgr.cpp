@@ -375,6 +375,7 @@ LootItem::LootItem(LootStoreItem const& li)
     is_blocked = 0;
     is_underthreshold = 0;
     is_counted = 0;
+	winner = ObjectGuid();
 }
 
 LootItem::LootItem(uint32 itemid_, uint32 count_, int32 randomPropertyId_)
@@ -393,6 +394,7 @@ LootItem::LootItem(uint32 itemid_, uint32 count_, int32 randomPropertyId_)
     is_blocked = 0;
     is_underthreshold = 0;
     is_counted = 0;
+	winner = ObjectGuid();
 }
 
 // Basic checks for player/item compatibility - if false no chance to see the item in the loot
@@ -686,6 +688,18 @@ void Loot::generateMoneyLoot(uint32 minAmount, uint32 maxAmount)
         else
             { gold = uint32(urand(minAmount >> 8, maxAmount >> 8) * sWorld.getConfig(CONFIG_FLOAT_RATE_DROP_MONEY)) << 8; }
     }
+}
+
+bool Loot::IsWinner(Player * player)
+{
+	for(LootItemList::const_iterator i = items.begin(); i != items.end(); ++i)
+	{
+		if(i->winner == player->GetObjectGuid())
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 LootItem* Loot::LootItemInSlot(uint32 lootSlot, Player* player, QuestItem** qitem, QuestItem** ffaitem, QuestItem** conditem)

@@ -477,7 +477,9 @@ void WorldSession::DoLootRelease(ObjectGuid lguid)
 			/* Update for other players. */
 			if(!loot->isLooted())
 			{ 
-				pCreature->hasBeenLootedOnce = true;	
+				Group const* group = pCreature->GetGroupLootRecipient();
+				// Checking whether it has been looted once by the designed looter (master loot case).
+				pCreature->hasBeenLootedOnce = (group ? group->GetLooterGuid() == player->GetObjectGuid() : true);	
 				pCreature->MarkFlagUpdateForClient(UNIT_DYNAMIC_FLAGS);
 			}			
 

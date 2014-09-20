@@ -108,6 +108,8 @@ struct LootItem
     bool    is_underthreshold : 1;
     bool    is_counted        : 1;
     bool    needs_quest       : 1;                          // quest drop
+	/* Winner of the roll. Stored for full inventory. */
+	ObjectGuid winner;
 
     // Constructor, copies most fields from LootStoreItem, generates random count and random suffixes/properties
     // Should be called for non-reference LootStoreItem entries only (mincountOrRef > 0)
@@ -282,7 +284,7 @@ struct Loot
         LootItemList items;
         uint32 gold;
         uint8 unlootedCount;
-        LootType loot_type;                                 // required for for proper item loot finish (store internal loot types in different from 3.x version, in fact this meaning that it send same loot types for interesting cases like 3.x version code, skip pre-3.x client loot type limitaitons)
+		LootType loot_type;                                 // required for for proper item loot finish (store internal loot types in different from 3.x version, in fact this meaning that it send same loot types for interesting cases like 3.x version code, skip pre-3.x client loot type limitaitons)
 
         Loot(WorldObject const* lootTarget, uint32 _gold = 0) : gold(_gold), unlootedCount(0), loot_type(LOOT_CORPSE), m_lootTarget(lootTarget) {}
         ~Loot() { clear(); }
@@ -324,6 +326,13 @@ struct Loot
         void NotifyMoneyRemoved();
         void AddLooter(ObjectGuid guid) { m_playersLooting.insert(guid); }
         void RemoveLooter(ObjectGuid guid) { m_playersLooting.erase(guid); }
+		
+		/**
+		* function IsWinner returns whether the player won at least one item during a roll.
+		* \param player Pointer indicating the player who may have won a loot.
+		* \return boolean true if the player has won at least one loot, false otherwise.
+		*/
+		bool IsWinner(Player * player);
 
         void generateMoneyLoot(uint32 minAmount, uint32 maxAmount);
         bool FillLoot(uint32 loot_id, LootStore const& store, Player* loot_owner, bool personal, bool noEmptyError = false);
