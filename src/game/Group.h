@@ -302,11 +302,11 @@ class MANGOS_DLL_SPEC Group
 		* \param guid GUID of the player to look for.
 		* \return time_t representing the joined time for that player or NULL if it doesn't exist.
 		*/
-		time_t const& GetMemberSlotJoinedTime(ObjectGuid guid)
+		time_t GetMemberSlotJoinedTime(ObjectGuid guid)
 		{
 			member_citerator mslot = _getMemberCSlot(guid);
 			if(mslot == m_memberSlots.end())
-				{ return NULL; }
+				{ return 0; }
 
 			return mslot->joinTime;
 		}
@@ -400,6 +400,14 @@ class MANGOS_DLL_SPEC Group
         bool CountRollVote(Player* player, ObjectGuid const& lootedTarget, uint32 itemSlot, RollVote vote);
         void StartLootRoll(WorldObject* lootTarget, LootMethod method, Loot* loot, uint8 itemSlot);
         void EndRoll();
+
+		/**
+		* function that returns whether the roll is done for this group for the given creature and the given item.
+		* \param Creature pointer to the creature which has dropped some loots.
+		* \param Item pointer to the item to check.
+		* \return bool true if the roll is done, false otherwise.
+		*/
+		bool IsRollDoneForItem(Creature * pCreature, const LootItem * pItem);
 
         void LinkMember(GroupReference* pRef)
         {

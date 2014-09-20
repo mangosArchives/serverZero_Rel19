@@ -1784,8 +1784,7 @@ void GameObject::RollIfMineralVein()
     GameObjectInfo const* goinfo = ObjectMgr::GetGameObjectInfo(GetEntry());
     if (goinfo->chest.minSuccessOpens != 0 && goinfo->chest.maxSuccessOpens > goinfo->chest.minSuccessOpens) //in this case it is a mineral vein
     {
-        uint32 entrynew;
-        entrynew = RollMineralVein(GetRealEntry());
+        uint32 entrynew = RollMineralVein(GetRealEntry());
 
         uint32 guid = GetObjectGuid();
 
@@ -1800,7 +1799,7 @@ void GameObject::RollIfMineralVein()
 
 uint32 GameObject::RollMineralVein(uint32 entry)      //Maybe incedicite bloodstone and indurium have alternate spawns?
 {
-    uint32 entrynew;
+    uint32 entrynew = entry;
     switch (entry)
     {
         case 1732: // Tin can spawn Silver

@@ -738,7 +738,7 @@ class MANGOS_DLL_SPEC Creature : public Unit
 		/**
 		* Returns the time when the creature has been killed.
 		*/
-		time_t const& GetKilledTime() const { return m_killedTime; }
+		time_t GetKilledTime() const { return m_killedTime; }
 
 		/**
 		* Set the time when the creature has been killed.

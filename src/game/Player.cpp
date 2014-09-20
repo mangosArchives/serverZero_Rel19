@@ -7438,20 +7438,11 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
 									permission = ALL_PERMISSION;
 									break;
 								case MASTER_LOOT:
-									if(group->GetLooterGuid() == GetObjectGuid())
-										{ permission = MASTER_PERMISSION; } 
-									else 
-										{ permission = (creature->hasBeenLootedOnce ? ALL_PERMISSION : GROUP_PERMISSION); }
+									permission = MASTER_PERMISSION;
 									break;
 								case GROUP_LOOT:
 								case NEED_BEFORE_GREED:
 									permission = GROUP_PERMISSION;
-									
-									if(loot->IsWinner(this))
-									{
-										permission = OWNER_PERMISSION;
-									}
-
 									break;
 							}
                         }
