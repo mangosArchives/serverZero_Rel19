@@ -55,119 +55,173 @@ set(sources
     system/system.h
 )
 
-set(sources_battlegrounds
-    scripts/battlegrounds/battleground.cpp
-)
+#Battleground Scripts
+file(GLOB sources_battlegrounds_files scripts/battlegrounds/*.cpp)
+    set(sources_battlegrounds
+        ${sources_battlegrounds_files}
+    )
 
-set(sources_world
-    scripts/world/areatrigger_scripts.cpp
-    scripts/world/bosses_emerald_dragons.cpp
-    scripts/world/go_scripts.cpp
-    scripts/world/guards.cpp
-    scripts/world/item_scripts.cpp
-    scripts/world/mob_generic_creature.cpp
-    scripts/world/npc_professions.cpp
-    scripts/world/npcs_special.cpp
-    scripts/world/spell_scripts.cpp
-    scripts/world/world_map_scripts.cpp
-    scripts/world/world_map_scripts.h
-)
+#World Scripts
+file(GLOB sources_world_files scripts/world/*.cpp scripts/world/*.h)
+    set(sources_world
+        ${sources_world_files}
+    )
+	
+#Eastern Kingdom Scripts
+file(GLOB sources_eastern_kingdoms_files scripts/eastern_kingdoms/*.cpp scripts/eastern_kingdoms/*.h)
+    set(sources_eastern_kingdoms
+        ${sources_eastern_kingdoms_files}
+    )
 
-set(sources_eastern_kingdoms
-    scripts/eastern_kingdoms/alterac_mountains.cpp
-    scripts/eastern_kingdoms/arathi_highlands.cpp
-    scripts/eastern_kingdoms/blasted_lands.cpp
-    scripts/eastern_kingdoms/boss_kazzak.cpp
-    scripts/eastern_kingdoms/burning_steppes.cpp
-    scripts/eastern_kingdoms/dun_morogh.cpp
-    scripts/eastern_kingdoms/eastern_plaguelands.cpp
-    scripts/eastern_kingdoms/elwynn_forest.cpp
-    scripts/eastern_kingdoms/hinterlands.cpp
-    scripts/eastern_kingdoms/ironforge.cpp
-    scripts/eastern_kingdoms/loch_modan.cpp
-    scripts/eastern_kingdoms/redridge_mountains.cpp
-    scripts/eastern_kingdoms/searing_gorge.cpp
-    scripts/eastern_kingdoms/silverpine_forest.cpp
-    scripts/eastern_kingdoms/stormwind_city.cpp
-    scripts/eastern_kingdoms/stranglethorn_vale.cpp
-    scripts/eastern_kingdoms/swamp_of_sorrows.cpp
-    scripts/eastern_kingdoms/tirisfal_glades.cpp
-    scripts/eastern_kingdoms/undercity.cpp
-    scripts/eastern_kingdoms/western_plaguelands.cpp
-    scripts/eastern_kingdoms/westfall.cpp
-    scripts/eastern_kingdoms/wetlands.cpp
-)
+#Kalimdor Scripts
+file(GLOB sources_kalimdor_files scripts/kalimdor/*.cpp scripts/kalimdor/*.h)
+    set(sources_kalimdor
+        ${sources_kalimdor_files}
+    )
 
-set(sources_kalimdor
-    scripts/kalimdor/ashenvale.cpp
-    scripts/kalimdor/azshara.cpp
-    scripts/kalimdor/boss_azuregos.cpp
-    scripts/kalimdor/darkshore.cpp
-    scripts/kalimdor/desolace.cpp
-    scripts/kalimdor/durotar.cpp
-    scripts/kalimdor/dustwallow_marsh.cpp
-    scripts/kalimdor/felwood.cpp
-    scripts/kalimdor/feralas.cpp
-    scripts/kalimdor/moonglade.cpp
-    scripts/kalimdor/mulgore.cpp
-    scripts/kalimdor/orgrimmar.cpp
-    scripts/kalimdor/silithus.cpp
-    scripts/kalimdor/stonetalon_mountains.cpp
-    scripts/kalimdor/tanaris.cpp
-    scripts/kalimdor/teldrassil.cpp
-    scripts/kalimdor/the_barrens.cpp
-    scripts/kalimdor/thousand_needles.cpp
-    scripts/kalimdor/thunder_bluff.cpp
-    scripts/kalimdor/ungoro_crater.cpp
-    scripts/kalimdor/winterspring.cpp
-)
+#Instance: Blackrock Depths Scripts
+file(GLOB sources_instance_ek_brd_files scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/*.cpp scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/*.h)
+    set(sources_instance_ek_brd
+        ${sources_instance_ek_brd_files}
+    )
 
-set(sources_instance_ek_brd
-    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/blackrock_depths.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/boss_ambassador_flamelash.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/boss_emperor_dagran_thaurissan.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/boss_general_angerforge.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/boss_high_interrogator_gerstahn.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/instance_blackrock_depths.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/blackrock_depths.h
-)
+#Instance: Blackrock Spire Scripts
+file(GLOB sources_instance_ek_brs_files scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/*.cpp scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/*.h)
+    set(sources_instance_ek_brs
+        ${sources_instance_ek_brs_files}
+    )
 
-set(sources_instance_ek_brs
-    scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/boss_gyth.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/boss_overlord_wyrmthalak.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/boss_pyroguard_emberseer.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/instance_blackrock_spire.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/blackrock_spire.h
-)
+#Instance: Deadmines Scripts
+file(GLOB sources_instance_ek_tdm_files scripts/eastern_kingdoms/deadmines/*.cpp scripts/eastern_kingdoms/deadmines/*.h)
+    set(sources_instance_ek_tdm
+        ${sources_instance_ek_tdm_files}
+    )
 
-set(sources_instance_ek_tdm
-    scripts/eastern_kingdoms/deadmines/boss_mr_smite.cpp
-    scripts/eastern_kingdoms/deadmines/deadmines.cpp
-    scripts/eastern_kingdoms/deadmines/instance_deadmines.cpp
-    scripts/eastern_kingdoms/deadmines/deadmines.h
-)
+#Instance: Gnomeregan Scripts
+file(GLOB sources_instance_ek_gno_files scripts/eastern_kingdoms/gnomeregan/*.cpp scripts/eastern_kingdoms/gnomeregan/*.h)
+    set(sources_instance_ek_gno
+        ${sources_instance_ek_gno_files}
+    )
 
-set(sources_instance_ek_gno
-    scripts/eastern_kingdoms/gnomeregan/boss_thermaplugg.cpp
-    scripts/eastern_kingdoms/gnomeregan/gnomeregan.cpp
-    scripts/eastern_kingdoms/gnomeregan/instance_gnomeregan.cpp
-    scripts/eastern_kingdoms/gnomeregan/gnomeregan.h
-)
+#Instance: Scarlet Monastery Scripts
+file(GLOB sources_instance_ek_sm_files scripts/eastern_kingdoms/scarlet_monastery/*.cpp scripts/eastern_kingdoms/scarlet_monastery/*.h)
+    set(sources_instance_ek_sm
+        ${sources_instance_ek_sm_files}
+    )
 
-set(sources_instance_ek_sm
-    scripts/eastern_kingdoms/scarlet_monastery/boss_arcanist_doan.cpp
-    scripts/eastern_kingdoms/scarlet_monastery/boss_herod.cpp
-    scripts/eastern_kingdoms/scarlet_monastery/boss_mograine_and_whitemane.cpp
-    scripts/eastern_kingdoms/scarlet_monastery/instance_scarlet_monastery.cpp
-    scripts/eastern_kingdoms/scarlet_monastery/scarlet_monastery.h
-)
+#Instance: Scholomance Scripts
+file(GLOB sources_instance_ek_scholo_files scripts/eastern_kingdoms/scholomance/*.cpp scripts/eastern_kingdoms/scholomance/*.h)
+    set(sources_instance_ek_scholo
+        ${sources_instance_ek_scholo_files}
+    )
 
-set(sources_instance_ek_scholo
-    scripts/eastern_kingdoms/scholomance/boss_darkmaster_gandling.cpp
-    scripts/eastern_kingdoms/scholomance/boss_jandice_barov.cpp
-    scripts/eastern_kingdoms/scholomance/instance_scholomance.cpp
-    scripts/eastern_kingdoms/scholomance/scholomance.h
-)
+#Instance: Uldaman Scripts
+file(GLOB sources_instance_ek_uld_files scripts/eastern_kingdoms/uldaman/*.cpp scripts/eastern_kingdoms/uldaman/*.h)
+    set(sources_instance_ek_uld
+        ${sources_instance_ek_uld_files}
+    )
+
+#Instance: Shadowfang Keep Scripts
+file(GLOB sources_instance_ek_sfk_files scripts/eastern_kingdoms/shadowfang_keep/*.cpp scripts/eastern_kingdoms/shadowfang_keep/*.h)
+    set(sources_instance_ek_sfk
+        ${sources_instance_ek_sfk_files}
+    )
+	
+#Instance: Sunken Temple Scripts
+file(GLOB sources_instance_ek_st_files scripts/eastern_kingdoms/sunken_temple/*.cpp scripts/eastern_kingdoms/sunken_temple/*.h)
+    set(sources_instance_ek_st
+        ${sources_instance_ek_st_files}
+    )
+	
+#Instance: Stratholme Scripts
+file(GLOB sources_instance_ek_strat_files scripts/eastern_kingdoms/stratholme/*.cpp scripts/eastern_kingdoms/stratholme/*.h)
+    set(sources_instance_ek_strat
+        ${sources_instance_ek_strat_files}
+    )
+
+#Raid: Molten Core Scripts
+file(GLOB sources_raid_ek_mc_files scripts/eastern_kingdoms/blackrock_mountain/molten_core/*.cpp scripts/eastern_kingdoms/blackrock_mountain/molten_core/*.h)
+    set(sources_raid_ek_mc
+        ${sources_raid_ek_mc_files}
+    )
+	
+#Raid: Blackwing Lair Scripts
+file(GLOB sources_raid_ek_bwl_files scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/*.cpp scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/*.h)
+    set(sources_raid_ek_bwl
+        ${sources_raid_ek_bwl_files}
+    )
+	
+#Raid: Naxxramas Scripts
+file(GLOB sources_raid_ek_naxx_files scripts/eastern_kingdoms/naxxramas/*.cpp scripts/eastern_kingdoms/naxxramas/*.h)
+    set(sources_raid_ek_naxx
+        ${sources_raid_ek_naxx_files}
+    )
+
+#Raid: Zul Gurub Scripts
+file(GLOB sources_raid_ek_zg_files scripts/eastern_kingdoms/zulgurub/*.cpp scripts/eastern_kingdoms/zulgurub/*.h)
+    set(sources_raid_ek_zg
+        ${sources_raid_ek_zg_files}
+    )
+	
+#Instance: Blackfathom Deeps Scripts
+file(GLOB sources_instance_k_bdf_files scripts/kalimdor/blackfathom_deeps/*.cpp scripts/kalimdor/blackfathom_deeps/*.h)
+    set(sources_instance_k_bdf
+        ${sources_instance_k_bdf_files}
+    )
+	
+#Instance: Dire Maul Scripts
+file(GLOB sources_instance_k_dm_files scripts/kalimdor/dire_maul/*.cpp scripts/kalimdor/dire_maul/*.h)
+    set(sources_instance_k_dm
+        ${sources_instance_k_dm_files}
+    )
+	
+#Instance: Maraudon Scripts
+file(GLOB sources_instance_k_mara_files scripts/kalimdor/maraudon/*.cpp scripts/kalimdor/maraudon/*.h)
+    set(sources_instance_k_mara
+        ${sources_instance_k_mara_files}
+    )
+
+#Instance: Razorfen Downs Scripts
+file(GLOB sources_instance_k_rfd_files scripts/kalimdor/razorfen_downs/*.cpp scripts/kalimdor/razorfen_downs/*.h)
+    set(sources_instance_k_rfd
+        ${sources_instance_k_rfd_files}
+    )
+	
+#Instance: Razorfen Kraul Scripts
+file(GLOB sources_instance_k_rfk_files scripts/kalimdor/razorfen_kraul/*.cpp scripts/kalimdor/razorfen_kraul/*.h)
+    set(sources_instance_k_rfk
+        ${sources_instance_k_rfk_files}
+    )
+
+#Instance: Wailing Caverns Scripts
+file(GLOB sources_instance_k_wc_files scripts/kalimdor/wailing_caverns/*.cpp scripts/kalimdor/wailing_caverns/*.h)
+    set(sources_instance_k_wc
+        ${sources_instance_k_wc_files}
+    )
+	
+#Instance: Zul Farrak Scripts
+file(GLOB sources_instance_k_zf_files scripts/kalimdor/zulfarrak/*.cpp scripts/kalimdor/zulfarrak/*.h)
+    set(sources_instance_k_zf
+        ${sources_instance_k_zf_files}
+    )
+	
+#Raid: Onyxias Lair Scripts
+file(GLOB sources_raid_k_ony_files scripts/kalimdor/onyxias_lair/*.cpp scripts/kalimdor/onyxias_lair/*.h)
+    set(sources_raid_k_ony
+        ${sources_raid_k_ony_files}
+    )
+
+#Raid: Ruins of AQ Scripts
+file(GLOB sources_raid_k_raq_files scripts/kalimdor/ruins_of_ahnqiraj/*.cpp scripts/kalimdor/ruins_of_ahnqiraj/*.h)
+    set(sources_raid_k_raq
+        ${sources_raid_k_raq_files}
+    )
+
+#Raid: Temple of AQ Scripts
+file(GLOB sources_raid_k_taq_files scripts/kalimdor/temple_of_ahnqiraj/*.cpp scripts/kalimdor/temple_of_ahnqiraj/*.h)
+    set(sources_raid_k_taq
+        ${sources_raid_k_taq_files}
+    )
 
 ## magic to include revision data in SD2 version string
 # revision.h: FORCE
@@ -178,154 +232,7 @@ file(GLOB_RECURSE mangosscript_SRCS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *.cpp
 source_group("Other"
   REGULAR_EXPRESSION .*
 )
-
-set(sources_instance_ek_uld
-    scripts/eastern_kingdoms/uldaman/boss_archaedas.cpp
-    scripts/eastern_kingdoms/uldaman/instance_uldaman.cpp
-    scripts/eastern_kingdoms/uldaman/uldaman.cpp
-    scripts/eastern_kingdoms/uldaman/uldaman.h
-)
-
-set(sources_raid_ek_mc
-    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_baron_geddon.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_garr.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_gehennas.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_golemagg.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_lucifron.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_magmadar.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_majordomo_executus.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_ragnaros.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_shazzrah.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/molten_core/boss_sulfuron_harbinger.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/molten_core/instance_molten_core.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/molten_core/molten_core.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/molten_core/molten_core.h
-)
-
-set(sources_raid_ek_bwl
-    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_broodlord_lashlayer.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_chromaggus.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_ebonroc.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_firemaw.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_flamegor.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_nefarian.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_razorgore.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_vaelastrasz.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/boss_victor_nefarius.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/instance_blackwing_lair.cpp
-    scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/blackwing_lair.h
-)
-
-set(sources_raid_ek_naxx
-    scripts/eastern_kingdoms/naxxramas/boss_anubrekhan.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_faerlina.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_four_horsemen.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_gluth.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_gothik.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_grobbulus.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_heigan.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_kelthuzad.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_loatheb.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_maexxna.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_noth.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_patchwerk.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_razuvious.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_sapphiron.cpp
-    scripts/eastern_kingdoms/naxxramas/boss_thaddius.cpp
-    scripts/eastern_kingdoms/naxxramas/instance_naxxramas.cpp
-    scripts/eastern_kingdoms/naxxramas/naxxramas.h
-)
-
-set(sources_raid_ek_zg
-    scripts/eastern_kingdoms/zulgurub/boss_arlokk.cpp
-    scripts/eastern_kingdoms/zulgurub/boss_hakkar.cpp
-    scripts/eastern_kingdoms/zulgurub/boss_hazzarah.cpp
-    scripts/eastern_kingdoms/zulgurub/boss_jeklik.cpp
-    scripts/eastern_kingdoms/zulgurub/boss_jindo.cpp
-    scripts/eastern_kingdoms/zulgurub/boss_mandokir.cpp
-    scripts/eastern_kingdoms/zulgurub/boss_marli.cpp
-    scripts/eastern_kingdoms/zulgurub/boss_renataki.cpp
-    scripts/eastern_kingdoms/zulgurub/boss_thekal.cpp
-    scripts/eastern_kingdoms/zulgurub/boss_venoxis.cpp
-    scripts/eastern_kingdoms/zulgurub/instance_zulgurub.cpp
-    scripts/eastern_kingdoms/zulgurub/zulgurub.h
-)
-
-set(sources_instance_k_bdf
-    scripts/kalimdor/blackfathom_deeps/blackfathom_deeps.h
-    scripts/kalimdor/blackfathom_deeps/instance_blackfathom_deeps.cpp
-)
-
-set(sources_instance_k_dm
-    scripts/kalimdor/dire_maul/dire_maul.cpp
-    scripts/kalimdor/dire_maul/dire_maul.h
-    scripts/kalimdor/dire_maul/instance_dire_maul.cpp
-)
-
-set(sources_instance_k_mara
-    scripts/kalimdor/maraudon/boss_noxxion.cpp
-    scripts/kalimdor/maraudon/maraudon.cpp
-    scripts/kalimdor/maraudon/maraudon.h
-)
-
-set(sources_instance_k_rfd
-    scripts/kalimdor/razorfen_downs/razorfen_downs.cpp
-    scripts/kalimdor/razorfen_downs/razorfen_downs.h
-)
-
-set(sources_instance_k_rfk
-    scripts/kalimdor/razorfen_kraul/instance_razorfen_kraul.cpp
-    scripts/kalimdor/razorfen_kraul/razorfen_kraul.cpp
-    scripts/kalimdor/razorfen_kraul/razorfen_kraul.h
-)
-
-set(sources_instance_k_wc
-    scripts/kalimdor/wailing_caverns/instance_wailing_caverns.cpp
-    scripts/kalimdor/wailing_caverns/wailing_caverns.cpp
-    scripts/kalimdor/wailing_caverns/wailing_caverns.h
-)
-
-set(sources_instance_k_zf
-    scripts/kalimdor/zulfarrak/boss_zumrah.cpp
-    scripts/kalimdor/zulfarrak/instance_zulfarrak.cpp
-    scripts/kalimdor/zulfarrak/zulfarrak.cpp
-    scripts/kalimdor/zulfarrak/zulfarrak.h
-)
-
-set(sources_raid_k_ony
-    scripts/kalimdor/onyxias_lair/boss_onyxia.cpp
-    scripts/kalimdor/onyxias_lair/instance_onyxias_lair.cpp
-    scripts/kalimdor/onyxias_lair/onyxias_lair.h
-    scripts/kalimdor/onyxias_lair/npc_onyxian_warder.cpp
-)
-
-set(sources_raid_k_raq
-    scripts/kalimdor/ruins_of_ahnqiraj/boss_ayamiss.cpp
-    scripts/kalimdor/ruins_of_ahnqiraj/boss_buru.cpp
-    scripts/kalimdor/ruins_of_ahnqiraj/boss_kurinnaxx.cpp
-    scripts/kalimdor/ruins_of_ahnqiraj/boss_moam.cpp
-    scripts/kalimdor/ruins_of_ahnqiraj/boss_ossirian.cpp
-    scripts/kalimdor/ruins_of_ahnqiraj/boss_rajaxx.cpp
-    scripts/kalimdor/ruins_of_ahnqiraj/instance_ruins_of_ahnqiraj.cpp
-    scripts/kalimdor/ruins_of_ahnqiraj/ruins_of_ahnqiraj.cpp
-    scripts/kalimdor/ruins_of_ahnqiraj/ruins_of_ahnqiraj.h
-)
-
-set(sources_raid_k_taq
-    scripts/kalimdor/temple_of_ahnqiraj/boss_bug_trio.cpp
-    scripts/kalimdor/temple_of_ahnqiraj/boss_cthun.cpp
-    scripts/kalimdor/temple_of_ahnqiraj/boss_fankriss.cpp
-    scripts/kalimdor/temple_of_ahnqiraj/boss_huhuran.cpp
-    scripts/kalimdor/temple_of_ahnqiraj/boss_ouro.cpp
-    scripts/kalimdor/temple_of_ahnqiraj/boss_sartura.cpp
-    scripts/kalimdor/temple_of_ahnqiraj/boss_skeram.cpp
-    scripts/kalimdor/temple_of_ahnqiraj/boss_twinemperors.cpp
-    scripts/kalimdor/temple_of_ahnqiraj/boss_viscidus.cpp
-    scripts/kalimdor/temple_of_ahnqiraj/instance_temple_of_ahnqiraj.cpp
-    scripts/kalimdor/temple_of_ahnqiraj/mob_anubisath_sentinel.cpp
-    scripts/kalimdor/temple_of_ahnqiraj/temple_of_ahnqiraj.h
-)
-
+	
 set(mangosscript_LIB_SRCS
     ${sources}
     ${sources_battlegrounds}
@@ -394,12 +301,19 @@ include_directories(
   "${CMAKE_CURRENT_SOURCE_DIR}/include"
   "${CMAKE_SOURCE_DIR}/src/shared"
   "${CMAKE_SOURCE_DIR}/src/framework"
-  "${CMAKE_SOURCE_DIR}/src/game"
+  "${CMAKE_SOURCE_DIR}/src/game/Server"
+  "${CMAKE_SOURCE_DIR}/src/game/BattleGround"
+  "${CMAKE_SOURCE_DIR}/src/game/WorldHandlers"
+  "${CMAKE_SOURCE_DIR}/src/game/Object"
+  "${CMAKE_SOURCE_DIR}/src/game/References"
+  "${CMAKE_SOURCE_DIR}/src/game/MotionGenerators"
+  "${CMAKE_SOURCE_DIR}/src/game/vmap"
   "${CMAKE_SOURCE_DIR}/dep/include"
   "${CMAKE_BINARY_DIR}"
   "${CMAKE_BINARY_DIR}/src/shared"
   "${ACE_INCLUDE_DIR}"
   "${MYSQL_INCLUDE_DIR}"
+  "${CMAKE_SOURCE_DIR}/src/mangosd"
 )
 
 if(PCH)
@@ -409,21 +323,29 @@ if(PCH)
 endif()
 
 add_library(mangosscript SHARED
-  ${mangosscript_SRCS}
+  ${mangosscript_LIB_SRCS}
 )
-
-if(WIN32)
-  target_link_libraries(mangosscript
-    mangosd # FIXME: could this be done for unix? because unix won't generate exe.libs
-    ${ACE_LIBRARIES}
-    debug ${WIN_DEBUGLIBS}
-  )
-endif()
 
 add_dependencies(mangosscript revision.h)
 if(NOT ACE_USE_EXTERNAL)
-  add_dependencies(mangosscript ACE_Project)
-# add_dependencies(mangosscript ace)
+  add_dependencies(mangosscript ace)
+endif()
+
+target_link_libraries(mangosscript 
+  ${ZLIB_LIBRARIES}
+  ${ACE_LIBRARIES}
+)
+
+if(WIN32)
+  add_dependencies(mangosscript mangosd)
+  target_link_libraries(mangosscript
+    ${CMAKE_BINARY_DIR}/src/mangosd/Release/mangosd.lib
+  )
+  #if(WIN32 AND PLATFORM MATCHES X86)
+  #  target_link_libraries(mangosscript 
+  #    debug ${WIN_DEBUGLIBS}
+  #  )
+  #endif()
 endif()
 
 if(UNIX)
@@ -489,7 +411,7 @@ if(PCH)
 endif()
 
 # LIBRARY = dyld / so, RUNTIME = dll
-install(TARGETS mangosscript
+install(TARGETS mangosscript 
   LIBRARY DESTINATION "${LIBS_DIR}"
   RUNTIME DESTINATION "${LIBS_DIR}"
 )

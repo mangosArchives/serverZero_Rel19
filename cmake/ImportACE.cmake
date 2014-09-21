@@ -21,9 +21,9 @@
 # set_target_properties(ace PROPERTIES DEPENDS ACE_Project)
 
 if(WIN32)
-  set(ACE_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/dep/ACE_wrappers)
-  set(ACE_LIBRARIES_DIR ${CMAKE_SOURCE_DIR}/dep/ACE_wrappers/lib)
-  set(ACE_LIBRARIES optimized ACE debug ACEd)
+  set(ACE_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/dep/acelite)
+  set(ACE_LIBRARIES_DIR ${CMAKE_BINARY_DIR}/dep/acelite/ace)
+  set(ACE_LIBRARIES optimized ACE debug ACE)
 else()
   set(ACE_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
   set(ACE_LIBRARIES_DIR ${CMAKE_INSTALL_PREFIX}/lib)
