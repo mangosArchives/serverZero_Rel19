@@ -915,7 +915,7 @@ TalentsInspecting                = 1
 #
 #    Rate.Corpse.Decay.Looted
 #         Controls how long the creature corpse stays after it had been looted, as a multiplier of its Corpse.Decay.* config.
-#         Default: 0.0 (will use modifier /3 of the creatures spawntimesecs when 0.0)
+#         Default: 0.5
 #
 #    Rate.Creature.Normal.Damage
 #    Rate.Creature.Elite.Elite.Damage
@@ -977,7 +977,7 @@ Corpse.Decay.RARE                         = 900
 Corpse.Decay.ELITE                        = 600
 Corpse.Decay.RAREELITE                    = 1200
 Corpse.Decay.WORLDBOSS                    = 3600
-Rate.Corpse.Decay.Looted                  = 0.0
+Rate.Corpse.Decay.Looted                  = 0.5
 Rate.Creature.Elite.Elite.Damage          = 1
 Rate.Creature.Elite.Elite.HP              = 1
 Rate.Creature.Elite.Elite.SpellDamage     = 1

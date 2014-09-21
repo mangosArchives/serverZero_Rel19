@@ -1135,7 +1135,8 @@ void Unit::JustKilledCreature(Creature* victim, Player* responsiblePlayer)
     // only lootable if it has loot or can drop gold
     victim->PrepareBodyLootState();
     // may have no loot, so update death timer if allowed, must be after SetDeathState(JUST_DIED)
-    victim->AllLootRemovedFromCorpse();
+    // causes m_corpseRemoveTime to update even if not looted
+    // victim->AllLootRemovedFromCorpse();
 }
 
 void Unit::PetOwnerKilledUnit(Unit* pVictim)
