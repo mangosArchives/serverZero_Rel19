@@ -107,7 +107,9 @@ if(WIN32)
 endif()
 
 # Used by map-extractor for now
-find_package(BZip2 REQUIRED)
+if( UNIX )
+  find_package(BZip2 REQUIRED)
+endif()
 
 # find Git: used to get the revision number
 find_package(Git)
@@ -168,11 +170,11 @@ endif()
 # Win32 delivered packages
 if(WIN32)
   set(MYSQL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/dep/include/mysql")
-  set(MYSQL_LIBRARY "${CMAKE_SOURCE_DIR}/dep/lib/libmySQL.lib")
-  set(MYSQL_DEBUG_LIBRARY "${CMAKE_SOURCE_DIR}/dep/lib/libmySQL.lib")
+  set(MYSQL_LIBRARY "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libmySQL.lib")
+  set(MYSQL_DEBUG_LIBRARY "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libmySQL.lib")
   set(OPENSSL_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/dep/include/openssl")
-  set(OPENSSL_LIBRARIES "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libeay32.lib")
-  set(OPENSSL_DEBUG_LIBRARIES "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libeay32.lib")
+  set(OPENSSL_LIBRARIES "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libeay32.lib")
+  set(OPENSSL_DEBUG_LIBRARIES "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libeay32.lib")
   # zlib is build
 endif()
 
@@ -341,8 +343,8 @@ add_custom_target("revision.h" ALL
 if(WIN32)
   install(
     FILES
-      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libeay32.dll"
-      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_release/libmySQL.dll"
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libeay32.dll"
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libmySQL.dll"
     DESTINATION ${LIBS_DIR}
     CONFIGURATIONS Release
   )
