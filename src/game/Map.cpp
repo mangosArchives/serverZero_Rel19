@@ -43,7 +43,9 @@
 #include "MoveMap.h"
 #include "BattleGround/BattleGroundMgr.h"
 #include "Chat.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 Map::~Map()
 {
