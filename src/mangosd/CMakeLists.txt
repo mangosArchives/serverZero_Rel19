@@ -40,7 +40,7 @@ if(SOAP)
 endif()
 
 if(SCRIPT_LIB_ELUNA)
-    file(GLOB SRC_FILES_LUAENGINE ${CMAKE_SOURCE_DIR}/src/game/LuaEngine/*.cpp ${CMAKE_SOURCE_DIR}/src/game/LuaEngine/*.h)
+    file(GLOB SRC_FILES_LUAENGINE ${CMAKE_SOURCE_DIR}/src/modules/Eluna/*.cpp ${CMAKE_SOURCE_DIR}/src/modules/Eluna/*.h)
     LIST(APPEND EXECUTABLE_SRCS
         ${SRC_FILES_LUAENGINE}
     )
@@ -72,7 +72,7 @@ include_directories(
 if(SCRIPT_LIB_ELUNA)
     include_directories(
         "${CMAKE_SOURCE_DIR}/dep/lualib"
-        "${CMAKE_SOURCE_DIR}/src/game/LuaEngine"
+        "${CMAKE_SOURCE_DIR}/src/modules/Eluna"
     )
 endif()
 

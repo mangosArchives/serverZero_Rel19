@@ -43,13 +43,6 @@ include_directories(
   "${ACE_INCLUDE_DIR}"
 )
 
-if(SCRIPT_LIB_ELUNA)
-include_directories(
-	"${CMAKE_SOURCE_DIR}/dep/lualib"
-	"${CMAKE_CURRENT_SOURCE_DIR}/LuaEngine"
-)
-endif()
-
 #AH Bot group
 file(GLOB SRC_FILES_AHBOT AuctionHouseBot/*.cpp AuctionHouseBot/*.h)
     set(SRC_GRP_AHBOT
@@ -72,18 +65,6 @@ source_group("BattleGround"
     ${SRC_GRP_BATTLEGROUND}
 )
 
-#Eluna group
-if (SCRIPT_LIB_ELUNA)
-    file(GLOB SRC_FILES_LUAENGINE LuaEngine/*.cpp LuaEngine/*.h)
-    set(SRC_GRP_LUAENGINE
-        ${SRC_FILES_LUAENGINE}
-    )
-	
-	source_group("LuaEngine"
-      FILES
-        ${SRC_GRP_LUAENGINE}
-    )
-endif()
 
 #Chat Commands group
 file(GLOB SRC_FILES_CHAT_COMMANDS ChatCommands/*.cpp ChatCommands/*.h)
@@ -212,10 +193,6 @@ set(LIBRARY_SRCS
     pchdef.h
 )
 
-if(SCRIPT_LIB_ELUNA)
-    list(APPEND LIBRARY_SRCS ${SRC_GRP_LUAENGINE})
-endif()
-
 if(PCH)
   include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 endif()
@@ -229,10 +206,6 @@ target_link_libraries(${LIBRARY_NAME}
   detour
 )
 
-if(SCRIPT_LIB_ELUNA)
-    target_link_libraries(${LIBRARY_NAME} lualib)
-endif()
-
 if(UNIX)
   # Both systems don't have libdl and don't need them
   if (NOT (CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD"))
@@ -243,9 +216,6 @@ if(UNIX)
 endif()
 
 add_dependencies(${LIBRARY_NAME} revision.h)
-if(SCRIPT_LIB_ELUNA)
-    add_dependencies(${LIBRARY_NAME} lualib)
-endif()
 
 if(NOT ACE_USE_EXTERNAL)
     add_dependencies(${LIBRARY_NAME} ace)
@@ -267,6 +237,30 @@ if(PCH)
 endif()
 
 add_subdirectory(AuctionHouseBot)
+
+#Eluna specific start
+
 if(SCRIPT_LIB_ELUNA)
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/LuaEngine/extensions DESTINATION ${BIN_DIR}/lua_scripts/)
 endif()
+
+if(SCRIPT_LIB_ELUNA)
+include_directories(
+	"${CMAKE_SOURCE_DIR}/dep/lualib"
+	"${CMAKE_SOURCE_DIR}/src/modules/Eluna"
+)
+endif()
+
+if(SCRIPT_LIB_ELUNA)
+    target_link_libraries(${LIBRARY_NAME} lualib)
+endif()
+
+if(SCRIPT_LIB_ELUNA)
+    list(APPEND LIBRARY_SRCS ${SRC_GRP_LUAENGINE})
+endif()
+
+if(SCRIPT_LIB_ELUNA)
+    add_dependencies(${LIBRARY_NAME} lualib)
+endif()
+
+#Eluna specific end
