@@ -611,7 +611,9 @@ void WorldSession::HandleLootMasterGiveOpcode(WorldPacket& recv_data)
 		// Assign winner to the item, avoiding other member picks it up.
 		item.winner = target->GetObjectGuid();
         target->SendEquipError(msg, NULL, NULL, item.itemid);
-		
+
+		pLoot->NotifyItemRemoved(slotid);
+
         return;
     }
 

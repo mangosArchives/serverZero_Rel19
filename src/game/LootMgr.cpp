@@ -444,7 +444,11 @@ LootSlotType LootItem::GetSlotTypeForSharedLoot(PermissionTypes permission, Play
 			return LOOT_SLOT_VIEW;			
 		}
         case MASTER_PERMISSION:
-			if (winner || is_underthreshold || viewer->GetObjectGuid() != viewer->GetGroup()->GetLooterGuid() || winner == viewer->GetObjectGuid())
+			// If we're not the winner, the item won't show up anymore.
+			if (winner && winner != viewer->GetObjectGuid())
+				{ return MAX_LOOT_SLOT_TYPE; }
+
+			if (is_underthreshold || viewer->GetObjectGuid() != viewer->GetGroup()->GetLooterGuid() || winner == viewer->GetObjectGuid())
 				{ return LOOT_SLOT_NORMAL; }
 			
 			return LOOT_SLOT_MASTER;
