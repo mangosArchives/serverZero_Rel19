@@ -146,7 +146,7 @@ void WorldSession::HandleAutostoreLootItemOpcode(WorldPacket& recv_data)
 			}
 			case MASTER_LOOT:
 			{
-				if((item->winner && item->winner != player->GetObjectGuid()) || (!item->winner && !item->is_underthreshold))
+				if((item->winner && item->winner != player->GetObjectGuid()) || (!item->winner && !item->is_underthreshold && !item->freeforall))
 				{
 					player->SendEquipError(EQUIP_ERR_LOOT_CANT_LOOT_THAT_NOW, NULL, NULL, item->itemid);
 					return;
