@@ -7128,15 +7128,15 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
 
             loot = &go->loot;
 
-            Player* recipient = go->GetLootRecipient();
-            if (!recipient)
-            {
-                go->SetLootRecipient(this);
-                recipient = this;
-            }
+			Player* recipient = go->GetLootRecipient();
+			if (!recipient)
+			{
+				go->SetLootRecipient(this);
+		        recipient = this;
+			}
 
-            // generate loot only if ready for open and spawned in world
-            if (go->getLootState() == GO_READY && go->isSpawned())
+            // generate loot only if ready for open and spawned in world and not already looted once.
+			if (go->getLootState() == GO_READY && go->isSpawned())
             {
                 uint32 lootid =  go->GetGOInfo()->GetLootId();
                 if ((go->GetEntry() == BG_AV_OBJECTID_MINE_N || go->GetEntry() == BG_AV_OBJECTID_MINE_S))
@@ -7178,22 +7178,19 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
                         {
                             if (Group* group = go->GetGroupLootRecipient())
                             {
-                                group->UpdateLooterGuid(go, true);
-
                                 switch (group->GetLootMethod())
                                 {
                                     case GROUP_LOOT:
-                                        // GroupLoot delete items over threshold (threshold even not implemented), and roll them. Items with quality<threshold, round robin
                                         group->GroupLoot(go, loot);
-                                        permission = GROUP_PERMISSION;
+										permission = ALL_PERMISSION;
                                         break;
                                     case NEED_BEFORE_GREED:
                                         group->NeedBeforeGreed(go, loot);
-                                        permission = GROUP_PERMISSION;
+                                        permission = ALL_PERMISSION;
                                         break;
                                     case MASTER_LOOT:
                                         group->MasterLoot(go, loot);
-                                        permission = MASTER_PERMISSION;
+										permission = MASTER_PERMISSION;
                                         break;
                                     default:
                                         break;
@@ -7202,35 +7199,26 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
                         }
                         break;
                 }
-
-                go->SetLootState(GO_ACTIVATED);
+				go->SetLootState(GO_ACTIVATED);
             }
+
             if (go->getLootState() == GO_ACTIVATED && go->GetGoType() == GAMEOBJECT_TYPE_CHEST && go->GetGOInfo()->chest.groupLootRules)
             {
                 if (Group* group = go->GetGroupLootRecipient())
                 {
                     if (group == GetGroup())
                     {
-                        if (group->GetLootMethod() == FREE_FOR_ALL)
-                            { permission = ALL_PERMISSION; }
-                        else if (group->GetLooterGuid() == GetObjectGuid())
-                        {
-                            if (group->GetLootMethod() == MASTER_LOOT)
-                                { permission = MASTER_PERMISSION; }
-                            else
-                                { permission = ALL_PERMISSION; }
-                        }
-                        else
-                            { permission = GROUP_PERMISSION; }
-                    }
-                    else
-                        { permission = NONE_PERMISSION; }
-                }
-                else if (recipient == this)
-                    { permission = ALL_PERMISSION; }
-                else
-                    { permission = NONE_PERMISSION; }
+						if(group->GetLootMethod() == MASTER_LOOT)
+							{ permission = MASTER_PERMISSION; }
+						else
+							{ permission = ALL_PERMISSION; }
+					}
+				}
             }
+
+			go->SetGoState(GO_STATE_ACTIVE);
+			SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_LOOTING);
+
             break;
         }
         case HIGHGUID_ITEM:

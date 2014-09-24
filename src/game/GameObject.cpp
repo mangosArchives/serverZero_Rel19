@@ -392,15 +392,6 @@ void GameObject::Update(uint32 update_diff, uint32 p_time)
                     if (GetGOInfo()->GetAutoCloseTime() && (m_cooldownTime < time(NULL)))
                         { ResetDoorOrButton(); }
                     break;
-                case GAMEOBJECT_TYPE_CHEST:
-                    if (m_groupLootId)
-                    {
-                        if (m_groupLootTimer <= update_diff)
-                            { StopGroupLoot(); }
-                        else
-                            { m_groupLootTimer -= update_diff; }
-                    }
-                    break;
                 case GAMEOBJECT_TYPE_GOOBER:
                     if (m_cooldownTime < time(NULL))
                     {
