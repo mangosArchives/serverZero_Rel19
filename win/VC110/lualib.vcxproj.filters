@@ -47,7 +47,7 @@
     <ClInclude Include="..\..\dep\lualib\lobject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\dep\lualib\lopcodes.h">
+    <ClInclude Include="..\..\dep\lualib\lServer\Opcodes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dep\lualib\lparser.h">
@@ -145,7 +145,7 @@
     <ClCompile Include="..\..\dep\lualib\lobject.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dep\lualib\lopcodes.c">
+    <ClCompile Include="..\..\dep\lualib\lServer\Opcodes.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\dep\lualib\loslib.c">
