@@ -241,7 +241,7 @@ add_subdirectory(AuctionHouseBot)
 #Eluna specific start
 
 if(SCRIPT_LIB_ELUNA)
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/LuaEngine/extensions DESTINATION ${BIN_DIR}/lua_scripts/)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/modules/Eluna/extensions DESTINATION ${BIN_DIR}/lua_scripts/)
 endif()
 
 if(SCRIPT_LIB_ELUNA)
