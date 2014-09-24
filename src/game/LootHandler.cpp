@@ -434,7 +434,10 @@ void WorldSession::DoLootRelease(ObjectGuid lguid)
             }
             else
                 // not fully looted object
-                { go->SetLootState(GO_ACTIVATED); }
+            { 
+				go->SetLootState(GO_ACTIVATED); 
+				go->SetGoState(GO_STATE_READY);
+			}
             break;
         }
         /* Only used for removing insignia in battlegrounds */

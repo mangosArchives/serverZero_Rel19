@@ -630,8 +630,8 @@ void Group::GroupLoot(WorldObject* pSource, Loot* loot)
             continue;
         }
 
-        // roll for over-threshold item if it's one-player loot
-        if (itemProto->Quality >= uint32(m_lootThreshold) && !lootItem.freeforall)
+		// Roll for creature drops only. Not for other containers.
+		if (itemProto->Quality >= uint32(m_lootThreshold) && !lootItem.freeforall && pSource->GetTypeId() == TYPEID_UNIT)
             { StartLootRoll(pSource, GROUP_LOOT, loot, itemSlot); }
         else
             { lootItem.is_underthreshold = 1; }
@@ -651,7 +651,7 @@ void Group::NeedBeforeGreed(WorldObject* pSource, Loot* loot)
         }
 
         // only roll for one-player items, not for ones everyone can get
-        if (itemProto->Quality >= uint32(m_lootThreshold) && !lootItem.freeforall)
+		if (itemProto->Quality >= uint32(m_lootThreshold) && !lootItem.freeforall && pSource->GetTypeId() == TYPEID_UNIT)
             { StartLootRoll(pSource, NEED_BEFORE_GREED, loot, itemSlot); }
         else
             { lootItem.is_underthreshold = 1; }
@@ -969,7 +969,7 @@ bool Group::IsRollDoneForItem(Creature * pCreature, const LootItem * pItem)
 	for(Rolls::iterator i = RollId.begin(); i != RollId.end(); i++)
 	{
 		roll = *i;
-		if(roll->lootedTargetGUID == pCreature->GetObjectGuid() && roll->itemid == pItem->itemid)
+		if(roll->lootedTargetGUID == pCreature->GetObjectGuid() && roll->itemid == pItem->itemid && roll->totalPlayersRolling > 1)
 			{ return false; }
 	}
 
