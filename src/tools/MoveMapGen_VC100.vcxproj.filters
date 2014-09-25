@@ -59,7 +59,7 @@
     <ClInclude Include="..\..\src\MapBuilder.h">
       <Filter>generator</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\src\game\MoveMapSharedDefines.h">
+    <ClInclude Include="..\..\..\..\src\game\WorldHandlers\MoveMapSharedDefines.h">
       <Filter>generator</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\game\vmap\BIH.h">

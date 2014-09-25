@@ -69,7 +69,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\src\;..\..\dep\recastnavigation\Detour\Include\;..\..\dep\recastnavigation\Recast\Include\;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework\;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src\;..\..\dep\recastnavigation\Detour\Include\;..\..\dep\recastnavigation\Recast\Include\;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework\;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;DEBUG;MMAP_GENERATOR;NO_CORE_FUNCS;DT_POLYREF64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
@@ -90,7 +90,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\src\;..\..\dep\recastnavigation\Detour\Include\;..\..\dep\recastnavigation\Recast\Include\;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework\;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src\;..\..\dep\recastnavigation\Detour\Include\;..\..\dep\recastnavigation\Recast\Include\;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework\;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;DEBUG;MMAP_GENERATOR;NO_CORE_FUNCS;DT_POLYREF64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
@@ -111,7 +111,7 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\src\;..\..\dep\recastnavigation\Detour\Include\;..\..\dep\recastnavigation\Recast\Include\;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework\;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src\;..\..\dep\recastnavigation\Detour\Include\;..\..\dep\recastnavigation\Recast\Include\;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework\;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PreprocessorDefinitions>WIN32;NDEBUG;MMAP_GENERATOR;_CRT_SECURE_NO_WARNINGS;NO_CORE_FUNCS;DT_POLYREF64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
@@ -129,7 +129,7 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\src\;..\..\dep\recastnavigation\Detour\Include\;..\..\dep\recastnavigation\Recast\Include\;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework\;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src\;..\..\dep\recastnavigation\Detour\Include\;..\..\dep\recastnavigation\Recast\Include\;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework\;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PreprocessorDefinitions>WIN32;NDEBUG;MMAP_GENERATOR;_CRT_SECURE_NO_WARNINGS;NO_CORE_FUNCS;DT_POLYREF64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
@@ -168,7 +168,7 @@
     <ClInclude Include="..\..\src\game\vmap\VMapManager2.h" />
     <ClInclude Include="..\..\src\game\vmap\VMapTools.h" />
     <ClInclude Include="..\..\src\game\vmap\WorldModel.h" />
-    <ClInclude Include="..\..\src\game\MoveMapSharedDefines.h" />
+    <ClInclude Include="..\..\src\game\WorldHandlers\MoveMapSharedDefines.h" />
     <ClInclude Include="Movemap-Generator\MangosMap.h" />
     <ClInclude Include="Movemap-Generator\MapBuilder.h" />
     <ClInclude Include="Movemap-Generator\MMapCommon.h" />

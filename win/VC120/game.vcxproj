@@ -567,7 +567,7 @@
     <ClInclude Include="..\..\src\game\Object\Item.h" />
     <ClInclude Include="..\..\src\game\Object\ItemEnchantmentMgr.h" />
     <ClInclude Include="..\..\src\game\ItemPrototype.h" />
-    <ClInclude Include="..\..\src\game\Language.h" />
+    <ClInclude Include="..\..\src\game\Tools\Language.h" />
     <ClInclude Include="..\..\src\game\WorldHandlers\LFGHandler.h" />
     <ClInclude Include="..\..\src\game\Object\LootMgr.h" />
     <ClInclude Include="..\..\src\modules\eluna\AuraMethods.h" />
