@@ -504,7 +504,7 @@ $(TargetDir)..\genrevision__$(Platform)_$(Configuration)\genrevision.exe" "..\..
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ACE_vc12.vcxproj">
-      <Project>{bd537c9a-feca-1bad-6757-8a6348ea12c8}</Project>
+      <Project>{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}</Project>
     </ProjectReference>
     <ProjectReference Include="framework.vcxproj">
       <Project>{bf6f5d0e-33a5-4e23-9e7d-dd481b7b5b9e}</Project>
