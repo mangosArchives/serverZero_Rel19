@@ -706,51 +706,57 @@ namespace MaNGOS
 
             for (typename GridRefManager<T>::iterator itr = m.begin(); itr != m.end(); ++itr)
             {
+                // GM OFF Spell must pass the checks.
+                bool gmSpell = (i_spell.m_spellInfo->Id == 1509);
                 // there are still more spells which can be casted on dead, but
                 // they are no AOE and don't have such a nice SPELL_ATTR flag
-                if ((i_TargetType != SPELL_TARGETS_ALL && !itr->getSource()->IsTargetableForAttack(i_spell.m_spellInfo->HasAttribute(SPELL_ATTR_EX3_CAST_ON_DEAD)))
-                    // mostly phase check
-                    || !itr->getSource()->IsInMap(i_originalCaster))
-                    { continue; }
-
-                switch (i_TargetType)
+                
+                if (!gmSpell)
                 {
-                    case SPELL_TARGETS_HOSTILE:
-                        if (!i_originalCaster->IsHostileTo(itr->getSource()))
-                            { continue; }
-                        break;
-                    case SPELL_TARGETS_NOT_FRIENDLY:
-                        if (i_originalCaster->IsFriendlyTo(itr->getSource()))
-                            { continue; }
-                        break;
-                    case SPELL_TARGETS_NOT_HOSTILE:
-                        if (i_originalCaster->IsHostileTo(itr->getSource()))
-                            { continue; }
-                        break;
-                    case SPELL_TARGETS_FRIENDLY:
-                        if (!i_originalCaster->IsFriendlyTo(itr->getSource()))
-                            { continue; }
-                        break;
-                    case SPELL_TARGETS_AOE_DAMAGE:
-                    {
-                        if (itr->getSource()->GetTypeId() == TYPEID_UNIT && ((Creature*)itr->getSource())->IsTotem())
-                            { continue; }
+                    if ((i_TargetType != SPELL_TARGETS_ALL && !itr->getSource()->IsTargetableForAttack(i_spell.m_spellInfo->HasAttribute(SPELL_ATTR_EX3_CAST_ON_DEAD)))
+                        // mostly phase check
+                        || !itr->getSource()->IsInMap(i_originalCaster))
+                        { continue; }
 
-                        if (i_playerControlled)
-                        {
-                            if (i_originalCaster->IsFriendlyTo(itr->getSource()))
-                                { continue; }
-                        }
-                        else
-                        {
+                    switch (i_TargetType)
+                    {
+                        case SPELL_TARGETS_HOSTILE:
                             if (!i_originalCaster->IsHostileTo(itr->getSource()))
                                 { continue; }
+                            break;
+                        case SPELL_TARGETS_NOT_FRIENDLY:
+                            if (i_originalCaster->IsFriendlyTo(itr->getSource()))
+                                { continue; }
+                            break;
+                        case SPELL_TARGETS_NOT_HOSTILE:
+                            if (i_originalCaster->IsHostileTo(itr->getSource()))
+                                { continue; }
+                            break;
+                        case SPELL_TARGETS_FRIENDLY:
+                            if (!i_originalCaster->IsFriendlyTo(itr->getSource()))
+                                { continue; }
+                            break;
+                        case SPELL_TARGETS_AOE_DAMAGE:
+                        {
+                            if (itr->getSource()->GetTypeId() == TYPEID_UNIT && ((Creature*)itr->getSource())->IsTotem())
+                                { continue; }
+
+                            if (i_playerControlled)
+                            {
+                                if (i_originalCaster->IsFriendlyTo(itr->getSource()))
+                                    { continue; }
+                            }
+                            else
+                            {
+                                if (!i_originalCaster->IsHostileTo(itr->getSource()))
+                                    { continue; }
+                            }
                         }
-                    }
-                    break;
-                    case SPELL_TARGETS_ALL:
                         break;
-                    default: continue;
+                        case SPELL_TARGETS_ALL:
+                            break;
+                        default: continue;
+                    }
                 }
 
                 // we don't need to check InMap here, it's already done some lines above
