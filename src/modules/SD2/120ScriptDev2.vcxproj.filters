@@ -295,6 +295,7 @@
     <ClCompile Include="system\ScriptLoader.cpp" />
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="ScriptDevMgr.cpp" />
+    <ClCompile Include="scripts\kalimdor\onyxias_lair\npc_onyxian_warder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\system\ScriptLoader.h">
@@ -339,8 +340,5 @@
     <ClInclude Include="sd2_revision_nr.h" />
     <ClInclude Include="sd2_revision_sql.h" />
     <ClInclude Include="ScriptDevMgr.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="revision.h" />
   </ItemGroup>
 </Project>

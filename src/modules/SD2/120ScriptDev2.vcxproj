@@ -440,28 +440,6 @@
     <ClInclude Include="..\system\ScriptLoader.h" />
     <ClInclude Include="..\system\system.h" />
     <ClInclude Include="..\config.h" />
-    <CustomBuild Include="revision.h">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Extracting revision</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"..\..\win\VC120\genrevision__$(Platform)_$(Configuration)\genrevision.exe"
-</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.svn/entries;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">revision.h;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Extracting revision</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"..\..\win\VC120\genrevision__$(Platform)_$(Configuration)\genrevision.exe"
-</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.svn/entries;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">revision.h;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Extracting revision</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"..\..\win\VC120\genrevision__$(Platform)_$(Configuration)\genrevision.exe"
-</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.svn/entries;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">revision.h;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Extracting revision</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"..\..\win\VC120\genrevision__$(Platform)_$(Configuration)\genrevision.exe"
-</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.svn/entries;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">revision.h;%(Outputs)</Outputs>
-    </CustomBuild>
     <ClInclude Include="sd2_revision_nr.h" />
     <ClInclude Include="sd2_revision_sql.h" />
     <ClInclude Include="ScriptDevMgr.h" />

@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Map-Extractor", "map-extractor_VC120.vcxproj", "{D7552D4F-408F-4F8E-859B-366659150CF4}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -40,6 +40,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "..\..\win\VC120\zlib.vcxproj", "{8F1DEA42-6A5B-4B62-839D-C141A7BFACF2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bzip2", "..\..\win\VC120\bzip2.vcxproj", "{B96F612A-C91D-43B3-A4C3-D4294817EC6C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "acelite", "..\..\win\VC120\ACE_vc12.vcxproj", "{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -164,6 +166,18 @@ Global
 		{B96F612A-C91D-43B3-A4C3-D4294817EC6C}.Release|Win32.Build.0 = Release|Win32
 		{B96F612A-C91D-43B3-A4C3-D4294817EC6C}.Release|x64.ActiveCfg = Release|x64
 		{B96F612A-C91D-43B3-A4C3-D4294817EC6C}.Release|x64.Build.0 = Release|x64
+		{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}.Debug_NoPCH|Win32.ActiveCfg = Debug_NoPCH|Win32
+		{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}.Debug_NoPCH|Win32.Build.0 = Debug_NoPCH|Win32
+		{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}.Debug_NoPCH|x64.ActiveCfg = Debug_NoPCH|x64
+		{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}.Debug_NoPCH|x64.Build.0 = Debug_NoPCH|x64
+		{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}.Debug|Win32.ActiveCfg = Debug|Win32
+		{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}.Debug|Win32.Build.0 = Debug|Win32
+		{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}.Debug|x64.ActiveCfg = Debug|x64
+		{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}.Debug|x64.Build.0 = Debug|x64
+		{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}.Release|Win32.ActiveCfg = Release|Win32
+		{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}.Release|Win32.Build.0 = Release|Win32
+		{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}.Release|x64.ActiveCfg = Release|x64
+		{038B565D-CAA9-4CC5-8B4A-13B4287ABE14}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
