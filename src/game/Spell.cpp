@@ -3169,6 +3169,13 @@ void Spell::SendCastResult(SpellCastResult result)
     if (((Player*)m_caster)->GetSession()->PlayerLoading()) // don't send cast results at loading time
         { return; }
 
+    // Reseting emote state for case not handled by the client.
+    if (result == SPELL_FAILED_CHEST_IN_USE)
+    {
+        SendInterrupted(0);
+    }
+
+
     SendCastResult((Player*)m_caster, m_spellInfo, result);
 }
 
