@@ -39,13 +39,6 @@ if(SOAP)
     )
 endif()
 
-if(SCRIPT_LIB_ELUNA)
-    file(GLOB SRC_FILES_LUAENGINE ${CMAKE_SOURCE_DIR}/src/modules/Eluna/*.cpp ${CMAKE_SOURCE_DIR}/src/modules/Eluna/*.h)
-    LIST(APPEND EXECUTABLE_SRCS
-        ${SRC_FILES_LUAENGINE}
-    )
-endif()
-
 if(WIN32)
     # add resource file to windows build
     set(EXECUTABLE_SRCS ${EXECUTABLE_SRCS} mangosd.rc)
@@ -70,10 +63,12 @@ include_directories(
 )
 
 if(SCRIPT_LIB_ELUNA)
-    include_directories(
-        "${CMAKE_SOURCE_DIR}/dep/lualib"
-        "${CMAKE_SOURCE_DIR}/src/modules/Eluna"
-    )
+	include_directories(${CMAKE_SOURCE_DIR}/src/modules/Eluna)
+	include_directories(${CMAKE_SOURCE_DIR}/dep/lualib)
+endif()
+
+if(SCRIPT_LIB_SD2)
+    include_directories(${CMAKE_SOURCE_DIR}/src/modules/SD2)
 endif()
 
 if(SOAP)
@@ -104,9 +99,6 @@ target_link_libraries(${EXECUTABLE_NAME}
 )
 
 add_dependencies(${EXECUTABLE_NAME} game)
-if(SCRIPT_LIB_ELUNA)
-    # add_dependencies(${EXECUTABLE_NAME} lualib)
-endif()
 
 if(SOAP)
     target_link_libraries(${EXECUTABLE_NAME}

@@ -43,163 +43,76 @@ include_directories(
   "${ACE_INCLUDE_DIR}"
 )
 
-#AH Bot group
-file(GLOB SRC_FILES_AHBOT AuctionHouseBot/*.cpp AuctionHouseBot/*.h)
-    set(SRC_GRP_AHBOT
-        ${SRC_FILES_AHBOT}
-    )
-
-source_group("AhBot"
-  FILES
-    ${SRC_GRP_AHBOT}
-)
-
-#Battlegrounds group
-file(GLOB SRC_FILES_BATTLEGROUND BattleGround/*.cpp BattleGround/*.h)
-    set(SRC_GRP_BATTLEGROUND
-        ${SRC_FILES_BATTLEGROUND}
-    )
-	
-source_group("BattleGround"
-  FILES
-    ${SRC_GRP_BATTLEGROUND}
-)
-
-
-#Chat Commands group
-file(GLOB SRC_FILES_CHAT_COMMANDS ChatCommands/*.cpp ChatCommands/*.h)
-    set(SRC_GRP_CHAT_COMMANDS
-        ${SRC_FILES_CHAT_COMMANDS}
-    )
-
-source_group("Chat Commands"
-  FILES
-    ${SRC_GRP_CHAT_COMMANDS}
-)
-
-#Motion Generator group
-file(GLOB SRC_FILES_MOTION_GEN MotionGenerators/*.cpp MotionGenerators/*.h)
-    set(SRC_GRP_MOTION_GEN
-        ${SRC_FILES_MOTION_GEN}
-    )
-
-source_group("Motion generators"
-  FILES
-    ${SRC_GRP_MOTION_GEN}
-)
-
-#Movement group
-file(GLOB SRC_FILES_MOVEMENT movement/*.cpp movement/*.h)
-    set(SRC_GRP_MOVEMENT
-        ${SRC_FILES_MOVEMENT}
-    )
-
-source_group("Movement"
-  FILES
-    ${SRC_GRP_MOVEMENT}
-)
-
-#Object group
-file(GLOB SRC_FILES_OBJECT Object/*.cpp Object/*.h)
-    set(SRC_GRP_OBJECT
-        ${SRC_FILES_OBJECT}
-    )
-
-source_group("Object"
-  FILES
-    ${SRC_GRP_OBJECT}
-)	
-
-#Outdoors PvP group
-file(GLOB SRC_FILES_OUTDOOR_PVP OutdoorPvP/*.cpp OutdoorPvP/*.h)
-    set(SRC_GRP_OUTDOOR_PVP
-        ${SRC_FILES_OUTDOOR_PVP}
-    )
-	
-source_group("Outdoor PvP"
-  FILES
-    ${SRC_GRP_OUTDOOR_PVP}
-)
-
-#References group
-file(GLOB SRC_FILES_REFERENCES References/*.cpp References/*.h)
-    set(SRC_GRP_REFERENCES
-        ${SRC_FILES_REFERENCES}
-    )
-	
-source_group("References"
-  FILES
-    ${SRC_GRP_REFERENCES}
-)
-
-#Server group
-file(GLOB SRC_FILES_SERVER Server/*.cpp Server/*.h)
-    set(SRC_GRP_SERVER
-        ${SRC_FILES_SERVER}
-    )
-	
-source_group("Server"
-  FILES
-    ${SRC_GRP_SERVER}
-)
-	
-#Tools group
-file(GLOB SRC_FILES_TOOL Tools/*.cpp Tools/*.h)
-    set(SRC_GRP_TOOL
-        ${SRC_FILES_TOOL}
-    )
-
-source_group("Tool"
-  FILES
-    ${SRC_GRP_TOOL}
-)
-
-#VMap group
-file(GLOB SRC_FILES_VMAPS vmap/*.cpp vmap/*.h)
-    set(SRC_GRP_VMAPS
-        ${SRC_FILES_VMAPS}
-    )
-
-source_group("vmaps"
-  FILES
-    ${SRC_GRP_VMAPS}
-)
-	
-#World and Handlers group
-file(GLOB SRC_FILES_WORLD_HANDLERS WorldHandlers/*.cpp WorldHandlers/*.h)
-    set(SRC_GRP_WORLD_HANDLERS
-        ${SRC_FILES_WORLD_HANDLERS}
-    )
-
-source_group("World/Handlers"
-  FILES
-    ${SRC_GRP_WORLD_HANDLERS}
-)
-	
-set(LIBRARY_SRCS
-    ${SRC_GRP_AHBOT}
-    ${SRC_GRP_BATTLEGROUND}
-    ${SRC_GRP_CHAT_COMMANDS}
-    ${SRC_GRP_MOTION_GEN}
-    ${SRC_GRP_MOVEMENT}
-    ${SRC_GRP_OBJECT}
-    ${SRC_GRP_OUTDOOR_PVP}
-    ${SRC_GRP_REFERENCES}
-    ${SRC_GRP_SERVER}
-    ${SRC_GRP_TOOL}
-    ${SRC_GRP_VMAPS}
-    ${SRC_GRP_WORLD_HANDLERS}
-    pchdef.cpp
-    pchdef.h
-)
-
 if(PCH)
   include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 endif()
 
-add_library(${LIBRARY_NAME} STATIC
-  ${LIBRARY_SRCS}
+set(LIBRARY_SRCS
+  pchdef.cpp
+  pchdef.h
 )
+
+#AH Bot group
+file(GLOB SRC_AHBOT AuctionHouseBot/*.cpp AuctionHouseBot/*.h)
+  LIST(APPEND LIBRARY_SRCS ${SRC_AHBOT})
+  source_group("AhBot" FILES ${SRC_AHBOT})
+
+#Battlegrounds group
+file(GLOB SRC_BATTLEGROUND BattleGround/*.cpp BattleGround/*.h)
+  LIST(APPEND LIBRARY_SRCS ${SRC_BATTLEGROUND})
+  source_group("BattleGround" FILES ${SRC_BATTLEGROUND})
+
+#Chat Commands group
+file(GLOB SRC_CHAT_COMMANDS ChatCommands/*.cpp ChatCommands/*.h)
+  LIST(APPEND LIBRARY_SRCS ${SRC_CHAT_COMMANDS})
+  source_group("Chat Commands" FILES ${SRC_CHAT_COMMANDS})
+
+#Motion Generator group
+file(GLOB SRC_MOTION_GEN MotionGenerators/*.cpp MotionGenerators/*.h)
+  LIST(APPEND LIBRARY_SRCS ${SRC_MOTION_GEN})
+  source_group("Motion generators" FILES ${SRC_MOTION_GEN})
+
+#Movement group
+file(GLOB SRC_MOVEMENT movement/*.cpp movement/*.h)
+  LIST(APPEND LIBRARY_SRCS ${SRC_MOVEMENT})
+  source_group("Movement" FILES ${SRC_MOVEMENT})
+
+#Object group
+file(GLOB SRC_OBJECT Object/*.cpp Object/*.h)
+  LIST(APPEND LIBRARY_SRCS ${SRC_OBJECT})
+  source_group("Object" FILES ${SRC_OBJECT})	
+
+#Outdoors PvP group
+file(GLOB SRC_OUTDOOR_PVP OutdoorPvP/*.cpp OutdoorPvP/*.h)
+  LIST(APPEND LIBRARY_SRCS ${SRC_OUTDOOR_PVP})
+  source_group("Outdoor PvP" FILES ${SRC_OUTDOOR_PVP})
+
+#References group
+file(GLOB SRC_REFERENCES References/*.cpp References/*.h)
+  LIST(APPEND LIBRARY_SRCS ${SRC_REFERENCES})
+  source_group("References" FILES ${SRC_REFERENCES})
+
+#Server group
+file(GLOB SRC_SERVER Server/*.cpp Server/*.h)
+  LIST(APPEND LIBRARY_SRCS ${SRC_SERVER})
+  source_group("Server" FILES ${SRC_SERVER})
+	
+#Tools group
+file(GLOB SRC_TOOL Tools/*.cpp Tools/*.h)
+  LIST(APPEND LIBRARY_SRCS ${SRC_TOOL})
+  source_group("Tool" FILES ${SRC_TOOL})
+
+#VMap group
+file(GLOB SRC_VMAPS vmap/*.cpp vmap/*.h)
+  LIST(APPEND LIBRARY_SRCS ${SRC_VMAPS})
+  source_group("VMaps" FILES ${SRC_VMAPS})
+	
+#World and Handlers group
+file(GLOB SRC_WORLD_HANDLERS WorldHandlers/*.cpp WorldHandlers/*.h)
+  LIST(APPEND LIBRARY_SRCS ${SRC_WORLD_HANDLERS})
+  source_group("World/Handlers" FILES ${SRC_WORLD_HANDLERS})
+
+add_library(${LIBRARY_NAME} STATIC ${LIBRARY_SRCS})
 
 target_link_libraries(${LIBRARY_NAME}
   shared
@@ -209,16 +122,14 @@ target_link_libraries(${LIBRARY_NAME}
 if(UNIX)
   # Both systems don't have libdl and don't need them
   if (NOT (CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD"))
-    target_link_libraries(${LIBRARY_NAME}
-      dl
-    )
+    target_link_libraries(${LIBRARY_NAME} dl)
   endif()
 endif()
 
 add_dependencies(${LIBRARY_NAME} revision.h)
 
 if(NOT ACE_USE_EXTERNAL)
-    add_dependencies(${LIBRARY_NAME} ace)
+  add_dependencies(${LIBRARY_NAME} ace)
 endif()
 
 # Generate precompiled header
@@ -239,38 +150,20 @@ endif()
 add_subdirectory(AuctionHouseBot)
 
 if(SCRIPT_LIB_SD2)
-    include_directories(
-        "${CMAKE_SOURCE_DIR}/src/modules/SD2"
-    )
-    target_link_libraries(${LIBRARY_NAME}
-        mangosscript
-    )
-    add_dependencies(${LIBRARY_NAME} mangosscript)
+  include_directories("${CMAKE_SOURCE_DIR}/src/modules/SD2")
+  target_link_libraries(${LIBRARY_NAME} mangosscript)
+  add_dependencies(${LIBRARY_NAME} mangosscript)
 endif()
 
 #Eluna specific start
-
 if(SCRIPT_LIB_ELUNA)
-    #install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/modules/Eluna/extensions DESTINATION ${BIN_DIR}/lua_scripts/)
-endif()
+# install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/modules/Eluna/extensions DESTINATION ${BIN_DIR}/lua_scripts/)
+  include_directories(
+    "${CMAKE_SOURCE_DIR}/dep/lualib"
+    "${CMAKE_SOURCE_DIR}/src/modules/Eluna"
+  )
 
-if(SCRIPT_LIB_ELUNA)
-include_directories(
-	"${CMAKE_SOURCE_DIR}/dep/lualib"
-	"${CMAKE_SOURCE_DIR}/src/modules/Eluna"
-)
+  target_link_libraries(${LIBRARY_NAME} LuaEngine)
+  target_link_libraries(${LIBRARY_NAME} lualib)
 endif()
-
-if(SCRIPT_LIB_ELUNA)
-    target_link_libraries(${LIBRARY_NAME} lualib)
-endif()
-
-if(SCRIPT_LIB_ELUNA)
-    list(APPEND LIBRARY_SRCS ${SRC_GRP_LUAENGINE})
-endif()
-
-if(SCRIPT_LIB_ELUNA)
-    add_dependencies(${LIBRARY_NAME} lualib)
-endif()
-
 #Eluna specific end
