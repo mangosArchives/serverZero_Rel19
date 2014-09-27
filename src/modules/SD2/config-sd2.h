@@ -32,7 +32,7 @@
 #include "SystemConfig.h"
 
 #ifdef WIN32
-  #define MANGOS_DLL_EXPORT extern "C" __declspec(dllexport)
+  #define MANGOS_DLL_EXPORT
 #elif defined( __GNUC__ )
   #define MANGOS_DLL_EXPORT extern "C"
 #else

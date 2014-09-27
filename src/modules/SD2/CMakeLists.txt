@@ -322,7 +322,7 @@ if(PCH)
   )
 endif()
 
-add_library(mangosscript SHARED
+add_library(mangosscript STATIC
   ${mangosscript_LIB_SRCS}
 )
 
@@ -336,17 +336,17 @@ target_link_libraries(mangosscript
   ${ACE_LIBRARIES}
 )
 
-if(WIN32)
-  add_dependencies(mangosscript mangosd)
-  target_link_libraries(mangosscript
-    ${CMAKE_BINARY_DIR}/src/mangosd/Release/mangosd.lib
-  )
-  #if(WIN32 AND PLATFORM MATCHES X86)
-  #  target_link_libraries(mangosscript 
-  #    debug ${WIN_DEBUGLIBS}
-  #  )
-  #endif()
-endif()
+#if(WIN32)
+#  add_dependencies(mangosscript mangosd)
+#  target_link_libraries(mangosscript
+#    ${CMAKE_BINARY_DIR}/src/mangosd/Release/mangosd.lib
+#  )
+#  #if(WIN32 AND PLATFORM MATCHES X86)
+#  #  target_link_libraries(mangosscript 
+#  #    debug ${WIN_DEBUGLIBS}
+#  #  )
+#  #endif()
+#endif()
 
 if(UNIX)
   set(mangosscript_LINK_FLAGS "-pthread")
@@ -375,11 +375,11 @@ if(UNIX)
 endif()
 
 # Because size for linker is to big - seriously ?!
-if(WIN32)
-  set_target_properties(mangosscript PROPERTIES
-      LINK_FLAGS_DEBUG "/DEBUG /INCREMENTAL:NO"
-  )
-endif()
+#if(WIN32)
+#  set_target_properties(mangosscript PROPERTIES
+#      LINK_FLAGS_DEBUG "/DEBUG /INCREMENTAL:NO"
+#  )
+#endif()
 
 ## libtool settings
 #  API versioning
@@ -411,7 +411,7 @@ if(PCH)
 endif()
 
 # LIBRARY = dyld / so, RUNTIME = dll
-install(TARGETS mangosscript 
-  LIBRARY DESTINATION "${LIBS_DIR}"
-  RUNTIME DESTINATION "${LIBS_DIR}"
-)
+#install(TARGETS mangosscript 
+#  LIBRARY DESTINATION "${LIBS_DIR}"
+#  RUNTIME DESTINATION "${LIBS_DIR}"
+#)

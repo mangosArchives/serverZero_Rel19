@@ -103,8 +103,9 @@ target_link_libraries(${EXECUTABLE_NAME}
     ${ACE_LIBRARIES}
 )
 
+add_dependencies(${EXECUTABLE_NAME} game)
 if(SCRIPT_LIB_ELUNA)
-    add_dependencies(${EXECUTABLE_NAME} lualib)
+    # add_dependencies(${EXECUTABLE_NAME} lualib)
 endif()
 
 if(SOAP)

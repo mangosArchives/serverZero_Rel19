@@ -238,10 +238,20 @@ endif()
 
 add_subdirectory(AuctionHouseBot)
 
+if(SCRIPT_LIB_SD2)
+    include_directories(
+        "${CMAKE_SOURCE_DIR}/src/modules/SD2"
+    )
+    target_link_libraries(${LIBRARY_NAME}
+        mangosscript
+    )
+    add_dependencies(${LIBRARY_NAME} mangosscript)
+endif()
+
 #Eluna specific start
 
 if(SCRIPT_LIB_ELUNA)
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/modules/Eluna/extensions DESTINATION ${BIN_DIR}/lua_scripts/)
+    #install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/modules/Eluna/extensions DESTINATION ${BIN_DIR}/lua_scripts/)
 endif()
 
 if(SCRIPT_LIB_ELUNA)
