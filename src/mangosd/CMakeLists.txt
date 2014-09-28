@@ -63,10 +63,12 @@ include_directories(
 )
 
 if(SCRIPT_LIB_ELUNA)
-    include_directories(
-        "${CMAKE_SOURCE_DIR}/dep/lualib"
-        "${CMAKE_SOURCE_DIR}/src/modules/Eluna"
-    )
+	include_directories(${CMAKE_SOURCE_DIR}/src/modules/Eluna)
+	include_directories(${CMAKE_SOURCE_DIR}/dep/lualib)
+endif()
+
+if(SCRIPT_LIB_SD2)
+    include_directories(${CMAKE_SOURCE_DIR}/src/modules/SD2)
 endif()
 
 if(SOAP)

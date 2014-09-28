@@ -40,7 +40,9 @@
 #ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
 #endif /* ENABLE_ELUNA */
+#ifdef ENABLE_SD2
 #include "ScriptDevMgr.h"
+#endif
 
 #include "revision_nr.h"
 
@@ -2036,7 +2038,11 @@ uint32 ScriptMgr::GetEventIdScriptId(uint32 eventId) const
 
 char const* ScriptMgr::GetScriptLibraryVersion() const
 {
+#ifdef ENABLE_SD2
     return SD2::GetScriptLibraryVersion();
+#else
+    return "";
+#endif
 }
 
 CreatureAI* ScriptMgr::GetCreatureAI(Creature* pCreature)
@@ -2047,12 +2053,20 @@ CreatureAI* ScriptMgr::GetCreatureAI(Creature* pCreature)
         return luaAI;
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     return SD2::GetCreatureAI(pCreature);
+#else
+    return NULL;
+#endif
 }
 
 InstanceData* ScriptMgr::CreateInstanceData(Map* pMap)
 {
+#ifdef ENABLE_SD2
     return SD2::CreateInstanceData(pMap);
+#else
+    return NULL;
+#endif
 }
 
 bool ScriptMgr::OnGossipHello(Player* pPlayer, Creature* pCreature)
@@ -2063,7 +2077,11 @@ bool ScriptMgr::OnGossipHello(Player* pPlayer, Creature* pCreature)
         return true;
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     return SD2::GossipHello(pPlayer, pCreature);
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnGossipHello(Player* pPlayer, GameObject* pGameObject)
@@ -2074,7 +2092,11 @@ bool ScriptMgr::OnGossipHello(Player* pPlayer, GameObject* pGameObject)
         return true;
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     return SD2::GOGossipHello(pPlayer, pGameObject);
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 sender, uint32 action, const char* code)
@@ -2094,10 +2116,14 @@ bool ScriptMgr::OnGossipSelect(Player* pPlayer, Creature* pCreature, uint32 send
     }
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     if (code)
         { return SD2::GossipSelectWithCode(pPlayer, pCreature, sender, action, code); }
     else
         { return SD2::GossipSelect(pPlayer, pCreature, sender, action); }
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnGossipSelect(Player* pPlayer, GameObject* pGameObject, uint32 sender, uint32 action, const char* code)
@@ -2115,11 +2141,15 @@ bool ScriptMgr::OnGossipSelect(Player* pPlayer, GameObject* pGameObject, uint32 
             return true;
     }
 #endif /* ENABLE_ELUNA */
-
+    
+#ifdef ENABLE_SD2
     if (code)
         { return SD2::GOGossipSelectWithCode(pPlayer, pGameObject, sender, action, code); }
     else
         { return SD2::GOGossipSelect(pPlayer, pGameObject, sender, action); }
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnQuestAccept(Player* pPlayer, Creature* pCreature, Quest const* pQuest)
@@ -2130,7 +2160,11 @@ bool ScriptMgr::OnQuestAccept(Player* pPlayer, Creature* pCreature, Quest const*
         return true;
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     return SD2::QuestAccept(pPlayer, pCreature, pQuest);
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnQuestAccept(Player* pPlayer, GameObject* pGameObject, Quest const* pQuest)
@@ -2141,7 +2175,11 @@ bool ScriptMgr::OnQuestAccept(Player* pPlayer, GameObject* pGameObject, Quest co
         return true;
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     return SD2::GOQuestAccept(pPlayer, pGameObject, pQuest);
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnQuestAccept(Player* pPlayer, Item* pItem, Quest const* pQuest)
@@ -2152,17 +2190,29 @@ bool ScriptMgr::OnQuestAccept(Player* pPlayer, Item* pItem, Quest const* pQuest)
         return true;
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     return SD2::ItemQuestAccept(pPlayer, pItem, pQuest);
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnQuestRewarded(Player* pPlayer, Creature* pCreature, Quest const* pQuest)
 {
+#ifdef ENABLE_SD2
     return SD2::QuestRewarded(pPlayer, pCreature, pQuest);
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnQuestRewarded(Player* pPlayer, GameObject* pGameObject, Quest const* pQuest)
 {
+#ifdef ENABLE_SD2
     return SD2::GOQuestRewarded(pPlayer, pGameObject, pQuest);
+#else
+    return false;
+#endif
 }
 
 uint32 ScriptMgr::GetDialogStatus(Player* pPlayer, Creature* pCreature)
@@ -2173,7 +2223,11 @@ uint32 ScriptMgr::GetDialogStatus(Player* pPlayer, Creature* pCreature)
         return dialogId;
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     return SD2::GetNPCDialogStatus(pPlayer, pCreature);
+#else
+    return DIALOG_STATUS_UNDEFINED;
+#endif
 }
 
 uint32 ScriptMgr::GetDialogStatus(Player* pPlayer, GameObject* pGameObject)
@@ -2184,12 +2238,20 @@ uint32 ScriptMgr::GetDialogStatus(Player* pPlayer, GameObject* pGameObject)
         return dialogId;
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     return SD2::GetGODialogStatus(pPlayer, pGameObject);
+#else
+    return DIALOG_STATUS_UNDEFINED;
+#endif
 }
 
 bool ScriptMgr::OnGameObjectUse(Player* pPlayer, GameObject* pGameObject)
 {
+#ifdef ENABLE_SD2
     return SD2::GOUse(pPlayer, pGameObject);
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnItemUse(Player* pPlayer, Item* pItem, SpellCastTargets const& targets)
@@ -2200,7 +2262,11 @@ bool ScriptMgr::OnItemUse(Player* pPlayer, Item* pItem, SpellCastTargets const& 
         return true;
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     return SD2::ItemUse(pPlayer, pItem, targets);
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnAreaTrigger(Player* pPlayer, AreaTriggerEntry const* atEntry)
@@ -2211,12 +2277,20 @@ bool ScriptMgr::OnAreaTrigger(Player* pPlayer, AreaTriggerEntry const* atEntry)
         return true;
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     return SD2::AreaTrigger(pPlayer, atEntry);
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnProcessEvent(uint32 eventId, Object* pSource, Object* pTarget, bool isStart)
 {
+#ifdef ENABLE_SD2
     return SD2::ProcessEvent(eventId, pSource, pTarget, isStart);
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex effIndex, Creature* pTarget, ObjectGuid originalCasterGuid)
@@ -2227,7 +2301,11 @@ bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex ef
         return true;
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     return SD2::EffectDummyCreature(pCaster, spellId, effIndex, pTarget, originalCasterGuid);
+#else
+    return false;
+#endif
 }
   
 bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex effIndex, GameObject* pTarget, ObjectGuid originalCasterGuid)
@@ -2238,7 +2316,11 @@ bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex ef
         return true;
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     return SD2::EffectDummyGameObject(pCaster, spellId, effIndex, pTarget, originalCasterGuid);
+#else
+    return false;
+#endif
 }
   
 bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex effIndex, Item* pTarget, ObjectGuid originalCasterGuid)
@@ -2249,17 +2331,29 @@ bool ScriptMgr::OnEffectDummy(Unit* pCaster, uint32 spellId, SpellEffectIndex ef
         return true;
 #endif /* ENABLE_ELUNA */
 
+#ifdef ENABLE_SD2
     return SD2::EffectDummyItem(pCaster, spellId, effIndex, pTarget, originalCasterGuid);
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnEffectScriptEffect(Unit* pCaster, uint32 spellId, SpellEffectIndex effIndex, Creature* pTarget, ObjectGuid originalCasterGuid)
 {
+#ifdef ENABLE_SD2
     return SD2::EffectScriptEffectCreature(pCaster, spellId, effIndex, pTarget, originalCasterGuid);
+#else
+    return false;
+#endif
 }
 
 bool ScriptMgr::OnAuraDummy(Aura const* pAura, bool apply)
 {
+#ifdef ENABLE_SD2
     return SD2::AuraDummy(pAura, apply);
+#else
+    return false;
+#endif
 }
 
 ScriptLoadResult ScriptMgr::LoadScriptLibrary(const char* libName)
@@ -2329,13 +2423,19 @@ ScriptLoadResult ScriptMgr::LoadScriptLibrary(const char* libName)
 //    }
 //
 //    m_pOnInitScriptLibrary();
+#ifdef ENABLE_SD2
     SD2::InitScriptLibrary();
+#endif
     return SCRIPT_LOAD_OK;
 }
 
 void ScriptMgr::UnloadScriptLibrary()
 {
+#ifdef ENABLE_SD2
     SD2::FreeScriptLibrary();
+#else
+    return;
+#endif
     //if (!m_hScriptLib)
     //    { return; }
 
