@@ -223,17 +223,7 @@ endif()
 
 # Generate precompiled header
 if(PCH)
-  if(MSVC OR XCODE)
-    if(MSVC)
-      set(game_pch "${CMAKE_CURRENT_SOURCE_DIR}/pchdef.cpp")
-    endif()
-    add_native_precompiled_header(${LIBRARY_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/pchdef.h)
-  elseif(CMAKE_COMPILER_IS_GNUCXX)
-    add_precompiled_header(${LIBRARY_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/pchdef.h)
-    if(NOT ACE_USE_EXTERNAL)
-      add_dependencies(game_pch_dephelp ace)
-    endif()
-  endif()
+    add_native_precompiled_header(${LIBRARY_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/pchdef.h ${CMAKE_CURRENT_SOURCE_DIR}/pchdef.cpp)
 endif()
 
 add_subdirectory(AuctionHouseBot)
@@ -251,26 +241,19 @@ endif()
 #Eluna specific start
 
 if(SCRIPT_LIB_ELUNA)
-    #install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/modules/Eluna/extensions DESTINATION ${BIN_DIR}/lua_scripts/)
-endif()
+#install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/modules/Eluna/extensions DESTINATION ${BIN_DIR}/lua_scripts/)
 
-if(SCRIPT_LIB_ELUNA)
-include_directories(
-	"${CMAKE_SOURCE_DIR}/dep/lualib"
-	"${CMAKE_SOURCE_DIR}/src/modules/Eluna"
-)
-endif()
+  include_directories(
+    "${CMAKE_SOURCE_DIR}/dep/lualib"
+    "${CMAKE_SOURCE_DIR}/src/modules/Eluna"
+  )
+  list(APPEND LIBRARY_SRCS ${SRC_GRP_LUAENGINE})
 
-if(SCRIPT_LIB_ELUNA)
-    target_link_libraries(${LIBRARY_NAME} lualib)
-endif()
+  target_link_libraries(${LIBRARY_NAME} LuaEngine)
+  target_link_libraries(${LIBRARY_NAME} lualib)
 
-if(SCRIPT_LIB_ELUNA)
-    list(APPEND LIBRARY_SRCS ${SRC_GRP_LUAENGINE})
-endif()
-
-if(SCRIPT_LIB_ELUNA)
-    add_dependencies(${LIBRARY_NAME} lualib)
+  add_dependencies(${LIBRARY_NAME} LuaEngine)
+  add_dependencies(${LIBRARY_NAME} lualib)
 endif()
 
 #Eluna specific end

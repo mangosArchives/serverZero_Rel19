@@ -56,172 +56,172 @@ set(sources
 )
 
 #Battleground Scripts
-file(GLOB sources_battlegrounds_files scripts/battlegrounds/*.cpp)
-    set(sources_battlegrounds
-        ${sources_battlegrounds_files}
-    )
-
-#World Scripts
-file(GLOB sources_world_files scripts/world/*.cpp scripts/world/*.h)
-    set(sources_world
-        ${sources_world_files}
-    )
-	
-#Eastern Kingdom Scripts
-file(GLOB sources_eastern_kingdoms_files scripts/eastern_kingdoms/*.cpp scripts/eastern_kingdoms/*.h)
-    set(sources_eastern_kingdoms
-        ${sources_eastern_kingdoms_files}
-    )
-
-#Kalimdor Scripts
-file(GLOB sources_kalimdor_files scripts/kalimdor/*.cpp scripts/kalimdor/*.h)
-    set(sources_kalimdor
-        ${sources_kalimdor_files}
-    )
-
-#Instance: Blackrock Depths Scripts
-file(GLOB sources_instance_ek_brd_files scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/*.cpp scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/*.h)
-    set(sources_instance_ek_brd
-        ${sources_instance_ek_brd_files}
-    )
-
-#Instance: Blackrock Spire Scripts
-file(GLOB sources_instance_ek_brs_files scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/*.cpp scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/*.h)
-    set(sources_instance_ek_brs
-        ${sources_instance_ek_brs_files}
-    )
-
-#Instance: Deadmines Scripts
-file(GLOB sources_instance_ek_tdm_files scripts/eastern_kingdoms/deadmines/*.cpp scripts/eastern_kingdoms/deadmines/*.h)
-    set(sources_instance_ek_tdm
-        ${sources_instance_ek_tdm_files}
-    )
-
-#Instance: Gnomeregan Scripts
-file(GLOB sources_instance_ek_gno_files scripts/eastern_kingdoms/gnomeregan/*.cpp scripts/eastern_kingdoms/gnomeregan/*.h)
-    set(sources_instance_ek_gno
-        ${sources_instance_ek_gno_files}
-    )
-
-#Instance: Scarlet Monastery Scripts
-file(GLOB sources_instance_ek_sm_files scripts/eastern_kingdoms/scarlet_monastery/*.cpp scripts/eastern_kingdoms/scarlet_monastery/*.h)
-    set(sources_instance_ek_sm
-        ${sources_instance_ek_sm_files}
-    )
-
-#Instance: Scholomance Scripts
-file(GLOB sources_instance_ek_scholo_files scripts/eastern_kingdoms/scholomance/*.cpp scripts/eastern_kingdoms/scholomance/*.h)
-    set(sources_instance_ek_scholo
-        ${sources_instance_ek_scholo_files}
-    )
-
-#Instance: Uldaman Scripts
-file(GLOB sources_instance_ek_uld_files scripts/eastern_kingdoms/uldaman/*.cpp scripts/eastern_kingdoms/uldaman/*.h)
-    set(sources_instance_ek_uld
-        ${sources_instance_ek_uld_files}
-    )
-
-#Instance: Shadowfang Keep Scripts
-file(GLOB sources_instance_ek_sfk_files scripts/eastern_kingdoms/shadowfang_keep/*.cpp scripts/eastern_kingdoms/shadowfang_keep/*.h)
-    set(sources_instance_ek_sfk
-        ${sources_instance_ek_sfk_files}
-    )
-	
-#Instance: Sunken Temple Scripts
-file(GLOB sources_instance_ek_st_files scripts/eastern_kingdoms/sunken_temple/*.cpp scripts/eastern_kingdoms/sunken_temple/*.h)
-    set(sources_instance_ek_st
-        ${sources_instance_ek_st_files}
-    )
-	
-#Instance: Stratholme Scripts
-file(GLOB sources_instance_ek_strat_files scripts/eastern_kingdoms/stratholme/*.cpp scripts/eastern_kingdoms/stratholme/*.h)
-    set(sources_instance_ek_strat
-        ${sources_instance_ek_strat_files}
-    )
-
-#Raid: Molten Core Scripts
-file(GLOB sources_raid_ek_mc_files scripts/eastern_kingdoms/blackrock_mountain/molten_core/*.cpp scripts/eastern_kingdoms/blackrock_mountain/molten_core/*.h)
-    set(sources_raid_ek_mc
-        ${sources_raid_ek_mc_files}
-    )
-	
-#Raid: Blackwing Lair Scripts
-file(GLOB sources_raid_ek_bwl_files scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/*.cpp scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/*.h)
-    set(sources_raid_ek_bwl
-        ${sources_raid_ek_bwl_files}
-    )
-	
-#Raid: Naxxramas Scripts
-file(GLOB sources_raid_ek_naxx_files scripts/eastern_kingdoms/naxxramas/*.cpp scripts/eastern_kingdoms/naxxramas/*.h)
-    set(sources_raid_ek_naxx
-        ${sources_raid_ek_naxx_files}
-    )
-
-#Raid: Zul Gurub Scripts
-file(GLOB sources_raid_ek_zg_files scripts/eastern_kingdoms/zulgurub/*.cpp scripts/eastern_kingdoms/zulgurub/*.h)
-    set(sources_raid_ek_zg
-        ${sources_raid_ek_zg_files}
-    )
-	
-#Instance: Blackfathom Deeps Scripts
-file(GLOB sources_instance_k_bdf_files scripts/kalimdor/blackfathom_deeps/*.cpp scripts/kalimdor/blackfathom_deeps/*.h)
-    set(sources_instance_k_bdf
-        ${sources_instance_k_bdf_files}
-    )
-	
-#Instance: Dire Maul Scripts
-file(GLOB sources_instance_k_dm_files scripts/kalimdor/dire_maul/*.cpp scripts/kalimdor/dire_maul/*.h)
-    set(sources_instance_k_dm
-        ${sources_instance_k_dm_files}
-    )
-	
-#Instance: Maraudon Scripts
-file(GLOB sources_instance_k_mara_files scripts/kalimdor/maraudon/*.cpp scripts/kalimdor/maraudon/*.h)
-    set(sources_instance_k_mara
-        ${sources_instance_k_mara_files}
-    )
-
-#Instance: Razorfen Downs Scripts
-file(GLOB sources_instance_k_rfd_files scripts/kalimdor/razorfen_downs/*.cpp scripts/kalimdor/razorfen_downs/*.h)
-    set(sources_instance_k_rfd
-        ${sources_instance_k_rfd_files}
-    )
-	
-#Instance: Razorfen Kraul Scripts
-file(GLOB sources_instance_k_rfk_files scripts/kalimdor/razorfen_kraul/*.cpp scripts/kalimdor/razorfen_kraul/*.h)
-    set(sources_instance_k_rfk
-        ${sources_instance_k_rfk_files}
-    )
-
-#Instance: Wailing Caverns Scripts
-file(GLOB sources_instance_k_wc_files scripts/kalimdor/wailing_caverns/*.cpp scripts/kalimdor/wailing_caverns/*.h)
-    set(sources_instance_k_wc
-        ${sources_instance_k_wc_files}
-    )
-	
-#Instance: Zul Farrak Scripts
-file(GLOB sources_instance_k_zf_files scripts/kalimdor/zulfarrak/*.cpp scripts/kalimdor/zulfarrak/*.h)
-    set(sources_instance_k_zf
-        ${sources_instance_k_zf_files}
-    )
-	
-#Raid: Onyxias Lair Scripts
-file(GLOB sources_raid_k_ony_files scripts/kalimdor/onyxias_lair/*.cpp scripts/kalimdor/onyxias_lair/*.h)
-    set(sources_raid_k_ony
-        ${sources_raid_k_ony_files}
-    )
-
-#Raid: Ruins of AQ Scripts
-file(GLOB sources_raid_k_raq_files scripts/kalimdor/ruins_of_ahnqiraj/*.cpp scripts/kalimdor/ruins_of_ahnqiraj/*.h)
-    set(sources_raid_k_raq
-        ${sources_raid_k_raq_files}
-    )
-
-#Raid: Temple of AQ Scripts
-file(GLOB sources_raid_k_taq_files scripts/kalimdor/temple_of_ahnqiraj/*.cpp scripts/kalimdor/temple_of_ahnqiraj/*.h)
-    set(sources_raid_k_taq
-        ${sources_raid_k_taq_files}
-    )
+file(GLOB sources_battlegrounds scripts/battlegrounds/*.cpp)
+#    set(sources_battlegrounds
+#        ${sources_battlegrounds_files}
+#    )
+#
+##World Scripts
+file(GLOB sources_world scripts/world/*.cpp scripts/world/*.h)
+#    set(sources_world
+#        ${sources_world_files}
+#    )
+#	
+##Eastern Kingdom Scripts
+file(GLOB sources_eastern_kingdoms scripts/eastern_kingdoms/*.cpp scripts/eastern_kingdoms/*.h)
+#    set(sources_eastern_kingdoms
+#        ${sources_eastern_kingdoms_files}
+#    )
+#
+##Kalimdor Scripts
+file(GLOB sources_kalimdor scripts/kalimdor/*.cpp scripts/kalimdor/*.h)
+#    set(sources_kalimdor
+#        ${sources_kalimdor_files}
+#    )
+#
+##Instance: Blackrock Depths Scripts
+file(GLOB sources_instance_ek_brd scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/*.cpp scripts/eastern_kingdoms/blackrock_mountain/blackrock_depths/*.h)
+#    set(sources_instance_ek_brd
+#        ${sources_instance_ek_brd_files}
+#    )
+#
+##Instance: Blackrock Spire Scripts
+file(GLOB sources_instance_ek_brs scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/*.cpp scripts/eastern_kingdoms/blackrock_mountain/blackrock_spire/*.h)
+#    set(sources_instance_ek_brs
+#        ${sources_instance_ek_brs_files}
+#    )
+#
+##Instance: Deadmines Scripts
+file(GLOB sources_instance_ek_tdm scripts/eastern_kingdoms/deadmines/*.cpp scripts/eastern_kingdoms/deadmines/*.h)
+#    set(sources_instance_ek_tdm
+#        ${sources_instance_ek_tdm_files}
+#    )
+#
+##Instance: Gnomeregan Scripts
+file(GLOB sources_instance_ek_gno scripts/eastern_kingdoms/gnomeregan/*.cpp scripts/eastern_kingdoms/gnomeregan/*.h)
+#    set(sources_instance_ek_gno
+#        ${sources_instance_ek_gno_files}
+#    )
+#
+##Instance: Scarlet Monastery Scripts
+file(GLOB sources_instance_ek_sm scripts/eastern_kingdoms/scarlet_monastery/*.cpp scripts/eastern_kingdoms/scarlet_monastery/*.h)
+#    set(sources_instance_ek_sm
+#        ${sources_instance_ek_sm_files}
+#    )
+#
+##Instance: Scholomance Scripts
+file(GLOB sources_instance_ek_scholo scripts/eastern_kingdoms/scholomance/*.cpp scripts/eastern_kingdoms/scholomance/*.h)
+#    set(sources_instance_ek_scholo
+#        ${sources_instance_ek_scholo_files}
+#    )
+#
+##Instance: Uldaman Scripts
+file(GLOB sources_instance_ek_uld scripts/eastern_kingdoms/uldaman/*.cpp scripts/eastern_kingdoms/uldaman/*.h)
+#    set(sources_instance_ek_uld
+#        ${sources_instance_ek_uld_files}
+#    )
+#
+##Instance: Shadowfang Keep Scripts
+file(GLOB sources_instance_ek_sfk scripts/eastern_kingdoms/shadowfang_keep/*.cpp scripts/eastern_kingdoms/shadowfang_keep/*.h)
+#    set(sources_instance_ek_sfk
+#        ${sources_instance_ek_sfk_files}
+#    )
+#	
+##Instance: Sunken Temple Scripts
+file(GLOB sources_instance_ek_st scripts/eastern_kingdoms/sunken_temple/*.cpp scripts/eastern_kingdoms/sunken_temple/*.h)
+#    set(sources_instance_ek_st
+#        ${sources_instance_ek_st_files}
+#    )
+#	
+##Instance: Stratholme Scripts
+file(GLOB sources_instance_ek_strat scripts/eastern_kingdoms/stratholme/*.cpp scripts/eastern_kingdoms/stratholme/*.h)
+#    set(sources_instance_ek_strat
+#        ${sources_instance_ek_strat_files}
+#    )
+#
+##Raid: Molten Core Scripts
+file(GLOB sources_raid_ek_mc scripts/eastern_kingdoms/blackrock_mountain/molten_core/*.cpp scripts/eastern_kingdoms/blackrock_mountain/molten_core/*.h)
+#    set(sources_raid_ek_mc
+#        ${sources_raid_ek_mc_files}
+#    )
+#	
+##Raid: Blackwing Lair Scripts
+file(GLOB sources_raid_ek_bwl scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/*.cpp scripts/eastern_kingdoms/blackrock_mountain/blackwing_lair/*.h)
+#    set(sources_raid_ek_bwl
+#        ${sources_raid_ek_bwl_files}
+#    )
+#	
+##Raid: Naxxramas Scripts
+file(GLOB sources_raid_ek_naxx scripts/eastern_kingdoms/naxxramas/*.cpp scripts/eastern_kingdoms/naxxramas/*.h)
+#    set(sources_raid_ek_naxx
+#        ${sources_raid_ek_naxx_files}
+#    )
+#
+##Raid: Zul Gurub Scripts
+file(GLOB sources_raid_ek_zg scripts/eastern_kingdoms/zulgurub/*.cpp scripts/eastern_kingdoms/zulgurub/*.h)
+#    set(sources_raid_ek_zg
+#        ${sources_raid_ek_zg_files}
+#    )
+#	
+##Instance: Blackfathom Deeps Scripts
+file(GLOB sources_instance_k_bdf scripts/kalimdor/blackfathom_deeps/*.cpp scripts/kalimdor/blackfathom_deeps/*.h)
+#    set(sources_instance_k_bdf
+#        ${sources_instance_k_bdf_files}
+#    )
+#	
+##Instance: Dire Maul Scripts
+file(GLOB sources_instance_k_dm scripts/kalimdor/dire_maul/*.cpp scripts/kalimdor/dire_maul/*.h)
+#    set(sources_instance_k_dm
+#        ${sources_instance_k_dm_files}
+#    )
+#	
+##Instance: Maraudon Scripts
+file(GLOB sources_instance_k_mara scripts/kalimdor/maraudon/*.cpp scripts/kalimdor/maraudon/*.h)
+#    set(sources_instance_k_mara
+#        ${sources_instance_k_mara_files}
+#    )
+#
+##Instance: Razorfen Downs Scripts
+file(GLOB sources_instance_k_rfd scripts/kalimdor/razorfen_downs/*.cpp scripts/kalimdor/razorfen_downs/*.h)
+#    set(sources_instance_k_rfd
+#        ${sources_instance_k_rfd_files}
+#    )
+#	
+##Instance: Razorfen Kraul Scripts
+file(GLOB sources_instance_k_rfk scripts/kalimdor/razorfen_kraul/*.cpp scripts/kalimdor/razorfen_kraul/*.h)
+#    set(sources_instance_k_rfk
+#        ${sources_instance_k_rfk_files}
+#    )
+#
+##Instance: Wailing Caverns Scripts
+file(GLOB sources_instance_k_wc scripts/kalimdor/wailing_caverns/*.cpp scripts/kalimdor/wailing_caverns/*.h)
+#    set(sources_instance_k_wc
+#        ${sources_instance_k_wc_files}
+#    )
+#	
+##Instance: Zul Farrak Scripts
+file(GLOB sources_instance_k_zf scripts/kalimdor/zulfarrak/*.cpp scripts/kalimdor/zulfarrak/*.h)
+#    set(sources_instance_k_zf
+#        ${sources_instance_k_zf_files}
+#    )
+#	
+##Raid: Onyxias Lair Scripts
+file(GLOB sources_raid_k_ony scripts/kalimdor/onyxias_lair/*.cpp scripts/kalimdor/onyxias_lair/*.h)
+#    set(sources_raid_k_ony
+#        ${sources_raid_k_ony_files}
+#    )
+#
+##Raid: Ruins of AQ Scripts
+file(GLOB sources_raid_k_raq scripts/kalimdor/ruins_of_ahnqiraj/*.cpp scripts/kalimdor/ruins_of_ahnqiraj/*.h)
+#    set(sources_raid_k_raq
+#        ${sources_raid_k_raq_files}
+#    )
+#
+##Raid: Temple of AQ Scripts
+file(GLOB sources_raid_k_taq scripts/kalimdor/temple_of_ahnqiraj/*.cpp scripts/kalimdor/temple_of_ahnqiraj/*.h)
+#    set(sources_raid_k_taq
+#        ${sources_raid_k_taq_files}
+#    )
 
 ## magic to include revision data in SD2 version string
 # revision.h: FORCE
@@ -314,27 +314,34 @@ include_directories(
   "${ACE_INCLUDE_DIR}"
   "${MYSQL_INCLUDE_DIR}"
   "${CMAKE_SOURCE_DIR}/src/mangosd"
+  "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
+# Generate precompiled header
 if(PCH)
   include_directories(
     "${CMAKE_CURRENT_BINARY_DIR}"
   )
+  set(mangosscript_pch "${CMAKE_CURRENT_SOURCE_DIR}/include/precompiled.cpp")
+  ADD_CXX_PCH(mangosscript "${CMAKE_CURRENT_SOURCE_DIR}/include/precompiled.h" ${mangosscript_pch})
 endif()
+
 
 add_library(mangosscript STATIC
   ${mangosscript_LIB_SRCS}
+  ${mangosscript_pch}
 )
 
 add_dependencies(mangosscript revision.h)
-if(NOT ACE_USE_EXTERNAL)
-  add_dependencies(mangosscript ace)
-endif()
 
-target_link_libraries(mangosscript 
-  ${ZLIB_LIBRARIES}
-  ${ACE_LIBRARIES}
-)
+#if(NOT ACE_USE_EXTERNAL)
+#  add_dependencies(mangosscript ace)
+#endif()
+#
+#target_link_libraries(mangosscript 
+#  ${ZLIB_LIBRARIES}
+#  ${ACE_LIBRARIES}
+#)
 
 #if(WIN32)
 #  add_dependencies(mangosscript mangosd)
@@ -348,31 +355,31 @@ target_link_libraries(mangosscript
 #  #endif()
 #endif()
 
-if(UNIX)
-  set(mangosscript_LINK_FLAGS "-pthread")
-  if(APPLE)
-    set(mangosscript_LINK_FLAGS "-framework Carbon ${mangosscript_LINK_FLAGS}")
-    # Needed for the linking because of the missing symbols
-    set(mangosscript_LINK_FLAGS "-Wl,-undefined -Wl,dynamic_lookup ${mangosscript_LINK_FLAGS}")
-  endif()
-
-  if(APPLE)
-    set(mangosscript_PROPERTIES INSTALL_NAME_DIR "${LIBS_DIR}")
-  else()
-    set(mangosscript_PROPERTIES INSTALL_RPATH ${LIBS_DIR})
-  endif()
-
-  # Run out of build tree
-  set(mangosscript_PROPERTIES
-    ${mangosscript_PROPERTIES}
-    BUILD_WITH_INSTALL_RPATH OFF
-  )
-
-  set_target_properties(mangosscript PROPERTIES
-    LINK_FLAGS ${mangosscript_LINK_FLAGS}
-    ${mangosscript_PROPERTIES}
-  )
-endif()
+#if(UNIX)
+#  set(mangosscript_LINK_FLAGS "-pthread")
+#  if(APPLE)
+#    set(mangosscript_LINK_FLAGS "-framework Carbon ${mangosscript_LINK_FLAGS}")
+#    # Needed for the linking because of the missing symbols
+#    set(mangosscript_LINK_FLAGS "-Wl,-undefined -Wl,dynamic_lookup ${mangosscript_LINK_FLAGS}")
+#  endif()
+#
+#  if(APPLE)
+#    set(mangosscript_PROPERTIES INSTALL_NAME_DIR "${LIBS_DIR}")
+#  else()
+#    set(mangosscript_PROPERTIES INSTALL_RPATH ${LIBS_DIR})
+#  endif()
+#
+#  # Run out of build tree
+#  set(mangosscript_PROPERTIES
+#    ${mangosscript_PROPERTIES}
+#    BUILD_WITH_INSTALL_RPATH OFF
+#  )
+#
+#  set_target_properties(mangosscript PROPERTIES
+#    LINK_FLAGS ${mangosscript_LINK_FLAGS}
+#    ${mangosscript_PROPERTIES}
+#  )
+#endif()
 
 # Because size for linker is to big - seriously ?!
 #if(WIN32)
@@ -398,17 +405,6 @@ endif()
 #   "-version-info ${LTMANGOS_CURRENT}:${LTMANGOS_REVISION}:${LTMANGOS_AGE}"
 # )
 
-# Generate precompiled header
-if(PCH)
-  if(MSVC OR XCODE)
-    if(MSVC)
-      set(mangosscript_pch "${CMAKE_CURRENT_SOURCE_DIR}/include/precompiled.cpp")
-    endif()
-    add_native_precompiled_header(mangosscript "${CMAKE_CURRENT_SOURCE_DIR}/include/precompiled.h")
-  elseif(CMAKE_COMPILER_IS_GNUCXX)
-    add_precompiled_header(mangosscript "${CMAKE_CURRENT_SOURCE_DIR}/include/precompiled.h")
-  endif()
-endif()
 
 # LIBRARY = dyld / so, RUNTIME = dll
 #install(TARGETS mangosscript 
