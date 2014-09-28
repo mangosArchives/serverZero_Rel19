@@ -74,7 +74,7 @@ namespace MaNGOS
      * @brief We don't handle Dead Reference for now
      *
      */
-    void ObjectLifeTime<T>::OnDeadReference()
+    void ObjectLifeTime<T>::OnDeadReference()           // We don't handle Dead Reference for now
     {
         throw std::runtime_error("Dead Reference");
     }
