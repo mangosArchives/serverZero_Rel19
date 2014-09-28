@@ -101,7 +101,7 @@ enum
     AREA_MERCHANT_COAST         = 391
 };
 
-struct MANGOS_DLL_DECL npc_giltharesAI : public npc_escortAI
+struct npc_giltharesAI : public npc_escortAI
 {
     npc_giltharesAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 
@@ -204,7 +204,7 @@ enum
     SPELL_FOLLY         = 10137,
 };
 
-struct MANGOS_DLL_DECL npc_taskmaster_fizzuleAI : public ScriptedAI
+struct npc_taskmaster_fizzuleAI : public ScriptedAI
 {
     npc_taskmaster_fizzuleAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -325,7 +325,7 @@ static const float aAffrayChallengerLoc[8][4] =
     { -1682.31f, -4329.68f, 2.78f, 0.0f},           // Big Will move loc
 };
 
-struct MANGOS_DLL_DECL npc_twiggy_flatheadAI : public ScriptedAI
+struct npc_twiggy_flatheadAI : public ScriptedAI
 {
     npc_twiggy_flatheadAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -544,7 +544,7 @@ enum
     NPC_MERCENARY       = 3282
 };
 
-struct MANGOS_DLL_DECL npc_wizzlecranks_shredderAI : public npc_escortAI
+struct npc_wizzlecranks_shredderAI : public npc_escortAI
 {
     npc_wizzlecranks_shredderAI(Creature* pCreature) : npc_escortAI(pCreature)
     {
@@ -763,7 +763,7 @@ SpawnPoint SpawnPointsKolkar[] =
     { -197.50f, -1929.31f, 94.03f, 3.51f}
 };
 
-struct MANGOS_DLL_DECL npc_regthar_deathgateAI : public ScriptedAI
+struct npc_regthar_deathgateAI : public ScriptedAI
 {
     npc_regthar_deathgateAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -1145,7 +1145,7 @@ enum
     SAY_AGGRO_3        = -1000897,
 };
 
-struct MANGOS_DLL_DECL npc_horde_defenderAI : public ScriptedAI
+struct npc_horde_defenderAI : public ScriptedAI
 {
     npc_horde_defenderAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

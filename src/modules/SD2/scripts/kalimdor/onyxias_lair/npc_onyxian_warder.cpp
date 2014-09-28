@@ -19,7 +19,7 @@ enum
     SPELL_PIERCE_ARMOR      = 12097
 };
 
-struct MANGOS_DLL_DECL npc_onyxian_warderAI : public ScriptedAI
+struct npc_onyxian_warderAI : public ScriptedAI
 {
     npc_onyxian_warderAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 

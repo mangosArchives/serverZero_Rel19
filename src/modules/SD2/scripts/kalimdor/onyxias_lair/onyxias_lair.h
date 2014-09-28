@@ -37,7 +37,7 @@ enum
     NPC_ONYXIA_TRIGGER          = 12758,
 };
 
-class MANGOS_DLL_DECL instance_onyxias_lair : public ScriptedInstance
+class instance_onyxias_lair : public ScriptedInstance
 {
     public:
         instance_onyxias_lair(Map* pMap);

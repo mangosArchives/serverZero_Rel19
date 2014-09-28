@@ -71,7 +71,7 @@ enum
 
 };
 
-struct MANGOS_DLL_DECL npc_deathstalker_erlandAI : public npc_escortAI
+struct npc_deathstalker_erlandAI : public npc_escortAI
 {
     npc_deathstalker_erlandAI(Creature* pCreature) : npc_escortAI(pCreature)
     {
@@ -323,7 +323,7 @@ MovePoints MovePointspy[] =   // Set Movementpoints for Waves
 };
 
 
-struct MANGOS_DLL_DECL npc_deathstalker_faerleiaAI : public ScriptedAI
+struct npc_deathstalker_faerleiaAI : public ScriptedAI
 {
     npc_deathstalker_faerleiaAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

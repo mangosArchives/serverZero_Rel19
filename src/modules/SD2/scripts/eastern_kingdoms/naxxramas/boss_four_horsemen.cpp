@@ -94,7 +94,7 @@ enum
     SPELL_SPIRIT_ZELIEK     = 28934,
 };
 
-struct MANGOS_DLL_DECL boss_lady_blaumeuxAI : public ScriptedAI
+struct boss_lady_blaumeuxAI : public ScriptedAI
 {
     boss_lady_blaumeuxAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -193,7 +193,7 @@ CreatureAI* GetAI_boss_lady_blaumeux(Creature* pCreature)
     return new boss_lady_blaumeuxAI(pCreature);
 }
 
-struct MANGOS_DLL_DECL boss_alexandros_mograineAI : public ScriptedAI
+struct boss_alexandros_mograineAI : public ScriptedAI
 {
     boss_alexandros_mograineAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -303,7 +303,7 @@ CreatureAI* GetAI_boss_alexandros_mograine(Creature* pCreature)
     return new boss_alexandros_mograineAI(pCreature);
 }
 
-struct MANGOS_DLL_DECL boss_thane_korthazzAI : public ScriptedAI
+struct boss_thane_korthazzAI : public ScriptedAI
 {
     boss_thane_korthazzAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -402,7 +402,7 @@ CreatureAI* GetAI_boss_thane_korthazz(Creature* pCreature)
     return new boss_thane_korthazzAI(pCreature);
 }
 
-struct MANGOS_DLL_DECL boss_sir_zeliekAI : public ScriptedAI
+struct boss_sir_zeliekAI : public ScriptedAI
 {
     boss_sir_zeliekAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

@@ -59,38 +59,7 @@ ScriptMapMapName sCreatureMovementScripts;
 INSTANTIATE_SINGLETON_1(ScriptMgr);
 
 ScriptMgr::ScriptMgr() :
-    m_hScriptLib(NULL),
     m_scheduledScripts(0)
-
-    //m_pOnInitScriptLibrary(NULL),
-    //m_pOnFreeScriptLibrary(NULL),
-    //m_pGetScriptLibraryVersion(NULL),
-
-    //m_pGetCreatureAI(NULL),
-    //m_pCreateInstanceData(NULL),
-
-    //m_pOnGossipHello(NULL),
-    //m_pOnGOGossipHello(NULL),
-    //m_pOnGossipSelect(NULL),
-    //m_pOnGOGossipSelect(NULL),
-    //m_pOnGossipSelectWithCode(NULL),
-    //m_pOnGOGossipSelectWithCode(NULL),
-    //m_pOnQuestAccept(NULL),
-    //m_pOnGOQuestAccept(NULL),
-    //m_pOnItemQuestAccept(NULL),
-    //m_pOnQuestRewarded(NULL),
-    //m_pOnGOQuestRewarded(NULL),
-    //m_pGetNPCDialogStatus(NULL),
-    //m_pGetGODialogStatus(NULL),
-    //m_pOnGOUse(NULL),
-    //m_pOnItemUse(NULL),
-    //m_pOnAreaTrigger(NULL),
-    //m_pOnProcessEvent(NULL),
-    //m_pOnEffectDummyCreature(NULL),
-    //m_pOnEffectDummyGO(NULL),
-    //m_pOnEffectDummyItem(NULL),
-    //m_pOnEffectScriptEffectCreature(NULL),
-    //m_pOnAuraDummy(NULL)
 {
 }
 
@@ -2003,45 +1972,12 @@ uint32 ScriptMgr::GetEventIdScriptId(uint32 eventId) const
     return 0;
 }
 
-//namespace SD2
-//{
-//    extern void FreeScriptLibrary();
-//    extern void InitScriptLibrary();
-//    extern char const* GetScriptLibraryVersion();
-//
-//    extern CreatureAI* GetCreatureAI(Creature* pCreature);
-//    extern InstanceData* CreateInstanceData(Map* pMap);
-//    
-//    extern bool GossipHello(Player*, Creature*);
-//    extern bool GOGossipHello(Player*, GameObject*);
-//    extern bool GossipSelect(Player*, Creature*, uint32, uint32);
-//    extern bool GOGossipSelect(Player*, GameObject*, uint32, uint32);
-//    extern bool GossipSelectWithCode(Player*, Creature*, uint32, uint32, const char*);
-//    extern bool GOGossipSelectWithCode(Player*, GameObject*, uint32, uint32, const char*);
-//    extern bool QuestAccept(Player*, Creature*, Quest const*);
-//    extern bool GOQuestAccept(Player*, GameObject*, Quest const*);
-//    extern bool ItemQuestAccept(Player*, Item*, Quest const*);
-//    extern bool QuestRewarded(Player*, Creature*, Quest const*);
-//    extern bool GOQuestRewarded(Player*, GameObject*, Quest const*);
-//    extern uint32 GetNPCDialogStatus(Player*, Creature*);
-//    extern uint32 GetGODialogStatus(Player*, GameObject*);
-//    extern bool GOUse(Player*, GameObject*);
-//    extern bool ItemUse(Player*, Item*, SpellCastTargets const&);
-//    extern bool AreaTrigger(Player*, AreaTriggerEntry const*);
-//    extern bool ProcessEvent(uint32, Object*, Object*, bool);
-//    extern bool EffectDummyCreature(Unit*, uint32, SpellEffectIndex, Creature*, ObjectGuid);
-//    extern bool EffectDummyGameObject(Unit*, uint32, SpellEffectIndex, GameObject*, ObjectGuid);
-//    extern bool EffectDummyItem(Unit*, uint32, SpellEffectIndex, Item*, ObjectGuid);
-//    extern bool EffectScriptEffectCreature(Unit*, uint32, SpellEffectIndex, Creature*, ObjectGuid);
-//    extern bool AuraDummy(Aura const*, bool);
-//}
-
 char const* ScriptMgr::GetScriptLibraryVersion() const
 {
 #ifdef ENABLE_SD2
     return SD2::GetScriptLibraryVersion();
 #else
-    return "";
+    return NULL;
 #endif
 }
 
@@ -2358,75 +2294,16 @@ bool ScriptMgr::OnAuraDummy(Aura const* pAura, bool apply)
 
 ScriptLoadResult ScriptMgr::LoadScriptLibrary(const char* libName)
 {
-//    UnloadScriptLibrary();
-//
-//    std::string name = libName;
-//    name = MANGOS_SCRIPT_PREFIX + name + MANGOS_SCRIPT_SUFFIX;
-//
-//    m_hScriptLib = MANGOS_LOAD_LIBRARY(name.c_str());
-//
-//    if (!m_hScriptLib)
-//        { return SCRIPT_LOAD_ERR_NOT_FOUND; }
-//
-//#   define GET_SCRIPT_HOOK_PTR(P,N)             \
-//    GetScriptHookPtr((P), (N));             \
-//    if (!(P))                               \
-//    {                                       \
-//        /* prevent call before init */      \
-//        m_pOnFreeScriptLibrary = NULL;      \
-//        UnloadScriptLibrary();              \
-//        return SCRIPT_LOAD_ERR_WRONG_API;   \
-//    }
-//
-//    // let check used mangosd revision for build library (unsafe use with different revision because changes in inline functions, define and etc)
-//    char const*(MANGOS_IMPORT * pGetMangosRevStr)();
-//
-//    GET_SCRIPT_HOOK_PTR(pGetMangosRevStr,              "GetMangosRevStr");
-//
-//    GET_SCRIPT_HOOK_PTR(m_pOnInitScriptLibrary,        "InitScriptLibrary");
-//    GET_SCRIPT_HOOK_PTR(m_pOnFreeScriptLibrary,        "FreeScriptLibrary");
-//    GET_SCRIPT_HOOK_PTR(m_pGetScriptLibraryVersion,    "GetScriptLibraryVersion");
-//
-//    GET_SCRIPT_HOOK_PTR(m_pGetCreatureAI,              "GetCreatureAI");
-//    GET_SCRIPT_HOOK_PTR(m_pCreateInstanceData,         "CreateInstanceData");
-//
-//    GET_SCRIPT_HOOK_PTR(m_pOnGossipHello,              "GossipHello");
-//    GET_SCRIPT_HOOK_PTR(m_pOnGOGossipHello,            "GOGossipHello");
-//    GET_SCRIPT_HOOK_PTR(m_pOnGossipSelect,             "GossipSelect");
-//    GET_SCRIPT_HOOK_PTR(m_pOnGOGossipSelect,           "GOGossipSelect");
-//    GET_SCRIPT_HOOK_PTR(m_pOnGossipSelectWithCode,     "GossipSelectWithCode");
-//    GET_SCRIPT_HOOK_PTR(m_pOnGOGossipSelectWithCode,   "GOGossipSelectWithCode");
-//    GET_SCRIPT_HOOK_PTR(m_pOnQuestAccept,              "QuestAccept");
-//    GET_SCRIPT_HOOK_PTR(m_pOnGOQuestAccept,            "GOQuestAccept");
-//    GET_SCRIPT_HOOK_PTR(m_pOnItemQuestAccept,          "ItemQuestAccept");
-//    GET_SCRIPT_HOOK_PTR(m_pOnQuestRewarded,            "QuestRewarded");
-//    GET_SCRIPT_HOOK_PTR(m_pOnGOQuestRewarded,          "GOQuestRewarded");
-//    GET_SCRIPT_HOOK_PTR(m_pGetNPCDialogStatus,         "GetNPCDialogStatus");
-//    GET_SCRIPT_HOOK_PTR(m_pGetGODialogStatus,          "GetGODialogStatus");
-//    GET_SCRIPT_HOOK_PTR(m_pOnGOUse,                    "GOUse");
-//    GET_SCRIPT_HOOK_PTR(m_pOnItemUse,                  "ItemUse");
-//    GET_SCRIPT_HOOK_PTR(m_pOnAreaTrigger,              "AreaTrigger");
-//    GET_SCRIPT_HOOK_PTR(m_pOnProcessEvent,             "ProcessEvent");
-//    GET_SCRIPT_HOOK_PTR(m_pOnEffectDummyCreature,      "EffectDummyCreature");
-//    GET_SCRIPT_HOOK_PTR(m_pOnEffectDummyGO,            "EffectDummyGameObject");
-//    GET_SCRIPT_HOOK_PTR(m_pOnEffectDummyItem,          "EffectDummyItem");
-//    GET_SCRIPT_HOOK_PTR(m_pOnEffectScriptEffectCreature"EffectScriptEffectCreature");
-//    GET_SCRIPT_HOOK_PTR(m_pOnAuraDummy,                "AuraDummy");
-//
-//#   undef GET_SCRIPT_HOOK_PTR
-//
-//    if (strcmp(pGetMangosRevStr(), REVISION_NR) != 0)
-//    {
-//        m_pOnFreeScriptLibrary = NULL;                      // prevent call before init
-//        UnloadScriptLibrary();
-//        return SCRIPT_LOAD_ERR_OUTDATED;
-//    }
-//
-//    m_pOnInitScriptLibrary();
 #ifdef ENABLE_SD2
-    SD2::InitScriptLibrary();
+    if (std::strcmp(libName, MANGOS_SCRIPT_NAME) == 0)
+    {
+        SD2::FreeScriptLibrary();
+        SD2::InitScriptLibrary();
+        return SCRIPT_LOAD_OK;
+    }
 #endif
-    return SCRIPT_LOAD_OK;
+
+    return SCRIPT_LOAD_ERR_NOT_FOUND;
 }
 
 void ScriptMgr::UnloadScriptLibrary()
@@ -2436,44 +2313,6 @@ void ScriptMgr::UnloadScriptLibrary()
 #else
     return;
 #endif
-    //if (!m_hScriptLib)
-    //    { return; }
-
-    //if (m_pOnFreeScriptLibrary)
-    //    { m_pOnFreeScriptLibrary(); }
-
-    //MANGOS_CLOSE_LIBRARY(m_hScriptLib);
-    //m_hScriptLib = NULL;
-
-    //m_pOnInitScriptLibrary      = NULL;
-    //m_pOnFreeScriptLibrary      = NULL;
-    //m_pGetScriptLibraryVersion  = NULL;
-
-    //m_pGetCreatureAI            = NULL;
-    //m_pCreateInstanceData       = NULL;
-
-    //m_pOnGossipHello            = NULL;
-    //m_pOnGOGossipHello          = NULL;
-    //m_pOnGossipSelect           = NULL;
-    //m_pOnGOGossipSelect         = NULL;
-    //m_pOnGossipSelectWithCode   = NULL;
-    //m_pOnGOGossipSelectWithCode = NULL;
-    //m_pOnQuestAccept            = NULL;
-    //m_pOnGOQuestAccept          = NULL;
-    //m_pOnItemQuestAccept        = NULL;
-    //m_pOnQuestRewarded          = NULL;
-    //m_pOnGOQuestRewarded        = NULL;
-    //m_pGetNPCDialogStatus       = NULL;
-    //m_pGetGODialogStatus        = NULL;
-    //m_pOnGOUse                  = NULL;
-    //m_pOnItemUse                = NULL;
-    //m_pOnAreaTrigger            = NULL;
-    //m_pOnProcessEvent           = NULL;
-    //m_pOnEffectDummyCreature    = NULL;
-    //m_pOnEffectDummyGO          = NULL;
-    //m_pOnEffectDummyItem        = NULL;
-    //m_pOnEffectScriptEffectCreature = NULL;
-    //m_pOnAuraDummy              = NULL;
 }
 
 void ScriptMgr::CollectPossibleEventIds(std::set<uint32>& eventIds)

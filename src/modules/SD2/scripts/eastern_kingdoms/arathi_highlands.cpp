@@ -62,7 +62,7 @@ enum
     QUEST_SUNKEN_TREASURE   = 665,    ENTRY_VENGEFUL_SURGE    = 2776
 };
 
-struct MANGOS_DLL_DECL npc_professor_phizzlethorpeAI : public npc_escortAI
+struct npc_professor_phizzlethorpeAI : public npc_escortAI
 {
     npc_professor_phizzlethorpeAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 
@@ -167,7 +167,7 @@ enum
     QUEST_HINTS_NEW_PLAGUE  = 660
 };
 
-struct MANGOS_DLL_DECL npc_kineloryAI : public npc_escortAI
+struct npc_kineloryAI : public npc_escortAI
 {
     npc_kineloryAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 

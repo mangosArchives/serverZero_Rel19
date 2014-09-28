@@ -115,7 +115,7 @@ static const float afSpawnLocations[3][3] =
     { -30.817f, -177.106f, -89.258f},                       // whelps
 };
 
-struct MANGOS_DLL_DECL boss_onyxiaAI : public ScriptedAI
+struct boss_onyxiaAI : public ScriptedAI
 {
     boss_onyxiaAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

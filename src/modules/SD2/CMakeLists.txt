@@ -72,7 +72,6 @@ set(sources
   include/sc_instance.h
   include/sc_gossip.h
 
-  system/MangosdRev.cpp
   system/ScriptLoader.cpp
   system/ScriptLoader.h
   system/system.cpp

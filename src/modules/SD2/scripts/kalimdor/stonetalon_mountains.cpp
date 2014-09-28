@@ -59,7 +59,7 @@ enum
     QUEST_PROTECT_KAYA          = 6523
 };
 
-struct MANGOS_DLL_DECL npc_kayaAI : public npc_escortAI
+struct npc_kayaAI : public npc_escortAI
 {
     npc_kayaAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 
@@ -168,7 +168,7 @@ MovePointStone MovePointsst[] =   // // Set Movementpoints for Waves
 
 
 
-struct MANGOS_DLL_DECL npc_piznikAI : public ScriptedAI
+struct npc_piznikAI : public ScriptedAI
 {
     npc_piznikAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

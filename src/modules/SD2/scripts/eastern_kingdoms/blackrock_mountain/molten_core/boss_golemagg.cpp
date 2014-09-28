@@ -48,7 +48,7 @@ enum
     SPELL_MANGLE            = 19820
 };
 
-struct MANGOS_DLL_DECL boss_golemaggAI : public ScriptedAI
+struct boss_golemaggAI : public ScriptedAI
 {
     boss_golemaggAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -156,7 +156,7 @@ struct MANGOS_DLL_DECL boss_golemaggAI : public ScriptedAI
     }
 };
 
-struct MANGOS_DLL_DECL mob_core_ragerAI : public ScriptedAI
+struct mob_core_ragerAI : public ScriptedAI
 {
     mob_core_ragerAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

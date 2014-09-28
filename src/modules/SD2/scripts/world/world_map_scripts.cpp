@@ -38,7 +38,7 @@
 /* *********************************************************
  *                  EASTERN KINGDOMS
  */
-struct MANGOS_DLL_DECL world_map_eastern_kingdoms : public ScriptedMap
+struct world_map_eastern_kingdoms : public ScriptedMap
 {
     world_map_eastern_kingdoms(Map* pMap) : ScriptedMap(pMap) {}
 
@@ -66,7 +66,7 @@ InstanceData* GetInstanceData_world_map_eastern_kingdoms(Map* pMap)
 /* *********************************************************
  *                     KALIMDOR
  */
-struct MANGOS_DLL_DECL world_map_kalimdor : public ScriptedMap
+struct world_map_kalimdor : public ScriptedMap
 {
     world_map_kalimdor(Map* pMap) : ScriptedMap(pMap) { Initialize(); }
 

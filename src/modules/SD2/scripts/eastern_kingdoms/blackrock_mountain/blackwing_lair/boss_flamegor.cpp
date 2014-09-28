@@ -45,7 +45,7 @@ enum
     SPELL_THRASH                = 3391
 };
 
-struct MANGOS_DLL_DECL boss_flamegorAI : public ScriptedAI
+struct boss_flamegorAI : public ScriptedAI
 {
     boss_flamegorAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

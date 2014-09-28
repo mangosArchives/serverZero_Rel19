@@ -59,7 +59,7 @@ enum
     SPELL_TWISTEDREFLECTION   = 21063
 };
 
-struct MANGOS_DLL_DECL boss_kazzakAI : public ScriptedAI
+struct boss_kazzakAI : public ScriptedAI
 {
     boss_kazzakAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 

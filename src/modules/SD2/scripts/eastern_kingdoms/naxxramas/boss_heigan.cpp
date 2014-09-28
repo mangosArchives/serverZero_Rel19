@@ -66,7 +66,7 @@ enum
 
 static const float aTunnelLoc[4] = {2905.63f, -3769.96f, 273.62f, 3.13f};
 
-struct MANGOS_DLL_DECL boss_heiganAI : public ScriptedAI
+struct boss_heiganAI : public ScriptedAI
 {
     boss_heiganAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
