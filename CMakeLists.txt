@@ -260,7 +260,7 @@ else()
 endif()
 
 if(PCH)
-  message(STATUS "Use PCH               : Yes")
+  message(STATUS "Use PCH               : Yes (default)")
 else()
   message(STATUS "Use PCH               : No")
 endif()
