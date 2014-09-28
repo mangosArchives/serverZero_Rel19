@@ -282,8 +282,8 @@ endif()
 if(UNIX)
   set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} --no-warnings")
   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} --no-warnings")
-  set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -Wfatal-errors -Wextra")
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wfatal-errors -Wextra")
+  set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -Wfatal-errors -Wextra -Winvalid-pch")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wfatal-errors -Wextra -Winvalid-pch")
 elseif(WIN32)
   # Disable warnings in Visual Studio 8 and above and add /MP
   if(MSVC AND NOT CMAKE_GENERATOR MATCHES "Visual Studio 7")
@@ -395,8 +395,6 @@ add_subdirectory(dep)
 
 set(DEFINITIONS
   HAVE_CONFIG_H
-  VERSION="${MANGOS_VERSION}"
-  SYSCONFDIR="${CONF_DIR}/"
   MANGOS
 )
 
@@ -407,7 +405,7 @@ else()
 endif()
 
 set(DEFINITIONS_RELEASE NDEBUG)
-set(DEFINITIONS_DEBUG _DEBUG MANGOS_DEBUG)
+set(DEFINITIONS_DEBUG) # _DEBUG MANGOS_DEBUG) was here..
 if(WIN32)
   set(DEFINITIONS ${DEFINITIONS} WIN32 _WIN32)
   set(DEFINITIONS_RELEASE ${DEFINITIONS_RELEASE} _CRT_SECURE_NO_WARNINGS)
@@ -420,8 +418,11 @@ endif()
 # Specify the maximum PreCompiled Header memory allocation limit
 # Fixes a compiler-problem when using PCH - the /Ym flag is adjusted by the compiler in MSVC2012, hence we need to set an upper limit with /Zm to avoid discrepancies)
 # (And yes, this is a verified , unresolved bug with MSVC... *sigh*)
-string(REGEX REPLACE "/Zm[0-9]+ *" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zm500" CACHE STRING "" FORCE)
+# Make it MSVC specific, otherwise g++ etc pukes
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    string(REGEX REPLACE "/Zm[0-9]+ *" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zm500" CACHE STRING "" FORCE)
+endif()
 
 set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "${DEFINITIONS}")
 #Something like this is what i've imagined with the new generator expressions in cmake 3.0 / lfx
