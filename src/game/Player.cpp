@@ -7368,6 +7368,12 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
                     }
                 }
 
+                //if loot for skin is true loot type must be skinning, so loot_type skinning needs to be set in case of reopening the loot window, after bags full or loot not taken
+                if (creature->lootForSkin)
+                {
+                    loot_type = LOOT_SKINNING;
+                }
+
                 // possible only if creature->lootForBody && loot->empty() at spell cast check
                 if (loot_type == LOOT_SKINNING)
                 {
