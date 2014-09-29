@@ -167,9 +167,15 @@ extern int main(int argc, char** argv)
 
     if (!sConfig.SetSource(cfg_file))
     {
-        sLog.outError("Could not find configuration file %s.", cfg_file);
-        Log::WaitBeforeContinueIfNeed();
-        return 1;
+        sLog.outError("Can't find config file %s, trying fallback.", cfg_file);
+        cfg_file = RELATIVE_SYSCONFDIR MANGOSD_CONFIG_NAME;
+        if (!sConfig.SetSource(cfg_file))
+        {
+            //Let's try our current 
+            sLog.outError("Could not find configuration file %s.", cfg_file);
+            Log::WaitBeforeContinueIfNeed();
+            return 1;
+        }
     }
 
 #ifndef WIN32                                               // posix daemon commands need apply after config read
