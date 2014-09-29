@@ -126,6 +126,23 @@ if(CMAKE_CONFIGURATION_TYPES)
     FORCE)
 endif()
 
+#Define default installation path here ${INSTALL_PATH}
+if( UNIX )
+  set(INSTALL_PATH "bin/lua_scripts/")
+elseif( WIN32 )
+  if ( MSVC )
+    set(INSTALL_PATH "${CMAKE_BINARY_DIR}/bin/")
+  elseif ( MINGW )
+    set(INSTALL_PATH "${CMAKE_BINARY_DIR}/bin/")
+  endif()
+else()
+  set(INSTALL_PATH "${CMAKE_INSTALL_PREFIX}")
+endif()
+#Force set the default install path if it is default
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/bin/\${BUILD_TYPE}/" CACHE PATH "MaNGOS default install prefix" FORCE)
+endif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+
 set(BIN_DIR ${CMAKE_INSTALL_PREFIX}/bin)
 set(CONF_DIR ${CMAKE_INSTALL_PREFIX}/etc)
 # If win32 put it in the bin dir not lib
@@ -338,26 +355,11 @@ if(WIN32)
   )
   install(
     FILES
-      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libeay32.dll"
-      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}_debug/libmySQL.dll"
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libeay32.dll"
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libmySQL.dll"
     DESTINATION ${LIBS_DIR}
     CONFIGURATIONS Debug
   )
-  if(PLATFORM MATCHES X86)
-    # Copy dll's Windows needs
-    install(
-      FILES
-        "${CMAKE_SOURCE_DIR}/dep/lib/win32_release/dbghelp.dll"
-      DESTINATION ${LIBS_DIR}
-      CONFIGURATIONS Release
-    )
-    install(
-      FILES
-        "${CMAKE_SOURCE_DIR}/dep/lib/win32_debug/dbghelp.dll"
-      DESTINATION ${LIBS_DIR}
-      CONFIGURATIONS Debug
-    )
-  endif()
 endif()
 
 if(XCODE)

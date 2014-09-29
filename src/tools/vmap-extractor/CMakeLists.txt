@@ -36,3 +36,6 @@ add_executable(${EXECUTABLE_NAME}
 target_link_libraries(${EXECUTABLE_NAME} libmpq bzip2 zlib)
 
 install(TARGETS ${EXECUTABLE_NAME} DESTINATION "${BIN_DIR}/${TOOLS_DIR}")
+if(WIN32 AND MSVC)
+  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/\${BUILD_TYPE}/${EXECUTABLE_NAME}.pdb" DESTINATION "${BIN_DIR}/${TOOLS_DIR}" CONFIGURATIONS Debug)
+endif()

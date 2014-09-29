@@ -31,13 +31,13 @@ else()
 endif()
 
 # Little Hack to remove the link warnings because of not found directories
-if(XCODE)
-  foreach(DIR ${ACE_LIBRARIES_DIR})
-    foreach(CONF ${CMAKE_CONFIGURATION_TYPES})
-      file(MAKE_DIRECTORY ${DIR}/${CONF})
-    endforeach(CONF)
-  endforeach(DIR)
-endif()
+#if(XCODE)
+#  foreach(DIR ${ACE_LIBRARIES_DIR})
+#    foreach(CONF ${CMAKE_CONFIGURATION_TYPES})
+#      file(MAKE_DIRECTORY ${DIR}/${CONF})
+#    endforeach(CONF)
+#  endforeach(DIR)
+#endif()
 
 link_directories(
   ${ACE_LIBRARIES_DIR}
@@ -45,12 +45,12 @@ link_directories(
 
 set(HAVE_ACE_STACK_TRACE_H ON) # config.h.cmake
 
-if(WIN32)
-  foreach(DIR ${ACE_LIBRARIES_DIR})
-    install(
-      DIRECTORY ${DIR}/ DESTINATION ${LIBS_DIR}
-      FILES_MATCHING PATTERN "*.dll*" #"*.${LIB_SUFFIX}*"
-      PATTERN "pkgconfig" EXCLUDE
-    )
-  endforeach(DIR)
-endif()
+#if(WIN32)
+#  foreach(DIR ${ACE_LIBRARIES_DIR})
+#    install(
+#      DIRECTORY ${DIR}/ DESTINATION ${LIBS_DIR}
+#      FILES_MATCHING PATTERN "*.dll*" #"*.${LIB_SUFFIX}*"
+#      PATTERN "pkgconfig" EXCLUDE
+#    )
+#  endforeach(DIR)
+#endif()
