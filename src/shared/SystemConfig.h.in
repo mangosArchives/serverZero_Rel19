@@ -90,8 +90,7 @@
 
 
 // The path to config files
-#define SYSCONFDIR "${CONF_DIR}/"
-#define RELATIVE_SYSCONFDIR "../etc/"
+#define SYSCONFDIR "etc/"
 
 #define REALMD_CONFIG_NAME             "realmd.conf"
 #define MANGOSD_CONFIG_NAME            "mangosd.conf"
