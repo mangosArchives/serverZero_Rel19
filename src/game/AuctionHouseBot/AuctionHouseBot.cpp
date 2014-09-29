@@ -396,11 +396,16 @@ bool AuctionBotConfig::Initialize()
 {
     if (!m_AhBotCfg.SetSource(m_configFileName.c_str()))
     {
-        sLog.outString("AHBOT is Disabled. Unable to open configuration file(%s). ", m_configFileName.c_str());
-        setConfig(CONFIG_UINT32_AHBOT_ALLIANCE_ITEM_AMOUNT_RATIO, 0);
-        setConfig(CONFIG_UINT32_AHBOT_HORDE_ITEM_AMOUNT_RATIO, 0);
-        setConfig(CONFIG_UINT32_AHBOT_NEUTRAL_ITEM_AMOUNT_RATIO, 0);
-        return false;
+        sLog.outError("Can't find config file %s, trying fallback.", m_configFileName.c_str());
+        m_configFileName = RELATIVE_SYSCONFDIR AUCTIONHOUSEBOT_CONFIG_NAME;
+        if (!m_AhBotCfg.SetSource(m_configFileName.c_str()))
+        {
+            sLog.outString("AHBOT is Disabled. Unable to open configuration file %s. ", m_configFileName.c_str());
+            setConfig(CONFIG_UINT32_AHBOT_ALLIANCE_ITEM_AMOUNT_RATIO, 0);
+            setConfig(CONFIG_UINT32_AHBOT_HORDE_ITEM_AMOUNT_RATIO, 0);
+            setConfig(CONFIG_UINT32_AHBOT_NEUTRAL_ITEM_AMOUNT_RATIO, 0);
+            return false;
+        }
     }
     else
         { sLog.outString("AHBot using configuration file %s", m_configFileName.c_str()); }
