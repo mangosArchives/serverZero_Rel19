@@ -168,7 +168,7 @@ class CreatureLinkingHolder
         bool TryFollowMaster(Creature* pCreature);
 
     private:
-        // Structure associated to a master
+        // Structure associated to a master (entry case)
         struct InfoAndGuids
         {
             uint16 linkingFlag: 16;

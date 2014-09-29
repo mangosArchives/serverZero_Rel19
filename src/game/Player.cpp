@@ -5756,6 +5756,7 @@ void Player::RewardReputation(Unit* pVictim, float rate)
     if (((Creature*)pVictim)->IsReputationGainDisabled())
         return;
 
+    // used current difficulty creature entry instead normal version (GetEntry())
     ReputationOnKillEntry const* Rep = sObjectMgr.GetReputationOnKillEntry(((Creature*)pVictim)->GetEntry());
 
     if (!Rep)
@@ -7492,27 +7493,27 @@ void Player::SendInitWorldStates(uint32 zoneid)
     uint32 count = 0;                                       // count of world states in packet
 
     WorldPacket data(SMSG_INIT_WORLD_STATES, (4 + 4 + 2 + 6));
-    data << uint32(mapid);                              // mapid
-    data << uint32(zoneid);                             // zone id
+    data << uint32(mapid);                                  // mapid
+    data << uint32(zoneid);                                 // zone id
     size_t count_pos = data.wpos();
-    data << uint16(0);                                  // count of uint64 blocks, placeholder
+    data << uint16(0);                                      // count of uint64 blocks, placeholder
 
     switch (zoneid)
     {
-        case 139:                                       // Eastern Plaguelands
-        case 1377:                                      // Silithus
+        case 139:                                           // Eastern Plaguelands
+        case 1377:                                          // Silithus
             if (OutdoorPvP* outdoorPvP = sOutdoorPvPMgr.GetScript(zoneid))
                 outdoorPvP->FillInitialWorldStates(data, count);
             break;
-        case 2597:                                      // AV
+        case 2597:                                          // AV
             if (bg && bg->GetTypeID() == BATTLEGROUND_AV)
                 bg->FillInitialWorldStates(data, count);
             break;
-        case 3277:                                      // WS
+        case 3277:                                          // WS
             if (bg && bg->GetTypeID() == BATTLEGROUND_WS)
                 bg->FillInitialWorldStates(data, count);
             break;
-        case 3358:                                      // AB
+        case 3358:                                          // AB
             if (bg && bg->GetTypeID() == BATTLEGROUND_AB)
                 bg->FillInitialWorldStates(data, count);
             break;
@@ -13635,7 +13636,7 @@ bool Player::LoadFromDB(ObjectGuid guid, SqlQueryHolder* holder)
     if (HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_GM))
         { SetUInt32Value(PLAYER_FLAGS, 0 | old_safe_flags); }
 
-    m_taxi.LoadTaxiMask(fields[17].GetString());
+    m_taxi.LoadTaxiMask(fields[17].GetString());            // must be before InitTaxiNodesForLevel
 
     uint32 extraflags = fields[31].GetUInt32();
 
@@ -19101,9 +19102,9 @@ void Player::ModifyMoney(int32 d)
 #endif /* ENABLE_ELUNA */
 
     if (d < 0)
-        SetMoney(GetMoney() > uint32(-d) ? GetMoney() + d : 0);
+        { SetMoney(GetMoney() > uint32(-d) ? GetMoney() + d : 0); }
     else
-        SetMoney(GetMoney() < uint32(MAX_MONEY_AMOUNT - d) ? GetMoney() + d : MAX_MONEY_AMOUNT);
+        { SetMoney(GetMoney() < uint32(MAX_MONEY_AMOUNT - d) ? GetMoney() + d : MAX_MONEY_AMOUNT); }
 
 }
 

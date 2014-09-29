@@ -3359,7 +3359,7 @@ void ChatHandler::BuildChatPacket(WorldPacket& data, ChatMsg msgtype, char const
             MANGOS_ASSERT(senderName);
             data << uint32(strlen(senderName) + 1);
             data << senderName;
-            data << ObjectGuid(targetGuid);
+            data << ObjectGuid(targetGuid);                         // Unit Target
             break;
     
         case CHAT_MSG_SAY:
@@ -3375,7 +3375,7 @@ void ChatHandler::BuildChatPacket(WorldPacket& data, ChatMsg msgtype, char const
             data << ObjectGuid(senderGuid);
             data << uint32(strlen(senderName) + 1);
             data << senderName;
-            data << ObjectGuid(targetGuid);
+            data << ObjectGuid(targetGuid);                         // Unit Target
             break;
     
         case CHAT_MSG_CHANNEL:

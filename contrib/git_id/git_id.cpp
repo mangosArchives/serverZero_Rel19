@@ -286,23 +286,23 @@ bool find_rev()
 std::string generateNrHeader(char const* rev_str)
 {
     std::ostringstream newData;
-    newData << "#ifndef __REVISION_NR_H__" << std::endl;
-    newData << "#define __REVISION_NR_H__"  << std::endl;
+    newData << "#ifndef MANGOS_H_REVISION_NR" << std::endl;
+    newData << "#define MANGOS_H_REVISION_NR"  << std::endl;
     newData << " #define REVISION_NR \"" << rev_str << "\"" << std::endl;
-    newData << "#endif // __REVISION_NR_H__" << std::endl;
+    newData << "#endif // MANGOS_H_REVISION_NR" << std::endl;
     return newData.str();
 }
 
 std::string generateSqlHeader()
 {
     std::ostringstream newData;
-    newData << "#ifndef __REVISION_SQL_H__" << std::endl;
-    newData << "#define __REVISION_SQL_H__"  << std::endl;
+    newData << "#ifndef MANGOS_H_REVISION_SQL" << std::endl;
+    newData << "#define MANGOS_H_REVISION_SQL"  << std::endl;
     for (int i = 0; i < NUM_DATABASES; ++i)
     {
         newData << " #define " << db_sql_rev_field[i] << " \"required_" << last_sql_update[i] << "\"" << std::endl;
     }
-    newData << "#endif // __REVISION_SQL_H__" << std::endl;
+    newData << "#endif // MANGOS_H_REVISION_SQL" << std::endl;
     return newData.str();
 }
 

@@ -523,6 +523,11 @@ class MANGOS_DLL_SPEC WorldObject : public Object
             // angle calculated from current orientation
             GetNearPoint(obj, x, y, z, bounding_radius, distance2d + GetObjectBoundingRadius() + bounding_radius, GetOrientation() + angle);
         }
+        /** Gives a "free" spot for a searcher in contact-range of "this" (including bounding-radius calculation)
+         * @param x, y, z           -           position for the found spot
+         * @param obj               -           for whom to find a contact position. The position will be searched in direction from 'this' towards 'obj'
+         * @param distance2d        -           distance which 'obj' and 'this' should have beetween their bounding radiuses. Default = CONTACT_DISTANCE
+         */
         void GetContactPoint(const WorldObject* obj, float& x, float& y, float& z, float distance2d = CONTACT_DISTANCE) const
         {
             // angle to face `obj` to `this` using distance includes size of `obj`

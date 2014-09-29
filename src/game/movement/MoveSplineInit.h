@@ -57,8 +57,9 @@ namespace Movement
             /* Stop any creature movement */
             void Stop();
 
-            /* Adds final facing animation
-             * sets unit's facing to specified point/angle after all path done
+            /**
+             * @brief  Adds final facing animation
+             * sets unit's facing to specified point/angle after all path done.
              * you can have only one final facing: previous will be overriden
              *
              * @param angle
@@ -161,16 +162,40 @@ namespace Movement
             Unit&  unit; /**< TODO */
     };
 
+    /**
+     * @brief
+     *
+     */
     inline void MoveSplineInit::SetFly() { args.flags.flying = true;}
-
+    /**
+     * @brief
+     *
+     * @param enable
+     */
     inline void MoveSplineInit::SetWalk(bool enable) { args.flags.runmode = !enable;}
-
+    /**
+     * @brief
+     *
+     */
     inline void MoveSplineInit::SetCyclic() { args.flags.cyclic = true;}
-
+    /**
+     * @brief
+     *
+     */
     inline void MoveSplineInit::SetFall() { args.flags.falling = true;}
-
+    /**
+     * @brief
+     *
+     * @param vel
+     */
     inline void MoveSplineInit::SetVelocity(float vel) { args.velocity = vel;}
 
+    /**
+     * @brief
+     *
+     * @param controls
+     * @param path_offset
+     */
     inline void MoveSplineInit::MovebyPath(const PointsArray& controls, int32 path_offset)
     {
         args.path_Idx_offset = path_offset;
@@ -203,6 +228,11 @@ namespace Movement
         }
     }
 
+    /**
+     * @brief
+     *
+     * @param spot
+     */
     inline void MoveSplineInit::SetFacing(Vector3 const& spot)
     {
         args.facing.f.x = spot.x;

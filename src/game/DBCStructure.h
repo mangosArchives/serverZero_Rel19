@@ -431,7 +431,7 @@ struct GameObjectDisplayInfoEntry
 {
     uint32      Displayid;                                  // 0        m_ID - ID in DBC.
     char*       filename;                                   // 1        m_modelName - File name for  the object.
-    // 2-11     m_Sound                                     // 2-11     m_Sound
+    // uint32   m_Sound[10];                                // 2-11     m_Sound
 };
 
 // All Gt* DBC store data for 100 levels, some by 100 per class/race
