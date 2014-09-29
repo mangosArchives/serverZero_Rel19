@@ -128,7 +128,7 @@ endif()
 
 #Force set the default install path if it is default
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/bin/\${BUILD_TYPE}/" CACHE PATH "MaNGOS default install prefix" FORCE)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/bin/" CACHE PATH "MaNGOS default install prefix" FORCE)
 endif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
 set(BIN_DIR ${CMAKE_INSTALL_PREFIX}/)
