@@ -43,6 +43,7 @@ include_directories(
     "${CMAKE_SOURCE_DIR}/dep/ACE_wrappers"
     "${CMAKE_BINARY_DIR}/dep/ACE_wrappers"
     "${CMAKE_SOURCE_DIR}/src/framework"
+    "${CMAKE_SOURCE_DIR}/src/game/WorldHandlers"
     "${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Include"
     "${CMAKE_SOURCE_DIR}/dep/recastnavigation/Recast/Include"
     "${CMAKE_SOURCE_DIR}/dep/src/zlib"

@@ -32,6 +32,7 @@ include_directories(
   "${CMAKE_CURRENT_SOURCE_DIR}/vmap"
   "${CMAKE_CURRENT_SOURCE_DIR}/WorldHandlers"
   "${CMAKE_SOURCE_DIR}/dep/include/g3dlite"
+  "${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Include"
   "${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour"
   "${CMAKE_SOURCE_DIR}/dep/recastnavigation/"
   "${CMAKE_SOURCE_DIR}/dep/include"
