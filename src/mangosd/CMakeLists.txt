@@ -47,15 +47,15 @@ endif()
 include_directories(
     "${CMAKE_SOURCE_DIR}/src/shared"
     "${CMAKE_SOURCE_DIR}/src/framework"
-	"${CMAKE_SOURCE_DIR}/src/game/AuctionHouseBot"
-	"${CMAKE_SOURCE_DIR}/src/game/BattleGround"
-	"${CMAKE_SOURCE_DIR}/src/game/Server"
-	"${CMAKE_SOURCE_DIR}/src/game/WorldHandlers"
-	"${CMAKE_SOURCE_DIR}/src/game/Object"
-	"${CMAKE_SOURCE_DIR}/src/game/Tools"
-	"${CMAKE_SOURCE_DIR}/src/game/References"
-	"${CMAKE_SOURCE_DIR}/src/game/MotionGenerators"
-	"${CMAKE_SOURCE_DIR}/src/game/vmap"
+    "${CMAKE_SOURCE_DIR}/src/game/AuctionHouseBot"
+    "${CMAKE_SOURCE_DIR}/src/game/BattleGround"
+    "${CMAKE_SOURCE_DIR}/src/game/Server"
+    "${CMAKE_SOURCE_DIR}/src/game/WorldHandlers"
+    "${CMAKE_SOURCE_DIR}/src/game/Object"
+    "${CMAKE_SOURCE_DIR}/src/game/Tools"
+    "${CMAKE_SOURCE_DIR}/src/game/References"
+    "${CMAKE_SOURCE_DIR}/src/game/MotionGenerators"
+    "${CMAKE_SOURCE_DIR}/src/game/vmap"
     "${CMAKE_BINARY_DIR}"
     "${CMAKE_BINARY_DIR}/src/shared"
     "${ACE_INCLUDE_DIR}"
@@ -63,8 +63,8 @@ include_directories(
 )
 
 if(SCRIPT_LIB_ELUNA)
-	include_directories(${CMAKE_SOURCE_DIR}/src/modules/Eluna)
-	include_directories(${CMAKE_SOURCE_DIR}/dep/lualib)
+    include_directories(${CMAKE_SOURCE_DIR}/src/modules/Eluna)
+    include_directories(${CMAKE_SOURCE_DIR}/dep/lualib)
 endif()
 
 if(SCRIPT_LIB_SD2)
@@ -95,7 +95,7 @@ target_link_libraries(${EXECUTABLE_NAME}
     shared
     framework
     g3dlite
-    ${ACE_LIBRARIES}
+    ace
 )
 
 add_dependencies(${EXECUTABLE_NAME} game)
@@ -131,7 +131,7 @@ endif()
 set(EXECUTABLE_LINK_FLAGS "")
 
 if(UNIX)
-  set(EXECUTABLE_LINK_FLAGS "-pthread ${EXECUTABLE_LINK_FLAGS} -rdynamic")
+  set(EXECUTABLE_LINK_FLAGS "-Wl,--no-as-needed -ldl -pthread -lrt ${EXECUTABLE_LINK_FLAGS} -rdynamic")
 endif()
 
 if(APPLE)

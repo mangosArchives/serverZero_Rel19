@@ -38,7 +38,7 @@ add_library(vmap
     ${CMAKE_SOURCE_DIR}/src/game/vmap/ModelInstance.cpp
 )
 
-target_link_libraries(vmap g3dlite zlib ${ACE_LIBRARIES})
+target_link_libraries(vmap g3dlite zlib ace)
 
 # Used for install targets in subdirs
 set(TOOLS_DIR "tools")
