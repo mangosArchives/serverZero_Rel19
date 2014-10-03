@@ -21,7 +21,6 @@ include_directories(
     "${CMAKE_SOURCE_DIR}/src/shared"
     "${CMAKE_SOURCE_DIR}/src/game/vmap/"
     "${CMAKE_SOURCE_DIR}/dep/include/g3dlite/"
-    "${CMAKE_SOURCE_DIR}/objdir/dep/acelite"
     "${CMAKE_SOURCE_DIR}/src/framework/"
     "${ACE_INCLUDE_DIR}"
 )
