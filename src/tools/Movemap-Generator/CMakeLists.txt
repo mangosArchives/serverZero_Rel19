@@ -40,8 +40,6 @@ include_directories(
     "${CMAKE_SOURCE_DIR}/src/game"
     "${CMAKE_SOURCE_DIR}/src/game/vmap"
     "${CMAKE_SOURCE_DIR}/dep/include/g3dlite"
-    "${CMAKE_SOURCE_DIR}/dep/acelite/ace"
-    "${CMAKE_BINARY_DIR}/dep/acelite/ace"
     "${CMAKE_SOURCE_DIR}/src/framework"
     "${CMAKE_SOURCE_DIR}/src/game/WorldHandlers"
     "${CMAKE_SOURCE_DIR}/dep/recastnavigation/Detour/Include"
@@ -59,7 +57,7 @@ set(SOURCES
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
 
-target_link_libraries(${EXECUTABLE_NAME} g3dlite vmap detour recast zlib shared)
+target_link_libraries(${EXECUTABLE_NAME} ace g3dlite vmap detour recast zlib shared)
 
 install(TARGETS ${EXECUTABLE_NAME} DESTINATION "${BIN_DIR}/${TOOLS_DIR}")
 if(WIN32 AND MSVC)

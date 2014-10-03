@@ -31,15 +31,13 @@ include_directories(
     "${CMAKE_SOURCE_DIR}/src/shared"
     "${CMAKE_SOURCE_DIR}/src/game/vmap/"
     "${CMAKE_SOURCE_DIR}/dep/include/g3dlite/"
-    "${CMAKE_SOURCE_DIR}/dep/ACE_wrappers/"
-    "${CMAKE_BINARY_DIR}/dep/ACE_wrappers"
     "${CMAKE_SOURCE_DIR}/src/framework/"
     "${ACE_INCLUDE_DIR}"
 )
 
 add_executable(${EXECUTABLE_NAME} vmap_assembler.cpp)
 
-target_link_libraries(${EXECUTABLE_NAME} vmap g3dlite zlib)
+target_link_libraries(${EXECUTABLE_NAME} ace vmap g3dlite zlib)
 
 install(TARGETS ${EXECUTABLE_NAME} DESTINATION "${BIN_DIR}/${TOOLS_DIR}")
 if(WIN32 AND MSVC)
