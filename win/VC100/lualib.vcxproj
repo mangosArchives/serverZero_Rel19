@@ -152,7 +152,7 @@
     <ClInclude Include="..\..\dep\lualib\llimits.h" />
     <ClInclude Include="..\..\dep\lualib\lmem.h" />
     <ClInclude Include="..\..\dep\lualib\lobject.h" />
-    <ClInclude Include="..\..\dep\lualib\lopcodes.h" />
+    <ClInclude Include="..\..\dep\lualib\lOpcodes.h" />
     <ClInclude Include="..\..\dep\lualib\lparser.h" />
     <ClInclude Include="..\..\dep\lualib\lstate.h" />
     <ClInclude Include="..\..\dep\lualib\lstring.h" />
@@ -186,7 +186,7 @@
     <ClCompile Include="..\..\dep\lualib\lmem.c" />
     <ClCompile Include="..\..\dep\lualib\loadlib.c" />
     <ClCompile Include="..\..\dep\lualib\lobject.c" />
-    <ClCompile Include="..\..\dep\lualib\lopcodes.c" />
+    <ClCompile Include="..\..\dep\lualib\lOpcodes.c" />
     <ClCompile Include="..\..\dep\lualib\loslib.c" />
     <ClCompile Include="..\..\dep\lualib\lparser.c" />
     <ClCompile Include="..\..\dep\lualib\lstate.c" />

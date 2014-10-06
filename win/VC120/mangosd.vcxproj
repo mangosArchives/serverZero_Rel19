@@ -157,7 +157,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>..\..\dep\include\gsoap;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\dep\lualib;..\..\src\game\LuaEngine;..\..\src\mangosd;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include\gsoap;..\..\src\game\Tools;..\..\src\game\vmap;..\..\src\game\AuctionHouseBot;..\..\src\game\MotionGenerators;..\..\src\game\BattleGround;..\..\src\game\References;..\..\src\game\Object;..\..\src\game\Server;..\..\src\game\WorldHandlers;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\dep\lualib;..\..\src\modules\Eluna;..\..\src\mangosd;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VERSION="0.20.0";WIN32;ENABLE_ELUNA;ENABLE_SD2;NDEBUG;_CONSOLE;ENABLE_CLI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -207,7 +207,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>..\..\dep\include\gsoap;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\dep\lualib;..\..\src\game\LuaEngine;..\..\src\mangosd;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include\gsoap;..\..\src\game\Tools;..\..\src\game\vmap;..\..\src\game\AuctionHouseBot;..\..\src\game\MotionGenerators;..\..\src\game\BattleGround;..\..\src\game\References;..\..\src\game\Object;..\..\src\game\Server;..\..\src\game\WorldHandlers;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\dep\lualib;..\..\src\modules\Eluna;..\..\src\mangosd;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VERSION="0.20.0";WIN32;ENABLE_ELUNA;ENABLE_SD2;NDEBUG;_CONSOLE;ENABLE_CLI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -255,7 +255,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\dep\include\gsoap;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\dep\lualib;..\..\src\game\LuaEngine;..\..\src\mangosd;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include\gsoap;..\..\src\game\Tools;..\..\src\game\vmap;..\..\src\game\AuctionHouseBot;..\..\src\game\MotionGenerators;..\..\src\game\BattleGround;..\..\src\game\References;..\..\src\game\Object;..\..\src\game\Server;..\..\src\game\WorldHandlers;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\dep\lualib;..\..\src\modules\Eluna;..\..\src\mangosd;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VERSION="0.20.0";WIN32;ENABLE_ELUNA;ENABLE_SD2;_DEBUG;MANGOS_DEBUG;_CONSOLE;ENABLE_CLI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -307,7 +307,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\dep\include\gsoap;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\dep\lualib;..\..\src\game\LuaEngine;..\..\src\mangosd;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include\gsoap;..\..\src\game\Tools;..\..\src\game\vmap;..\..\src\game\AuctionHouseBot;..\..\src\game\MotionGenerators;..\..\src\game\BattleGround;..\..\src\game\References;..\..\src\game\Object;..\..\src\game\Server;..\..\src\game\WorldHandlers;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\dep\lualib;..\..\src\modules\Eluna;..\..\src\mangosd;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VERSION="0.20.0";WIN32;_DEBUG;MANGOS_DEBUG;_CONSOLE;ENABLE_CLI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -356,7 +356,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\dep\include\gsoap;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\dep\lualib;..\..\src\game\LuaEngine;..\..\src\mangosd;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include\gsoap;..\..\src\game\Tools;..\..\src\game\vmap;..\..\src\game\AuctionHouseBot;..\..\src\game\MotionGenerators;..\..\src\game\BattleGround;..\..\src\game\References;..\..\src\game\Object;..\..\src\game\Server;..\..\src\game\WorldHandlers;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\dep\lualib;..\..\src\modules\Eluna;..\..\src\mangosd;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VERSION="0.20.0";WIN32;ENABLE_ELUNA;ENABLE_SD2;_DEBUG;MANGOS_DEBUG;_CONSOLE;ENABLE_CLI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -407,7 +407,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\dep\include\gsoap;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\dep\lualib;..\..\src\game\LuaEngine;..\..\src\mangosd;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include\gsoap;..\..\src\game\Tools;..\..\src\game\vmap;..\..\src\game\AuctionHouseBot;..\..\src\game\MotionGenerators;..\..\src\game\BattleGround;..\..\src\game\References;..\..\src\game\Object;..\..\src\game\Server;..\..\src\game\WorldHandlers;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\dep\lualib;..\..\src\modules\Eluna;..\..\src\mangosd;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>VERSION="0.20.0";WIN32;_DEBUG;MANGOS_DEBUG;_CONSOLE;ENABLE_CLI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>

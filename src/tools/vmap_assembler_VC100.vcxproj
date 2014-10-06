@@ -73,7 +73,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\dep\include\g3dlite;..\..\src\shared;..\..\src\game\vmap;..\..\src\framework;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include\g3dlite;..\..\src\shared;..\..\src\game\vmap;..\..\src\framework;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;NO_CORE_FUNCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -97,7 +97,7 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\dep\include\g3dlite;..\..\src\shared;..\..\src\game\vmap;..\..\src\framework;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include\g3dlite;..\..\src\shared;..\..\src\game\vmap;..\..\src\framework;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;NO_CORE_FUNCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
@@ -116,7 +116,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\dep\include\g3dlite;..\..\src\shared;..\..\src\game\vmap;..\..\src\framework;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include\g3dlite;..\..\src\shared;..\..\src\game\vmap;..\..\src\framework;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;NO_CORE_FUNCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -139,7 +139,7 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\dep\include\g3dlite;..\..\src\shared;..\..\src\game\vmap;..\..\src\framework;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include\g3dlite;..\..\src\shared;..\..\src\game\vmap;..\..\src\framework;..\..\dep\include;..\..\src\framework;..\..\dep\acelite;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;NO_CORE_FUNCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
@@ -175,6 +175,9 @@
     <ClInclude Include="..\..\src\game\vmap\WorldModel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\win\VC100\ACE_vc10.vcxproj">
+      <Project>{038b565d-caa9-4cc5-8b4a-13b4287abe14}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\win\VC100\g3dlite.vcxproj">
       <Project>{8072769e-cf10-48bf-b9e1-12752a5dac6e}</Project>
     </ProjectReference>

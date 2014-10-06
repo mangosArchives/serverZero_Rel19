@@ -366,22 +366,22 @@
     <ClCompile Include="..\..\src\game\Unit.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\game\DBCStores.cpp">
+    <ClCompile Include="..\..\src\game\Server\DBCStores.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\game\Opcodes.cpp">
+    <ClCompile Include="..\..\src\game\Server\Opcodes.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\game\SQLStorages.cpp">
+    <ClCompile Include="..\..\src\game\Server\SQLStorages.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\game\WorldSession.cpp">
+    <ClCompile Include="..\..\src\game\Server\WorldSession.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\game\WorldSocket.cpp">
+    <ClCompile Include="..\..\src\game\Server\WorldSocket.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\game\WorldSocketMgr.cpp">
+    <ClCompile Include="..\..\src\game\Server\WorldSocketMgr.cpp">
       <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\game\debugcmds.cpp">
@@ -789,34 +789,34 @@
     <ClInclude Include="..\..\src\game\UpdateMask.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\game\DBCEnums.h">
+    <ClInclude Include="..\..\src\game\Server\DBCEnums.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\game\DBCfmt.h">
+    <ClInclude Include="..\..\src\game\Server\DBCfmt.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\game\DBCStores.h">
+    <ClInclude Include="..\..\src\game\Server\DBCStores.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\game\DBCStructure.h">
+    <ClInclude Include="..\..\src\game\Server\DBCStructure.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\game\Opcodes.h">
+    <ClInclude Include="..\..\src\game\Server\Opcodes.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\game\SharedDefines.h">
+    <ClInclude Include="..\..\src\game\Server\SharedDefines.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\game\SQLStorages.h">
+    <ClInclude Include="..\..\src\game\Server\SQLStorages.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\game\WorldSession.h">
+    <ClInclude Include="..\..\src\game\Server\WorldSession.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\game\WorldSocket.h">
+    <ClInclude Include="..\..\src\game\Server\WorldSocket.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\game\WorldSocketMgr.h">
+    <ClInclude Include="..\..\src\game\Server\WorldSocketMgr.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\game\Language.h">

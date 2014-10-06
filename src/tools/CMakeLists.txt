@@ -21,9 +21,8 @@ include_directories(
     "${CMAKE_SOURCE_DIR}/src/shared"
     "${CMAKE_SOURCE_DIR}/src/game/vmap/"
     "${CMAKE_SOURCE_DIR}/dep/include/g3dlite/"
-    "${CMAKE_SOURCE_DIR}/dep/ACE_wrappers/"
-    "${CMAKE_SOURCE_DIR}/objdir/dep/ACE_wrappers"
     "${CMAKE_SOURCE_DIR}/src/framework/"
+    "${ACE_INCLUDE_DIR}"
 )
 
 add_definitions(-DMMAP_GENERATOR -DNO_CORE_FUNCS)
@@ -37,7 +36,7 @@ add_library(vmap
     ${CMAKE_SOURCE_DIR}/src/game/vmap/ModelInstance.cpp
 )
 
-target_link_libraries(vmap g3dlite z)
+target_link_libraries(vmap g3dlite zlib)
 
 # Used for install targets in subdirs
 set(TOOLS_DIR "tools")
