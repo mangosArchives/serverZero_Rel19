@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{23AFA1F9-A301-4123-81D8-777D3DE349C4}</ProjectGUID>
+    <ProjectGUID>{D80713DC-AF9C-424D-AA8A-204090DA6E5B}</ProjectGUID>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
-    <ProjectName>realmd</ProjectName>
+    <ProjectName>mmap-generator</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -39,14 +39,14 @@
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">realmd.dir\Release\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">realmd</TargetName>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mmap-generator.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mmap-generator</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">realmd.dir\Debug\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">realmd</TargetName>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mmap-generator.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mmap-generator</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
@@ -54,7 +54,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalOptions> /Zm500 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\shared;..\..\dep\include\mysql;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\src\shared;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework;..\..\dep\acelite;..\src;..\..\src\game;..\..\src\game\WorldHandlers;..\..\dep\recastnavigation\Detour\Include;..\..\dep\recastnavigation\Recast\Include;..\..\dep\src\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DisableSpecificWarnings>4996;4355;4244;4267</DisableSpecificWarnings>
@@ -68,15 +68,15 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>
       </DebugInformationFormat>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;NDEBUG;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;MMAP_GENERATOR;NO_CORE_FUNCS;NO_vsnprintf;DT_POLYREF64;NDEBUG;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;NDEBUG;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\shared;..\..\dep\include\mysql;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;MMAP_GENERATOR;NO_CORE_FUNCS;NO_vsnprintf;DT_POLYREF64;NDEBUG;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\src\shared;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework;..\..\dep\acelite;..\src;..\..\src\game;..\..\src\game\WorldHandlers;..\..\dep\recastnavigation\Detour\Include;..\..\dep\recastnavigation\Recast\Include;..\..\dep\src\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\shared;..\..\dep\include\mysql;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\src\shared;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework;..\..\dep\acelite;..\src;..\..\src\game;..\..\src\game\WorldHandlers;..\..\dep\recastnavigation\Detour\Include;..\..\dep\recastnavigation\Recast\Include;..\..\dep\src\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -85,12 +85,12 @@
     </Midl>
     <Link>
       <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)/shared.lib;$(Configuration)/framework.lib;$(Configuration)/ACE.lib;..\..\dep\lib\win32\libmySQL.lib;..\..\dep\lib\win32\libeay32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../dep/acelite/ace;../../dep/acelite/ace/$(Configuration);../../src/mangosd/$(Configuration);../../src/mangosd/$(Configuration)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)\ace.lib;$(Configuration)\g3dlite.lib;$(Configuration)\vmap.lib;$(Configuration)\detour.lib;$(Configuration)\recast.lib;$(Configuration)\zlib.lib;$(Configuration)\shared.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../dep/acelite/ace;../../dep/acelite/ace/$(Configuration);;../../src/mangosd/$(Configuration);../../src/mangosd/$(Configuration)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ImportLibrary>../../src/realmd/Release/realmd.lib</ImportLibrary>
+      <ImportLibrary>../../src/tools/Movemap-Generator/Release/mmap-generator.lib</ImportLibrary>
       <LargeAddressAware>true</LargeAddressAware>
-      <ProgramDataBaseFile>../../src/realmd/Release/realmd.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>../../src/tools/Movemap-Generator/Release/mmap-generator.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -102,7 +102,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalOptions> /Zm500 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\shared;..\..\dep\include\mysql;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\src\shared;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework;..\..\dep\acelite;..\src;..\..\src\game;..\..\src\game\WorldHandlers;..\..\dep\recastnavigation\Detour\Include;..\..\dep\recastnavigation\Recast\Include;..\..\dep\src\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -116,15 +116,15 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;MMAP_GENERATOR;NO_CORE_FUNCS;NO_vsnprintf;DT_POLYREF64;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\shared;..\..\dep\include\mysql;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;MMAP_GENERATOR;NO_CORE_FUNCS;NO_vsnprintf;DT_POLYREF64;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\src\shared;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework;..\..\dep\acelite;..\src;..\..\src\game;..\..\src\game\WorldHandlers;..\..\dep\recastnavigation\Detour\Include;..\..\dep\recastnavigation\Recast\Include;..\..\dep\src\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\shared;..\..\dep\include\mysql;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\src\shared;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework;..\..\dep\acelite;..\src;..\..\src\game;..\..\src\game\WorldHandlers;..\..\dep\recastnavigation\Detour\Include;..\..\dep\recastnavigation\Recast\Include;..\..\dep\src\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -133,12 +133,12 @@
     </Midl>
     <Link>
       <AdditionalOptions> /machine:X86 /debug %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)/shared.lib;$(Configuration)/framework.lib;$(Configuration)/ACE.lib;..\..\dep\lib\win32\libmySQL.lib;..\..\dep\lib\win32\libeay32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../dep/acelite/ace;../../dep/acelite/ace/$(Configuration);../../src/mangosd/$(Configuration);../../src/mangosd/$(Configuration)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+            <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)\ace.lib;$(Configuration)\g3dlite.lib;$(Configuration)\vmap.lib;$(Configuration)\detour.lib;$(Configuration)\recast.lib;$(Configuration)\zlib.lib;$(Configuration)\shared.lib</AdditionalDependencies>
+<AdditionalLibraryDirectories>../../dep/acelite/ace;../../dep/acelite/ace/$(Configuration);;../../src/mangosd/$(Configuration);../../src/mangosd/$(Configuration)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>../../src/realmd/Debug/realmd.lib</ImportLibrary>
+      <ImportLibrary>../../src/tools/Movemap-Generator/Debug/mmap-generator.lib</ImportLibrary>
       <LargeAddressAware>true</LargeAddressAware>
-      <ProgramDataBaseFile>../../src/realmd/Debug/realmd.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>../../src/tools/Movemap-Generator/Debug/mmap-generator.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -148,30 +148,33 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\realmd\AuthCodes.h" />
-    <ClInclude Include="..\..\src\realmd\AuthSocket.h" />
-    <ClInclude Include="..\..\src\realmd\BufferedSocket.h" />
-    <ClInclude Include="..\..\src\realmd\PatchHandler.h" />
-    <ClInclude Include="..\..\src\realmd\RealmList.h" />
-    <ClCompile Include="..\..\src\realmd\AuthSocket.cpp" />
-    <ClCompile Include="..\..\src\realmd\BufferedSocket.cpp" />
-    <ClCompile Include="..\..\src\realmd\Main.cpp" />
-    <ClCompile Include="..\..\src\realmd\PatchHandler.cpp" />
-    <ClCompile Include="..\..\src\realmd\RealmList.cpp" />
-    <ResourceCompile Include="..\..\src\realmd\realmd.rc" />
+    <ClCompile Include="..\..\src\tools\Movemap-Generator\IntermediateValues.cpp" />
+    <ClCompile Include="..\..\src\tools\Movemap-Generator\generator.cpp" />
+    <ClCompile Include="..\..\src\tools\Movemap-Generator\MapBuilder.cpp" />
+    <ClCompile Include="..\..\src\tools\Movemap-Generator\TerrainBuilder.cpp" />
+    <ClCompile Include="..\..\src\tools\Movemap-Generator\VMapExtensions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ace.vcxproj">
       <Project>D70895A7-4EA1-48BE-A557-834D4357BAD3</Project>
     </ProjectReference>
-    <ProjectReference Include="framework.vcxproj">
-      <Project>915B99FF-5340-4BCE-AAE7-D3737443498B</Project>
+    <ProjectReference Include="detour.vcxproj">
+      <Project>3FECACB6-BD35-4857-BF55-A56B5E6C6D77</Project>
     </ProjectReference>
-    <ProjectReference Include="revision.h.vcxproj">
-      <Project>8E7D444B-B12F-4293-BE5C-DB51E79985BD</Project>
+    <ProjectReference Include="g3dlite.vcxproj">
+      <Project>367CCE76-14A7-4871-93D6-579DA35FBEFD</Project>
+    </ProjectReference>
+    <ProjectReference Include="recast.vcxproj">
+      <Project>467226FB-7838-43FF-8ECA-199FAEA760D6</Project>
     </ProjectReference>
     <ProjectReference Include="shared.vcxproj">
       <Project>594C9AA1-A759-4DEB-A6E4-F079A5DFBA31</Project>
+    </ProjectReference>
+    <ProjectReference Include="vmap.vcxproj">
+      <Project>3C86FD37-9872-4302-A502-740E7D028D3A</Project>
+    </ProjectReference>
+    <ProjectReference Include="zlib.vcxproj">
+      <Project>8D3CF9B7-05F2-4BCF-B833-27B279FDEAF3</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

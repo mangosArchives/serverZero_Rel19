@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{23AFA1F9-A301-4123-81D8-777D3DE349C4}</ProjectGUID>
+    <ProjectGUID>{356A660D-07F5-4744-A423-E0128E7874A3}</ProjectGUID>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
-    <ProjectName>realmd</ProjectName>
+    <ProjectName>map-extractor</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -39,14 +39,14 @@
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">realmd.dir\Release\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">realmd</TargetName>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">map-extractor.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">map-extractor</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">realmd.dir\Debug\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">realmd</TargetName>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">map-extractor.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">map-extractor</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
@@ -54,7 +54,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalOptions> /Zm500 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\shared;..\..\dep\include\mysql;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\src\shared;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework;..\..\dep\acelite;..\..\dep\libmpq;..\..\src\tools\map-extractor\loadlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DisableSpecificWarnings>4996;4355;4244;4267</DisableSpecificWarnings>
@@ -68,15 +68,15 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>
       </DebugInformationFormat>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;NDEBUG;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;MMAP_GENERATOR;NO_CORE_FUNCS;NDEBUG;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;NDEBUG;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\shared;..\..\dep\include\mysql;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;MMAP_GENERATOR;NO_CORE_FUNCS;NDEBUG;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\src\shared;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework;..\..\dep\acelite;..\..\dep\libmpq;..\..\src\tools\map-extractor\loadlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\shared;..\..\dep\include\mysql;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\src\shared;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework;..\..\dep\acelite;..\..\dep\libmpq;..\..\src\tools\map-extractor\loadlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -85,12 +85,12 @@
     </Midl>
     <Link>
       <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)/shared.lib;$(Configuration)/framework.lib;$(Configuration)/ACE.lib;..\..\dep\lib\win32\libmySQL.lib;..\..\dep\lib\win32\libeay32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../dep/acelite/ace;../../dep/acelite/ace/$(Configuration);../../src/mangosd/$(Configuration);../../src/mangosd/$(Configuration)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)\libmpq.lib;$(Configuration)\loadlib.lib;$(Configuration)\bzip2.lib;$(Configuration)\zlib.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../dep/acelite/ace;../../dep/acelite/ace/$(Configuration);;../../src/mangosd/$(Configuration);../../src/mangosd/$(Configuration)/$(Configuration);;../../src/tools/map-extractor/loadlib;../../src/tools/map-extractor/loadlib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ImportLibrary>../../src/realmd/Release/realmd.lib</ImportLibrary>
+      <ImportLibrary>../../src/tools/map-extractor/Release/map-extractor.lib</ImportLibrary>
       <LargeAddressAware>true</LargeAddressAware>
-      <ProgramDataBaseFile>../../src/realmd/Release/realmd.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>../../src/tools/map-extractor/Release/map-extractor.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -102,7 +102,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalOptions> /Zm500 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\shared;..\..\dep\include\mysql;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\src\shared;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework;..\..\dep\acelite;..\..\dep\libmpq;..\..\src\tools\map-extractor\loadlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -116,15 +116,15 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;MMAP_GENERATOR;NO_CORE_FUNCS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\shared;..\..\dep\include\mysql;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;MMAP_GENERATOR;NO_CORE_FUNCS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\src\shared;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework;..\..\dep\acelite;..\..\dep\libmpq;..\..\src\tools\map-extractor\loadlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\shared;..\..\dep\include\mysql;..\..\dep\acelite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\src\shared;..\..\src\game\vmap;..\..\dep\include\g3dlite;..\..\src\framework;..\..\dep\acelite;..\..\dep\libmpq;..\..\src\tools\map-extractor\loadlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -133,12 +133,12 @@
     </Midl>
     <Link>
       <AdditionalOptions> /machine:X86 /debug %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)/shared.lib;$(Configuration)/framework.lib;$(Configuration)/ACE.lib;..\..\dep\lib\win32\libmySQL.lib;..\..\dep\lib\win32\libeay32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../dep/acelite/ace;../../dep/acelite/ace/$(Configuration);../../src/mangosd/$(Configuration);../../src/mangosd/$(Configuration)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)\libmpq.lib;$(Configuration)\loadlib.lib;$(Configuration)\bzip2.lib;$(Configuration)\zlib.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>../../src/realmd/Debug/realmd.lib</ImportLibrary>
+      <ImportLibrary>../../src/tools/map-extractor/Debug/map-extractor.lib</ImportLibrary>
       <LargeAddressAware>true</LargeAddressAware>
-      <ProgramDataBaseFile>../../src/realmd/Debug/realmd.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>../../src/tools/map-extractor/Debug/map-extractor.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -148,30 +148,22 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\realmd\AuthCodes.h" />
-    <ClInclude Include="..\..\src\realmd\AuthSocket.h" />
-    <ClInclude Include="..\..\src\realmd\BufferedSocket.h" />
-    <ClInclude Include="..\..\src\realmd\PatchHandler.h" />
-    <ClInclude Include="..\..\src\realmd\RealmList.h" />
-    <ClCompile Include="..\..\src\realmd\AuthSocket.cpp" />
-    <ClCompile Include="..\..\src\realmd\BufferedSocket.cpp" />
-    <ClCompile Include="..\..\src\realmd\Main.cpp" />
-    <ClCompile Include="..\..\src\realmd\PatchHandler.cpp" />
-    <ClCompile Include="..\..\src\realmd\RealmList.cpp" />
-    <ResourceCompile Include="..\..\src\realmd\realmd.rc" />
+    <ClCompile Include="..\..\src\tools\map-extractor\dbcfile.cpp" />
+    <ClCompile Include="..\..\src\tools\map-extractor\mpq_libmpq.cpp" />
+    <ClCompile Include="..\..\src\tools\map-extractor\System.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="ace.vcxproj">
-      <Project>D70895A7-4EA1-48BE-A557-834D4357BAD3</Project>
+    <ProjectReference Include="bzip2.vcxproj">
+      <Project>BC139E42-505E-430B-8610-6ED2B1E358E8</Project>
     </ProjectReference>
-    <ProjectReference Include="framework.vcxproj">
-      <Project>915B99FF-5340-4BCE-AAE7-D3737443498B</Project>
+    <ProjectReference Include="libmpq.vcxproj">
+      <Project>449D15D0-B3B9-4195-AB9C-E205FF77ABBE</Project>
     </ProjectReference>
-    <ProjectReference Include="revision.h.vcxproj">
-      <Project>8E7D444B-B12F-4293-BE5C-DB51E79985BD</Project>
+    <ProjectReference Include="loadlib.vcxproj">
+      <Project>29E1FE24-1C69-4E6B-945D-02544988A5FA</Project>
     </ProjectReference>
-    <ProjectReference Include="shared.vcxproj">
-      <Project>594C9AA1-A759-4DEB-A6E4-F079A5DFBA31</Project>
+    <ProjectReference Include="zlib.vcxproj">
+      <Project>8D3CF9B7-05F2-4BCF-B833-27B279FDEAF3</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
