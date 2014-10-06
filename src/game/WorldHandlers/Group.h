@@ -33,6 +33,7 @@
 #include "LootMgr.h"
 #include "DBCEnums.h"
 #include "SharedDefines.h"
+#include "LFGHandler.h"
 #include "LFGMgr.h"
 
 #include <map>
