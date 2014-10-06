@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
@@ -21,13 +21,11 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -88,9 +86,9 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)\game.lib;$(Configuration)\shared.lib;$(Configuration)\framework.lib;$(Configuration)\g3dlite.lib;$(Configuration)\ace.lib;$(Configuration)\gsoap.lib;$(Configuration)\zlib.lib;..\..\dep\lib\win32\libmySQL.lib;..\..\dep\lib\win32\libeay32.lib;$(Configuration)\detour.lib;$(Configuration)\mangosscript.lib;$(Configuration)\LuaEngine.lib;$(Configuration)\lualib.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../dep/acelite/ace;../../dep/acelite/ace/$(Configuration);;../../src/mangosd/$(Configuration);../../src/mangosd/$(Configuration)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ImportLibrary>../../src/mangosd/Release/mangosd.lib</ImportLibrary>
+      <ImportLibrary>$(Configuration)/Release/mangosd.lib</ImportLibrary>
       <LargeAddressAware>true</LargeAddressAware>
-      <ProgramDataBaseFile>../../src/mangosd/Release/mangosd.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>$(Configuration)/Release/mangosd.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -136,9 +134,9 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)\game.lib;$(Configuration)\shared.lib;$(Configuration)\framework.lib;$(Configuration)\g3dlite.lib;$(Configuration)\ace.lib;$(Configuration)\gsoap.lib;$(Configuration)\zlib.lib;..\..\dep\lib\win32\libmySQL.lib;..\..\dep\lib\win32\libeay32.lib;$(Configuration)\detour.lib;$(Configuration)\mangosscript.lib;$(Configuration)\LuaEngine.lib;$(Configuration)\lualib.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../dep/acelite/ace;../../dep/acelite/ace/$(Configuration);;../../src/mangosd/$(Configuration);../../src/mangosd/$(Configuration)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>../../src/mangosd/Debug/mangosd.lib</ImportLibrary>
+      <ImportLibrary>$(Configuration)/Debug/mangosd.lib</ImportLibrary>
       <LargeAddressAware>true</LargeAddressAware>
-      <ProgramDataBaseFile>../../src/mangosd/Debug/mangosd.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>$(Configuration)/Debug/mangosd.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
