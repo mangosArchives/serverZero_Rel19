@@ -131,7 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="genrev.vcxproj">
-      <Project>304083A8-CF14-496E-BF87-F4007D677274</Project>
+      <Project>{304083a8-cf14-496e-bf87-f4007d677274}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

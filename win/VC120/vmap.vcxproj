@@ -123,10 +123,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="g3dlite.vcxproj">
-      <Project>367CCE76-14A7-4871-93D6-579DA35FBEFD</Project>
+      <Project>{367cce76-14a7-4871-93d6-579da35fbefd}</Project>
     </ProjectReference>
     <ProjectReference Include="zlib.vcxproj">
-      <Project>8D3CF9B7-05F2-4BCF-B833-27B279FDEAF3</Project>
+      <Project>{8d3cf9b7-05f2-4bcf-b833-27b279fdeaf3}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
