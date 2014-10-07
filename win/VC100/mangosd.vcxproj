@@ -75,7 +75,7 @@
     </ResourceCompile>
     <Midl>
       <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\game\AuctionHouseBot;..\..\src\game\BattleGround;..\..\src\game\Server;..\..\src\game\WorldHandlers;..\..\src\game\Object;..\..\src\game\Tools;..\..\src\game\References;..\..\src\game\MotionGenerators;..\..\src\game\vmap;..\..\src\shared;..\..\dep\acelite;..\..\dep\include\openssl;..\..\src\modules\Eluna;..\..\dep\lualib;..\..\src\modules\SD2;..\..\dep\include\gsoap;..\..\dep\include\mysql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <OutputDirectory>$(Configuration)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
@@ -124,7 +124,7 @@
     </ResourceCompile>
     <Midl>
       <AdditionalIncludeDirectories>.\;..\..\dep\include;..\..\src\shared;..\..\src\framework;..\..\src\game\AuctionHouseBot;..\..\src\game\BattleGround;..\..\src\game\Server;..\..\src\game\WorldHandlers;..\..\src\game\Object;..\..\src\game\Tools;..\..\src\game\References;..\..\src\game\MotionGenerators;..\..\src\game\vmap;..\..\src\shared;..\..\dep\acelite;..\..\dep\include\openssl;..\..\src\modules\Eluna;..\..\dep\lualib;..\..\src\modules\SD2;..\..\dep\include\gsoap;..\..\dep\include\mysql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <OutputDirectory>$(Configuration)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
