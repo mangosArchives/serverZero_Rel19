@@ -86,9 +86,9 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)\game.lib;$(Configuration)\shared.lib;$(Configuration)\framework.lib;$(Configuration)\g3dlite.lib;$(Configuration)\ace.lib;$(Configuration)\gsoap.lib;$(Configuration)\zlib.lib;..\..\dep\lib\win32\libmySQL.lib;..\..\dep\lib\win32\libeay32.lib;$(Configuration)\detour.lib;$(Configuration)\mangosscript.lib;$(Configuration)\LuaEngine.lib;$(Configuration)\lualib.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../dep/acelite/ace;../../dep/acelite/ace/$(Configuration);;../../src/mangosd/$(Configuration);../../src/mangosd/$(Configuration)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ImportLibrary>$(Configuration)/Release/mangosd.lib</ImportLibrary>
+      <ImportLibrary>$(Configuration)/mangosd.lib</ImportLibrary>
       <LargeAddressAware>true</LargeAddressAware>
-      <ProgramDataBaseFile>$(Configuration)/Release/mangosd.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>$(Configuration)/mangosd.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -135,9 +135,9 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)\game.lib;$(Configuration)\shared.lib;$(Configuration)\framework.lib;$(Configuration)\g3dlite.lib;$(Configuration)\ace.lib;$(Configuration)\gsoap.lib;$(Configuration)\zlib.lib;..\..\dep\lib\win32\libmySQL.lib;..\..\dep\lib\win32\libeay32.lib;$(Configuration)\detour.lib;$(Configuration)\mangosscript.lib;$(Configuration)\LuaEngine.lib;$(Configuration)\lualib.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../dep/acelite/ace;../../dep/acelite/ace/$(Configuration);;../../src/mangosd/$(Configuration);../../src/mangosd/$(Configuration)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>$(Configuration)/Debug/mangosd.lib</ImportLibrary>
+      <ImportLibrary>$(Configuration)/mangosd.lib</ImportLibrary>
       <LargeAddressAware>true</LargeAddressAware>
-      <ProgramDataBaseFile>$(Configuration)/Debug/mangosd.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>$(Configuration)/mangosd.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>

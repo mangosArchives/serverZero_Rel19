@@ -88,9 +88,9 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)\libmpq.lib;$(Configuration)\loadlib.lib;$(Configuration)\bzip2.lib;$(Configuration)\zlib.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../dep/acelite/ace;../../dep/acelite/ace/$(Configuration);;../../src/mangosd/$(Configuration);../../src/mangosd/$(Configuration)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ImportLibrary>$(Configuration)/Release/vmap-extractor.lib</ImportLibrary>
+      <ImportLibrary>$(Configuration)/vmap-extractor.lib</ImportLibrary>
       <LargeAddressAware>true</LargeAddressAware>
-      <ProgramDataBaseFile>$(Configuration)/Release/vmap-extractor.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>$(Configuration)/vmap-extractor.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -136,9 +136,9 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;$(Configuration)\libmpq.lib;$(Configuration)\loadlib.lib;$(Configuration)\bzip2.lib;$(Configuration)\zlib.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../dep/acelite/ace;../../dep/acelite/ace/$(Configuration);;../../src/mangosd/$(Configuration);../../src/mangosd/$(Configuration)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>$(Configuration)/Debug/vmap-extractor.lib</ImportLibrary>
+      <ImportLibrary>$(Configuration)/vmap-extractor.lib</ImportLibrary>
       <LargeAddressAware>true</LargeAddressAware>
-      <ProgramDataBaseFile>$(Configuration)/Debug/vmap-extractor.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>$(Configuration)/vmap-extractor.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
