@@ -59,7 +59,7 @@ echo.
 echo = Copy Extraction Exe's =
 echo =========================
 copy %1\%3\map-extractor.exe %2\%3
-copy %1\%3\mmap-generator.exe %2\%3
+copy %1\%3\movemap-generator.exe %2\%3
 copy %1\%3\vmap-assembler.exe %2\%3
 copy %1\%3\vmap-extractor.exe %2\%3
                          
