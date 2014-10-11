@@ -144,8 +144,30 @@ set_target_properties(${EXECUTABLE_NAME} PROPERTIES LINK_FLAGS
 
 install(TARGETS ${EXECUTABLE_NAME} DESTINATION "${BIN_DIR}")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mangosd.conf.dist.in" "${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist")
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist" DESTINATION "${CONF_DIR}")
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist" DESTINATION "${CONF_INSTALL_DIR}")
 
 if(WIN32 AND MSVC)
   install(FILES "${CMAKE_CURRENT_BINARY_DIR}/\${BUILD_TYPE}/${EXECUTABLE_NAME}.pdb" DESTINATION "${BIN_DIR}" CONFIGURATIONS Debug)
+  add_custom_command(TARGET ${EXECUTABLE_NAME}
+    POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/mangosd.conf.dist" "${CONF_COPY_DIR}"
+  )
+endif()
+
+#Copy dlls to build dir
+if(WIN32)
+  if(MSVC)
+   add_custom_command(TARGET ${EXECUTABLE_NAME}
+     POST_BUILD
+     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libeay32.dll" "${CMAKE_BINARY_DIR}/bin/$(Configuration)/"
+     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/ssleay32.dll" "${CMAKE_BINARY_DIR}/bin/$(Configuration)/"
+     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libmySQL.dll" "${CMAKE_BINARY_DIR}/bin/$(Configuration)/"
+   )
+  elseif(XCODE)
+   add_custom_command(TARGET ${EXECUTABLE_NAME}
+     POST_BUILD
+     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libeay32.dll" "${CMAKE_BINARY_DIR}/bin/"
+     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/ssleay32.dll" "${CMAKE_BINARY_DIR}/bin/"
+     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libmySQL.dll" "${CMAKE_BINARY_DIR}/bin/"
+   )
+  endif()
 endif()

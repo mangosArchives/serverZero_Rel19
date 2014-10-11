@@ -242,8 +242,6 @@ endif()
 #Eluna specific start
 
 if(SCRIPT_LIB_ELUNA)
-#install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/modules/Eluna/extensions DESTINATION ${BIN_DIR}/lua_scripts/)
-
   include_directories(
     "${CMAKE_SOURCE_DIR}/dep/lualib"
     "${CMAKE_SOURCE_DIR}/src/modules/Eluna"

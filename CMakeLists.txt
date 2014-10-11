@@ -33,6 +33,7 @@ set(CMAKE_MODULE_PATH
 )
 
 # define all options here
+set(CONF_DIR "" CACHE STRING "Config path. Can be absolute or relative")
 option(DEBUG                "Debug mode"                             OFF)
 option(USE_STD_MALLOC       "Use standard malloc instead of TBB"     ON)
 option(ACE_USE_EXTERNAL     "Use external ACE"                       OFF)
@@ -54,6 +55,7 @@ message(
   Options that can be used in order to configure the process:
    General:
     CMAKE_INSTALL_PREFIX    Path where the server should be installed to
+    CONF_DIR                Path to the configs, can be absolute or relative
     PCH                     Use precompiled headers
     DEBUG                   Debug mode
     USE_STD_MALLOC          Use standard malloc instead of TBB
@@ -131,8 +133,28 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/bin/" CACHE PATH "MaNGOS default install prefix" FORCE)
 endif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
+#Output the compiled exes and DLLs to build/bin directory on windows by default
+if(WIN32)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+endif()
+
+#Set config install path correctly from given path
+string(FIND "${CONF_DIR}" ":" CONF_DIR_ABSOLUTE)
+if(${CONF_DIR_ABSOLUTE} EQUAL -1)
+  #Path was not absolute
+  set(CONF_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/${CONF_DIR}")
+  if(MSVC)
+    set(CONF_COPY_DIR "${CMAKE_BINARY_DIR}/bin/$(ConfigurationName)/${CONF_DIR}")
+  endif()
+else()
+  #Path was absolute
+  set(CONF_INSTALL_DIR "${CONF_DIR}")
+  if(MSVC)
+    set(CONF_COPY_DIR "${CONF_DIR}")
+  endif()
+endif()
+
 set(BIN_DIR ${CMAKE_INSTALL_PREFIX}/)
-set(CONF_DIR ${CMAKE_INSTALL_PREFIX}/etc)
 # If win32 put it in the bin dir not lib
 if(WIN32)
   set(LIBS_DIR ${CMAKE_INSTALL_PREFIX}/)
@@ -225,6 +247,12 @@ endif()
 
 message(STATUS "MaNGOS-Core revision  : ${GIT_REVISION}")
 message(STATUS "Install server to     : ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "Install configs to    : ${CONF_INSTALL_DIR}")
+if("${CONF_DIR}" STREQUAL "")
+  message(STATUS "Search configs from   : binary directory (default)")
+else()
+  message(STATUS "Search configs from   : ${CONF_DIR}")
+endif()
 
 # if(CLI)
 #   message(STATUS "Build with CLI        : Yes (default)")
@@ -337,6 +365,7 @@ if(WIN32)
   install(
     FILES
       "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libeay32.dll"
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/ssleay32.dll"
       "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libmySQL.dll"
     DESTINATION ${LIBS_DIR}
     CONFIGURATIONS Release
@@ -344,6 +373,7 @@ if(WIN32)
   install(
     FILES
       "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libeay32.dll"
+      "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/ssleay32.dll"
       "${CMAKE_SOURCE_DIR}/dep/lib/${DEP_ARCH}/libmySQL.dll"
     DESTINATION ${LIBS_DIR}
     CONFIGURATIONS Debug
