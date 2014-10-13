@@ -1,3 +1,0 @@
-From MangosOne
-https://github.com/mangosone/server/commit/af0470954a00adb46ec73a074f54de887d7cccd6
-[s0765] Moved vmap code from shared to game project
