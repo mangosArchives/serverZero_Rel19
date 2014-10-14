@@ -89,8 +89,16 @@
 #endif
 
 
-// The path to config files
-#define SYSCONFDIR "${CONF_DIR}"
+// The path to config files, only the prepared sln's have PREPARED_SLN defined
+// as cmake replaces the CONF_xxx during the build process
+#ifndef SYSCONFDIR
+#  ifdef PREPARED_SLN
+#    define SYSCONFDIR ""
+#  else
+#    define SYSCONFDIR "${CONF_DIR}"
+#  endif
+#endif
+
 
 #define REALMD_CONFIG_NAME             "realmd.conf"
 #define MANGOSD_CONFIG_NAME            "mangosd.conf"
