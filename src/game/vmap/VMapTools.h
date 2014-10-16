@@ -28,6 +28,8 @@
 #include <G3D/CollisionDetection.h>
 #include <G3D/AABox.h>
 
+#include "NodeValueAccess.h"
+
 /**
 The Class is mainly taken from G3D/AABSPTree.h but modified to be able to use our internal data structure.
 This is an iterator that helps us analysing the BSP-Trees.
