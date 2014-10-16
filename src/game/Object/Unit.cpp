@@ -115,9 +115,7 @@ void MovementInfo::Read(ByteBuffer& data)
         data >> fallTime;
     }
 
-    /* TODO: This is not an ideal fix with checking the size directly, but until a better solution is found... It will have to do.
-             You can find details of this bug here: https://www.getmangos.eu/issue.php?issueid=130#note609    */
-    if (HasMovementFlag(MOVEFLAG_FALLING) || HasMovementFlag(MOVEFLAG_REDIRECTED) && data.size() != 28)
+    if (HasMovementFlag(MOVEFLAG_FALLING))
     {
         data >> jump.velocity;
         data >> jump.sinAngle;
@@ -157,9 +155,7 @@ void MovementInfo::Write(ByteBuffer& data) const
         data << fallTime;
     }
 
-    /* TODO: This is not an ideal fix with checking the size directly, but until a better solution is found... It will have to do.
-             You can find details of this bug here: https://www.getmangos.eu/issue.php?issueid=130#note609    */
-    if (HasMovementFlag(MOVEFLAG_FALLING) || HasMovementFlag(MOVEFLAG_REDIRECTED) && data.size() != 28)
+    if (HasMovementFlag(MOVEFLAG_FALLING))
     {
         data << jump.velocity;
         data << jump.sinAngle;
