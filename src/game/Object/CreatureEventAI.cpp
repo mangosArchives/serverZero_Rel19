@@ -410,16 +410,6 @@ bool CreatureEventAI::ProcessEvent(CreatureEventAIHolder& pHolder, Unit* pAction
         }
         case EVENT_T_RECEIVE_AI_EVENT:
             break;
-<<<<<<< HEAD:src/game/CreatureEventAI.cpp
-		case EVENT_T_REACHED_WAYPOINT:
-			if (!m_creature->IsNearWaypoint(m_creature->GetPositionX(), m_creature->GetPositionY(), m_creature->GetPositionZ(), event.reached_waypoint.positionX, event.reached_waypoint.positionY, event.reached_waypoint.positionZ, 1, 1, 1))
-			{
-				return false;
-			}
-
-			LOG_PROCESS_EVENT;
-			break;
-=======
         case EVENT_T_REACHED_WAYPOINT:
             if (!m_creature->IsNearWaypoint(m_creature->GetPositionX(), m_creature->GetPositionY(), m_creature->GetPositionZ(), event.reached_waypoint.positionX, event.reached_waypoint.positionY, event.reached_waypoint.positionZ, 1, 1, 1))
             {
@@ -428,7 +418,6 @@ bool CreatureEventAI::ProcessEvent(CreatureEventAIHolder& pHolder, Unit* pAction
 
             LOG_PROCESS_EVENT;
             break;
->>>>>>> Rel20_Newbuild:src/game/Object/CreatureEventAI.cpp
         default:
             sLog.outErrorEventAI("Creature %u using Event %u has invalid Event Type(%u), missing from ProcessEvent() Switch.", m_creature->GetEntry(), pHolder.Event.event_id, pHolder.Event.event_type);
             break;
@@ -1333,11 +1322,7 @@ void CreatureEventAI::UpdateAI(const uint32 diff)
             // Events that are updated every EVENT_UPDATE_TIME
             switch ((*i).Event.event_type)
             {
-<<<<<<< HEAD:src/game/CreatureEventAI.cpp
-				case EVENT_T_REACHED_WAYPOINT:
-=======
                 case EVENT_T_REACHED_WAYPOINT:
->>>>>>> Rel20_Newbuild:src/game/Object/CreatureEventAI.cpp
                 case EVENT_T_TIMER_OOC:
                 case EVENT_T_TIMER_GENERIC:
                     ProcessEvent(*i);
