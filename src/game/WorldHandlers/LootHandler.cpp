@@ -126,33 +126,33 @@ void WorldSession::HandleAutostoreLootItemOpcode(WorldPacket& recv_data)
         return;
     }
 
-	Group * group = player->GetGroup();
+    Group * group = player->GetGroup();
 
-	/* Checking group conditions to be sure the player has the permissions to loot. */
-	if(group)
-	{
-		Creature * pCreature = player->GetMap()->GetCreature(lguid);
-		switch(group->GetLootMethod())
-		{
-			case GROUP_LOOT:
-			case NEED_BEFORE_GREED:
-			{
-				if(item->winner && item->winner != player->GetObjectGuid() && !item->is_underthreshold && group->IsRollDoneForItem(pCreature, item))
-				{
-					player->SendEquipError(EQUIP_ERR_LOOT_CANT_LOOT_THAT_NOW, NULL, NULL, item->itemid);
-					return;
-				}
-			}
-			case MASTER_LOOT:
-			{
-				if((item->winner && item->winner != player->GetObjectGuid()) || (!item->winner && !item->is_underthreshold && !item->freeforall))
-				{
-					player->SendEquipError(EQUIP_ERR_LOOT_CANT_LOOT_THAT_NOW, NULL, NULL, item->itemid);
-					return;
-				}
-			}
-		}
-	}
+    /* Checking group conditions to be sure the player has the permissions to loot. */
+    if(group)
+    {
+        Creature * pCreature = player->GetMap()->GetCreature(lguid);
+        switch(group->GetLootMethod())
+        {
+            case GROUP_LOOT:
+            case NEED_BEFORE_GREED:
+            {
+                if(item->winner && item->winner != player->GetObjectGuid() && !item->is_underthreshold && group->IsRollDoneForItem(pCreature, item))
+                {
+                    player->SendEquipError(EQUIP_ERR_LOOT_CANT_LOOT_THAT_NOW, NULL, NULL, item->itemid);
+                    return;
+                }
+            }
+            case MASTER_LOOT:
+            {
+                if((item->winner && item->winner != player->GetObjectGuid()) || (!item->winner && !item->is_underthreshold && !item->freeforall))
+                {
+                    player->SendEquipError(EQUIP_ERR_LOOT_CANT_LOOT_THAT_NOW, NULL, NULL, item->itemid);
+                    return;
+                }
+            }
+        }
+    }
 
     // questitems use the blocked field for other purposes
     if (!qitem && item->is_blocked)
@@ -433,8 +433,8 @@ void WorldSession::DoLootRelease(ObjectGuid lguid)
             else
                 // not fully looted object
             { 
-				go->SetLootState(GO_ACTIVATED); 
-			}
+                go->SetLootState(GO_ACTIVATED); 
+            }
 
             go->SetGoState(GO_STATE_READY);
 
@@ -507,14 +507,14 @@ void WorldSession::DoLootRelease(ObjectGuid lguid)
             /* Copy creature loot to loot variable */
             loot = &pCreature->loot;
 
-			/* Update for other players. */
-			if(!loot->isLooted())
-			{ 
-				Group const* group = pCreature->GetGroupLootRecipient();
-				// Checking whether it has been looted once by the designed looter (master loot case).
-				pCreature->hasBeenLootedOnce = (group ? group->GetLooterGuid() == player->GetObjectGuid() : true);	
-				pCreature->MarkFlagUpdateForClient(UNIT_DYNAMIC_FLAGS);
-			}			
+            /* Update for other players. */
+            if(!loot->isLooted())
+            { 
+                Group const* group = pCreature->GetGroupLootRecipient();
+                // Checking whether it has been looted once by the designed looter (master loot case).
+                pCreature->hasBeenLootedOnce = (group ? group->GetLooterGuid() == player->GetObjectGuid() : true);    
+                pCreature->MarkFlagUpdateForClient(UNIT_DYNAMIC_FLAGS);
+            }            
 
             /* We've completely looted the creature, mark it as available for skinning */
             if (loot->isLooted() && !pCreature->IsAlive())
@@ -592,11 +592,11 @@ void WorldSession::HandleLootMasterGiveOpcode(WorldPacket& recv_data)
     InventoryResult msg = target->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, item.itemid, item.count);
     if (msg != EQUIP_ERR_OK)
     {
-		// Assign winner to the item, avoiding other member picks it up.
-		item.winner = target->GetObjectGuid();
+        // Assign winner to the item, avoiding other member picks it up.
+        item.winner = target->GetObjectGuid();
         target->SendEquipError(msg, NULL, NULL, item.itemid);
 
-		pLoot->NotifyItemRemoved(slotid);
+        pLoot->NotifyItemRemoved(slotid);
 
         return;
     }

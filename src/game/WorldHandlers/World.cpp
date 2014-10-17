@@ -1189,8 +1189,8 @@ void World::SetInitialWorldSettings()
     sLog.outString();
     sWaypointMgr.Load();
 
-	sLog.outString("Modifying in-memory dbc spell attributes...");
-	sSpellMgr.ModDBCSpellAttributes();
+    sLog.outString("Modifying in-memory dbc spell attributes...");
+    sSpellMgr.ModDBCSpellAttributes();
 
     ///- Loading localization data
     sLog.outString("Loading Localization strings...");
@@ -1849,9 +1849,9 @@ void World::ShutdownServ(uint32 time, uint32 options, uint8 exitcode)
     {
         if (!(options & SHUTDOWN_MASK_IDLE) || GetActiveAndQueuedSessionCount() == 0)
         { 
-				sObjectAccessor.SaveAllPlayers();		// save all players.
-				m_stopEvent = true;								// exist code already set
-		}                             
+                sObjectAccessor.SaveAllPlayers();        // save all players.
+                m_stopEvent = true;                                // exist code already set
+        }                             
         else
             { m_ShutdownTimer = 1; }                            // So that the session count is re-evaluated at next world tick
     }

@@ -194,7 +194,7 @@ bool Group::LoadMemberFromDB(uint32 guidLow, uint8 subgroup, bool assistant)
 
     member.group     = subgroup;
     member.assistant = assistant;
-	member.joinTime = time(NULL);
+    member.joinTime = time(NULL);
     m_memberSlots.push_back(member);
 
     SubGroupCounterIncrease(subgroup);
@@ -529,31 +529,31 @@ void Group::Disband(bool hideDestroy)
 */
 void Group::SendUpdateToPlayer(Player* pPlayer)
 {
-	if (!pPlayer || !pPlayer->GetSession() || !pPlayer->IsInWorld() || pPlayer->GetGroup() != this)
-		{ return; }
+    if (!pPlayer || !pPlayer->GetSession() || !pPlayer->IsInWorld() || pPlayer->GetGroup() != this)
+        { return; }
 
-	if (pPlayer->GetGroupUpdateFlag() == GROUP_UPDATE_FLAG_NONE)
+    if (pPlayer->GetGroupUpdateFlag() == GROUP_UPDATE_FLAG_NONE)
         { return; }
 
 
-	uint8 subGroup;
-	// looking for player's subgroup
-	for (member_citerator citr = m_memberSlots.begin(); citr != m_memberSlots.end(); ++citr)
-	{
-		if(citr->guid == pPlayer->GetObjectGuid())
-			{ subGroup=citr->group; }
-	}
+    uint8 subGroup;
+    // looking for player's subgroup
+    for (member_citerator citr = m_memberSlots.begin(); citr != m_memberSlots.end(); ++citr)
+    {
+        if(citr->guid == pPlayer->GetObjectGuid())
+            { subGroup=citr->group; }
+    }
 
-	// guess size
+    // guess size
     WorldPacket data(SMSG_GROUP_LIST, (1 + 1 + 1 + 4 + GetMembersCount() * 20) + 8 + 1 + 8 + 1);
     data << (uint8)m_groupType;                         // group type
-	data << (uint8)(subGroup | (IsAssistant(pPlayer->GetGUID()) ? 0x80 : 0)); // own flags (groupid | (assistant?0x80:0))
+    data << (uint8)(subGroup | (IsAssistant(pPlayer->GetGUID()) ? 0x80 : 0)); // own flags (groupid | (assistant?0x80:0))
 
     data << uint32(GetMembersCount() - 1);
     for (member_citerator citr = m_memberSlots.begin(); citr != m_memberSlots.end(); ++citr)
     {
-		if(citr->guid == pPlayer->GetObjectGuid())
-			continue;
+        if(citr->guid == pPlayer->GetObjectGuid())
+            continue;
 
         Player* member = sObjectMgr.GetPlayer(citr->guid);
         uint8 onlineState = (member) ? MEMBER_STATUS_ONLINE : MEMBER_STATUS_OFFLINE;
@@ -569,9 +569,9 @@ void Group::SendUpdateToPlayer(Player* pPlayer)
     data << m_leaderGuid;                               // leader guid
     if (GetMembersCount() - 1)
     {
-		data << uint8(m_lootMethod);                    // loot method
+        data << uint8(m_lootMethod);                    // loot method
         if (m_lootMethod == MASTER_LOOT)
-			{ data << m_looterGuid; }                           // looter guid
+            { data << m_looterGuid; }                           // looter guid
         else
             { data << uint64(0); }
         data << uint8(m_lootThreshold);                 // loot threshold
@@ -807,8 +807,8 @@ void Group::GroupLoot(WorldObject* pSource, Loot* loot)
             continue;
         }
 
-		// Roll for creature drops only. Not for other containers.
-		if (itemProto->Quality >= uint32(m_lootThreshold) && !lootItem.freeforall && pSource->GetTypeId() == TYPEID_UNIT)
+        // Roll for creature drops only. Not for other containers.
+        if (itemProto->Quality >= uint32(m_lootThreshold) && !lootItem.freeforall && pSource->GetTypeId() == TYPEID_UNIT)
             { StartLootRoll(pSource, GROUP_LOOT, loot, itemSlot); }
         else
             { lootItem.is_underthreshold = 1; }
@@ -828,7 +828,7 @@ void Group::NeedBeforeGreed(WorldObject* pSource, Loot* loot)
         }
 
         // only roll for one-player items, not for ones everyone can get
-		if (itemProto->Quality >= uint32(m_lootThreshold) && !lootItem.freeforall && pSource->GetTypeId() == TYPEID_UNIT)
+        if (itemProto->Quality >= uint32(m_lootThreshold) && !lootItem.freeforall && pSource->GetTypeId() == TYPEID_UNIT)
             { StartLootRoll(pSource, NEED_BEFORE_GREED, loot, itemSlot); }
         else
             { lootItem.is_underthreshold = 1; }
@@ -1003,7 +1003,7 @@ void Group::EndRoll()
 void Group::CountTheRoll(Rolls::iterator& rollI)
 {
     Roll* roll = *rollI;
-	
+    
 
     if (!roll->isValid())                                   // is loot already deleted ?
     {
@@ -1047,22 +1047,22 @@ void Group::CountTheRoll(Rolls::iterator& rollI)
                     item->is_looted = true;
                     roll->getLoot()->NotifyItemRemoved(roll->itemSlot);
                     --roll->getLoot()->unlootedCount;
-                    Item* newitem = player->StoreNewItem(dest, roll->itemid, true, item->randomPropertyId);					
-					player->SendNewItem(newitem, uint32(item->count), false, false, true);
+                    Item* newitem = player->StoreNewItem(dest, roll->itemid, true, item->randomPropertyId);                    
+                    player->SendNewItem(newitem, uint32(item->count), false, false, true);
 
-					/// Warn players about the loot status on the corpse.
-					Creature * creature = player->GetMap()->GetCreature(roll->lootedTargetGUID);
-					/// If creature has been fully looted, remove flag.
-					if (creature->loot.isLooted())
-					{
-						creature->RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
-					}
+                    /// Warn players about the loot status on the corpse.
+                    Creature * creature = player->GetMap()->GetCreature(roll->lootedTargetGUID);
+                    /// If creature has been fully looted, remove flag.
+                    if (creature->loot.isLooted())
+                    {
+                        creature->RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
+                    }
                 }
                 else
                 {
                     item->is_blocked = false;
                     player->SendEquipError(msg, NULL, NULL, roll->itemid);
-					item->winner = player->GetObjectGuid();
+                    item->winner = player->GetObjectGuid();
                 }
             }
         }
@@ -1102,25 +1102,25 @@ void Group::CountTheRoll(Rolls::iterator& rollI)
                 {
                     item->is_looted = true;
                     roll->getLoot()->NotifyItemRemoved(roll->itemSlot);
-                    --roll->getLoot()->unlootedCount;					
+                    --roll->getLoot()->unlootedCount;                    
                     Item* newitem = player->StoreNewItem(dest, roll->itemid, true, item->randomPropertyId);
-					player->SendNewItem(newitem, uint32(item->count), false, false, true);
+                    player->SendNewItem(newitem, uint32(item->count), false, false, true);
 
-					/// Warn players about the loot status on the corpse.
-					Creature * creature = player->GetMap()->GetCreature(roll->lootedTargetGUID);
-					/// If creature has been fully looted, remove flag.
-					if (creature->loot.isLooted())
-					{
-						creature->RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
-					}
+                    /// Warn players about the loot status on the corpse.
+                    Creature * creature = player->GetMap()->GetCreature(roll->lootedTargetGUID);
+                    /// If creature has been fully looted, remove flag.
+                    if (creature->loot.isLooted())
+                    {
+                        creature->RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
+                    }
                 }
                 else
                 {
                     item->is_blocked = false;
                     player->SendEquipError(msg, NULL, NULL, roll->itemid);
 
-					// Storing the winner to recall in LootView.
-					item->winner = player->GetObjectGuid();
+                    // Storing the winner to recall in LootView.
+                    item->winner = player->GetObjectGuid();
                 }
             }
         }
@@ -1138,19 +1138,19 @@ void Group::CountTheRoll(Rolls::iterator& rollI)
 
 bool Group::IsRollDoneForItem(Creature * pCreature, const LootItem * pItem)
 {
-	if(RollId.empty())
-		{ return true; }
+    if(RollId.empty())
+        { return true; }
 
-	Roll * roll;
+    Roll * roll;
 
-	for(Rolls::iterator i = RollId.begin(); i != RollId.end(); i++)
-	{
-		roll = *i;
-		if(roll->lootedTargetGUID == pCreature->GetObjectGuid() && roll->itemid == pItem->itemid && roll->totalPlayersRolling > 1)
-			{ return false; }
-	}
+    for(Rolls::iterator i = RollId.begin(); i != RollId.end(); i++)
+    {
+        roll = *i;
+        if(roll->lootedTargetGUID == pCreature->GetObjectGuid() && roll->itemid == pItem->itemid && roll->totalPlayersRolling > 1)
+            { return false; }
+    }
 
-	return true;
+    return true;
 }
 
 void Group::SetTargetIcon(uint8 id, ObjectGuid targetGuid)
@@ -1372,7 +1372,7 @@ bool Group::_addMember(ObjectGuid guid, const char* name, bool isAssistant, uint
     member.name      = name;
     member.group     = group;
     member.assistant = isAssistant;
-	member.joinTime = time(NULL);
+    member.joinTime = time(NULL);
     m_memberSlots.push_back(member);
 
     SubGroupCounterIncrease(group);

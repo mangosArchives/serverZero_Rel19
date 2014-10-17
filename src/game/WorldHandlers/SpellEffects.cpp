@@ -316,13 +316,13 @@ void Spell::EffectSchoolDMG(SpellEffectIndex effect_idx)
                             { damage = 200; }
                         break;
                     }
-					// Judgement of Command
-					case 20467:	case 20963:	case 20964:	case 20965:	case 20966:
-					{
-						if(!unitTarget->hasUnitState(UNIT_STAT_STUNNED) && m_caster->GetTypeId() == TYPEID_PLAYER)
-							{ damage /= 2; }
-						break;
-					}
+                    // Judgement of Command
+                    case 20467:    case 20963:    case 20964:    case 20965:    case 20966:
+                    {
+                        if(!unitTarget->hasUnitState(UNIT_STAT_STUNNED) && m_caster->GetTypeId() == TYPEID_PLAYER)
+                            { damage /= 2; }
+                        break;
+                    }
                 }
                 break;
             }
@@ -1214,15 +1214,15 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
                     if (!spell_proto)
                         { return; }
 
-					Spell* triggered = new Spell(m_caster, spell_proto, true);
-					int damagePoint = 0;
+                    Spell* triggered = new Spell(m_caster, spell_proto, true);
+                    int damagePoint = 0;
 
-					damagePoint = triggered->CalculateDamage(SpellEffectIndex(0) ,unitTarget);
-					damagePoint = m_caster->SpellDamageBonusDone(unitTarget, m_spellInfo, damagePoint, SPELL_DIRECT_DAMAGE);
-					damagePoint = unitTarget->SpellDamageBonusTaken(m_caster, m_spellInfo, damagePoint, SPELL_DIRECT_DAMAGE);
+                    damagePoint = triggered->CalculateDamage(SpellEffectIndex(0) ,unitTarget);
+                    damagePoint = m_caster->SpellDamageBonusDone(unitTarget, m_spellInfo, damagePoint, SPELL_DIRECT_DAMAGE);
+                    damagePoint = unitTarget->SpellDamageBonusTaken(m_caster, m_spellInfo, damagePoint, SPELL_DIRECT_DAMAGE);
 
-					m_caster->CastCustomSpell(unitTarget, spell_proto, &damagePoint, NULL, NULL, true, NULL, NULL);
-					//m_caster->CastSpell(unitTarget, spell_proto, true, NULL);
+                    m_caster->CastCustomSpell(unitTarget, spell_proto, &damagePoint, NULL, NULL, true, NULL, NULL);
+                    //m_caster->CastSpell(unitTarget, spell_proto, true, NULL);
 
                     return;
                 }
@@ -3116,13 +3116,13 @@ void Spell::EffectWeaponDmg(SpellEffectIndex eff_idx)
 
     switch (m_spellInfo->SpellFamilyName)
     {
-		case SPELLFAMILY_GENERIC:
+        case SPELLFAMILY_GENERIC:
         {
             // Seal of Command - receive benefit from Spell Damage and Healing
             if (m_spellInfo->Id == 20424)
             {
-				spell_bonus = m_caster->SpellDamageBonusDone(unitTarget, m_spellInfo, spell_bonus, SPELL_DIRECT_DAMAGE);
-				spell_bonus = unitTarget->SpellDamageBonusTaken(m_caster, m_spellInfo, spell_bonus, SPELL_DIRECT_DAMAGE);
+                spell_bonus = m_caster->SpellDamageBonusDone(unitTarget, m_spellInfo, spell_bonus, SPELL_DIRECT_DAMAGE);
+                spell_bonus = unitTarget->SpellDamageBonusTaken(m_caster, m_spellInfo, spell_bonus, SPELL_DIRECT_DAMAGE);
             }
             break;
         }

@@ -628,7 +628,7 @@ SpellAuraProcResult Unit::HandleDummyAuraProc(Unit* pVictim, uint32 damage, Aura
 
                     // heal amount
                     basepoints[0] = triggerAmount * damage / 100;                    
-					pVictim->CastCustomSpell(pVictim, 15290, &basepoints[0], NULL, NULL, true, castItem, triggeredByAura);                    return SPELL_AURA_PROC_OK;                                // no hidden cooldown
+                    pVictim->CastCustomSpell(pVictim, 15290, &basepoints[0], NULL, NULL, true, castItem, triggeredByAura);                    return SPELL_AURA_PROC_OK;                                // no hidden cooldown
                 }
                 // Oracle Healing Bonus ("Garments of the Oracle" set)
                 case 26169:
@@ -715,13 +715,13 @@ SpellAuraProcResult Unit::HandleDummyAuraProc(Unit* pVictim, uint32 damage, Aura
 
                 int damagePoint;
 
-				// In the description, we can find the divider of the base points for min/max effects.
-				int min=triggerAmount/87;
-				int max=triggerAmount/25;
+                // In the description, we can find the divider of the base points for min/max effects.
+                int min=triggerAmount/87;
+                int max=triggerAmount/25;
 
-				damagePoint = (speed<=1.5?min:(speed>=4.0?max:min+(((max-min)/2.5f)*(speed-1.5))));
+                damagePoint = (speed<=1.5?min:(speed>=4.0?max:min+(((max-min)/2.5f)*(speed-1.5))));
 
-				damagePoint = SpellDamageBonusDone(pVictim, dummySpell, damagePoint, SPELL_DIRECT_DAMAGE);
+                damagePoint = SpellDamageBonusDone(pVictim, dummySpell, damagePoint, SPELL_DIRECT_DAMAGE);
                 damagePoint = pVictim->SpellDamageBonusTaken(this, dummySpell, damagePoint, SPELL_DIRECT_DAMAGE);
 
                 CastCustomSpell(pVictim, spellId, &damagePoint, NULL, NULL, true, NULL, triggeredByAura);

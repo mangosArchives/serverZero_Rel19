@@ -956,13 +956,13 @@ void Spell::DoAllEffectOnTarget(TargetInfo* target)
     {
         if (real_caster)
         { 
-			// Warrior's execute must be returned as 20647 spell result since the client only displays info when receiving this id.
-			// Done here because must be based on MeleeSpellHitResult of spell id's 5308/20658/20660/20661/20662.
-			if(m_spellInfo->SpellFamilyName == SPELLFAMILY_WARRIOR && m_spellInfo->IsFitToFamilyMask(0x0000000020000000))
-				{ real_caster->SendSpellMiss(unit, 20647, missInfo); }
-			else
-				{ real_caster->SendSpellMiss(unit, m_spellInfo->Id, missInfo); }
-		}
+            // Warrior's execute must be returned as 20647 spell result since the client only displays info when receiving this id.
+            // Done here because must be based on MeleeSpellHitResult of spell id's 5308/20658/20660/20661/20662.
+            if(m_spellInfo->SpellFamilyName == SPELLFAMILY_WARRIOR && m_spellInfo->IsFitToFamilyMask(0x0000000020000000))
+                { real_caster->SendSpellMiss(unit, 20647, missInfo); }
+            else
+                { real_caster->SendSpellMiss(unit, m_spellInfo->Id, missInfo); }
+        }
 
         if (missInfo == SPELL_MISS_MISS || missInfo == SPELL_MISS_RESIST)
         {
@@ -4799,9 +4799,9 @@ SpellCastResult Spell::CheckCast(bool strict)
                 uint32 lockId = 0;
                 if (GameObject* go = m_targets.getGOTarget())
                 {
-					// Prevent opening two times a chest in same time.
-					if (go->GetGoType() == GAMEOBJECT_TYPE_CHEST && go->GetGoState() == GO_STATE_ACTIVE)
-						{ return SPELL_FAILED_CHEST_IN_USE; }
+                    // Prevent opening two times a chest in same time.
+                    if (go->GetGoType() == GAMEOBJECT_TYPE_CHEST && go->GetGoState() == GO_STATE_ACTIVE)
+                        { return SPELL_FAILED_CHEST_IN_USE; }
 
                     // In BattleGround players can use only flags and banners
                     if (((Player*)m_caster)->InBattleGround() &&

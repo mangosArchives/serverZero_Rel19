@@ -178,22 +178,22 @@ struct InstanceGroupBind
 class MANGOS_DLL_SPEC Group
 {
     public:
-		/**
-		* Struct MemberSlot
-		* Represent a member of a group with some of its caracteristics
-		*/
+        /**
+        * Struct MemberSlot
+        * Represent a member of a group with some of its caracteristics
+        */
         struct MemberSlot
         {
-			/* GUID of the player. */
+            /* GUID of the player. */
             ObjectGuid  guid;
-			/* Name of the player. */
+            /* Name of the player. */
             std::string name;
-			/* Group of the player. */
+            /* Group of the player. */
             uint8       group;
-			/* Indicates whether the player is assistant. */
+            /* Indicates whether the player is assistant. */
             bool        assistant;
-			/* The time when the player has joined the group. */
-			time_t		joinTime;
+            /* The time when the player has joined the group. */
+            time_t        joinTime;
         };
         typedef std::list<MemberSlot> MemberSlotList;
         typedef MemberSlotList::const_iterator member_citerator;
@@ -311,19 +311,19 @@ class MANGOS_DLL_SPEC Group
 
         bool SameSubGroup(Player const* member1, Player const* member2) const;
 
-		/**
-		* Returns the joined time of a member if it exist.
-		* \param guid GUID of the player to look for.
-		* \return time_t representing the joined time for that player or NULL if it doesn't exist.
-		*/
-		time_t GetMemberSlotJoinedTime(ObjectGuid guid)
-		{
-			member_citerator mslot = _getMemberCSlot(guid);
-			if(mslot == m_memberSlots.end())
-				{ return 0; }
+        /**
+        * Returns the joined time of a member if it exist.
+        * \param guid GUID of the player to look for.
+        * \return time_t representing the joined time for that player or NULL if it doesn't exist.
+        */
+        time_t GetMemberSlotJoinedTime(ObjectGuid guid)
+        {
+            member_citerator mslot = _getMemberCSlot(guid);
+            if(mslot == m_memberSlots.end())
+                { return 0; }
 
-			return mslot->joinTime;
-		}
+            return mslot->joinTime;
+        }
 
         MemberSlotList const& GetMemberSlots() const { return m_memberSlots; }
         GroupReference* GetFirstMember() { return m_memberMgr.getFirst(); }
@@ -391,7 +391,7 @@ class MANGOS_DLL_SPEC Group
 
         void SendTargetIconList(WorldSession* session);
         void SendUpdate();
-		void SendUpdateToPlayer(Player* pPlayer);
+        void SendUpdateToPlayer(Player* pPlayer);
         void UpdatePlayerOutOfRange(Player* pPlayer);
         // ignore: GUID of player that will be ignored
         void BroadcastPacket(WorldPacket* packet, bool ignorePlayersInBGRaid, int group = -1, ObjectGuid ignore = ObjectGuid());
@@ -439,13 +439,13 @@ class MANGOS_DLL_SPEC Group
         void StartLootRoll(WorldObject* lootTarget, LootMethod method, Loot* loot, uint8 itemSlot);
         void EndRoll();
 
-		/**
-		* function that returns whether the roll is done for this group for the given creature and the given item.
-		* \param Creature pointer to the creature which has dropped some loots.
-		* \param Item pointer to the item to check.
-		* \return bool true if the roll is done, false otherwise.
-		*/
-		bool IsRollDoneForItem(Creature * pCreature, const LootItem * pItem);
+        /**
+        * function that returns whether the roll is done for this group for the given creature and the given item.
+        * \param Creature pointer to the creature which has dropped some loots.
+        * \param Item pointer to the item to check.
+        * \return bool true if the roll is done, false otherwise.
+        */
+        bool IsRollDoneForItem(Creature * pCreature, const LootItem * pItem);
 
         void LinkMember(GroupReference* pRef)
         {
