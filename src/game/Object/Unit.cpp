@@ -1126,7 +1126,7 @@ void Unit::JustKilledCreature(Creature* victim, Player* responsiblePlayer)
         { return; }                                             // Pets might have been unsummoned at this place, do not handle them further!
 
     /* ******************************** Prepare loot if can ************************************ */
-	victim->SetKilledTime(time(NULL));
+    victim->SetKilledTime(time(NULL));
     victim->DeleteThreatList();
     // only lootable if it has loot or can drop gold
     victim->PrepareBodyLootState();
@@ -1221,7 +1221,7 @@ void Unit::CastCustomSpell(Unit* Victim, uint32 spellId, int32 const* bp0, int32
         return;
     }
 
-	CastCustomSpell(Victim, spellInfo, bp0, bp1, bp2, triggered, castItem, triggeredByAura, originalCaster, triggeredBy);
+    CastCustomSpell(Victim, spellInfo, bp0, bp1, bp2, triggered, castItem, triggeredByAura, originalCaster, triggeredBy);
 }
 
 void Unit::CastCustomSpell(Unit* Victim, SpellEntry const* spellInfo, int32 const* bp0, int32 const* bp1, int32 const* bp2, bool triggered, Item* castItem, Aura* triggeredByAura, ObjectGuid originalCaster, SpellEntry const* triggeredBy)
@@ -1364,8 +1364,8 @@ void Unit::CalculateSpellDamage(SpellNonMeleeDamage* damageInfo, int32 damage, S
         case SPELL_DAMAGE_CLASS_MELEE:
         {
             // Calculate damage bonus
-			damage = MeleeDamageBonusDone(pVictim, damage, attackType, spellInfo, SPELL_DIRECT_DAMAGE);
-			damage = pVictim->MeleeDamageBonusTaken(this, damage, attackType, spellInfo, SPELL_DIRECT_DAMAGE);
+            damage = MeleeDamageBonusDone(pVictim, damage, attackType, spellInfo, SPELL_DIRECT_DAMAGE);
+            damage = pVictim->MeleeDamageBonusTaken(this, damage, attackType, spellInfo, SPELL_DIRECT_DAMAGE);
 
             // if crit add critical bonus
             if (crit)
@@ -2619,9 +2619,9 @@ SpellMissInfo Unit::MagicSpellHitResult(Unit* pVictim, SpellEntry const* spell)
 
     SpellSchoolMask schoolMask = GetSpellSchoolMask(spell);
 
-	// Holy spell resist didn't exist in 1.12.
-	if (schoolMask == SPELL_SCHOOL_MASK_HOLY)
-		{ return SPELL_MISS_NONE; }
+    // Holy spell resist didn't exist in 1.12.
+    if (schoolMask == SPELL_SCHOOL_MASK_HOLY)
+        { return SPELL_MISS_NONE; }
 
     // PvP - PvE spell misschances per leveldif > 2
     int32 lchance = pVictim->GetTypeId() == TYPEID_PLAYER ? 7 : 11;
@@ -5426,90 +5426,90 @@ void Unit::EnergizeBySpell(Unit* pVictim, uint32 SpellID, uint32 Damage, Powers 
  */
 int32 Unit::SpellBonusWithCoeffs(Unit* pCaster, SpellEntry const* spellProto, int32 total, int32 benefit, int32 ap_benefit,  DamageEffectType damagetype, bool donePart)
 {
-	// Just don't waste time into this function if there's no benefit.
+    // Just don't waste time into this function if there's no benefit.
     if (!benefit)
-		{ return total; }
-	
-	// Distribute Damage over multiple effects, reduce by AoE
+        { return total; }
+    
+    // Distribute Damage over multiple effects, reduce by AoE
      float coeff = 1.0f;
  
      // Not apply this to creature casted spells
-	if (pCaster->GetTypeId() == TYPEID_UNIT && !((Creature*)this)->IsPet())
+    if (pCaster->GetTypeId() == TYPEID_UNIT && !((Creature*)this)->IsPet())
         { coeff = 1.0f; }
     // Check for table values
     else if (SpellBonusEntry const* bonus = sSpellMgr.GetSpellBonusData(spellProto->Id))
     {
 
-		switch (damagetype)
-		{
-			case DOT:
-				coeff = bonus->dot_damage;
-				break;
-			case SPELL_DIRECT_DAMAGE:
-				// Special check for bonus damage applying on spells depending on the equiped weapon.
-				if (pCaster->GetTypeId() == TYPEID_PLAYER && damagetype == SPELL_DIRECT_DAMAGE)
-				{
-					Item* item = ((Player*)pCaster)->GetItemByPos(INVENTORY_SLOT_BAG_0, EQUIPMENT_SLOT_MAINHAND);
+        switch (damagetype)
+        {
+            case DOT:
+                coeff = bonus->dot_damage;
+                break;
+            case SPELL_DIRECT_DAMAGE:
+                // Special check for bonus damage applying on spells depending on the equiped weapon.
+                if (pCaster->GetTypeId() == TYPEID_PLAYER && damagetype == SPELL_DIRECT_DAMAGE)
+                {
+                    Item* item = ((Player*)pCaster)->GetItemByPos(INVENTORY_SLOT_BAG_0, EQUIPMENT_SLOT_MAINHAND);
 
-					if(donePart)
-					{
-						if (item)
-						{
-							switch (item->GetProto()->InventoryType)
-							{
-								case INVTYPE_2HWEAPON:
-									coeff = (bonus->two_hand_direct_damage_done ? bonus->two_hand_direct_damage_done : 
-										( bonus->two_hand_direct_damage ? bonus->two_hand_direct_damage : bonus->direct_damage_done ));
-									break;
-								case INVTYPE_WEAPON:
-								case INVTYPE_WEAPONMAINHAND:
-								case INVTYPE_WEAPONOFFHAND:
-									coeff = (bonus->one_hand_direct_damage_done ? bonus->one_hand_direct_damage_done : 
-										( bonus->one_hand_direct_damage ? bonus->one_hand_direct_damage : bonus->direct_damage_done ));
-								break;
-							}
+                    if(donePart)
+                    {
+                        if (item)
+                        {
+                            switch (item->GetProto()->InventoryType)
+                            {
+                                case INVTYPE_2HWEAPON:
+                                    coeff = (bonus->two_hand_direct_damage_done ? bonus->two_hand_direct_damage_done : 
+                                        ( bonus->two_hand_direct_damage ? bonus->two_hand_direct_damage : bonus->direct_damage_done ));
+                                    break;
+                                case INVTYPE_WEAPON:
+                                case INVTYPE_WEAPONMAINHAND:
+                                case INVTYPE_WEAPONOFFHAND:
+                                    coeff = (bonus->one_hand_direct_damage_done ? bonus->one_hand_direct_damage_done : 
+                                        ( bonus->one_hand_direct_damage ? bonus->one_hand_direct_damage : bonus->direct_damage_done ));
+                                break;
+                            }
 
-							// None of the priority fields have been populated in DB.
-							if(!coeff)
-							{
-								coeff = bonus->direct_damage;
-							}
-						} else {
-							coeff = (bonus->direct_damage_done ? bonus->direct_damage_done : bonus->direct_damage);
-						}
-					}
-					else
-					{
-						if (item)
-						{
-							switch (item->GetProto()->InventoryType)
-							{
-								case INVTYPE_2HWEAPON:
-									coeff = (bonus->two_hand_direct_damage_taken ? bonus->two_hand_direct_damage_taken : 
-										( bonus->two_hand_direct_damage ? bonus->two_hand_direct_damage : bonus->direct_damage_taken ));
-									break;
-								case INVTYPE_WEAPON:
-								case INVTYPE_WEAPONMAINHAND:
-								case INVTYPE_WEAPONOFFHAND:
-									coeff = (bonus->one_hand_direct_damage_taken ? bonus->one_hand_direct_damage_taken : 
-										( bonus->one_hand_direct_damage ? bonus->one_hand_direct_damage : bonus->direct_damage_taken ));
-									break;
-							}
-								// None of the priority fields have been populated in DB.
-								if(!coeff)
-								{
-									coeff = bonus->direct_damage;
-								}
-						} else {
-							coeff = (bonus->direct_damage_taken ? bonus->direct_damage_taken : bonus->direct_damage);
-						}
-					}
-				break;
-				}
-		}
+                            // None of the priority fields have been populated in DB.
+                            if(!coeff)
+                            {
+                                coeff = bonus->direct_damage;
+                            }
+                        } else {
+                            coeff = (bonus->direct_damage_done ? bonus->direct_damage_done : bonus->direct_damage);
+                        }
+                    }
+                    else
+                    {
+                        if (item)
+                        {
+                            switch (item->GetProto()->InventoryType)
+                            {
+                                case INVTYPE_2HWEAPON:
+                                    coeff = (bonus->two_hand_direct_damage_taken ? bonus->two_hand_direct_damage_taken : 
+                                        ( bonus->two_hand_direct_damage ? bonus->two_hand_direct_damage : bonus->direct_damage_taken ));
+                                    break;
+                                case INVTYPE_WEAPON:
+                                case INVTYPE_WEAPONMAINHAND:
+                                case INVTYPE_WEAPONOFFHAND:
+                                    coeff = (bonus->one_hand_direct_damage_taken ? bonus->one_hand_direct_damage_taken : 
+                                        ( bonus->one_hand_direct_damage ? bonus->one_hand_direct_damage : bonus->direct_damage_taken ));
+                                    break;
+                            }
+                                // None of the priority fields have been populated in DB.
+                                if(!coeff)
+                                {
+                                    coeff = bonus->direct_damage;
+                                }
+                        } else {
+                            coeff = (bonus->direct_damage_taken ? bonus->direct_damage_taken : bonus->direct_damage);
+                        }
+                    }
+                break;
+                }
+        }
 
         // apply ap bonus at done part calculation only (it flat total mod so common with taken)
-		if (donePart && (bonus->ap_bonus || bonus->ap_dot_bonus))
+        if (donePart && (bonus->ap_bonus || bonus->ap_dot_bonus))
         {
             float ap_bonus = damagetype == DOT ? bonus->ap_dot_bonus : bonus->ap_bonus;
 
@@ -5520,12 +5520,12 @@ int32 Unit::SpellBonusWithCoeffs(Unit* pCaster, SpellEntry const* spellProto, in
     else 
         { coeff = CalculateDefaultCoefficient(spellProto, damagetype); }
 
-	float LvlPenalty = CalculateLevelPenalty(spellProto);
+    float LvlPenalty = CalculateLevelPenalty(spellProto);
 
     // Spellmod SpellDamage
     if (Player* modOwner = GetSpellModOwner())
     {
-		coeff *= 100.0f;
+        coeff *= 100.0f;
         modOwner->ApplySpellMod(spellProto->Id, SPELLMOD_SPELL_BONUS_DAMAGE, coeff);
         coeff /= 100.0f;
      }
@@ -6103,15 +6103,15 @@ bool Unit::IsImmuneToSpellEffect(SpellEntry const* spellInfo, SpellEffectIndex i
  */
 uint32 Unit::MeleeDamageBonusDone(Unit* pVictim, uint32 pdamage, WeaponAttackType attType, SpellEntry const* spellProto, DamageEffectType damagetype, uint32 stack)
 {
-	if (!pVictim)
+    if (!pVictim)
         { return pdamage; }
 
-	if (pdamage == 0)
-		{ return pdamage; }
+    if (pdamage == 0)
+        { return pdamage; }
 
-	// Paladin Holy Spells such as seal of righteousness, seal of command or judgement of command are all calculated in other functions.
-	if (spellProto && GetSpellSchoolMask(spellProto) == SPELL_SCHOOL_MASK_HOLY && GetTypeId() == TYPEID_PLAYER)
-		{ return pdamage; }
+    // Paladin Holy Spells such as seal of righteousness, seal of command or judgement of command are all calculated in other functions.
+    if (spellProto && GetSpellSchoolMask(spellProto) == SPELL_SCHOOL_MASK_HOLY && GetTypeId() == TYPEID_PLAYER)
+        { return pdamage; }
 
     // differentiate for weapon damage based spells
     bool isWeaponDamageBasedSpell = !(spellProto && (damagetype == DOT || IsSpellHaveEffect(spellProto, SPELL_EFFECT_SCHOOL_DAMAGE)));
@@ -6249,9 +6249,9 @@ uint32 Unit::MeleeDamageBonusTaken(Unit* pCaster, uint32 pdamage, WeaponAttackTy
     if (pdamage == 0)
         { return pdamage; }
 
-	// Paladin Holy Spells such as seal of righteousness, seal of command or judgement of command are all calculated in other functions.
-	if (spellProto && GetSpellSchoolMask(spellProto) == SPELL_SCHOOL_MASK_HOLY && pCaster->GetTypeId() == TYPEID_PLAYER)
-		{ return pdamage; }
+    // Paladin Holy Spells such as seal of righteousness, seal of command or judgement of command are all calculated in other functions.
+    if (spellProto && GetSpellSchoolMask(spellProto) == SPELL_SCHOOL_MASK_HOLY && pCaster->GetTypeId() == TYPEID_PLAYER)
+        { return pdamage; }
 
     // differentiate for weapon damage based spells
     bool isWeaponDamageBasedSpell = !(spellProto && (damagetype == DOT || IsSpellHaveEffect(spellProto, SPELL_EFFECT_SCHOOL_DAMAGE)));
@@ -6421,52 +6421,52 @@ void Unit::Unmount(bool from_aura)
 
 bool Unit::IsNearWaypoint(float currentPositionX, float currentPositionY, float currentPositionZ, float destinationPostionX, float destinationPostionY, float destinationPostionZ, float distanceX, float distanceY, float distanceZ)
 {
-	// actual distance between the creature's X ordinate and destination X ordinate
-	float xDifference = 0;
-	// actual distance between the creature's Y ordinate and destination Y ordinate
-	float yDifference = 0;
-	// actual distance between the creature's Z ordinate and destination Y ordinate
-	float zDifference = 0;
+    // actual distance between the creature's X ordinate and destination X ordinate
+    float xDifference = 0;
+    // actual distance between the creature's Y ordinate and destination Y ordinate
+    float yDifference = 0;
+    // actual distance between the creature's Z ordinate and destination Y ordinate
+    float zDifference = 0;
 
-	// distanceX == 0, means do not test the distance between the creature's current X ordinate and the destination X ordinate
-	// A test for 0 is used, because it is not worth testing for exact coordinates, seeing as we have to use an integar in the database for the event parameters that holds the cordinates.
-	// Therefore a test for the distance between waypoints does the job more than well enough
-	if (distanceX > 0)
-	{
-		if (currentPositionX > destinationPostionX)
-			xDifference = currentPositionX - destinationPostionX;
-		else
-			xDifference = destinationPostionX - currentPositionX;
-	}
-	// distanceY == 0, means do not test the distance between the creature's current Y ordinate and the destination Y ordinate
-	if (distanceY > 0)
-	{
-		if (currentPositionY > destinationPostionY)
-			yDifference = currentPositionY - destinationPostionY;
-		else
-			yDifference = destinationPostionY - currentPositionY;
-	}
-	// distanceZ == 0, means do not test the distance between the creature's current Z ordinate and the destination Z ordinate
-	if (distanceZ > 0)
-	{
-		if (currentPositionZ > destinationPostionZ)
-			zDifference = currentPositionZ - destinationPostionZ;
-		else
-			zDifference = destinationPostionZ - currentPositionZ;
-	}
+    // distanceX == 0, means do not test the distance between the creature's current X ordinate and the destination X ordinate
+    // A test for 0 is used, because it is not worth testing for exact coordinates, seeing as we have to use an integar in the database for the event parameters that holds the cordinates.
+    // Therefore a test for the distance between waypoints does the job more than well enough
+    if (distanceX > 0)
+    {
+        if (currentPositionX > destinationPostionX)
+            xDifference = currentPositionX - destinationPostionX;
+        else
+            xDifference = destinationPostionX - currentPositionX;
+    }
+    // distanceY == 0, means do not test the distance between the creature's current Y ordinate and the destination Y ordinate
+    if (distanceY > 0)
+    {
+        if (currentPositionY > destinationPostionY)
+            yDifference = currentPositionY - destinationPostionY;
+        else
+            yDifference = destinationPostionY - currentPositionY;
+    }
+    // distanceZ == 0, means do not test the distance between the creature's current Z ordinate and the destination Z ordinate
+    if (distanceZ > 0)
+    {
+        if (currentPositionZ > destinationPostionZ)
+            zDifference = currentPositionZ - destinationPostionZ;
+        else
+            zDifference = destinationPostionZ - currentPositionZ;
+    }
 
-	// check based on which ordinates to test the current distance from (distance along the X, and/or Y, and/or Z ordinates)
-	if (((distanceX > 0 && xDifference < distanceX) && (distanceY > 0 && yDifference < distanceY) && (distanceZ > 0 && zDifference < distanceZ)) ||
-		((distanceX == 0) && (distanceY > 0 && yDifference < distanceY) && (distanceZ > 0 && zDifference < distanceZ)) ||
-		((distanceX > 0 && xDifference < distanceX) && (distanceY == 0) && (distanceZ > 0 && zDifference < distanceZ)) ||
-		((distanceX > 0 && xDifference < distanceX) && (distanceY > 0 && yDifference < distanceY) && (distanceZ == 0)) ||
-		((distanceX > 0 && xDifference < distanceX) && (distanceY == 0) && (distanceZ == 0)) ||
-		((distanceX == 0) && (distanceY > 0 && yDifference < distanceY) && (distanceZ == 0)) ||
-		((distanceX == 0) && (distanceY == 0) && (distanceZ > 0 && zDifference < distanceZ))
-		)
-		return true;
+    // check based on which ordinates to test the current distance from (distance along the X, and/or Y, and/or Z ordinates)
+    if (((distanceX > 0 && xDifference < distanceX) && (distanceY > 0 && yDifference < distanceY) && (distanceZ > 0 && zDifference < distanceZ)) ||
+        ((distanceX == 0) && (distanceY > 0 && yDifference < distanceY) && (distanceZ > 0 && zDifference < distanceZ)) ||
+        ((distanceX > 0 && xDifference < distanceX) && (distanceY == 0) && (distanceZ > 0 && zDifference < distanceZ)) ||
+        ((distanceX > 0 && xDifference < distanceX) && (distanceY > 0 && yDifference < distanceY) && (distanceZ == 0)) ||
+        ((distanceX > 0 && xDifference < distanceX) && (distanceY == 0) && (distanceZ == 0)) ||
+        ((distanceX == 0) && (distanceY > 0 && yDifference < distanceY) && (distanceZ == 0)) ||
+        ((distanceX == 0) && (distanceY == 0) && (distanceZ > 0 && zDifference < distanceZ))
+        )
+        return true;
 
-	return false;
+    return false;
 }
 
 void Unit::SetInCombatWith(Unit* enemy)

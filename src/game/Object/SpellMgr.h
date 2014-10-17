@@ -640,17 +640,17 @@ struct SpellProcEventEntry
 
 struct SpellBonusEntry
 {
-	float  direct_damage;                                   // Direct Damage Spell Bonus Coeff
-	float  one_hand_direct_damage;							// Direct Damage Spell Bonus Coeff while one-handed weapon equiped
-	float  two_hand_direct_damage;							// Direct Damage Spell Bonus Coeff while two-handed weapon equiped
-	float  direct_damage_done;								// Direct Damage Spell Bonus coeff for done part
-	float  one_hand_direct_damage_done;						// Direct Damage Spell Bonus coeff for done part while one-handed weapon equiped.
-	float  two_hand_direct_damage_done;						// Direct Damage Spell Bonus coeff for done part while two-handed weapon equiped.
-	float  direct_damage_taken;								// Direct Taken Damage Spell coefficient for taken part
-	float  one_hand_direct_damage_taken;					// Direct Taken Damage Spell coefficient for taken part while one-handed weapon equiped.
-	float  two_hand_direct_damage_taken;					// Direct Taken Damage Spell coefficient for taken part while two-handed weapon equiped.
-    float  dot_damage;										// Dot Damage Spell Bonus Coeff
-    float  ap_bonus;										// ??
+    float  direct_damage;                                   // Direct Damage Spell Bonus Coeff
+    float  one_hand_direct_damage;                            // Direct Damage Spell Bonus Coeff while one-handed weapon equiped
+    float  two_hand_direct_damage;                            // Direct Damage Spell Bonus Coeff while two-handed weapon equiped
+    float  direct_damage_done;                                // Direct Damage Spell Bonus coeff for done part
+    float  one_hand_direct_damage_done;                        // Direct Damage Spell Bonus coeff for done part while one-handed weapon equiped.
+    float  two_hand_direct_damage_done;                        // Direct Damage Spell Bonus coeff for done part while two-handed weapon equiped.
+    float  direct_damage_taken;                                // Direct Taken Damage Spell coefficient for taken part
+    float  one_hand_direct_damage_taken;                    // Direct Taken Damage Spell coefficient for taken part while one-handed weapon equiped.
+    float  two_hand_direct_damage_taken;                    // Direct Taken Damage Spell coefficient for taken part while two-handed weapon equiped.
+    float  dot_damage;                                        // Dot Damage Spell Bonus Coeff
+    float  ap_bonus;                                        // ??
     float  ap_dot_bonus;
 };
 
@@ -1163,8 +1163,8 @@ class SpellMgr
         void LoadSpellAreas();
         void LoadFacingCasterFlags();
 
-		// Edit DBC data spells at startup
-		void ModDBCSpellAttributes();
+        // Edit DBC data spells at startup
+        void ModDBCSpellAttributes();
 
     private:
         SpellChainMap      mSpellChains;

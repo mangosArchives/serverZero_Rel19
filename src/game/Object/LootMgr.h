@@ -108,8 +108,8 @@ struct LootItem
     bool    is_underthreshold : 1;
     bool    is_counted        : 1;
     bool    needs_quest       : 1;                          // quest drop
-	/* Winner of the roll. Stored for full inventory. */
-	ObjectGuid winner;
+    /* Winner of the roll. Stored for full inventory. */
+    ObjectGuid winner;
 
     // Constructor, copies most fields from LootStoreItem, generates random count and random suffixes/properties
     // Should be called for non-reference LootStoreItem entries only (mincountOrRef > 0)
@@ -164,23 +164,23 @@ class LootStore
         bool HaveQuestLootFor(uint32 loot_id) const;
         bool HaveQuestLootForPlayer(uint32 loot_id, Player* player) const;
 
-		/**
-		* function which indicates whether there's at least one shared quest item dropped for a given player
-		*
-		* \param loot_id uint32 indicating the loot template id.
-		* \param player Player const* to the player that needs to get loot or not.
-		* \return bool if there's at least one Shared Quest Loot available.
-		*/
-		bool HaveSharedQuestLootForPlayer(uint32 loot_id, Player* player) const;
+        /**
+        * function which indicates whether there's at least one shared quest item dropped for a given player
+        *
+        * \param loot_id uint32 indicating the loot template id.
+        * \param player Player const* to the player that needs to get loot or not.
+        * \return bool if there's at least one Shared Quest Loot available.
+        */
+        bool HaveSharedQuestLootForPlayer(uint32 loot_id, Player* player) const;
 
-		/**
-		* function which indicates whether there's at least one starting quest item dropped for a given player
-		*
-		* \param loot_id uint32 indicating the loot template id.
-		* \param player Player const* to the player that needs to get loot or not.
-		* \return bool if there's at least one Starting Quest Loot available.
-		*/
-		bool HaveStartingQuestLootForPlayer(uint32 loot_id, Player* player) const;
+        /**
+        * function which indicates whether there's at least one starting quest item dropped for a given player
+        *
+        * \param loot_id uint32 indicating the loot template id.
+        * \param player Player const* to the player that needs to get loot or not.
+        * \return bool if there's at least one Starting Quest Loot available.
+        */
+        bool HaveStartingQuestLootForPlayer(uint32 loot_id, Player* player) const;
 
         LootTemplate const* GetLootFor(uint32 loot_id) const;
 
@@ -213,25 +213,25 @@ class LootTemplate
         // True if template includes at least 1 quest drop for an active quest of the player
         bool HasQuestDropForPlayer(LootTemplateMap const& store, Player const* player, uint8 GroupId = 0) const;
 
-		/**
-		* function which indicates whether there's at least one shared quest item dropped for a given player
-		*
-		* \param store LootTemplateMap const& which provides the source store of items drop.
-		* \param player Player const* to the player that needs to get loot or not.
-		* \param GroupId uint8 indicates the GroupId for the given LootTemplate (see database).
-		* \return bool if there's at least one Shared Quest Loot available.
-		*/
-		bool HasSharedQuestDropForPlayer(LootTemplateMap const& store, Player const* player, uint8 GroupId = 0) const;
+        /**
+        * function which indicates whether there's at least one shared quest item dropped for a given player
+        *
+        * \param store LootTemplateMap const& which provides the source store of items drop.
+        * \param player Player const* to the player that needs to get loot or not.
+        * \param GroupId uint8 indicates the GroupId for the given LootTemplate (see database).
+        * \return bool if there's at least one Shared Quest Loot available.
+        */
+        bool HasSharedQuestDropForPlayer(LootTemplateMap const& store, Player const* player, uint8 GroupId = 0) const;
 
-		/**
-		* function which indicates whether there's at least one starting quest item dropped for a given player
-		*
-		* \param store LootTemplateMap const& which provides the source store of items drop.
-		* \param player Player const* to the player that needs to get loot or not.
-		* \param GroupId uint8 indicates the GroupId for the given LootTemplate (see database).
-		* \return bool if there's at least one starting Quest Loot available.
-		*/
-		bool HasStartingQuestDropForPlayer(LootTemplateMap const& store, Player const* player, uint8 GroupId = 0) const;
+        /**
+        * function which indicates whether there's at least one starting quest item dropped for a given player
+        *
+        * \param store LootTemplateMap const& which provides the source store of items drop.
+        * \param player Player const* to the player that needs to get loot or not.
+        * \param GroupId uint8 indicates the GroupId for the given LootTemplate (see database).
+        * \return bool if there's at least one starting Quest Loot available.
+        */
+        bool HasStartingQuestDropForPlayer(LootTemplateMap const& store, Player const* player, uint8 GroupId = 0) const;
 
         // Checks integrity of the template
         void Verify(LootStore const& store, uint32 Id) const;
@@ -284,7 +284,7 @@ struct Loot
         LootItemList items;
         uint32 gold;
         uint8 unlootedCount;
-		LootType loot_type;                                 // required for for proper item loot finish (store internal loot types in different from 3.x version, in fact this meaning that it send same loot types for interesting cases like 3.x version code, skip pre-3.x client loot type limitaitons)
+        LootType loot_type;                                 // required for for proper item loot finish (store internal loot types in different from 3.x version, in fact this meaning that it send same loot types for interesting cases like 3.x version code, skip pre-3.x client loot type limitaitons)
 
         Loot(WorldObject const* lootTarget, uint32 _gold = 0) : gold(_gold), unlootedCount(0), loot_type(LOOT_CORPSE), m_lootTarget(lootTarget) {}
         ~Loot() { clear(); }
@@ -326,13 +326,13 @@ struct Loot
         void NotifyMoneyRemoved();
         void AddLooter(ObjectGuid guid) { m_playersLooting.insert(guid); }
         void RemoveLooter(ObjectGuid guid) { m_playersLooting.erase(guid); }
-		
-		/**
-		* function IsWinner returns whether the player won at least one item during a roll.
-		* \param player Pointer indicating the player who may have won a loot.
-		* \return boolean true if the player has won at least one loot, false otherwise.
-		*/
-		bool IsWinner(Player * player);
+        
+        /**
+        * function IsWinner returns whether the player won at least one item during a roll.
+        * \param player Pointer indicating the player who may have won a loot.
+        * \return boolean true if the player has won at least one loot, false otherwise.
+        */
+        bool IsWinner(Player * player);
 
         void generateMoneyLoot(uint32 minAmount, uint32 maxAmount);
         bool FillLoot(uint32 loot_id, LootStore const& store, Player* loot_owner, bool personal, bool noEmptyError = false);

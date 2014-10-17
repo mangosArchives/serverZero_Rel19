@@ -1788,13 +1788,13 @@ void Player::AddToWorld()
             { m_items[i]->AddToWorld(); }
     }
 
-	// Notifies player about his group status while adding him into the world
-	// Restricted to players having a group in raid mode
-	if (GetTransport() && GetGroup() && GetGroup()->isRaidGroup())
-	{
-		SetGroupUpdateFlag(GROUP_UPDATE_FULL);
-		GetGroup()->SendUpdateToPlayer(this);
-	}
+    // Notifies player about his group status while adding him into the world
+    // Restricted to players having a group in raid mode
+    if (GetTransport() && GetGroup() && GetGroup()->isRaidGroup())
+    {
+        SetGroupUpdateFlag(GROUP_UPDATE_FULL);
+        GetGroup()->SendUpdateToPlayer(this);
+    }
 }
 
 void Player::RemoveFromWorld()
@@ -1807,16 +1807,16 @@ void Player::RemoveFromWorld()
         RemoveMiniPet();
     }
 
-	// Notifies the client that he has left the raid group.
-	// Only valid when the player is on the transport.
-	if (GetTransport() && GetGroup() && GetGroup()->isRaidGroup())
-	{			
-		WorldPacket data;
-		// For client, sending an empty group list is enough to be ungroup.
-		data.Initialize(SMSG_GROUP_LIST, 24);
+    // Notifies the client that he has left the raid group.
+    // Only valid when the player is on the transport.
+    if (GetTransport() && GetGroup() && GetGroup()->isRaidGroup())
+    {            
+        WorldPacket data;
+        // For client, sending an empty group list is enough to be ungroup.
+        data.Initialize(SMSG_GROUP_LIST, 24);
         data << uint64(0) << uint64(0) << uint64(0);
         m_session->SendPacket(&data);
-	}
+    }
 
     for (int i = PLAYER_SLOT_START; i < PLAYER_SLOT_END; ++i)
     {
@@ -4649,10 +4649,10 @@ float Player::GetMeleeCritFromAgility()
     // from mangos 3462 for 1.12
     float val = 0.0f, classrate = 0.0f, levelfactor = 0.0f, fg = 0.0f;
     
-	fg = (0.35f*(float) (getLevel())) + 5.55f;
-	levelfactor = (106.20f / fg) - 3;
+    fg = (0.35f*(float) (getLevel())) + 5.55f;
+    levelfactor = (106.20f / fg) - 3;
 
-	// critical
+    // critical
     switch (getClass())
     {
         case CLASS_PALADIN: classrate = 19.77f; break;
@@ -4676,16 +4676,16 @@ float Player::GetDodgeFromAgility()
     // from mangos 3462 for 1.12
     float val = 0, classrate = 0, levelrate = 0;
 
-	levelrate = ((16.225f/((0.45f*(float)(getLevel()))+2.5f))-0.1f)/0.42f;
+    levelrate = ((16.225f/((0.45f*(float)(getLevel()))+2.5f))-0.1f)/0.42f;
 
-	// dodge
-	switch (getClass())
+    // dodge
+    switch (getClass())
     {
         case CLASS_ROGUE:   classrate = 14.5;  break;
         case CLASS_HUNTER:  classrate = 26.5f;  break;
-		case CLASS_PALADIN:
-		case CLASS_SHAMAN:
-		case CLASS_MAGE:
+        case CLASS_PALADIN:
+        case CLASS_SHAMAN:
+        case CLASS_MAGE:
         case CLASS_PRIEST:
         case CLASS_WARLOCK:
         case CLASS_DRUID:
@@ -7129,15 +7129,15 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
 
             loot = &go->loot;
 
-			Player* recipient = go->GetLootRecipient();
-			if (!recipient)
-			{
-				go->SetLootRecipient(this);
-		        recipient = this;
-			}
+            Player* recipient = go->GetLootRecipient();
+            if (!recipient)
+            {
+                go->SetLootRecipient(this);
+                recipient = this;
+            }
 
             // generate loot only if ready for open and spawned in world and not already looted once.
-			if (go->getLootState() == GO_READY && go->isSpawned())
+            if (go->getLootState() == GO_READY && go->isSpawned())
             {
                 uint32 lootid =  go->GetGOInfo()->GetLootId();
                 if ((go->GetEntry() == BG_AV_OBJECTID_MINE_N || go->GetEntry() == BG_AV_OBJECTID_MINE_S))
@@ -7183,7 +7183,7 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
                                 {
                                     case GROUP_LOOT:
                                         group->GroupLoot(go, loot);
-										permission = ALL_PERMISSION;
+                                        permission = ALL_PERMISSION;
                                         break;
                                     case NEED_BEFORE_GREED:
                                         group->NeedBeforeGreed(go, loot);
@@ -7191,7 +7191,7 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
                                         break;
                                     case MASTER_LOOT:
                                         group->MasterLoot(go, loot);
-										permission = MASTER_PERMISSION;
+                                        permission = MASTER_PERMISSION;
                                         break;
                                     default:
                                         break;
@@ -7200,7 +7200,7 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
                         }
                         break;
                 }
-				go->SetLootState(GO_ACTIVATED);
+                go->SetLootState(GO_ACTIVATED);
             }
 
             if (go->getLootState() == GO_ACTIVATED && go->GetGoType() == GAMEOBJECT_TYPE_CHEST && go->GetGOInfo()->chest.groupLootRules)
@@ -7209,16 +7209,16 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
                 {
                     if (group == GetGroup())
                     {
-						if(group->GetLootMethod() == MASTER_LOOT)
-							{ permission = MASTER_PERMISSION; }
-						else
-							{ permission = ALL_PERMISSION; }
-					}
-				}
+                        if(group->GetLootMethod() == MASTER_LOOT)
+                            { permission = MASTER_PERMISSION; }
+                        else
+                            { permission = ALL_PERMISSION; }
+                    }
+                }
             }
 
-			go->SetGoState(GO_STATE_ACTIVE);
-			SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_LOOTING);
+            go->SetGoState(GO_STATE_ACTIVE);
+            SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_LOOTING);
 
             break;
         }
@@ -7398,20 +7398,20 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
                     {
                         if (group == GetGroup())
                         {
-							switch(group->GetLootMethod())
-							{
-								case FREE_FOR_ALL:
-								case ROUND_ROBIN:
-									permission = ALL_PERMISSION;
-									break;
-								case MASTER_LOOT:
-									permission = MASTER_PERMISSION;
-									break;
-								case GROUP_LOOT:
-								case NEED_BEFORE_GREED:
-									permission = GROUP_PERMISSION;
-									break;
-							}
+                            switch(group->GetLootMethod())
+                            {
+                                case FREE_FOR_ALL:
+                                case ROUND_ROBIN:
+                                    permission = ALL_PERMISSION;
+                                    break;
+                                case MASTER_LOOT:
+                                    permission = MASTER_PERMISSION;
+                                    break;
+                                case GROUP_LOOT:
+                                case NEED_BEFORE_GREED:
+                                    permission = GROUP_PERMISSION;
+                                    break;
+                            }
                         }
                         else
                             { permission = NONE_PERMISSION; }
@@ -13936,91 +13936,91 @@ bool Player::isAllowedToLoot(Creature* creature)
             else
                 { return false; } // We're not in a group, probably cheater
 
-			/* If the player has joined the group after the creature has been killed, doesn't show up. */
-			if(creature->GetKilledTime() < plr_group->GetMemberSlotJoinedTime(GetObjectGuid()))
-				{ return false; }
+            /* If the player has joined the group after the creature has been killed, doesn't show up. */
+            if(creature->GetKilledTime() < plr_group->GetMemberSlotJoinedTime(GetObjectGuid()))
+                { return false; }
 
             /* We're in a group, get the loot type */
-			switch (plr_group->GetLootMethod())
+            switch (plr_group->GetLootMethod())
             {
-				/* Free for all or Master Loot let everyone loot it */
+                /* Free for all or Master Loot let everyone loot it */
                 case MASTER_LOOT:
                 case FREE_FOR_ALL:
-					return true;
+                    return true;
 
                 /* These 3 systems all use the same kind of check to display loot,
-					which is what we're doing here. Threshold checks are done elsewhere. */
+                    which is what we're doing here. Threshold checks are done elsewhere. */
                 case GROUP_LOOT:
                 case ROUND_ROBIN:
                 case NEED_BEFORE_GREED:
-				{
-					uint32 loot_id = creature->GetCreatureInfo()->LootId;
+                {
+                    uint32 loot_id = creature->GetCreatureInfo()->LootId;
 
-					/* Checking there's some loot defined. */
-					bool hasLoot = loot_id;
-					/* Checking if the creature may drop any quest loot for us. */
-					bool hasSharedLoot = LootTemplates_Creature.HaveSharedQuestLootForPlayer(loot_id, this);
-					/* Checking if there's any starting quest item available for this player. */
-					bool hasStartingQuestLoot = LootTemplates_Creature.HaveStartingQuestLootForPlayer(loot_id,  this);
+                    /* Checking there's some loot defined. */
+                    bool hasLoot = loot_id;
+                    /* Checking if the creature may drop any quest loot for us. */
+                    bool hasSharedLoot = LootTemplates_Creature.HaveSharedQuestLootForPlayer(loot_id, this);
+                    /* Checking if there's any starting quest item available for this player. */
+                    bool hasStartingQuestLoot = LootTemplates_Creature.HaveStartingQuestLootForPlayer(loot_id,  this);
 
-					/* If there's no loot, we return false. */
-					if(!hasLoot)
-						{ return false; }
-					/* This is set to true after the looter (chosen below) has closed their loot window
+                    /* If there's no loot, we return false. */
+                    if(!hasLoot)
+                        { return false; }
+                    /* This is set to true after the looter (chosen below) has closed their loot window
                     * If this is true, allow everyone else in the group to loot the corpse */
                     else if (creature->hasBeenLootedOnce)
-						{ return true; }
+                        { return true; }
                     /* If the assigned looter's GUID is equal to ours */
-					else if (creature->assignedLooter == GetGUIDLow())
-						{ return true; }
-                    /* If the creature already has an assigned looter and that looter isn't us */					
-					else if (creature->assignedLooter != 0 && !hasSharedLoot && !hasStartingQuestLoot)
-						{ return false; }
+                    else if (creature->assignedLooter == GetGUIDLow())
+                        { return true; }
+                    /* If the creature already has an assigned looter and that looter isn't us */                    
+                    else if (creature->assignedLooter != 0 && !hasSharedLoot && !hasStartingQuestLoot)
+                        { return false; }
 
                     /* If we've reached here, there is only one exclusive, undecided looter */
 
                     /* This is the player that will be given permission to loot */
                     Player* final_looter = recipient;
-					
-					/* Iterate through the valid party members */
-					Group::MemberSlotList slots = plr_group->GetMemberSlots();
-					
-					for (Group::MemberSlotList::iterator itr = slots.begin(); itr != slots.end(); ++itr)
+                    
+                    /* Iterate through the valid party members */
+                    Group::MemberSlotList slots = plr_group->GetMemberSlots();
+                    
+                    for (Group::MemberSlotList::iterator itr = slots.begin(); itr != slots.end(); ++itr)
                     {
-						/* Get the player data */
+                        /* Get the player data */
                         if (Player* grp_plr = sObjectMgr.GetPlayer(itr->guid))
                         {
-							/* Player is disconnected */
+                            /* Player is disconnected */
                             if (!grp_plr->IsInWorld())
-								{ continue; }
+                                { continue; }
 
-							/* Player is too far from the creature. */
-							if(!grp_plr->IsWithinDist(creature, sWorld.getConfig(CONFIG_FLOAT_GROUP_XP_DISTANCE), false))
-								{ continue; }
+                            /* Player is too far from the creature. */
+                            if(!grp_plr->IsWithinDist(creature, sWorld.getConfig(CONFIG_FLOAT_GROUP_XP_DISTANCE), false))
+                                { continue; }
 
                             /* Check if the last time the player looted is less than the current final looter
                              * If the value is lower, it means it happened longer ago */
                             if (final_looter->lastTimeLooted > grp_plr->lastTimeLooted)
-								{ final_looter = grp_plr; }
+                                { final_looter = grp_plr; }
                         }
-					}
+                    }
 
                     /* We have our looter, update their loot time */
                     final_looter->lastTimeLooted = time(NULL);
-					
-					/* Update the creature with the looter that has been assigned to them */
-					creature->assignedLooter = final_looter->GetGUIDLow();
-					final_looter->GetGroup()->SetLooterGuid(final_looter->GetGUID());
-					
-					/* Finally, return if we are the assigned looter */
-					return (final_looter->GetGUIDLow() == GetGUIDLow() || hasSharedLoot || hasStartingQuestLoot);
+                    
+                    /* Update the creature with the looter that has been assigned to them */
+                    creature->assignedLooter = final_looter->GetGUIDLow();
+                    final_looter->GetGroup()->SetLooterGuid(final_looter->GetGUID());
+                    
+                    /* Finally, return if we are the assigned looter */
+                    return (final_looter->GetGUIDLow() == GetGUIDLow() || hasSharedLoot || hasStartingQuestLoot);
                     /* End of switch statement */
-				}
-				default:
-					// Something went wrong, avoid crash
-					
-					return false;
-			}
+                }
+                default:
+                    // Something went wrong, avoid crash
+                    
+                    return false;
+            }
         }
         /* We're not in a group, check to make sure we're the recipient (prevent cheaters) */
         else if (recipient == this)

@@ -70,7 +70,7 @@ enum EventAI_Type
     EVENT_T_TARGET_MISSING_AURA     = 28,                   // Param1 = SpellID, Param2 = Number of time stacked expected, Param3/4 Repeat Min/Max
     EVENT_T_TIMER_GENERIC           = 29,                   // InitialMin, InitialMax, RepeatMin, RepeatMax
     EVENT_T_RECEIVE_AI_EVENT        = 30,                   // AIEventType, Sender-Entry, unused, unused
-	EVENT_T_REACHED_WAYPOINT        = 31,                   // positionX, positionY, positionZ, unused
+    EVENT_T_REACHED_WAYPOINT        = 31,                   // positionX, positionY, positionZ, unused
 
     EVENT_T_END,
 };
@@ -410,27 +410,27 @@ struct CreatureEventAI_Action
             uint32 unused2;
         } setThrowMask;
         // ACTION_T_SET_STAND_STATE                         = 47
-		struct
-		{
-			uint32 standState;
-			uint32 unused1;
-			uint32 unused2;
-		} setStandState;
-		// ACTION_T_CHANGE_MOVEMENT                         = 48
+        struct
+        {
+            uint32 standState;
+            uint32 unused1;
+            uint32 unused2;
+        } setStandState;
+        // ACTION_T_CHANGE_MOVEMENT                         = 48
         struct
         {
             uint32 movementType;
             uint32 wanderDistance;
             uint32 unused1;
         } changeMovement;
-		// ACTION_T_SUMMON_ID                               = 49
-		struct
-		{
-			uint32 creatureId;
-			uint32 target;
-			uint32 spawnId;
-		} summon_unique;		
-		// ACTION_T_EMOTE_TARGET                            = 50
+        // ACTION_T_SUMMON_ID                               = 49
+        struct
+        {
+            uint32 creatureId;
+            uint32 target;
+            uint32 spawnId;
+        } summon_unique;        
+        // ACTION_T_EMOTE_TARGET                            = 50
         struct
         {
             uint32 emoteId;
@@ -589,13 +589,13 @@ struct CreatureEventAI_Event
             uint32 unused1;
             uint32 unused2;
         } receiveAIEvent;
-		// EVENT_T_REACHED_WAYPOINT                         = 31
-		struct
-		{
-			int positionX;
-			int positionY;
-			int positionZ;
-		} reached_waypoint;
+        // EVENT_T_REACHED_WAYPOINT                         = 31
+        struct
+        {
+            int positionX;
+            int positionY;
+            int positionZ;
+        } reached_waypoint;
         // RAW
         struct
         {

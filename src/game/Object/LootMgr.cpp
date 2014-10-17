@@ -60,21 +60,21 @@ class LootTemplate::LootGroup                               // A set of loot def
         bool HasQuestDrop() const;                          // True if group includes at least 1 quest drop entry
         bool HasQuestDropForPlayer(Player const* player) const; // The same for active quests of the player
 
-		/**
-		* function which returns whether there's a shared quest drop for a given player within the loot group.
-		*
-		* \param player Player const* indicating the player for whom the function needs to check if there's any shared loot.
-		* \return boolean True if there's a shared quest drop, false otherwise.
-		*/
-		bool HasSharedQuestDropForPlayer(Player const* player) const;
+        /**
+        * function which returns whether there's a shared quest drop for a given player within the loot group.
+        *
+        * \param player Player const* indicating the player for whom the function needs to check if there's any shared loot.
+        * \return boolean True if there's a shared quest drop, false otherwise.
+        */
+        bool HasSharedQuestDropForPlayer(Player const* player) const;
 
-		/**
-		* function which returns whether there's a starting quest drop for a given player within the loot group.
-		*
-		* \param player Player const* indicating the player for whom the function needs to check if there's any starting quest loot.
-		* \return boolean True if there's a starting quest drop, false otherwise.
-		*/
-		bool HasStartingQuestDropForPlayer(Player const* player) const;
+        /**
+        * function which returns whether there's a starting quest drop for a given player within the loot group.
+        *
+        * \param player Player const* indicating the player for whom the function needs to check if there's any starting quest loot.
+        * \return boolean True if there's a starting quest drop, false otherwise.
+        */
+        bool HasStartingQuestDropForPlayer(Player const* player) const;
         void Process(Loot& loot) const;                     // Rolls an item from the group (if any) and adds the item to the loot
         float RawTotalChance() const;                       // Overall chance for the group (without equal chanced items)
         float TotalChance() const;                          // Overall chance for the group
@@ -221,7 +221,7 @@ bool LootStore::HaveQuestLootForPlayer(uint32 loot_id, Player* player) const
 
 bool LootStore::HaveSharedQuestLootForPlayer(uint32 loot_id, Player* player) const
 {
-	LootTemplateMap::const_iterator tab = m_LootTemplates.find(loot_id);
+    LootTemplateMap::const_iterator tab = m_LootTemplates.find(loot_id);
     if (tab != m_LootTemplates.end())
         if (tab->second->HasSharedQuestDropForPlayer(m_LootTemplates, player))
             { return true; }
@@ -231,7 +231,7 @@ bool LootStore::HaveSharedQuestLootForPlayer(uint32 loot_id, Player* player) con
 
 bool LootStore::HaveStartingQuestLootForPlayer(uint32 loot_id, Player* player) const
 {
-	LootTemplateMap::const_iterator tab = m_LootTemplates.find(loot_id);
+    LootTemplateMap::const_iterator tab = m_LootTemplates.find(loot_id);
     if (tab != m_LootTemplates.end())
         if (tab->second->HasStartingQuestDropForPlayer(m_LootTemplates, player))
             { return true; }
@@ -375,7 +375,7 @@ LootItem::LootItem(LootStoreItem const& li)
     is_blocked = 0;
     is_underthreshold = 0;
     is_counted = 0;
-	winner = ObjectGuid();
+    winner = ObjectGuid();
 }
 
 LootItem::LootItem(uint32 itemid_, uint32 count_, int32 randomPropertyId_)
@@ -394,7 +394,7 @@ LootItem::LootItem(uint32 itemid_, uint32 count_, int32 randomPropertyId_)
     is_blocked = 0;
     is_underthreshold = 0;
     is_counted = 0;
-	winner = ObjectGuid();
+    winner = ObjectGuid();
 }
 
 // Basic checks for player/item compatibility - if false no chance to see the item in the loot
@@ -436,22 +436,22 @@ LootSlotType LootItem::GetSlotTypeForSharedLoot(PermissionTypes permission, Play
         case OWNER_PERMISSION:
             return LOOT_SLOT_NORMAL;
         case GROUP_PERMISSION:
-		{
-			/// The roll for this item has been done.
-			if (is_underthreshold || winner || viewer->GetGroup()->IsRollDoneForItem((Creature *)lootTarget, this))
-				{ return LOOT_SLOT_NORMAL; }
-			
-			return LOOT_SLOT_VIEW;			
-		}
+        {
+            /// The roll for this item has been done.
+            if (is_underthreshold || winner || viewer->GetGroup()->IsRollDoneForItem((Creature *)lootTarget, this))
+                { return LOOT_SLOT_NORMAL; }
+            
+            return LOOT_SLOT_VIEW;            
+        }
         case MASTER_PERMISSION:
-			// If we're not the winner, the item won't show up anymore.
-			if (winner && winner != viewer->GetObjectGuid())
-				{ return MAX_LOOT_SLOT_TYPE; }
+            // If we're not the winner, the item won't show up anymore.
+            if (winner && winner != viewer->GetObjectGuid())
+                { return MAX_LOOT_SLOT_TYPE; }
 
-			if (is_underthreshold || viewer->GetObjectGuid() != viewer->GetGroup()->GetLooterGuid() || winner == viewer->GetObjectGuid())
-				{ return LOOT_SLOT_NORMAL; }
-			
-			return LOOT_SLOT_MASTER;
+            if (is_underthreshold || viewer->GetObjectGuid() != viewer->GetGroup()->GetLooterGuid() || winner == viewer->GetObjectGuid())
+                { return LOOT_SLOT_NORMAL; }
+            
+            return LOOT_SLOT_MASTER;
         default:
             return MAX_LOOT_SLOT_TYPE;
     }
@@ -705,14 +705,14 @@ void Loot::generateMoneyLoot(uint32 minAmount, uint32 maxAmount)
 
 bool Loot::IsWinner(Player * player)
 {
-	for(LootItemList::const_iterator i = items.begin(); i != items.end(); ++i)
-	{
-		if(i->winner == player->GetObjectGuid())
-		{
-			return true;
-		}
-	}
-	return false;
+    for(LootItemList::const_iterator i = items.begin(); i != items.end(); ++i)
+    {
+        if(i->winner == player->GetObjectGuid())
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 LootItem* Loot::LootItemInSlot(uint32 lootSlot, Player* player, QuestItem** qitem, QuestItem** ffaitem, QuestItem** conditem)
@@ -954,46 +954,46 @@ bool LootTemplate::LootGroup::HasQuestDropForPlayer(Player const* player) const
 
 bool LootTemplate::LootGroup::HasSharedQuestDropForPlayer(Player const* player) const
 {
-	ItemPrototype const* proto;
-	for (LootStoreItemList::const_iterator i = ExplicitlyChanced.begin(); i != ExplicitlyChanced.end(); ++i)
-	{
-		proto = ObjectMgr::GetItemPrototype(i->itemid);
-		if (player->HasQuestForItem(i->itemid) && proto && (player->GetItemCount(i->itemid, true) < proto->MaxCount) && (proto->Flags & ITEM_FLAG_PARTY_LOOT))
-            { return true; }
-	}
-    for (LootStoreItemList::const_iterator i = EqualChanced.begin(); i != EqualChanced.end(); ++i)
-	{
-		proto = ObjectMgr::GetItemPrototype(i->itemid);
+    ItemPrototype const* proto;
+    for (LootStoreItemList::const_iterator i = ExplicitlyChanced.begin(); i != ExplicitlyChanced.end(); ++i)
+    {
+        proto = ObjectMgr::GetItemPrototype(i->itemid);
         if (player->HasQuestForItem(i->itemid) && proto && (player->GetItemCount(i->itemid, true) < proto->MaxCount) && (proto->Flags & ITEM_FLAG_PARTY_LOOT))
             { return true; }
-	}
+    }
+    for (LootStoreItemList::const_iterator i = EqualChanced.begin(); i != EqualChanced.end(); ++i)
+    {
+        proto = ObjectMgr::GetItemPrototype(i->itemid);
+        if (player->HasQuestForItem(i->itemid) && proto && (player->GetItemCount(i->itemid, true) < proto->MaxCount) && (proto->Flags & ITEM_FLAG_PARTY_LOOT))
+            { return true; }
+    }
     return false;
 }
 
 bool LootTemplate::LootGroup::HasStartingQuestDropForPlayer(Player const* player) const
 {
-	ItemPrototype const* proto;
-	for (LootStoreItemList::const_iterator i = ExplicitlyChanced.begin(); i != ExplicitlyChanced.end(); ++i)
-	{
-		if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, player, player->GetMap(), NULL, CONDITION_FROM_LOOT))
-			{ return false;	}
+    ItemPrototype const* proto;
+    for (LootStoreItemList::const_iterator i = ExplicitlyChanced.begin(); i != ExplicitlyChanced.end(); ++i)
+    {
+        if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, player, player->GetMap(), NULL, CONDITION_FROM_LOOT))
+            { return false;    }
 
-		proto = ObjectMgr::GetItemPrototype(i->itemid);
+        proto = ObjectMgr::GetItemPrototype(i->itemid);
 
-		if(proto->StartQuest && i->chance == 100 && player->GetQuestStatus(proto->StartQuest) == QUEST_STATUS_NONE && !player->HasQuestForItem(i->itemid))
-			{ return true; }
+        if(proto->StartQuest && i->chance == 100 && player->GetQuestStatus(proto->StartQuest) == QUEST_STATUS_NONE && !player->HasQuestForItem(i->itemid))
+            { return true; }
 
-	}
+    }
     for (LootStoreItemList::const_iterator i = EqualChanced.begin(); i != EqualChanced.end(); ++i)
-	{
-		if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, player, player->GetMap(), NULL, CONDITION_FROM_LOOT))
-			{ return false;	}
+    {
+        if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, player, player->GetMap(), NULL, CONDITION_FROM_LOOT))
+            { return false;    }
 
-		proto = ObjectMgr::GetItemPrototype(i->itemid);
+        proto = ObjectMgr::GetItemPrototype(i->itemid);
 
-		if(proto->StartQuest && i->chance == 100 && player->GetQuestStatus(proto->StartQuest) == QUEST_STATUS_NONE && !player->HasQuestForItem(i->itemid))
-			{ return true; }
-	}
+        if(proto->StartQuest && i->chance == 100 && player->GetQuestStatus(proto->StartQuest) == QUEST_STATUS_NONE && !player->HasQuestForItem(i->itemid))
+            { return true; }
+    }
     return false;
 }
 
@@ -1200,10 +1200,10 @@ bool LootTemplate::HasSharedQuestDropForPlayer(LootTemplateMap const& store, Pla
     }
 
     // Checking non-grouped entries
-	ItemPrototype const* proto;
+    ItemPrototype const* proto;
     for (LootStoreItemList::const_iterator i = Entries.begin() ; i != Entries.end() ; ++i)
     {
-		proto = ObjectMgr::GetItemPrototype(i->itemid);
+        proto = ObjectMgr::GetItemPrototype(i->itemid);
         if (i->mincountOrRef < 0)                           // References processing
         {
             LootTemplateMap::const_iterator Referenced = store.find(-i->mincountOrRef);
@@ -1212,7 +1212,7 @@ bool LootTemplate::HasSharedQuestDropForPlayer(LootTemplateMap const& store, Pla
             if (Referenced->second->HasSharedQuestDropForPlayer(store, player, i->group))
                 { return true; }
         }
-		else if (player->HasQuestForItem(i->itemid) && proto && (player->GetItemCount(i->itemid, true) < proto->MaxCount) && (proto->Flags & ITEM_FLAG_PARTY_LOOT))
+        else if (player->HasQuestForItem(i->itemid) && proto && (player->GetItemCount(i->itemid, true) < proto->MaxCount) && (proto->Flags & ITEM_FLAG_PARTY_LOOT))
             { return true; }                                    // active quest drop found
     }
 
@@ -1226,7 +1226,7 @@ bool LootTemplate::HasSharedQuestDropForPlayer(LootTemplateMap const& store, Pla
 
 bool LootTemplate::HasStartingQuestDropForPlayer(LootTemplateMap const& store, Player const* player, uint8 groupId) const
 {
-	if (groupId)                                            // Group reference
+    if (groupId)                                            // Group reference
     {
         if (groupId > Groups.size())
             { return false; }                                   // Error message already printed at loading stage
@@ -1234,10 +1234,10 @@ bool LootTemplate::HasStartingQuestDropForPlayer(LootTemplateMap const& store, P
     }
 
     // Checking non-grouped entries
-	ItemPrototype const* proto;
+    ItemPrototype const* proto;
     for (LootStoreItemList::const_iterator i = Entries.begin() ; i != Entries.end() ; ++i)
     {
-		proto = ObjectMgr::GetItemPrototype(i->itemid);
+        proto = ObjectMgr::GetItemPrototype(i->itemid);
         if (i->mincountOrRef < 0)                           // References processing
         {
             LootTemplateMap::const_iterator Referenced = store.find(-i->mincountOrRef);
@@ -1246,10 +1246,10 @@ bool LootTemplate::HasStartingQuestDropForPlayer(LootTemplateMap const& store, P
             if (Referenced->second->HasStartingQuestDropForPlayer(store, player, i->group))
                 { return true; }
         }
-		else if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, player, player->GetMap(), NULL, CONDITION_FROM_LOOT))
-			{ return false;	} // player doesn't respect the conditions.
-		else if(proto->StartQuest && i->chance == 100 && player->GetQuestStatus(proto->StartQuest) == QUEST_STATUS_NONE && !player->HasQuestForItem(i->itemid))
-			{ return true; } // starting quest drop found.
+        else if (i->conditionId && !sObjectMgr.IsPlayerMeetToCondition(i->conditionId, player, player->GetMap(), NULL, CONDITION_FROM_LOOT))
+            { return false;    } // player doesn't respect the conditions.
+        else if(proto->StartQuest && i->chance == 100 && player->GetQuestStatus(proto->StartQuest) == QUEST_STATUS_NONE && !player->HasQuestForItem(i->itemid))
+            { return true; } // starting quest drop found.
     }
 
     // Now checking groups

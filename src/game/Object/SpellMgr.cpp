@@ -359,10 +359,10 @@ bool IsNoStackAuraDueToAura(uint32 spellId_1, uint32 spellId_2)
     if (!spellInfo_1 || !spellInfo_2) { return false; }
     if (spellInfo_1->Id == spellId_2) { return false; }
 
-	// Mighty Rage Potion + Elixir of giants
-	if((spellId_1 == 11405 && spellId_2 == 17528) || (spellId_1 == 17528 && spellId_2 == 11405)){
-		return false;
-	}
+    // Mighty Rage Potion + Elixir of giants
+    if((spellId_1 == 11405 && spellId_2 == 17528) || (spellId_1 == 17528 && spellId_2 == 11405)){
+        return false;
+    }
 
     for (int32 i = 0; i < MAX_EFFECT_INDEX; ++i)
     {
@@ -1421,9 +1421,9 @@ void SpellMgr::LoadSpellBonuses()
     uint32 count = 0;
     
     QueryResult* result = WorldDatabase.Query("SELECT entry, direct_bonus, one_hand_direct_bonus, two_hand_direct_bonus, \
-		direct_bonus_done, one_hand_direct_bonus_done, two_hand_direct_bonus_done, \
-		direct_bonus_taken, one_hand_direct_bonus_taken, two_hand_direct_bonus_taken, \
-		dot_bonus, ap_bonus, ap_dot_bonus FROM spell_bonus_data");
+        direct_bonus_done, one_hand_direct_bonus_done, two_hand_direct_bonus_done, \
+        direct_bonus_taken, one_hand_direct_bonus_taken, two_hand_direct_bonus_taken, \
+        dot_bonus, ap_bonus, ap_dot_bonus FROM spell_bonus_data");
     if (!result)
     {
         BarGoLink bar(1);
@@ -1458,15 +1458,15 @@ void SpellMgr::LoadSpellBonuses()
 
         SpellBonusEntry sbe;
 
-		sbe.direct_damage = fields[1].GetFloat();
+        sbe.direct_damage = fields[1].GetFloat();
         sbe.one_hand_direct_damage = fields[2].GetFloat();
-		sbe.two_hand_direct_damage = fields[3].GetFloat();
-		sbe.direct_damage_done = fields[4].GetFloat();
-		sbe.one_hand_direct_damage_done = fields[5].GetFloat();
-		sbe.two_hand_direct_damage_done = fields[6].GetFloat();
-		sbe.direct_damage_taken = fields[7].GetFloat();
-		sbe.one_hand_direct_damage_taken = fields[7].GetFloat();
-		sbe.two_hand_direct_damage_taken = fields[8].GetFloat();
+        sbe.two_hand_direct_damage = fields[3].GetFloat();
+        sbe.direct_damage_done = fields[4].GetFloat();
+        sbe.one_hand_direct_damage_done = fields[5].GetFloat();
+        sbe.two_hand_direct_damage_done = fields[6].GetFloat();
+        sbe.direct_damage_taken = fields[7].GetFloat();
+        sbe.one_hand_direct_damage_taken = fields[7].GetFloat();
+        sbe.two_hand_direct_damage_taken = fields[8].GetFloat();
         sbe.dot_damage    = fields[9].GetFloat();
         sbe.ap_bonus      = fields[10].GetFloat();
         sbe.ap_dot_bonus   = fields[11].GetFloat();
@@ -1514,23 +1514,23 @@ void SpellMgr::LoadSpellBonuses()
             direct_diff = std::abs(sbe.direct_damage - direct_calc);
         }
 
-		// Check if direct_bonus_done is needed in `spell_bonus_data`
-		float direct_done_calc = 0.0f;
-		float direct_done_diff = 1000.0f;
-		if(sbe.direct_damage_done)
-		{
-			direct_done_calc = CalculateDefaultCoefficient(spell, SPELL_DIRECT_DAMAGE);
-			direct_done_diff = std::abs(sbe.direct_damage_done - direct_done_calc);
-		}
+        // Check if direct_bonus_done is needed in `spell_bonus_data`
+        float direct_done_calc = 0.0f;
+        float direct_done_diff = 1000.0f;
+        if(sbe.direct_damage_done)
+        {
+            direct_done_calc = CalculateDefaultCoefficient(spell, SPELL_DIRECT_DAMAGE);
+            direct_done_diff = std::abs(sbe.direct_damage_done - direct_done_calc);
+        }
 
-		// Check if direct_bonus_taken is needed in `spell_bonus_data`
-		float direct_taken_calc = 0.0f;
-		float direct_taken_diff = 1000.0f;
-		if(sbe.direct_damage_taken)
-		{
-			direct_taken_calc = CalculateDefaultCoefficient(spell, SPELL_DIRECT_DAMAGE);
-			direct_taken_diff = std::abs(sbe.direct_damage_taken - direct_taken_calc);
-		}
+        // Check if direct_bonus_taken is needed in `spell_bonus_data`
+        float direct_taken_calc = 0.0f;
+        float direct_taken_diff = 1000.0f;
+        if(sbe.direct_damage_taken)
+        {
+            direct_taken_calc = CalculateDefaultCoefficient(spell, SPELL_DIRECT_DAMAGE);
+            direct_taken_diff = std::abs(sbe.direct_damage_taken - direct_taken_calc);
+        }
 
         // Check if dot_bonus is needed in `spell_bonus_data`
         float dot_calc = 0.0f;
@@ -1541,7 +1541,7 @@ void SpellMgr::LoadSpellBonuses()
             dot_diff = std::abs(sbe.dot_damage - dot_calc);
         }
 
-		// direct bonus
+        // direct bonus
         if (direct_diff < 0.02f && !need_dot && !sbe.ap_bonus && !sbe.ap_dot_bonus)
             sLog.outErrorDb("`spell_bonus_data` entry for spell %u `direct_bonus` not needed (data from table: %f, calculated %f, difference of %f) and `dot_bonus` also not used",
                             entry, sbe.direct_damage, direct_calc, direct_diff);
@@ -1560,10 +1560,10 @@ void SpellMgr::LoadSpellBonuses()
         else if (!need_dot && sbe.dot_damage)
             { sLog.outErrorDb("`spell_bonus_data` entry for spell %u `dot_bonus` not used (spell not have periodic affects)", entry); }
 
-		// direct bonus done
-		if (direct_done_diff < 0.02f && !need_dot && !sbe.ap_bonus && !sbe.ap_dot_bonus)
+        // direct bonus done
+        if (direct_done_diff < 0.02f && !need_dot && !sbe.ap_bonus && !sbe.ap_dot_bonus)
             sLog.outErrorDb("`spell_bonus_data` entry for spell %u `direct_bonus` not needed (data from table: %f, calculated %f, difference of %f) and `dot_bonus` also not used",
-							entry, sbe.direct_damage_done, direct_done_calc, direct_done_diff);
+                            entry, sbe.direct_damage_done, direct_done_calc, direct_done_diff);
         else if (direct_done_diff < 0.02f && dot_diff < 0.02f && !sbe.ap_bonus && !sbe.ap_dot_bonus)
         {
             sLog.outErrorDb("`spell_bonus_data` entry for spell %u `direct_bonus` not needed (data from table: %f, calculated %f, difference of %f) and ",
@@ -1574,8 +1574,8 @@ void SpellMgr::LoadSpellBonuses()
         else if (!need_direct && sbe.direct_damage_done)
             { sLog.outErrorDb("`spell_bonus_data` entry for spell %u `direct_bonus` not used (spell not have non-periodic affects)", entry); }
 
-		// direct bonus taken
-		if (direct_taken_diff < 0.02f && !need_dot && !sbe.ap_bonus && !sbe.ap_dot_bonus)
+        // direct bonus taken
+        if (direct_taken_diff < 0.02f && !need_dot && !sbe.ap_bonus && !sbe.ap_dot_bonus)
             sLog.outErrorDb("`spell_bonus_data` entry for spell %u `direct_bonus` not needed (data from table: %f, calculated %f, difference of %f) and `dot_bonus` also not used",
                             entry, sbe.direct_damage_taken, direct_taken_calc, direct_taken_diff);
         else if (direct_taken_diff < 0.02f && dot_diff < 0.02f && !sbe.ap_bonus && !sbe.ap_dot_bonus)
@@ -1588,7 +1588,7 @@ void SpellMgr::LoadSpellBonuses()
         else if (!need_direct && sbe.direct_damage_taken)
             { sLog.outErrorDb("`spell_bonus_data` entry for spell %u `direct_bonus` not used (spell not have non-periodic affects)", entry); }
 
-		if (!need_direct && sbe.ap_bonus)
+        if (!need_direct && sbe.ap_bonus)
             { sLog.outErrorDb("`spell_bonus_data` entry for spell %u `ap_bonus` not used (spell not have non-periodic affects)", entry); }
         else if (!need_dot && sbe.ap_dot_bonus)
             { sLog.outErrorDb("`spell_bonus_data` entry for spell %u `ap_dot_bonus` not used (spell not have periodic affects)", entry); }
@@ -1901,29 +1901,29 @@ void SpellMgr::ModDBCSpellAttributes()
 {
     SpellEntry* spellInfo;
 
-	// Hardcoded list for modified spell.
-	std::list<uint32> list_spell_id;
-	uint32 spell_id;
+    // Hardcoded list for modified spell.
+    std::list<uint32> list_spell_id;
+    uint32 spell_id;
 
-	list_spell_id.push_back(20647);
+    list_spell_id.push_back(20647);
 
-	for (std::list<uint32>::iterator it = list_spell_id.begin(); it != list_spell_id.end(); ++it)
-	{
-		spell_id = *it;
-		spellInfo = (SpellEntry*)GetSpellStore()->LookupEntry(spell_id);
+    for (std::list<uint32>::iterator it = list_spell_id.begin(); it != list_spell_id.end(); ++it)
+    {
+        spell_id = *it;
+        spellInfo = (SpellEntry*)GetSpellStore()->LookupEntry(spell_id);
         if (!spellInfo)
             continue;
 
-		switch(spell_id)
-		{
-			// Execute spell id 20647 is used to actually notify the client of the damage done.
-			// If MeleeSpellHitResult method is executed for this spell id, it means that the spellId sent by the client for execute did already passed.
-			case 20647:
-				spellInfo->Attributes |= SPELL_ATTR_IMPOSSIBLE_DODGE_PARRY_BLOCK;
-				spellInfo->AttributesEx3 |= SPELL_ATTR_EX3_CANT_MISS;				
-				break;
-		}
-	}
+        switch(spell_id)
+        {
+            // Execute spell id 20647 is used to actually notify the client of the damage done.
+            // If MeleeSpellHitResult method is executed for this spell id, it means that the spellId sent by the client for execute did already passed.
+            case 20647:
+                spellInfo->Attributes |= SPELL_ATTR_IMPOSSIBLE_DODGE_PARRY_BLOCK;
+                spellInfo->AttributesEx3 |= SPELL_ATTR_EX3_CANT_MISS;                
+                break;
+        }
+    }
 }
 
 bool SpellMgr::IsRankSpellDueToSpell(SpellEntry const* spellInfo_1, uint32 spellId_2) const
@@ -1997,7 +1997,7 @@ bool SpellMgr::IsNoStackSpellDueToSpell(uint32 spellId_1, uint32 spellId_2) cons
     switch (spellInfo_1->SpellFamilyName)
     {
         case SPELLFAMILY_GENERIC:
-		{
+        {
             switch (spellInfo_2->SpellFamilyName)
             {
                 case SPELLFAMILY_GENERIC:                   // same family case
@@ -2043,107 +2043,107 @@ bool SpellMgr::IsNoStackSpellDueToSpell(uint32 spellId_1, uint32 spellId_2) cons
                         (spellInfo_2->Id == 23014 && spellInfo_1->Id == 19832))
                         { return false; }
 
-					// Dragonmaw Illusion, Blood Elf Illusion, Human Illusion, Illidari Agent Illusion, Scarlet Crusade Disguise
-					// Code refactoring
-					if (spellInfo_1->SpellIconID == 1691 && spellInfo_2->SpellIconID == 1691)
-						{ return false; }
+                    // Dragonmaw Illusion, Blood Elf Illusion, Human Illusion, Illidari Agent Illusion, Scarlet Crusade Disguise
+                    // Code refactoring
+                    if (spellInfo_1->SpellIconID == 1691 && spellInfo_2->SpellIconID == 1691)
+                        { return false; }
 
-					// Icon overload
-					// Eskhandar's Rake, Flurry (Warrior), Flurry (Shaman) and all spells with a SpellIconID = 108.
-					if (spellInfo_1->SpellIconID == 108 && spellInfo_2->SpellIconID == 108)
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Eskhandar's Rake, Flurry (Warrior), Flurry (Shaman) and all spells with a SpellIconID = 108.
+                    if (spellInfo_1->SpellIconID == 108 && spellInfo_2->SpellIconID == 108)
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// All Generic Spell with SpellIconID 320
-					// (e.g. Unstable Power and Cenarius' Wrath)
-					if (spellInfo_1->SpellIconID == 320 && spellInfo_2->SpellIconID == 320)
-					{
-						return false;
-					}
+                    // Icon overload
+                    // All Generic Spell with SpellIconID 320
+                    // (e.g. Unstable Power and Cenarius' Wrath)
+                    if (spellInfo_1->SpellIconID == 320 && spellInfo_2->SpellIconID == 320)
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// All Generic Spell with SpellIconID 61
-					// Noggenfogger Elixir and Will of forsaken
-					if (spellInfo_1->SpellIconID == 61 && spellInfo_2->SpellIconID == 61)
-					{
-						return false;
-					}
+                    // Icon overload
+                    // All Generic Spell with SpellIconID 61
+                    // Noggenfogger Elixir and Will of forsaken
+                    if (spellInfo_1->SpellIconID == 61 && spellInfo_2->SpellIconID == 61)
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// All Generic Spell with SpellIconID 502
-					// Ephemeral Power and Songflower Serenade
-					if (spellInfo_1->SpellIconID == 502 && spellInfo_2->SpellIconID == 502)
-					{
-						return false;
-					}
+                    // Icon overload
+                    // All Generic Spell with SpellIconID 502
+                    // Ephemeral Power and Songflower Serenade
+                    if (spellInfo_1->SpellIconID == 502 && spellInfo_2->SpellIconID == 502)
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// All Generic Spell with SpellIconID 200 et Ancestral Fortitude
-					// Second condition is usefull to avoid stacking Ancestral Fortitude.
-					if ((spellInfo_1->SpellIconID == 200 && (spellInfo_2->Id == 16177 || spellInfo_2->Id == 16236 || spellInfo_2->Id == 16237) && !(spellInfo_1->Id == 16177 || spellInfo_1->Id == 16236 || spellInfo_1->Id == 16237))
-						|| ((spellInfo_1->Id == 16177 || spellInfo_1->Id == 16236 || spellInfo_1->Id == 16237) && spellInfo_2->SpellIconID == 200) && !(spellInfo_2->Id == 16177 || spellInfo_2->Id == 16236 || spellInfo_2->Id == 16237))
-					{
-						return false;
-					}
+                    // Icon overload
+                    // All Generic Spell with SpellIconID 200 et Ancestral Fortitude
+                    // Second condition is usefull to avoid stacking Ancestral Fortitude.
+                    if ((spellInfo_1->SpellIconID == 200 && (spellInfo_2->Id == 16177 || spellInfo_2->Id == 16236 || spellInfo_2->Id == 16237) && !(spellInfo_1->Id == 16177 || spellInfo_1->Id == 16236 || spellInfo_1->Id == 16237))
+                        || ((spellInfo_1->Id == 16177 || spellInfo_1->Id == 16236 || spellInfo_1->Id == 16237) && spellInfo_2->SpellIconID == 200) && !(spellInfo_2->Id == 16177 || spellInfo_2->Id == 16236 || spellInfo_2->Id == 16237))
+                    {
+                        return false;
+                    }
 
 
-					// Icon overload
-					// All Generic Spell with SpellIconID 958 et Scare Beast
-					// Second condition is usefull to avoid stacking Scare Beast
-					if ((spellInfo_1->SpellIconID == 958 && (spellInfo_2->Id == 14326 || spellInfo_2->Id == 14327 || spellInfo_2->Id == 1513) && !(spellInfo_1->Id == 1513 || spellInfo_1->Id == 14326 || spellInfo_1->Id == 14327))
-						|| ((spellInfo_1->Id == 1513 || spellInfo_1->Id == 14326 || spellInfo_1->Id == 14327) && spellInfo_2->SpellIconID == 958) && !(spellInfo_2->Id == 1513 || spellInfo_2->Id == 14326 || spellInfo_2->Id == 14327))
-					{
-						return false;
-					}
+                    // Icon overload
+                    // All Generic Spell with SpellIconID 958 et Scare Beast
+                    // Second condition is usefull to avoid stacking Scare Beast
+                    if ((spellInfo_1->SpellIconID == 958 && (spellInfo_2->Id == 14326 || spellInfo_2->Id == 14327 || spellInfo_2->Id == 1513) && !(spellInfo_1->Id == 1513 || spellInfo_1->Id == 14326 || spellInfo_1->Id == 14327))
+                        || ((spellInfo_1->Id == 1513 || spellInfo_1->Id == 14326 || spellInfo_1->Id == 14327) && spellInfo_2->SpellIconID == 958) && !(spellInfo_2->Id == 1513 || spellInfo_2->Id == 14326 || spellInfo_2->Id == 14327))
+                    {
+                        return false;
+                    }
 
                     break;
                 }
                 case SPELLFAMILY_MAGE:
-				{
+                {
                     // Arcane Intellect and Insight
                     if (spellInfo_2->SpellIconID == 125 && spellInfo_1->Id == 18820)
                         { return false; }
 
-					// Detect Invisibility and Mana Shield (multi-family check)
-					// Code refactoring
-					if (spellInfo_1->Id == 132 && spellInfo_2->IsFitToFamilyMask(0x0000000000008000))
-						{ return false; }
+                    // Detect Invisibility and Mana Shield (multi-family check)
+                    // Code refactoring
+                    if (spellInfo_1->Id == 132 && spellInfo_2->IsFitToFamilyMask(0x0000000000008000))
+                        { return false; }
 
                     break;
-				}
+                }
                 case SPELLFAMILY_WARRIOR:
                 {
                     // Scroll of Protection and Defensive Stance (multi-family check)
                     if (spellInfo_1->SpellIconID == 276 && spellInfo_2->Id == 71)
                         { return false; }
 
-					// Hamstring -> Improved Hamstring (multi-family check)
-					// Code refactoring
-					if (spellInfo_1->Id == 23694 && spellInfo_2->IsFitToFamilyMask(0x0000000000000002))
-						{ return false; }
+                    // Hamstring -> Improved Hamstring (multi-family check)
+                    // Code refactoring
+                    if (spellInfo_1->Id == 23694 && spellInfo_2->IsFitToFamilyMask(0x0000000000000002))
+                        { return false; }
 
-					// Icon overload
-					// Warrior Battle Shout and All Generic Spell with SpellIconID 456.
-					if(spellInfo_1->SpellIconID==456 && spellInfo_2->IsFitToFamilyMask(0x0000000000010000))
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Warrior Battle Shout and All Generic Spell with SpellIconID 456.
+                    if(spellInfo_1->SpellIconID==456 && spellInfo_2->IsFitToFamilyMask(0x0000000000010000))
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// Warrior Rend and All Generic Spell with SpellIconID 245.
-					if(spellInfo_1->SpellIconID==245 && spellInfo_2->IsFitToFamilyMask(0x0000000000000020))
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Warrior Rend and All Generic Spell with SpellIconID 245.
+                    if(spellInfo_1->SpellIconID==245 && spellInfo_2->IsFitToFamilyMask(0x0000000000000020))
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// Les spells Warrior Recklessness and All Generic Spell with SpellIconID 138.
-					if(spellInfo_1->SpellIconID==138 && spellInfo_2->IsFitToFamilyMask(0x0000000000000010))
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Les spells Warrior Recklessness and All Generic Spell with SpellIconID 138.
+                    if(spellInfo_1->SpellIconID==138 && spellInfo_2->IsFitToFamilyMask(0x0000000000000010))
+                    {
+                        return false;
+                    }
 
                     break;
                 }
@@ -2157,12 +2157,12 @@ bool SpellMgr::IsNoStackSpellDueToSpell(uint32 spellId_1, uint32 spellId_2) cons
                     if (spellId_1 == 40216 && spellId_2 == 42016)
                         { return false; }
 
-					// Icon overload
-					// Rip and All Generic Spell with SpellIconID 108.
-					if (spellInfo_1->SpellIconID==108 && spellInfo_2->IsFitToFamilyMask(0x0000000000800000))
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Rip and All Generic Spell with SpellIconID 108.
+                    if (spellInfo_1->SpellIconID==108 && spellInfo_2->IsFitToFamilyMask(0x0000000000800000))
+                    {
+                        return false;
+                    }
 
                     break;
                 }
@@ -2172,550 +2172,550 @@ bool SpellMgr::IsNoStackSpellDueToSpell(uint32 spellId_1, uint32 spellId_2) cons
                     if (spellInfo_1->SpellIconID == 498 && spellInfo_1->SpellVisual == 0 && spellInfo_2->SpellIconID == 498)
                         { return false; }
 
-					// Icon overload
-					// Rogue gouge and All Generic Spell with SpellIconID 245.
-					if(spellInfo_1->SpellIconID==245 && spellInfo_2->IsFitToFamilyMask(0x0000000000000008))
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Rogue gouge and All Generic Spell with SpellIconID 245.
+                    if(spellInfo_1->SpellIconID==245 && spellInfo_2->IsFitToFamilyMask(0x0000000000000008))
+                    {
+                        return false;
+                    }
 
                     break;
                 }
                 case SPELLFAMILY_HUNTER:
                 {
                     // Concussive Shot and Imp. Concussive Shot (multi-family check)
-					if (spellInfo_1->SpellIconID == 15 && spellInfo_2->IsFitToFamilyMask(0x0000000000000200))
+                    if (spellInfo_1->SpellIconID == 15 && spellInfo_2->IsFitToFamilyMask(0x0000000000000200))
                         { return false; }
 
                     // Improved Wing Clip -> Wing Clip (multi-family check)
-					if (spellInfo_1->SpellIconID == 517 && spellInfo_2->IsFitToFamilyMask(0x0000000000000040))
+                    if (spellInfo_1->SpellIconID == 517 && spellInfo_2->IsFitToFamilyMask(0x0000000000000040))
                         { return false; }
                     break;
                 }
                 case SPELLFAMILY_PALADIN:
                 {
                     // *Sanctity Aura -> Unstable Currents and other (multi-family check)
-					if (spellInfo_1->SpellIconID == 502 && spellInfo_2->IsFitToFamilyMask(0x0000000004000000))
-						{ return false; }
+                    if (spellInfo_1->SpellIconID == 502 && spellInfo_2->IsFitToFamilyMask(0x0000000004000000))
+                        { return false; }
 
                     // *Band of Eternal Champion and Seal of Command(multi-family check)
                     if (spellId_1 == 35081 && spellInfo_2->SpellIconID == 561 && spellInfo_2->SpellVisual == 7992)
                         { return false; }
 
-					// Icon overload
-					// Shadow Resistance Aura et All Generic Spell with SpellIconID 140.
-					if (spellInfo_1->SpellIconID==140 && spellInfo_2->IsFitToFamilyMask(0x0000000004000000))
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Shadow Resistance Aura et All Generic Spell with SpellIconID 140.
+                    if (spellInfo_1->SpellIconID==140 && spellInfo_2->IsFitToFamilyMask(0x0000000004000000))
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// Devotion Aura and All Generic Spell with SpellIconID 291.
-					if (spellInfo_1->SpellIconID==291 && spellInfo_2->IsFitToFamilyMask(0x0000000000000040))
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Devotion Aura and All Generic Spell with SpellIconID 291.
+                    if (spellInfo_1->SpellIconID==291 && spellInfo_2->IsFitToFamilyMask(0x0000000000000040))
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// Blessing of Freedom and All Generic Spell with SpellIconID 80.
-					if (spellInfo_1->SpellIconID==80 && spellInfo_2->IsFitToFamilyMask(0x0000000010000010))
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Blessing of Freedom and All Generic Spell with SpellIconID 80.
+                    if (spellInfo_1->SpellIconID==80 && spellInfo_2->IsFitToFamilyMask(0x0000000010000010))
+                    {
+                        return false;
+                    }
 
                     break;
                 }
-				case SPELLFAMILY_PRIEST:
-				{
-					// Icon overload
-					// All Generic Spell with SpellIconID 207 et Shadow Protection.
-					if (spellInfo_1->SpellIconID == 207 && spellInfo_2->IsFitToFamilyMask(0x0000000000000100))
-					{
-						return false;
-					}
+                case SPELLFAMILY_PRIEST:
+                {
+                    // Icon overload
+                    // All Generic Spell with SpellIconID 207 et Shadow Protection.
+                    if (spellInfo_1->SpellIconID == 207 && spellInfo_2->IsFitToFamilyMask(0x0000000000000100))
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// All Generic Spell with SpellIconID 264 et Abolish Disease.
-					if (spellInfo_1->SpellIconID == 264 && spellInfo_2->IsFitToFamilyMask(0x0000000180000000))
-					{
-						return false;
-					}
-					break;
-				}
-				case SPELLFAMILY_WARLOCK:
-				{
-					// Icon overload
-					// All Generic Spell with SpellIconID 313 and Warlock Corruption.
-					if (spellInfo_1->SpellIconID == 313 && spellInfo_2->IsFitToFamilyMask(0x0000000000000002))
-					{
-						return false;
-					}
-					break;
-				}
+                    // Icon overload
+                    // All Generic Spell with SpellIconID 264 et Abolish Disease.
+                    if (spellInfo_1->SpellIconID == 264 && spellInfo_2->IsFitToFamilyMask(0x0000000180000000))
+                    {
+                        return false;
+                    }
+                    break;
+                }
+                case SPELLFAMILY_WARLOCK:
+                {
+                    // Icon overload
+                    // All Generic Spell with SpellIconID 313 and Warlock Corruption.
+                    if (spellInfo_1->SpellIconID == 313 && spellInfo_2->IsFitToFamilyMask(0x0000000000000002))
+                    {
+                        return false;
+                    }
+                    break;
+                }
             }
 
             break;
-		}
+        }
         case SPELLFAMILY_MAGE:
-		{
-			switch(spellInfo_2->SpellFamilyName)
-			{
-				case SPELLFAMILY_GENERIC:
-				{
-					// Detect Invisibility and Mana Shield (multi-family check)
-					// Code refactoring
-					if (spellInfo_2->Id == 132 && spellInfo_1->IsFitToFamilyMask(0x0000000000008000))
-						{ return false; }
+        {
+            switch(spellInfo_2->SpellFamilyName)
+            {
+                case SPELLFAMILY_GENERIC:
+                {
+                    // Detect Invisibility and Mana Shield (multi-family check)
+                    // Code refactoring
+                    if (spellInfo_2->Id == 132 && spellInfo_1->IsFitToFamilyMask(0x0000000000008000))
+                        { return false; }
 
-					// Arcane Intellect and Insight
-					// Code refactoring
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000000000400) && spellInfo_2->Id == 18820)
-						{ return false; }
+                    // Arcane Intellect and Insight
+                    // Code refactoring
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000000000400) && spellInfo_2->Id == 18820)
+                        { return false; }
 
-					break;
-				}
-				case SPELLFAMILY_MAGE:
-				{
-					// Blizzard & Chilled (and some other stacked with blizzard spells
-					if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x80)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x100000))) ||
-						((spellInfo_2->SpellFamilyFlags & UI64LIT(0x80)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x100000))))
-						{ return false; }
+                    break;
+                }
+                case SPELLFAMILY_MAGE:
+                {
+                    // Blizzard & Chilled (and some other stacked with blizzard spells
+                    if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x80)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x100000))) ||
+                        ((spellInfo_2->SpellFamilyFlags & UI64LIT(0x80)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x100000))))
+                        { return false; }
 
-					// Blink & Improved Blink
-					if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x0000000000010000)) && (spellInfo_2->SpellVisual == 72 && spellInfo_2->SpellIconID == 1499)) ||
-						((spellInfo_2->SpellFamilyFlags & UI64LIT(0x0000000000010000)) && (spellInfo_1->SpellVisual == 72 && spellInfo_1->SpellIconID == 1499)))
-						{ return false; }
+                    // Blink & Improved Blink
+                    if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x0000000000010000)) && (spellInfo_2->SpellVisual == 72 && spellInfo_2->SpellIconID == 1499)) ||
+                        ((spellInfo_2->SpellFamilyFlags & UI64LIT(0x0000000000010000)) && (spellInfo_1->SpellVisual == 72 && spellInfo_1->SpellIconID == 1499)))
+                        { return false; }
 
-					// Fireball & Pyroblast (Dots)
-					if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x1)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x400000))) ||
-						((spellInfo_2->SpellFamilyFlags & UI64LIT(0x1)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x400000))))
-						{ return false; }
+                    // Fireball & Pyroblast (Dots)
+                    if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x1)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x400000))) ||
+                        ((spellInfo_2->SpellFamilyFlags & UI64LIT(0x1)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x400000))))
+                        { return false; }
 
-					break;
-				}
-				case SPELLFAMILY_PALADIN:
-				{
-				    // Combustion and Fire Protection Aura (multi-family check)
-					// Code refactoring
-					if (spellInfo_1->Id == 28682 && spellInfo_2->IsFitToFamilyMask(0x0000000004000000))
-				        { return false; }
+                    break;
+                }
+                case SPELLFAMILY_PALADIN:
+                {
+                    // Combustion and Fire Protection Aura (multi-family check)
+                    // Code refactoring
+                    if (spellInfo_1->Id == 28682 && spellInfo_2->IsFitToFamilyMask(0x0000000004000000))
+                        { return false; }
 
-					break;
-				}
-			}
+                    break;
+                }
+            }
 
             break;
-		}
+        }
         case SPELLFAMILY_WARLOCK:
-		{
-			switch(spellInfo_2->SpellFamilyName){
-				case SPELLFAMILY_GENERIC:
-					// Icon overload
-					// All Generic Spell with SpellIconID 313 and Warlock Corruption
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000000000002) && spellInfo_2->SpellIconID == 313)
-					{
-						return false;
-					}
-					break;
-				case SPELLFAMILY_WARLOCK:
-					// Siphon Life and Drain Life
-					if ((spellInfo_1->SpellIconID == 152 && spellInfo_2->SpellIconID == 546) ||
-						(spellInfo_2->SpellIconID == 152 && spellInfo_1->SpellIconID == 546))
-						{ return false; }
+        {
+            switch(spellInfo_2->SpellFamilyName){
+                case SPELLFAMILY_GENERIC:
+                    // Icon overload
+                    // All Generic Spell with SpellIconID 313 and Warlock Corruption
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000000000002) && spellInfo_2->SpellIconID == 313)
+                    {
+                        return false;
+                    }
+                    break;
+                case SPELLFAMILY_WARLOCK:
+                    // Siphon Life and Drain Life
+                    if ((spellInfo_1->SpellIconID == 152 && spellInfo_2->SpellIconID == 546) ||
+                        (spellInfo_2->SpellIconID == 152 && spellInfo_1->SpellIconID == 546))
+                        { return false; }
 
-					// Corruption & Seed of corruption
-					if ((spellInfo_1->SpellIconID == 313 && spellInfo_2->SpellIconID == 1932) ||
-						(spellInfo_2->SpellIconID == 313 && spellInfo_1->SpellIconID == 1932))
-						if (spellInfo_1->SpellVisual != 0 && spellInfo_2->SpellVisual != 0)
-							{ return true; }                        // can't be stacked
+                    // Corruption & Seed of corruption
+                    if ((spellInfo_1->SpellIconID == 313 && spellInfo_2->SpellIconID == 1932) ||
+                        (spellInfo_2->SpellIconID == 313 && spellInfo_1->SpellIconID == 1932))
+                        if (spellInfo_1->SpellVisual != 0 && spellInfo_2->SpellVisual != 0)
+                            { return true; }                        // can't be stacked
 
-					// Corruption and (Curse of Agony or Curse of Doom)
-					if ((spellInfo_1->SpellIconID == 313 && (spellInfo_2->SpellIconID == 544  || spellInfo_2->SpellIconID == 91)) ||
-						(spellInfo_2->SpellIconID == 313 && (spellInfo_1->SpellIconID == 544  || spellInfo_1->SpellIconID == 91)))
-						{ return false; }
-					break;
-				case SPELLFAMILY_PRIEST:
-					// Icon overload
-					// Sacrifice Demoniac effects and Psychic scream
-					if (spellInfo_1->SpellIconID == 1488 && spellInfo_2->IsFitToFamilyMask(0x0000000000010000))
-					{
-						return false;
-					}
-					break;
-			}
+                    // Corruption and (Curse of Agony or Curse of Doom)
+                    if ((spellInfo_1->SpellIconID == 313 && (spellInfo_2->SpellIconID == 544  || spellInfo_2->SpellIconID == 91)) ||
+                        (spellInfo_2->SpellIconID == 313 && (spellInfo_1->SpellIconID == 544  || spellInfo_1->SpellIconID == 91)))
+                        { return false; }
+                    break;
+                case SPELLFAMILY_PRIEST:
+                    // Icon overload
+                    // Sacrifice Demoniac effects and Psychic scream
+                    if (spellInfo_1->SpellIconID == 1488 && spellInfo_2->IsFitToFamilyMask(0x0000000000010000))
+                    {
+                        return false;
+                    }
+                    break;
+            }
             break;
-		}
+        }
         case SPELLFAMILY_WARRIOR:
-		{
-			switch(spellInfo_2->SpellFamilyName){
-				case SPELLFAMILY_GENERIC:
-					// Defensive Stance and Scroll of Protection (multi-family check)
-					if (spellInfo_1->Id == 71 && spellInfo_2->SpellIconID == 276)
-						{ return false; }
+        {
+            switch(spellInfo_2->SpellFamilyName){
+                case SPELLFAMILY_GENERIC:
+                    // Defensive Stance and Scroll of Protection (multi-family check)
+                    if (spellInfo_1->Id == 71 && spellInfo_2->SpellIconID == 276)
+                        { return false; }
 
-					// Hamstring -> Improved Hamstring (multi-family check)
-					// Refactoring de code
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000000000002) && spellInfo_2->Id == 23694)
-						{ return false; }
+                    // Hamstring -> Improved Hamstring (multi-family check)
+                    // Refactoring de code
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000000000002) && spellInfo_2->Id == 23694)
+                        { return false; }
 
-					// Icon overload
-					// Warrior Battle Shout and All Generic Spell with SpellIconID 456.
-					// 
-					if(spellInfo_1->IsFitToFamilyMask(0x0000000000010000) && spellInfo_2->SpellIconID==456)
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Warrior Battle Shout and All Generic Spell with SpellIconID 456.
+                    // 
+                    if(spellInfo_1->IsFitToFamilyMask(0x0000000000010000) && spellInfo_2->SpellIconID==456)
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// Warrior Rend and All Generic Spell with SpellIconID 245.
-					// 
-					if(spellInfo_1->IsFitToFamilyMask(0x0000000000000020) && spellInfo_2->SpellIconID==245)
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Warrior Rend and All Generic Spell with SpellIconID 245.
+                    // 
+                    if(spellInfo_1->IsFitToFamilyMask(0x0000000000000020) && spellInfo_2->SpellIconID==245)
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// Warrior Recklessness and All Generic Spell with SpellIconID 138.
-					// 
-					if(spellInfo_1->IsFitToFamilyMask(0x0000000000000010) && spellInfo_2->SpellIconID==138)
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Warrior Recklessness and All Generic Spell with SpellIconID 138.
+                    // 
+                    if(spellInfo_1->IsFitToFamilyMask(0x0000000000000010) && spellInfo_2->SpellIconID==138)
+                    {
+                        return false;
+                    }
 
-					break;
-				case SPELLFAMILY_WARRIOR:
-					// Rend and Deep Wound
-					if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x20)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x1000000000))) ||
-						((spellInfo_2->SpellFamilyFlags & UI64LIT(0x20)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x1000000000))))
-						{ return false; }
+                    break;
+                case SPELLFAMILY_WARRIOR:
+                    // Rend and Deep Wound
+                    if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x20)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x1000000000))) ||
+                        ((spellInfo_2->SpellFamilyFlags & UI64LIT(0x20)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x1000000000))))
+                        { return false; }
 
-					// Battle Shout and Rampage
-					if ((spellInfo_1->SpellIconID == 456 && spellInfo_2->SpellIconID == 2006) ||
-						(spellInfo_2->SpellIconID == 456 && spellInfo_1->SpellIconID == 2006))
-						{ return false; }
+                    // Battle Shout and Rampage
+                    if ((spellInfo_1->SpellIconID == 456 && spellInfo_2->SpellIconID == 2006) ||
+                        (spellInfo_2->SpellIconID == 456 && spellInfo_1->SpellIconID == 2006))
+                        { return false; }
 
-					// Battle Shout and Demoralizing Shout
-					if ((spellInfo_1->IsFitToFamilyMask(0x0000000000020000) && spellInfo_2->IsFitToFamilyMask(0x0000000000010000)) ||
-						(spellInfo_1->IsFitToFamilyMask(0x0000000000010000) && spellInfo_2->IsFitToFamilyMask(0x0000000000020000)))
-					{ return false; }
+                    // Battle Shout and Demoralizing Shout
+                    if ((spellInfo_1->IsFitToFamilyMask(0x0000000000020000) && spellInfo_2->IsFitToFamilyMask(0x0000000000010000)) ||
+                        (spellInfo_1->IsFitToFamilyMask(0x0000000000010000) && spellInfo_2->IsFitToFamilyMask(0x0000000000020000)))
+                    { return false; }
 
-					// Icon overload
-					// Warrior spell with SpellIconID 84.
-					// Load general's sword et Berserker Stance
-					if(spellInfo_1->SpellIconID==84 && spellInfo_2->SpellIconID==84)
-					{
-						return false;
-					}
-					break;
-				case SPELLFAMILY_PALADIN:
-					// Icon overload
-					// Devotion Aura and Savior's Sacrifice
-					if(spellInfo_2->IsFitToFamilyMask(0x0000000000000040) && spellInfo_1->SpellIconID==291)
-					{
-						return false;
-					}
-					break;
-				case SPELLFAMILY_ROGUE:
-				{
-					// Icon overload
-					// Rogue Gouge and Warrior Rend
-					if(spellInfo_1->IsFitToFamilyMask(0x0000000000000020) && spellInfo_2->IsFitToFamilyMask(0x0000000000000008))
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Warrior spell with SpellIconID 84.
+                    // Load general's sword et Berserker Stance
+                    if(spellInfo_1->SpellIconID==84 && spellInfo_2->SpellIconID==84)
+                    {
+                        return false;
+                    }
+                    break;
+                case SPELLFAMILY_PALADIN:
+                    // Icon overload
+                    // Devotion Aura and Savior's Sacrifice
+                    if(spellInfo_2->IsFitToFamilyMask(0x0000000000000040) && spellInfo_1->SpellIconID==291)
+                    {
+                        return false;
+                    }
+                    break;
+                case SPELLFAMILY_ROGUE:
+                {
+                    // Icon overload
+                    // Rogue Gouge and Warrior Rend
+                    if(spellInfo_1->IsFitToFamilyMask(0x0000000000000020) && spellInfo_2->IsFitToFamilyMask(0x0000000000000008))
+                    {
+                        return false;
+                    }
 
-					break;
-				}
-			}
+                    break;
+                }
+            }
 
             break;
-		}
+        }
         case SPELLFAMILY_PRIEST:
-			switch(spellInfo_2->SpellFamilyName){
-				case SPELLFAMILY_GENERIC:
-					// Icon overload
-					// All Generic Spell with SpellIconID 207 and Shadow Protection.
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000000000100) && spellInfo_2->SpellIconID == 207)
-					{
-						return false;
-					}
+            switch(spellInfo_2->SpellFamilyName){
+                case SPELLFAMILY_GENERIC:
+                    // Icon overload
+                    // All Generic Spell with SpellIconID 207 and Shadow Protection.
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000000000100) && spellInfo_2->SpellIconID == 207)
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// All Generic Spell with SpellIconID 264 and Abolish Disease.
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000180000000) && spellInfo_2->SpellIconID == 264)
-					{
-						return false;
-					}
+                    // Icon overload
+                    // All Generic Spell with SpellIconID 264 and Abolish Disease.
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000180000000) && spellInfo_2->SpellIconID == 264)
+                    {
+                        return false;
+                    }
 
-					break;
-				case SPELLFAMILY_PRIEST:
-					// Devouring Plague and Shadow Vulnerability
-					if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x2000000)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x800000000))) ||
-						((spellInfo_2->SpellFamilyFlags & UI64LIT(0x2000000)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x800000000))))
-						{ return false; }
+                    break;
+                case SPELLFAMILY_PRIEST:
+                    // Devouring Plague and Shadow Vulnerability
+                    if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x2000000)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x800000000))) ||
+                        ((spellInfo_2->SpellFamilyFlags & UI64LIT(0x2000000)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x800000000))))
+                        { return false; }
 
-					// StarShards and Shadow Word: Pain
-					if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x200000)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x8000))) ||
-						((spellInfo_2->SpellFamilyFlags & UI64LIT(0x200000)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x8000))))
-						{ return false; }
-					break;
-				
-				case SPELLFAMILY_WARLOCK:
-					// Icon overload
-					// Sacrifice demoniac effect and Psychic scream.
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000000010000) && spellInfo_2->SpellIconID == 1488)
-					{
-						return false;
-					}
+                    // StarShards and Shadow Word: Pain
+                    if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x200000)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x8000))) ||
+                        ((spellInfo_2->SpellFamilyFlags & UI64LIT(0x200000)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x8000))))
+                        { return false; }
+                    break;
+                
+                case SPELLFAMILY_WARLOCK:
+                    // Icon overload
+                    // Sacrifice demoniac effect and Psychic scream.
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000000010000) && spellInfo_2->SpellIconID == 1488)
+                    {
+                        return false;
+                    }
 
-					break;
+                    break;
 
-				case SPELLFAMILY_DRUID:
-					// Holy Power (Pal T3 (6)) -- Rogue/Hunt buff
-					// + blessed sunfruit
-					if (spellInfo_1->SpellIconID == 52 && spellInfo_2->Id == 28791)
-					{
-						return false;
-					}
+                case SPELLFAMILY_DRUID:
+                    // Holy Power (Pal T3 (6)) -- Rogue/Hunt buff
+                    // + blessed sunfruit
+                    if (spellInfo_1->SpellIconID == 52 && spellInfo_2->Id == 28791)
+                    {
+                        return false;
+                    }
 
-					// Totem Power (Shaman T3 (6)) -- Rogue/Hunt buff
-					// + blessed sunfruit
-					if (spellInfo_1->SpellIconID == 52 && spellInfo_2->Id == 28826)
-					{
-						return false;
-					}
+                    // Totem Power (Shaman T3 (6)) -- Rogue/Hunt buff
+                    // + blessed sunfruit
+                    if (spellInfo_1->SpellIconID == 52 && spellInfo_2->Id == 28826)
+                    {
+                        return false;
+                    }
 
-					// Holy Power (Pal T3 (6)) -- Mana buff and all spells with SpellIconID 1873.
-					if (spellInfo_1->SpellIconID == 1873 && spellInfo_2->Id == 28795)
-					{
-						return false;
-					}
+                    // Holy Power (Pal T3 (6)) -- Mana buff and all spells with SpellIconID 1873.
+                    if (spellInfo_1->SpellIconID == 1873 && spellInfo_2->Id == 28795)
+                    {
+                        return false;
+                    }
 
-					// Totem Power (Shaman T3 (6)) -- Mana buff and all spells with SpellIconID 1873.
-					if (spellInfo_1->SpellIconID == 1873 && spellInfo_2->Id == 28824)
-					{
-						return false;
-					}
+                    // Totem Power (Shaman T3 (6)) -- Mana buff and all spells with SpellIconID 1873.
+                    if (spellInfo_1->SpellIconID == 1873 && spellInfo_2->Id == 28824)
+                    {
+                        return false;
+                    }
 
-					break;
-			}
+                    break;
+            }
             break;
         case SPELLFAMILY_DRUID:
-			switch(spellInfo_2->SpellFamilyName){
-				case SPELLFAMILY_GENERIC:
-					// Icon overload
-					// Rip and All Generic Spell with SpellIconID 108.
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000000800000) && spellInfo_1->SpellIconID==108)
-					{
-						return false;
-					}
+            switch(spellInfo_2->SpellFamilyName){
+                case SPELLFAMILY_GENERIC:
+                    // Icon overload
+                    // Rip and All Generic Spell with SpellIconID 108.
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000000800000) && spellInfo_1->SpellIconID==108)
+                    {
+                        return false;
+                    }
 
-					// Leader of the Pack and Scroll of Stamina (multi-family check)
-					if (spellInfo_1->Id == 24932 && spellInfo_2->SpellIconID == 312)
-						{ return false; }
+                    // Leader of the Pack and Scroll of Stamina (multi-family check)
+                    if (spellInfo_1->Id == 24932 && spellInfo_2->SpellIconID == 312)
+                        { return false; }
 
-					break;
-				case SPELLFAMILY_DRUID:
-					// Cat Form and Feline Swiftness Passive* (1.x specific conflict)
-					if (spellInfo_1->SpellIconID == 493 && spellInfo_2->SpellIconID == 493)
-						{ return false; }
+                    break;
+                case SPELLFAMILY_DRUID:
+                    // Cat Form and Feline Swiftness Passive* (1.x specific conflict)
+                    if (spellInfo_1->SpellIconID == 493 && spellInfo_2->SpellIconID == 493)
+                        { return false; }
 
-					// Omen of Clarity and Blood Frenzy
-					if (((spellInfo_1->SpellFamilyFlags == UI64LIT(0x0) && spellInfo_1->SpellIconID == 108) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x20000000000000))) ||
-						((spellInfo_2->SpellFamilyFlags == UI64LIT(0x0) && spellInfo_2->SpellIconID == 108) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x20000000000000))))
-						{ return false; }
-					break;
+                    // Omen of Clarity and Blood Frenzy
+                    if (((spellInfo_1->SpellFamilyFlags == UI64LIT(0x0) && spellInfo_1->SpellIconID == 108) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x20000000000000))) ||
+                        ((spellInfo_2->SpellFamilyFlags == UI64LIT(0x0) && spellInfo_2->SpellIconID == 108) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x20000000000000))))
+                        { return false; }
+                    break;
 
-				case SPELLFAMILY_PALADIN:
-					// Holy Power (Pal T3 (6)) -- Tank buff
-					// Blessing of Kings
-					if (spellInfo_1->Id == 28790 && spellInfo_2->IsFitToFamilyMask(0x0000000011000000))
-					{
-						return false;
-					}
+                case SPELLFAMILY_PALADIN:
+                    // Holy Power (Pal T3 (6)) -- Tank buff
+                    // Blessing of Kings
+                    if (spellInfo_1->Id == 28790 && spellInfo_2->IsFitToFamilyMask(0x0000000011000000))
+                    {
+                        return false;
+                    }
 
-					break;
+                    break;
 
-				case SPELLFAMILY_PRIEST:
-					// Holy Power (Pal T3 (6)) -- Rogue/Hunt buff
-					// + blessed sunfruit
-					if (spellInfo_1->Id == 28791 && spellInfo_2->SpellIconID == 52)
-					{
-						return false;
-					}
+                case SPELLFAMILY_PRIEST:
+                    // Holy Power (Pal T3 (6)) -- Rogue/Hunt buff
+                    // + blessed sunfruit
+                    if (spellInfo_1->Id == 28791 && spellInfo_2->SpellIconID == 52)
+                    {
+                        return false;
+                    }
 
-					// Totem Power (Shaman T3 (6)) -- Rogue/Hunt buff
-					// + blessed sunfruit
-					if (spellInfo_1->Id == 28826 && spellInfo_2->SpellIconID == 52)
-					{
-						return false;
-					}
+                    // Totem Power (Shaman T3 (6)) -- Rogue/Hunt buff
+                    // + blessed sunfruit
+                    if (spellInfo_1->Id == 28826 && spellInfo_2->SpellIconID == 52)
+                    {
+                        return false;
+                    }
 
-					// Holy Power (Pal T3 (6)) -- Mana buff and All Generic Spell with SpellIconID 1873.
-					if (spellInfo_1->Id == 28795 && spellInfo_2->SpellIconID == 1873)
-					{
-						return false;
-					}
+                    // Holy Power (Pal T3 (6)) -- Mana buff and All Generic Spell with SpellIconID 1873.
+                    if (spellInfo_1->Id == 28795 && spellInfo_2->SpellIconID == 1873)
+                    {
+                        return false;
+                    }
 
-					// Totem Power (Shaman T3 (6)) -- Mana buff and All Generic Spell with SpellIconID 1873.
-					if (spellInfo_1->Id == 28824 && spellInfo_2->SpellIconID == 1873)
-					{
-						return false;
-					}
+                    // Totem Power (Shaman T3 (6)) -- Mana buff and All Generic Spell with SpellIconID 1873.
+                    if (spellInfo_1->Id == 28824 && spellInfo_2->SpellIconID == 1873)
+                    {
+                        return false;
+                    }
 
-					break;
-			}
+                    break;
+            }
 
             break;
         case SPELLFAMILY_ROGUE:
-			switch(spellInfo_2->SpellFamilyName){
-				case SPELLFAMILY_GENERIC:
-				{
-					// Icon overload
-					// Rogue Gouge and All Generic Spell with SpellIconID 245.
-					if(spellInfo_1->IsFitToFamilyMask(0x0000000000000008) && spellInfo_2->SpellIconID==245)
-					{
-						return false;
-					}
+            switch(spellInfo_2->SpellFamilyName){
+                case SPELLFAMILY_GENERIC:
+                {
+                    // Icon overload
+                    // Rogue Gouge and All Generic Spell with SpellIconID 245.
+                    if(spellInfo_1->IsFitToFamilyMask(0x0000000000000008) && spellInfo_2->SpellIconID==245)
+                    {
+                        return false;
+                    }
 
-					break;
-				}
-				case SPELLFAMILY_WARRIOR:
-				{
-					// Icon overload
-					// Rogue Gouge and Warrior Rend
-					if(spellInfo_1->IsFitToFamilyMask(0x0000000000000008) && spellInfo_2->IsFitToFamilyMask(0x0000000000000020))
-					{
-						return false;
-					}
+                    break;
+                }
+                case SPELLFAMILY_WARRIOR:
+                {
+                    // Icon overload
+                    // Rogue Gouge and Warrior Rend
+                    if(spellInfo_1->IsFitToFamilyMask(0x0000000000000008) && spellInfo_2->IsFitToFamilyMask(0x0000000000000020))
+                    {
+                        return false;
+                    }
 
-					break;
-				}
-			}
+                    break;
+                }
+            }
 
             break;
         case SPELLFAMILY_HUNTER:
-			switch(spellInfo_2->SpellFamilyName)
-			{
-				case SPELLFAMILY_GENERIC:
-					// Wing Clip -> Improved Wing Clip (multi-family check)
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000000000040) && spellInfo_2->SpellIconID == 517)
-						{ return false; }
+            switch(spellInfo_2->SpellFamilyName)
+            {
+                case SPELLFAMILY_GENERIC:
+                    // Wing Clip -> Improved Wing Clip (multi-family check)
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000000000040) && spellInfo_2->SpellIconID == 517)
+                        { return false; }
 
-					// Concussive Shot and Imp. Concussive Shot (multi-family check)
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000000000200) && spellInfo_2->SpellIconID == 15)
-						{ return false; }
+                    // Concussive Shot and Imp. Concussive Shot (multi-family check)
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000000000200) && spellInfo_2->SpellIconID == 15)
+                        { return false; }
 
-					break;
-				case SPELLFAMILY_HUNTER:
-					// Rapid Fire & Quick Shots
-					if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x20)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x20000000000))) ||
-						((spellInfo_2->SpellFamilyFlags & UI64LIT(0x20)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x20000000000))))
-						{ return false; }
+                    break;
+                case SPELLFAMILY_HUNTER:
+                    // Rapid Fire & Quick Shots
+                    if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x20)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x20000000000))) ||
+                        ((spellInfo_2->SpellFamilyFlags & UI64LIT(0x20)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x20000000000))))
+                        { return false; }
 
-					// Serpent Sting & (Immolation/Explosive Trap Effect)
-					if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x4)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x00000004000))) ||
-						((spellInfo_2->SpellFamilyFlags & UI64LIT(0x4)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x00000004000))))
-						{ return false; }
+                    // Serpent Sting & (Immolation/Explosive Trap Effect)
+                    if (((spellInfo_1->SpellFamilyFlags & UI64LIT(0x4)) && (spellInfo_2->SpellFamilyFlags & UI64LIT(0x00000004000))) ||
+                        ((spellInfo_2->SpellFamilyFlags & UI64LIT(0x4)) && (spellInfo_1->SpellFamilyFlags & UI64LIT(0x00000004000))))
+                        { return false; }
 
-					// Bestial Wrath
-					if (spellInfo_1->SpellIconID == 1680 && spellInfo_2->SpellIconID == 1680)
-						{ return false; }
+                    // Bestial Wrath
+                    if (spellInfo_1->SpellIconID == 1680 && spellInfo_2->SpellIconID == 1680)
+                        { return false; }
 
-					break;
-			}
+                    break;
+            }
 
             break;
         case SPELLFAMILY_PALADIN:
-			switch(spellInfo_2->SpellFamilyName){
-				case SPELLFAMILY_GENERIC:
-					// Icon overload
-					// Shadow Resistance Aura and All Generic Spell with SpellIconID 140.
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000004000000) && spellInfo_2->SpellIconID==140)
-					{
-						return false;
-					}
+            switch(spellInfo_2->SpellFamilyName){
+                case SPELLFAMILY_GENERIC:
+                    // Icon overload
+                    // Shadow Resistance Aura and All Generic Spell with SpellIconID 140.
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000004000000) && spellInfo_2->SpellIconID==140)
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// Devotion Aura and All Generic Spell with SpellIconID 291.
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000000000040) && spellInfo_2->SpellIconID==291)
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Devotion Aura and All Generic Spell with SpellIconID 291.
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000000000040) && spellInfo_2->SpellIconID==291)
+                    {
+                        return false;
+                    }
 
-					// Icon overload
-					// Blessing of Freedom and All Generic Spell with SpellIconID 80.
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000010000010) && spellInfo_2->SpellIconID==80)
-					{
-						return false;
-					}
+                    // Icon overload
+                    // Blessing of Freedom and All Generic Spell with SpellIconID 80.
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000010000010) && spellInfo_2->SpellIconID==80)
+                    {
+                        return false;
+                    }
 
-					// *Sanctity Aura -> Unstable Currents and other (multi-family check)
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000004000000) && spellInfo_2->SpellIconID == 502)
-						{ return false; }
+                    // *Sanctity Aura -> Unstable Currents and other (multi-family check)
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000004000000) && spellInfo_2->SpellIconID == 502)
+                        { return false; }
 
-					break;
-				case SPELLFAMILY_PALADIN:
-					// Paladin Seals
-					if (IsSealSpell(spellInfo_1) && IsSealSpell(spellInfo_2))
-						{ return true; }
-					// Concentration Aura and Improved Concentration Aura and Aura Mastery
-					if ((spellInfo_1->SpellIconID == 1487) && (spellInfo_2->SpellIconID == 1487))
-						{ return false; }
+                    break;
+                case SPELLFAMILY_PALADIN:
+                    // Paladin Seals
+                    if (IsSealSpell(spellInfo_1) && IsSealSpell(spellInfo_2))
+                        { return true; }
+                    // Concentration Aura and Improved Concentration Aura and Aura Mastery
+                    if ((spellInfo_1->SpellIconID == 1487) && (spellInfo_2->SpellIconID == 1487))
+                        { return false; }
 
-					// Seal of crusader and Judgement of crusader effect
-					if (spellInfo_1->SpellIconID == 237 && spellInfo_2->SpellIconID == 237)
-						{ return false; }
+                    // Seal of crusader and Judgement of crusader effect
+                    if (spellInfo_1->SpellIconID == 237 && spellInfo_2->SpellIconID == 237)
+                        { return false; }
 
-					// Seal of light and Judgement of light effect
-					if (spellInfo_1->SpellIconID == 299 && spellInfo_2->SpellIconID == 299)
-						{ return false; }
+                    // Seal of light and Judgement of light effect
+                    if (spellInfo_1->SpellIconID == 299 && spellInfo_2->SpellIconID == 299)
+                        { return false; }
 
-					// Seal of mana and Judgement of mana effect
-					if (spellInfo_1->SpellIconID == 206 && spellInfo_2->SpellIconID == 206)
-						{ return false; }
+                    // Seal of mana and Judgement of mana effect
+                    if (spellInfo_1->SpellIconID == 206 && spellInfo_2->SpellIconID == 206)
+                        { return false; }
 
-					// Seal of Justice and Judgement of Justice effect
-					if (spellInfo_1->SpellIconID == 307 && spellInfo_2->SpellIconID == 307)
-						{ return false; }
-					break;
-				case SPELLFAMILY_WARRIOR:
-					// Icon overload
-					// Devotion Aura and Savior's sacrifice.
-					if(spellInfo_1->IsFitToFamilyMask(0x0000000000000040) && spellInfo_2->SpellIconID==291)
-					{
-						return false;
-					}
-					break;
-				
-				case SPELLFAMILY_DRUID:
-					// Holy Power (Pal T3 (6)) -- Tank buff
-					// Blessing of kings.
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000011000000) && spellInfo_2->Id == 28790)
-					{
-						return false;
-					}
+                    // Seal of Justice and Judgement of Justice effect
+                    if (spellInfo_1->SpellIconID == 307 && spellInfo_2->SpellIconID == 307)
+                        { return false; }
+                    break;
+                case SPELLFAMILY_WARRIOR:
+                    // Icon overload
+                    // Devotion Aura and Savior's sacrifice.
+                    if(spellInfo_1->IsFitToFamilyMask(0x0000000000000040) && spellInfo_2->SpellIconID==291)
+                    {
+                        return false;
+                    }
+                    break;
+                
+                case SPELLFAMILY_DRUID:
+                    // Holy Power (Pal T3 (6)) -- Tank buff
+                    // Blessing of kings.
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000011000000) && spellInfo_2->Id == 28790)
+                    {
+                        return false;
+                    }
 
-					break;
-				case SPELLFAMILY_MAGE:
-					// Combustion and Fire Protection Aura (multi-family check)
-					if (spellInfo_1->IsFitToFamilyMask(0x0000000004000000) && spellInfo_2->Id == 28682)
-						{ return false; }
+                    break;
+                case SPELLFAMILY_MAGE:
+                    // Combustion and Fire Protection Aura (multi-family check)
+                    if (spellInfo_1->IsFitToFamilyMask(0x0000000004000000) && spellInfo_2->Id == 28682)
+                        { return false; }
 
-					break;
-			}
+                    break;
+            }
 
             break;
         case SPELLFAMILY_SHAMAN:
-			switch(spellInfo_2->SpellFamilyName)
-			{
-				case SPELLFAMILY_SHAMAN:
-					// Windfury weapon
-					if (spellInfo_1->SpellIconID == 220 && spellInfo_2->SpellIconID == 220 &&
-						!spellInfo_1->IsFitToFamilyMask(spellInfo_2->SpellFamilyFlags))
-						{ return false; }
-				break;
-			}
+            switch(spellInfo_2->SpellFamilyName)
+            {
+                case SPELLFAMILY_SHAMAN:
+                    // Windfury weapon
+                    if (spellInfo_1->SpellIconID == 220 && spellInfo_2->SpellIconID == 220 &&
+                        !spellInfo_1->IsFitToFamilyMask(spellInfo_2->SpellFamilyFlags))
+                        { return false; }
+                break;
+            }
             
             break;
         default:

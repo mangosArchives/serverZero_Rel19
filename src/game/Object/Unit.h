@@ -2352,20 +2352,20 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          */
         bool IsTaxiFlying()  const { return hasUnitState(UNIT_STAT_TAXI_FLIGHT); }
 
-		/**
-		 * Checks to see if a creature, whilst moving along a path, has reached a specific waypoint, or near to
-		 * @param currentPositionX is the creature's current X ordinate in the game world
-		 * @param currentPositionY is the creature's current Y ordinate in the game world
-		 * @param currentPositionZ is the creature's current Z ordinate in the game world
-		 * @param destinationPositionX is the in game ordinate that we wish to check against the creature's current X ordinate (are they the same, or very close?)
-		 * @param destinationPositionY is the in game ordinate that we wish to check against the creature's current Y ordinate (are they the same, or very close?)
-		 * @param destinationPositionZ is the in game ordinate that we wish to check against the creature's current Z ordinate (are they the same, or very close?)
-		 * @param distanceX is the distance from the creature's current X ordinate to the destination X ordinate 
-		 * @param distanceY is the distance from the creature's current Y ordinate to the destination Y ordinate 
-		 * @param distanceZ is the distance from the creature's current Z ordinate to the destination Z ordinate 
-		 * 
-		 */
-		bool IsNearWaypoint(float currentPositionX, float currentPositionY, float currentPositionZ, float destinationPositionX, float destinationPositionY, float destinationPositionZ, float distanceX, float distanceY, float distanceZ);
+        /**
+         * Checks to see if a creature, whilst moving along a path, has reached a specific waypoint, or near to
+         * @param currentPositionX is the creature's current X ordinate in the game world
+         * @param currentPositionY is the creature's current Y ordinate in the game world
+         * @param currentPositionZ is the creature's current Z ordinate in the game world
+         * @param destinationPositionX is the in game ordinate that we wish to check against the creature's current X ordinate (are they the same, or very close?)
+         * @param destinationPositionY is the in game ordinate that we wish to check against the creature's current Y ordinate (are they the same, or very close?)
+         * @param destinationPositionZ is the in game ordinate that we wish to check against the creature's current Z ordinate (are they the same, or very close?)
+         * @param distanceX is the distance from the creature's current X ordinate to the destination X ordinate 
+         * @param distanceY is the distance from the creature's current Y ordinate to the destination Y ordinate 
+         * @param distanceZ is the distance from the creature's current Z ordinate to the destination Z ordinate 
+         * 
+         */
+        bool IsNearWaypoint(float currentPositionX, float currentPositionY, float currentPositionZ, float destinationPositionX, float destinationPositionY, float destinationPositionZ, float distanceX, float distanceY, float distanceZ);
 
 
         /**
@@ -2724,7 +2724,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
          * @param triggeredByAura the \ref Aura that triggered this
          * @param originalCaster the original caster if any
          * @param triggeredBy the \ref SpellEntry that triggered this cast, if any
-		 * @param calculateDamage Indicates whether the damage calculation must be performed (in some cases, the calculation has already been executed).
+         * @param calculateDamage Indicates whether the damage calculation must be performed (in some cases, the calculation has already been executed).
          * \todo What's the original caster?
          */
         void CastCustomSpell(Unit* Victim, SpellEntry const* spellInfo, int32 const* bp0, int32 const* bp1, int32 const* bp2, bool triggered, Item* castItem = NULL, Aura* triggeredByAura = NULL, ObjectGuid originalCaster = ObjectGuid(), SpellEntry const* triggeredBy = NULL);
