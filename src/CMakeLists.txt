@@ -55,13 +55,11 @@ add_subdirectory(realmd)
 add_subdirectory(mangosd)
 
 #-----------------------------------------------------------------------------
+# Build the selected modules
+add_subdirectory(modules)
+
+#-----------------------------------------------------------------------------
 # If we want the tools for map/vmap/mmap extraction
 if(BUILD_TOOLS)
     add_subdirectory(tools)
-endif()
-
-#-----------------------------------------------------------------------------
-# Build the mangos-zero script library if wished for
-if(ENABLE_SD2)
-    add_subdirectory(scripts)
 endif()

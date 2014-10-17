@@ -52,13 +52,13 @@ class DBCStorage
          */
         ~DBCStorage() { Clear(); }
 
-		/**
-		* @brief
-		*
-		* @return uint32
-		*/
-		//uint32  GetNumRows() const { return nCount; }
-		uint32  GetNumRows() const { return loaded ? data.size() : nCount; }
+        /**
+        * @brief
+        *
+        * @return uint32
+        */
+        //uint32  GetNumRows() const { return nCount; }
+        uint32  GetNumRows() const { return loaded ? data.size() : nCount; }
         /**
          * @brief
          *
@@ -72,15 +72,15 @@ class DBCStorage
          */
         uint32 GetFieldCount() const { return fieldCount; }
 
-		/**
-		* @brief
-		*
-		* @param id
-		* @return const T
-		*/
-		//T const* LookupEntry(uint32 id) const { return (id >= nCount) ? NULL : indexTable[id]; }
-		T const* LookupEntry(uint32 id) const
-		{
+        /**
+        * @brief
+        *
+        * @param id
+        * @return const T
+        */
+        //T const* LookupEntry(uint32 id) const { return (id >= nCount) ? NULL : indexTable[id]; }
+        T const* LookupEntry(uint32 id) const
+        {
             if (loaded)
             {
                 typename std::map<uint32, T const*>::const_iterator it = data.find(id);

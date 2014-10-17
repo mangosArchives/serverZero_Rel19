@@ -110,9 +110,11 @@ class ModelInstance
         Model* model; /**< TODO */
 
         uint32 id; /**< TODO */
-        unsigned int scale;
+        //unsigned int scale; // This line introduced a regression bug in Mangos Zero, is Fine for other cores.
         Vec3D pos, rot; /**< TODO */
-        float sc;
+        //float sc; // This line introduced a regression bug in Mangos Zero, is Fine for other cores.
+        unsigned int d1, scale;
+        float w, sc;
 
         /**
          * @brief

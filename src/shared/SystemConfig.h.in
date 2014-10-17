@@ -64,11 +64,6 @@
 # define ARCHITECTURE "x86"
 #endif
 
-// The path to config files
-#ifndef SYSCONFDIR
-#  define SYSCONFDIR        ""
-#endif
-
 #if PLATFORM == PLATFORM_WINDOWS
 # ifdef _WIN64
 #  define MANGOS_ENDIAN_PLATFORM "Win64 (" MANGOS_ENDIAN_STRING ")"
@@ -93,9 +88,25 @@
 # endif
 #endif
 
-#define MANGOSD_CONFIG_LOCATION  SYSCONFDIR"mangosd.conf"
-#define REALMD_CONFIG_LOCATION  SYSCONFDIR"realmd.conf"
-#define AUCTIONHOUSEBOT_CONFIG_LOCATION   SYSCONFDIR"ahbot.conf"
+
+// The path to config files, only the prepared sln's have PREPARED_SLN defined
+// as cmake replaces the CONF_xxx during the build process
+#ifndef SYSCONFDIR
+#  ifdef PREPARED_SLN
+#    define SYSCONFDIR ""
+#  else
+#    define SYSCONFDIR "${CONF_DIR}"
+#  endif
+#endif
+
+
+#define REALMD_CONFIG_NAME             "realmd.conf"
+#define MANGOSD_CONFIG_NAME            "mangosd.conf"
+#define AUCTIONHOUSEBOT_CONFIG_NAME    "ahbot.conf"
+
+#define MANGOSD_CONFIG_LOCATION         SYSCONFDIR MANGOSD_CONFIG_NAME
+#define REALMD_CONFIG_LOCATION          SYSCONFDIR REALMD_CONFIG_NAME
+#define AUCTIONHOUSEBOT_CONFIG_LOCATION SYSCONFDIR AUCTIONHOUSEBOT_CONFIG_NAME
 
 #define MANGOS_FULLVERSION(REVD,REVT,REVN,REVH) MANGOS_PACKAGENAME "/" MANGOS_VERSION(REVD,REVT,REVN,REVH) " for " MANGOS_ENDIAN_PLATFORM
 
