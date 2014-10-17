@@ -209,7 +209,7 @@ bool HandleArgs(int argc, char** argv)
             int convertFloatToInt = atoi(param);
             if (convertFloatToInt != 0)
             {
-                CONF_allow_float_to_int = convertFloatToInt;
+                CONF_allow_float_to_int = true;
             }
         }
         else if (strcmp(argv[i], "-e") == 0 || strcmp(argv[i], "--extract") == 0)
