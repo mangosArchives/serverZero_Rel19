@@ -154,6 +154,7 @@
     <ClCompile Include="..\..\src\tools\vmap-extractor\vmapexport.cpp" />
     <ClCompile Include="..\..\src\tools\vmap-extractor\wdtfile.cpp" />
     <ClCompile Include="..\..\src\tools\vmap-extractor\wmo.cpp" />
+    <ResourceCompile Include="..\..\src\tools\vmap-extractor\vmap-extractor.rc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="bzip2.vcxproj">

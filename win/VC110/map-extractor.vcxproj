@@ -118,7 +118,6 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PREPARED_SLN;WIN32;_WINDOWS;_DEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;MMAP_GENERATOR;NO_CORE_FUNCS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
-      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>PREPARED_SLN;WIN32;_WINDOWS;_DEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;MMAP_GENERATOR;NO_CORE_FUNCS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -152,6 +151,7 @@
     <ClCompile Include="..\..\src\tools\map-extractor\dbcfile.cpp" />
     <ClCompile Include="..\..\src\tools\map-extractor\mpq_libmpq.cpp" />
     <ClCompile Include="..\..\src\tools\map-extractor\System.cpp" />
+    <ResourceCompile Include="..\..\src\tools\map-extractor\map-extractor.rc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="bzip2.vcxproj">

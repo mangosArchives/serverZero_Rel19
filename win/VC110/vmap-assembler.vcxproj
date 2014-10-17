@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\tools\vmap-assembler\vmap_assembler.cpp" />
+    <ResourceCompile Include="..\..\src\tools\vmap-assembler\vmap-assembler.rc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ace.vcxproj">
