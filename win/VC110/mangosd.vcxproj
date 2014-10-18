@@ -194,9 +194,6 @@
     <ProjectReference Include="mangosscript.vcxproj">
       <Project>DA729B06-9097-4DA6-A86C-E97BC843B7C2</Project>
     </ProjectReference>
-    <ProjectReference Include="revision.h.vcxproj">
-      <Project>{e5759321-6212-4ce4-b099-aaae0055bb85}</Project>
-    </ProjectReference>
     <ProjectReference Include="shared.vcxproj">
       <Project>594C9AA1-A759-4DEB-A6E4-F079A5DFBA31</Project>
     </ProjectReference>

@@ -168,9 +168,6 @@
     <ProjectReference Include="framework.vcxproj">
       <Project>915B99FF-5340-4BCE-AAE7-D3737443498B</Project>
     </ProjectReference>
-    <ProjectReference Include="revision.h.vcxproj">
-      <Project>{e5759321-6212-4ce4-b099-aaae0055bb85}</Project>
-    </ProjectReference>
     <ProjectReference Include="shared.vcxproj">
       <Project>594C9AA1-A759-4DEB-A6E4-F079A5DFBA31</Project>
     </ProjectReference>

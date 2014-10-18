@@ -180,9 +180,6 @@
     <ProjectReference Include="ace.vcxproj">
       <Project>{d70895a7-4ea1-48be-a557-834d4357bad3}</Project>
     </ProjectReference>
-    <ProjectReference Include="revision.h.vcxproj">
-      <Project>{e5759321-6212-4ce4-b099-aaae0055bb85}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

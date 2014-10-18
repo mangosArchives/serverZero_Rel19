@@ -21,11 +21,13 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -101,7 +103,6 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PREPARED_SLN;WIN32;_WINDOWS;_DEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
-      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>PREPARED_SLN;WIN32;_WINDOWS;_DEBUG;HAVE_CONFIG_H;MANGOS;DO_MYSQL;WIN32;_WIN32;USE_STANDARD_MALLOC;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -350,9 +351,6 @@
   <ItemGroup>
     <ProjectReference Include="ace.vcxproj">
       <Project>D70895A7-4EA1-48BE-A557-834D4357BAD3</Project>
-    </ProjectReference>
-    <ProjectReference Include="revision.h.vcxproj">
-      <Project>{e5759321-6212-4ce4-b099-aaae0055bb85}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
