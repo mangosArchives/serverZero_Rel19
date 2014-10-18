@@ -660,7 +660,7 @@ void ScriptMgr::LoadScripts(ScriptMapMapName& scripts, const char* tablename)
             }
             case SCRIPT_COMMAND_TURN_TO:                    // 35
                 break;
-            case SCRIPT_COMMAND_SEND_AI_EVENT_AROUND:       // 35
+            case SCRIPT_COMMAND_SEND_AI_EVENT_AROUND:       // 36
             {
                 if (tmp.sendAIEvent.eventType >= MAXIMAL_AI_EVENT_EVENTAI)
                 {
