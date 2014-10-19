@@ -94,8 +94,10 @@
 #ifndef SYSCONFDIR
 #  ifdef PREPARED_SLN
 #    define SYSCONFDIR ""
-#  else
+#  elif PLATFORM == PLATFORM_WINDOWS
 #    define SYSCONFDIR "${CONF_DIR}"
+#  else
+#    define SYSCONFDIR "../${CONF_DIR}"
 #  endif
 #endif
 

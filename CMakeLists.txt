@@ -33,7 +33,11 @@ set(CMAKE_MODULE_PATH
 )
 
 # define all options here
-set(CONF_DIR "" CACHE STRING "Config path. Can be absolute or relative")
+if(WIN32)
+  set(CONF_DIR "" CACHE STRING "Config path. Can be absolute or relative")
+else()
+  set(CONF_DIR "etc/" CACHE STRING "Config path. Can be absolute or relative")
+endif()
 option(DEBUG                "Debug mode"                             OFF)
 option(USE_STD_MALLOC       "Use standard malloc instead of TBB"     ON)
 option(ACE_USE_EXTERNAL     "Use external ACE"                       OFF)
@@ -55,7 +59,7 @@ message(
   Options that can be used in order to configure the process:
    General:
     CMAKE_INSTALL_PREFIX    Path where the server should be installed to
-    CONF_DIR                Path to the configs, can be absolute or relative
+    CONF_DIR                Path to the configs, can be absolute or relative.
     PCH                     Use precompiled headers
     DEBUG                   Debug mode
     USE_STD_MALLOC          Use standard malloc instead of TBB
@@ -69,6 +73,8 @@ message(
   To set an option simply type -D<OPTION>=<VALUE> after 'cmake <srcs>'.
   Also, you can specify the generator with -G. see 'cmake --help' for more details
   For example: cmake .. -DDEBUG=1 -DCMAKE_INSTALL_PREFIX=/opt/mangos"
+  
+  Note: On UNIX systems, CONF_DIR is relative to the bin folder.
 )
 message("")
 
@@ -104,7 +110,7 @@ if(WIN32)
 endif()
 
 # Used by map-extractor for now
-if( UNIX )
+if(UNIX)
   find_package(BZip2 REQUIRED)
 endif()
 
@@ -154,8 +160,14 @@ else()
   endif()
 endif()
 
-set(BIN_DIR ${CMAKE_INSTALL_PREFIX}/)
-# If win32 put it in the bin dir not lib
+# If win32 put binaries in root folder, else bin.
+if(WIN32)
+  set(BIN_DIR ${CMAKE_INSTALL_PREFIX}/)
+else()
+  set(BIN_DIR ${CMAKE_INSTALL_PREFIX}/bin)
+endif()
+
+# If win32 put libs in root folder, else bin.
 if(WIN32)
   set(LIBS_DIR ${CMAKE_INSTALL_PREFIX}/)
 else()
@@ -270,6 +282,7 @@ endif()
 
 if(SOAP)
   message(STATUS "Support for SOAP      : Yes")
+  set(DEFINITIONS ${DEFINITIONS} -DENABLE_SOAP)
 else()
   message(STATUS "Support for SOAP      : No (default)")
 endif()
@@ -397,11 +410,17 @@ add_subdirectory(dep)
 
 # Add definitions for all build types
 # Don't place this above 'dep' subdirectory! Because of defines build will crash.
+# Remember, this overwrites global preprocessors, thus SOAP, Eluna, SD2 etc. has to be defined twice.
+# TODO: Clean this up?
 
 set(DEFINITIONS
   HAVE_CONFIG_H
   MANGOS
 )
+
+if(SOAP)
+  set(DEFINITIONS ${DEFINITIONS} ENABLE_SOAP)
+endif()
 
 if(SCRIPT_LIB_ELUNA)
    set(DEFINITIONS ${DEFINITIONS} ENABLE_ELUNA)
@@ -444,7 +463,3 @@ set_directory_properties(PROPERTIES COMPILE_DEFINITIONS_RELEASE "${DEFINITIONS_R
 set_directory_properties(PROPERTIES COMPILE_DEFINITIONS_DEBUG "${DEFINITIONS_DEBUG}")
 
 add_subdirectory(src)
-
-# if(SQL)
-#   add_subdirectory(sql)
-# endif()
