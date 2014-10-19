@@ -276,12 +276,14 @@ endif()
 
 if(SCRIPT_LIB_ELUNA)
   message(STATUS "Script engine Eluna   : Yes (default)")
+  add_definitions(-DENABLE_ELUNA)
 else()
   message(STATUS "Script engine Eluna   : No")
 endif()
 
 if(SCRIPT_LIB_SD2)
   message(STATUS "Script engine SD2     : Yes (default)")
+  add_definitions(-DENABLE_SD2)
 else()
   message(STATUS "Script engine SD2     : No")
 endif()
@@ -395,17 +397,6 @@ else()
   set(ENABLE_SOAP OFF)
 endif()
 
-set(ENABLE_ELUNA OFF)
-set(ENABLE_SD2 OFF)
-
-if (SCRIPT_LIB_ELUNA)
-   set(ENABLE_ELUNA ON)
-endif()
-
-if (SCRIPT_LIB_SD2)
-   set(ENABLE_SD2 ON)
-endif()
-
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake" "${CMAKE_CURRENT_BINARY_DIR}/config.h")
 
 add_subdirectory(dep)
@@ -417,6 +408,14 @@ set(DEFINITIONS
   HAVE_CONFIG_H
   MANGOS
 )
+
+if(SCRIPT_LIB_ELUNA)
+   set(DEFINITIONS ${DEFINITIONS} ENABLE_ELUNA)
+endif()
+
+if(SCRIPT_LIB_SD2)
+   set(DEFINITIONS ${DEFINITIONS} ENABLE_SD2)
+endif()
 
 if(POSTGRESQL)
   set(DEFINITIONS ${DEFINITIONS} DO_POSTGRESQL)
