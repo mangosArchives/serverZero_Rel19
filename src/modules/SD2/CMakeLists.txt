@@ -230,20 +230,9 @@ if(PCH)
   ADD_CXX_PCH(mangosscript ${mangosscript_PCH_H} ${mangosscript_PCH_CPP})
 endif()
 
-add_dependencies(mangosscript revision.h)
-
 if(NOT ACE_USE_EXTERNAL)
   add_dependencies(mangosscript ace)
 endif()
-
-#if(NOT ACE_USE_EXTERNAL)
-#  add_dependencies(mangosscript ace)
-#endif()
-#
-#target_link_libraries(mangosscript
-#  ${ZLIB_LIBRARIES}
-#  ${ACE_LIBRARIES}
-#)
 
 if(UNIX)
   set(mangosscript_LINK_FLAGS "-pthread")
@@ -270,34 +259,3 @@ if(UNIX)
     ${mangosscript_PROPERTIES}
   )
 endif()
-
-## Because size for linker is to big - seriously ?!
-#if(WIN32)
-#  set_target_properties(mangosscript PROPERTIES
-#    LINK_FLAGS_DEBUG "/DEBUG /INCREMENTAL:NO"
-#  )
-#endif()
-
-## libtool settings
-#  API versioning
-#  Link against dependencies
-#  How to increase version info:
-#  - only bug fixes implemented:
-#    bump the version to LTMANGOS_CURRENT:LTMANGOS_REVISION+1:LTMANGOS_AGE
-#  - augmented the interface:
-#    bump the version to LTMANGOS_CURRENT+1:0:LTMANGOS_AGE+1
-#  - broken old interface:
-#    bump the version to LTMANGOS_CURRENT+1:0:0
-# set(LTMANGOS_CURRENT 0)
-# set(LTMANGOS_REVISION 0)
-# set(LTMANGOS_AGE 0)
-# set_target_properties(script PROPERTIES LINK_FLAGS
-#   "-version-info ${LTMANGOS_CURRENT}:${LTMANGOS_REVISION}:${LTMANGOS_AGE}"
-# )
-
-
-# LIBRARY = dyld / so, RUNTIME = dll
-#install(TARGETS mangosscript
-#  LIBRARY DESTINATION "${LIBS_DIR}"
-#  RUNTIME DESTINATION "${LIBS_DIR}"
-#)

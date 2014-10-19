@@ -85,7 +85,6 @@ add_executable(${EXECUTABLE_NAME}
   ${EXECUTABLE_SRCS}
 )
 
-add_dependencies(${EXECUTABLE_NAME} revision.h)
 if(NOT ACE_USE_EXTERNAL)
     add_dependencies(${EXECUTABLE_NAME} ace)
 endif()

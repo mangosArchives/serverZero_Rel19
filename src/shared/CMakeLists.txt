@@ -181,7 +181,6 @@ if(POSTGRESQL)
   target_link_libraries(${LIBRARY_NAME} ${PostgreSQL_LIBRARIES})
 endif()
 
-add_dependencies(${LIBRARY_NAME} revision.h)
 if(NOT ACE_USE_EXTERNAL)
   add_dependencies(${LIBRARY_NAME} ace)
 endif()

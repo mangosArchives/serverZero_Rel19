@@ -357,12 +357,6 @@ add_executable(genrev
   ${GENREV_SRC}
 )
 
-add_custom_target("revision.h" ALL
-  COMMAND $<TARGET_FILE:genrev> ${CMAKE_SOURCE_DIR}
-  WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
-  DEPENDS genrev
-)
-
 if(WIN32)
   install(
     FILES
