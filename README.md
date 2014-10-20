@@ -5,10 +5,11 @@
 [![](/icons/TRACKER.gif)](https://www.getmangos.eu/project.php)
 [![Build status](https://travis-ci.org/mangoszero/server.png)][16]
 
-MangosZero - DEVELOPMENT BRANCH
+MangosZero
 ===
- **(Please be aware that this branch is a Work in Progress)**
- 
+DEVELOPMENT BRANCH
+===
+ **(Please be aware that this branch is a Work in Progress)** 
 ### A World of Warcraft server for vanilla WoW  
 ----
 *MangosZero* is open source project, built in [C++][7], it's fast, runs on multiple,
