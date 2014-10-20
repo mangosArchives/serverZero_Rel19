@@ -61,7 +61,13 @@ set(SOURCES
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES} ${EXECUTABLE_SRCS})
 
-target_link_libraries(${EXECUTABLE_NAME} ace g3dlite vmap detour recast zlib shared)
+if(NOT ACE_USE_EXTERNAL)
+  target_link_libraries(${EXECUTABLE_NAME} ace)
+else()
+  target_link_libraries(${EXECUTABLE_NAME} ACE)
+endif()
+
+target_link_libraries(${EXECUTABLE_NAME} g3dlite vmap detour recast zlib shared)
 
 #Output the compiled exes to build/bin/$(Configuration)/tools directory on windows by default
 if(WIN32)

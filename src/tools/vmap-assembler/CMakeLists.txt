@@ -42,7 +42,13 @@ endif()
 
 add_executable(${EXECUTABLE_NAME} vmap_assembler.cpp ${EXECUTABLE_SRCS})
 
-target_link_libraries(${EXECUTABLE_NAME} ace vmap g3dlite zlib)
+if(NOT ACE_USE_EXTERNAL)
+  add_dependencies(${EXECUTABLE_NAME} ace)
+else()
+  target_link_libraries(${EXECUTABLE_NAME} ACE)
+endif()
+
+target_link_libraries(${EXECUTABLE_NAME} vmap g3dlite zlib)
 
 #Output the compiled exes to build/bin/$(Configuration)/tools directory on windows by default
 if(WIN32)
