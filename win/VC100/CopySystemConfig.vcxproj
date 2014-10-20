@@ -55,12 +55,12 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>..\copyfiles.cmd $(SolutionDir)VC120 ..\..\build\bin $(Configuration) $(Platform)</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Copy Files to output folder</Message>
-    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy ..\..\src\shared\SystemConfig.h.in ..\..\src\shared\SystemConfig.h</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Copying SystemConfig.h.in as systemConfig.h</Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
