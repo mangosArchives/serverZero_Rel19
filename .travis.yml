@@ -8,6 +8,7 @@ git:
 branches:
   only:
     - master
+    - Rel20
 
 # build with both gcc and clang to ensure compatibility
 compiler:
