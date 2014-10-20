@@ -154,6 +154,8 @@
     <ClInclude Include="..\..\src\mangosd\MaNGOSsoap.h" />
     <ClInclude Include="..\..\src\mangosd\soapH.h" />
     <ClInclude Include="..\..\src\mangosd\soapStub.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\..\src\mangosd\CliRunnable.cpp" />
     <ClCompile Include="..\..\src\mangosd\Main.cpp" />
     <ClCompile Include="..\..\src\mangosd\Master.cpp" />
