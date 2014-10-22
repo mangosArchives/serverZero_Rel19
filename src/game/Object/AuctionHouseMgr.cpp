@@ -558,25 +558,24 @@ void AuctionHouseObject::Update()
     ///- Handle expired auctions
     for (AuctionEntryMap::iterator itr = AuctionsMap.begin(); itr != AuctionsMap.end();)
     {
-        if (curTime > itr->second->expireTime)
+        AuctionEntryMap::iterator old = itr++;
+        if (curTime > old->second->expireTime)
         {
             ///- perform the transaction if there was bidder
-            if (itr->second->bid)
-                { itr->second->AuctionBidWinning(); }
+            if (old->second->bid)
+                { old->second->AuctionBidWinning(); }
             ///- cancel the auction if there was no bidder and clear the auction
             else
             {
-                sAuctionMgr.SendAuctionExpiredMail(itr->second);
+                sAuctionMgr.SendAuctionExpiredMail(old->second);
 
-                itr->second->DeleteFromDB();
-                sAuctionMgr.RemoveAItem(itr->second->itemGuidLow);
-                delete itr->second;
-                AuctionsMap.erase(itr++);
+                old->second->DeleteFromDB();
+                sAuctionMgr.RemoveAItem(old->second->itemGuidLow);
+                delete old->second;
+                AuctionsMap.erase(old);
                 continue;
             }
         }
-
-        ++itr;
     }
 }
 
