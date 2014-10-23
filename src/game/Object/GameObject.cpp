@@ -205,9 +205,10 @@ bool GameObject::Create(uint32 guidlow, uint32 name_id, Map* map, float x, float
         case GAMEOBJECT_TYPE_FISHINGNODE:
             m_lootState = GO_NOT_READY;                     // Initialize Traps and Fishingnode delayed in ::Update
             break;
-        case GAMEOBJECT_TYPE_CHEST:
+        /*case GAMEOBJECT_TYPE_CHEST:
             RollIfMineralVein();
             break;
+        */
     }
 
     // Used by Eluna
@@ -534,8 +535,10 @@ void GameObject::Update(uint32 update_diff, uint32 p_time)
             if (IsInWorld())
                 { UpdateObjectVisibility(); }
 
+            /*
             if (GetGoType() == GAMEOBJECT_TYPE_CHEST)
                 { RollIfMineralVein(); }
+            */
 
             break;
         }
@@ -1742,7 +1745,7 @@ bool GameObject::IsFriendlyTo(Unit const* unit) const
     return tester_faction->IsFriendlyTo(*target_faction);
 }
 
-void GameObject::RollIfMineralVein()
+/*void GameObject::RollIfMineralVein()
 {
     GameObjectInfo const* goinfo = ObjectMgr::GetGameObjectInfo(GetEntry());
     if (goinfo->chest.minSuccessOpens != 0 && goinfo->chest.maxSuccessOpens > goinfo->chest.minSuccessOpens) //in this case it is a mineral vein
@@ -1758,9 +1761,9 @@ void GameObject::RollIfMineralVein()
 
         Object::_ReCreate(entrynew);
     }
-}
+}*/
 
-uint32 GameObject::RollMineralVein(uint32 entry)      //Maybe incedicite bloodstone and indurium have alternate spawns?
+/*uint32 GameObject::RollMineralVein(uint32 entry)      //Maybe incedicite bloodstone and indurium have alternate spawns?
 {
     uint32 entrynew = entry;
     switch (entry)
@@ -1813,7 +1816,7 @@ uint32 GameObject::RollMineralVein(uint32 entry)      //Maybe incedicite bloodst
             entrynew = entry;
     }   
         return entrynew;
-}
+}*/
 
 void GameObject::SetLootState(LootState state)
 {

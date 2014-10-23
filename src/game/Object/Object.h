@@ -153,7 +153,7 @@ class MANGOS_DLL_SPEC Object
         uint32 GetGUIDLow() const { return GetObjectGuid().GetCounter(); }
         PackedGuid const& GetPackGUID() const { return m_PackGUID; }
         std::string GetGuidStr() const { return GetObjectGuid().GetString(); }
-        uint32 GetRealEntry() const { return GetObjectGuid().GetEntry(); } //returns the db entry needed for mineral spawn system
+        //uint32 GetRealEntry() const { return GetObjectGuid().GetEntry(); } //returns the db entry needed for mineral spawn system
 
         uint32 GetEntry() const { return GetUInt32Value(OBJECT_FIELD_ENTRY); }
         void SetEntry(uint32 entry) { SetUInt32Value(OBJECT_FIELD_ENTRY, entry); }
@@ -403,7 +403,7 @@ class MANGOS_DLL_SPEC Object
 
         virtual bool HasQuest(uint32 /* quest_id */) const { return false; }
         virtual bool HasInvolvedQuest(uint32 /* quest_id */) const { return false; }
-        void _ReCreate(uint32 entry);
+        //void _ReCreate(uint32 entry);
 
     protected:
         Object();

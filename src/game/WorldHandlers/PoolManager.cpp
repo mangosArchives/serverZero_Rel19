@@ -1032,7 +1032,7 @@ void PoolManager::LoadFromDB()
             }
         }
     }
-    if (sWorld.getConfig(CONFIG_BOOL_AUTOPOOLING_MINING_ENABLE))
+    /*if (sWorld.getConfig(CONFIG_BOOL_AUTOPOOLING_MINING_ENABLE))
     {
 
         // autocreate mining pools
@@ -1143,7 +1143,7 @@ void PoolManager::LoadFromDB()
 
         sLog.outString();
         sLog.outString(">> Loaded %u mining nodes", count);
-        }
+        }*/
 }
 
 // The initialize method will spawn all pools not in an event and not in another pool
