@@ -145,7 +145,7 @@ Creature::Creature(CreatureSubtype subtype) : Unit(),
     lootForPickPocketed(false), lootForBody(false), lootForSkin(false),
     m_groupLootTimer(0), m_groupLootId(0),
     m_lootMoney(0), m_lootGroupRecipientId(0),
-    m_corpseDecayTimer(0), m_respawnTime(0), m_respawnDelay(25), m_corpseDelay(60), m_aggroDelay(0), m_respawnradius(5.0f),
+    m_corpseRemoveTime(0), m_respawnTime(0), m_respawnDelay(25), m_corpseDelay(60), m_aggroDelay(0), m_respawnradius(5.0f),
     m_subtype(subtype), m_defaultMovementType(IDLE_MOTION_TYPE), m_equipmentId(0),
     m_AlreadyCallAssistance(false), m_AlreadySearchedAssistance(false),
     m_AI_locked(false), m_IsDeadByDefault(false), m_temporaryFactionFlags(TEMPFACTION_NONE),
@@ -226,7 +226,7 @@ void Creature::RemoveCorpse()
 
     DEBUG_FILTER_LOG(LOG_FILTER_AI_AND_MOVEGENSS, "Removing corpse of %s ", GetGuidStr().c_str());
 
-    m_corpseDecayTimer = 0;
+    m_corpseRemoveTime = time(NULL);
     SetDeathState(DEAD);
     UpdateObjectVisibility();
 
@@ -548,20 +548,17 @@ void Creature::Update(uint32 update_diff, uint32 diff)
             if (m_IsDeadByDefault)
                 { break; }
 
-            if (m_corpseDecayTimer <= update_diff)
-            {
-                RemoveCorpse();
-                break;
-            }
-            else
-                { m_corpseDecayTimer -= update_diff; }
-
             if (m_groupLootId)                              // Loot is stopped already if corpse got removed.
             {
                 if (m_groupLootTimer <= update_diff)
                     { StopGroupLoot(); }
                 else
                     { m_groupLootTimer -= update_diff; }
+            }
+
+            if (m_corpseRemoveTime <= time(NULL))
+            {
+                RemoveCorpse();
             }
 
             break;
@@ -575,14 +572,10 @@ void Creature::Update(uint32 update_diff, uint32 diff)
 
             if (m_IsDeadByDefault)
             {
-                if (m_corpseDecayTimer <= update_diff)
+                if (m_corpseRemoveTime <= time(NULL))
                 {
                     RemoveCorpse();
                     break;
-                }
-                else
-                {
-                    m_corpseDecayTimer -= update_diff;
                 }
             }
 
@@ -1597,7 +1590,7 @@ void Creature::SetDeathState(DeathState s)
 {
     if ((s == JUST_DIED && !m_IsDeadByDefault) || (s == JUST_ALIVED && m_IsDeadByDefault))
     {
-        m_corpseDecayTimer = m_corpseDelay * IN_MILLISECONDS; // the max/default time for corpse decay (before creature is looted/AllLootRemovedFromCorpse() is called)
+        m_corpseRemoveTime = time(NULL) + m_corpseDelay; // the max/default time for corpse decay (before creature is looted/AllLootRemovedFromCorpse() is called)
         m_respawnTime = time(NULL) + m_respawnDelay;        // respawn delay (spawntimesecs)
 
         // always save boss respawn time at death to prevent crash cheating
@@ -1832,7 +1825,7 @@ bool Creature::IsVisibleInGridForPlayer(Player* pl) const
     // Live player (or with not release body see live creatures or death creatures with corpse disappearing time > 0
     if (pl->IsAlive() || pl->GetDeathTimer() > 0)
     {
-        return (IsAlive() || m_corpseDecayTimer > 0 || (m_IsDeadByDefault && m_deathState == CORPSE));
+        return (IsAlive() || m_corpseRemoveTime > time(NULL) || (m_IsDeadByDefault && m_deathState == CORPSE));
     }
 
     // Dead player see live creatures near own corpse
@@ -1956,8 +1949,8 @@ void Creature::SaveRespawnTime()
 
     if (m_respawnTime > time(NULL))                         // dead (no corpse)
         { GetMap()->GetPersistentState()->SaveCreatureRespawnTime(GetGUIDLow(), m_respawnTime); }
-    else if (m_corpseDecayTimer > 0)                        // dead (corpse)
-        { GetMap()->GetPersistentState()->SaveCreatureRespawnTime(GetGUIDLow(), time(NULL) + m_respawnDelay + m_corpseDecayTimer / IN_MILLISECONDS); }
+    else if (m_corpseRemoveTime > time(NULL))               // dead (corpse)
+        { GetMap()->GetPersistentState()->SaveCreatureRespawnTime(GetGUIDLow(), m_corpseRemoveTime + m_respawnDelay); }
 }
 
 bool Creature::IsOutOfThreatArea(Unit* pVictim) const
@@ -2263,8 +2256,8 @@ time_t Creature::GetRespawnTimeEx() const
     time_t now = time(NULL);
     if (m_respawnTime > now)                                // dead (no corpse)
         { return m_respawnTime; }
-    else if (m_corpseDecayTimer > 0)                        // dead (corpse)
-        { return now + m_respawnDelay + m_corpseDecayTimer / IN_MILLISECONDS; }
+    else if (m_corpseRemoveTime > time(NULL))               // dead (corpse)
+    { return m_corpseRemoveTime + m_respawnDelay; }
     else
         { return now; }
 }
@@ -2311,7 +2304,7 @@ void Creature::AllLootRemovedFromCorpse()
     }
 
     time_t now = time(NULL);
-    if (m_corpseDecayTimer <= now)
+    if (m_corpseRemoveTime <= now)
     {
         return;
     }
@@ -2321,14 +2314,14 @@ void Creature::AllLootRemovedFromCorpse()
     // corpse skinnable, but without skinning flag, and then skinned, corpse will despawn next update
     if (loot.loot_type == LOOT_SKINNING)
     {
-        m_corpseDecayTimer = time(NULL);
+        m_corpseRemoveTime = now;
     }
     else
     {
-        m_corpseDecayTimer = now + m_corpseDelay * decayRate;
+        m_corpseRemoveTime = now + uint32(m_corpseDelay * decayRate);
     }
 
-    m_respawnTime = m_corpseDecayTimer + m_respawnDelay;
+    m_respawnTime = m_corpseRemoveTime + m_respawnDelay;
 }
 
 uint32 Creature::GetLevelForTarget(Unit const* target) const

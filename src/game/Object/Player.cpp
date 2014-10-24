@@ -17896,12 +17896,12 @@ bool Player::IsSpellFitByClassAndRace(uint32 spell_id, uint32* pReqlevel /*= NUL
                     switch (spell_id) {
                         case 33388: // Riding 
                         case 33389: // Apprentice Riding
-                            if (getLevel() < AccountTypes(sWorld.getConfig(CONFIG_UINT32_MIN_TRAIN_MOUNT_LEVEL)))
+                            if (getLevel() < uint32(sWorld.getConfig(CONFIG_UINT32_MIN_TRAIN_MOUNT_LEVEL)))
                                 { return false; }
                             break;
                         case 33391: // Riding
                         case 33392: // Journeyman Riding
-                            if (getLevel() < AccountTypes(sWorld.getConfig(CONFIG_UINT32_MIN_TRAIN_EPIC_MOUNT_LEVEL)))
+                            if (getLevel() < uint32(sWorld.getConfig(CONFIG_UINT32_MIN_TRAIN_EPIC_MOUNT_LEVEL)))
                                 { return false; }
                             break;
                         default: // any other spell
