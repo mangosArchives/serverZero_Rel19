@@ -25,6 +25,6 @@
 #ifndef MANGOS_H_REVISION_SQL
 #define MANGOS_H_REVISION_SQL
 #define REVISION_DB_CHARACTERS "required_20000_Release_020_Initial"
- #define REVISION_DB_MANGOS "required_20003_03_mangos_spell_bonus_data"
+ #define REVISION_DB_MANGOS "required_20003_17_Molten_Core_Portal_Fix"
 #define REVISION_DB_REALMD "required_20140607_Realm_Resync"
 #endif // __REVISION_SQL_H__
