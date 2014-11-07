@@ -951,7 +951,7 @@ void instance_stratholme::Update(uint32 uiDiff)
                 }
             }
         }
-     }
+    }
 
 }
 
