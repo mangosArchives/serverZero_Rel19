@@ -915,7 +915,44 @@ void instance_stratholme::Update(uint32 uiDiff)
         {
             m_uiSlaugtherSquareTimer -= uiDiff;
         }
-    }
+	}
+
+	// Check to see if the spawning of The Unforgiven and its adds has been triggered by a player (player walking into area)
+	// Once this has occured, the respawning is dealt with via the creature object's respawn time (The Unforgiven every 30 mins, Vengful Phantoms every 15 mins)
+	if (!bTheUnforgivenSpawnHasTriggered)
+	{
+		// Query the players in the instance
+		Map::PlayerList const& players = instance->GetPlayers();
+		for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+		{
+			if (Player* pPlayer = itr->getSource())
+			{
+				// acquire player's coordinates
+				float fPlayerXposition = pPlayer->GetPositionX();
+				float fPlayerYposition = pPlayer->GetPositionY();
+				float fPlayerZposition = pPlayer->GetPositionZ();
+
+				// check if player is near The Unforgiven
+				// if a player is near, then we do not need to check other player locations, therefore stop checking - break out of this
+				if (pPlayer->IsNearWaypoint(fPlayerXposition, fPlayerYposition, fPlayerZposition, aStratholmeLocation[8].m_fX, aStratholmeLocation[8].m_fY, aStratholmeLocation[8].m_fZ, 4, 4, 4))
+				{
+					Creature* pTheUnforgiven = pPlayer->SummonCreature(NPC_THE_UNFORGIVEN, 3713.908f, -3430.042f, 131.010f, 6.2f, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 7200000);
+					pTheUnforgiven->SetRespawnTime(1800); // 30 minutes
+					// Now spawn 3 or 4 adds (NPC_VENGEFUL_PHANTOM)
+					Creature* pVengfulPhantom[4];
+					uint8 iTotalAddsToSpawn = 3 + rand() % 2;
+					for (uint8 i = 0; i < iTotalAddsToSpawn; i++)
+					{
+						pVengfulPhantom[i] = pPlayer->SummonCreature(NPC_VENGEFUL_PHANTOM, 3713.908f, -3430.042f, 131.010f, 6.2f, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 7200000);
+						pVengfulPhantom[i]->SetRespawnTime(900); // 15 minuts
+					}
+					bTheUnforgivenSpawnHasTriggered = true;
+					break;
+				}
+			}
+		}
+	}
+
 }
 
 InstanceData* GetInstanceData_instance_stratholme(Map* pMap)
