@@ -68,7 +68,9 @@ enum
     NPC_NEMAS_THE_ARBITER       = 17912,
     NPC_AELMAR_THE_VANQUISHER   = 17913,
     NPC_VICAR_HYERONIMUS        = 17914,
-    NPC_PALADIN_QUEST_CREDIT    = 17915,
+    NPC_PALADIN_QUEST_CREDIT	= 17915,
+    NPC_THE_UNFORGIVEN          = 10516,
+    NPC_VENGEFUL_PHANTOM        = 10387,                    // Adds for The Unforgiven
 
     GO_SERVICE_ENTRANCE         = 175368,
     GO_GAUNTLET_GATE1           = 175357,
@@ -116,7 +118,8 @@ static const EventLocation aStratholmeLocation[] =
     {3969.357f, -3391.871f, 119.116f, 5.91f},               // Skeletons summon loc
     {4033.044f, -3431.031f, 119.055f},                      // Skeletons move loc
     {4032.602f, -3378.506f, 119.752f, 4.74f},               // Guards summon loc
-    {4042.575f, -3337.929f, 115.059f}                       // Ysida move loc
+    {4042.575f, -3337.929f, 115.059f},                      // Ysida move loc
+    {3713.681f, -3427.814f, 131.198f}                       // The Unforgiven spawn area
 };
 
 static const EventLocation aTimmyLocation[] =
@@ -181,6 +184,9 @@ class instance_stratholme : public ScriptedInstance
         GuidList m_luiAcolyteGUIDs;
         GuidList m_luiUndeadGUIDs;
         GuidList m_luiGuardGUIDs;
+
+        // this ensures that the code that deals with the initial spawning of The Unforgiven and its adds (Vengful Phantoms) is only run once
+        bool bTheUnforgivenSpawnHasTriggered;
 };
 
 #endif
