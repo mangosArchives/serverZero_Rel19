@@ -738,13 +738,13 @@ void ObjectMgr::LoadCreatureItemTemplates()
 
             if (itemProto->InventoryType != INVTYPE_2HWEAPON &&
                 itemProto->InventoryType != INVTYPE_HOLDABLE &&
-				itemProto->InventoryType != INVTYPE_QUIVER &&
+		itemProto->InventoryType != INVTYPE_QUIVER &&
                 itemProto->InventoryType != INVTYPE_RANGED &&
-				itemProto->InventoryType != INVTYPE_RANGEDRIGHT &&
+		itemProto->InventoryType != INVTYPE_RANGEDRIGHT &&
                 itemProto->InventoryType != INVTYPE_RELIC &&
                 itemProto->InventoryType != INVTYPE_SHIELD &&
                 itemProto->InventoryType != INVTYPE_THROWN &&
-				itemProto->InventoryType != INVTYPE_WEAPON &&
+		itemProto->InventoryType != INVTYPE_WEAPON &&
                 itemProto->InventoryType != INVTYPE_WEAPONMAINHAND &&
                 itemProto->InventoryType != INVTYPE_WEAPONOFFHAND)
             {
