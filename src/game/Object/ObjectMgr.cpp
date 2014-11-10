@@ -736,16 +736,17 @@ void ObjectMgr::LoadCreatureItemTemplates()
                 
             EquipmentInfoItem const* itemProto = GetEquipmentInfoItem(eqInfo->entry);
 
-            if (itemProto->InventoryType != INVTYPE_WEAPON &&
-                itemProto->InventoryType != INVTYPE_SHIELD &&
-                itemProto->InventoryType != INVTYPE_RANGED &&
-                itemProto->InventoryType != INVTYPE_2HWEAPON &&
-                itemProto->InventoryType != INVTYPE_WEAPONMAINHAND &&
-                itemProto->InventoryType != INVTYPE_WEAPONOFFHAND &&
+            if (itemProto->InventoryType != INVTYPE_2HWEAPON &&
                 itemProto->InventoryType != INVTYPE_HOLDABLE &&
-                itemProto->InventoryType != INVTYPE_THROWN &&
+                itemProto->InventoryType != INVTYPE_QUIVER &&
+                itemProto->InventoryType != INVTYPE_RANGED &&
                 itemProto->InventoryType != INVTYPE_RANGEDRIGHT &&
-                itemProto->InventoryType != INVTYPE_RELIC)
+                itemProto->InventoryType != INVTYPE_RELIC &&
+                itemProto->InventoryType != INVTYPE_SHIELD &&
+                itemProto->InventoryType != INVTYPE_THROWN &&
+                itemProto->InventoryType != INVTYPE_WEAPON &&
+                itemProto->InventoryType != INVTYPE_WEAPONMAINHAND &&
+                itemProto->InventoryType != INVTYPE_WEAPONOFFHAND)
             {
                 sLog.outErrorDb("Item (entry=%u) in creature_item_template.entry%u for entry = %u is not equipable in a hand, forced to 0.", eqInfo->entry, i);
                 const_cast<EquipmentInfoItem*>(eqInfo)->entry = 0;
