@@ -119,7 +119,7 @@ static const EventLocation aStratholmeLocation[] =
     {4033.044f, -3431.031f, 119.055f},                      // Skeletons move loc
     {4032.602f, -3378.506f, 119.752f, 4.74f},               // Guards summon loc
     {4042.575f, -3337.929f, 115.059f},                      // Ysida move loc
-    {3713.681f, -3427.814f, 131.198f}                       // The Unforgiven spawn area
+    {3713.681f, -3427.814f, 131.198f, 6.2f}                 // The Unforgiven spawn area
 };
 
 static const EventLocation aTimmyLocation[] =
