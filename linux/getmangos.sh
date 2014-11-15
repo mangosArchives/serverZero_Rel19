@@ -633,60 +633,57 @@ function UpdateDatabases()
   local DB_REALM="$4"
   local DB_WORLD="$5"
   local DB_TOONS="$6"
-  local TRAP=0
 
-  # First loop through the server release directories
-  for pDir in $SRCPATH/server/sql/updates/Rel* ; do
+  # Loop through the character directories
+  for pDir in $SRCPATH/database/Character/Updates/Rel* ; do
     # Verify the item returned is a directory
     if [ -d "$pDir" ]; then
-      # Now loop through the database directories
-      for pDBDir in $pDir/*; do
-        # Verify the item is a real, existing directory
-        if [ -d "$pDBDir" ]; then
-          # Loop through the SQl files for the database
-          for pFile in $pDBDir/*.sql; do
-            # Apply realm updates
-            if [[ $pDBDir = *Realm* ]]; then
-              # Attempt to apply the update
-              mysql -h $DB_HOST -u $DB_USER -p$DB_UPW $DB_REALM < "$pFile" > /dev/null 2>&1
-              TRAP=$?
-            fi
+      # Now loop through all SQL files for the release
+      for pFile in $pDir/*.sql; do
+        # Verify the item is a real, existing file
+        if [ ! -f "$pFile" ]; then
+          continue
+        fi
 
-            # Apply world updates
-            if [[ $pDBDir = *World* ]]; then
-              # Attempt to apply the update
-              mysql -h $DB_HOST -u $DB_USER -p$DB_UPW $DB_WORLD < "$pFile" > /dev/null 2>&1
-              TRAP=$?
-            fi
+        # Attempt to apply the update
+        mysql -h $DB_HOST -u $DB_USER -p$DB_UPW $DB_TOONS < "$pFile" > /dev/null 2>&1
 
-            # Apply script updates
-            if [[ $pDBDir = *Scripts* ]]; then
-              # Attempt to apply the update
-              mysql -h $DB_HOST -u $DB_USER -p$DB_UPW $DB_WORLD < "$pFile" > /dev/null 2>&1
-              TRAP=$?
-            fi
-
-            # Apply character updates
-            if [[ $pDBDir = *Characters* ]]; then
-              # Attempt to apply the update
-              mysql -h $DB_HOST -u $DB_USER -p$DB_UPW $DB_TOONS < "$pFile" > /dev/null 2>&1
-              TRAP=$?
-            fi
-
-            # Notify the user of which updates were and were not applied
-            if [ $TRAP -ne 0 ]; then
-              Log "Server update \"$pFile\" was not applied!" 0
-            else
-              Log "Server update \"$pFile\" was successfully applied!" 0
-            fi
-          done
+        # Notify the user of which updates were and were not applied
+        if [ $? -ne 0 ]; then
+          Log "Database update \"$pFile\" was not applied!" 0
+        else
+          Log "Database update \"$pFile\" was successfully applied!" 0
         fi
       done
     fi
   done
 
-  # Now loop through the database release directories
-  for pDir in $SRCPATH/database/_updates/Rel* ; do
+  # Loop through the realm directories
+  for pDir in $SRCPATH/database/Realm/Updates/Rel* ; do
+    # Verify the item returned is a directory
+    if [ -d "$pDir" ]; then
+      # Now loop through all SQL files for the release
+      for pFile in $pDir/*.sql; do
+        # Verify the item is a real, existing file
+        if [ ! -f "$pFile" ]; then
+          continue
+        fi
+
+        # Attempt to apply the update
+        mysql -h $DB_HOST -u $DB_USER -p$DB_UPW $DB_REALM < "$pFile" > /dev/null 2>&1
+
+        # Notify the user of which updates were and were not applied
+        if [ $? -ne 0 ]; then
+          Log "Database update \"$pFile\" was not applied!" 0
+        else
+          Log "Database update \"$pFile\" was successfully applied!" 0
+        fi
+      done
+    fi
+  done
+
+  # Loop through the world directories
+  for pDir in $SRCPATH/database/World/Updates/Rel* ; do
     # Verify the item returned is a directory
     if [ -d "$pDir" ]; then
       # Now loop through all SQL files for the release
@@ -723,7 +720,7 @@ function InstallDatabases()
   local DB_TOONS="$6"
 
   # First create the realm database structure
-  mysql -h $DB_HOST -u $DB_USER -p$DB_UPW $DB_REALM < $SRCPATH/server/sql/realmd.sql
+  mysql -h $DB_HOST -u $DB_USER -p$DB_UPW $DB_REALM < $SRCPATH/database/Realm/Setup/realmdLoadDB.sql
 
   # Check for success
   if [ $? -ne 0 ]; then
@@ -732,7 +729,7 @@ function InstallDatabases()
   fi
 
   # Now create the characters database structure
-  mysql -h $DB_HOST -u $DB_USER -p$DB_UPW $DB_TOONS < $SRCPATH/server/sql/characters.sql
+  mysql -h $DB_HOST -u $DB_USER -p$DB_UPW $DB_TOONS < $SRCPATH/database/Character/Setup/characterLoadDB.sql
 
   # Check for success
   if [ $? -ne 0 ]; then
@@ -740,8 +737,17 @@ function InstallDatabases()
     return 1
   fi
 
+  # Next create the world database structure
+  mysql -h $DB_HOST -u $DB_USER -p$DB_UPW $DB_TOONS < $SRCPATH/database/World/Setup/mangosLoadDB.sql
+
+  # Check for success
+  if [ $? -ne 0 ]; then
+    Log "There was an error creating the world database!" 1
+    return 1
+  fi
+
   # Finally, loop through and build the world database database
-  for fFile in $SRCPATH/database/_full_db/*.sql; do
+  for fFile in $SRCPATH/database/World/Setup/FullDB/*.sql; do
     # Attempt to execute the SQL file
     mysql -h $DB_HOST -u $DB_USER -p$DB_UPW $DB_WORLD < $fFile
 
