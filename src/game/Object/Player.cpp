@@ -12144,24 +12144,10 @@ void Player::RewardQuest(Quest const* pQuest, uint32 reward, Object* questGiver,
     switch (questGiver->GetTypeId())
     {
         case TYPEID_UNIT:
-#ifdef ENABLE_ELUNA
-            if (sEluna->OnQuestReward(this, (Creature*)questGiver, pQuest, reward))
-            {
-                handled = true;
-                break;
-            }
-#endif /* ENABLE_ELUNA */
-            handled = sScriptMgr.OnQuestRewarded(this, (Creature*)questGiver, pQuest);
+            handled = sScriptMgr.OnQuestRewarded(this, (Creature*)questGiver, pQuest, reward);
             break;
         case TYPEID_GAMEOBJECT:
-#ifdef ENABLE_ELUNA
-            if (sEluna->OnQuestReward(this, (GameObject*)questGiver, pQuest, reward))
-            {
-                handled = true;
-                break;
-            }
-#endif /* ENABLE_ELUNA */
-            handled = sScriptMgr.OnQuestRewarded(this, (GameObject*)questGiver, pQuest);
+            handled = sScriptMgr.OnQuestRewarded(this, (GameObject*)questGiver, pQuest, reward);
             break;
     }
 
