@@ -361,6 +361,9 @@ void AddSC_feralas()
     pNewScript = new Script;
     pNewScript->Name = "go_gordunni_trap";
     pNewScript->pGOUse = &GOUse_go_gordunni_trap;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
     pNewScript->Name = "npc_shay_leafrunner";
     pNewScript->GetAI = &GetAI_npc_shay_leafrunner;
     pNewScript->pQuestAcceptNPC = &QuestAccept_npc_shay_leafrunner;
