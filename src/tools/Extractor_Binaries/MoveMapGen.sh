@@ -22,7 +22,7 @@ PARAMS="--silent"
 EXCLUDE_MAPS=""
 #EXCLUDE_MAPS="0 1 530 571" # example to exclude the continents
 #EXCLUDE_MAPS="13 25 29 35 37 42 44 169 451" # example to exclude 'junk' maps
-                            # 
+
 ## Exclude file
 EXCLUDE_MAPS_FILE="mmap_excluded.txt"
 
@@ -56,55 +56,55 @@ MAP_Continent1="0"    ## Eastern Kingdoms     340mb
 MAP_Continent2="1"    ## Kalimdor             470mb
 
 ## Big Maps > 9mb
-MAP_Big1="269"        
-MAP_Big2="309"        
-MAP_Big3="533"        
-MAP_Big4="509"        
-MAP_Big5="30"        
-MAP_Big6="469"        
+MAP_Big1="269"
+MAP_Big2="309"
+MAP_Big3="533"
+MAP_Big4="509"
+MAP_Big5="30"
+MAP_Big6="469"
 
 ## Medium Maps <10mb
-MAP_Medium1="209"  
-MAP_Medium2="329"  
-MAP_Medium3="531"  
-MAP_Medium4="33"     
-MAP_Medium5="289"     
-MAP_Medium6="529"     
-MAP_Medium7="36"     
-MAP_Medium8="489"     
-MAP_Medium9="47"     
+MAP_Medium1="209"
+MAP_Medium2="329"
+MAP_Medium3="531"
+MAP_Medium4="33"
+MAP_Medium5="289"
+MAP_Medium6="529"
+MAP_Medium7="36"
+MAP_Medium8="489"
+MAP_Medium9="47"
 
 ## Small Maps < 3mb
-MAP_Small1="230"      
-MAP_Small2="429"      
-MAP_Small3="48"      
-MAP_Small4="90"      
-MAP_Small5="229"     
-MAP_Small6="349"     
-MAP_Small7="369"     
-MAP_Small8="449"     
-MAP_Small9="450"     
-MAP_Small10="40"     
-MAP_Small11="34"     
-MAP_Small12="43"     
-MAP_Small13="70"     
-MAP_Small14="109"     
-MAP_Small15="129"     
-MAP_Small16="189"     
-MAP_Small17="249"     
-MAP_Small18="389" 
+MAP_Small1="230"
+MAP_Small2="429"
+MAP_Small3="48"
+MAP_Small4="90"
+MAP_Small5="229"
+MAP_Small6="349"
+MAP_Small7="369"
+MAP_Small8="449"
+MAP_Small9="450"
+MAP_Small10="40"
+MAP_Small11="34"
+MAP_Small12="43"
+MAP_Small13="70"
+MAP_Small14="109"
+MAP_Small15="129"
+MAP_Small16="189"
+MAP_Small17="249"
+MAP_Small18="389"
 MAP_Small19="409"
 
 ## The following are technically 'Junk' Maps that do not need to be extracted
-MAP_LIST_Junk1="169"  
-MAP_LIST_Junk2="37"  
-MAP_LIST_Junk3="451"  
-MAP_LIST_Junk4="13"  
-MAP_LIST_Junk5="35"  
-MAP_LIST_Junk6="42"  
-MAP_LIST_Junk7="44"  
-MAP_LIST_Junk8="25"  
-MAP_LIST_Junk9="29"  
+MAP_LIST_Junk1="169"
+MAP_LIST_Junk2="37"
+MAP_LIST_Junk3="451"
+MAP_LIST_Junk4="13"
+MAP_LIST_Junk5="35"
+MAP_LIST_Junk6="42"
+MAP_LIST_Junk7="44"
+MAP_LIST_Junk8="25"
+MAP_LIST_Junk9="29"
 
 badParam()
 {
@@ -124,13 +124,13 @@ DisplayHeader()
 {
 ##	clear
 	echo "  __  __      _  _  ___  ___  ___            "
-	echo " |  \\/  |__ _| \\| |/ __|/ _ \\/ __|        "                                         
-	echo " | |\\/| / _\` | .\` | (_ | (_) \\__ \\      "                                         
+	echo " |  \\/  |__ _| \\| |/ __|/ _ \\/ __|        "
+	echo " | |\\/| / _\` | .\` | (_ | (_) \\__ \\      "
 	echo " |_|  |_\\__,_|_|\\_|\\___|\\___/|___/       "
 	echo "                                        ____ "
-	echo " For help and support please visit:    /_  /___ _ _ ___ " 
-	echo " Website: https://getmangos.eu          / // -_) '_/ _ \\" 
-	echo "    Wiki: http://github.com/mangoswiki /___\\___|_| \\___/" 
+	echo " For help and support please visit:    /_  /___ _ _ ___ "
+	echo " Website: https://getmangos.eu          / // -_) '_/ _ \\"
+	echo "    Wiki: http://github.com/mangoswiki /___\\___|_| \\___/"
 	echo "=========================================================="
 
 }
@@ -171,7 +171,7 @@ createMMaps()
 		continue 2
 	  fi
 	done
-	movemap-generator $PARAMS $OFFMESH $i | tee -a $DETAIL_LOG_FILE
+	./movemap-generator $PARAMS $OFFMESH $i | tee -a $DETAIL_LOG_FILE
 	echo "`date`: (Re)created map $i" | tee -a $LOG_FILE
   done
 }
@@ -247,7 +247,7 @@ createSummary()
 # Create mmaps directory if not exist
 if [ ! -d mmaps ]
 then
-  mkdir mmaps
+  mkdir ./mmaps
 fi
 
 # Param control
@@ -283,7 +283,7 @@ case "$1" in
 	echo "Recreate offmeshs from file $OFFMESH_FILE" | tee -a $DETAIL_LOG_FILE
 	while read map tile line
 	do
-	  movemap-generator $PARAMS $OFFMESH $map --tile $tile | tee -a $DETAIL_LOG_FILE
+	  ./movemap-generator $PARAMS $OFFMESH $map --tile $tile | tee -a $DETAIL_LOG_FILE
 	  echo "`date`: Recreated $map $tile from $OFFMESH_FILE" | tee -a $LOG_FILE
 	done < $OFFMESH_FILE &
 	;;
