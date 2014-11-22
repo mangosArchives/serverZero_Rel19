@@ -174,8 +174,10 @@ TemporaryFactionFlags
 * `TEMPFACTION_RESTORE_COMBAT_STOP`: 0x02, ... at CombatStop() (happens at creature death, at evade or custom script among others)
 * `TEMPFACTION_RESTORE_REACH_HOME`: 0x04, ... at reaching home in home movement (evade), if not already done at CombatStop()
 
-The next three allow to remove unit_flags combined with a faction change (also these flags will be reapplied when the faction is changed back)
+The next flags allow to remove unit_flags combined with a faction change (also these flags will be reapplied when the faction is changed back)
 
 * `TEMPFACTION_TOGGLE_NON_ATTACKABLE`: 0x08, remove UNIT_FLAG_NON_ATTACKABLE(0x02) when faction is changed (reapply when temp-faction is removed)
 * `TEMPFACTION_TOGGLE_OOC_NOT_ATTACK`: 0x10, remove UNIT_FLAG_OOC_NOT_ATTACKABLE(0x100) when faction is changed (reapply when temp-faction is removed)
-* `TEMPFACTION_TOGGLE_PASSIVE`: 0x20, remove UNIT_FLAG_PASSIVE(0x200)
+* `TEMPFACTION_TOGGLE_PASSIVE`       : 0x20, remove UNIT_FLAG_PASSIVE(0x200)
+* `TEMPFACTION_TOGGLE_PACIFIED`      : 0x40, remove UNIT_FLAG_PACIFIED(0x20000) when faction is changed (reapply when temp-faction is removed)
+* `TEMPFACTION_TOGGLE_NOT_SELECTABLE`: 0x80, remove UNIT_FLAG_NOT_SELECTABLE(0x2000000) when faction is changed (reapply when temp-faction is removed)
