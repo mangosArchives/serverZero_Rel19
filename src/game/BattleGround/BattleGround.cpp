@@ -986,6 +986,8 @@ void BattleGround::RemovePlayerAtLeave(ObjectGuid guid, bool Transport, bool Sen
         if (plr->HasAuraType(SPELL_AURA_SPIRIT_OF_REDEMPTION))
             { plr->RemoveSpellsCausingAura(SPELL_AURA_MOD_SHAPESHIFT); }
 
+        plr->RemoveSpellsCausingAura(SPELL_AURA_MOUNTED);
+
         if (!plr->IsAlive())                                // resurrect on exit
         {
             plr->ResurrectPlayer(1.0f);
