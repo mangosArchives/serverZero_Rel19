@@ -331,7 +331,11 @@ struct npc_injured_patientAI : public ScriptedAI
                         pDocAI->PatientSaved(m_creature, pPlayer, m_pCoord);
                     }
                 }
-            }
+            }		
+			
+			// quick boost to health to prevent death before next tick can occur
+			m_creature->SetHealth(uint32(m_creature->GetMaxHealth()*0.20));
+			
             // make not selectable
             m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
             // regen health
@@ -373,7 +377,7 @@ struct npc_injured_patientAI : public ScriptedAI
     void UpdateAI(const uint32 uiDiff) override
     {
         // lower HP on every world tick makes it a useful counter, not officlone though
-        uint32 uiHPLose = uint32(0.05f * uiDiff);
+        uint32 uiHPLose = uint32(0.03f * uiDiff); 
         if (m_creature->IsAlive() && m_creature->GetHealth() > 1 + uiHPLose)
         {
             m_creature->SetHealth(m_creature->GetHealth() - uiHPLose);
