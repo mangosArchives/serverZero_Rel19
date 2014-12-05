@@ -763,8 +763,9 @@ void MapPersistentStateManager::CleanupInstances()
     CharacterDatabase.CommitTransaction();
 
     bar.step();
-    sLog.outString();
+
     sLog.outString(">> Instances cleaned up");
+    sLog.outString();
 }
 
 void MapPersistentStateManager::PackInstances()
@@ -967,15 +968,12 @@ void MapPersistentStateManager::LoadCreatureRespawnTimes()
 
     //
     QueryResult* result = CharacterDatabase.Query("SELECT guid, respawntime, map, instance, resettime FROM creature_respawn LEFT JOIN instance ON instance = id");
-    
     if (!result)
     {
         BarGoLink bar(1);
-
         bar.step();
-
-        sLog.outString();
         sLog.outString(">> Loaded 0 creature respawn time.");
+        sLog.outString();
         return;
     }
 
@@ -1029,11 +1027,9 @@ void MapPersistentStateManager::LoadGameobjectRespawnTimes()
     if (!result)
     {
         BarGoLink bar(1);
-
         bar.step();
-
-        sLog.outString();
         sLog.outString(">> Loaded 0 gameobject respawn time.");
+        sLog.outString();
         return;
     }
 

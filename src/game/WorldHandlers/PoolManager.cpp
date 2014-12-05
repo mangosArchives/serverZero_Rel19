@@ -1141,7 +1141,6 @@ void PoolManager::LoadFromDB()
 
         delete result;
 
-        sLog.outString();
         sLog.outString(">> Loaded %u mining nodes", count);
         }*/
 }

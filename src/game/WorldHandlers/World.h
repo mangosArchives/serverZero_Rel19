@@ -571,7 +571,7 @@ class World
         char const* GetDBVersion() { return m_DBVersion.c_str(); }
         char const* GetCreatureEventAIVersion() { return m_CreatureEventAIVersion.c_str(); }
 
-        
+
         /**
         * \brief: force all client to request player data
         * \param: ObjectGuid guid : guid of the specified player
@@ -579,7 +579,7 @@ class World
         *
         * Description: InvalidatePlayerDataToAllClient force all connected clients to clear specified player cache
         * FullName: World::InvalidatePlayerDataToAllClient
-        * Access: public 
+        * Access: public
         **/
         void InvalidatePlayerDataToAllClient(ObjectGuid guid);
 
