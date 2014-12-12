@@ -4366,14 +4366,12 @@ void ObjectMgr::LoadGossipText()
         return;
     }
 
-    int cic;
-
     BarGoLink bar(result->GetRowCount());
 
     do
     {
         ++count;
-        cic = 0;
+        int cic = 0;
 
         Field* fields = result->Fetch();
 
