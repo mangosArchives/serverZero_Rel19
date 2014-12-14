@@ -88,8 +88,9 @@ void MemberSlot::ChangeRank(uint32 newRank)
 Guild::Guild()
 {
     m_Id = 0;
-    m_Name = "";
-    GINFO = MOTD = "";
+    m_Name.clear();
+    GINFO.clear();
+    MOTD.clear();
     m_EmblemStyle = 0;
     m_EmblemColor = 0;
     m_BorderStyle = 0;
@@ -122,7 +123,7 @@ bool Guild::Create(Player* leader, std::string gname)
 
     m_LeaderGuid = leader->GetObjectGuid();
     m_Name = gname;
-    GINFO = "";
+    GINFO.clear();
     MOTD = "No message set.";
     m_Id = sObjectMgr.GenerateGuildId();
 
@@ -158,7 +159,7 @@ bool Guild::Create(Player* leader, std::string gname)
     sEluna->OnCreate(this, leader, gname.c_str());
 #endif /* ENABLE_ELUNA */
 
-    return AddMember(m_LeaderGuid, GR_GUILDMASTER);
+    return AddMember(m_LeaderGuid, (uint32)GR_GUILDMASTER);
 }
 
 void Guild::CreateDefaultGuildRanks(int locale_idx)
@@ -591,35 +592,43 @@ bool Guild::ChangeMemberRank(ObjectGuid guid, uint8 newRank)
 
 void Guild::BroadcastToGuild(WorldSession* session, const std::string& msg, uint32 language)
 {
-    if (session && session->GetPlayer() && HasRankRight(session->GetPlayer()->GetRank(), GR_RIGHT_GCHATSPEAK))
+    if (!session)
+        { return; }
+
+    Player* player = session->GetPlayer();
+    if (!player || !HasRankRight(player->GetRank(), GR_RIGHT_GCHATSPEAK))
+        { return; }
+
+    WorldPacket data;
+    ChatHandler::BuildChatPacket(data, CHAT_MSG_GUILD, msg.c_str(), Language(language), player->GetChatTag(), player->GetObjectGuid(), player->GetName());
+
+    for (MemberList::const_iterator itr = members.begin(); itr != members.end(); ++itr)
     {
-        WorldPacket data;
-        ChatHandler::BuildChatPacket(data, CHAT_MSG_GUILD, msg.c_str(), Language(language), session->GetPlayer()->GetChatTag(), session->GetPlayer()->GetObjectGuid(), session->GetPlayer()->GetName());
+        Player* pl = ObjectAccessor::FindPlayer(ObjectGuid(HIGHGUID_PLAYER, itr->first));
 
-        for (MemberList::const_iterator itr = members.begin(); itr != members.end(); ++itr)
-        {
-            Player* pl = ObjectAccessor::FindPlayer(ObjectGuid(HIGHGUID_PLAYER, itr->first));
-
-            if (pl && pl->GetSession() && HasRankRight(pl->GetRank(), GR_RIGHT_GCHATLISTEN) && !pl->GetSocial()->HasIgnore(session->GetPlayer()->GetObjectGuid()))
-                { pl->GetSession()->SendPacket(&data); }
-        }
+        if (pl && pl->GetSession() && HasRankRight(pl->GetRank(), GR_RIGHT_GCHATLISTEN) && !pl->GetSocial()->HasIgnore(player->GetObjectGuid()))
+            { pl->GetSession()->SendPacket(&data); }
     }
 }
 
 void Guild::BroadcastToOfficers(WorldSession* session, const std::string& msg, uint32 language)
 {
-    if (session && session->GetPlayer() && HasRankRight(session->GetPlayer()->GetRank(), GR_RIGHT_OFFCHATSPEAK))
+    if (!session)
+        { return; }
+
+    Player* player = session->GetPlayer();
+    if (!player || !HasRankRight(player->GetRank(), GR_RIGHT_OFFCHATSPEAK))
+        { return; }
+
+    for (MemberList::const_iterator itr = members.begin(); itr != members.end(); ++itr)
     {
-        for (MemberList::const_iterator itr = members.begin(); itr != members.end(); ++itr)
-        {
-            WorldPacket data;
-            ChatHandler::BuildChatPacket(data, CHAT_MSG_OFFICER, msg.c_str(), Language(language), session->GetPlayer()->GetChatTag(), session->GetPlayer()->GetObjectGuid(), session->GetPlayer()->GetName());
+        WorldPacket data;
+        ChatHandler::BuildChatPacket(data, CHAT_MSG_OFFICER, msg.c_str(), Language(language), player->GetChatTag(), player->GetObjectGuid(), player->GetName());
 
-            Player* pl = ObjectAccessor::FindPlayer(ObjectGuid(HIGHGUID_PLAYER, itr->first));
+        Player* pl = ObjectAccessor::FindPlayer(ObjectGuid(HIGHGUID_PLAYER, itr->first));
 
-            if (pl && pl->GetSession() && HasRankRight(pl->GetRank(), GR_RIGHT_OFFCHATLISTEN) && !pl->GetSocial()->HasIgnore(session->GetPlayer()->GetObjectGuid()))
-                { pl->GetSession()->SendPacket(&data); }
-        }
+        if (pl && pl->GetSession() && HasRankRight(pl->GetRank(), GR_RIGHT_OFFCHATLISTEN) && !pl->GetSocial()->HasIgnore(player->GetObjectGuid()))
+            { pl->GetSession()->SendPacket(&data); }
     }
 }
 

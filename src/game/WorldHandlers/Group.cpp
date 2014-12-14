@@ -517,7 +517,7 @@ void Group::Disband(bool hideDestroy)
 #endif /* ENABLE_ELUNA */
 
     m_leaderGuid.Clear();
-    m_leaderName = "";
+    m_leaderName.clear();
 }
 
 /**
