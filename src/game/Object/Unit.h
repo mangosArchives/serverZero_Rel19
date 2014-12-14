@@ -2529,22 +2529,6 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         bool IsFrozen() const;
 
         /**
-         * Called by \ref Unit::DealDamage for \ref Aura s that have a chance to be dispelled
-         * on damage taken. The chance to dispel an \ref Aura depends on the damage taken
-         * with respect to the casters level. (Taken from source comment).
-         *
-         * Formula used:
-         * - Level for \ref Unit is above 8:
-         *   - max_damage = 25 * level - 150
-         * - Level for \ref Unit under or equal to 8:
-         *   - max_damage = 50
-         * @param auraType the aura type that should be removed
-         * @param damage how much damage was dealt, increases the chance to dispell
-         * \see roll_chance_f
-         */
-        void RemoveSpellbyDamageTaken(AuraType auraType, uint32 damage);
-
-        /**
          * Checks if this \ref Unit could be targeted with an attack, things that make that
          * impossible are:
          * - The \ref Unit / \ref Player is a GM
@@ -3601,6 +3585,7 @@ class MANGOS_DLL_SPEC Unit : public WorldObject
         SpellAuraProcResult HandleModPowerCostSchoolAuraProc(Unit* pVictim, uint32 damage, Aura* triggeredByAura, SpellEntry const* procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown);
         SpellAuraProcResult HandleMechanicImmuneResistanceAuraProc(Unit* pVictim, uint32 damage, Aura* triggeredByAura, SpellEntry const* procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown);
         SpellAuraProcResult HandleModResistanceAuraProc(Unit* pVictim, uint32 damage, Aura* triggeredByAura, SpellEntry const* procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown);
+        SpellAuraProcResult HandleRemoveByDamageChanceProc(Unit* pVictim, uint32 damage, Aura* triggeredByAura, SpellEntry const* procSpell, uint32 procFlag, uint32 procEx, uint32 cooldown);
         SpellAuraProcResult HandleNULLProc(Unit* /*pVictim*/, uint32 /*damage*/, Aura* /*triggeredByAura*/, SpellEntry const* /*procSpell*/, uint32 /*procFlag*/, uint32 /*procEx*/, uint32 /*cooldown*/)
         {
             // no proc handler for this aura type
