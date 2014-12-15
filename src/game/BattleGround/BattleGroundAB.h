@@ -197,6 +197,10 @@ class BattleGroundABScore : public BattleGroundScore
          *
          */
         virtual ~BattleGroundABScore() {};
+
+        uint32 GetAttr1() const { return BasesAssaulted; }
+        uint32 GetAttr2() const { return BasesDefended; }
+
         uint32 BasesAssaulted; /**< TODO */
         uint32 BasesDefended; /**< TODO */
 };
@@ -352,9 +356,9 @@ class BattleGroundAB : public BattleGround
         uint8               m_prevNodes[BG_AB_NODES_MAX];   /**< used for performant wordlstate-updating */
         BG_AB_BannerTimer   m_BannerTimers[BG_AB_NODES_MAX]; /**< TODO */
         uint32              m_NodeTimers[BG_AB_NODES_MAX]; /**< TODO */
-        uint32              m_lastTick[BG_TEAMS_COUNT]; /**< TODO */
-        uint32              m_honorScoreTicks[BG_TEAMS_COUNT]; /**< TODO */
-        uint32              m_ReputationScoreTics[BG_TEAMS_COUNT]; /**< TODO */
+        uint32              m_lastTick[PVP_TEAM_COUNT]; /**< TODO */
+        uint32              m_honorScoreTicks[PVP_TEAM_COUNT]; /**< TODO */
+        uint32              m_ReputationScoreTics[PVP_TEAM_COUNT]; /**< TODO */
         bool                m_IsInformedNearVictory; /**< TODO */
         uint32              m_honorTicks; /**< TODO */
         uint32              m_ReputationTics; /**< TODO */

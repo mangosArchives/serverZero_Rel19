@@ -240,18 +240,6 @@ enum ScoreType
  * @brief
  *
  */
-enum BattleGroundTeamIndex
-{
-    BG_TEAM_ALLIANCE        = 0,
-    BG_TEAM_HORDE           = 1
-};
-
-#define BG_TEAMS_COUNT  2
-
-/**
- * @brief
- *
- */
 enum BattleGroundStartingEvents
 {
     BG_STARTING_EVENT_NONE  = 0x00,
@@ -312,6 +300,18 @@ class BattleGroundScore
          */
         virtual ~BattleGroundScore() {}
 
+        uint32 GetKillingBlows() const      { return KillingBlows; }
+        uint32 GetDeaths() const            { return Deaths; }
+        uint32 GetHonorableKills() const    { return HonorableKills; }
+        uint32 GetBonusHonor() const        { return BonusHonor; }
+        uint32 GetDamageDone() const        { return 0; }
+        uint32 GetHealingDone() const       { return 0; }
+
+        virtual uint32 GetAttr1() const     { return 0; }
+        virtual uint32 GetAttr2() const     { return 0; }
+        virtual uint32 GetAttr3() const     { return 0; }
+        virtual uint32 GetAttr4() const     { return 0; }
+        virtual uint32 GetAttr5() const     { return 0; }
         uint32 KillingBlows; /**< TODO */
         uint32 Deaths; /**< TODO */
         uint32 HonorableKills; /**< TODO */
@@ -727,7 +727,7 @@ class BattleGround
          */
         void GetTeamStartLoc(Team team, float& X, float& Y, float& Z, float& O) const
         {
-            BattleGroundTeamIndex idx = GetTeamIndexByTeamId(team);
+            PvpTeamIndex idx = GetTeamIndexByTeamId(team);
             X = m_TeamStartLocX[idx];
             Y = m_TeamStartLocY[idx];
             Z = m_TeamStartLocZ[idx];
@@ -944,7 +944,7 @@ class BattleGround
          * @param team
          * @return BattleGroundTeamIndex
          */
-        static BattleGroundTeamIndex GetTeamIndexByTeamId(Team team) { return team == ALLIANCE ? BG_TEAM_ALLIANCE : BG_TEAM_HORDE; }
+        static PvpTeamIndex GetTeamIndexByTeamId(Team team) { return team == ALLIANCE ? TEAM_INDEX_ALLIANCE : TEAM_INDEX_HORDE; }
         /**
          * @brief
          *
@@ -1211,7 +1211,7 @@ class BattleGround
          * @param teamIdx
          * @return BattleGroundTeamIndex
          */
-        static BattleGroundTeamIndex GetOtherTeamIndex(BattleGroundTeamIndex teamIdx) { return teamIdx == BG_TEAM_ALLIANCE ? BG_TEAM_HORDE : BG_TEAM_ALLIANCE; }
+        static PvpTeamIndex GetOtherTeamIndex(PvpTeamIndex teamIdx) { return teamIdx == TEAM_INDEX_ALLIANCE ? TEAM_INDEX_HORDE : TEAM_INDEX_ALLIANCE; }
         /**
          * @brief
          *
@@ -1221,7 +1221,7 @@ class BattleGround
         bool IsPlayerInBattleGround(ObjectGuid guid);
 
         /* virtual score-array - get's used in bg-subclasses */
-        int32 m_TeamScores[BG_TEAMS_COUNT]; /**< TODO */
+        int32 m_TeamScores[PVP_TEAM_COUNT];
 
         /**
          * @brief
@@ -1313,10 +1313,10 @@ class BattleGround
         uint32 m_InvitedHorde; /**< TODO */
 
         /* Raid Group */
-        Group* m_BgRaids[BG_TEAMS_COUNT];                   /**< 0 - alliance, 1 - horde */
+        Group* m_BgRaids[PVP_TEAM_COUNT];                   /**< 0 - alliance, 1 - horde */
 
         /* Players count by team */
-        uint32 m_PlayersCount[BG_TEAMS_COUNT]; /**< TODO */
+        uint32 m_PlayersCount[PVP_TEAM_COUNT]; /**< TODO */
 
         /* Limits */
         uint32 m_LevelMin; /**< TODO */
@@ -1329,10 +1329,10 @@ class BattleGround
         /* Start location */
         uint32 m_MapId; /**< TODO */
         BattleGroundMap* m_Map; /**< TODO */
-        float m_TeamStartLocX[BG_TEAMS_COUNT]; /**< TODO */
-        float m_TeamStartLocY[BG_TEAMS_COUNT]; /**< TODO */
-        float m_TeamStartLocZ[BG_TEAMS_COUNT]; /**< TODO */
-        float m_TeamStartLocO[BG_TEAMS_COUNT]; /**< TODO */
+        float m_TeamStartLocX[PVP_TEAM_COUNT]; /**< TODO */
+        float m_TeamStartLocY[PVP_TEAM_COUNT]; /**< TODO */
+        float m_TeamStartLocZ[PVP_TEAM_COUNT]; /**< TODO */
+        float m_TeamStartLocO[PVP_TEAM_COUNT]; /**< TODO */
 };
 
 // helper functions for world state list fill

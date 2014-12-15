@@ -273,7 +273,7 @@ class BattleGroundQueue
                 uint32 PlayerCount; /**< TODO */
         };
 
-        SelectionPool m_SelectionPools[BG_TEAMS_COUNT]; /**< one selection pool for horde, other one for alliance */
+        SelectionPool m_SelectionPools[PVP_TEAM_COUNT]; /**< one selection pool for horde, other one for alliance */
 
         /**
          * @brief
@@ -284,9 +284,9 @@ class BattleGroundQueue
          * @return bool
          */
         bool InviteGroupToBG(GroupQueueInfo* ginfo, BattleGround* bg, Team side);
-        uint32 m_WaitTimes[BG_TEAMS_COUNT][MAX_BATTLEGROUND_BRACKETS][COUNT_OF_PLAYERS_TO_AVERAGE_WAIT_TIME]; /**< TODO */
-        uint32 m_WaitTimeLastPlayer[BG_TEAMS_COUNT][MAX_BATTLEGROUND_BRACKETS]; /**< TODO */
-        uint32 m_SumOfWaitTimes[BG_TEAMS_COUNT][MAX_BATTLEGROUND_BRACKETS]; /**< TODO */
+        uint32 m_WaitTimes[PVP_TEAM_COUNT][MAX_BATTLEGROUND_BRACKETS][COUNT_OF_PLAYERS_TO_AVERAGE_WAIT_TIME]; /**< TODO */
+        uint32 m_WaitTimeLastPlayer[PVP_TEAM_COUNT][MAX_BATTLEGROUND_BRACKETS]; /**< TODO */
+        uint32 m_SumOfWaitTimes[PVP_TEAM_COUNT][MAX_BATTLEGROUND_BRACKETS]; /**< TODO */
 };
 
 /**
