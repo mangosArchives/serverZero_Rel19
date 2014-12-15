@@ -110,7 +110,7 @@ class OutdoorPvP
          * @param >
          * @param Team
          */
-        virtual void HandleObjectiveComplete(uint32 /*eventId*/, std::list<Player*> /*players*/, Team /*team*/) {}
+        virtual void HandleObjectiveComplete(uint32 /*eventId*/, const std::list<Player*> &/*players*/, Team /*team*/) {}
 
         /**
          * @brief Called when a creature is created

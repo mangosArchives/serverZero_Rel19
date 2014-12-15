@@ -297,7 +297,7 @@ class OutdoorPvPEP : public OutdoorPvP
          * @param players
          * @param team
          */
-        void HandleObjectiveComplete(uint32 eventId, std::list<Player*> players, Team team) override;
+        void HandleObjectiveComplete(uint32 eventId, const std::list<Player*> &players, Team team) override;
 
         /**
          * @brief
