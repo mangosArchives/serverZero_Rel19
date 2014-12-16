@@ -18,6 +18,10 @@
 
 cmake_minimum_required (VERSION 2.8)
 
+if(POLICY CMP0043)
+    cmake_policy(SET CMP0043 OLD)
+endif()
+
 project(mmap-generator)
 
 set(EXECUTABLE_NAME movemap-generator)
@@ -60,12 +64,6 @@ set(SOURCES
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES} ${EXECUTABLE_SRCS})
-
-if(NOT ACE_USE_EXTERNAL)
-  target_link_libraries(${EXECUTABLE_NAME} ace)
-else()
-  target_link_libraries(${EXECUTABLE_NAME} ACE)
-endif()
 
 target_link_libraries(${EXECUTABLE_NAME} g3dlite vmap detour recast zlib shared)
 

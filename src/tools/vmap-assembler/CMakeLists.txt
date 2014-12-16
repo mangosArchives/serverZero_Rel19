@@ -18,6 +18,10 @@
 
 cmake_minimum_required (VERSION 2.8)
 
+if(POLICY CMP0043)
+    cmake_policy(SET CMP0043 OLD)
+endif()
+
 project (MANGOS_VMAP_ASSEMB_IO)
 
 set(EXECUTABLE_NAME "vmap-assembler")
@@ -32,7 +36,6 @@ include_directories(
     "${CMAKE_SOURCE_DIR}/src/game/vmap/"
     "${CMAKE_SOURCE_DIR}/dep/include/g3dlite/"
     "${CMAKE_SOURCE_DIR}/src/framework/"
-    "${ACE_INCLUDE_DIR}"
 )
 
 if(WIN32)
@@ -41,12 +44,6 @@ if(WIN32)
 endif()
 
 add_executable(${EXECUTABLE_NAME} vmap_assembler.cpp ${EXECUTABLE_SRCS})
-
-if(NOT ACE_USE_EXTERNAL)
-  target_link_libraries(${EXECUTABLE_NAME} ace)
-else()
-  target_link_libraries(${EXECUTABLE_NAME} ACE)
-endif()
 
 target_link_libraries(${EXECUTABLE_NAME} vmap g3dlite zlib)
 
