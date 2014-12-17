@@ -106,6 +106,22 @@ bool GOUse_go_andorhal_tower(Player* pPlayer, GameObject* pGo)
     return true;
 }
 
+enum 
+{
+    GOSSIP_TABLE_THEKA = 1653,
+    QUEST_SPIDER_GOD = 2936
+};
+
+bool GossipHelloGO_table_theka(Player* pPlayer, GameObject* pGo) 
+{
+    if (pPlayer->GetQuestStatus(QUEST_SPIDER_GOD) == QUEST_STATUS_INCOMPLETE)
+        pPlayer->AreaExploredOrEventHappens(QUEST_SPIDER_GOD);
+
+    pPlayer->SEND_GOSSIP_MENU(GOSSIP_TABLE_THEKA, pGo->GetObjectGuid());
+
+    return true;
+}
+
 void AddSC_go_scripts()
 {
     Script* pNewScript;
@@ -118,5 +134,10 @@ void AddSC_go_scripts()
     pNewScript = new Script;
     pNewScript->Name = "go_andorhal_tower";
     pNewScript->pGOUse =          &GOUse_go_andorhal_tower;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
+    pNewScript->Name = "go_table_theka";
+    pNewScript->pGossipHelloGO =  &GossipHelloGO_table_theka;
     pNewScript->RegisterSelf();
 }
