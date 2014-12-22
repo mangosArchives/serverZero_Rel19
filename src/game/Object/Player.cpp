@@ -530,10 +530,6 @@ Player::Player(WorldSession* session): Unit(), m_mover(this), m_camera(this), m_
 
 Player::~Player()
 {
-#ifdef ENABLE_ELUNA
-    Eluna::RemoveRef(this);
-#endif /* ENABLE_ELUNA */
-
     CleanupsBeforeDelete();
 
     // it must be unloaded already in PlayerLogout and accessed only for loggined player

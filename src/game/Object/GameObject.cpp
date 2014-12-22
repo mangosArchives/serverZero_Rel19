@@ -79,10 +79,6 @@ GameObject::GameObject() : WorldObject(),
 
 GameObject::~GameObject()
 {
-#ifdef ENABLE_ELUNA
-    Eluna::RemoveRef(this);
-#endif /* ENABLE_ELUNA */
-
     delete m_model;
 }
 

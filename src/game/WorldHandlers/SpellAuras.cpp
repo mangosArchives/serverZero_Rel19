@@ -52,9 +52,6 @@
 #include "GridNotifiersImpl.h"
 #include "CellImpl.h"
 #include "MapManager.h"
-#ifdef ENABLE_ELUNA
-#include "LuaEngine.h"
-#endif /* ENABLE_ELUNA */
 
 #define NULL_AURA_SLOT 0xFF
 
@@ -297,9 +294,6 @@ Aura::Aura(SpellEntry const* spellproto, SpellEffectIndex eff, int32* currentBas
 
 Aura::~Aura()
 {
-#ifdef ENABLE_ELUNA
-    Eluna::RemoveRef(this);
-#endif /* ENABLE_ELUNA */
 }
 
 AreaAura::AreaAura(SpellEntry const* spellproto, SpellEffectIndex eff, int32* currentBasePoints, SpellAuraHolder* holder, Unit* target,

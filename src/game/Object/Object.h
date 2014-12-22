@@ -631,7 +631,7 @@ class MANGOS_DLL_SPEC WorldObject : public Object
         void SetMap(Map* map);
         Map* GetMap() const { MANGOS_ASSERT(m_currMap); return m_currMap; }
         // used to check all object's GetMap() calls when object is not in world!
-        void ResetMap() { m_currMap = NULL; }
+        void ResetMap();
 
         // obtain terrain data for map where this object belong...
         TerrainInfo const* GetTerrain() const;
@@ -654,7 +654,7 @@ class MANGOS_DLL_SPEC WorldObject : public Object
         virtual void StartGroupLoot(Group* /*group*/, uint32 /*timer*/) { }
 
 #ifdef ENABLE_ELUNA
-        ElunaEventProcessor* const elunaEvents;
+        ElunaEventProcessor* elunaEvents;
 #endif /* ENABLE_ELUNA */
 
     protected:

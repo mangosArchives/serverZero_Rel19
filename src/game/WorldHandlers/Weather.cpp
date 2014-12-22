@@ -65,9 +65,6 @@ Weather::Weather(uint32 zone, WeatherZoneChances const* weatherChances) : m_zone
 
 Weather::~Weather()
 {
-#ifdef ENABLE_ELUNA
-    Eluna::RemoveRef(this);
-#endif /* ENABLE_ELUNA */
 };
 
 /// Launch a weather update

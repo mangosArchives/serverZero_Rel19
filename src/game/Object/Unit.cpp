@@ -282,10 +282,6 @@ Unit::Unit() :
 
 Unit::~Unit()
 {
-#ifdef ENABLE_ELUNA
-    Eluna::RemoveRef(this);
-#endif /* ENABLE_ELUNA */
-
     // set current spells as deletable
     for (uint32 i = 0; i < CURRENT_MAX_SPELL; ++i)
     {
