@@ -192,6 +192,11 @@ void Creature::AddToWorld()
         { GetMap()->GetObjectsStore().insert<Creature>(GetObjectGuid(), (Creature*)this); }
 
     Unit::AddToWorld();
+
+    // Make active if required
+    std::set<uint32> const* mapList = sWorld.getConfigForceLoadMapIds();
+    if ((mapList && mapList->find(GetMapId()) != mapList->end()) /*|| (GetCreatureInfo()->ExtraFlags & CREATURE_EXTRA_FLAG_ACTIVE)*/)
+        { SetActiveObjectState(true); }
 }
 
 void Creature::RemoveFromWorld()

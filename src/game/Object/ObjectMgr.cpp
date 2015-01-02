@@ -8070,6 +8070,57 @@ void ObjectMgr::LoadVendorTemplates()
         { sLog.outErrorDb("Table `npc_vendor_template` has vendor template %u not used by any vendors ", *vItr); }
 }
 
+/* This function is supposed to take care of three things:
+ *  1) Load Transports on Map or on Continents
+ *  2) Load Active Npcs on Map or Continents
+ *  3) Load Everything dependend on config setting LoadAllGridsOnMaps
+ *
+ *  This function is currently WIP, hence parts exist only as draft.
+ */
+void ObjectMgr::LoadActiveEntities(Map* _map)
+{
+    // Special case on startup - load continents
+    if (!_map)
+    {
+        uint32 continents[] = {0, 1};
+        for (int i = 0; i < countof(continents); ++i)
+        {
+            _map = sMapMgr.FindMap(continents[i]);
+            if (!_map)
+                { _map = sMapMgr.CreateMap(continents[i], NULL); }
+
+            if (_map)
+                { LoadActiveEntities(_map); }
+            else
+                { sLog.outError("ObjectMgr::LoadActiveEntities - Unable to create Map %u", continents[i]); }
+        }
+
+        return;
+    }
+
+    // Load active objects for _map
+    std::set<uint32> const* mapList = sWorld.getConfigForceLoadMapIds();
+    if (mapList && mapList->find(_map->GetId()) != mapList->end())
+    {
+        for (CreatureDataMap::const_iterator itr = mCreatureDataMap.begin(); itr != mCreatureDataMap.end(); ++itr)
+        {
+            if (itr->second.mapid == _map->GetId())
+                { _map->ForceLoadGrid(itr->second.posX, itr->second.posY); }
+        }
+    }
+    else                                                    // Normal case - Load all npcs that are active
+    {
+        std::pair<ActiveCreatureGuidsOnMap::const_iterator, ActiveCreatureGuidsOnMap::const_iterator> bounds = m_activeCreatures.equal_range(_map->GetId());
+        for (ActiveCreatureGuidsOnMap::const_iterator itr = bounds.first; itr != bounds.second; ++itr)
+        {
+            CreatureData const& data = mCreatureDataMap[itr->second];
+            { _map->ForceLoadGrid(data.posX, data.posY); }
+        }
+    }
+
+    // Load Transports on Map _map
+}
+
 void ObjectMgr::LoadNpcGossips()
 {
 
