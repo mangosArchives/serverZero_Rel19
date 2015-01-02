@@ -95,7 +95,7 @@ class MANGOS_DLL_SPEC SpellAuraHolder
     public:
         SpellAuraHolder(SpellEntry const* spellproto, Unit* target, WorldObject* caster, Item* castItem);
         Aura* m_auras[MAX_EFFECT_INDEX];
-        
+
         void AddAura(Aura* aura, SpellEffectIndex index);
         void RemoveAura(SpellEffectIndex index);
         void ApplyAuraModifiers(bool apply, bool real = false);
@@ -103,27 +103,27 @@ class MANGOS_DLL_SPEC SpellAuraHolder
         void _RemoveSpellAuraHolder();
         void HandleSpellSpecificBoosts(bool apply);
         void CleanupTriggeredSpells();
-        
+
         void setDiminishGroup(DiminishingGroup group) { m_AuraDRGroup = group; }
         DiminishingGroup getDiminishGroup() const { return m_AuraDRGroup; }
-        
+
         uint32 GetStackAmount() const { return m_stackAmount; }
         void SetStackAmount(uint32 stackAmount);
         bool ModStackAmount(int32 num); // return true if last charge dropped
 
         //TODO: Check that index isn't out of bounds
         Aura* GetAuraByEffectIndex(SpellEffectIndex index) const { return m_auras[index]; }
-        
+
         uint32 GetId() const { return m_spellProto->Id; }
         SpellEntry const* GetSpellProto() const { return m_spellProto; }
-        
+
         ObjectGuid const& GetCasterGuid() const { return m_casterGuid; }
         void SetCasterGuid(ObjectGuid guid) { m_casterGuid = guid; }
         ObjectGuid const& GetCastItemGuid() const { return m_castItemGuid; }
         Unit* GetCaster() const;
         Unit* GetTarget() const { return m_target; }
         void SetTarget(Unit* target) { m_target = target; }
-        
+
         bool IsPermanent() const { return m_permanent; }
         void SetPermanent(bool permanent) { m_permanent = permanent; }
         bool IsPassive() const { return m_isPassive; }
@@ -137,9 +137,9 @@ class MANGOS_DLL_SPEC SpellAuraHolder
         bool IsInUse() const { return m_in_use;}
         bool IsDeleted() const { return m_deleted;}
         bool IsEmptyHolder() const;
-        
+
         void SetDeleted() { m_deleted = true; }
-        
+
         void SetInUse(bool state)
         {
             if (state)
@@ -150,20 +150,20 @@ class MANGOS_DLL_SPEC SpellAuraHolder
                     { --m_in_use; }
             }
         }
-        
+
         void UpdateHolder(uint32 diff) { SetInUse(true); Update(diff); SetInUse(false); }
         void Update(uint32 diff);
         void RefreshHolder();
-        
+
         TrackedAuraType GetTrackedAuraType() const { return m_trackedAuraType; }
         void SetTrackedAuraType(TrackedAuraType val) { m_trackedAuraType = val; }
         void UnregisterAndCleanupTrackedAuras();
-        
+
         int32 GetAuraMaxDuration() const { return m_maxDuration; }
         void SetAuraMaxDuration(int32 duration);
         int32 GetAuraDuration() const { return m_duration; }
         void SetAuraDuration(int32 duration) { m_duration = duration; }
-        
+
         uint8 GetAuraSlot() const { return m_auraSlot; }
         void SetAuraSlot(uint8 slot) { m_auraSlot = slot; }
         uint8 GetAuraLevel() const { return m_auraLevel; }
@@ -511,13 +511,14 @@ class MANGOS_DLL_SPEC Aura
 class MANGOS_DLL_SPEC AreaAura : public Aura
 {
     public:
-        AreaAura(SpellEntry const* spellproto, SpellEffectIndex eff, int32* currentBasePoints, SpellAuraHolder* holder, Unit* target, Unit* caster = NULL, Item* castItem = NULL);
+        AreaAura(SpellEntry const* spellproto, SpellEffectIndex eff, int32* currentBasePoints, SpellAuraHolder* holder, Unit* target, Unit* caster = NULL, Item* castItem = NULL, uint32 originalRankSpellId = 0);
         ~AreaAura();
     protected:
         void Update(uint32 diff) override;
     private:
         float m_radius;
         AreaAuraType m_areaAuraType;
+        uint32       m_originalRankSpellId;
 };
 
 class MANGOS_DLL_SPEC PersistentAreaAura : public Aura
