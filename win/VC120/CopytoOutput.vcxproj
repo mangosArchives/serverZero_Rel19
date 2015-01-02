@@ -56,7 +56,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>..\copyfiles.cmd $(SolutionDir)VC120 ..\..\build\bin $(Configuration) $(Platform)</Command>
+      <Command>..\copyfiles.cmd "$(SolutionDir)VC120" ..\..\build\bin $(Configuration) $(Platform)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copy Files to output folder</Message>
@@ -76,7 +76,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>..\copyfiles.cmd $(SolutionDir)VC120 ..\..\build\bin $(Configuration) $(Platform)</Command>
+      <Command>..\copyfiles.cmd "$(SolutionDir)VC120" ..\..\build\bin $(Configuration) $(Platform)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copy Files to output folder</Message>
