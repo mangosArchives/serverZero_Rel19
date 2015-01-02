@@ -1038,6 +1038,15 @@ class MANGOS_DLL_SPEC Player : public Unit
         }
         void SetRestBonus(float rest_bonus_new);
 
+        /**
+        * \brief: compute rest bonus
+        * \param: time_t timePassed > time from last check
+        * \param: bool offline      > is the player was offline?
+        * \param: bool inRestPlace  > if it was offline, is the player was in city/tavern/inn?
+        * \returns: float
+        **/
+        float ComputeRest(time_t timePassed, bool offline = false, bool inRestPlace = false);
+
         RestType GetRestType() const
         {
             return rest_type;
