@@ -7380,9 +7380,12 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
                         loot->clear();
                         loot->FillLoot(creature->GetCreatureInfo()->SkinningLootId, LootTemplates_Skinning, this, false);
 
-                        // let reopen skinning loot if will closed.
+                        // let reopen skinning loot if window closed.
                         if (!loot->empty())
-                            { creature->SetUInt32Value(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE); }
+                        {
+                            creature->SetFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
+                            creature->RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_FLAG_SKINNABLE);
+                        }
 
                         permission = OWNER_PERMISSION;
                     }
