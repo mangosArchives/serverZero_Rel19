@@ -6507,6 +6507,8 @@ bool ChatHandler::HandleSendMessageCommand(char* args)
     if (!*args)
         { return false; }
 
+    WorldSession* rPlayerSession = rPlayer->GetSession();
+
     ///- Check that he is not logging out.
     if (rPlayer->GetSession()->isLogingOut())
     {

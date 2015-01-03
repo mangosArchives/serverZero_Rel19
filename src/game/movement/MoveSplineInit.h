@@ -202,12 +202,28 @@ namespace Movement
         args.path.assign(controls.begin(), controls.end());
     }
 
+    /**
+     * @brief
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param generatePath
+     * @param forceDestination
+     */
     inline void MoveSplineInit::MoveTo(float x, float y, float z, bool generatePath, bool forceDestination, float maxPathRange)
     {
         Vector3 v(x, y, z);
         MoveTo(v, generatePath, forceDestination, maxPathRange);
     }
 
+    /**
+     * @brief
+     *
+     * @param dest
+     * @param generatePath
+     * @param forceDestination
+     */
     inline void MoveSplineInit::MoveTo(const Vector3& dest, bool generatePath, bool forceDestination, float maxPathRange)
     {
         if (generatePath)
