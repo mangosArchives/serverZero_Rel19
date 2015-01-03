@@ -6510,7 +6510,7 @@ bool ChatHandler::HandleSendMessageCommand(char* args)
     WorldSession* rPlayerSession = rPlayer->GetSession();
 
     ///- Check that he is not logging out.
-    if (rPlayer->GetSession()->isLogingOut())
+    if (rPlayerSession->isLogingOut())
     {
         SendSysMessage(LANG_PLAYER_NOT_FOUND);
         SetSentErrorMessage(true);
@@ -6519,8 +6519,8 @@ bool ChatHandler::HandleSendMessageCommand(char* args)
 
     ///- Send the message
     // Use SendAreaTriggerMessage for fastest delivery.
-    rPlayer->GetSession()->SendAreaTriggerMessage("%s", args);
-    rPlayer->GetSession()->SendAreaTriggerMessage("|cffff0000[Message from administrator]:|r");
+    rPlayerSession->SendAreaTriggerMessage("%s", args);
+    rPlayerSession->SendAreaTriggerMessage("|cffff0000[Message from administrator]:|r");
 
     // Confirmation message
     std::string nameLink = GetNameLink(rPlayer);
