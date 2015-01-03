@@ -50,6 +50,10 @@ extern int m_ServiceStatus;
 /// Heartbeat for the World
 void WorldRunnable::run()
 {
+#ifdef ENABLE_ELUNA
+    sEluna->OnStartup();
+#endif /* ENABLE_ELUNA */
+
     uint32 realCurrTime = 0;
     uint32 realPrevTime = WorldTimer::tick();
 
@@ -90,6 +94,10 @@ void WorldRunnable::run()
             Sleep(1000);
 #endif
     }
+
+#ifdef ENABLE_ELUNA
+    sEluna->OnShutdown();
+#endif /* ENABLE_ELUNA */
 
     sWorld.KickAll();                                       // save and kick all players
     sWorld.UpdateSessions(1);                               // real players unload required UpdateSessions call
