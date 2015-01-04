@@ -1461,11 +1461,11 @@ void SpellMgr::LoadSpellBonuses()
         sbe.one_hand_direct_damage_done = fields[5].GetFloat();
         sbe.two_hand_direct_damage_done = fields[6].GetFloat();
         sbe.direct_damage_taken = fields[7].GetFloat();
-        sbe.one_hand_direct_damage_taken = fields[7].GetFloat();
-        sbe.two_hand_direct_damage_taken = fields[8].GetFloat();
-        sbe.dot_damage    = fields[9].GetFloat();
-        sbe.ap_bonus      = fields[10].GetFloat();
-        sbe.ap_dot_bonus   = fields[11].GetFloat();
+        sbe.one_hand_direct_damage_taken = fields[8].GetFloat();
+        sbe.two_hand_direct_damage_taken = fields[9].GetFloat();
+        sbe.dot_damage    = fields[10].GetFloat();
+        sbe.ap_bonus      = fields[11].GetFloat();
+        sbe.ap_dot_bonus   = fields[12].GetFloat();
 
         bool need_dot = false;
         bool need_direct = false;
