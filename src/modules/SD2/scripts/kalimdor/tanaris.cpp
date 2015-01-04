@@ -503,9 +503,79 @@ bool QuestAccept_npc_tooga(Player* pPlayer, Creature* pCreature, const Quest* pQ
     return true;
 }
 
+/*######
+## go_inconspicuous_landmark
+## This is for Cuergo's Gold quest
+######*/
+
+enum
+{
+    NPC_TREASURE_HUNTING_PIRATE = 7899,
+    NPC_TREASURE_HUNTING_SWASHBUCKLER = 7901,
+    NPC_TREASURE_HUNTING_BUCCANEER = 7902,
+
+    GO_PIRATE_TREASURE      = 142194
+};
+
+bool GOUse_go_pirate_treasure(Player* pPlayer, GameObject* pGo)
+{
+    // despawn chest
+    pGo->SetSpawnedByDefault(false);
+    pGo->SetRespawnTime(10); 
+
+    return true;
+}
+
+void SpawnTreasureHuntingPirates(Player* pPlayer, uint iNumberOfPirates)
+{
+    for (int i; i<iNumberOfPirates; i++)
+    {
+        // spawn 4 or 5 sailor boys
+        switch (urand(0, 2))
+        {    
+            case 0: // spawn treasure hunting pirate
+                pPlayer->SummonCreature(NPC_TREASURE_HUNTING_PIRATE, 0.0f, 0.0f, 0.0f, 0.0f, TEMPSUMMON_TIMED_DESPAWN, 600000);
+                break;
+            case 1: // spawn treasure hunting swashbuckler
+                pPlayer->SummonCreature(NPC_TREASURE_HUNTING_SWASHBUCKLER, 0.0f, 0.0f, 0.0f, 0.0f, TEMPSUMMON_TIMED_DESPAWN, 600000);
+                break;
+            default: // spawn treasure hunting buccaneer
+                pPlayer->SummonCreature(NPC_TREASURE_HUNTING_BUCCANEER, 0.0f, 0.0f, 0.0f, 0.0f, TEMPSUMMON_TIMED_DESPAWN, 600000);
+                break;
+        }
+    }
+}
+
+bool GOUse_go_inconspicuous_landmark(Player* pPlayer, GameObject* pGo)
+{
+    // spawn 4 or 5 sailor boys
+    switch (urand(0, 1))
+    {    
+        case 0: // spawn 4 pirates
+            SpawnTreasureHuntingPirates(pPlayer, 4);
+            break;
+        default: // spawn 5 pirates
+            SpawnTreasureHuntingPirates(pPlayer, 5);
+            break;
+    }
+    // spawn chest
+    obj->SummonGameObject(GO_PIRATE_TREASURE, -10117.715, -4051.644, 5.407, 0.0f, 600000);
+    return true;
+}
+
 void AddSC_tanaris()
 {
     Script* pNewScript;
+
+    pNewScript = new Script;
+    pNewScript->Name = "go_pirate_treasure";
+    pNewScript->pGOUse = &GOUse_go_pirate_treasure;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
+    pNewScript->Name = "go_inconspicuous_landmark";
+    pNewScript->pGOUse = &GOUse_go_inconspicuous_landmark;
+    pNewScript->RegisterSelf();
 
     pNewScript = new Script;
     pNewScript->Name = "mob_aquementas";
