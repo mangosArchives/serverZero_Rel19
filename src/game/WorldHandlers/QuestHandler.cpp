@@ -560,9 +560,10 @@ uint32 WorldSession::getDialogStatus(Player* pPlayer, Object* questgiver, uint32
             { dialogStatus = dialogStatusNew; }
     }
 
+    // check markings for quest-giver
     for (QuestRelationsMap::const_iterator itr = rbounds.first; itr != rbounds.second; ++itr)
     {
-        uint32 dialogStatusNew = 0;
+        uint32 dialogStatusNew = DIALOG_STATUS_NONE;
         uint32 quest_id = itr->second;
         Quest const* pQuest = sObjectMgr.GetQuestTemplate(quest_id);
 
@@ -646,7 +647,7 @@ void WorldSession::HandleQuestgiverStatusMultipleQuery(WorldPacket& /*recvPacket
 
             dialogStatus = sScriptMgr.GetDialogStatus(_player, questgiver);
 
-            if (dialogStatus > 6)
+            if (dialogStatus == DIALOG_STATUS_UNDEFINED)
                 { dialogStatus = getDialogStatus(_player, questgiver, DIALOG_STATUS_NONE); }
 
             data << questgiver->GetObjectGuid();
