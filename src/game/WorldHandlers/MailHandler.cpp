@@ -598,7 +598,8 @@ void WorldSession::HandleGetMailList(WorldPacket& recv_data)
         data << uint32(item ? item->GetItemRandomPropertyId() : 0);
         // unk
         data << uint32(item ? item->GetItemSuffixFactor() : 0);
-        data << uint8(item ? item->GetCount() : 0);         // stack count
+        // stack count
+        data << (uint8)(item ? item->GetCount() : 0);
         data << uint32(item ? item->GetSpellCharges() : 0); // charges
         // durability
         data << uint32(item ? item->GetUInt32Value(ITEM_FIELD_MAXDURABILITY) : 0);

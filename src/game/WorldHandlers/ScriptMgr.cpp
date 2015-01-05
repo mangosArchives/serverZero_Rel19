@@ -2090,7 +2090,7 @@ bool ScriptMgr::OnGossipSelect(Player* pPlayer, GameObject* pGameObject, uint32 
             return true;
     }
 #endif /* ENABLE_ELUNA */
-    
+
 #ifdef ENABLE_SD2
     if (code)
         { return SD2::GOGossipSelectWithCode(pPlayer, pGameObject, sender, action, code); }

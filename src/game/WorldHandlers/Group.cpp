@@ -308,7 +308,7 @@ bool Group::AddMember(ObjectGuid guid, const char* name, uint8 joinMethod)
 
         // quest related GO state dependent from raid membership
         if (isRaidGroup())
-            player->UpdateForQuestWorldObjects();
+            { player->UpdateForQuestWorldObjects(); }
 
         if(isInLFG())
         {
@@ -999,7 +999,7 @@ void Group::EndRoll()
 void Group::CountTheRoll(Rolls::iterator& rollI)
 {
     Roll* roll = *rollI;
-    
+
 
     if (!roll->isValid())                                   // is loot already deleted ?
     {
@@ -1043,7 +1043,7 @@ void Group::CountTheRoll(Rolls::iterator& rollI)
                     item->is_looted = true;
                     roll->getLoot()->NotifyItemRemoved(roll->itemSlot);
                     --roll->getLoot()->unlootedCount;
-                    Item* newitem = player->StoreNewItem(dest, roll->itemid, true, item->randomPropertyId);                    
+                    Item* newitem = player->StoreNewItem(dest, roll->itemid, true, item->randomPropertyId);
                     player->SendNewItem(newitem, uint32(item->count), false, false, true);
 
                     /// Warn players about the loot status on the corpse.
@@ -1098,7 +1098,7 @@ void Group::CountTheRoll(Rolls::iterator& rollI)
                 {
                     item->is_looted = true;
                     roll->getLoot()->NotifyItemRemoved(roll->itemSlot);
-                    --roll->getLoot()->unlootedCount;                    
+                    --roll->getLoot()->unlootedCount;
                     Item* newitem = player->StoreNewItem(dest, roll->itemid, true, item->randomPropertyId);
                     player->SendNewItem(newitem, uint32(item->count), false, false, true);
 

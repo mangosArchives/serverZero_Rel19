@@ -1098,9 +1098,9 @@ struct TaxiNodesEntry
 struct TaxiPathEntry
 {
     uint32    ID;                                            // 0        ID - ID of the Taxi Path in DBC.
-    uint32    from;                                            // 1        m_from - ID of the Starting Taxi Node of the travel.
+    uint32    from;                                          // 1        m_from - ID of the Starting Taxi Node of the travel.
     uint32    to;                                            // 2        m_to - ID of the Ending Taxi Node of the travel.
-    uint32    price;                                        // 3        m_price - Basic Price of the travel (Unit : Copper).
+    uint32    price;                                         // 3        m_price - Basic Price of the travel (Unit : Copper).
 };
 
 /**

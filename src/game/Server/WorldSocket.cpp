@@ -153,7 +153,7 @@ int WorldSocket::SendPacket(const WorldPacket& pkt)
 
 #ifdef ENABLE_ELUNA
     if (!sEluna->OnPacketSend(m_Session, pct))
-        return 0;
+        { return 0; }
 #endif /* ENABLE_ELUNA */
 
     if (iSendPacket(pct) == -1)

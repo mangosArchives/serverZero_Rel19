@@ -1007,7 +1007,6 @@ void WorldSession::HandleInspectHonorStatsOpcode(WorldPacket& recv_data)
 {
     ObjectGuid guid;
     recv_data >> guid;
-    // DEBUG_LOG("Party Stats guid is " I64FMTD,guid);
 
     Player* pl = sObjectMgr.GetPlayer(guid);
     if (pl)
