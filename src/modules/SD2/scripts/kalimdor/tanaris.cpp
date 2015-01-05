@@ -526,7 +526,7 @@ bool GOUse_go_pirate_treasure(Player* pPlayer, GameObject* pGo)
     return true;
 }
 
-void SpawnPirates(Player* pPlayer, uint iNumberOfPirates)
+void SpawnPirates(Player* pPlayer, uint32 iNumberOfPirates)
 {
     for (int i; i<iNumberOfPirates; i++)
     {
