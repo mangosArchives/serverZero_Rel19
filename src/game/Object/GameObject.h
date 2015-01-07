@@ -637,8 +637,8 @@ class MANGOS_DLL_SPEC GameObject : public WorldObject
 
         void Use(Unit* user);
 
-        //void RollIfMineralVein();
-        //uint32 RollMineralVein(uint32 entry);
+        void RollIfMineralVein();
+        uint32 RollMineralVein(uint32 entry);
 
         LootState getLootState() const { return m_lootState; }
         void SetLootState(LootState s);
