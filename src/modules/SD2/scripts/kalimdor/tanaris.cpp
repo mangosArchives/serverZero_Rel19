@@ -538,13 +538,13 @@ void SpawnPirates(Player* pPlayer, int iTotalPirates)
         switch (rand() % 3)
         {    
             case 0: // spawn treasure hunting pirate
-                pPlayer->SummonCreature(NPC_TREASURE_HUNTING_PIRATE, 0.0f, 0.0f, 0.0f, 0.0f, TEMPSUMMON_TIMED_DESPAWN, SPAWN_DURATION);
+                pPlayer->SummonCreature(NPC_TREASURE_HUNTING_PIRATE, fX, fY, fZ, fO, TEMPSUMMON_TIMED_DESPAWN, SPAWN_DURATION);
                 break;
             case 1: // spawn treasure hunting swashbuckler
-                pPlayer->SummonCreature(NPC_TREASURE_HUNTING_SWASHBUCKLER, 0.0f, 0.0f, 0.0f, 0.0f, TEMPSUMMON_TIMED_DESPAWN, SPAWN_DURATION);
+                pPlayer->SummonCreature(NPC_TREASURE_HUNTING_SWASHBUCKLER, fX, fY, fZ, fO, TEMPSUMMON_TIMED_DESPAWN, SPAWN_DURATION);
                 break;
             default: // spawn treasure hunting buccaneer
-                pPlayer->SummonCreature(NPC_TREASURE_HUNTING_BUCCANEER, 0.0f, 0.0f, 0.0f, 0.0f, TEMPSUMMON_TIMED_DESPAWN, SPAWN_DURATION);
+                pPlayer->SummonCreature(NPC_TREASURE_HUNTING_BUCCANEER, fX, fY, fZ, fO, TEMPSUMMON_TIMED_DESPAWN, SPAWN_DURATION);
                 break;
         }
     }
