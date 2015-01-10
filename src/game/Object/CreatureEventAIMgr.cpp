@@ -508,6 +508,11 @@ void CreatureEventAIMgr::LoadCreatureEventAI_Scripts()
                     }
                     break;
                 }
+                case EVENT_T_REACHED_WAYPOINT:
+                {
+                    // nothing to check because the types used prevent anything unwanted from being entered (positive and negative values are allowed for all inputs)
+                    break;
+                }
                 default:
                     sLog.outErrorEventAI("Creature %u using not checked at load event (%u) in event %u. Need check code update?", temp.creature_id, temp.event_id, i);
                     break;
