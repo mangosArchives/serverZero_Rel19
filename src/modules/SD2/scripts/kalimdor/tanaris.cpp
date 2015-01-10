@@ -526,12 +526,16 @@ bool GOUse_go_pirate_treasure(Player* pPlayer, GameObject* pGo)
     return true;
 }
 
-void SpawnPirates(Player* pPlayer, uint32 iNumberOfPirates)
+void SpawnPirates(Player* pPlayer, int iTotalPirates)
 {
-    for (int i; i<iNumberOfPirates; i++)
+    for (int i = 0; i<iTotalPirates; i++)
     {
+        float fX = pPlayer->GetPositionX() + rand() % 5 + 2;
+        float fY = pPlayer->GetPositionY() + rand() % 5 + 2;
+        float fZ = pPlayer->GetPositionZ();
+        float fO = pPlayer->GetOrientation();
         // spawn 4 or 5 sailor boys
-        switch (urand(0, 2))
+        switch (rand() % 3)
         {    
             case 0: // spawn treasure hunting pirate
                 pPlayer->SummonCreature(NPC_TREASURE_HUNTING_PIRATE, 0.0f, 0.0f, 0.0f, 0.0f, TEMPSUMMON_TIMED_DESPAWN, SPAWN_DURATION);
@@ -549,7 +553,8 @@ void SpawnPirates(Player* pPlayer, uint32 iNumberOfPirates)
 bool GOUse_go_inconspicuous_landmark(Player* pPlayer, GameObject* pGo)
 {
     // spawn 4 or 5 sailor boys
-    SpawnPirates(pPlayer, urand(4, 5));
+    int iTotalPirates = rand() % 2 + 4;
+    SpawnPirates(pPlayer, iTotalPirates);
 
     // spawn chest
     pPlayer->SummonGameObject(GO_PIRATE_TREASURE, -10117.715, -4051.644, 5.407, 0.0f, SPAWN_DURATION);
