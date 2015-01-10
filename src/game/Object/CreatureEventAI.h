@@ -70,7 +70,7 @@ enum EventAI_Type
     EVENT_T_TARGET_MISSING_AURA     = 28,                   // Param1 = SpellID, Param2 = Number of time stacked expected, Param3/4 Repeat Min/Max
     EVENT_T_TIMER_GENERIC           = 29,                   // InitialMin, InitialMax, RepeatMin, RepeatMax
     EVENT_T_RECEIVE_AI_EVENT        = 30,                   // AIEventType, Sender-Entry, unused, unused
-    EVENT_T_REACHED_WAYPOINT        = 31,                   // positionX, positionY, positionZ, unused
+    EVENT_T_REACHED_WAYPOINT        = 31,                   // positionX, positionY, positionZ, distance (distance from the waypoint)
 
     EVENT_T_END,
 };
@@ -595,6 +595,7 @@ struct CreatureEventAI_Event
             int positionX;
             int positionY;
             int positionZ;
+            int distance;                                   // Distance from the waypoint 
         } reached_waypoint;
         // RAW
         struct

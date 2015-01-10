@@ -427,7 +427,7 @@ bool CreatureEventAI::ProcessEvent(CreatureEventAIHolder& pHolder, Unit* pAction
         case EVENT_T_RECEIVE_AI_EVENT:
             break;
         case EVENT_T_REACHED_WAYPOINT:
-            if (!m_creature->IsNearWaypoint(m_creature->GetPositionX(), m_creature->GetPositionY(), m_creature->GetPositionZ(), event.reached_waypoint.positionX, event.reached_waypoint.positionY, event.reached_waypoint.positionZ, 1, 1, 1))
+            if (!m_creature->IsNearWaypoint(m_creature->GetPositionX(), m_creature->GetPositionY(), m_creature->GetPositionZ(), event.reached_waypoint.positionX, event.reached_waypoint.positionY, event.reached_waypoint.positionZ, event.reached_waypoint.distance, event.reached_waypoint.distance, event.reached_waypoint.distance))
             {
                 return false;
             }
