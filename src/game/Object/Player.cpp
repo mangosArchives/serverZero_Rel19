@@ -6262,26 +6262,11 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea)
             { pvpInfo.endTimer = time(0); }                     // start toggle-off
     }
 
-    if (HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_RESTING))
-    {
-        // Still inside a tavern or has recently left
-        if (GetRestType() == REST_TYPE_IN_TAVERN)
-        {
-            // Remove rest state if we have recently left a tavern. (1 feet from door way)
-            if (GetMapId() != GetInnPosMapId() || GetDistance(GetInnPosX(), GetInnPosY(), GetInnPosZ()) > 1.0f)
-            {
-                RemoveFlag(PLAYER_FLAGS, PLAYER_FLAGS_RESTING);
-                SetRestType(REST_TYPE_NO);
-            }
-        }
-        // handled in UpdateArea
-        else if (GetRestType() != REST_TYPE_IN_FACTION_AREA)
-        {
-            // Recently left a capital city
-            RemoveFlag(PLAYER_FLAGS, PLAYER_FLAGS_RESTING);
-            SetRestType(REST_TYPE_NO);
-        }
-    }
+    if (zone->flags & AREA_FLAG_CAPITAL)                    // in capital city
+        { SetRestType(REST_TYPE_IN_CITY); }
+    else if (HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_RESTING) && GetRestType() != REST_TYPE_IN_TAVERN)
+        // resting and not in tavern (leave city then); tavern leave handled in CheckAreaExploreAndOutdoor
+        { SetRestType(REST_TYPE_NO); }
 
     // remove items with area/map limitations (delete only for alive player to allow back in ghost mode)
     // if player resurrected at teleport this will be applied in resurrect code
