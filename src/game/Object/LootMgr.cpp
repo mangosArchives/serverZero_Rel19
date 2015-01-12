@@ -375,7 +375,7 @@ LootItem::LootItem(LootStoreItem const& li)
     randomPropertyId = Item::GenerateItemRandomPropertyId(itemid);
     is_looted = 0;
     is_blocked = 0;
-    is_underthreshold = 0;
+    is_underthreshold = 1;
     is_counted = 0;
     winner = ObjectGuid();
 }
@@ -394,7 +394,7 @@ LootItem::LootItem(uint32 itemid_, uint32 count_, int32 randomPropertyId_)
     randomPropertyId = randomPropertyId_;
     is_looted = 0;
     is_blocked = 0;
-    is_underthreshold = 0;
+    is_underthreshold = 1;
     is_counted = 0;
     winner = ObjectGuid();
 }

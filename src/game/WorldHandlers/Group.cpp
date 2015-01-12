@@ -838,8 +838,8 @@ void Group::MasterLoot(WorldObject* pSource, Loot* loot)
         ItemPrototype const* item = ObjectMgr::GetItemPrototype(i->itemid);
         if (!item)
             { continue; }
-        if (item->Quality < uint32(m_lootThreshold))
-            { i->is_underthreshold = 1; }
+        if (item->Quality >= uint32(m_lootThreshold))
+            { i->is_underthreshold = 0; }
     }
 
     uint32 real_count = 0;
