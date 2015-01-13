@@ -132,7 +132,6 @@ namespace MMAP
 
         while (dirp)
         {
-            errno = 0;
             if ((dp = readdir(dirp)) != NULL)
             {
                 if (matchWildcardFilter(filter.c_str(), dp->d_name))

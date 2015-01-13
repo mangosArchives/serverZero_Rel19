@@ -132,7 +132,11 @@ endif()
 set(EXECUTABLE_LINK_FLAGS "")
 
 if(UNIX)
-  set(EXECUTABLE_LINK_FLAGS "-Wl,--no-as-needed -ldl -pthread -lrt ${EXECUTABLE_LINK_FLAGS} -rdynamic")
+  if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+    set(EXECUTABLE_LINK_FLAGS "-Wl,--no-as-needed -pthread -lrt ${EXECUTABLE_LINK_FLAGS} -rdynamic")
+  else()
+    set(EXECUTABLE_LINK_FLAGS "-Wl,--no-as-needed -ldl -pthread -lrt ${EXECUTABLE_LINK_FLAGS} -rdynamic")
+  endif()
 endif()
 
 if(APPLE)

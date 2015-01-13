@@ -18,6 +18,10 @@
 
 cmake_minimum_required (VERSION 2.8)
 
+if(POLICY CMP0043)
+    cmake_policy(SET CMP0043 OLD)
+endif()
+
 project(MANGOS_MAP_EXTRACTOR)
 
 set(EXECUTABLE_NAME "map-extractor")
