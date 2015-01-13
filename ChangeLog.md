@@ -3,51 +3,217 @@ MaNGOS Zero Changelog
 This change log references the relevant changes (bug and security fixes) done
 in recent versions.
 
-0.20 (2014-08-20) - New Beginnings
-----------------------------------
+0.20 (2015-01-15) - "New Beginnings"
+------------------------------------
 Many Thanks to all the groups and individuals who contributed to this release.
+- 496 Commits since the previous release (upto aeb934ed)
 
 * Some of the dependant file groups have been made into submodules
 * i.e. all the dependant libraries (dep folder) and realmd
 
+* acelite integration
 * Add check for session being NULL so that we don't crash from client disconnect
 * Add missing trap id for SendGameObjectCustomAnim call [c2494]			
 * Add new Regen Health / Power flags and rename database fields
+* Add script for areatrigger 4052 - AQ
 * Add the ability to specify in the configuration file the cost of mounts
 * Added a new DB helper script			
+* Added base Battleground support for Eluna
+* Added copy of Realmd.conf.in to output folder. Thanks to Madmax for pointing
+* Added copyfiles step for VS2010/12
+* Added copyfiles step to VS2013
+* Added eluna/sd2 flags to shared project
+* Added GNU license to Linux build script
+* Added missed commit
+* Added requirement for OnQuestReward hook
+* Added The_Spider_God
+* Added tools icon to extraction tools
+* Added VS2012 and 2010 solutions
+* Adding support of GM ON/GM OFF Spells
+* Adding support of one-hand/two-hand custom spell bonus coeff in the core.
+* Allow creating Non-Instance Maps without player (c2574) 
 * Allow sending custom eventAI events to all units in range [c2491] 			
+* Allow target 60 to use script target whenever required (c2551)
+* Applied AHBot updates from One
+* Applied prepared solution directive to projects
+* Apply a workaround to disable ClassLevelStats during DB switchover to this system. (c2528)
 * Better value to check distance between owner and pet.
+* Bug Fix: Movement Visual Error
+* Bug: Mighty Rage Potion and Elixir of giants
 * Check that policy exists before setting to old			
+* Cleaned up Quest code slightly
 * Cleanup and rework power type setting [z2500] 			
+* Code style tidy up
+* corpse decay multiplier set to 0.5 as default
+* Corrected Cast for trainer levels. Thanks to Rochet for pointing
+* corrected exe names in bat file
+* Crashing typo in to .npc unfollow command
+* Create 20005_windcaller_yessendra_reward_fix.sql
+* Created Linux directory and added Linux build script
+* Critical chances and dodge chances are incorrect for low levels. Thanks to Salja.
+* Cuergo's Gold quest fix
+* Documenting and Optimizing DBCStores related functions.
+* Don't recalculate path when speed is changed
 * Duel Range is too small - Minor update 			
+* Eluna hooks were being called after Eluna was unloaded. Eluna will now unload after the hooks have been called.
+* Eluna SD2 test (not final and likely using namespace)
+* Eluna: Fix merge conflicts
+* Eluna: Fix SD2 incompatibility
+* Eluna: Fix timed events and update version
+* Eluna: Implement GetRow core side
+* EVENT_T_REACHED_WAYPOINT correction and improvement
+* EventAI Codestyle Update (c2565)
+* Felwood Corrupted Plants SD2 scripts
+* Fix 'City' Instance Label bug
+* fix .npc factionid command after creature_template change
+* Fix Ace / Recast build issues
+* Fix ace import
+* Fix auctionhouse crash on winning bids on time expire
+* Fix BIH::intersectRay crash. Thanks TC
+* Fix bug that cause AreaAura reaply because the code doesn't search the correct rank of it. (c2570)
+* Fix build on Win with spaces in pathname
+* Fix cmake INSTALL
 * Fix crash when database version doesn't match. 			
 * Fix creature change z position when speed change. [c2486] 			
 * Fix creature not stopping in some conditions. [z2485] 			
+* Fix druid mana on shapeshift
+* Fix for equipable item check
+* Fix for memory spikes on pet despawn
+* Fix for the Cuergo's Gold script fix
+* Fix installation process and paths for windows
+* Fix issue with afk playerin duel logout request from client after 30 mins.
+* Fix Linux build. Thanks zackbcom
+* Fix Linux CMake Lua Dependencies
+* Fix linux tools build
+* Fix logic bug in SelectAuraRankForLevel (c2569)
+* Fix Mana Tide Totem. Closes #415
+* Fix Master Loot + Group Loot Issues - Part 2
 * Fix Mighty Rage Potion and Elixir of giants 			
+* Fix missing eluna/sd2 flags in mangosd. Thanks to foereaper for pointing
+* Fix movement related ByteBuffer errors
 * Fix Movement Visual Error 			
+* fix new mineral spawn system
+* Fix Node Overlap error
 * Fix one warning and suppress a few when using cmake 3.0			
+* Fix pch
+* Fix problem with scaling vmap model. VMap and MMap DOES NOT need to be rebuilded. (c2518)
+* Fix raid instance reset crash and add a server command to force reset. Also added a new server command to force reset by an admin. (z2538)
+* Fix rooted player continue their movement while rooted for other clients. (c2563)
+* Fix script for quests 1222 and 1270
 * Fix scripts inclusion in win build after recent changes. 
+* Fix skinning loot window bug. (c2573) Thanks to @TheTrueAnimal for pointing.
 * Fix soap being an actual option, show status of engines as well			
+* Fix some combat details for Thekal
 * Fix some more reserved identifiers			
-* Fix spell 9712 [z2498] 			
+* Fix some static code analysis warnings and improve performance (c2554)
+* Fix some warnings reported by static analysis (c2546)
+* Fix Soul Shard while grouped
+* Fix spell 9712
+* Fix SpellFocus startup errors
+* Fix startup and shutdown
+* Fix static analysis const reference performance warnings
+* Fix static analysis warnings in AHBot (c2550)
+* Fix stealthing animation for group members.
+* Fix SYSCONFDIR as it was removed from the defines passed to the compiler
+* Fix systemconfig.h errors in Prepared solutions
+* Fix two build warnings
+* Fix typo in script
 * Fix up broken backport			
-* Fixing bug with Warrior Execute 			
-* Icons overload general review and code cleaning (refactoring) 			
-* Implement ACTION_T_CHANGE_MOVEMENT for EventAI [c2496] 			
+* Fix up movemap name in cmake
+* fix various creature despawn problems
+* Fix warning reported by travis (c2547)
+* Fixed correct install source for Extensions
+* Fixed external Ace linking
+* Fixed Gordunni Trap script
+* Fixed internal Ace build
+* Fixed Linux install path. 
+* Fixed Linux shell scripts not running binaries
+* Fixed missing server hooks
+* Fixed possible mount abuse after leaving BattleGround (c2542)
+* Fixed Typo
+* Fixed up one error in movemaps
+* fixed VS2012 prepared solutions
+* Fixed wrong order in SpellBonusEntry
+* Fixes to #includes that used relative paths for Detour.
+* Fixing bug with Warrior Execute
+* Fixing channel issue where built-in channels weren't being detected correctly.
+* Fixing Chest Loot Issue
+* Fixing Creature Type issue
+* Fixing Group Loot bugs
+* Fixing group loot issue + chest loot issues
+* Fixing Master Loot for already assigned item to players who had full bags.
+* Fixing quest items impossible to loot when loot mode is master loot
+* fixing skinning loot window can not be reopened
+* Grammar correction
+* Hotfix - SpellBonus are applied twice
+* Hotfix for Compilation error on range based loop.
+* Icons overload general review and code cleaning (refactoring)
+* Implement ACTION_T_CHANGE_MOVEMENT for EventAI
+* Implement Battleground scores storage system (c2559)
 * Implement condition CREATURE_IN_RANGE [c2492] 			
-* Implement CreatureLinking Flag DESPAWN_ON_DESPAWN [z2499] 			
+* Implement CREATURE_FLAG_EXTRA_ACTIVE (c2578)
+* Implement CreatureLinking Flag DESPAWN_ON_DESPAWN
 * Implement generic power handling for Creatures and Pets [c2488]			
-* Implement SCRIPT_COMMAND_SEND_AI_EVENT_AROUND for dbscripts en 			
+* Implement Meetingstone support
+* Implement removal of spells that don't have appropriate Spell AuraInterruptFlags using proc system (c2552)
+* Implement script support for quest 2845
+* Implement script support for quest 4261
+* Implement script support for quests 5944 and 5862 (ending scene)
+* Implement SCRIPT_COMMAND_SEND_AI_EVENT_AROUND for dbscripts engine
 * Implement SMSG_INVALIDATE_PLAYER [c2483] 			
+* Implement spell effect 19395. This will fix quest 2987. 
+* Implement TARGET_RANDOM_UNIT_CHAIN_IN_AREA (c2548) Also unify the TARGET_RANDOM_CHAIN_IN_AREA code
+* Implement two more TEMPFACTION_TOGGLE flags (c2543) * UNIT_FLAG_PACIFIED * UNIT_FLAG_NOT_SELECTABLE
+* Improve EventAI code engine a little bit to be more effective with EVENT_T_RANGE (c2564)
+* Incorrect Entry ID for game object
+* Initial cmake for windows work
 * Initialize power type and power type values for creatures [c2489] 			
+* Loot Handler fix
+* Major update of spell_bonus_data behavior
 * Make Eluna optional when compiling			
 * Make SD2 optional and fix a bug in config.h.cmake			
+* Make tools build by default
+* Make Travis happy
+* Master loot profession fix
+* Merge & fix pch build
+* Merged in new build system
+* Move LFGMgr to correct location
+* Moved enum to correct position in list
+* New event EVENT_T_REACHED_WAYPOINT
+* New mineral spawn system
+* Patch to fix auras killing pets from causing a core dump
+* PDB and output folders now in the same place
+* Pets are now cancel attack on stay
+* Pets are stopping now in correct position
+* Quiver not being equipable in a bag slot fix
+* Range is too small - Minor update
 * Reapply [c2485] with correction for classic.	
+* Rebuilt BuildTools solutions
+* Rebuilt remaining tools solutions
 * Removal of internal Realmd and added submodule			
-* Removing local deps and added submodule			
+* Remove build type from install path - doesnt work on linux
+* Remove invisibility aura (aura 18) based on attribute (c2553) Passive and negative invisibility auras are not removed on entering combat
+* Remove support for Shiv
+* Remove unused MAX_LEVEL_CLASSIC (c2531)
+* Replaced hard coded values
+* Rewrite rest management (c2568) Fix Rest when logged in not working in some case. Also fix rest bonus according to wowwiki.
+* Set DB Strict filter for creature_movement with MovementType <>2 (c2541)
+* Set DT_POLYREF64 for linux platforms and configurations
+* Should fix crash on transport to the same map
 * Simple fix for Stealth is removed on fall damage problem	
-* Updated recast references.
-* Workaround for the wow-error client raised once a player on transport 			
+* Small code optimizations. Thank to @tzurbaev (c2539)
+* Some changes to Random chance calculation (c2567)
+* Some fixes for compiling the new things on linux
+* Spawning of The Unforgiven (Stratholme) scripted
+* Speed Up EventAI OOC-LoS Event handling (c2566).
+* Start of acelite integration
+* Temporarily fix crash on shutdown
+* Triage quest now doable but still nerve-racking
+* Updated build defs. Thanks to Rochet for pointing
+* Updated recast references
+* Visual fix for players trying to open chest/vein/plants simultaneously.
+* Workaround for the wow-error client raised once a player on transport is leaving a map.
+		
 
 0.19 (2014-07-09) - Ludas Legacy
 --------------------------------
