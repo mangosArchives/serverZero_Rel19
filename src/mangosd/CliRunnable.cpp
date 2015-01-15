@@ -486,7 +486,8 @@ bool ChatHandler::HandleAccountCreateCommand(char* args)
     std::string account_name = szAcc;
     std::string password = szPassword;
 
-    AccountOpResult result = sAccountMgr.CreateAccount(account_name, password);
+    AccountOpResult result;
+    result = sAccountMgr.CreateAccount(account_name, password);
     switch (result)
     {
         case AOR_OK:

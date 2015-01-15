@@ -103,7 +103,6 @@ class GameObjectModel
          * @param enabled
          */
         void enable(bool enabled) { collision_enabled = enabled;}
-
         /**
          * @brief
          *
