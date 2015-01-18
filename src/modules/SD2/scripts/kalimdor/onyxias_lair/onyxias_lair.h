@@ -32,7 +32,7 @@ enum
 
     // Special data fields for Onyxia
     DATA_LIFTOFF                = 4,
-
+    NPC_ONYXIA                  = 10184,
     NPC_ONYXIA_WHELP            = 11262,
     NPC_ONYXIA_TRIGGER          = 12758,
 };
@@ -50,6 +50,12 @@ class instance_onyxias_lair : public ScriptedInstance
         void OnCreatureCreate(Creature* pCreature) override;
 
         void SetData(uint32 uiType, uint32 uiData) override;
+
+        const char* Save() const override { return m_strInstData.c_str(); }
+        void Load(const char* chrIn) override;
+
+        void SetData(uint32 uiType, uint32 uiData) override;
+        uint32 GetData(uint32 uiType) const override;
 
     protected:
         uint32 m_uiEncounter;
