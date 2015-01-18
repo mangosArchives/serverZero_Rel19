@@ -95,26 +95,70 @@ void instance_naxxramas::OnCreatureCreate(Creature* pCreature)
 {
     switch (pCreature->GetEntry())
     {
-        case NPC_ANUB_REKHAN:
-        case NPC_FAERLINA:
-        case NPC_THADDIUS:
-        case NPC_STALAGG:
-        case NPC_FEUGEN:
-        case NPC_ZELIEK:
+		case NPC_ANUB_REKHAN:
+			if (m_auiEncounter[TYPE_ANUB_REKHAN] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+			m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
+			break;
+		case NPC_FAERLINA:
+			if (m_auiEncounter[TYPE_FAERLINA] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+			m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
+			break;
+		case NPC_THADDIUS:
+		case NPC_STALAGG:
+		case NPC_FEUGEN:
+			if (m_auiEncounter[TYPE_THADDIUS] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+			m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
+			break;
+		case NPC_ZELIEK:
         case NPC_THANE:
         case NPC_BLAUMEUX:
-        case NPC_MOGRAINE:
+		case NPC_MOGRAINE:
+			if (m_auiEncounter[TYPE_FOUR_HORSEMEN] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+			m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
+			break;
         case NPC_SPIRIT_OF_BLAUMEUX:
         case NPC_SPIRIT_OF_MOGRAINE:
         case NPC_SPIRIT_OF_KORTHAZZ:
-        case NPC_SPIRIT_OF_ZELIREK:
-        case NPC_GOTHIK:
-        case NPC_SAPPHIRON:
-        case NPC_KELTHUZAD:
+		case NPC_SPIRIT_OF_ZELIREK:
+			m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
+			break;
+		case NPC_GOTHIK:
+			if (m_auiEncounter[TYPE_GOTHIK] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+		case NPC_SAPPHIRON:
+			if (m_auiEncounter[TYPE_SAPPHIRON] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+		case NPC_KELTHUZAD:
+			if (m_auiEncounter[TYPE_KELTHUZAD] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
         case NPC_THE_LICHKING:
             m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
             break;
-
         case NPC_SUB_BOSS_TRIGGER:
             m_lGothTriggerList.push_back(pCreature->GetObjectGuid());
             break;
