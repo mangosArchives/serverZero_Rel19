@@ -28,7 +28,7 @@
 
 enum
 {
-    MAX_ENCOUNTER           = 8,
+    MAX_ENCOUNTER           = 10,
     MAX_PRIESTS             = 5,
 
     TYPE_JEKLIK             = 0,
@@ -39,15 +39,20 @@ enum
     TYPE_OHGAN              = 5,                            // Do not change, used by Acid
     TYPE_LORKHAN            = 6,
     TYPE_ZATH               = 7,
+    TYPE_JINDO	           = 8,
+    TYPE_HAKKAR	           = 9,
 
     NPC_LORKHAN             = 11347,
     NPC_ZATH                = 11348,
     NPC_THEKAL              = 14509,
     NPC_JINDO               = 11380,
-    NPC_HAKKAR              = 14834,
+	NPC_HAKKAR	           = 14834,
+    NPC_ARLOKK              = 14515,
     NPC_PANTHER_TRIGGER     = 15091,
     NPC_BLOODLORD_MANDOKIR  = 11382,
     NPC_MARLI               = 14510,
+    NPC_VENOXIS             = 14507,
+    NPC_JEKLIK              = 14517,
 
     GO_SPIDER_EGG           = 179985,
     GO_GONG_OF_BETHEKK      = 180526,
