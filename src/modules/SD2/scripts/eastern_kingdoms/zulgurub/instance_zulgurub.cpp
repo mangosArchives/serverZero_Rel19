@@ -65,16 +65,65 @@ void instance_zulgurub::OnCreatureCreate(Creature* pCreature)
 {
     switch (pCreature->GetEntry())
     {
-        case NPC_LORKHAN:
-        case NPC_ZATH:
-        case NPC_THEKAL:
-        case NPC_JINDO:
-        case NPC_HAKKAR:
-        case NPC_BLOODLORD_MANDOKIR:
-        case NPC_MARLI:
+		case NPC_VENOXIS:
+			if (m_auiEncounter[TYPE_VENOXIS] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+			m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
+			break;
+		case NPC_JEKLIK:
+			if (m_auiEncounter[TYPE_JEKLIK] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+			m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
+			break;
+		case NPC_LORKHAN:
+		case NPC_ZATH:
+		case NPC_THEKAL:
+			if (m_auiEncounter[TYPE_THEKAL] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+			m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
+			break;
+		case NPC_JINDO:
+			if (m_auiEncounter[TYPE_JINDO] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+			m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
+			break;
+		case NPC_HAKKAR:
+			if (m_auiEncounter[TYPE_HAKKAR] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+			m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
+			break;
+		case NPC_BLOODLORD_MANDOKIR:
+			if (m_auiEncounter[TYPE_OHGAN] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+			m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
+			break;
+		case NPC_MARLI:
+			if (m_auiEncounter[TYPE_MARLI] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
             m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
             break;
-        case NPC_PANTHER_TRIGGER:
+		case NPC_PANTHER_TRIGGER:
             if (pCreature->GetPositionY() < -1626)
             {
                 m_lLeftPantherTriggerGUIDList.push_back(pCreature->GetObjectGuid());
@@ -83,7 +132,13 @@ void instance_zulgurub::OnCreatureCreate(Creature* pCreature)
             {
                 m_lRightPantherTriggerGUIDList.push_back(pCreature->GetObjectGuid());
             }
-            break;
+		case NPC_ARLOKK:
+			if (m_auiEncounter[TYPE_ARLOKK] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+
     }
 }
 
