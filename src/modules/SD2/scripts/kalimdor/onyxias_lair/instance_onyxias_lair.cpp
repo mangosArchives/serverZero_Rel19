@@ -56,9 +56,42 @@ void instance_onyxias_lair::OnCreatureCreate(Creature* pCreature)
     switch (pCreature->GetEntry())
     {
         case NPC_ONYXIA_TRIGGER:
+            if (m_uiEncounter == DONE)
+            {
+                pCreature->Despawn();
+                break;
+            }
+        case NPC_ONYXIA:
+            if (m_uiEncounter == DONE)
+            {
+                pCreature->Despawn();
+                break;
+            }
+            m_uiEncounter = NOT_STARTED;
             m_mNpcEntryGuidStore[NPC_ONYXIA_TRIGGER] = pCreature->GetObjectGuid();
             break;
     }
+}
+
+void instance_onyxias_lair::Load(const char* chrIn)
+{
+    if (!chrIn)
+    {
+        OUT_LOAD_INST_DATA_FAIL;
+        return;
+    }
+
+    OUT_LOAD_INST_DATA(chrIn);
+
+    std::istringstream loadStream(chrIn);
+    loadStream >> m_uiEncounter;
+
+    if (m_uiEncounter == IN_PROGRESS)
+    {
+        m_uiEncounter = NOT_STARTED;
+    }
+
+    OUT_LOAD_INST_DATA_COMPLETE;
 }
 
 void instance_onyxias_lair::SetData(uint32 uiType, uint32 uiData)
@@ -75,7 +108,29 @@ void instance_onyxias_lair::SetData(uint32 uiType, uint32 uiData)
         m_tPhaseTwoStart = time(NULL);
     }
 
+    if (uiData == DONE)
+    {
+        OUT_SAVE_INST_DATA;
+
+        std::ostringstream saveStream;
+        saveStream << m_uiEncounter << " ";
+
+        m_strInstData = saveStream.str();
+
+        SaveToDB();
+        OUT_SAVE_INST_DATA_COMPLETE;
+    }
+
     // Currently no reason to save anything
+}
+
+uint32 instance_onyxias_lair::GetData(uint32 uiType) const
+{
+    if (uiType)
+    {
+        return m_uiEncounter;
+    }
+    return 0;
 }
 
 InstanceData* GetInstanceData_instance_onyxias_lair(Map* pMap)
