@@ -951,6 +951,17 @@ void AddSC_felwood()
     Script* pNewScript;
 
     pNewScript = new Script;
+    pNewScript->Name = "npc_kitten";
+    pNewScript->GetAI = &GetAI_npc_kitten;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
+    pNewScript->Name = "npc_corrupt_saber";
+    pNewScript->pGossipHello =  &GossipHello_npc_corrupt_saber;
+    pNewScript->pGossipSelect = &GossipSelect_npc_corrupt_saber;
+    pNewScript->RegisterSelf();
+
+    pNewScript = new Script;
     pNewScript->Name = "go_corrupted_plant";
     pNewScript->pQuestRewardedGO = &QuestRewarded_go_corrupted_plant;
     pNewScript->RegisterSelf();
