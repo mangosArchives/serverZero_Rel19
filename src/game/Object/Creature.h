@@ -488,11 +488,15 @@ enum TemporaryFactionFlags                                  // Used at real fact
     TEMPFACTION_ALL,
 };
 
+
+
+
+
 class MANGOS_DLL_SPEC Creature : public Unit
 {
-        CreatureAI* i_AI;
+    CreatureAI* i_AI;
 
-    public:
+public:
 
         /* Loot Variables */
         bool hasBeenLootedOnce;
@@ -523,8 +527,8 @@ class MANGOS_DLL_SPEC Creature : public Unit
         bool IsTotem() const { return m_subtype == CREATURE_SUBTYPE_TOTEM; }
         bool IsTemporarySummon() const { return m_subtype == CREATURE_SUBTYPE_TEMPORARY_SUMMON; }
 
-        bool IsCorpse() const { return GetDeathState() ==  CORPSE; }
-        bool IsDespawned() const { return GetDeathState() ==  DEAD; }
+        bool IsCorpse() const { return GetDeathState() == CORPSE; }
+        bool IsDespawned() const { return GetDeathState() == DEAD; }
         void SetCorpseDelay(uint32 delay) { m_corpseDelay = delay; }
         uint32 GetCorpseDelay() const { return m_corpseDelay; }
         bool IsRacialLeader() const { return GetCreatureInfo()->RacialLeader; }
@@ -548,7 +552,9 @@ class MANGOS_DLL_SPEC Creature : public Unit
         bool IsElite() const
         {
             if (IsPet())
-                { return false; }
+            {
+                return false;
+            }
 
             uint32 rank = GetCreatureInfo()->Rank;
             return rank != CREATURE_ELITE_NORMAL && rank != CREATURE_ELITE_RARE;
@@ -557,7 +563,9 @@ class MANGOS_DLL_SPEC Creature : public Unit
         bool IsWorldBoss() const
         {
             if (IsPet())
-                { return false; }
+            {
+                return false;
+            }
 
             return GetCreatureInfo()->Rank == CREATURE_ELITE_WORLDBOSS;
         }
@@ -591,6 +599,10 @@ class MANGOS_DLL_SPEC Creature : public Unit
         uint32 GetCreatureSpellCooldownDelay(uint32 spellId) const;
 
         bool HasSpell(uint32 spellID) const override;
+
+        void Despawn();
+        void MovementHaltFaceTo(Player* pPlayer);
+        void FaceBack(float curface, uint16 waittime);
 
         bool UpdateEntry(uint32 entry, Team team = ALLIANCE, const CreatureData* data = NULL, GameEventCreatureData const* eventData = NULL, bool preserveHPAndPower = true);
 

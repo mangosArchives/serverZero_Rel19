@@ -276,7 +276,9 @@ bool Creature::InitEntry(uint32 Entry, Team team, CreatureData const* data /*=NU
 {
     // use game event entry if any instead default suggested
     if (eventData && eventData->entry_id)
-        { Entry = eventData->entry_id; }
+    {
+        Entry = eventData->entry_id;
+    }
 
     CreatureInfo const* normalInfo = ObjectMgr::GetCreatureTemplate(Entry);
     if (!normalInfo)
@@ -368,7 +370,7 @@ bool Creature::InitEntry(uint32 Entry, Team team, CreatureData const* data /*=NU
 
     // update speed for the new CreatureInfo base speed mods
     UpdateSpeed(MOVE_WALK, false);
-    UpdateSpeed(MOVE_RUN,  false);
+    UpdateSpeed(MOVE_RUN, false);
 
     SetLevitate(cinfo->InhabitType & INHABIT_AIR);
 
@@ -376,6 +378,28 @@ bool Creature::InitEntry(uint32 Entry, Team team, CreatureData const* data /*=NU
     m_defaultMovementType = MovementGeneratorType(cinfo->MovementType);
 
     return true;
+}
+
+void Creature::Despawn()
+{
+    SetCorpseDelay(0);
+    SetRespawnDelay(-1);
+    ForcedDespawn();
+}
+
+void Creature::MovementHaltFaceTo(Player* pPlayer)
+{
+    InterruptMoving(false);
+    SetFacingToObject(pPlayer);
+    SetSheath(SHEATH_STATE_UNARMED);
+    Sleep(100);
+}
+
+void Creature::FaceBack(float curface, uint16 waittime)
+{
+    Sleep(waittime);
+    SetSheath(SHEATH_STATE_MELEE);
+    SetFacingTo(curface);
 }
 
 bool Creature::UpdateEntry(uint32 Entry, Team team, const CreatureData* data /*=NULL*/, GameEventCreatureData const* eventData /*=NULL*/, bool preserveHPAndPower /*=true*/)
