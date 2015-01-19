@@ -80,10 +80,66 @@ void instance_molten_core::OnCreatureCreate(Creature* pCreature)
 {
     switch (pCreature->GetEntry())
     {
-            // Bosses
-        case NPC_GARR:
-        case NPC_SULFURON:
-        case NPC_MAJORDOMO:
+		case NPC_LUCIFRON:
+			if (m_auiEncounter[TYPE_GARR] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+		case NPC_MAGMADAR:
+			if (m_auiEncounter[TYPE_MAGMADAR] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+		case NPC_GEHENNAS:
+			if (m_auiEncounter[TYPE_GEHENNAS] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+		case NPC_GARR:
+			if (m_auiEncounter[TYPE_GARR] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+		case NPC_SHAZZRAH:
+			if (m_auiEncounter[TYPE_SHAZZRAH] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+		case NPC_GEDDON:
+			if (m_auiEncounter[TYPE_GEDDON] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+		case NPC_GOLEMAGG:
+			if (m_auiEncounter[TYPE_GOLEMAGG] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+		case NPC_SULFURON:
+			if (m_auiEncounter[TYPE_SULFURON] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+		case NPC_MAJORDOMO:
+			if (m_auiEncounter[TYPE_MAJORDOMO] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
+		case TYPE_RAGNAROS:
+			if (m_auiEncounter[TYPE_RAGNAROS] == DONE)
+			{
+				pCreature->Despawn();
+				break;
+			}
             m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
             break;
     }
