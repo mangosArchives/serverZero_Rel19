@@ -161,7 +161,7 @@ GroupQueueInfo* BattleGroundQueue::AddGroup(Player* leader, Group* grp, BattleGr
     // compute index (if group is premade or joined a rated match) to queues
     uint32 index = 0;
     if (!isPremade)
-        index += PVP_TEAM_COUNT;                            // BG_QUEUE_PREMADE_* -> BG_QUEUE_NORMAL_*
+        { index += PVP_TEAM_COUNT; }                            // BG_QUEUE_PREMADE_* -> BG_QUEUE_NORMAL_*
 
     if (ginfo->GroupTeam == HORDE)
         { ++index; }                                            // BG_QUEUE_*_ALLIANCE -> BG_QUEUE_*_HORDE

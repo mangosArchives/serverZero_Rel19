@@ -2522,12 +2522,12 @@ bool ChatHandler::HandleTicketCommand(char* args)
                 return false;
             }
         }
-        
+
         if (strncmp(px, "close_survey", 13) == 0)
             ticket->CloseWithSurvey();
         else
             ticket->Close();
-        
+
         //This needs to be before we delete the ticket
         Player* pPlayer = sObjectMgr.GetPlayer(ticket->GetPlayerGuid());
 
@@ -2587,7 +2587,7 @@ bool ChatHandler::HandleTicketCommand(char* args)
                 return false;
             }
         }
-        
+
         // no response text?
         if (!*args)
             { return false; }
