@@ -96,7 +96,7 @@ int   CONF_extract = EXTRACT_MAP | EXTRACT_DBC; /**< Select data for extract */
 bool  CONF_allow_height_limit       = true;     /**< Allows to limit minimum height */
 float CONF_use_minHeight            = -500.0f;  /**< Default minimum height */
 
-bool  CONF_allow_float_to_int      = true;      /**< Allows float to int conversion */
+bool  CONF_allow_float_to_int      = false;      /**< Allows float to int conversion */
 float CONF_float_to_int8_limit     = 2.0f;      /**< Max accuracy = val/256 */
 float CONF_float_to_int16_limit    = 2048.0f;   /**< Max accuracy = val/65536 */
 float CONF_flat_height_delta_limit = 0.005f;    /**< If max - min less this value - surface is flat */
@@ -209,7 +209,7 @@ bool HandleArgs(int argc, char** argv)
             int convertFloatToInt = atoi(param);
             if (convertFloatToInt != 0)
             {
-                CONF_allow_float_to_int = convertFloatToInt != 0;
+                CONF_allow_float_to_int = true;
             }
         }
         else if (strcmp(argv[i], "-e") == 0 || strcmp(argv[i], "--extract") == 0)
@@ -452,7 +452,7 @@ float liquid_height[ADT_GRID_SIZE + 1][ADT_GRID_SIZE + 1];      /**< TODO */
  * @param cell_x
  * @return bool
  */
-bool ConvertADT(char* filename, char* filename2, int cell_y, int cell_x)
+bool ConvertADT(char* filename, char* filename2)
 {
     ADT_file adt;
 
@@ -659,7 +659,7 @@ bool ConvertADT(char* filename, char* filename2, int cell_y, int cell_x)
     // Try store as packed in uint16 or uint8 values
     if (!(heightHeader.flags & MAP_HEIGHT_NO_HEIGHT))
     {
-        float step;
+        float step = 0.0f;
         // Try Store as uint values
         if (CONF_allow_float_to_int)
         {
@@ -1035,7 +1035,7 @@ void ExtractMapsFromMpq()
                     { continue; }
                 sprintf(mpq_filename, "World\\Maps\\%s\\%s_%u_%u.adt", map_ids[z].name, map_ids[z].name, x, y);
                 sprintf(output_filename, "%s/maps/%03u%02u%02u.map", output_path, map_ids[z].id, y, x);
-                ConvertADT(mpq_filename, output_filename, y, x);
+                ConvertADT(mpq_filename, output_filename);// , y, x);
             }
             // draw progress bar
             printf("Processing........................%d%%\r", (100 * (y + 1)) / WDT_MAP_SIZE);
