@@ -49,7 +49,7 @@ enum InstanceConditionIDs                                   // Suggested values 
     INSTANCE_CONDITION_ID_TEAM_ALLIANCE     = 469,
 };
 
-class MANGOS_DLL_SPEC InstanceData
+class  InstanceData
 {
     public:
 
