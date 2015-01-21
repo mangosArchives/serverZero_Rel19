@@ -43,7 +43,8 @@ instance_stratholme::instance_stratholme(Map* pMap) : ScriptedInstance(pMap),
     m_uiYellCounter(0),
     m_uiMindlessCount(0),
     m_uiPostboxesUsed(0),
-    m_uiSilverHandKilled(0)
+    m_uiSilverHandKilled(0),
+    m_bTheUnforgivenSpawnHasTriggered(0)
 {
     Initialize();
 }
@@ -919,7 +920,7 @@ void instance_stratholme::Update(uint32 uiDiff)
 
     // Check to see if the spawning of The Unforgiven and its adds has been triggered by a player (player walking into area)
     // Once this has occurred, the respawning is dealt with via the creature object's respawn time (The Unforgiven every 30 minutes, Vengeful Phantoms every 15 minutes)
-    if (!bTheUnforgivenSpawnHasTriggered)
+    if (!m_bTheUnforgivenSpawnHasTriggered)
     {
         // Query the players in the instance
         Map::PlayerList const& players = instance->GetPlayers();
@@ -946,7 +947,7 @@ void instance_stratholme::Update(uint32 uiDiff)
                         pVengfulPhantom[i] = pPlayer->SummonCreature(NPC_VENGEFUL_PHANTOM, aStratholmeLocation[8].m_fX, aStratholmeLocation[8].m_fY, aStratholmeLocation[8].m_fZ, aStratholmeLocation[8].m_fO, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 7200000);
                         pVengfulPhantom[i]->SetRespawnTime(900); // 15 minutes
                     }
-                    bTheUnforgivenSpawnHasTriggered = true;
+                    m_bTheUnforgivenSpawnHasTriggered = true;
                     break;
                 }
             }
