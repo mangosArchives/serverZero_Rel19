@@ -9449,6 +9449,12 @@ InventoryResult Player::CanUseItem(ItemPrototype const* pProto, bool direct_acti
         if (getLevel() < pProto->RequiredLevel)
             { return EQUIP_ERR_CANT_EQUIP_LEVEL_I; }
 
+#ifdef ENABLE_ELUNA
+        InventoryResult eres = sEluna->OnCanUseItem(this, pProto->ItemId);
+        if (eres != EQUIP_ERR_OK)
+            return eres;
+#endif
+
         return EQUIP_ERR_OK;
     }
     return EQUIP_ERR_ITEM_NOT_FOUND;
@@ -13114,10 +13120,8 @@ void Player::SendQuestCompleteEvent(uint32 quest_id)
     }
 }
 
-void Player::SendQuestReward(Quest const* pQuest, uint32 XP, Object* questGiver)
+void Player::SendQuestReward(Quest const* pQuest, uint32 XP, Object* /*questGiver*/)
 {
-    Player* pPlayer = m_session->GetPlayer();
-
     uint32 questid = pQuest->GetQuestId();
     DEBUG_LOG("WORLD: Sent SMSG_QUESTGIVER_QUEST_COMPLETE quest = %u", questid);
     WorldPacket data(SMSG_QUESTGIVER_QUEST_COMPLETE, (4 + 4 + 4 + 4 + 4 + pQuest->GetRewItemsCount() * 8));
@@ -18974,6 +18978,9 @@ void Player::LearnTalent(uint32 talentId, uint32 talentRank)
     // learn! (other talent ranks will unlearned at learning)
     learnSpell(spellid, false);
     DETAIL_LOG("TalentID: %u Rank: %u Spell: %u\n", talentId, talentRank, spellid);
+#ifdef ENABLE_ELUNA
+    sEluna->OnLearnTalents(this, talentId, talentRank, spellid);
+#endif /*ENABLE_ELUNA*/
 }
 
 void Player::UpdateFallInformationIfNeed(MovementInfo const& minfo, uint16 opcode)

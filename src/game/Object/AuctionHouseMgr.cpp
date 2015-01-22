@@ -59,13 +59,6 @@ AuctionHouseMgr::~AuctionHouseMgr()
         { delete itr->second; }
 }
 
-AuctionHouseObject::~AuctionHouseObject()
-{
-    for (AuctionEntryMap::const_iterator itr = AuctionsMap.begin(); itr != AuctionsMap.end(); ++itr)
-        delete itr->second;
-}
-
-
 AuctionHouseObject* AuctionHouseMgr::GetAuctionsMap(AuctionHouseEntry const* house)
 {
     if (sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_INTERACTION_AUCTION))

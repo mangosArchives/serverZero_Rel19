@@ -2208,6 +2208,11 @@ uint32 ScriptMgr::GetDialogStatus(Player* pPlayer, GameObject* pGameObject)
 
 bool ScriptMgr::OnGameObjectUse(Player* pPlayer, GameObject* pGameObject)
 {
+#ifdef ENABLE_ELUNA
+    if (sEluna->OnGameObjectUse(pPlayer, pGameObject))
+        return true;
+#endif /* ENABLE_ELUNA */
+
 #ifdef ENABLE_SD2
     return SD2::GOUse(pPlayer, pGameObject);
 #else

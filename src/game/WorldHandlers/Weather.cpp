@@ -63,10 +63,6 @@ Weather::Weather(uint32 zone, WeatherZoneChances const* weatherChances) : m_zone
     DETAIL_FILTER_LOG(LOG_FILTER_WEATHER, "WORLD: Starting weather system for zone %u (change every %u minutes).", m_zone, (m_timer.GetInterval() / (MINUTE * IN_MILLISECONDS)));
 }
 
-Weather::~Weather()
-{
-};
-
 /// Launch a weather update
 bool Weather::Update(time_t diff)
 {
@@ -287,7 +283,7 @@ bool Weather::UpdateWeather()
 
     DETAIL_FILTER_LOG(LOG_FILTER_WEATHER, "Change the weather of zone %u to %s.", m_zone, wthstr);
 #ifdef ENABLE_ELUNA
-    sEluna->OnChange(this, (WeatherState)m_type, m_grade);
+    sEluna->OnChange(this, m_zone, (WeatherState)m_type, m_grade);
 #endif /* ENABLE_ELUNA */
 
     return true;

@@ -52,9 +52,6 @@
 #ifdef ENABLE_SOAP
 #include "MaNGOSsoap.h"
 #endif
-#ifdef ENABLE_ELUNA
-#include "LuaEngine.h"
-#endif /* ENABLE_ELUNA */
 
 #include <ace/OS_NS_signal.h>
 #include <ace/TP_Reactor.h>
