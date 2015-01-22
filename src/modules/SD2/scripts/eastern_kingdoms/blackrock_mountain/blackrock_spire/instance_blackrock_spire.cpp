@@ -669,7 +669,7 @@ void instance_blackrock_spire::DoSendNextFlamewreathWave()
             float fX, fY, fZ;
             pSummoner->GetRandomPoint(rookeryEventSpawnPos[0], rookeryEventSpawnPos[1], rookeryEventSpawnPos[2], 2.5f, fX, fY, fZ);
             // Summon Rookery Hatchers in first wave, else random
-            if (pSummoned = pSummoner->SummonCreature(urand(0, 1) && m_uiFlamewreathWaveCount ? NPC_ROOKERY_GUARDIAN : NPC_ROOKERY_HATCHER,
+            if (pSummoned == pSummoner->SummonCreature(urand(0, 1) && m_uiFlamewreathWaveCount ? NPC_ROOKERY_GUARDIAN : NPC_ROOKERY_HATCHER,
                             fX, fY, fZ, 0.0, TEMPSUMMON_TIMED_OOC_OR_DEAD_DESPAWN, 300000))
             {
                 pSummoner->GetContactPoint(pSummoned, fX, fY, fZ);

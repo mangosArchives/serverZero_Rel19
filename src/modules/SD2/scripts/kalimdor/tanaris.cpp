@@ -517,7 +517,7 @@ enum
     SPAWN_DURATION = 600000 // pirates and chest will exist in world for 10 minutes
 };
 
-bool GOUse_go_pirate_treasure(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_pirate_treasure(Player* /*pPlayer*/, GameObject* pGo)
 {
     // despawn chest
     pGo->SetSpawnedByDefault(false);
@@ -550,7 +550,7 @@ void SpawnPirates(Player* pPlayer, int iTotalPirates)
     }
 }
 
-bool GOUse_go_inconspicuous_landmark(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_inconspicuous_landmark(Player* pPlayer, GameObject* /*pGo*/)
 {
     // spawn 4 or 5 sailor boys
     int iTotalPirates = rand() % 2 + 4;

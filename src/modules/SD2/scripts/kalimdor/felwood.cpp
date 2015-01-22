@@ -938,7 +938,7 @@ bool QuestRewarded_go_corrupted_plant(Player* pPlayer, GameObject* pGo, const Qu
 }
 
 // This is only used for the Corrupted Songflower quest; actually for when interacting with the cleansed songflower
-bool GOUse_go_cleansed_plant(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_cleansed_plant(Player* pPlayer, GameObject* /*pGo*/)
 {
     // cast spell on player
     pPlayer->CastSpell(pPlayer, SPELL_SONGFLOWER_SERENADE, true);

@@ -1163,7 +1163,7 @@ struct npc_horde_defenderAI : public ScriptedAI
         m_creature->SetLootRecipient(NULL);
     }
 
-    void Aggro(Unit* pWho) override
+    void Aggro(Unit* /*pWho*/) override
     {
         switch (urand(0, 2))
         {
@@ -1196,7 +1196,7 @@ struct npc_horde_defenderAI : public ScriptedAI
         }
     }
 
-    void UpdateAI(const uint32 uiDiff)
+    void UpdateAI(const uint32 /*uiDiff*/)
     {
     if (!m_creature->getVictim())
     {

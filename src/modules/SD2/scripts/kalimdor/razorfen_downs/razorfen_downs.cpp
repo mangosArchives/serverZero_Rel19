@@ -376,7 +376,7 @@ void SummonCreatures(Player* pPlayer, int NPC_ID, int iTotalToSpawn)
     }
 }
 
-bool GOUse_go_tutenkash_gong(Player* pPlayer, GameObject* pGo)
+bool GOUse_go_tutenkash_gong(Player* pPlayer, GameObject* /*pGo*/)
 {
     // gong will only spawn next wave if current wave has been wiped out
     if (!bWaveInMotion)
@@ -430,7 +430,7 @@ struct npc_tomb_creature : public ScriptedAI
         // leaving this her for future use, just-in-case
     }
 
-    void JustDied(Unit* pKiller) override
+    void JustDied(Unit* /*pKiller*/) override
     {
         switch (m_creature->GetEntry())
         {
@@ -454,7 +454,7 @@ struct npc_tomb_creature : public ScriptedAI
         
     }
 
-    void UpdateAI(const uint32 uiDiff) override
+    void UpdateAI(const uint32 /*uiDiff*/) override
     {
         // leaving this here for future use, just-in-case
     }

@@ -219,7 +219,7 @@ struct npc_piznikAI : public ScriptedAI
         m_creature->setFaction(m_uiNormFaction);
     }
 
-    void JustDied(Unit* pKiller)
+    void JustDied(Unit* /*pKiller*/)
     {
         if (Player* pPlayer = (m_creature->GetMap()->GetPlayer(m_uiPlayerGUID)))
         {
@@ -239,7 +239,7 @@ struct npc_piznikAI : public ScriptedAI
         ++m_uiMoveCount;
     }
 
-    void SummonedCreatureJustDied(Creature* pKilled)
+    void SummonedCreatureJustDied(Creature* /*pKilled*/)
     {
         --m_uiSummonCount;
     }

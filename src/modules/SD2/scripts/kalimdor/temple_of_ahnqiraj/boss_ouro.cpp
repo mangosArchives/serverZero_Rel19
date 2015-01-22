@@ -331,7 +331,7 @@ struct npc_ouro_spawnerAI : public Scripted_NoMovementAI
         }
     }
 
-    void UpdateAI(const uint32 uiDiff) override { }
+    void UpdateAI(const uint32 /*uiDiff*/) override { }
 };
 
 CreatureAI* GetAI_npc_ouro_spawner(Creature* pCreature)

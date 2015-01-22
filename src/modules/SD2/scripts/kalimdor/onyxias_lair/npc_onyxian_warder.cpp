@@ -36,7 +36,7 @@ struct npc_onyxian_warderAI : public ScriptedAI
         Pierce_Armor_Timer  = urand(10000, 20000);
     }
 
-    void Aggro(Unit* pWho)
+    void Aggro(Unit* /*pWho*/)
     {
         m_creature->SetInCombatWithZone();
         m_creature->CallForHelp(20.0f);

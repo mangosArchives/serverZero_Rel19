@@ -240,7 +240,7 @@ Creature* ScriptedAI::DoSpawnCreature(uint32 uiId, float fX, float fY, float fZ,
     return m_creature->SummonCreature(uiId, m_creature->GetPositionX() + fX, m_creature->GetPositionY() + fY, m_creature->GetPositionZ() + fZ, fAngle, (TempSummonType)uiType, uiDespawntime);
 }
 
-SpellEntry const* ScriptedAI::SelectSpell(Unit* pTarget, int32 uiSchool, int32 iMechanic, SelectTarget selectTargets, uint32 uiPowerCostMin, uint32 uiPowerCostMax, float fRangeMin, float fRangeMax, SelectEffect selectEffects)
+SpellEntry const* ScriptedAI::SelectSpell(Unit* pTarget, int32 /*uiSchool*/, int32 iMechanic, SelectTarget selectTargets, uint32 uiPowerCostMin, uint32 uiPowerCostMax, float fRangeMin, float fRangeMax, SelectEffect selectEffects)
 {
     // No target so we can't cast
     if (!pTarget)
@@ -630,8 +630,6 @@ bool ScriptedAI::EnterEvadeIfOutOfCombatArea(const uint32 uiDiff)
         return false;
     }
 
-    float fX = m_creature->GetPositionX();
-    float fY = m_creature->GetPositionY();
     float fZ = m_creature->GetPositionZ();
 
     switch (m_creature->GetEntry())

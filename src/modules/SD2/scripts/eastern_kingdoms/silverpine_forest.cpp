@@ -368,7 +368,7 @@ struct npc_deathstalker_faerleiaAI : public ScriptedAI
         m_bWaveDied = false;
     }
 
-    void JustDied(Unit* pKiller)
+    void JustDied(Unit* /*pKiller*/)
     {
         if (Player* pPlayer = (m_creature->GetMap()->GetPlayer(m_uiPlayerGUID)))
         {
@@ -388,7 +388,7 @@ struct npc_deathstalker_faerleiaAI : public ScriptedAI
         ++m_uiMoveCount;
     }
 
-    void SummonedCreatureJustDied(Creature* pKilled)
+    void SummonedCreatureJustDied(Creature* /*pKilled*/)
     {
         --m_uiSummonCount;
 
