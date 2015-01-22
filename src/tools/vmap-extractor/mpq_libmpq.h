@@ -108,19 +108,6 @@ class MPQFile
         char* buffer; /**< TODO */
         libmpq__off_t pointer, size; /**< TODO */
 
-        /**
-         * @brief disable copying
-         *
-         * @param f
-         */
-        MPQFile(const MPQFile& f) {}
-        /**
-         * @brief
-         *
-         * @param f
-         */
-        void operator=(const MPQFile& f) {}
-
     public:
         /**
          * @brief

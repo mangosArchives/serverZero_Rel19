@@ -443,7 +443,7 @@ int main(int argc, char** argv)
             printf("Your output directory seems to be polluted, please use an empty directory!\n");
             printf("<press return to exit>");
             char garbage[2];
-            int ret = scanf("%c", garbage);
+            scanf("%c", garbage);
             return 1;
         }
     }

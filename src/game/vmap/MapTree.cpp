@@ -292,7 +292,7 @@ namespace VMAP
             char chunk[8];
             // general info
             if (!readChunk(rf, chunk, VMAP_MAGIC, 8)) { success = false; }
-            char tiled;
+            char tiled=0;
             if (success && fread(&tiled, sizeof(char), 1, rf) != 1) { success = false; }
             iIsTiled = bool(tiled);
             // Nodes

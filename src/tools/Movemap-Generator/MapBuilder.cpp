@@ -159,10 +159,10 @@ namespace MMAP
     /**************************************************************************/
     void MapBuilder::getGridBounds(uint32 mapID, uint32& minX, uint32& minY, uint32& maxX, uint32& maxY)
     {
-        maxX = INT_MAX;
-        maxY = INT_MAX;
-        minX = INT_MIN;
-        minY = INT_MIN;
+        maxX = UINT_MAX;
+        maxY = UINT_MAX;
+        minX = 0;
+        minY = 0;
 
         float bmin[3] = { 0 };
         float bmax[3] = { 0 };
