@@ -269,9 +269,11 @@ bool EffectDummyCreature_summon_hakkar(Unit* pCaster, uint32 uiSpellId, SpellEff
         }
 
         // Update entry to avatar of Hakkar and cast some visuals
-        ((Creature*)pCaster)->UpdateEntry(NPC_AVATAR_OF_HAKKAR);
-        pCaster->CastSpell(pCaster, SPELL_AVATAR_SUMMONED, true);
-        DoScriptText(SAY_AVATAR_SPAWN, pCaster);
+        if (Creature *pAvatar = pCaster->SummonCreature(NPC_AVATAR_OF_HAKKAR, pCaster->GetPositionX(), pCaster->GetPositionY(), pCaster->GetPositionZ(), pCaster->GetOrientation(), TEMPSUMMON_CORPSE_TIMED_DESPAWN, 1*DAY*IN_MILLISECONDS))
+        {
+            pAvatar->CastSpell(pAvatar, SPELL_AVATAR_SUMMONED, true);
+        }
+        pCaster->ToCreature()->ForcedDespawn(10);
 
         // Always return true when we are handling this spell and effect
         return true;

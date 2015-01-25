@@ -100,6 +100,8 @@ void instance_sunken_temple::OnCreatureCreate(Creature* pCreature)
             break;
         case NPC_JAMMALAN:
         case NPC_ATALARION:
+        case NPC_SHADE_OF_HAKKAR:
+        case NPC_AVATAR_OF_HAKKAR:
             m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
             break;
     }
@@ -243,7 +245,7 @@ void instance_sunken_temple::SetData(uint32 uiType, uint32 uiData)
 
                 if (Creature* pShade = pPlayer->SummonCreature(NPC_SHADE_OF_HAKKAR, aSunkenTempleLocation[1].m_fX, aSunkenTempleLocation[1].m_fY, aSunkenTempleLocation[1].m_fZ, aSunkenTempleLocation[1].m_fO, TEMPSUMMON_MANUAL_DESPAWN, 0))
                 {
-                    m_mNpcEntryGuidStore[NPC_SHADE_OF_HAKKAR] = pShade->GetObjectGuid();
+                    //m_mNpcEntryGuidStore[NPC_SHADE_OF_HAKKAR] = pShade->GetObjectGuid();
                     pShade->SetRespawnDelay(DAY);
                 }
 
@@ -256,12 +258,18 @@ void instance_sunken_temple::SetData(uint32 uiType, uint32 uiData)
             else if (uiData == FAIL)
             {
                 // In case of wipe during the summoning ritual the shade is despawned
-                // The trash mobs stay in place, they are not despawned; the avatar is not sure if it's despawned or not but most likely he'll stay in place
+                // The trash mobs stay in place, they are not despawned
 
-                // Despawn the shade and the avatar if needed -- TODO, avatar really?
+                // Despawn the shade and the avatar -- TODO, avatar really?
                 if (Creature* pShade = GetSingleCreatureFromStorage(NPC_SHADE_OF_HAKKAR))
                 {
                     pShade->ForcedDespawn();
+                    //m_mNpcEntryGuidStore.erase(NPC_SHADE_OF_HAKKAR);
+                }
+                else if (Creature *pAvatar = GetSingleCreatureFromStorage(NPC_AVATAR_OF_HAKKAR))
+                {
+                    pAvatar->ForcedDespawn();
+                    //m_mNpcEntryGuidStore.erase(NPC_AVATAR_OF_HAKKAR);
                 }
 
                 // Reset flames
