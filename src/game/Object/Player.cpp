@@ -6467,7 +6467,7 @@ void Player::_ApplyItemBonuses(ItemPrototype const* proto, uint8 slot, bool appl
         float val = float(proto->ItemStat[i].ItemStatValue);
 
         if (val == 0)
-            { continue; }
+            break; // no point continuing through the loop, as this will signify no more stats of this variety (mana, strength, etc.) are to be added to the item
 
         switch (proto->ItemStat[i].ItemStatType)
         {
