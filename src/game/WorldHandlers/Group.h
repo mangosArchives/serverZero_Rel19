@@ -445,7 +445,7 @@ class  Group
         * \param Item pointer to the item to check.
         * \return bool true if the roll is done, false otherwise.
         */
-        bool IsRollDoneForItem(Creature * pCreature, const LootItem * pItem);
+        bool IsRollDoneForItem(WorldObject * pObject, const LootItem * pItem);
 
         void LinkMember(GroupReference* pRef)
         {

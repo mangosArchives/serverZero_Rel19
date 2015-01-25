@@ -131,13 +131,14 @@ void WorldSession::HandleAutostoreLootItemOpcode(WorldPacket& recv_data)
     /* Checking group conditions to be sure the player has the permissions to loot. */
     if(group)
     {
-        Creature * pCreature = player->GetMap()->GetCreature(lguid);
+        WorldObject * pObject = player->GetMap()->GetWorldObject(lguid);
+
         switch(group->GetLootMethod())
         {
             case GROUP_LOOT:
             case NEED_BEFORE_GREED:
             {
-                if(item->winner && item->winner != player->GetObjectGuid() && !item->is_underthreshold && group->IsRollDoneForItem(pCreature, item))
+                if ((!item->is_underthreshold && !group->IsRollDoneForItem(pObject, item)) || (item->winner && item->winner != player->GetObjectGuid()))
                 {
                     player->SendEquipError(EQUIP_ERR_LOOT_CANT_LOOT_THAT_NOW, NULL, NULL, item->itemid);
                     return;
