@@ -56,7 +56,7 @@ uint32 mTimeStamp()
     t /= 10;
     t -= DELTA_EPOCH_IN_USEC;
 
-    return uint32((((t / 1000000L) * 1000) + ((t % 1000000L) / 1000)) - ((YEAR_IN_SECONDS * 20) * 1000));
+    return uint32((((t / 1000000L) * 1000) + ((t % 1000000L) / 1000)) - ((YEAR_IN_SECONDS * 20) * 1000LL));
 }
 
 #else

@@ -174,7 +174,7 @@ void BattleGroundWS::EventPlayerCapturedFlag(Player* source)
         // Drop Horde Flag from Player
         source->RemoveAurasDueToSpell(BG_WS_SPELL_WARSONG_FLAG);
         if (m_TeamScores[TEAM_INDEX_ALLIANCE] < BG_WS_MAX_TEAM_SCORE)
-            m_TeamScores[TEAM_INDEX_ALLIANCE] += 1;
+            { m_TeamScores[TEAM_INDEX_ALLIANCE] += 1; }
         PlaySoundToAll(BG_WS_SOUND_FLAG_CAPTURED_ALLIANCE);
         RewardReputationToTeam(890, m_ReputationCapture, ALLIANCE);
     }
@@ -188,7 +188,7 @@ void BattleGroundWS::EventPlayerCapturedFlag(Player* source)
         // Drop Alliance Flag from Player
         source->RemoveAurasDueToSpell(BG_WS_SPELL_SILVERWING_FLAG);
         if (m_TeamScores[TEAM_INDEX_HORDE] < BG_WS_MAX_TEAM_SCORE)
-            m_TeamScores[TEAM_INDEX_HORDE] += 1;
+            { m_TeamScores[TEAM_INDEX_HORDE] += 1; }
         PlaySoundToAll(BG_WS_SOUND_FLAG_CAPTURED_HORDE);
         RewardReputationToTeam(889, m_ReputationCapture, HORDE);
     }
@@ -200,7 +200,7 @@ void BattleGroundWS::EventPlayerCapturedFlag(Player* source)
     SpawnEvent(WS_EVENT_FLAG_H, 0, false);
 
     if (source->GetTeam() == ALLIANCE)
-        SendMessageToAll(LANG_BG_WS_CAPTURED_HF, CHAT_MSG_BG_SYSTEM_ALLIANCE, source);
+        { SendMessageToAll(LANG_BG_WS_CAPTURED_HF, CHAT_MSG_BG_SYSTEM_ALLIANCE, source); }
     else
         { SendMessageToAll(LANG_BG_WS_CAPTURED_AF, CHAT_MSG_BG_SYSTEM_HORDE, source); }
 

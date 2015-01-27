@@ -4517,15 +4517,15 @@ void Unit::SendAttackStateUpdate(CalcDamageInfo* damageInfo)
     data << (uint32)damageInfo->HitInfo;
     data << GetPackGUID();
     data << damageInfo->target->GetPackGUID();
-    data << (uint32)(damageInfo->damage);     // Full damage
+    data << (uint32)(damageInfo->damage);                   // Full damage
 
-    data << (uint8)1;                         // Sub damage count
+    data << (uint8)1;                                       // Sub damage count
     //===  Sub damage description
     data << uint32(GetFirstSchoolInMask(damageInfo->damageSchoolMask));
-    data << float(damageInfo->damage);        // sub damage
-    data << uint32(damageInfo->damage);       // Sub Damage
-    data << uint32(damageInfo->absorb);       // Absorb
-    data << uint32(damageInfo->resist);       // Resist
+    data << float(damageInfo->damage);                      // sub damage
+    data << uint32(damageInfo->damage);                     // Sub Damage
+    data << uint32(damageInfo->absorb);                     // Absorb
+    data << uint32(damageInfo->resist);                     // Resist
     //=================================================
     data << uint32(damageInfo->TargetState);
     if (damageInfo->absorb == 0)                            // also 0x3E8 = 0x3E8, check when that happens
@@ -5381,9 +5381,9 @@ int32 Unit::SpellBonusWithCoeffs(Unit* pCaster, SpellEntry const* spellProto, in
         { return total; }
     
     // Distribute Damage over multiple effects, reduce by AoE
-     float coeff = 1.0f;
- 
-     // Not apply this to creature casted spells
+    float coeff = 1.0f;
+
+    // Not apply this to creature casted spells
     if (pCaster->GetTypeId() == TYPEID_UNIT && !((Creature*)this)->IsPet())
         { coeff = 1.0f; }
     // Check for table values
@@ -7446,7 +7446,10 @@ int32 Unit::CalculateSpellDamage(Unit const* target, SpellEntry const* spellProt
         { value += (int32)(comboDamage * comboPoints); }
 
     if (Player* modOwner = GetSpellModOwner())
+    {
         modOwner->ApplySpellMod(spellProto->Id, SPELLMOD_ALL_EFFECTS, value);
+
+    }
 
     if (spellProto->HasAttribute(SPELL_ATTR_LEVEL_DAMAGE_CALCULATION) && spellProto->spellLevel &&
         spellProto->Effect[effect_index] != SPELL_EFFECT_WEAPON_PERCENT_DAMAGE &&
