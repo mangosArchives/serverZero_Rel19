@@ -4040,66 +4040,69 @@ SpellCastResult Spell::CheckCast(bool strict)
             }
         }
 
-        // Fill possible dispel list
-        bool isDispell = false;
-        bool isEmpty = true;
-        
-        // As of Patch 1.10.0, dispel effects now check if there is something to dispel first
-        for (int i = 0; i < MAX_EFFECT_INDEX; ++i)
+        if (!(m_spellInfo->SpellIconID == 413 && m_spellInfo->Category == 971)) // the Shield Slam does not depend on its dispel effect
         {
-            // Dispell Magic
-            switch (m_spellInfo->Effect[i])
+            // Fill possible dispel list
+            bool isDispell = false;
+            bool isEmpty = true;
+        
+            // As of Patch 1.10.0, dispel effects now check if there is something to dispel first
+            for (int i = 0; i < MAX_EFFECT_INDEX; ++i)
             {
-                case SPELL_EFFECT_DISPEL:
+                // Dispell Magic
+                switch (m_spellInfo->Effect[i])
                 {
-                    // It is a dispell spell
-                    isDispell = true;
-
-                    // Create dispel mask by dispel type
-                    uint32 dispel_type = m_spellInfo->EffectMiscValue[i];
-                    uint32 dispelMask = GetDispellMask(DispelType(dispel_type));
-                    Unit::SpellAuraHolderMap const& auras = target->GetSpellAuraHolderMap();
-                    for (Unit::SpellAuraHolderMap::const_iterator itr = auras.begin(); itr != auras.end(); ++itr)
+                    case SPELL_EFFECT_DISPEL:
                     {
-                        SpellAuraHolder* holder = itr->second;
-                        uint32 disp = (1 << holder->GetSpellProto()->Dispel);
-                        if (disp & dispelMask)
+                        // It is a dispell spell
+                        isDispell = true;
+
+                        // Create dispel mask by dispel type
+                        uint32 dispel_type = m_spellInfo->EffectMiscValue[i];
+                        uint32 dispelMask = GetDispellMask(DispelType(dispel_type));
+                        Unit::SpellAuraHolderMap const& auras = target->GetSpellAuraHolderMap();
+                        for (Unit::SpellAuraHolderMap::const_iterator itr = auras.begin(); itr != auras.end(); ++itr)
                         {
-                            if (holder->GetSpellProto()->Dispel == DISPEL_MAGIC)
+                            SpellAuraHolder* holder = itr->second;
+                            uint32 disp = (1 << holder->GetSpellProto()->Dispel);
+                            if (disp & dispelMask)
                             {
-                                bool positive = true;
-                                if (!holder->IsPositive())
+                                if (holder->GetSpellProto()->Dispel == DISPEL_MAGIC)
                                 {
-                                    positive = false;
-                                }
-                                else
-                                {
-                                    positive = (holder->GetSpellProto()->AttributesEx & SPELL_ATTR_EX_NEGATIVE) == 0;
+                                    bool positive = true;
+                                    if (!holder->IsPositive())
+                                    {
+                                        positive = false;
+                                    }
+                                    else
+                                    {
+                                        positive = (holder->GetSpellProto()->AttributesEx & SPELL_ATTR_EX_NEGATIVE) == 0;
+                                    }
+
+                                    // do not remove positive auras if friendly target
+                                    //               negative auras if non-friendly target
+                                    if (positive == target->IsFriendlyTo(m_caster))
+                                    {
+                                        continue;
+                                    }
                                 }
 
-                                // do not remove positive auras if friendly target
-                                //               negative auras if non-friendly target
-                                if (positive == target->IsFriendlyTo(m_caster))
-                                {
-                                    continue;
-                                }
+                                isEmpty = false;
+                                break;
                             }
-
-                            isEmpty = false;
-                            break;
                         }
-                    }
 
-                    break;
+                        break;
+                    }
                 }
             }
-        }
 
-        // Ok if exist some buffs for dispel try dispel it
-        if (isDispell && 
-            isEmpty)
-        {
-            return SPELL_FAILED_NOTHING_TO_DISPEL;
+            // Ok if exist some buffs for dispel try dispel it
+            if (isDispell && 
+                isEmpty)
+            {
+                return SPELL_FAILED_NOTHING_TO_DISPEL;
+            }
         }
 
         if (!m_IsTriggeredSpell && IsDeathOnlySpell(m_spellInfo) && target->IsAlive())
