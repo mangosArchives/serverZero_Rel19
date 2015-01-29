@@ -337,7 +337,7 @@ void Spell::EffectSchoolDMG(SpellEffectIndex effect_idx)
                     damage = uint32(damage * (m_caster->GetTotalAttackPowerValue(BASE_ATTACK)) / 100);
                 }
                 // Shield Slam
-                else if (m_spellInfo->SpellIconID == 413 && m_spellInfo->SpellFamilyFlags & UI64LIT(0x2000000))
+                else if (m_spellInfo->SpellFamilyFlags & UI64LIT(0x100000000))
                     { damage += int32(m_caster->GetShieldBlockValue()); }
                 break;
             }
