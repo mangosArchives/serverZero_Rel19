@@ -4040,7 +4040,7 @@ SpellCastResult Spell::CheckCast(bool strict)
             }
         }
 
-        if (!(m_spellInfo->SpellIconID == 413 && m_spellInfo->Category == 971)) // the Shield Slam does not depend on its dispel effect
+        if (!(m_spellInfo->SpellFamilyName == SPELLFAMILY_WARRIOR && m_spellInfo->SpellFamilyFlags & UI64LIT(0x100000000))) // the Shield Slam does not depend on its dispel effect
         {
             // Fill possible dispel list
             bool isDispell = false;
