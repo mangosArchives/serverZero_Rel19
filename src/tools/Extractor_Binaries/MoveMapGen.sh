@@ -123,15 +123,14 @@ badParam()
 DisplayHeader()
 {
 ##	clear
-	echo "  __  __      _  _  ___  ___  ___            "
-	echo " |  \\/  |__ _| \\| |/ __|/ _ \\/ __|        "
-	echo " | |\\/| / _\` | .\` | (_ | (_) \\__ \\      "
-	echo " |_|  |_\\__,_|_|\\_|\\___|\\___/|___/       "
-	echo "                                        ____ "
-	echo " For help and support please visit:    /_  /___ _ _ ___ "
-	echo " Website: https://getmangos.eu          / // -_) '_/ _ \\"
-	echo "    Wiki: http://github.com/mangoswiki /___\\___|_| \\___/"
-	echo "=========================================================="
+	echo "  __  __      _  _  ___  ___  ___        "
+	echo " |  \\/  |__ _| \\| |/ __|/ _ \\/ __|    "
+	echo " | |\\/| / _\` | .\` | (_ | (_) \\__ \\  "
+	echo " |_|  |_\\__,_|_|\\_|\\___|\\___/|___/   "
+	echo "                                         "
+	echo " For help and support please visit:      "
+	echo " Website/Forum/Wiki: https://getmangos.eu"
+	echo "======================================="
 
 }
 
