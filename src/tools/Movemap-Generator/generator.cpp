@@ -68,7 +68,7 @@ void printUsage(char* prg)
 {
     printf("Usage: %s [OPTION]\n\n", prg);
     printf("Generate movement maps from extracted client maps.\n");
-    printf("   -h, --help                        show the usage\n");
+    printf("   -h, --help, /?                    show the usage\n");
     printf("   --maxAngle [#]                    max walkable inclination angle.\n");
     printf("   --tile [#,#]                      build the specified tile.\n");
     printf("   --skipLiquid [true|false]         skip liquid data for maps.\n");
@@ -233,7 +233,7 @@ bool handleArgs(int argc, char** argv,
 
             offMeshInputPath = param;
         }
-        else if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0)
+        else if (strcmp(argv[i], "/?") == 0 || strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0)
         {
             printUsage(argv[0]);
             exit(1);

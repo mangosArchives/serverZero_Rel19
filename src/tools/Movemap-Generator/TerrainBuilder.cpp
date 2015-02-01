@@ -71,7 +71,7 @@ namespace MMAP
     }
 
     /**************************************************************************/
-    void TerrainBuilder::loadMap(uint32 mapID, uint32 tileX, uint32 tileY, MeshData& meshData)
+    void TerrainBuilder::loadMap(int mapID, int tileX, int tileY, MeshData& meshData)
     {
         if (loadMap(mapID, tileX, tileY, meshData, ENTIRE))
         {
@@ -83,7 +83,7 @@ namespace MMAP
     }
 
     /**************************************************************************/
-    bool TerrainBuilder::loadMap(uint32 mapID, uint32 tileX, uint32 tileY, MeshData& meshData, Spot portion)
+    bool TerrainBuilder::loadMap(int mapID, int tileX, int tileY, MeshData& meshData, Spot portion)
     {
         char mapFileName[255];
         sprintf(mapFileName, "maps/%03u%02u%02u.map", mapID, tileY, tileX);
@@ -634,7 +634,7 @@ namespace MMAP
     }
 
     /**************************************************************************/
-    bool TerrainBuilder::loadVMap(uint32 mapID, uint32 tileX, uint32 tileY, MeshData& meshData)
+    bool TerrainBuilder::loadVMap(int mapID, int tileX, int tileY, MeshData& meshData)
     {
         IVMapManager* vmapManager = new VMapManager2();
         VMAPLoadResult result = vmapManager->loadMap("vmaps", mapID, tileX, tileY);
@@ -889,7 +889,7 @@ namespace MMAP
     }
 
     /**************************************************************************/
-    void TerrainBuilder::loadOffMeshConnections(uint32 mapID, uint32 tileX, uint32 tileY, MeshData& meshData, const char* offMeshFilePath)
+    void TerrainBuilder::loadOffMeshConnections(int mapID, int tileX, int tileY, MeshData& meshData, const char* offMeshFilePath)
     {
         // no meshfile input given?
         if (offMeshFilePath == NULL)
@@ -908,7 +908,7 @@ namespace MMAP
         while (fgets(buf, 512, fp))
         {
             float p0[3], p1[3];
-            uint32 mid, tx, ty;
+            int mid, tx, ty;
             float size;
             if (10 != sscanf(buf, "%d %d,%d (%f %f %f) (%f %f %f) %f", &mid, &tx, &ty,
                              &p0[0], &p0[1], &p0[2], &p1[0], &p1[1], &p1[2], &size))

@@ -48,7 +48,7 @@ namespace MMAP
      * @brief
      *
      */
-    typedef map<uint32, set<uint32>*> TileList;
+    typedef map<int, set<int>*> TileList;
     /**
      * @brief
      *
@@ -118,7 +118,7 @@ namespace MMAP
              *
              * @param mapID
              */
-            void buildMap(uint32 mapID);
+            void buildMap(int mapID);
 
             /**
              * @brief builds an mmap tile for the specified map and its mesh
@@ -127,7 +127,7 @@ namespace MMAP
              * @param tileX
              * @param tileY
              */
-            void buildSingleTile(uint32 mapID, uint32 tileX, uint32 tileY);
+            void buildSingleTile(int mapID, int tileX, int tileY);
 
             /**
              * @brief builds list of maps, then builds all of mmap tiles (based on the skip settings)
@@ -147,7 +147,7 @@ namespace MMAP
              * @param mapID
              * @return set<uint32>
              */
-            set<uint32>* getTileList(uint32 mapID);
+            set<int>* getTileList(int mapID);
 
             /**
              * @brief
@@ -155,7 +155,7 @@ namespace MMAP
              * @param mapID
              * @param navMesh
              */
-            void buildNavMesh(uint32 mapID, dtNavMesh*& navMesh);
+            void buildNavMesh(int mapID, dtNavMesh*& navMesh);
 
             /**
              * @brief
@@ -165,7 +165,7 @@ namespace MMAP
              * @param tileY
              * @param navMesh
              */
-            void buildTile(uint32 mapID, uint32 tileX, uint32 tileY, dtNavMesh* navMesh);
+            void buildTile(int mapID, int tileX, int tileY, dtNavMesh* navMesh);
 
             /**
              * @brief move map building
@@ -178,9 +178,9 @@ namespace MMAP
              * @param bmax[]
              * @param navMesh
              */
-            void buildMoveMapTile(uint32 mapID,
-                                  uint32 tileX,
-                                  uint32 tileY,
+            void buildMoveMapTile(int mapID,
+                                  int tileX,
+                                  int tileY,
                                   MeshData& meshData,
                                   float bmin[3],
                                   float bmax[3],
@@ -196,7 +196,7 @@ namespace MMAP
              * @param bmin
              * @param bmax
              */
-            void getTileBounds(uint32 tileX, uint32 tileY,
+            void getTileBounds(int tileX, int tileY,
                                float* verts, int vertCount,
                                float* bmin, float* bmax);
             /**
@@ -208,7 +208,7 @@ namespace MMAP
              * @param maxX
              * @param maxY
              */
-            void getGridBounds(uint32 mapID, uint32& minX, uint32& minY, uint32& maxX, uint32& maxY);
+            void getGridBounds(int mapID, int& minX, int& minY, int& maxX, int& maxY);
 
             /**
              * @brief
@@ -216,14 +216,14 @@ namespace MMAP
              * @param mapID
              * @return bool
              */
-            bool shouldSkipMap(uint32 mapID);
+            bool shouldSkipMap(int mapID);
             /**
              * @brief
              *
              * @param mapID
              * @return bool
              */
-            bool isTransportMap(uint32 mapID);
+            bool isTransportMap(int mapID);
             /**
              * @brief
              *
@@ -232,7 +232,7 @@ namespace MMAP
              * @param tileY
              * @return bool
              */
-            bool shouldSkipTile(uint32 mapID, uint32 tileX, uint32 tileY);
+            bool shouldSkipTile(int mapID, int tileX, int tileY);
 
             TerrainBuilder* m_terrainBuilder; /**< TODO */
             TileList m_tiles; /**< TODO */

@@ -126,7 +126,7 @@ namespace MMAP
              * @param tileY
              * @param meshData
              */
-            void loadMap(uint32 mapID, uint32 tileX, uint32 tileY, MeshData& meshData);
+            void loadMap(int mapID, int tileX, int tileY, MeshData& meshData);
             /**
              * @brief
              *
@@ -136,7 +136,7 @@ namespace MMAP
              * @param meshData
              * @return bool
              */
-            bool loadVMap(uint32 mapID, uint32 tileX, uint32 tileY, MeshData& meshData);
+            bool loadVMap(int mapID, int tileX, int tileY, MeshData& meshData);
             /**
              * @brief
              *
@@ -146,7 +146,7 @@ namespace MMAP
              * @param meshData
              * @param offMeshFilePath
              */
-            void loadOffMeshConnections(uint32 mapID, uint32 tileX, uint32 tileY, MeshData& meshData, const char* offMeshFilePath);
+            void loadOffMeshConnections(int mapID, int tileX, int tileY, MeshData& meshData, const char* offMeshFilePath);
 
             /**
              * @brief
@@ -208,7 +208,7 @@ namespace MMAP
              * @param portion
              * @return bool
              */
-            bool loadMap(uint32 mapID, uint32 tileX, uint32 tileY, MeshData& meshData, Spot portion);
+            bool loadMap(int mapID, int tileX, int tileY, MeshData& meshData, Spot portion);
 
             /**
              * @brief Sets loop variables for selecting only certain parts of a map's terrain
@@ -233,7 +233,7 @@ namespace MMAP
              * @param portion
              * @return bool
              */
-            bool loadHeightMap(uint32 mapID, uint32 tileX, uint32 tileY, G3D::Array<float>& vertices, G3D::Array<int>& triangles, Spot portion);
+            bool loadHeightMap(int mapID, int tileX, int tileY, G3D::Array<float>& vertices, G3D::Array<int>& triangles, Spot portion);
 
             /**
              * @brief Get the vector coordinate for a specific position
