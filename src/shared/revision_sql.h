@@ -25,6 +25,6 @@
 #ifndef MANGOS_H_REVISION_SQL
 #define MANGOS_H_REVISION_SQL
 #define REVISION_DB_CHARACTERS "required_20005_01_characters_pvpstats"
- #define REVISION_DB_MANGOS "required_20004_01_Fix_UnitClass_Errors_Introduced_In_Rel19"
+ #define REVISION_DB_MANGOS "required_20007_01_Rel20_Release_Prep"
 #define REVISION_DB_REALMD "required_20140607_Realm_Resync"
 #endif // __REVISION_SQL_H__
