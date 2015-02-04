@@ -727,22 +727,26 @@ void ObjectMgr::LoadCreatureItemTemplates()
         if (!eqInfo)
             { continue; }
                 
-            EquipmentInfoItem const* itemProto = GetEquipmentInfoItem(eqInfo->entry);
+        EquipmentInfoItem const* itemProto = GetEquipmentInfoItem(eqInfo->entry);
 
-            if (itemProto->InventoryType != INVTYPE_2HWEAPON &&
-                itemProto->InventoryType != INVTYPE_HOLDABLE &&
-                itemProto->InventoryType != INVTYPE_QUIVER &&
-                itemProto->InventoryType != INVTYPE_RANGED &&
-                itemProto->InventoryType != INVTYPE_RANGEDRIGHT &&
-                itemProto->InventoryType != INVTYPE_RELIC &&
-                itemProto->InventoryType != INVTYPE_SHIELD &&
-                itemProto->InventoryType != INVTYPE_THROWN &&
-                itemProto->InventoryType != INVTYPE_WEAPON &&
-                itemProto->InventoryType != INVTYPE_WEAPONMAINHAND &&
-                itemProto->InventoryType != INVTYPE_WEAPONOFFHAND)
-            {
+        switch (itemProto->InventoryType)
+        {
+            case INVTYPE_2HWEAPON:
+            case INVTYPE_HOLDABLE:
+            case INVTYPE_QUIVER:
+            case INVTYPE_RANGED:
+            case INVTYPE_RANGEDRIGHT:
+            case INVTYPE_RELIC:
+            case INVTYPE_SHIELD:
+            case INVTYPE_THROWN:
+            case INVTYPE_WEAPON:
+            case INVTYPE_WEAPONMAINHAND:
+            case INVTYPE_WEAPONOFFHAND:
+                break;
+            default:
                 sLog.outErrorDb("Item (entry=%u) in creature_item_template.entry for entry = %u is not equipable in a hand, forced to 0.", eqInfo->entry, i);
                 const_cast<EquipmentInfoItem*>(eqInfo)->entry = 0;
+                break;
             }
     }
             sLog.outString(">> Loaded %u creature item template", sEquipmentStorageItem.GetRecordCount());
@@ -844,19 +848,23 @@ void ObjectMgr::LoadEquipmentTemplates()
                 continue;
             }
 
-            if (itemProto->InventoryType != INVTYPE_WEAPON &&
-                itemProto->InventoryType != INVTYPE_SHIELD &&
-                itemProto->InventoryType != INVTYPE_RANGED &&
-                itemProto->InventoryType != INVTYPE_2HWEAPON &&
-                itemProto->InventoryType != INVTYPE_WEAPONMAINHAND &&
-                itemProto->InventoryType != INVTYPE_WEAPONOFFHAND &&
-                itemProto->InventoryType != INVTYPE_HOLDABLE &&
-                itemProto->InventoryType != INVTYPE_THROWN &&
-                itemProto->InventoryType != INVTYPE_RANGEDRIGHT &&
-                itemProto->InventoryType != INVTYPE_RELIC)
+            switch (itemProto->InventoryType)
             {
-                sLog.outErrorDb("Item (entry=%u) in creature_equip_template.equipentry%u for entry = %u is not equipable in a hand, forced to 0.", eqInfo->equipentry[j], j + 1, i);
-                const_cast<EquipmentInfo*>(eqInfo)->equipentry[j] = 0;
+                case INVTYPE_WEAPON:
+                case INVTYPE_SHIELD:
+                case INVTYPE_RANGED:
+                case INVTYPE_2HWEAPON:
+                case INVTYPE_WEAPONMAINHAND:
+                case INVTYPE_WEAPONOFFHAND:
+                case INVTYPE_HOLDABLE:
+                case INVTYPE_THROWN:
+                case INVTYPE_RANGEDRIGHT:
+                case INVTYPE_RELIC:
+                    break;
+                default:
+                    sLog.outErrorDb("Item (entry=%u) in creature_equip_template.equipentry%u for entry = %u is not equipable in a hand, forced to 0.", eqInfo->equipentry[j], j + 1, i);
+                    const_cast<EquipmentInfo*>(eqInfo)->equipentry[j] = 0;
+                    break;
             }
         }
     }
