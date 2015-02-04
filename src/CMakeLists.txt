@@ -39,19 +39,19 @@ endif()
 add_subdirectory(framework)
 
 #-----------------------------------------------------------------------------
-# Build the mangos-zero shared library
+# Build the mangos shared library
 add_subdirectory(shared)
 
 #-----------------------------------------------------------------------------
-# Build the mangos-zero game library
+# Build the mangos game library
 add_subdirectory(game)
 
 #-----------------------------------------------------------------------------
-# Build the mangos-zero realm authentication server
+# Build the mangos realm authentication server
 add_subdirectory(realmd)
 
 #-----------------------------------------------------------------------------
-# Build the mangos-zero world server
+# Build the mangos world server
 add_subdirectory(mangosd)
 
 #-----------------------------------------------------------------------------

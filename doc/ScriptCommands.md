@@ -1,6 +1,6 @@
 Database script processing
 ==========================
-In addition to *EventAI*, *mangos-zero* provides script processing for various
+In addition to *EventAI*, *mangos* provides script processing for various
 types of game content. These scripts can be executed when creatures move or die,
 when events are executed, and game object spawns/templates are used, on gossip
 menu selections, when starting and completing quests, and when casting spells.
