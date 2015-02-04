@@ -741,7 +741,7 @@ void ObjectMgr::LoadCreatureItemTemplates()
                 itemProto->InventoryType != INVTYPE_WEAPONMAINHAND &&
                 itemProto->InventoryType != INVTYPE_WEAPONOFFHAND)
             {
-                sLog.outErrorDb("Item (entry=%u) in creature_item_template.entry%u for entry = %u is not equipable in a hand, forced to 0.", eqInfo->entry, i);
+                sLog.outErrorDb("Item (entry=%u) in creature_item_template.entry for entry = %u is not equipable in a hand, forced to 0.", eqInfo->entry, i);
                 const_cast<EquipmentInfoItem*>(eqInfo)->entry = 0;
             }
     }
