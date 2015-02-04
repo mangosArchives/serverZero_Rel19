@@ -1631,6 +1631,13 @@ void Aura::HandleAuraModShapeshift(bool apply, bool Real)
             if (target->IsPolymorphed())
                 { target->RemoveAurasDueToSpell(target->GetTransform()); }
 
+            //no break here
+        }
+        case FORM_GHOSTWOLF:
+        {
+            // remove water walk aura. TODO:: there is probably better way to do this
+            target->RemoveSpellsCausingAura(SPELL_AURA_WATER_WALK);
+
             break;
         }
         default:
