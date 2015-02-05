@@ -747,10 +747,11 @@ void ObjectMgr::LoadCreatureItemTemplates()
                 sLog.outErrorDb("Item (entry=%u) in creature_item_template.entry for entry = %u is not equipable in a hand, forced to 0.", eqInfo->entry, i);
                 const_cast<EquipmentInfoItem*>(eqInfo)->entry = 0;
                 break;
-            }
+        }
     }
-            sLog.outString(">> Loaded %u creature item template", sEquipmentStorageItem.GetRecordCount());
-            sLog.outString();    
+
+    sLog.outString(">> Loaded %u creature item template", sEquipmentStorageItem.GetRecordCount());
+    sLog.outString();    
 }
 
 void ObjectMgr::LoadCreatureClassLvlStats()
