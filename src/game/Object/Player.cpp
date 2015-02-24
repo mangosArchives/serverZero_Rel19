@@ -15950,12 +15950,15 @@ void Player::LogWhisper(const std::string& text, ObjectGuid receiver)
     
     if ((loggingLevel == WHISPER_LOGGING_TICKETS && ticket && isSomeoneGM)
         || loggingLevel == WHISPER_LOGGING_EVERYTHING)
-        CharacterDatabase.PExecute("INSERT INTO character_whispers "
-                                   "(to_guid, from_guid, message, regarding_ticket_id) "
-                                   "VALUES "
-                                   "(%u,      %u,        '%s',    %d)",
-                                   receiver.GetCounter(), GetObjectGuid().GetCounter(),
-                                   text.c_str(), ticketId);
+    {
+        static SqlStatementID wlog;
+        SqlStatement stmt = CharacterDatabase.CreateStatement(wlog, "INSERT INTO character_whispers (to_guid, from_guid, message, regarding_ticket_id) VALUES (?, ?, ?, ?)");
+        stmt.addUInt32(receiver.GetCounter());          // to_guid
+        stmt.addUInt32(GetObjectGuid().GetCounter());   // from_guid
+        stmt.addString(text.c_str());                   // message
+        stmt.addUInt32(ticketId);                       // regarding_ticket_id
+        stmt.Execute();
+    }
 }
 
 void Player::Whisper(const std::string& text, uint32 language, ObjectGuid receiver)
