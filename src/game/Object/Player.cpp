@@ -11895,6 +11895,11 @@ void Player::SendPetTameFailure(PetTameFailureReason reason)
     GetSession()->SendPacket(&data);
 }
 
+Quest const* Player::GetQuestTemplate(uint32 quest_id)
+{
+    return sObjectMgr.GetQuestTemplate(quest_id);
+}
+
 void Player::AddQuest(Quest const* pQuest, Object* questGiver)
 {
     uint16 log_slot = FindQuestSlot(0);
@@ -12622,6 +12627,18 @@ void Player::SetQuestStatus(uint32 quest_id, QuestStatus status)
 
         if (q_status.uState != QUEST_NEW)
             { q_status.uState = QUEST_CHANGED; }
+    }
+
+    UpdateForQuestWorldObjects();
+}
+
+void Player::SetQuestRewarded(uint32 quest_id, bool rewarded)
+{
+    if (sObjectMgr.GetQuestTemplate(quest_id))
+    {
+        QuestStatusData& q_status = mQuestStatus[quest_id];
+
+        q_status.m_rewarded = rewarded;
     }
 
     UpdateForQuestWorldObjects();

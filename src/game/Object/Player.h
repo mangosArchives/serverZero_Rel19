@@ -1287,6 +1287,9 @@ class  Player : public Unit
         bool CanCompleteRepeatableQuest(Quest const* pQuest) const;
         bool CanRewardQuest(Quest const* pQuest, bool msg) const;
         bool CanRewardQuest(Quest const* pQuest, uint32 reward, bool msg) const;
+        // Retrieve a quest template
+        // The returned quest can then be used by AddQuest( ) to add to the character_queststatus table
+        Quest const* GetQuestTemplate(uint32 quest_id);
         void AddQuest(Quest const* pQuest, Object* questGiver);
         void CompleteQuest(uint32 quest_id);
         void IncompleteQuest(uint32 quest_id);
@@ -1311,6 +1314,9 @@ class  Player : public Unit
         bool GetQuestRewardStatus(uint32 quest_id) const;
         QuestStatus GetQuestStatus(uint32 quest_id) const;
         void SetQuestStatus(uint32 quest_id, QuestStatus status);
+        // This is used to change the quest's rewarded state 
+        // Example of usage: see npc_prof_blacksmithing script
+        void SetQuestRewarded(uint32 quest_id, bool rewarded);
 
         uint16 FindQuestSlot(uint32 quest_id) const;
         uint32 GetQuestSlotQuestId(uint16 slot) const { return GetUInt32Value(PLAYER_QUEST_LOG_1_1 + slot * MAX_QUEST_OFFSET + QUEST_ID_OFFSET); }
