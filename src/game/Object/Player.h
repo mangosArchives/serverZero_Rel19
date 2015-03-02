@@ -1315,7 +1315,6 @@ class  Player : public Unit
         QuestStatus GetQuestStatus(uint32 quest_id) const;
         void SetQuestStatus(uint32 quest_id, QuestStatus status);
         // This is used to change the quest's rewarded state 
-        // Example of usage: see npc_prof_blacksmithing script
         void SetQuestRewarded(uint32 quest_id, bool rewarded);
 
         uint16 FindQuestSlot(uint32 quest_id) const;
