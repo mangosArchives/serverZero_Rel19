@@ -650,7 +650,7 @@ void Creature::RegenerateAll(uint32 update_diff)
 
 void Creature::RegeneratePower()
 {
-    if (!IsRegeneratingPower())
+    if (!IsRegeneratingPower() && !IsPet())
         return;
 
     Powers powerType = GetPowerType();
