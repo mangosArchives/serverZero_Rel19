@@ -49,7 +49,7 @@
 #undef VERSION
 #endif // VERSION
 #ifdef PREPARED_SLN  // Preprocessor defines are automatically set with CMake
-# include "config.h"
+//# include "config.h"
 #endif //PREPARED_SLN
 #undef PACKAGE
 #undef PACKAGE_BUGREPORT

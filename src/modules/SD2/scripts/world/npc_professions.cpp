@@ -57,7 +57,7 @@
 
 void AddSC_npc_professions()
 {
-    Script* pNewScript;
+    //Script* pNewScript;
 
     /*pNewScript = new Script;
     pNewScript->Name = "go_soothsaying_for_dummies";
