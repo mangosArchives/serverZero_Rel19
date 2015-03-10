@@ -170,7 +170,6 @@
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
-    <ClCompile Include="..\..\dep\acelite\ace\Auto_Event.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Barrier.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Base_Thread_Adapter.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Based_Pointer_Repository.cpp" />
@@ -210,7 +209,7 @@
     <ClCompile Include="..\..\dep\acelite\ace\Dynamic_Service_Dependency.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Encoding_Converter.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Encoding_Converter_Factory.cpp" />
-    <ClCompile Include="..\..\dep\acelite\ace\Event.cpp" />
+    <ClCompile Include="..\..\dep\acelite\ace\Event_Base.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Event_Handler.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Event_Handler_Handle_Timeout_Upcall.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\FIFO.cpp" />
@@ -245,6 +244,7 @@
     <ClCompile Include="..\..\dep\acelite\ace\Local_Name_Space.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Local_Tokens.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Lock.cpp" />
+    <ClCompile Include="..\..\dep\acelite\ace\Log_Category.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Log_Msg.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Log_Msg_Backend.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Log_Msg_Callback.cpp" />
@@ -261,7 +261,6 @@
     <ClCompile Include="..\..\dep\acelite\ace\LSOCK_Stream.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Malloc.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Malloc_Allocator.cpp" />
-    <ClCompile Include="..\..\dep\acelite\ace\Manual_Event.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\MEM_Acceptor.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\MEM_Addr.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\MEM_Connector.cpp" />
@@ -282,6 +281,7 @@
     <ClCompile Include="..\..\dep\acelite\ace\Monitor_Control_Types.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Monitor_Point_Registry.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Monitor_Size.cpp" />
+    <ClCompile Include="..\..\dep\acelite\ace\Monotonic_Time_Policy.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Msg_WFMO_Reactor.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Multihomed_INET_Addr.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Mutex.cpp" />
@@ -296,6 +296,7 @@
     <ClCompile Include="..\..\dep\acelite\ace\Obchunk.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Object_Manager.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\Object_Manager_Base.cpp" />
+    <ClCompile Include="..\..\dep\acelite\ace\Obstack.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\OS_Errno.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\OS_Log_Msg_Attributes.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\OS_main.cpp" />
@@ -332,6 +333,7 @@
     <ClCompile Include="..\..\dep\acelite\ace\OS_NS_time.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\OS_NS_unistd.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\OS_NS_wchar.cpp" />
+    <ClCompile Include="..\..\dep\acelite\ace\OS_NS_wctype.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\OS_QoS.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\OS_Thread_Adapter.cpp" />
     <ClCompile Include="..\..\dep\acelite\ace\OS_TLI.cpp" />
