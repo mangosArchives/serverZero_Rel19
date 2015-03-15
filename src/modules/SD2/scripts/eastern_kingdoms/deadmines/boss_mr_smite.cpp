@@ -40,7 +40,7 @@ enum
     SAY_PHASE_2                     = -1036002,
     SAY_PHASE_3                     = -1036003,
 
-    EQUIP_ID_SWORD                  = 2179,                 // default equipment, not used in code
+    EQUIP_ID_SWORD                  = 2179,                 // default equipment
     EQUIP_ID_AXE                    = 2183,
     EQUIP_ID_HAMMER                 = 10756,
 
