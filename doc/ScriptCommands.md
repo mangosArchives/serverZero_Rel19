@@ -61,8 +61,10 @@ Value | Name                            | Notes
 -----------------
 4 multipurpose fields, storing raw data as signed integer values.
 
-*Note*: currently used only for text ids for the command `SCRIPT_COMMAND_TALK`,
-and in relation with the command `SCRIPT_COMMAND_TERMINATE_SCRIPT`.
+*Note*: used for text ids SCRIPT_COMMAND_TALK (0),
+      for emote ids in SCRIPT_COMMAND_EMOTE (1),
+      for spell ids in SCRIPT_COMMAND_CAST_SPELL (15)
+      and as waittime with SCRIPT_COMMAND_TERMINATE_SCRIPT (31)
 
 `x`, `y`, `z` and `o` columns
 -----------------------------
@@ -144,7 +146,7 @@ ID | Name                                   | Parameters
 12 | SCRIPT_COMMAND_CLOSE_DOOR              | source = any. `datalong` = db_guid (can be skipped for buddy), `datalong2` = reset_delay
 13 | SCRIPT_COMMAND_ACTIVATE_OBJECT         | source = unit, target=GO.
 14 | SCRIPT_COMMAND_REMOVE_AURA             | resultingSource = Unit. `datalong` = spell_id
-15 | SCRIPT_COMMAND_CAST_SPELL              | resultingSource = Unit, cast spell at resultingTarget = Unit. `datalong` = spell id, `data_flags` & SCRIPT_FLAG_COMMAND_ADDITIONAL: cast triggered
+15 | SCRIPT_COMMAND_CAST_SPELL              | resultingSource = Unit, cast spell at resultingTarget = Unit. `datalong` = spell id, `dataint1`-`dataint4` optional. If some of these are set to a spell id, a random spell out of datalong, datint1, ..,dataintX is cast., `data_flags` & SCRIPT_FLAG_COMMAND_ADDITIONAL: cast triggered
 16 | SCRIPT_COMMAND_PLAY_SOUND              | source = any object, target=any/player. `datalong` = sound_id, `datalong2` (bit mask: 0/1=target-player, 0/2=with distance dependent, 0/4=map wide, 0/8=zone wide; so 1|2 = 3 is target with distance dependent)
 17 | SCRIPT_COMMAND_CREATE_ITEM             | source or target must be player. `datalong` = item entry, `datalong2` = amount
 18 | SCRIPT_COMMAND_DESPAWN_SELF            | resultingSource = Creature. `datalong` = despawn delay
