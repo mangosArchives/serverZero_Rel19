@@ -474,6 +474,10 @@ class  Aura
     protected:
         Aura(SpellEntry const* spellproto, SpellEffectIndex eff, int32* currentBasePoints, SpellAuraHolder* holder, Unit* target, Unit* caster = NULL, Item* castItem = NULL);
 
+        int32 maxduration;
+        int GetMaxDuration();
+        int SetMaxDuration(int32 duration);
+
         // must be called only from Aura::UpdateAura
         virtual void Update(uint32 diff);
 
