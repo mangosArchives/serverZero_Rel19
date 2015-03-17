@@ -379,8 +379,53 @@ void Aura::SetModifier(AuraType t, int32 a, uint32 pt, int32 miscValue)
     m_modifier.periodictime = pt;
 }
 
+int Aura::SetMaxDuration(int32 duration)
+{
+    if (maxduration == 0)
+        maxduration = duration;
+}
+ 
+int Aura::GetMaxDuration()
+{
+    return maxduration;
+}
+ 
 void Aura::Update(uint32 diff)
 {
+    //Heartbeat system by Nevarian
+    int32 duration = GetAuraDuration(); // Current Duration
+    int32 maxduration = GetAuraMaxDuration(); // Maximum Duration
+    int32 breakpoint = maxduration - 13000; // Breakpoint where it has to break at last
+
+    bool first, second, third;
+
+    if (GetSpellProto()->Mechanic == MECHANIC_BANISH || GetSpellProto()->Mechanic == MECHANIC_CHARM || GetSpellProto()->Mechanic == MECHANIC_DISORIENTED
+        || GetSpellProto()->Mechanic == MECHANIC_FEAR || GetSpellProto()->Mechanic == MECHANIC_HORROR || GetSpellProto()->Mechanic == MECHANIC_POLYMORPH
+        || GetSpellProto()->Mechanic == MECHANIC_SLEEP || GetSpellProto()->Mechanic == MECHANIC_SAPPED || GetSpellProto()->Mechanic == MECHANIC_FREEZE
+        || GetSpellProto()->Mechanic == MECHANIC_ROOT || GetSpellProto()->Mechanic == MECHANIC_STUN || GetSpellProto()->Mechanic == MECHANIC_KNOCKOUT)
+    {
+        if (GetTarget()->GetTypeId() == TYPEID_PLAYER && GetCaster()->GetTypeId() == TYPEID_PLAYER) // Only break the crowd control when the target and the caster is a player
+        {
+
+ /*         std::ostringstream oss;
+            oss << "Duration: " << duration << ", Max Duration: " << maxduration;
+            std::string var = oss.str();
+            GetCaster()->MonsterSay(var.c_str(), LANG_UNIVERSAL);
+*/
+            if (duration < breakpoint)
+                GetTarget()->RemoveAurasDueToSpell(GetId());
+
+
+            if (duration < breakpoint + 5000) // Example for the first sheep attempt: breakpoint = (50000 - 13000) = 37000 + 5000 = 42000 which means that the first random break of sheep would be started after 42 seconds.
+            {
+                int32 random = irand(1, 50); // 2% chance on every update to break before 13 seconds
+
+                if (random == 1)
+                    GetTarget()->RemoveAurasDueToSpell(GetId());
+            }
+        }
+    }
+ 
     if (m_isPeriodic)
     {
         m_periodicTimer -= diff;
