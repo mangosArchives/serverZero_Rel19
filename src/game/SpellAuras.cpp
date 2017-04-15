@@ -3021,6 +3021,30 @@ void Aura::HandlePeriodicTriggerSpellWithValue(bool apply, bool /*Real*/)
 void Aura::HandlePeriodicEnergize(bool apply, bool /*Real*/)
 {
     m_isPeriodic = apply;
+
+    if (GetId() == 5229)                                     // Druid enrage in bear form
+    {
+        if (apply)
+        {
+            Aura* A = CreateAura(GetSpellProto(),EFFECT_INDEX_1,0,m_spellAuraHolder,GetTarget(),GetCaster());
+            m_spellAuraHolder->AddAura(A,EFFECT_INDEX_1);
+            
+            /* This will not show the numbers one would expect (at least me), ie:
+               the total armor for the character isn't used but it would seem that 
+               the value that is used is how much was given by the items the character
+               was wearing without taking the "base" armor into account.
+            */
+            //Perhaps this is cleaner, i dunno.
+            // if (GetTarget()->GetShapeshiftForm() == FORM_DIREBEAR)  // -16% armor in dire bear form
+            if (GetTarget()->HasAura(9635))                  // -16% armor in dire bear form
+                A->m_modifier.m_amount = -16;
+            else
+                A->m_modifier.m_amount = -27;                // -27% armor in bear form
+            A->m_modifier.m_miscvalue = SPELL_SCHOOL_MASK_NORMAL;
+            A->m_modifier.periodictime = 0;
+            A->m_modifier.m_auraname = SPELL_AURA_MOD_BASE_RESISTANCE_PCT;
+        }
+    }
 }
 
 void Aura::HandleAuraPowerBurn(bool apply, bool /*Real*/)
@@ -4640,6 +4664,15 @@ void Aura::PeriodicTick()
             SpellPeriodicAuraLogInfo pInfo(this, pdamage, 0, 0, 0.0f);
             target->SendPeriodicAuraLog(&pInfo);
 
+            // Druids enrage to keep in combat
+            if (GetId() == 5229) //Enrage 
+            {
+                //Should keep the druid in combat
+                //until the last tick, when it will expire in the 
+                //combat expire time
+                ((Player *)target)->SetInCombatState(true);
+            } 
+            
             int32 gain = target->ModifyPower(POWER_MANA, pdamage);
 
             if (Unit* pCaster = GetCaster())
