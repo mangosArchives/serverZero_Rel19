@@ -69,7 +69,9 @@
 #include "AuctionHouseBot/AuctionHouseBot.h"
 #include "CharacterDatabaseCleaner.h"
 #include "CreatureLinkingMgr.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 INSTANTIATE_SINGLETON_1(World);
 
@@ -151,7 +153,9 @@ void World::CleanupsBeforeStop()
     KickAll();                                       // save and kick all players
     UpdateSessions(1);                               // real players unload required UpdateSessions call
     sBattleGroundMgr.DeleteAllBattleGrounds();       // unload battleground templates before different singletons destroyed
+#ifdef ENABLE_ELUNA
     Eluna::Uninitialize();
+#endif /* ENABLE_ELUNA */
 }
 
 /// Find a player in a specified zone
@@ -427,7 +431,7 @@ void World::LoadConfigSettings(bool reload)
     }
     else
     {
-        if (confVersion < _MANGOSDCONFVERSION)
+        if (confVersion < MANGOSD_CONFIG_VERSION)
         {
             sLog.outError("*****************************************************************************");
             sLog.outError(" WARNING: Your mangosd.conf version indicates your conf file is out of date!");
@@ -1159,6 +1163,9 @@ void World::SetInitialWorldSettings()
     sLog.outString();
     sWaypointMgr.Load();
 
+	sLog.outString("Modifying in-memory dbc spell attributes...");
+	sSpellMgr.ModDBCSpellAttributes();
+
     ///- Loading localization data
     sLog.outString("Loading Localization strings...");
     sObjectMgr.LoadCreatureLocales();                       // must be after CreatureInfo loading
@@ -1233,6 +1240,7 @@ void World::SetInitialWorldSettings()
     sLog.outString("Loading CreatureEventAI Scripts...");
     sEventAIMgr.LoadCreatureEventAI_Scripts();
 
+#ifdef ENABLE_SD2
     sLog.outString("Initializing Scripts...");
     switch (sScriptMgr.LoadScriptLibrary(MANGOS_SCRIPT_NAME))
     {
@@ -1249,10 +1257,20 @@ void World::SetInitialWorldSettings()
             sLog.outError("Scripting library build for old mangosd revision. You need rebuild it.");
             break;
     }
+#else /* ENABLE_SD2 */
+    sLog.outError("SD2 is enabled but wasn't included during compilation, not activating it.");
+#endif /* ENABLE_SD2 */
 
+#ifdef ENABLE_ELUNA
     ///- Initialize Lua Engine
     sLog.outString("Initialize Eluna Lua Engine...");
     Eluna::Initialize();
+#else /* ENABLE_ELUNA */
+    if (sConfig.GetBoolDefault("Eluna.Enabled", false))
+    {
+        sLog.outError("Eluna is enabled but wasn't included during compilation, not activating it.");
+    }
+#endif /* ENABLE_ELUNA */
 
     ///- Initialize game time and timers
     sLog.outString("DEBUG:: Initialize game time and timers");
@@ -1460,7 +1478,9 @@ void World::Update(uint32 diff)
     sOutdoorPvPMgr.Update(diff);
 
     ///- Used by Eluna
+#ifdef ENABLE_ELUNA
     sEluna->OnWorldUpdate(diff);
+#endif /* ENABLE_ELUNA */
 
     ///- Delete all characters which have been deleted X days before
     if (m_timers[WUPDATE_DELETECHARS].Passed())
@@ -2165,4 +2185,11 @@ bool World::configNoReload(bool reload, eConfigBoolValues index, char const* fie
         { sLog.outError("%s option can't be changed at mangosd.conf reload, using current value (%s).", fieldname, getConfig(index) ? "'true'" : "'false'"); }
 
     return false;
+}
+
+void World::InvalidatePlayerDataToAllClient(ObjectGuid guid)
+{
+    WorldPacket data(SMSG_INVALIDATE_PLAYER, 8);
+    data << guid;
+    SendGlobalMessage(&data);
 }

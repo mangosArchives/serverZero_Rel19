@@ -51,7 +51,9 @@
 #include "Util.h"
 #include "Chat.h"
 #include "SQLStorages.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 extern pEffect SpellEffects[TOTAL_SPELL_EFFECTS];
 
@@ -353,7 +355,9 @@ Spell::Spell(Unit* caster, SpellEntry const* info, bool triggered, ObjectGuid or
 
 Spell::~Spell()
 {
+#ifdef ENABLE_ELUNA
     Eluna::RemoveRef(this);
+#endif /* ENABLE_ELUNA */
 }
 
 template<typename T>
@@ -951,7 +955,14 @@ void Spell::DoAllEffectOnTarget(TargetInfo* target)
     else                                                    // in 1.12.1 we need explicit miss info
     {
         if (real_caster)
-            { real_caster->SendSpellMiss(unit, m_spellInfo->Id, missInfo); }
+        { 
+			// Warrior's execute must be returned as 20647 spell result since the client only displays info when receiving this id.
+			// Done here because must be based on MeleeSpellHitResult of spell id's 5308/20658/20660/20661/20662.
+			if(m_spellInfo->SpellFamilyName == SPELLFAMILY_WARRIOR && m_spellInfo->IsFitToFamilyMask(0x0000000020000000))
+				{ real_caster->SendSpellMiss(unit, 20647, missInfo); }
+			else
+				{ real_caster->SendSpellMiss(unit, m_spellInfo->Id, missInfo); }
+		}
 
         if (missInfo == SPELL_MISS_MISS || missInfo == SPELL_MISS_RESIST)
         {
@@ -1709,10 +1720,12 @@ void Spell::SetTargetMap(SpellEffectIndex effIndex, uint32 targetMode, UnitList&
             {
                 case SPELL_EFFECT_QUEST_COMPLETE:
                     targetB = SPELL_TARGETS_ALL;
+                    break;
                 default:
                     // Select friendly targets for positive effect
                     if (IsPositiveEffect(m_spellInfo, effIndex))
-                        { targetB = SPELL_TARGETS_FRIENDLY; }
+                        targetB = SPELL_TARGETS_FRIENDLY;
+                    break;
             }
 
             UnitList tempTargetUnitMap;
@@ -2746,8 +2759,10 @@ void Spell::cast(bool skipCheck)
     m_targets.updateTradeSlotItem();
 
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     if (m_caster->GetTypeId() == TYPEID_PLAYER)
         sEluna->OnSpellCast(m_caster->ToPlayer(), this, skipCheck);
+#endif /* ENABLE_ELUNA */
 
     FillTargetMap();
 

@@ -29,7 +29,9 @@
 #include "Database/DatabaseEnv.h"
 #include "ItemEnchantmentMgr.h"
 #include "SQLStorages.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 void AddItemsSetItem(Player* player, Item* item)
 {
@@ -239,7 +241,9 @@ Item::Item() :
 
 Item::~Item()
 {
+#ifdef ENABLE_ELUNA
     Eluna::RemoveRef(this);
+#endif /* ENABLE_ELUNA */
 }
 
 bool Item::Create(uint32 guidlow, uint32 itemid, Player const* owner)
@@ -285,7 +289,9 @@ void Item::UpdateDuration(Player* owner, uint32 diff)
     if (GetUInt32Value(ITEM_FIELD_DURATION) <= diff)
     {
         // Used by Eluna
+#ifdef ENABLE_ELUNA
         sEluna->OnExpire(owner, GetProto());
+#endif /* ENABLE_ELUNA */
         owner->DestroyItem(GetBagSlot(), GetSlot(), true);
         return;
     }

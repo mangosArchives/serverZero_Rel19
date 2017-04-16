@@ -37,7 +37,9 @@
 #include "World.h"
 #include "Util.h"
 #include "DBCStores.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 void WorldSession::HandleAutostoreLootItemOpcode(WorldPacket& recv_data)
 {
@@ -269,7 +271,9 @@ void WorldSession::HandleLootMoneyOpcode(WorldPacket& /*recv_data*/)
             { player->ModifyMoney(pLoot->gold); }
 
         // Used by Eluna
+#ifdef ENABLE_ELUNA
         sEluna->OnLootMoney(player, pLoot->gold);
+#endif /* ENABLE_ELUNA */
 
         pLoot->gold = 0;
 
@@ -563,7 +567,9 @@ void WorldSession::HandleLootMasterGiveOpcode(WorldPacket& recv_data)
     target->SendNewItem(newitem, uint32(item.count), false, false, true);
 
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     sEluna->OnLootItem(target, newitem, item.count, lootguid);
+#endif /* ENABLE_ELUNA */
 
     // mark as looted
     item.count = 0;

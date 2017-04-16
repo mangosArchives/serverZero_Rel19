@@ -47,8 +47,10 @@
 
 Map::~Map()
 {
+#ifdef ENABLE_ELUNA
     sEluna->OnDestroy(this);
     Eluna::RemoveRef(this);
+#endif /* ENABLE_ELUNA */
 
     UnloadAll(true);
 
@@ -108,7 +110,9 @@ Map::Map(uint32 id, time_t expiry, uint32 InstanceId)
     m_persistentState = sMapPersistentStateMgr.AddPersistentState(i_mapEntry, GetInstanceId(), 0, IsDungeon());
     m_persistentState->SetUsedByMapState(this);
 
+#ifdef ENABLE_ELUNA
     sEluna->OnCreate(this);
+#endif /* ENABLE_ELUNA */
 }
 
 void Map::InitVisibilityDistance()
@@ -311,8 +315,10 @@ bool Map::Add(Player* player)
     player->GetViewPoint().Event_AddedToWorld(&(*grid)(cell.CellX(), cell.CellY()));
     UpdateObjectVisibility(player, cell, p);
 
+#ifdef ENABLE_ELUNA
     sEluna->OnMapChanged(player);
     sEluna->OnPlayerEnter(this, player);
+#endif /* ENABLE_ELUNA */
 
     if (i_data)
         { i_data->OnPlayerEnter(player); }
@@ -576,7 +582,9 @@ void Map::Update(const uint32& t_diff)
     if (!m_scriptSchedule.empty())
         { ScriptsProcess(); }
 
+#ifdef ENABLE_ELUNA
     sEluna->OnUpdate(this, t_diff);
+#endif /* ENABLE_ELUNA */
 
     if (i_data)
         { i_data->Update(t_diff); }
@@ -584,7 +592,9 @@ void Map::Update(const uint32& t_diff)
 
 void Map::Remove(Player* player, bool remove)
 {
+#ifdef ENABLE_ELUNA
     sEluna->OnPlayerLeave(this, player);
+#endif /* ENABLE_ELUNA */
 
     if (i_data)
         { i_data->OnPlayerLeave(player); }
@@ -978,10 +988,12 @@ void Map::AddObjectToRemoveList(WorldObject* obj)
 {
     MANGOS_ASSERT(obj->GetMapId() == GetId() && obj->GetInstanceId() == GetInstanceId());
 
+#ifdef ENABLE_ELUNA
     if (Creature* creature = obj->ToCreature())
         sEluna->OnRemove(creature);
     else if (GameObject* gameobject = obj->ToGameObject())
         sEluna->OnRemove(gameobject);
+#endif /* ENABLE_ELUNA */
 
     obj->CleanupsBeforeDelete();                            // remove or simplify at least cross referenced links
 

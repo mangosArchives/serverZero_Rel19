@@ -867,6 +867,13 @@ void CreatureEventAIMgr::LoadCreatureEventAI_Scripts()
                             continue;
                         }
                         break;
+                    case ACTION_T_SET_STAND_STATE:
+                        if (action.setStandState.standState >= MAX_UNIT_STAND_STATE)
+                        {
+                            sLog.outErrorEventAI("Event %u Action %u uses invalid unit stand state %u (must be smaller than %u)", i, j + 1, action.setStandState.standState, MAX_UNIT_STAND_STATE);
+                            continue;
+                        }
+                        break;
 
                     case ACTION_T_SUMMON_UNIQUE:                                          //47
                         if (!sCreatureStorage.LookupEntry<CreatureInfo>(action.summon_unique.creatureId))
@@ -874,6 +881,13 @@ void CreatureEventAIMgr::LoadCreatureEventAI_Scripts()
                         IsValidTargetType(temp.event_type, action.type, action.summon_unique.target, i, j + 1);
                         if (m_CreatureEventAI_Summon_Map.find(action.summon_unique.spawnId) == m_CreatureEventAI_Summon_Map.end())
                             { sLog.outErrorEventAI("Event %u Action %u summons missing CreatureEventAI_Summon %u", i, j + 1, action.summon_unique.spawnId); }
+                        break;
+                    case ACTION_T_CHANGE_MOVEMENT:
+                        if (action.changeMovement.movementType >= MAX_DB_MOTION_TYPE)
+                        {
+                            sLog.outErrorEventAI("Event %u Action %u uses invalid movement type %u (must be smaller than %u)", i, j + 1, action.changeMovement.movementType, MAX_DB_MOTION_TYPE);
+                            continue;
+                        }
                         break;
 
                     default:

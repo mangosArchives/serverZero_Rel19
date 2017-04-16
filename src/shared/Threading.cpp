@@ -191,7 +191,9 @@ void Thread::resume()
 
 ACE_THR_FUNC_RETURN Thread::ThreadTask(void* param)
 {
-    Runnable* _task = (Runnable*)param;
+    Runnable* _task = static_cast<Runnable*>(param);
+    _task->incReference();
+    
     _task->run();
 
     // task execution complete, free referecne added at

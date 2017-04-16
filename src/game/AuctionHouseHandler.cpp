@@ -35,7 +35,9 @@
 #include "Mail.h"
 #include "Util.h"
 #include "Chat.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 /** \addtogroup auctionhouse
  * @{
@@ -338,7 +340,9 @@ void WorldSession::HandleAuctionSellItem(WorldPacket& recv_data)
     SendAuctionCommandResult(AH, AUCTION_STARTED, AUCTION_OK);
 
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     sEluna->OnAdd(auctionHouse);
+#endif /* ENABLE_ELUNA */
 }
 
 // this function is called when client bids or buys out auction
@@ -490,7 +494,9 @@ void WorldSession::HandleAuctionRemoveItem(WorldPacket& recv_data)
     sAuctionMgr.RemoveAItem(auction->itemGuidLow);
     auctionHouse->RemoveAuction(auction->Id);
     // Used by Eluna
+#ifdef ENABLE_ELUNA
     sEluna->OnRemove(auctionHouse);
+#endif /* ENABLE_ELUNA */
     delete auction;
 }
 

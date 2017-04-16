@@ -49,7 +49,9 @@
 #include "movement/packet_builder.h"
 #include "CreatureLinkingMgr.h"
 #include "Chat.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 Object::Object()
 {
@@ -65,7 +67,9 @@ Object::Object()
 
 Object::~Object()
 {
+#ifdef ENABLE_ELUNA
     Eluna::RemoveRef(this);
+#endif /* ENABLE_ELUNA */
 
     if (IsInWorld())
     {
@@ -915,7 +919,9 @@ WorldObject::WorldObject() :
 
 WorldObject::~WorldObject()
 {
+#ifdef ENABLE_ELUNA
     Eluna::RemoveRef(this);
+#endif /* ENABLE_ELUNA */
 }
 
 void WorldObject::CleanupsBeforeDelete()
@@ -1549,8 +1555,10 @@ Creature* WorldObject::SummonCreature(uint32 id, float x, float y, float z, floa
     if (GetTypeId() == TYPEID_UNIT && ((Creature*)this)->AI())
         { ((Creature*)this)->AI()->JustSummoned(pCreature); }
 
+#ifdef ENABLE_ELUNA
     if (Unit* summoner = ToUnit())
         sEluna->OnSummoned(pCreature, summoner);
+#endif /* ENABLE_ELUNA */
 
     // Creature Linking, Initial load is handled like respawn
     if (pCreature->IsLinkingEventTrigger())

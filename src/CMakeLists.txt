@@ -61,5 +61,7 @@ if(BUILD_TOOLS)
 endif()
 
 #-----------------------------------------------------------------------------
-# Build the mangos-zero script library
-add_subdirectory(scripts)
+# Build the mangos-zero script library if wished for
+if(ENABLE_SD2)
+    add_subdirectory(scripts)
+endif()

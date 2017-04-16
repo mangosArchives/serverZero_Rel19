@@ -34,7 +34,9 @@
 #include "Log.h"
 #include "ObjectMgr.h"
 #include "Util.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 /// Weather sound defines ( only for 1.12 )
 enum WeatherSounds
@@ -63,7 +65,9 @@ Weather::Weather(uint32 zone, WeatherZoneChances const* weatherChances) : m_zone
 
 Weather::~Weather()
 {
+#ifdef ENABLE_ELUNA
     Eluna::RemoveRef(this);
+#endif /* ENABLE_ELUNA */
 };
 
 /// Launch a weather update
@@ -285,7 +289,9 @@ bool Weather::UpdateWeather()
     }
 
     DETAIL_FILTER_LOG(LOG_FILTER_WEATHER, "Change the weather of zone %u to %s.", m_zone, wthstr);
+#ifdef ENABLE_ELUNA
     sEluna->OnChange(this, (WeatherState)m_type, m_grade);
+#endif /* ENABLE_ELUNA */
 
     return true;
 }

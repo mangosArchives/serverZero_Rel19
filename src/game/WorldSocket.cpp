@@ -50,7 +50,9 @@
 #include "WorldSocketMgr.h"
 #include "Log.h"
 #include "DBCStores.h"
+#ifdef ENABLE_ELUNA
 #include "LuaEngine.h"
+#endif /* ENABLE_ELUNA */
 
 #if defined( __GNUC__ )
 #pragma pack(1)
@@ -149,8 +151,10 @@ int WorldSocket::SendPacket(const WorldPacket& pkt)
     // Dump outgoing packet.
     sLog.outWorldPacketDump(uint32(get_handle()), pct.GetOpcode(), pct.GetOpcodeName(), &pct, false);
 
+#ifdef ENABLE_ELUNA
     if (!sEluna->OnPacketSend(m_Session, pct))
         return 0;
+#endif /* ENABLE_ELUNA */
 
     if (iSendPacket(pct) == -1)
     {
@@ -585,13 +589,17 @@ int WorldSocket::ProcessIncoming(WorldPacket* new_pct)
                     return -1;
                 }
 
+#ifdef ENABLE_ELUNA
                 if (!sEluna->OnPacketReceive(m_Session, *new_pct))
                     return 0;
+#endif /* ENABLE_ELUNA */
                 return HandleAuthSession(*new_pct);
             case CMSG_KEEP_ALIVE:
                 DEBUG_LOG("CMSG_KEEP_ALIVE ,size: " SIZEFMTD " ", new_pct->size());
 
+#ifdef ENABLE_ELUNA
                 sEluna->OnPacketReceive(m_Session, *new_pct);
+#endif /* ENABLE_ELUNA */
                 return 0;
             default:
             {

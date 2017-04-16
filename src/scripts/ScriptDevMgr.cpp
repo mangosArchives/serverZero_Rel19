@@ -34,18 +34,6 @@
 #include "system/system.h"
 #include "ScriptDevMgr.h"
 
-// Format is YYYYMMDDRR where RR is the change in the conf file
-// for that day.
-#ifndef _MANGOSDCONFVERSION
-# define _MANGOSDCONFVERSION 2014060701
-#endif
-
-#if PLATFORM == PLATFORM_WINDOWS
-# define _MANGOSD_CONFIG  SYSCONFDIR"mangosd.conf"
-#else
-# define _MANGOSD_CONFIG  SYSCONFDIR"mangosd.conf"
-#endif
-
 typedef std::vector<Script*> SDScriptVec;
 int num_sc_scripts;
 SDScriptVec m_scripts;
@@ -124,13 +112,13 @@ void InitScriptLibrary()
 
     // Get configuration file
     bool configFailure = false;
-    if (!SD2Config.SetSource(_MANGOSD_CONFIG))
+    if (!SD2Config.SetSource(MANGOSD_CONFIG_LOCATION))
     {
         configFailure = true;
     }
     else
     {
-        outstring_log("SD2: Using configuration file %s", _MANGOSD_CONFIG);
+        outstring_log("SD2: Using configuration file %s", MANGOSD_CONFIG_LOCATION);
     }
 
     // Set SD2 Error Log File
@@ -143,7 +131,7 @@ void InitScriptLibrary()
     }
 
     // Check config file version
-    if (SD2Config.GetIntDefault("ConfVersion", 0) != _MANGOSDCONFVERSION)
+    if (SD2Config.GetIntDefault("ConfVersion", 0) != MANGOSD_CONFIG_VERSION)
     {
         script_error_log("Configuration file version doesn't match expected version. Some config variables may be wrong or missing.");
     }

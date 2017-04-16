@@ -18,9 +18,14 @@
 
 # CMake policies
 cmake_minimum_required(VERSION 2.8)
+# Until CMake 3.0 is the standard
+# And a solution to set_directory_properties is found.
+if(POLICY CMP0043)
+    cmake_policy(SET CMP0043 OLD)
+endif()
 
 project(MaNGOS)
-set(MANGOS_VERSION 0.19)
+set(MANGOS_VERSION 0.20)
 
 set(CMAKE_MODULE_PATH
   "${CMAKE_MODULE_PATH}"
@@ -33,6 +38,9 @@ option(USE_STD_MALLOC       "Use standard malloc instead of TBB"     ON)
 option(ACE_USE_EXTERNAL     "Use external ACE"                       OFF)
 option(POSTGRESQL           "Use PostgreSQL"                         OFF)
 option(BUILD_TOOLS          "Build tools (map/vmap/mmap extractors)" OFF)
+option(SCRIPT_LIB_ELUNA     "Use Eluna as the scripting engine"      ON)
+option(SCRIPT_LIB_SD2       "Use ScriptDev2 as the scripting engine" ON)
+option(SOAP                 "Enable access via SOAP or not"          OFF)
 
 if(PCHSupport_FOUND AND WIN32) # TODO: why only enable it on windows by default?
   option(PCH                "Use precompiled headers"               ON)
@@ -49,12 +57,17 @@ message("")
 message(
   "This script builds the MaNGOS server.
   Options that can be used in order to configure the process:
+   General:
     CMAKE_INSTALL_PREFIX    Path where the server should be installed to
     PCH                     Use precompiled headers
     DEBUG                   Debug mode
     USE_STD_MALLOC          Use standard malloc instead of TBB
     ACE_USE_EXTERNAL        Use external ACE
     BUILD_TOOLS             Build map/vmap/mmap extractors
+    SOAP                    Enable remote access via SOAP
+   Scripting engines:
+    SCRIPT_LIB_ELUNA        Compile with support for Eluna scripts
+    SCRIPT_LIB_SD2          Compile with support for ScriptDev2 scripts
 
   To set an option simply type -D<OPTION>=<VALUE> after 'cmake <srcs>'.
   Also, you can specify the generator with -G. see 'cmake --help' for more details
@@ -225,6 +238,24 @@ message(STATUS "Install server to     : ${CMAKE_INSTALL_PREFIX}")
 #   message(STATUS "* Build with RA         : No  (default)")
 # endif(RA)
 
+if(SOAP)
+  message(STATUS "Support for SOAP      : Yes")
+else()
+  message(STATUS "Support for SOAP      : No (default)")
+endif()
+
+if(SCRIPT_LIB_ELUNA)
+  message(STATUS "Script engine Eluna   : Yes (default)")
+else()
+  message(STATUS "Script engine Eluna   : No")
+endif()
+
+if(SCRIPT_LIB_SD2)
+  message(STATUS "Script engine SD2     : Yes (default)")
+else()
+  message(STATUS "Script engine SD2     : No")
+endif()
+
 if(BUILD_TOOLS)
   message(STATUS "Build tools           : Yes")
 else()
@@ -301,9 +332,8 @@ add_executable(genrev
   ${GENREV_SRC}
 )
 
-get_target_property(GENERATE_EXE genrev LOCATION)
 add_custom_target("revision.h" ALL
-  COMMAND ${GENERATE_EXE} ${CMAKE_SOURCE_DIR}
+  COMMAND $<TARGET_FILE:genrev> ${CMAKE_SOURCE_DIR}
   WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
   DEPENDS genrev
 )
@@ -355,6 +385,17 @@ else()
   set(ENABLE_SOAP OFF)
 endif()
 
+set(ENABLE_ELUNA OFF)
+set(ENABLE_SD2 OFF)
+
+if (SCRIPT_LIB_ELUNA)
+   set(ENABLE_ELUNA ON)
+endif()
+
+if (SCRIPT_LIB_SD2)
+   set(ENABLE_SD2 ON)
+endif()
+
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake" "${CMAKE_CURRENT_BINARY_DIR}/config.h")
 
 add_subdirectory(dep)
@@ -386,6 +427,8 @@ if(USE_STD_MALLOC)
 endif()
 
 set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "${DEFINITIONS}")
+#Something like this is what i've imagined with the new generator expressions in cmake 3.0 / lfx
+#set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "$<$<CONFIG:Release>:"${DEFINITIONS} ${DEFINITIONS_RELEASE}">$<$<CONFIG:Debug>:"${DEFINITIONS} ${DEFINITIONS_DEBUG}">")
 set_directory_properties(PROPERTIES COMPILE_DEFINITIONS_RELEASE "${DEFINITIONS_RELEASE}")
 set_directory_properties(PROPERTIES COMPILE_DEFINITIONS_DEBUG "${DEFINITIONS_DEBUG}")
 
